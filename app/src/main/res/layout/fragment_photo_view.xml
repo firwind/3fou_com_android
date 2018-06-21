@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_photo_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zhiyicx.baseproject.widget.photoview.HackyViewPager
+        android:id="@+id/vp_photos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        />
+
+    <include layout="@layout/include_horizontal_divider"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/photo_selector_bottom_view"
+        android:background="@color/white">
+
+        <!--文字底部添加了2dp的padding，否则无法和图片垂直居中，why？-->
+        <CheckBox
+            android:id="@+id/rb_select_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:button="@drawable/selector_button_select_stated"
+            android:gravity="center"
+            android:paddingBottom="@dimen/spacing_tiny"
+            android:paddingLeft="@dimen/spacing_small"
+            android:text="@string/album_selected"/>
+
+        <TextView
+            android:id="@+id/bt_complete"
+            android:layout_width="@dimen/photo_selector_bottom_complete_width_view"
+            android:layout_height="@dimen/photo_selector_bottom_complete_height_view"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/spacing_normal"
+            android:background="@drawable/selector_button_corner_solid_small"
+            android:enabled="true"
+            android:gravity="center"
+            android:text="@string/complete"
+            android:textColor="@color/white"
+            android:textSize="@dimen/button_text_size_small"/>
+    </RelativeLayout>
+</LinearLayout>

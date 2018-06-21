@@ -1,0 +1,69 @@
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="beforeDescendants"
+        android:background="@color/white">
+
+    <com.zhiyicx.thinksnsplus.widget.TSSearchView
+            android:id="@+id/searchView"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/conversation_search_height"
+            android:background="@drawable/info_search_bg"
+            style="@style/style_edit_cursor"
+            android:hint="@string/info_search"
+            android:imeOptions="actionSearch"
+            android:drawableLeft="@mipmap/search_icon_search"
+            android:textColorHint="@color/normal_for_assist_text"
+            android:textColor="@color/important_for_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_marginLeft="@dimen/spacing_mid"
+            android:layout_marginRight="@dimen/spacing_mid"
+            android:singleLine="true"
+            android:textSize="@dimen/size_icon_assist"
+            android:paddingLeft="@dimen/spacing_normal"
+            android:paddingRight="@dimen/spacing_normal"
+            android:drawablePadding="@dimen/spacing_mid_small_8dp"
+            android:visibility="gone"/>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_top_tip_height"
+        android:layout_below="@+id/searchView"
+        layout="@layout/include_top_tip_sub"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_top_tip_text"
+        app:srlAccentColor="@android:color/white"
+        app:srlEnablePreviewInEditMode="true">
+
+        <com.zhiyicx.baseproject.widget.refresh.TSRefreshHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.zhiyicx.baseproject.widget.recycleview.BlankClickRecycleView
+            android:id="@+id/swipe_target"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"/>
+
+        <com.zhiyicx.baseproject.widget.refresh.TSRefreshFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    <include
+        layout="@layout/include_list_emtyview_sub"
+        />
+
+</LinearLayout>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="dynamic_toll_tip_text_size">15</integer>
+</resources>

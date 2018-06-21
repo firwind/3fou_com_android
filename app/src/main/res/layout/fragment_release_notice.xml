@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/spacing_mid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
+            android:id="@+id/et_release_notice_title"
+            android:background="@color/transparent"
+            android:padding="@dimen/dp10"
+            android:hint="@string/chat_edit_group_notice_title"
+            android:textSize="@dimen/margin_16"
+            android:textColor="@color/video_window_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/spacing_mid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
+            android:id="@+id/et_release_notice_content"
+            android:background="@color/transparent"
+            android:padding="@dimen/dp10"
+            android:hint="@string/chat_edit_group_notice_content"
+            android:gravity="top"
+            android:textSize="@dimen/margin_14"
+            android:textColor="@color/video_window_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp140" />
+    </LinearLayout>
+</LinearLayout>

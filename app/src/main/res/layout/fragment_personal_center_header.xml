@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/personal_header"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+    <!--个人中心页面头部-->
+    <!--当前FrameLayout的高度为屏幕宽度的一半加上20dp-->
+    <FrameLayout
+        android:id="@+id/fl_cover_contaner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="@dimen/spacing_mid">
+
+        <ImageView
+            android:id="@+id/iv_background_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|top"
+            android:scaleType="fitXY"
+            android:src="@mipmap/default_pic_personal"/>
+
+        <ImageView
+            android:id="@+id/iv_background_cover_top_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+
+            android:background="@mipmap/pic_mask_zy"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/iv_background_cover_bottom_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@mipmap/pic_mask_zy"
+            android:rotation="180"
+            android:scaleType="centerCrop"/>
+
+        <com.zhiyicx.baseproject.widget.UserAvatarView
+            android:id="@+id/iv_head_icon"
+            android:layout_width="@dimen/headpic_for_user_home"
+            android:layout_height="@dimen/headpic_for_user_home"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="60dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/pic_default_secret"
+            app:ts_avatare_size="@dimen/headpic_for_user_home"/>
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="37dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_sub_title"
+            tools:text="阿超的超能力"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_user_fans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_mid"
+                android:paddingRight="@dimen/spacing_mid"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_content_assist"
+                tools:text="粉丝 26"/>
+
+            <TextView
+                android:id="@+id/tv_user_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_mid"
+                android:paddingLeft="@dimen/spacing_mid"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_content_assist"
+                tools:text="关注 26"/>
+
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/spacing_normal"
+        android:paddingLeft="@dimen/spacing_normal"
+        android:paddingRight="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_small"
+        android:textColor="@color/money_gold"
+        android:textSize="@dimen/size_content_comment"
+        tools:text="认证：三年二班"/>
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/spacing_normal"
+        android:paddingLeft="@dimen/spacing_normal"
+        android:paddingRight="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_mid_small"
+        android:textColor="@color/normal_for_assist_text"
+        android:textSize="@dimen/size_content_comment"
+        tools:text="地址：环球中心"/>
+
+    <TextView
+        android:id="@+id/tv_user_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_normal"
+        android:layout_marginRight="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_mid_small"
+        android:textColor="@color/normal_for_assist_text"
+        android:textSize="@dimen/size_content_assist"
+        tools:text="还有机会能够感觉，爱一个人的纯粹，你是我的小蝴蝶，我是你的小阿飞"/>
+
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/fl_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/spacing_mid"
+        android:paddingLeft="@dimen/spacing_normal"
+        android:paddingRight="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_small"
+        app:max_select="0"
+        />
+
+    <include layout="@layout/item_personal_center_dynamic_count"/>
+</LinearLayout>

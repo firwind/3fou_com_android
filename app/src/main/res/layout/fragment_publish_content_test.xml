@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.zhiyicx.thinksnsplus.modules.q_a.richtext.RichTextEditor
+        android:id="@+id/riche_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/full_button_height"
+        app:ts_md_hint="@string/qa_publish_content_hint"/>
+
+    <include layout="@layout/view_publish"/>
+    <LinearLayout
+        android:id="@+id/pb_image_upload"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="#90ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</FrameLayout>

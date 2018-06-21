@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">ShortVideo</string>
+
+    <string name="video">视频</string>
+    <string name="record">录制</string>
+    <string name="local_video_beauty">本地视频美颜</string>
+    <string name="audio_editor">音频处理</string>
+    <string name="video_select">选择视频</string>
+    <string name="audio_select">选择音频</string>
+    <string name="pcm_2_audio">PCM转音频</string>
+    <string name="audio_mix">音频混合</string>
+    <string name="audio_mix_select_one">选择第一个音频</string>
+    <string name="audio_mix_select_two">选择第二个音频</string>
+    <string name="change_filter">左右滑动切换滤镜哟&#8230;</string>
+    <string name="confirm_to_editor_video">点击确定分离音频</string>
+
+    <string name="trimmed_done">视频裁剪完成！</string>
+    <string name="trimming">正在裁剪视频&#8230;</string>
+    <string name="covering">正在截取封面&#8230;</string>
+    <string name="dealing">视频处理中&#8230;</string>
+    <string name="compressing">正在压缩视频&#8230;</string>
+    <string name="compressed_done">视频压缩完成！</string>
+    <string name="drop_reord">确定要放弃本次视频录制吗?</string>
+    <string name="drop_last_reord">确定要删除上一段视频吗?</string>
+    <string name="is_sure">是的</string>
+
+    <string name="next_setup">下一步</string>
+    <string name="filter">滤镜</string>
+    <string name="preview">预览</string>
+    <string name="clip_speed">剪切</string>
+    <string name="clip_cover">选择封面</string>
+    <string name="storage_no_free">存储空间不足</string>
+
+
+    <string name="keepon">继续</string>
+    <string name="save">保存</string>
+    <string name="drop">丢弃</string>
+    <string name="giveup">放弃</string>
+    <string name="remake">重新录制</string>
+
+    <string name="click_to_replay">重试</string>
+    <string name="loading_faild">网络状况不佳，视频加载失败</string>
+    <string name="direct_upload">快速上传(支持5分钟以内)</string>
+    <string name="edite_upload">编辑后上传</string>
+    <string name="video_duration_limit">视频长不足3秒,无法上传</string>
+</resources>

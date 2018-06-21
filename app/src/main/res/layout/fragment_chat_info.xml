@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhiyicx.baseproject.widget.EmptyView
+        android:id="@+id/emptyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--单聊的模块-->
+            <LinearLayout
+                android:id="@+id/ll_single"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:background="@color/white"
+                android:padding="@dimen/spacing_large"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <com.zhiyicx.baseproject.widget.UserAvatarView
+                        android:id="@+id/iv_user_portrait"
+                        android:layout_width="@dimen/chat_info_header_view_width"
+                        android:layout_height="@dimen/chat_info_header_view_width"
+                        app:pressShape="circle"
+                        app:ts_avatare_size="@dimen/chat_info_header_view_width" />
+
+                    <TextView
+                        android:id="@+id/tv_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:textColor="@color/normal_for_assist_text"
+                        android:textSize="@dimen/size_icon_assist"
+                        tools:text="xxxx" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_add_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_large"
+                    android:src="@mipmap/btn_chatdetail_add" />
+
+            </LinearLayout>
+
+            <!--群聊的模块-->
+            <LinearLayout
+                android:id="@+id/ll_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <!--群头像-->
+                <LinearLayout
+                    android:id="@+id/ll_group_portrait"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/spacing_mid"
+                    android:paddingLeft="@dimen/spacing_mid"
+                    android:paddingRight="@dimen/spacing_mid"
+                    android:paddingTop="@dimen/spacing_mid">
+
+                    <TextView
+                        android:id="@+id/tv_group_header"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/chat_set_group_portrait"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content" />
+
+                    <ImageView
+                        android:id="@+id/iv_group_portrait"
+                        android:layout_width="@dimen/margin_25"
+                        android:layout_height="@dimen/margin_25"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ico_ts_assistant" />
+
+                    <ImageView
+                        android:id="@+id/iv_grop_icon_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_normal"
+                        android:src="@mipmap/ic_arrow_smallgrey"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <View style="@style/style_divider_horizontal_light" />
+
+                <!--群名称-->
+                <LinearLayout
+                    android:id="@+id/ll_group_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/spacing_mid"
+                    android:paddingLeft="@dimen/spacing_mid"
+                    android:paddingRight="@dimen/spacing_mid"
+                    android:paddingTop="@dimen/spacing_mid">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingRight="@dimen/spacing_normal"
+                        android:text="@string/chat_set_group_name"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content" />
+
+                    <TextView
+                        android:id="@+id/tv_group_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/normal_for_assist_text"
+                        android:textSize="@dimen/size_content_comment"
+                        tools:text="xxxx" />
+
+                    <ImageView
+                        android:id="@+id/iv_grop_name_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_normal"
+                        android:src="@mipmap/ic_arrow_smallgrey"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <View
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_member_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:scrollbars="none" />
+
+                <View
+                    android:id="@+id/v_line_find_member"
+                    style="@style/style_divider_horizontal" />
+
+                <TextView
+                    android:id="@+id/tv_to_all_members"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/spacing_mid"
+                    android:paddingTop="@dimen/spacing_mid"
+                    android:text="@string/chat_view_all_members"
+                    android:textColor="@color/important_for_content"
+                    android:textSize="@dimen/size_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_group_manager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--群公告-->
+                <LinearLayout
+                    android:id="@+id/ll_announcement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_mid">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/chat_edit_group_announcement"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content" />
+
+                    <TextView
+                        android:id="@+id/tv_announcement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:lines="2"
+                        android:singleLine="true"
+                        android:text="@string/chat_edit_group_announcement"
+                        android:textColor="@color/normal_for_assist_text"
+                        android:textSize="@dimen/size_content_assist" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+                <!--群相册-->
+                <LinearLayout
+                    android:id="@+id/ll_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_mid">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/chat_edit_group_photo"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content" />
+
+                    <com.zhiyicx.baseproject.widget.photoview.NoScrollGridView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp90"
+                        android:horizontalSpacing="@dimen/dp10"
+                        android:numColumns="5" />
+                </LinearLayout>
+
+                <View
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+                <!--群名片-->
+                <LinearLayout
+                    android:id="@+id/ll_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_mid">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingRight="@dimen/spacing_normal"
+                        android:text="@string/chat_edit_group_card"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content" />
+                    <TextView
+                        android:id="@+id/tv_group_card_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/normal_for_assist_text"
+                        android:textSize="@dimen/size_content_comment"
+                        tools:text="xxxx" />
+                    <!--<TextView-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:text="@string/chat_edit_group_card"-->
+                        <!--android:textColor="@color/important_for_content"-->
+                        <!--android:textSize="@dimen/size_content" />-->
+
+                    <!--<TextView-->
+
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/app_name"-->
+                        <!--android:textColor="@color/normal_for_assist_text"-->
+                        <!--android:textSize="@dimen/size_content_assist" />-->
+                </LinearLayout>
+
+                <View
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+
+                <!--查找聊天记录-->
+                <TextView
+                    android:id="@+id/tv_find_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/chat_info_header_view_width"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid"
+                    android:text="@string/chat_info_find_message"
+                    android:textColor="@color/important_for_content"
+                    android:textSize="@dimen/size_content" />
+
+                <View
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+                <!--设置置顶-->
+                <LinearLayout
+                    android:id="@+id/ll_set_stick"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_mid">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/chat_edit_group_set_stick"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/sc_stick_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/vw_set_stick"
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+                <!--设置管理员-->
+                <TextView
+                    android:id="@+id/tv_set_admin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/chat_info_header_view_width"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid"
+                    android:text="@string/chat_info_set_admin"
+                    android:textColor="@color/important_for_content"
+                    android:textSize="@dimen/size_content" />
+
+                <View
+                    android:id="@+id/vw_set_admin"
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+                <!--全员禁言-->
+                <RelativeLayout
+                    android:id="@+id/ll_banned_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_mid">
+
+                    <TextView
+                        android:id="@+id/tv_banned_post_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/chat_edit_group_banned_post"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content" />
+
+                    <TextView
+                        android:id="@+id/tv_banned_post_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_banned_post_one"
+                        android:layout_marginTop="@dimen/spacing_small_4dp"
+                        android:text="@string/chat_info_banned_post_alert"
+                        android:textColor="@color/normal_for_assist_text"
+                        android:textSize="@dimen/size_note_assist" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/sc_banned_post"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/vw_banned_post"
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+                <!--成员权限-->
+                <TextView
+                    android:id="@+id/tv_jurisdiction"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/chat_info_header_view_width"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid"
+                    android:text="@string/chat_info_jurisdiction"
+                    android:textColor="@color/important_for_content"
+                    android:textSize="@dimen/size_content" />
+
+                <View
+                    android:id="@+id/vw_jurisdiction"
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+                <!--升级群-->
+                <TextView
+                    android:id="@+id/tv_upgrade"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/chat_info_header_view_width"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid"
+                    android:text="@string/chat_info_upgrade"
+                    android:textColor="@color/important_for_content"
+                    android:textSize="@dimen/size_content" />
+
+                <View
+                    android:id="@+id/vw_upgrade"
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_height="@dimen/spacing_normal" />
+                <!--群管理-->
+                <LinearLayout
+                    android:id="@+id/ll_manager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/spacing_mid"
+                    android:paddingLeft="@dimen/spacing_mid"
+                    android:paddingRight="@dimen/spacing_mid"
+                    android:paddingTop="@dimen/spacing_mid">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/chat_edit_group_owner_manage"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_arrow_smallgrey" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--单聊群聊公共的模块-->
+            <RelativeLayout
+                android:id="@+id/rl_block_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_line"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/spacing_mid"
+                android:paddingLeft="@dimen/spacing_mid"
+                android:paddingRight="@dimen/spacing_mid"
+                android:paddingTop="@dimen/spacing_mid">
+
+                <TextView
+                    android:id="@+id/tv_alert_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chat_info_shielded_message"
+                    android:textColor="@color/important_for_content"
+                    android:textSize="@dimen/size_content" />
+
+                <TextView
+                    android:id="@+id/tv_alert_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_alert_one"
+                    android:layout_marginTop="@dimen/spacing_small_4dp"
+                    android:text="@string/chat_info_shielded_message_alert"
+                    android:textColor="@color/normal_for_assist_text"
+                    android:textSize="@dimen/size_note_assist" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sc_block_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <!--清空记录-->
+            <TextView
+                android:id="@+id/tv_clear_message"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/chat_info_header_view_width"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/spacing_mid"
+                android:text="@string/chat_info_clear_message"
+                android:textColor="@color/important_for_content"
+                android:textSize="@dimen/size_content" />
+
+            <!--解散群组-->
+            <TextView
+                android:id="@+id/tv_delete_group"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/chat_info_header_view_width"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/chat_delete_group"
+                android:textColor="@color/important_for_note"
+                android:textSize="@dimen/size_content" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</FrameLayout>

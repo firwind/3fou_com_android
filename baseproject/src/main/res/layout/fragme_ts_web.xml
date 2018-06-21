@@ -1,0 +1,31 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <com.wcy.overscroll.OverScrollLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/overscroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bgColor"
+        android:orientation="vertical">
+
+        <WebView
+            android:id="@+id/wv_about_us"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </WebView>
+    </com.wcy.overscroll.OverScrollLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pb_height"
+        android:max="@integer/progressbar_max"
+        android:progressDrawable="@drawable/pb_webview_style"/>
+
+    <include
+        layout="@layout/include_empty_view"
+        />
+</FrameLayout>

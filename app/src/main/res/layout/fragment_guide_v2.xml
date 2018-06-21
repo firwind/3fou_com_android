@@ -1,0 +1,53 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.youth.banner.Banner
+            android:id="@+id/guide_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/guide_text"
+            android:layout_width="@dimen/launch_advert_width"
+            android:layout_height="@dimen/launch_advert_height"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_mid"
+            android:background="@drawable/shape_button_corner_advert_big"
+            android:clickable="false"
+            android:gravity="center"
+            android:minWidth="@dimen/info_channel_20dp"
+            android:textColor="@color/copy_right_color"
+            android:textSize="@dimen/size_advert_launche"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/copyright"
+            android:textColor="@color/copy_right_color"
+            android:textSize="@dimen/copyright_text_size"
+            android:visibility="gone"
+            />
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/spacing_big_large"
+        android:paddingTop="@dimen/spacing_big_large"
+        android:src="@mipmap/pic_adver_logo"/>
+</LinearLayout>

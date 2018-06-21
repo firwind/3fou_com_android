@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+    >
+    <!--用户编辑页面，简介编辑的布局-->
+    <!--简介编辑框-->
+    <EditText
+        android:id="@+id/et_content"
+        style="@style/style_edit_cursor"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="top|start|left"
+        android:hint="@string/edit_introduce"
+        android:text=""
+        android:textColor="@color/important_for_content"
+        android:textColorHint="@color/general_for_hint"
+        android:textSize="@dimen/size_sub_title"/>
+    <!--字数提示-->
+    <TextView
+        android:id="@+id/tv_limit_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/et_content"
+        android:layout_alignEnd="@id/et_content"
+        android:layout_alignRight="@id/et_content"
+        android:gravity="right"
+        android:textColor="@color/important_for_note"
+        android:textSize="@dimen/size_note_assist"
+        tools:text="210/255"/>
+</RelativeLayout>

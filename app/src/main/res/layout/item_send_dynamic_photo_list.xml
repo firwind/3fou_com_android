@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:zhiyi="http://schemas.android.com/apk/res-auto">
+
+    <com.zhiyicx.baseproject.widget.imageview.FilterImageView
+        android:id="@+id/iv_dynamic_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        tools:src="@mipmap/ic_launcher"/>
+
+    <View
+        android:id="@+id/iv_dynamic_img_filter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/shadow_color"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_dynamic_img_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:visibility="gone"
+        android:padding="@dimen/__picker_spacing_small"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ico_video_recordings_white"/>
+
+    <com.zhiyicx.thinksnsplus.widget.IconTextView
+        android:id="@+id/iv_dynamic_img_paint"
+        android:layout_width="match_parent"
+        android:background="@color/shadow_color"
+        android:layout_gravity="bottom"
+        android:layout_height="@dimen/send_dynamic_set_img_money"
+        zhiyi:itv_direction="LEFT"
+        zhiyi:itv_gap="@dimen/spacing_small"
+        zhiyi:itv_iconHeight="@dimen/size_icon_assist"
+        zhiyi:itv_iconWidth="@dimen/size_icon_assist"
+        zhiyi:itv_icon="@mipmap/ico_edit_pen"
+        zhiyi:itv_extroHeight="0dp"
+        zhiyi:itv_text="@string/dynamic_send_toll_quick"
+        zhiyi:itv_textColor="@color/white"
+        zhiyi:itv_textSize="@dimen/size_icon_assist"/>
+
+    <TextView
+        android:id="@+id/tv_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:gravity="center"
+        android:text="@string/remake"
+        android:textColor="@color/general_for_loading_more"
+        android:textSize="@dimen/size_icon_assist"/>
+
+</FrameLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/spacing_mid"
+    android:paddingLeft="@dimen/spacing_normal"
+    android:paddingRight="@dimen/spacing_normal"
+    android:paddingTop="@dimen/spacing_mid">
+
+
+    <TextView
+        android:id="@+id/tv_notification_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/tv_time"
+        android:textColor="@color/important_for_content"
+        android:textSize="@dimen/size_content"
+        tools:text="春雨，滴落的不仅是水滴，还有旧年那一朵茶花的香韵；雨里，放眼循着美人香草的小径，寻一朵花魂的归期。或许，归期是遥遥无期，而去日却是皁经远去，给人留下或多或少感伤的憾意。是呵，遥望那些旧年里走散的日月，情感总在流放中，流放成一种固执，在每一场花落之后的日子里，等待再一次花开的声音。"
+        />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:paddingLeft="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:gravity="top|right"
+        android:includeFontPadding="false"
+        android:textColor="@color/general_for_hint"
+        android:textSize="@dimen/size_icon_assist"
+        tools:text="15分钟前"/>
+</RelativeLayout>

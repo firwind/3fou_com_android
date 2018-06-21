@@ -1,0 +1,1148 @@
+<resources>
+    <string name="app_name">链圈财经</string>
+    <!--© 2017 Chengdu ZhishiSoft Technology Co., Ltd. All rights reserved.-->
+    <string name="copyright">深圳市九曲互动软件有限公司 \n Copytight @2018 版权所有 </string>
+    <!-- 主页  -->
+    <string name="home">首页</string>
+    <string name="find">发现</string>
+    <string name="message">消息</string>
+    <string name="mine">我</string>
+    <string name="app_rule">点击下一步即代表同意《%s用户使用协议》</string>
+    <string name="app_rule_register">点击注册即代表同意《%s用户使用协议》</string>
+    <string name="user_rule_register">用户使用协议</string>
+    <!--首页-->
+    <string name="hot">热门</string>
+    <string name="the_last">最新</string>
+    <!-- 消息 -->
+    <string name="notification">通知</string>
+    <string name="system_notification">系统消息</string>
+    <string name="system_notification_null">暂无系统消息</string>
+    <string name="critical">收到的评论</string>
+    <string name="comment">评论</string>
+    <string name="like">赞</string>
+    <string name="liked">收到的赞</string>
+    <string name="like_me">赞了我</string>
+    <string name="like_me_more">等人赞了我</string>
+    <string name="comment_me">评论了我</string>
+    <string name="comment_me_more">等人评论了我</string>
+    <string name="recieved_review">提交评论置顶</string>
+    <string name="comment_success">评论成功</string>
+    <string name="comment_digg_much_hint">等人</string>
+    <string name="comment_fail">评论失败</string>
+    <string name="comment_ing">评论中&#8230;</string>
+    <string name="default_message_group">群组</string>
+    <string name="has_no_body">还没有人</string>
+    <string name="ts_helper">我的助手</string>
+    <string name="ts_helper_default_tip">小助手在线，点击告诉我们你的需求，即时快速反应。</string>
+    <!--我的-->
+    <string name="personal_page">个人主页</string>
+    <string name="my_info">我的投稿</string>
+    <string name="ranking">排行榜</string>
+    <string name="dig_ranking">点赞排行榜</string>
+    <string name="gold">金币</string>
+    <string name="mine_collect">收藏</string>
+    <string name="suggetion">意见反馈</string>
+    <string name="question_answer">Q&amp;A</string>
+    <string name="draft_box">草稿箱</string>
+    <string name="certification">认证</string>
+    <string name="my_certification">我的认证</string>
+    <string name="setting">设置</string>
+    <string name="wallet">钱包</string>
+    <string name="me_music">购买的音乐</string>
+    <string name="follow">关注</string>
+    <string name="friends">好友</string>
+    <string name="fans">粉丝</string>
+    <string name="system_info">系统消息</string>
+    <string name="my_qr_code_content">uid=%d</string>
+    <string name="my_qr_code_title">扫一扫</string>
+    <string name="qr_scan_alert">扫描二维码，添加关注</string>
+    <string name="qr_scan_failed_alert">扫码失败，请重新扫描</string>
+    <string name="my_qr_code_share">分享我的二维码</string>
+
+    <!--发现-->
+    <string name="information">资讯</string>
+    <string name="market">行情</string>
+    <string name="friend_ram">朋友动态</string>
+    <string name="chanel">频道</string>
+    <string name="active">活动</string>
+    <string name="buy_goods">购物</string>
+    <string name="find_person">@string/find_someone</string>
+    <string name="near_person">附近的人</string>
+    <string name="group">圈子</string>
+    <string name="quiz">话题问答</string>
+
+
+    <!--个人资料-->
+    <string name="user_info">个人资料</string>
+    <string name="change_head_icon">更换头像</string>
+    <string name="user_name">用户名</string>
+    <string name="edit_user_name">设置用户名</string>
+    <string name="sex">性别</string>
+    <string name="select_sex">选择性别</string>
+    <string name="city">城市</string>
+    <string name="select_city">选择居住地</string>
+    <string name="select_tag">选择标签</string>
+    <string name="tag">标签</string>
+    <string name="introduce">简介</string>
+    <string name="edit_introduce">编辑简介</string>
+    <string name="all">全部</string>
+    <string name="edit_userinfo_success">修改成功</string>
+    <string name="edit_userinfo_failure">修改失败</string>
+    <string name="edit_userinfo_ing">修改中&#8230;</string>
+    <string name="update_head_success">头像上传成功</string>
+    <string name="update_head_failure">头像上传失败</string>
+    <string name="update_head_ing">头像上传中&#8230;</string>
+
+    <!-- 设置 -->
+    <string name="vertify">认证</string>
+    <string name="tags_manager">标签管理</string>
+    <string name="account_manager">账户管理</string>
+    <string name="change_password">修改密码</string>
+    <string name="clean_cache">清理缓存</string>
+    <string name="is_sure_clean_cache">缓存大小:%s，确定清理缓存？</string>
+    <string name="about_us">关于我们</string>
+    <string name="check_version">版本更新</string>
+    <string name="download_new_version">立即更新</string>
+    <string name="version_name">版本号：%s</string>
+    <string name="version_content_length">大小：%s M</string>
+    <string name="ignore_new_version">忽略</string>
+    <string name="login_out">退出登录</string>
+    <string name="login_out_sure">退出</string>
+    <string name="is_sure_login_out">确定退出登录？</string>
+    <string name="clean_success">删除成功</string>
+    <string name="clean_failure">删除失败!</string>
+    <string name="cache_zero_size">0.0B</string>
+    <string name="change">更改</string>
+    <string name="account_bind_phone">绑定手机号</string>
+    <string name="account_bind_email">绑定邮箱</string>
+    <string name="account_bind_qq">绑定QQ</string>
+    <string name="account_bind_wechat">绑定微信</string>
+    <string name="account_bind_weibo">绑定微博</string>
+    <string name="binding">确定绑定</string>
+    <string name="remove_binding">解除绑定</string>
+    <string name="had_binding">已绑定</string>
+    <string name="not_binding">未绑定</string>
+
+    <!--裁剪-->
+    <string name="crop_head_icon">更换头像</string>
+    <string name="crop_bg_cover">更换封面</string>
+    <string name="crop_ing">图片裁剪中&#8230;</string>
+    <string name="crop_success">图片裁剪成功</string>
+    <string name="crop_failure">图片裁剪失败</string>
+    <!--相册-->
+    <string name="album_list">相册</string>
+    <string name="preview">预览</string>
+    <string name="album_selected_count">完成(%1$d/%2$d)</string>
+    <string name="album_selected">选择</string>
+    <string name="save_to_photo">保存至手机相册</string>
+    <string name="save_success">图片保存成功</string>
+    <string name="save_pic_ing">保存中&#8230;</string>
+    <string name="save_failure1">图片保存失败</string>
+    <string name="save_failure2">sd卡不存在</string>
+    <string name="all_photos">所有图片</string>
+    <string name="toll_setting">收费选项</string>
+
+    <!--音乐FM-->
+    <string name="music_fm">音乐FM</string>
+    <string name="single_music">单曲</string>
+    <string name="music_album">专辑</string>
+    <string name="music_lyric">暂无歌词</string>
+
+    <!--资讯-->
+    <string name="info_title">完善文章信息</string>
+    <string name="info_editor_default_content">编辑文章正文</string>
+    <string name="info_title_necessary">请填写正确的标题或者内容</string>
+    <string name="info_published">已发布</string>
+    <string name="info_publishing">投稿中</string>
+    <string name="info_publishsuccess">投稿成功，等待审核</string>
+    <string name="info_publishfailed">投稿失败</string>
+    <string name="info_publishrefuse">被驳回</string>
+    <string name="info_cover">上传封面</string>
+    <string name="reset_cover">重置封面</string>
+    <string name="cover_upload_success">封面上传成功</string>
+    <string name="info_dig">点赞</string>
+    <string name="info_dig_cancel">取消点赞</string>
+    <!--资讯的列表的信息汇总，来自-浏览数-时间-->
+    <string name="info_list_count">%1$s\t·\t%2$s浏览\t·\t%3$s</string>
+    <string name="info_publish_original">原创</string>
+    <string name="info_top">顶</string>
+    <string name="info_publish_hint">提示</string>
+    <string name="info_publish_hint_certification">只有认证过的用户才可以投稿，是否去认证?</string>
+    <string name="info_publish_go_to_certification">去认证</string>
+    <string name="testtym">%1$d,%2$s</string>
+    <string name="info_publish_hint_pay">投稿一次需付费%1$d%2$s，是否继续投稿？</string>
+    <string name="info_publish_go_to_next">继续投稿</string>
+    <string name="edit_info">编辑文章</string>
+    <string name="info_title_hint">输入标题，20字以内</string>
+    <string name="info_content_hint">编辑文章正文</string>
+    <string name="info_choose_categorys">选择栏目</string>
+    <string name="info_choose_tags">选择标签</string>
+    <string name="info_max_choose_tags_format">最多选择%d个选择</string>
+    <string name="info_from">文章来源</string>
+    <string name="info_from_hint">不填写则默认为原创</string>
+    <string name="info_author">作者</string>
+    <string name="info_author_hint">不填写则默认为本站用户名</string>
+    <string name="info_summary">摘要</string>
+    <string name="info_summary_hint">请输入摘要信息</string>
+    <string name="info_relate">相关资讯</string>
+    <string name="info_apply_for_top">申请文章置顶</string>
+    <string name="info_alert_reapply_for_top">已经置顶，不能重复申请</string>
+    <string name="info_alert_top_auditing">审核中，不能重复申请</string>
+    <string name="info_delete">删除</string>
+    <string name="info_deleting">删除中</string>
+
+    <!--动态列表-->
+    <string name="dynamic_list_more_comment">查看全部评论</string>
+    <string name="dynamic_list_delete_dynamic">删除动态</string>
+    <string name="dynamic_list_share_dynamic">分享</string>
+    <string name="dynamic_list_collect_dynamic">收藏</string>
+    <string name="dynamic_list_uncollect_dynamic">取消收藏</string>
+    <string name="dynamic_list_report_dynamic">举报</string>
+    <string name="dynamic_list_delete_comment">删除评论</string>
+    <string name="dynamic_list_top_comment">申请评论置顶</string>
+    <string name="dynamic_list_resend_comment">重发评论</string>
+    <string name="resend">重新发送</string>
+    <string name="reply">回复 %s:</string>
+    <string name="reply_str">回复</string>
+
+
+    <!--发布动态-->
+    <string name="send_dynamic">发布动态</string>
+    <string name="send_words_dynamic">文字</string>
+    <string name="send_image_dynamic">图片</string>
+    <string name="send_question">提问</string>
+    <string name="send_post">发帖</string>
+    <string name="send_info">投稿</string>
+    <string name="send_vidoe">视频</string>
+    <string name="open_zhibo">直播</string>
+    <string name="dynamic_title_hint">有标题更吸引人</string>
+    <string name="dynamic_close_pay">暂时关闭发布付费内容</string>
+    <string name="dynamic_content_hint">输入要说的话，图文结合更精彩哦</string>
+    <string name="dynamic_content_no_pic_hint">输入要说的话</string>
+    <string name="dynamic_send_cancel_hint">你还有没有发布的内容，是否放弃发布？</string>
+    <string name="video_dynamic_send_cancel_hint">动态编辑未完成，是否保存本次编辑？</string>
+    <string name="dynamic_send_toll">是否收费</string>
+    <string name="dynamic_send_toll_way">选择图片收费方式</string>
+    <string name="dynamic_send_toll_count">选择图片收费金额</string>
+    <string name="dynamic_send_toll_title">设置图片收费</string>
+    <string name="dynamic_send_toll_quick">设置金额</string>
+    <string name="dynamic_send_toll_reset">重置</string>
+    <string name="dynamic_send_toll_words_count">设置文字收费金额</string>
+    <string name="dynamic_send_toll_money">自定义金额</string>
+    <string name="dynamic_send_toll_look">查看收费</string>
+    <string name="dynamic_send_toll_download">下载收费</string>
+    <string name="dynamic_send_toll_notes">注：超过%1$d字部分内容收费</string>
+    <string name="dynamic_send_toll_select_money">%1$.0f</string>
+    <string name="dynamic_send_toll_toll_verify">应配置至少一张图片费用</string>
+    <string name="group_dynamic_send_must_has_title">请输入标题</string>
+    <string name="instructions">说明</string>
+
+
+    <!--动态详情-->
+    <string name="dynamic_dig_count">%1$s人点赞</string>
+    <string name="dynamic_comment_count">%1$s条评论</string>
+    <string name="dynamic_publish_time">发布于%1$s</string>
+    <string name="dynamic_viewer_count">%1$s人浏览</string>
+    <string name="dynamic_like">喜欢</string>
+    <string name="dig_list">点赞列表</string>
+
+    <!--个人中心-->
+    <string name="chat">聊天</string>
+    <string name="dynamic_count">%1$s条动态</string>
+    <string name="followed">已关注</string>
+    <string name="followed_eachother">互相关注</string>
+    <string name="cover_change_success">封面修改成功</string>
+    <string name="cover_change_failure">封面修改失败</string>
+    <string name="cover_uploadFailure">封面上传失败</string>
+
+    <!--频道-->
+    <string name="subscrip_channel">我订阅的</string>
+    <string name="all_channel">全部频道</string>
+    <string name="channel_share">分享</string>
+    <string name="channel_follow">订阅</string>
+    <string name="channel_followed">已订阅</string>
+    <string name="had_send_dynamic_to_channel">动态将在审核成功后发布</string>
+
+    <!--圈子-->
+    <string name="circle_master">圈主</string>
+    <string name="circle_master_manager">圈主和管理员</string>
+    <string name="circle_dealing">操作中</string>
+    <string name="administrator">管理员</string>
+    <string name="joined_group">我加入的</string>
+    <string name="more_group">查看更多</string>
+    <string name="recommend_group">热门推荐</string>
+    <string name="exchange_group">换一批</string>
+    <string name="all_group">全部圈子</string>
+    <string name="join_group">加入</string>
+    <string name="quit_group">退出</string>
+    <string name="group_joined">已加入</string>
+    <string name="group_mine">我的圈子</string>
+    <string name="group_count">%d个兴趣小组，等待你的加入！</string>
+    <string name="circle">圈子</string>
+    <string name="circle_post">帖子</string>
+    <string name="circle_member">成员</string>
+    <string name="circle_post_default_title">详细描述你的问题，有助于收到准确的回答</string>
+    <string name="select_circle">选择圈子</string>
+    <string name="create">创建</string>
+    <string name="create_reviewing">已经提交申请，请等待审核</string>
+    <string name="exit_circle">你是圈子创始人，不能进行退圈</string>
+    <string name="reviewing_circle">圈子还在审核中</string>
+    <string name="circle_detail_location">位置：	%s</string>
+    <string name="circle_detail_usercount">成员：	%d</string>
+    <string name="circle_detail_postcount">%d个帖子</string>
+    <string name="circle_manager_attorn">选择新圈主</string>
+    <string name="circle_manager_sure_attorn">确定将圈子 %1$s 转让给%2$s\n使其成为新的圈主？</string>
+    <string name="circle_manager_attorn_success">圈子转让成功</string>
+    <string name="circle_manager_attorn_failed">圈子转让失败</string>
+    <string name="circle_manager_format">圈管理(%d)</string>
+    <string name="circle_member_format">成员(%d)</string>
+    <string name="circle_post_from">来自	%s</string>
+    <string name="cirle_type">圈子分类</string>
+    <string name="from">来自</string>
+    <string name="circle_blacklist_format">黑名单(%d)</string>
+    <string name="circle_blacklist">黑名单用户只能查看不能操作!</string>
+    <string name="circle_blocked">需要加入才可进入详情!</string>
+    <string name="post_apply_for_top">申请帖子置顶</string>
+    <string name="post_undo_top">撤销置顶</string>
+    <string name="post_apply_top">置顶帖子</string>
+    <string name="post_apply_top_days">可选范围1~30天</string>
+    <string name="set_post_apply_top_days">设置帖子置顶天数</string>
+    <string name="delete_post">删除帖子</string>
+    <string name="post_publishing">发贴中</string>
+    <string name="post_editor_default_title">输入标题，20字以内</string>
+    <string name="post_editor_default_content">输入要说的话，图文结合更精彩哦</string>
+    <string name="post_publish_select_circle">请选择一个圈子</string>
+    <string name="post_publish_select_title">标题还是要的!</string>
+    <string name="post_publish_select_content">你的内容呢..</string>
+
+    <string-array name="post_typpe_array">
+        <item>最新帖子</item>
+        <item>最新回复</item>
+    </string-array>
+    <string-array name="default_location_array">
+        <item>金星</item>
+        <item>水星</item>
+        <item>土星</item>
+        <item>火星</item>
+        <item>地球</item>
+    </string-array>
+    <string name="post_typpe_all">全部帖子</string>
+    <string name="post_typpe_new">最新帖子</string>
+    <string name="post_typpe_reply">最新回复</string>
+
+    <string name="create_circle">创建圈子</string>
+    <string name="edit_circle">详细信息</string>
+    <string name="create_circle_notice">选填</string>
+    <string name="create_circle_nolocation">不显示位置</string>
+
+    <string name="appbar_overscroll_behavior">com.zhiyicx.thinksnsplus.widget.coordinatorlayout.AppBarLayoutOverScrollViewBehavior</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="change_circle_head_icon">更改圈子头像</string>
+    <string name="upload_circle_head_icon">上传圈子头像</string>
+    <string name="circle_head_icon">圈子头像</string>
+    <string name="circle_name">圈名</string>
+    <string name="circle_owner">圈主</string>
+    <string name="circle_manager">管理员</string>
+    <string name="circle_type">分类</string>
+    <string name="circle_chat">私聊</string>
+    <string name="edit_circle_name">输入圈名，20字以内</string>
+    <string name="edit_circle_type">选择圈子类别</string>
+    <string name="edit_circle_select_tag">最多可选择5个标签</string>
+    <string name="edit_circle_location">设置圈子的地理位置</string>
+    <string name="circle_location">位置</string>
+    <string name="edit_circle_synchronization">帖子同步至动态</string>
+    <string name="edit_circle_block">设置为封闭圈子</string>
+    <string name="edit_circle_charge">收费入圈</string>
+    <string name="edit_circle_free">免费入圈</string>
+    <string name="edit_circle_join">注：用户需经过圈管理员同意方可加入封闭圈子</string>
+    <string name="close_circle_rule">收费圈子不能改成公开或私有圈子</string>
+    <string name="edit_circle_notice">公告</string>
+    <string name="edit_circle_notice_details">公告详情</string>
+    <string name="edit_circle_rule">点击创建即代表同意《%s圈子创建协议》</string>
+    <string name="circle_rule">圈子创建协议</string>
+
+    <string name="circle_detail">详细信息</string>
+    <string name="post_detail">帖子详情</string>
+    <string name="circle_earnings">圈子收益</string>
+    <string name="circle_earningn_member">成员费</string>
+    <string name="circle_earningn_total">总收益(%s)</string>
+    <string name="circle_earningn_top">置顶收益</string>
+    <string name="circle_earningn_detail">收益明细</string>
+    <string name="circle_permission">发帖权限</string>
+    <string name="circle_report">举报管理</string>
+    <string name="circle_more">更多操作</string>
+    <string name="circle_exit">退出圈子</string>
+    <string name="circle_transfer">转让圈子</string>
+    <string name="cancel_manager">移出圈管理</string>
+    <string name="cancle_circle">移出圈子</string>
+    <string name="cancle_blacklist">移出黑名单</string>
+    <string name="appoint_manager">设为圈管理员</string>
+    <string name="appoint_blacklist">加入黑名单</string>
+    <string name="appoint_circle">设为圈管理员</string>
+    <string name="circle_report_more">[查看全部]</string>
+    <string name="circle_report_reason">举报原因</string>
+    <string name="circle_report_post">%1$s 举报 %2$s 的帖子：</string>
+    <string name="circle_report_comment">%1$s 举报 %2$s 的评论：</string>
+    <string name="circle_report_done">已处理</string>
+    <string name="circle_report_doing">未处理</string>
+    <string name="circle_report_refuse">已驳回</string>
+    <string name="circle_report_agree">同意</string>
+    <string name="circle_report_disagree">驳回</string>
+    <string name="circle_post_permission">发帖权限设置</string>
+    <string name="circle_permission_all">所有成员</string>
+    <string name="circle_permission_owner">仅圈主</string>
+    <string name="circle_permission_manager">仅圈主和管理员</string>
+    <string-array name="circle_mine_type">
+        <item>@string/joined_group</item>
+        <item>待审核的</item>
+    </string-array>
+    <string-array name="circle_post_mine_type">
+        <item>我发布的</item>
+        <item>已置顶的</item>
+        <item>置顶待审核</item>
+    </string-array>
+    <!--收藏-->
+    <string name="collect">收藏</string>
+    <string name="collect_dynamic">动态</string>
+    <string name="collect_info">资讯</string>
+    <string name="collect_activity">活动</string>
+    <string name="collect_album">专辑</string>
+    <string name="collect_post">帖子</string>
+    <string name="collect_question">问题</string>
+    <string name="collect_answer">回答</string>
+
+    <!--动态置顶-->
+    <string name="yuan">元</string>
+    <string name="select_day">%1$d天</string>
+    <string name="select_topday">选择置顶天数</string>
+    <string name="totop_money">置顶金额</string>
+    <string name="totop_vrify">此动态正在审核置顶中请勿重复提交</string>
+    <string name="et_top_input">输入金额</string>
+    <string name="et_top_total">总金额</string>
+    <string name="et_top_total_pay">共需支付</string>
+    <string name="words_holder">囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧</string>
+    <string name="to_top">申请置顶</string>
+    <string name="to_recharge">余额不足，去充值</string>
+    <string name="sticktop_instructions">置顶说明</string>
+    <string name="sticktop_reward_instructions">打赏说明</string>
+    <string name="sticktop_instructions_detail">置顶金额必须是整数，不能出现小数</string>
+    <string name="sticktop_instructions_day">请选择或填写置顶天数</string>
+    <string name="sticktop_reward_instructions_detail">打赏金额必须是整数，不能出现小数</string>
+    <string name="dynamic_list_top_dynamic">申请动态置顶</string>
+    <string name="dynamic_list_top_dynamic_success">申请动态置顶成功</string>
+    <string name="dynamic_list_top_info_success">申请资讯置顶成功</string>
+    <string name="dynamic_list_top_success">申请置顶成功</string>
+    <string name="comment_top_success">申请评论置顶成功</string>
+    <string name="post_top_success">帖子置顶成功</string>
+    <string name="post_top_failed">帖子置顶失败</string>
+    <string name="to_top_description">最近置顶平均%1$d%2$s/天，可用%2$s%3$d</string>
+
+    <!--设置评论收费-->
+    <string name="apply_doing">申请中&#8230;</string>
+    <string name="dynamic_comment_toll">设置评论收费</string>
+    <string name="limit_monye">金额必须大于0%s</string>
+    <string name="limit_monye_death">%s金额不能出现小数</string>
+    <string name="please_set_limit_money">设置收费金额</string>
+    <string name="monye_instructions">金额说明</string>
+    <string name="dynamic_comment_toll_success">设置评论收费成功</string>
+    <string name="dynamic_comment_toll_money">设置评论收费金额</string>
+
+    <!--置顶评论-->
+    <string name="review">审核</string>
+    <string name="review_ing">待审核</string>
+    <string name="review_done">已审核</string>
+    <string name="review_death">已过期</string>
+    <string name="review_approved">同意置顶</string>
+    <string name="review_dynamic_deleted">该内容已被删除</string>
+    <string name="resource_deleted_format">该%s已被删除</string>
+    <string name="review_content_deleted">内容已被删除</string>
+    <string name="review_comment_deleted">该评论已被删除</string>
+    <string name="review_description">支付%1$.2f申请置顶评论“%2$s”</string>
+    <string name="review_refuse">拒绝置顶</string>
+    <string name="stick_dynamic_comment">置顶评论收费</string>
+    <string name="dynamic_comment_top_success">置顶评论成功</string>
+    <string name="dynamic_comment_top_money">设置评论置顶金额</string>
+    <string name="stick_comment_desc">您只需%1$.2f%2$s就可以置顶评论，\n</string>
+    <string name="stick_type_dynamic_commnet">动态评论置顶</string>
+    <string name="stick_type_dynamic_commnet_message">对你的动态进行了“%1$s”评论并申请置顶，请及时审核。</string>
+    <string name="stick_type_news_commnet">资讯评论置顶</string>
+    <string name="stick_type_news_commnet_message">对你的资讯进行了“%1$s”评论并申请置顶，请及时审核。</string>
+    <string name="stick_type_group_commnet">帖子评论置顶</string>
+    <string name="stick_type_group_commnet_message">对你的帖子进行了“%1$s”评论并申请置顶，请及时审核。</string>
+    <string name="stick_type_group">帖子置顶</string>
+    <string name="stick_type_group_message">对帖子“%1$s”申请置顶，请及时审核。</string>
+    <string name="stick_type_group_join">圈子加入申请</string>
+    <string name="stick_type_group_join_message">申请加入你创建的圈子“%1$s”，请及时审核。</string>
+
+    <!--代码中的string-->
+    <string name="token_expiers">token过期，请重新登陆</string>
+    <string name="share">分享</string>
+    <string name="share_dynamic">分享动态</string>
+    <string name="share_circle">分享圈子</string>
+    <string name="share_post">分享帖子</string>
+    <string name="favorite">收藏</string>
+    <string name="get_dynamic_dig_list_failure">获取点赞列表失败</string>
+    <string name="default_input_hint">随便说说~</string>
+    <string name="default_input_chat_hint">@string/default_input_hint</string>
+    <string name="see_origin_photos_failure">查看失败</string>
+
+    <!-- WXPayEntryActivity -->
+    <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+
+    <!--钱包-->
+    <string name="default_mongy">0.00</string>
+    <string name="account_balance">账户余额(%s)</string>
+    <string name="recharge">充值</string>
+    <string name="withdraw">提现</string>
+    <string name="withdraw_doing">提现中&#8230;</string>
+    <string name="withdraw_succes">提现成功</string>
+    <string name="withdraw_apply_succes">提现申请成功</string>
+    <string name="withdraw_failed">提现失败</string>
+    <string name="recharge_and_withdraw_rule">充值提现规则</string>
+    <string name="recharge_instructions">充值说明</string>
+    <string name="withdrawal_instructions">提现说明</string>
+    <string name="withdrawal_time">提现金额会在七个工作日内到账</string>
+    <string name="recharge_instructions_detail">充值金额必须是整数，不能出现小数</string>
+    <string name="withdrawal_instructions_detail">提现金额必须是整数，不能出现小数</string>
+    <string name="recharge_and_withdraw_rule_detail">充值提现规则:</string>
+    <string name="detail">明细</string>
+    <string name="get_it">知道了</string>
+    <string name="choose_recharge_money">选择充值金额</string>
+    <string name="custom_recharge_money">自定义金额</string>
+    <string name="choose_recharge_style">选择充值方式</string>
+    <string name="choose_recharge_style_formart">%s充值</string>
+    <string name="choose_withdrawals_style_formart">%s提现</string>
+
+    <string name="wallet_config_info_get_loading_tip">钱包配置信息获取中&#8230;</string>
+    <string name="wallet_config_info_get_load_failed_tip">钱包配置信息获取失败</string>
+    <string name="get_success">获取成功</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="pay_success">支付成功</string>
+    <string name="pay_cancel">取消支付</string>
+    <string name="pay_invalid">微信客户端未安装</string>
+
+    <!--钱包 之 充值-->
+    <string name="recharge_credentials_ing">获取充值凭证&#8230;</string>
+    <string name="recharge_disallow">当前未支持任何充值方式</string>
+    <string name="recharge_credentials_succes">获取充值凭证成功</string>
+
+    <!--钱包 之 提现-->
+    <string name="withdraw_money">提现金额</string>
+    <string name="withdraw_disallow">当前未支持任何提现方式</string>
+    <string name="withdraw_money_done">%1$s 账户提现</string>
+    <string name="min_withdraw_money">未满足可提现最低金额</string>
+    <string name="min_withdraw_money_limit">最低提现金额：%1$.2f%2$s</string>
+    <string name="limit_withdraw_count">一月只能提现一次</string>
+    <string name="limit_withdraw_money">金额已超出可提现余额</string>
+    <string name="withdraw_all">全部</string>
+    <string name="withdraw_out">支出</string>
+    <string name="withdraw_in">收入</string>
+    <string name="withdraw_details">提现明细</string>
+    <string name="withdraw_ways">选择提现方式</string>
+    <string name="withdraw_account">提现账户</string>
+    <string name="withdraw_account_input">输入提现账户</string>
+    <!--钱包 之 账户详情-->
+    <string name="account_form_name">付款人</string>
+    <string name="account_detail">账单详情</string>
+    <string name="account_to_name">收款人</string>
+    <string name="transaction_description">交易说明</string>
+    <string name="transaction_account">交易账户</string>
+    <string name="transaction_time">交易时间</string>
+    <string name="transaction_success">交易成功</string>
+    <string name="bill_doing">审核中</string>
+    <string name="bill_doing_fialed">操作失败</string>
+    <string name="transaction_fail">交易失败</string>
+    <string name="transaction_doing">审核中&#8230;</string>
+    <string name="ts_pay_check_handle_doing">处理中&#8230;</string>
+
+    <!--意见反馈-->
+    <string name="hint_phone_or_email">请输入电话或者邮箱，方便我们与您联系</string>
+    <string name="feed_back">意见反馈</string>
+    <string name="feed_back_ing">反馈中&#8230;</string>
+    <string name="feed_back_success">反馈成功</string>
+    <string name="feed_back_failed">反馈失败</string>
+    <string name="hint_feed_back">请输入反馈，我们将为您不断改进</string>
+    <string name="submit">提交</string>
+    <string name="normal_qustion">常见问题(暂未开放)</string>
+    <string name="normal_dispark">此功能即将开放</string>
+    <string name="normal_qustion_one">不想看到未关注的动态，怎么关闭？</string>
+    <string name="normal_qustion_two">在3G/4G下不能使用</string>
+    <string name="normal_qustion_three">怎么更换个人主页相册封面？</string>
+    <string name="input_instructions">输入提示</string>
+    <string name="input_instructions_detail">输入格式错误，手机号码或邮箱仅支持数字或字母</string>
+
+    <!--用户标签-->
+    <string name="jump_over">跳过</string>
+    <string name="next">下一步</string>
+    <string name="user_tag_choose_tag">选择标签</string>
+    <string name="user_tag_choosed_tag_format">可选择%1$d个标签，已选择%2$d个标签</string>
+    <string name="user_tag_choosed_tag_format_tip">最多只能选择%d个标签</string>
+    <string name="tips">温馨提示</string>
+    <string name="tags_tips">标签为全局标签，选择合适的标签，系统可推荐你感兴趣的内容，方便找到相同身份或爱好的人，很重要哦！</string>
+
+    <!--打赏-->
+    <string name="reward">打赏</string>
+    <string name="reward_list">打赏列表</string>
+    <string name="reward_show">%1$s人打赏,共%2$s%3$s</string>
+    <string name="reward_list_tip">%s打赏了文章</string>
+    <string name="reward_list_tip_dynamic">%s打赏了动态</string>
+    <string name="reward_list_tip_user">%s打赏了该用户</string>
+    <string name="reward_list_tip_answer">%s打赏了回答</string>
+    <string name="choose_reward_money">选择打赏金额</string>
+    <string name="reward_success">打赏成功</string>
+    <string name="reward_failed">打赏失败</string>
+
+    <!--认证-->
+    <string name="certification_personage">个人认证</string>
+    <string name="certification_company">企业认证</string>
+    <string name="certification_basic_info">基本信息</string>
+    <string name="certification_basic_info_name">真实姓名</string>
+    <string name="name_hint">输入真实姓名</string>
+    <string name="certification_basic_info_id_card">身份证号码</string>
+    <string name="id_card_hint">输入正确的身份证号码</string>
+    <string name="certification_basic_info_phone">手机号码</string>
+    <string name="info_phone_hint">输入11位手机号码</string>
+
+    <string name="certification_basic_info_company_name">机构名称</string>
+    <string name="company_name_hint">输入机构名称</string>
+    <string name="certification_basic_info_company_address">机构地址</string>
+    <string name="company_address_hint">输入机构地址</string>
+    <string name="certification_basic_info_company_principal_name">负责人</string>
+    <string name="principal_name_hint">填写机构负责人</string>
+    <string name="certification_basic_info_principal_id_card">身份证号码</string>
+    <string name="company_principal_id_card_hint">输入负责人身份证号码</string>
+    <string name="certification_basic_info_company_principal_phone">负责人电话</string>
+    <string name="alert_error_id_card">请输入正确的身份证号码</string>
+    <string name="certification_basic_info_description">认证描述</string>
+    <string name="certification_basic_info_data">认证资料</string>
+    <string name="description_hint">该描述会影响审核，请慎重填写</string>
+
+    <string name="send_certification_data">上传资料</string>
+    <string name="send_certification_id_card">上传身份证正反面照片</string>
+    <string name="send_certification_company">上传企业机构营业执照</string>
+    <string name="send_certification_pic_hint">点击上传照片</string>
+    <string name="send_certification_pic_next">继续上传</string>
+    <string name="send_certification">上传</string>
+    <string name="send_certification_ing">上传中</string>
+    <string name="certification_state_success">已认证</string>
+    <string name="certification_state_failed">被驳回</string>
+    <string name="certification_state_ing">待审核</string>
+    <string name="certification_ing_hint">认证信息审核中，我们会在7个工作日内给您答复</string>
+
+
+    <!--问答相关-->
+    <string name="qa_publish">发布问题</string>
+    <string name="publish_doing">发布中&#8230;</string>
+    <string name="qa_update_publish">更新问题</string>
+    <string name="qa_publish_answer">添加回答</string>
+    <string name="qa_update_answer">更新回答</string>
+    <string name="qa_update_question">更新问题</string>
+    <string name="qa_detail">问题详情</string>
+    <string name="qa_publish_next">下一步</string>
+    <string name="qa_publish_title_hint">请输入问题并以问号结尾</string>
+    <string name="qa_publish_title_toast">输入问题请以“？”结束</string>
+    <string name="qa_publish_content_hint">详细描述你的问题，有助于收到准确的回答</string>
+    <string name="qa_answer_content_hint">请输入你的回答</string>
+    <string name="qa_publish_anonymous">匿名提问</string>
+    <string name="qa_publish_enable_anonymous">启用匿名</string>
+    <string name="qa_topic">话题</string>
+    <string name="qa_publish_select_topic_hint">至少添加一个话题</string>
+    <string name="qa_publish_select_topic_repeat">话题不能重复</string>
+    <string name="qa_publish_search_topic">搜索话题</string>
+    <string name="create_topic">建议创建话题</string>
+    <string name="input_topic_tip">请输入话题名称</string>
+    <string name="input_topic_des_tip">请输入话题相关描述信息</string>
+
+    <string name="draft_type_questions">提问</string>
+    <string name="draft_type_answers">回答</string>
+    <string name="draft_type_circle">圈子</string>
+
+
+    <string name="qa_publish_select_topic_count_hint">添加话题不可以超过%d个</string>
+    <string name="qa_publish_reward_enable_skip">悬赏(可跳过)</string>
+    <string name="qa_publish_reward">悬赏</string>
+    <string name="qa_publish_reset_money">重置</string>
+    <string name="qa_publish_reward_set_money">设置悬赏金额</string>
+    <string name="qa_publish_reward_set_onlooker_money">设置围观金额</string>
+    <string name="qa_publish_reward_custom_money">自定义金额</string>
+    <string name="qa_publish_reward_invite">邀请</string>
+    <string name="qa_publish_reward_rule">悬赏规则</string>
+    <string name="qa_publish_reward_onlookers">围观</string>
+    <string name="qa_publish_recommend_expert">推荐专家</string>
+    <string name="qa_publish_show_expert">%1$d 回答  ·  %2$d 赞</string>
+    <string name="qa_publish_expert_show_hit_recommend">推荐专家</string>
+    <string name="qa_publish_btn">发布</string>
+    <string name="qa_topic_all">全部话题\t\t\t</string>
+    <string name="qa_topic_user_followed">\t\t\t我关注的</string>
+    <string name="qa_topic_follow">关注</string>
+    <string name="qa_topic_followed">已关注</string>
+    <string name="qa_show_topic_followed">%1$d 关注  ·  %2$d 问题</string>
+    <string name="qa_show_question_followed_str">%1$s 关注  ·  %2$s 悬赏</string>
+    <string name="qa_show_question_followed">%1$s 关注  ·  %2$.2f 悬赏</string>
+    <string name="qa_show_question_followed_">%1$d 关注</string>
+    <string name="qa_show_topic_followed_content">%1$d 关注  ·  %2$d 回答</string>
+    <string name="qa_show_topic_followed_reward_str">  ·  %1$s 悬赏</string>
+    <string name="qa_show_topic_followed_reward">  ·  %1$.2f 悬赏</string>
+    <string name="qa_show_topic_followed_reward_">%1$.2f 悬赏</string>
+
+    <!--改了改了，真的改了-问答详情页的悬赏和围观金额样式-->
+    <string name="qa_show_question_followed_count">%1$s 关注</string>
+    <string name="qa_show_question_followed_count_">%1$s 关注\t\t·\t</string>
+    <string name="qa_show_question_reward_count">[%1$s]</string>
+    <string name="qa_show_question_reward_count_">[%1$s]\t\t·\t</string>
+    <string name="qa_show_question_look_count">%1$s</string>
+    <string name="qa_watch_amount_count">%1$.0f</string>
+    <!--改了改了，真的改了-问答详情页的悬赏和围观金额样式-->
+
+    <string name="edit_quit">放弃编辑</string>
+    <string name="edit">编辑</string>
+    <string name="edit_question">编辑问题</string>
+    <string name="edit_answer">编辑回答</string>
+    <string name="look_question">查看问题</string>
+    <string name="edit_post">编辑帖子</string>
+    <string name="save_to_draft_box">保存至草稿箱</string>
+    <string-array name="topic_detail_category">
+        <item>热门</item>
+        <item>精选</item>
+        <item>悬赏</item>
+        <item>最新</item>
+        <item>全部</item>
+    </string-array>
+    <string name="qa">@string/question</string>
+    <string name="qa_answer">回答</string>
+    <string name="qa_topic_description">话题简介：%s</string>
+    <string name="qa_topic_expert_count">%d位相关专家</string>
+    <string name="qa_show_topic_detail_feed">%1$s 关注  ·  %2$s 问题</string>
+    <string name="qa_topic_open_all">展开全部</string>
+    <string name="qa_topic_close_all">收起</string>
+    <string name="qa_question_answer_adopt">已采纳</string>
+    <string name="qa_question_cannot_adopt_selef">不能采纳自己的答案</string>
+    <string name="qa_question_answer_invite">邀请回答</string>
+    <string name="qa_question_answer_adopting">采纳答案</string>
+    <string name="qa_question_answer_show_watcher_count">%d人正在围观</string>
+    <string name="qa_question_answer_anonymity">匿</string>
+    <string name="qa_question_answer_anonymity_user">匿名用户</string>
+    <string name="qa_question_answer_anonymity_current_user">(匿名)</string>
+    <string name="qa_not_set_reward">未设置悬赏</string>
+    <string name="qa_reward_public">公开悬赏</string>
+    <string name="qa_reward_invited">已邀请悬赏</string>
+    <string name="qa_reward_setting">已设置悬赏</string>
+    <string name="qa_add_answer">添加回答</string>
+    <string name="qa_go_to_answer">查看回答</string>
+    <string name="qa_reward_amount">%1$.1f</string>
+    <string name="qa_watch_amount">%1$.1f围观</string>
+    <string name="qa_answer_list_order_default">默认排序</string>
+    <string name="qa_answer_list_order_by_time">按时间排序</string>
+    <string name="qa_answer_count">%d 个回答</string>
+    <string name="qa_title_question_detail">问题详情</string>
+    <string name="qa_question_no_answer">还没有回答~</string>
+    <string name="qa_title_answer_detail">回答详情</string>
+    <string name="qa_apply_for_excellent">申请为精选问答</string>
+    <string name="qa_question_delete">删除问题</string>
+    <string name="qa_question_delete_alert">问题删除后将无法复原，确认删除该问题?</string>
+    <string name="qa_question_delete_success">删除成功</string>
+    <string name="qa_question_develop">敬请期待</string>
+    <string name="qa_question_excellent_reapply">已经是精选问答啦~</string>
+    <string name="qa_question_comment_count">评论(%d)</string>
+    <string name="qa_question_comment_delete_success">删除成功</string>
+    <!--<string name="qa_search">\t\t\t\t\t\t问答\t\t\t\t\t\t\t</string>-->
+    <!--<string name="qa_search_topic">\t\t\t\t\t\t话题\t\t\t\t\t\t\t</string>-->
+    <string name="qa_search">问答</string>
+    <string name="qa_search_topic">话题</string>
+    <string name="show_all_history">显示全部历史</string>
+    <string name="clear_all_history">清空搜索历史</string>
+    <string name="qa_pay_for_excellent">精选问答支付</string>
+    <string name="qa_pay_for_watch">围观支付</string>
+    <string name="qa_go_to_watch">去围观</string>
+    <string name="qa_go_to_watched">已围观</string>
+    <string name="qa_reset_reward_success">设置悬赏成功</string>
+    <string name="qa_expert_list">专家列表</string>
+    <string name="qa_mine">我的问答</string>
+    <string name="qa_mine_question">提问</string>
+    <string name="qa_mine_answer">回答</string>
+    <string name="qa_mine_follow">关注</string>
+    <string name="qa_mine_all_common">全部</string>
+    <string name="qa_mine_other_common">其他</string>
+    <string-array name="qa_mine_publish_question_title">
+        <item>@string/qa_mine_all_common</item>
+        <item>邀请</item>
+        <item>悬赏</item>
+        <item>@string/qa_mine_other_common</item>
+    </string-array>
+    <string-array name="qa_mine_answer_title">
+        <item>@string/qa_mine_all_common</item>
+        <!--<item>未阅读</item>-->
+        <item>被采纳</item>
+        <item>被邀请</item>
+        <item>@string/qa_mine_other_common</item>
+    </string-array>
+    <string-array name="qa_mine_follow_title">
+        <item>问题</item>
+        <item>话题</item>
+    </string-array>
+
+    <!--签到-->
+    <string name="check_in">签到</string>
+    <string name="checked">已签到</string>
+    <string name="check_in_today">每日签到</string>
+    <string name="check_in_total_day_format">累计签到%d天</string>
+    <string name="check_in_today_get_gold">每日签到得金币</string>
+    <string name="check_in_today_get_gold_format">每日签到得%s</string>
+    <string name="check_in_fail">签到失败</string>
+
+
+    <!--找人-->
+    <string name="contacts">通讯录</string>
+    <string name="invite">邀请</string>
+    <string name="contacts_permission_tip">请打开通讯录权限，否则你将不能使用此功能！</string>
+    <string name="SMS_permission_tip">请打开短信权限，否则你将不能使用此功能！</string>
+    <string name="find_someone">找人</string>
+    <string name="neary_by">附近</string>
+    <string name="choose_city">选择城市</string>
+    <string name="current_location">当前定位</string>
+    <string name="unlocation">未定位</string>
+    <string name="hot_location">热门城市</string>
+    <string name="contact_had_add_ts_plust">已加入的好友</string>
+    <string name="contact_not_add_ts_plust">通讯录未加入的好友</string>
+    <string name="not_find_qa_to_publish">未找到相关问题，去提问？</string>
+    <string name="not_find_qa_topic_to_publish">没找到相关话题~</string>
+    <string name="request_to_publish_topic">向官方建议创建新话题</string>
+    <string name="to_publish_qa">去提问</string>
+    <string name="you_must_bind_phone">你必须绑定手机才能解绑三方哦</string>
+    <string name="you_must_bind_email_to_unbind_phone">你必须绑定邮箱才能解绑手机哦</string>
+    <string name="you_must_bind_phone_to_unbind_email">你必须绑定手机才能解绑邮箱哦</string>
+    <string name="you_must_bind_phone2">你必须绑定手机才能绑定三方哦</string>
+    <string name="bind_success">账号绑定成功</string>
+    <string name="unbind_success">账号解绑成功</string>
+
+    <!--排行榜相关-->
+    <string name="rank">排行榜</string>
+    <string name="rank_user">用户</string>
+    <string name="rank_qa">问答</string>
+    <string name="rank_dynamic">动态</string>
+    <string name="rank_info">资讯</string>
+    <!--用户-->
+    <string name="rank_user_type_all">全站粉丝排行榜</string>
+    <string name="rank_user_type_riches">财富达人排行榜</string>
+    <string name="rank_user_type_income">收入达人排行榜</string>
+    <string name="rank_user_type_sign_in">社区签到排行榜</string>
+    <string name="rank_user_type_expert">社区专家排行榜</string>
+    <string name="rank_user_type_qa">问答达人排行榜</string>
+    <!--问答-->
+    <string name="rank_qa_type_day">今日解答排行榜</string>
+    <string name="rank_qa_type_week">一周解答排行榜</string>
+    <string name="rank_qa_type_month">本月解答排行榜</string>
+    <!--动态-->
+    <string name="rank_dynamic_type_day">今日动态排行榜</string>
+    <string name="rank_dynamic_type_week">一周动态排行榜</string>
+    <string name="rank_dynamic_type_month">本月动态排行榜</string>
+    <!--资讯-->
+    <string name="rank_info_type_day">今日资讯排行榜</string>
+    <string name="rank_info_type_week">一周资讯排行榜</string>
+    <string name="rank_info_type_month">本月资讯排行榜</string>
+
+    <string name="rank_type_fans">粉丝：%d</string>
+    <string name="rank_type_answer_count">回答量：%d</string>
+    <string name="rank_type_answer_dig_count">问答点赞量：%d</string>
+    <string name="rank_type_like_count">点赞量：%d</string>
+    <string name="rank_type_view_count">浏览量：%d</string>
+    <string name="rank_type_check_in">累计签到：%d</string>
+    <string name="please_input_intro">请输入简介</string>
+    <string name="default_intro_format">简介：%s</string>
+    <string name="default_certify_format">认证：%s</string>
+    <string name="default_location_format">地址：%s</string>
+    <string name="default_certify">当前用户还没有认证呢</string>
+    <string name="invite_friend">邀请您的好友使用链圈吧！http://faceke.com/</string>
+    <string name="reward_type_error">打赏类型错误</string>
+    <!--评论的、赞的-->
+    <string name="digg_format_feed">%s 赞了你的动态</string>
+    <string name="digg_format_group_feed">%s 赞了你的帖子</string>
+    <string name="digg_format_music">%s 赞了你的音乐</string>
+    <string name="digg_format_news">%s 赞了你的文章</string>
+    <string name="digg_format_questions">%s 赞了你的问题</string>
+    <string name="digg_format_questions_answer">%s 赞了你的回答</string>
+
+    <string name="comment_format_reply">%1$s 回复 %2$s</string>
+    <string name="comment_format_reply_you">%s 回复了你</string>
+    <string name="comment_format_feed">%s 评论了你的动态</string>
+    <string name="comment_format_group_feed">%s 评论了你的帖子</string>
+    <string name="comment_format_music">%s 评论了你的音乐</string>
+    <string name="comment_format_music_specials">%s 评论了你的专辑</string>
+    <string name="comment_format_news">%s 评论了你的文章</string>
+    <string name="comment_format_questions">%s 评论了你的问题</string>
+    <string name="comment_format_questions_answer">%s 评论了你的回答</string>
+    <string name="new_apply_data">你有未审核的信息请及时处理</string>
+    <string name="no_apply_data">暂无未审核的申请</string>
+    <string-array name="personal_dynamic_typpe">
+        <item>全部动态</item>
+        <item>付费动态</item>
+        <item>置顶动态</item>
+    </string-array>
+    <string name="all_dynamic">全部动态</string>
+    <string name="pay_dynamic">付费动态</string>
+    <string name="top_dynamic">置顶动态</string>
+    <string name="default_delete_user_name">该用户已被删除</string>
+    <string name="user_had_deleted">@string/default_delete_user_name</string>
+
+    <!--申请支付等公用-->
+    <string name="apply_for_success">申请成功，请等待审核</string>
+    <string name="apply_for_success_no_audit">申请成功</string>
+    <string name="apply_for_failed">申请失败</string>
+    <string name="pay_alert_ing">支付中&#8230;</string>
+    <string name="pay_alert_success">支付成功</string>
+    <string name="pay_alert_failed">支付失败</string>
+    <!--发布公用-->
+    <string name="publish_success">发布成功</string>
+    <string name="publish_failed">发布失败</string>
+    <string name="update_ing">更新中&#8230;</string>
+    <string name="update_success">更新成功</string>
+    <string name="update_failed">更新失败</string>
+    <string name="upload_pic_failed">图片上传失败</string>
+    <string name="upload_parse_pic_failed">图片解析错误</string>
+    <string name="change_success">修改成功</string>
+    <string name="unknown">未知</string>
+    <string name="domain_formal">正式服</string>
+    <string name="domain_test">测试服</string>
+    <string name="domain_dev">开发服</string>
+    <string name="domain_swith">服务器切换</string>
+    <string name="no_new_version">当前已经是最新版</string>
+    <string name="defualt_golde_name">积分</string>
+    <string name="today_with_split">今,天</string>
+    <string name="yestorday_with_split">昨,天</string>
+    <string name="can_not_use_protected_name">不能使用站点预留昵称</string>
+    <string name="can_not_use_protected_email">不能使用站点预留邮箱</string>
+    <string name="str_pingyin_dot">、</string>
+    <string name="app_name_info">%s 资讯</string>
+    <string name="app_name_anster">%s 回答</string>
+    <string name="delete_comment">删除评论</string>
+    <string name="delete_info">删除资讯</string>
+    <string name="camera_permission_tip">相机权限已被您禁止使用，请前往权限管理中心修改设置！</string>
+    <string name="has_apply">已提交申请</string>
+    <string name="create_wait_audit">创建待审核</string>
+    <string name="join_wait_audit">申请加入待审核</string>
+    <string name="not_find_circle_post_to_publish">未找到相关帖子~</string>
+    <string name="to_publish_circle_post">去发帖</string>
+    <string name="not_find_circle_to_publish">未找到相关圈子，创建属于自己的圈子吧</string>
+    <string name="to_publish_circle">创建圈子</string>
+    <string name="not_find_joined_circle">未找相关圈子，去加入感兴趣圈子吧</string>
+    <string name="join_circle">加入圈子</string>
+    <string name="circle_publish_hint_certification">认证用户才能创建圈子，去认证?</string>
+
+    <!--举报-->
+    <string name="report">举报</string>
+    <string name="report_title_format">举报 %1$s 的%2$s</string>
+    <string name="report_title_format_single">举报 %s</string>
+    <string name="report_success_tip">举报信息提交成功</string>
+    <string name="hint_report">填写举报原因</string>
+    <string name="not_support_report">不支持的举报类型</string>
+    <string name="post">帖子</string>
+    <string name="question">问题</string>
+    <string name="i_know">知道了</string>
+    <string name="circle_join_rejected">你的加入申请被拒绝了.</string>
+    <string name="circle_join_reviewing">申请审核中</string>
+    <string name="please_join_circle_first">需要先加入才可发帖</string>
+    <string name="circle_member_added_blacklist">你被管理员加入到了黑名单。</string>
+    <string name="circle_member_comment_join">加入圈子后方可评论</string>
+    <string name="publish_circle_post_format">\&#034;%1$s\&#034;仅%2$s拥有发帖权限</string>
+    <string name="report_circle">举报圈子</string>
+    <string name="publish_post">发帖</string>
+    <string name="syn_to_dynamic">同步至动态</string>
+    <string name="handle_fail">操作失败！</string>
+    <string name="pay_blur_tip">这些东西是需要付费的，给了钱钱你就可以查看了！！！</string>
+
+    <!--聊天-->
+    <string name="chat_delete_conversation_failed">删除聊天失败</string>
+    <string name="chat_unconnected">正在尝试连接到聊天服务器</string>
+    <string name="chat_my_friends">我的好友</string>
+
+    <!--积分-->
+    <string name="mine_integration">我的积分</string>
+    <string name="recharge_integration">充值积分</string>
+    <string name="current_integration">当前积分</string>
+    <string name="withdraw_integration">提取积分</string>
+    <string name="integration_withdrawals">积分提取</string>
+    <string name="integration_shop">积分商城</string>
+    <string name="integration_rule">积分规则</string>
+    <string name="integration_recharge">积分充值</string>
+    <string name="recharge_record">充值记录</string>
+    <string name="recharge_ratio">充值比率</string>
+    <string name="user_reharge_integration_rule">用户充值协议</string>
+    <string name="integration_config_info_get_loading_tip">积分配置信息获取中&#8230;</string>
+    <string name="integration_ratio_formart">%1$d元=%2$d%3$s</string>
+    <string name="integration_detail">积分明细</string>
+    <string name="integration_to_wallet">积分兑换余额</string>
+    <string name="withdrawals_record">提取记录</string>
+    <string name="input_withdrawals_integration">输入需提取的积分</string>
+    <string name="input_withdrawals_integration_format">输入需提取的%s</string>
+    <string name="input_withdrawals_integration_tip">提取积分须提交官方审核，审核反馈请关注系统消息！</string>
+    <string name="input_withdrawals_integration_tip_format">提取%s须提交官方审核，审核反馈请关注系统消息！</string>
+    <string name="et_input_withdrawals_integration_tip">请至少提取100积分</string>
+    <string name="et_input_withdrawals_integration_tip_format">请至少提取%1$d%2$s</string>
+    <string name="integration_withdrawals_rule">积分提取规则</string>
+    <string name="integration_2_money_ratio_formart">%1$d%2$s=%3$.2f元</string>
+    <string name="integration_withdrawals_report_success">积分提取请求已提交，待审核！</string>
+    <string name="please_more_than_min_recharge_formart">最少充值%.2f元</string>
+    <string name="please_less_min_recharge_formart">最多充值%.2f元</string>
+    <string name="please_more_than_min_withdrawals_formart">最低每次提取%d积分</string>
+    <string name="please_less_max_withdrawals_formart">单笔最高积分为%d</string>
+    <string name="current_money_not_enouph">当前余额不足！</string>
+    <string name="my_integration_name">我的%s</string>
+    <string name="integration_recharge_format">%s充值</string>
+    <string name="current_integraiton_format">当前%s</string>
+    <string name="recharge_integration_foramt">充值%s</string>
+    <string name="withdraw_integration_foramt">提取%s</string>
+    <string name="integration_shop_foramt">%s商城</string>
+    <string name="integration_rule_format">%s规则</string>
+    <string name="integration_detail_format">%s明细</string>
+    <string name="integration_withdrawals_format">%s提取</string>
+    <string name="integration_withdrawals_rule_format">%s提取规则</string>
+    <string name="balance">余额</string>
+    <string name="wallet_balance">钱包余额</string>
+    <string name="handle_success">操作成功</string>
+    <string name="not_invite_expert">邀请的专家呢？</string>
+    <string name="fail_format_with_unit">%1$d%2$s</string>
+    <string name="reduce_format_with_unit">-%1$d%2$s</string>
+    <string name="increase_format_with_unit">+%1$d%2$s</string>
+    <string name="integration_recharge_success_tip_format">共消耗%1$.2f元，获得%2$d%3$s!</string>
+    <string name="integration_recharge_success_tip_format_eques">获得</string>
+    <string name="rewarding">正在审核</string>
+    <string name="wait_handle">待处理</string>
+    <string name="withdrawals_success">提取成功</string>
+    <string name="withdrawals_fail">提取失败</string>
+    <string name="recharge_success">充值成功</string>
+    <string name="recharge_cancle">交易取消</string>
+    <string name="recharge_fail">充值失败</string>
+    <string name="image_uploading">图片上传中&#8230;</string>
+    <string name="image_upload_fail">图片上传失败</string>
+    <string name="image_prase_fail">图片解析错误</string>
+    <string name="fun_maintain">功能维护中</string>
+    <string name="data_too_large">数据量过大，本机无法加载</string>
+    <string-array name="integration_recharge_withdrawal_type">
+        <item>充值记录</item>
+        <item>提取记录</item>
+    </string-array>
+    <string name="chat_send_voice_alert">按住 说话</string>
+    <string name="chat_send_message_read">已读</string>
+    <string name="chat_send_message_unread">未读</string>
+    <string name="chat_location_info">位置信息</string>
+    <string name="chat_send_location">发送</string>
+    <string name="chat_type_image">[图片]</string>
+    <string name="chat_type_video">[视频]</string>
+    <string name="chat_type_voice">[语音]</string>
+    <string name="chat_type_location">[位置]</string>
+    <string name="chat_type_file">[文件]</string>
+
+    <string name="select_friends_center_title">选择好友</string>
+    <string name="select_friends_right_title_default">聊天</string>
+    <string name="select_friends_right_title">聊天(%d)</string>
+    <string name="video_call_in">邀请你进入视屏聊天</string>
+    <string name="voice_call_in">邀请你进入语音聊天</string>
+    <string name="video_call_out">等待对方接受请求</string>
+    <string name="video_call_connecting">通话连接中&#8230;</string>
+    <string name="video_calling">通话中/%1$s</string>
+    <string name="video_call_off">通话中断</string>
+
+    <string name="call_version_inconsistent">通话协议版本不一致</string>
+    <string name="have_connected_with">已经和对方建立连接</string>
+    <string name="network_unstable">网络不稳定</string>
+    <string name="network_normal">网络正常</string>
+    <string name="no_call_data">没有通话数据</string>
+    <string name="switch_camera">切换摄像头</string>
+    <string name="capture_image">抓取图片</string>
+    <string name="chat_info_title">群聊信息</string>
+    <string name="group_title">群聊</string>
+    <string name="mobile_contact_title">手机联系人</string>
+    <string name="chat_info_title_single">聊天信息</string>
+    <string name="chat_info_shielded_message">屏蔽消息</string>
+    <string name="chat_info_shielded_message_alert">开启后将不再接受群的消息</string>
+    <string name="chat_info_banned_post_alert">开启后只允许群主和管理员发言，进入“成员权限”可单个设置禁言</string>
+    <string name="chat_info_clear_message">清空聊天记录</string>
+    <string name="chat_info_find_message">查找聊天记录</string>
+    <string name="chat_info_set_admin">设置管理员</string>
+    <string name="chat_info_jurisdiction">成员权限</string>
+    <string name="chat_info_upgrade">升级群</string>
+    <string name="chat_view_all_members">查看全部成员</string>
+    <string name="chat_group_manager">群管理</string>
+    <string name="chat_delete_group">解散群组</string>
+    <string name="chat_delete_group_alert">是否解散群组？</string>
+    <string name="chat_delete">解散</string>
+    <string name="chat_set_group_portrait">设置群头像</string>
+    <string name="chat_group_portrait">群头像</string>
+    <string name="chat_set_group_name">群名称</string>
+    <string name="chat_quit_group">退出群聊</string>
+    <string name="chat_quit_group_alert">是否退出群组？</string>
+    <string name="shield_group_msg">你已屏蔽该群聊</string>
+    <string name="super_edit_group_name">快速编辑群名称，开启群聊</string>
+    <string name="edit_group_name">编辑群名称</string>
+    <string name="unshield_group_msg">解除屏蔽该群聊</string>
+    <string name="chat_quit">退出</string>
+    <string name="chat_edit_group_name_alert">编辑群名称，2–15个字符</string>
+    <string name="chat_edit_group_name">编辑群名称</string>
+    <string name="chat_edit_group_name_no_change">群名称无改变</string>
+    <string name="chat_edit_group_owner_edit">选择新群主</string>
+    <string name="chat_edit_group_owner_edit_alert">是否确认转让？</string>
+    <string name="chat_edit_group_open">开启进群审核</string>
+    <string name="chat_edit_group_owner_manage">转让群主</string>
+    <string name="chat_edit_group_all_member">转让群主</string>
+    <string name="chat_edit_group_announcement">群公告</string>
+    <string name="chat_release_group_announcement">发布公告</string>
+    <string name="chat_edit_group_card">群名片</string>
+    <string name="chat_edit_group_notice_title">标题(必填)，4-40个字</string>
+    <string name="chat_edit_group_notice_content">正文(必填)，15-500个字</string>
+    <string name="chat_edit_group_set_stick">设置置顶群聊</string>
+    <string name="chat_edit_group_banned_post">全员禁言</string>
+    <string name="chat_edit_group_photo">群相册</string>
+    <string name="chat_group_owner">群主</string>
+    <string name="chat_group">群</string>
+    <string name="chat_group_all_member">全部成员</string>
+    <string name="chat_edit_group_add_member">添加成员</string>
+    <string name="chat_edit_group_remove_member">删除成员</string>
+    <string name="chat_edit_group_add">添加</string>
+    <string name="chat_edit_group_add_d">添加(%d)</string>
+    <string name="chat_edit_group_remove">删除</string>
+    <string name="chat_edit_group_remove_d">删除(%d)</string>
+    <string name="chat_group_name_default">%1$s(%2$d)</string>
+    <string name="chat_single_name_default">(%d)</string>
+    <string name="create_fail">创建失败</string>
+    <string name="modifing">修改中&#8230;</string>
+    <string name="group_quit_format">%s解散了</string>
+    <string name="userup_exit_group">%s退出了群聊</string>
+    <string name="advert">广告</string>
+    <string name="please_open_camera_and_mic_permisssion">如需使用此功能，请开启麦克风与相机权限！！！</string>
+    <string name="min_short_video_time">不得小于%d秒</string>
+    <string name="ts_chat_no_message_default_tip">暂无消息</string>
+    <string name="ts_message_history_deleted_tip">您正在删除聊天记录，删除后不可恢复</string>
+    <string name="remove">移除</string>
+    <string name="ts_blacklist">黑名单</string>
+    <string name="remove_black_list">移除黑名单</string>
+    <string name="add_to_black_list">加入黑名单</string>
+    <string name="add_black_list_success">操作成功</string>
+    <string name="remove_black_list_success">操作成功</string>
+    <string name="integartion_not_enough">积分不足</string>
+    <string name="unbind_sure_tip_format">您已绑定%s，是否解除绑定？</string>
+    <string name="sure_unbind">解除绑定</string>
+    <string name="reserved">保留</string>
+    <string name="bind_fail">绑定失败</string>
+    <string name="bind_cancel">取消绑定</string>
+    <string name="chat_delete_sure">是否确认删除?</string>
+    <string name="ts_delete">删除</string>
+    <string name="ts_server_version_format">服务器当前版本号：%s</string>
+    <string name="review_notificaiton">审核通知</string>
+    <string name="no_more_firends">没有更多好友了</string>
+    <string name="no_more_group_member">没有更多成员了</string>
+    <string name="integration_pinned_pay_format">%1$d%2$s / %3$d天</string>
+    <string name="top_every_day_pay">每天支付</string>
+    <string name="sure_top">确认置顶</string>
+
+
+    <string name="tv_add_friends">添加好友</string>
+    <string name="tv_add_group_chat">加入群聊</string>
+    <string name="tv_create_group_chat">创建群聊</string>
+    <string name="tv_invite_Share">邀请分享</string>
+
+
+
+</resources>

@@ -1,0 +1,146 @@
+apply plugin: 'com.android.library'
+android {
+    def gConfig = rootProject.extensions.getByName("ext")
+    compileSdkVersion gConfig["compileSdkVersion"]
+    buildToolsVersion gConfig["buildToolsVersion"]
+    defaultConfig {
+        minSdkVersion gConfig["minSdkVersion"]
+        targetSdkVersion gConfig["targetSdkVersion"]
+        versionCode gConfig["versionCode"]
+        versionName gConfig["versionName"]
+        testInstrumentationRunner gConfig.testDependencies.androidJUnitRunner
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
+    }
+    buildTypes {
+        release {
+            buildConfigField "boolean", "USE_DOMAIN_SWITCH", "false"  // 域名切换开关
+            buildConfigField "boolean", "USE_LOG", "true"            // 日志开关
+            buildConfigField "boolean", "USE_CANARY", "false"         // Learcanary 内存检查开关
+            buildConfigField "boolean", "USE_ADVERT", "true"         // 广告开关
+            buildConfigField "boolean", "USE_TOLL", "true"           // 置顶功能开关
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "boolean", "USE_DOMAIN_SWITCH", "true"  // 域名切换开关
+            buildConfigField "boolean", "USE_LOG", "true"
+            buildConfigField "boolean", "USE_CANARY", "false"
+            buildConfigField "boolean", "USE_ADVERT", "true"
+            buildConfigField "boolean", "USE_TOLL", "true"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+        // if true, only report errors.
+        ignoreWarnings true
+    }
+
+}
+
+
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        google()
+        maven {
+            url "https://jitpack.io"
+        }
+
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-annotations:25.0.1'
+        force 'com.google.code.findbugs:jsr305:1.3.9'
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    def testDependences = rootProject.ext.testDependencies
+    def dataDependences = rootProject.ext.dataDependencies
+    def sdkSoupportDependences = rootProject.ext.sdksoupportDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
+
+    // Sdksoupport dependencies
+    compile sdkSoupportDependences.appcompatV7
+    compile sdkSoupportDependences.supportV4
+    compile sdkSoupportDependences.design
+    compile sdkSoupportDependences.recyclerview
+    compile sdkSoupportDependences.rxpermissions
+    compile sdkSoupportDependences.annotations
+    // Butterknife
+    compile dataDependences.butterknife
+    // Image
+    compile dataDependences.glide
+    compile dataDependences.glideOkhttpIntegration
+    compile dataDependences.okhttp3
+    // Eventbus
+    compile dataDependences.androideventbus
+    // Log
+    compile dataDependences.logger
+    // Dagger dependencies
+    compile dataDependences.dagger
+    provided dataDependences.javaxAnnotation
+    annotationProcessor dataDependences.daggerCompiler
+    // Retrofit + rx + gson
+    compile dataDependences.retrofit
+    compile dataDependences.retrofitConverterGson
+    compile dataDependences.retorfitConverterScalar
+    compile dataDependences.retrofitAdapterRxJava
+    compile dataDependences.rxJava
+    compile dataDependences.rxAndroid
+    compile dataDependences.rxlifecycle
+    compile dataDependences.rxlifecycleAndroid
+    compile dataDependences.rxlifecycleComponents
+    compile dataDependences.rxlifecycleNavi
+    compile dataDependences.rxlifecycleKotlin
+    compile dataDependences.rxcache
+    compile dataDependences.rxcacheJolyglotGson
+    compile dataDependences.rxbinding
+    compile dataDependences.rxbindingSupportV4
+    compile dataDependences.rxbindingSupportV7
+    compile dataDependences.rxbindingDesign
+    compile dataDependences.rxbindingDesignrRcyclerviewV7
+//    compile dataDependences.clickSpanLink // click span
+
+    compile dataDependences.gson
+    // Development
+    debugCompile developmentDependencies.leakCanaryDebug
+    releaseCompile developmentDependencies.leakCanaryRelease
+    // Test
+    testCompile testDependences.junit
+    androidTestCompile(testDependences.espresso) {
+        exclude module: 'support-annotations'
+    }
+    testCompile testDependences.runner
+    testCompile testDependences.robolectric
+    compile testDependencies.espressoIdling
+    // Project
+    compile project(':rxerrorhandler')
+    //分包
+    compile dataDependences.multidex
+    testCompile testDependencies.multidexTest
+    compile project(':mysnackbar')
+    compile project(':link-library')
+    // 指示器
+    compile dataDependences.magicIndicator
+
+    // skin
+    compile dataDependences.skinDesign
+    compile dataDependences.skinCardveiw
+
+    // font
+    compile dataDependences.calligraphyFont
+}

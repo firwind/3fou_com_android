@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <View
+        android:id="@+id/iv_video_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/call_backgroup"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_surface_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--显示对方画面控件-->
+        <com.hyphenate.media.EMCallSurfaceView
+            android:id="@+id/opposite_surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"/>
+
+        <!--自己的视频-->
+        <com.hyphenate.media.EMCallSurfaceView
+            android:id="@+id/local_surface"
+            android:layout_width="@dimen/chat_call_local_surface_view_width"
+            android:layout_height="@dimen/chat_call_local_surface_view_height"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/spacing_mid"
+            android:layout_marginTop="@dimen/spacing_normal_large"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_btn_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_exit_full_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_mid"
+            android:layout_marginTop="@dimen/spacing_normal_large"
+            android:src="@mipmap/ico_chat_smallscreen"/>
+
+        <LinearLayout
+            android:id="@+id/ll_top_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_above="@+id/ll_bottom_container"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张三"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/size_primary_title"
+                tools:ignore="HardcodedText"/>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_call_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/size_primary_title"
+                    android:visibility="visible"
+                    tools:text="通话中"/>
+
+                <com.zhiyicx.thinksnsplus.widget.chat.MyChronometer
+                    android:id="@+id/chronometer"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chronometer"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/size_primary_title"
+                    android:visibility="gone"
+                    tools:ignore="HardcodedText"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_bottom_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/spacing_bigger_large">
+
+            <!--静音-->
+            <LinearLayout
+                android:id="@+id/ll_mute"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_mute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/btn_chat_mute"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/mute"
+                    android:textColor="@color/normal_for_assist_text"
+                    android:textSize="@dimen/size_content_assist"/>
+
+            </LinearLayout>
+
+            <!--挂断-->
+            <LinearLayout
+                android:id="@+id/ll_refuse_call"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/btn_refuse_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:src="@mipmap/btn_chat_hungup"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/hang_up"
+                    android:textColor="@color/normal_for_assist_text"
+                    android:textSize="@dimen/size_content_assist"/>
+
+            </LinearLayout>
+
+            <!--挂断-->
+            <LinearLayout
+                android:id="@+id/ll_hangup_call"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/btn_hangup_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:src="@mipmap/btn_chat_hungup"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/hang_up"
+                    android:textColor="@color/normal_for_assist_text"
+                    android:textSize="@dimen/size_content_assist"/>
+
+            </LinearLayout>
+
+            <!--接听-->
+            <LinearLayout
+                android:id="@+id/ll_answer_call"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/btn_answer_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:src="@mipmap/btn_chat_answer"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/answer"
+                    android:textColor="@color/normal_for_assist_text"
+                    android:textSize="@dimen/size_content_assist"/>
+
+            </LinearLayout>
+
+            <!--免提-->
+            <LinearLayout
+                android:id="@+id/ll_handsfree"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/iv_handsfree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/btn_chat_handsfree"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/Hands_free"
+                    android:textColor="@color/normal_for_assist_text"
+                    android:textSize="@dimen/size_content_assist"/>
+
+            </LinearLayout>
+
+            <!--切换摄像头-->
+            <LinearLayout
+                android:id="@+id/ll_switch_camera"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/iv_switch_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/ico_video_local"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/switch_camera"
+                    android:textColor="@color/normal_for_assist_text"
+                    android:textSize="@dimen/size_content_assist"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_network_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        />
+
+</RelativeLayout>

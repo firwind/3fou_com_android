@@ -1,0 +1,141 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- copyright_text_size-->
+    <dimen name="copyright_text_size">9sp</dimen>
+    <dimen name="check_in_total_money">30sp</dimen>
+
+    <!--登录按钮margintop-->
+    <dimen name="button_login_margin_top">23dp</dimen>
+    <!--用户资料编辑分割线左边的距离-->
+    <dimen name="useredit_divier_marginleft">77dp</dimen>
+    <dimen name="introduce_padding_top">22dp</dimen>
+    <!--动态详情页面，五张叠加的小头像距离-->
+    <dimen name="head_right_margin_offset">-8dp</dimen>
+    <dimen name="head4_right_margin">26dp</dimen>
+    <dimen name="head3_right_margin">42dp</dimen>
+    <dimen name="head2_right_margin">-16dp</dimen>
+    <dimen name="head1_right_margin">74dp</dimen>
+    <!--仅一张 动态图片最大宽度-->
+    <dimen name="dynamic_image_max_width">248dp</dimen>
+    <dimen name="dynamic_image_max_height">290dp</dimen>
+    <!--个人中心动态数量view高度-->
+    <dimen name="personal_center_dynamic_count_view_height">37dp</dimen>
+    <dimen name="personal_center_bottom_view_height">46dp</dimen>
+    <!--没有图的item，工具栏的左边margin-->
+    <dimen name="zero_image_left_margin">48dp</dimen>
+    <!--频道列表-->
+    <!--频道订阅按钮宽度-->
+    <dimen name="channel_subscrib_btn_width">63dp</dimen>
+    <dimen name="topic_follow_btn_width_70">70dp</dimen>
+    <dimen name="channel_subscrib_btn_height">25dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <!--频道详情，顶部图片距离顶部的距离-->
+    <dimen name="header_icon_top_margin">72dp</dimen>
+    <!--25dp的高度减去图片4个dp的透明都-->
+    <dimen name="floating_button_bottom_margin">21dp</dimen>
+
+    <!--消息中 的评论的点赞的线的 margin-->
+    <dimen name="message_comment_and_digg_line_margin">63dp</dimen>
+    <dimen name="message_badge_count_width">5dp</dimen>
+    <dimen name="conversation_search_height">27dp</dimen>
+    <!---->
+    <dimen name="infocontainer_right_image_with">50dp</dimen>
+    <!--咨询中的 banner hight-->
+    <dimen name="info_banner_hight">187dp</dimen>
+    <dimen name="info_banner_title_hight">80dp</dimen>
+
+    <!--咨询上传封面-->
+    <dimen name="upload_info_cover_height">67.5dp</dimen>
+    <dimen name="upload_info_cover_width">95dp</dimen>
+
+    <!--滑动删除按钮的宽度-->
+    <dimen name="slide_button_with">80dp</dimen>
+
+    <!--动态置顶-->
+    <dimen name="select_days_margin_bottom">18dp</dimen>
+    <dimen name="select_days_margin_top">13dp</dimen>
+    <dimen name="dynamice_top_select_day_height">35dp</dimen>
+    <dimen name="dynamice_top_input_height">50dp</dimen>
+
+    <!--提现明细-->
+    <dimen name="withdrawal_detail_item_height">55dp</dimen>
+    <!--账单详情-->
+    <dimen name="withdrawal_detail_textsize">50sp</dimen>
+    <dimen name="withdrawal_detail_width">70dp</dimen>
+
+    <!--发布动态-->
+    <dimen name="send_dynamic_send_container_top">180dp</dimen>
+    <dimen name="send_dynamic_send_container">120dp</dimen>
+    <dimen name="send_dynamic_send_button_img">65dp</dimen>
+    <dimen name="send_dynamic_close_button_img">50dp</dimen>
+    <dimen name="send_dynamic_set_img_money">30dp</dimen>
+    <dimen name="button_send_dynamic_close_container">50.5dp</dimen>
+
+    <!--意见反馈-->
+    <dimen name="feed_back_item_height">45dp</dimen>
+
+    <dimen name="drop_offset_70">85dp</dimen>
+
+    <!--问答内容图片高度-->
+    <dimen name="qa_info_iamge_height">150dp</dimen>
+    <dimen name="qa_top_select_height">30dp</dimen>
+    <dimen name="qa_top_select_width">120dp</dimen>
+    <dimen name="qa_user_tag_height">20dp</dimen>
+
+    <!--问答-发布问题-->
+    <dimen name="iamge_close_height">50dp</dimen>
+    <dimen name="topic_category_height">30dp</dimen>
+    <dimen name="topic_cover_height">40dp</dimen>
+    <dimen name="answer_list_portrait_width">28dp</dimen>
+    <dimen name="question_detail_reward_type_height">45dp</dimen>
+    <dimen name="question_detail_answer_info_height">35dp</dimen>
+    <dimen name="question_list_type_width">100dp</dimen>
+    <dimen name="question_list_type_height">75dp</dimen>
+    <dimen name="question_invite_portrait_width">26dp</dimen>
+    <dimen name="question_invite_width">110dp</dimen>
+    <dimen name="question_invite_height">40dp</dimen>
+    <dimen name="qa_watch_button_width">55dp</dimen>
+    <dimen name="qa_watch_button_height">25dp</dimen>
+    <dimen name="qa_item_my_question_height">90dp</dimen>
+
+    <!--启动广告-->
+    <dimen name="iamge_logo_height">114dp</dimen>
+
+    <!--第三方登陆选择框高度-->
+    <dimen name="pop_choose_third_type_height">50dp</dimen>
+    <dimen name="pop_choose_third_type_height_samll">40dp</dimen>
+    <!--第三方登陆分割线边距-->
+    <dimen name="third_margin">40dp</dimen>
+
+    <!--地区搜索 item 间距-->
+    <dimen name="location_search_item_space">18dp</dimen>
+    <dimen name="qa_search_empty_size">17sp</dimen>
+    <dimen name="qa_search_empty_bt_with">200dp</dimen>
+
+    <!--排行榜-->
+    <dimen name="type_item_height">67dp</dimen>
+    <dimen name="type_item_user_portrait">38dp</dimen>
+    <dimen name="type_item_rank_num_width">42dp</dimen>
+    <dimen name="item_channel_detial_header_des_with">280dp</dimen>
+    <dimen name="info_title_size">25sp</dimen>
+
+    <!--扫码-->
+    <dimen name="qr_code_width">147dp</dimen>
+    <dimen name="qr_code_user_avatar_width">50dp</dimen>
+    <dimen name="qr_code_content_padding_top">59dp</dimen>
+    <dimen name="qr_code_content_padding_bottom">74dp</dimen>
+    <dimen name="report_resource_img">42dp</dimen>
+    <dimen name="typchoose_with">100dp</dimen>
+    <dimen name="circle_detail_toolbar_height">48dp</dimen>
+    <dimen name="info_container_tab_spacing">7dp</dimen>
+    <dimen name="info_container_tab_padiing">30dp</dimen>
+    <dimen name="integration_withdrawals_et_padding">14dp</dimen>
+    <dimen name="ts_chat_item_iamge_raduis">10dp</dimen>
+    <dimen name="black_list_remove_bt_paddingleft">13dp</dimen>
+    <dimen name="certify_margin_top">18dp</dimen>
+    <dimen name="digg_boder_with">1dp</dimen>
+
+</resources>

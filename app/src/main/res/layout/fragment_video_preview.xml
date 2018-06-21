@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <com.tym.shortvideo.view.VideoPreviewView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        layout="@layout/view_preview_top"/>
+
+    <TextView
+        android:text="完成"
+        android:id="@+id/tv_confrim"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="center"
+        android:background="@drawable/round"
+        android:layout_width="70dp"
+        android:layout_height="70dp"/>
+
+</FrameLayout>

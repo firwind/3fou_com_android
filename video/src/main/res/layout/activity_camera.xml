@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <!-- 预览视图 -->
+    <com.tym.shortvideo.view.AspectFrameLayout
+        android:id="@+id/layout_aspect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/black"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+        <!-- 底部视图 -->
+        <include
+            android:id="@+id/lv_bottom"
+            layout="@layout/view_preview_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+    <com.tym.shortvideo.view.AsyncRecyclerview
+        android:id="@+id/effect_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone"/>
+
+    <com.tym.shortvideo.view.ProgressView
+        android:id="@+id/tym_test"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
+    <!-- tool -->
+    <include
+        layout="@layout/toolbar_video"/>
+
+    <!-- 显示倒计时 -->
+    <TextView
+        android:id="@+id/tv_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/yellow"
+        android:visibility="gone"/>
+
+</FrameLayout>

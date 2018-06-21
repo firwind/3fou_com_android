@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:descendantFocusability="beforeDescendants"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:orientation="vertical">
+
+    <com.zhiyicx.thinksnsplus.widget.TSSearchView
+        android:id="@+id/searchView"
+        style="@style/style_edit_cursor"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/conversation_search_height"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginLeft="@dimen/spacing_mid"
+        android:layout_marginRight="@dimen/spacing_mid"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:background="@drawable/info_search_bg"
+        android:drawableLeft="@mipmap/search_icon_search"
+        android:drawablePadding="@dimen/spacing_mid_small_8dp"
+        android:focusable="true"
+        android:hint="@string/info_search"
+        android:imeOptions="actionSearch"
+        android:paddingLeft="@dimen/spacing_normal"
+        android:paddingRight="@dimen/spacing_normal"
+        android:singleLine="true"
+        android:textColor="@color/important_for_content"
+        android:textColorHint="@color/normal_for_assist_text"
+        android:textSize="@dimen/size_icon_assist"
+        android:visibility="gone"/>
+
+    <include layout="@layout/fragment_tslist"/>
+
+</LinearLayout>

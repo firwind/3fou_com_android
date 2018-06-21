@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!--选中的和输入框-->
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/select_friends_result_height"
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_search_icon"
+            android:layout_width="@dimen/select_icon_width"
+            android:layout_height="@dimen/select_icon_width"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/spacing_mid"
+            android:src="@mipmap/search_icon_search"/>
+
+        <com.zhiyicx.baseproject.widget.recycleview.MaxWidthRecyclerView
+            android:id="@+id/rv_select_result"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="@dimen/spacing_normal_8dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/edit_search_friends"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:ellipsize="middle"
+            android:hint="@string/search"
+            android:minWidth="@dimen/select_edit_min_width"
+            android:paddingRight="@dimen/spacing_normal"
+            android:singleLine="true"
+            android:textColor="@color/normal_for_assist_text"
+            android:textSize="@dimen/size_icon_assist"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/style_divider_horizontal"/>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--全部结果-->
+        <include layout="@layout/fragment_tslist"/>
+
+    </FrameLayout>
+
+</LinearLayout>

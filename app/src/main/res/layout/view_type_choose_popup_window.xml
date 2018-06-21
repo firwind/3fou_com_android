@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/question_list_type_width"
+    android:layout_height="@dimen/question_list_type_height"
+    android:background="@drawable/bg_wihte_pop_with_shadow"
+    android:padding="@dimen/spacing_big_line"
+    >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_popup_window"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_bg_radus_deepgrey_with_border"
+        />
+</FrameLayout>
