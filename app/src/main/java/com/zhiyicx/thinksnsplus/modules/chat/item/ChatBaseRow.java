@@ -1,6 +1,8 @@
 package com.zhiyicx.thinksnsplus.modules.chat.item;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -91,6 +93,7 @@ public class ChatBaseRow extends EaseChatRow {
         }
     }
 
+    @SuppressLint("LogNotUsed")
     @Override
     protected void onSetUpView() {
         this.mUserInfoBean = TSEMHyphenate.getInstance().getChatUser(message.getFrom());
@@ -109,7 +112,9 @@ public class ChatBaseRow extends EaseChatRow {
             } else {
                 mTvChatTime.setVisibility(GONE);
             }
+
         }
+
         // 用户名
         mTvChatName.setText(mUserInfoBean.getName());
         RxView.clicks(mIvChatHeadpic)

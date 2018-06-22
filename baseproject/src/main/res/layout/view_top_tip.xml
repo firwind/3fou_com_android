@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/themeColor_alpha7"
+    android:background="@color/themeColor"
     android:ellipsize="end"
     android:gravity="center"
     android:maxLines="1"

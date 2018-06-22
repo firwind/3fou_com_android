@@ -1,8 +1,10 @@
 package com.zhiyicx.thinksnsplus.modules.chat.item;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
+import android.util.Log;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -60,6 +62,7 @@ public class ChatRowTipText extends ChatBaseRow {
     public void updateView(EMMessage msg) {
     }
 
+    @SuppressLint("LogNotUsed")
     @Override
     protected void onSetUpView() {
 
@@ -84,8 +87,10 @@ public class ChatRowTipText extends ChatBaseRow {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
+        Log.e(TAG,"str---"+mTvChatContent.getText().toString());
+        if (mTvChatContent.getText().toString().equals(context.getString(R.string.super_open_mute_hint))) {
+            mOnTipMsgClickListener.onOpenMuteClick(TipMsgType.OPEN_MUTE, mTvChatContent.getText().toString());
+        }
         ConvertUtils.stringLinkConvert(mTvChatContent, setLiknks(mTvChatContent.getText().toString()), false);
     }
 

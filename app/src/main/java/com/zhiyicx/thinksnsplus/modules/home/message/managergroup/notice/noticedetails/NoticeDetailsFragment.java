@@ -16,13 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.common.utils.TimeUtils;
-import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -63,7 +60,6 @@ public class NoticeDetailsFragment extends TSFragment {
         if (getArguments() != null) {
             mNoticeBean = getArguments().getParcelable(ITEM_NOTICE_BEAN);
             mNoticeDetailsTitle.setText(TextUtils.isEmpty(mNoticeBean.getTitle()) ? "" : mNoticeBean.getTitle());
-            LogUtils.v(TAG,"title---"+mNoticeBean.getTitle());
             mNoticeDetailsUserName.setText(TextUtils.isEmpty(mNoticeBean.getAuthor()) ? "" : mNoticeBean.getAuthor());
             mNoticeDetailsContent.setText(TextUtils.isEmpty(mNoticeBean.getContent()) ? "" : mNoticeBean.getContent());
             mNoticeDetailsTime.setText(TimeUtils.getTimeFriendlyNormal(mNoticeBean.getCreated_at()));

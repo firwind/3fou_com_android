@@ -19,20 +19,17 @@ import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 
 public class NoticeDetailsActivity extends TSActivity{
-    public static String ITEM_NOTICE_BEAN = "itemNoticeBean";
+    public static final String ITEM_NOTICE_BEAN = "itemNoticeBean";
     @Override
     protected Fragment getFragment() {
-        NoticeItemBean mNoticeBean = getIntent().getExtras().getParcelable(ITEM_NOTICE_BEAN);
-        String title = mNoticeBean.getTitle();
         return NoticeDetailsFragment.newInstance(getIntent().getExtras());
     }
 
     @Override
     protected void componentInject() {
-
     }
 
-    public static Intent newNoticeDetailsIntent(Context context,NoticeItemBean itemBean){
+    public static Intent newNoticeDetailsIntent(Context context, NoticeItemBean itemBean){
         Intent intent = new Intent(context,NoticeDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(ITEM_NOTICE_BEAN,itemBean);

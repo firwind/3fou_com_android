@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.widget.chat;
 import android.Manifest;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.RelativeLayout;
 
 import com.hyphenate.easeui.widget.EaseChatPrimaryMenu;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -16,6 +17,7 @@ import com.zhiyicx.thinksnsplus.modules.chat.call.TSEMHyphenate;
  * @contact email:648129313@qq.com
  */
 public class TSChatPrimaryMenu extends EaseChatPrimaryMenu {
+
 
     private RxPermissions mRxPermissions;
 

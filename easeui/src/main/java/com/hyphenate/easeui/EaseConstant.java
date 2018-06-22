@@ -30,8 +30,16 @@ public class EaseConstant {
 	public static final int CHATTYPE_SINGLE = 1;
     public static final int CHATTYPE_GROUP = 2;
     public static final int CHATTYPE_CHATROOM = 3;
-    
+
+    public static final int CLOESS_MUTS = 0;//关闭禁言状态
+    public static final int OPEN_MUTS = 1;//开启禁言状态
+
     public static final String EXTRA_CHAT_TYPE = "chatType";
     public static final String EXTRA_USER_ID = "userId";
     public static final String EXTRA_TO_USER_ID = "to_user_id";
+
+
+    public static final String EXTRA_BANNED_POST = "全部";
+
+
 }

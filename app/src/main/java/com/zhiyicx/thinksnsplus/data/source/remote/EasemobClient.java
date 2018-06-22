@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.data.source.remote;
 
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 
 import java.util.List;
@@ -63,6 +64,14 @@ public interface EasemobClient {
     Observable<List<ChatGroupBean>> getGroupInfo(@Query("im_group_id") String ids);
 
     /**
+     * 批量获取群信息
+     *
+     * @param ids im_group_id 以逗号隔开
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_S)
+    Observable<List<ChatGroupNewBean>> getNewGroupInfo(@Query("im_group_id") String ids);
+
+    /**
      * 批量获取群信息，只返回群头像
      *
      * @param ids im_group_id 以逗号隔开
@@ -79,6 +88,27 @@ public interface EasemobClient {
     Observable<List<NoticeItemBean>> getGruopNoticeList(@Query("im_group_id") String ids);
 
     /**
+     * 添加禁言
+     *
+     * @param im_group_id im_group_id
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_ADD_MUTE)
+    Observable<String> openBannedPost(@Query("im_group_id") String im_group_id,
+                                      @Query("user_id") String user_id,
+                                      @Query("times") String times,
+                                      @Query("members") String members);
+
+    /**
+     * 移除禁言
+     *
+     * @param im_group_id im_group_id
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_REMOVE_MUTE)
+    Observable<String> removeBannedPost(@Query("im_group_id") String im_group_id,
+                                      @Query("user_id") String user_id,
+                                      @Query("members") String members);
+
+    /**
      * 发布公告
      *
      * @param ids im_group_id
@@ -88,6 +118,7 @@ public interface EasemobClient {
                                      @Query("title") String title,
                                      @Query("content") String content,
                                      @Query("author") String author);
+
     /**
      * 添加群组成员
      *

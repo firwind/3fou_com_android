@@ -60,6 +60,7 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 NoticeItemBean itemBean = mListDatas.get(position);
+
                 startActivity(NoticeDetailsActivity.newNoticeDetailsIntent(getContext(), itemBean));
             }
 

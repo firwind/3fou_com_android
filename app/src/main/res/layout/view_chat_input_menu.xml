@@ -55,7 +55,24 @@
                 android:textColor="@color/normal_for_dynamic_list_content"
                 android:textSize="@dimen/size_content"/>
         </LinearLayout>
-
+        <RelativeLayout
+            android:id="@+id/edittext_layout_hint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/et_sendmessage_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/chat_info_group_edit_owner_alert_height"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ease_chat_press_speak_btn"
+                android:text="@string/super_open_mute_hint_text"
+                android:gravity="center"/>
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/edittext_layout"
             android:layout_width="0dp"

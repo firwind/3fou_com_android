@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -65,6 +66,7 @@ public class EaseChatMessageList extends RelativeLayout {
      */
     public void init(String toChatUsername, int chatType, EaseCustomChatRowProvider customChatRowProvider, EaseChatRow.OnTipMsgClickListener
             onTipMsgClickListener) {
+
         this.chatType = chatType;
         this.toChatUsername = toChatUsername;
         View view = new View(getContext());

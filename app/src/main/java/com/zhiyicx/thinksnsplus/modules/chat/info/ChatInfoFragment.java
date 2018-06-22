@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.adapter.ChatMemberAdapter;
@@ -56,6 +58,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.hyphenate.easeui.EaseConstant.EXTRA_BANNED_POST;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_ID;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_NAME;
@@ -100,6 +103,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     TextView mTvGroupName;
     @BindView(R.id.sc_block_message)
     SwitchCompat mScBlockMessage;
+    @BindView(R.id.sc_banned_post)
+    SwitchCompat mScBannedPost;
     @BindView(R.id.ll_container)
     View mLlContainer;
     @BindView(R.id.emptyView)
@@ -143,6 +148,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     View vwUpgrade;
     @BindView(R.id.vw_set_stick)
     View vwSetStick;
+
+    @BindView(R.id.tv_announcement)
+    TextView mNoticeText;
 
     private int mChatType;
     private String mChatId;
@@ -335,7 +343,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             case R.id.ll_announcement:
                 // 群公告
                 if (mChatType == ChatConfig.CHATTYPE_GROUP) {
-                    LogUtils.e("id---"+mChatGroupBean.getId());
+                    LogUtils.e("id---" + mChatGroupBean.getId());
                     Intent intentName = new Intent(getContext(), NoticeManagerActivity.class);
 
                     intentName.putExtra(GROUP_ORIGINAL_ID, mChatGroupBean.getId());
@@ -467,7 +475,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     }
 
     @Override
-    public void getGroupInfoSuccess(ChatGroupBean chatGroupBean) {
+    public void getGroupInfoSuccess(ChatGroupNewBean chatGroupBean) {
         mChatGroupBean = chatGroupBean;
         mChatGroupBean.setId(mChatId);
         setGroupData();
@@ -475,12 +483,31 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         mScBlockMessage.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (mChatType == EaseConstant.CHATTYPE_SINGLE) {
                 if (isChecked) {
-
                 }
             } else {
                 mPresenter.openOrCloseGroupMessage(isChecked, mChatId);
             }
         });
+        //禁言
+        mScBannedPost.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (mChatType == EaseConstant.CHATTYPE_GROUP) {
+                if (mScBannedPost.isChecked()) {
+                    mPresenter.openBannedPost(mChatGroupBean.getId(), "0", "", EXTRA_BANNED_POST);//开启禁言
+                } else {
+                    mPresenter.removeBannedPost(mChatGroupBean.getId(), "0", EXTRA_BANNED_POST);//关闭禁言
+                }
+            }
+        });
+        mNoticeText.setText(TextUtils.isEmpty(chatGroupBean.getNoticeItemBean().getOriginal().getContent()) ? "暂无公告" : chatGroupBean.getNoticeItemBean().getOriginal().getContent());
+        if (mChatType == EaseConstant.CHATTYPE_GROUP) {
+            if (chatGroupBean.getmIsMute() == EaseConstant.CLOESS_MUTS) {//关闭禁言状态
+                mScBannedPost.setChecked(false);
+            } else if (chatGroupBean.getmIsMute() == EaseConstant.OPEN_MUTS) {//开启禁言状态
+                mScBannedPost.setChecked(true);
+            } else {
+                mScBannedPost.setChecked(false);
+            }
+        }
     }
 
     @Override
@@ -667,6 +694,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
             // 屏蔽按钮
             mScBlockMessage.setChecked(group.isMsgBlocked());
+
             // 群名称
             String groupName = mChatGroupBean.getName();
             // + "(" + mChatGroupBean.getAffiliations_count() + ")";

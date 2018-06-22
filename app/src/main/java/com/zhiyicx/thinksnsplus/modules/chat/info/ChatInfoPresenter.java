@@ -17,6 +17,7 @@ import com.zhiyicx.thinksnsplus.base.EmptySubscribe;
 import com.zhiyicx.thinksnsplus.config.DefaultUserInfoConfig;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
@@ -142,6 +143,56 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
     }
 
     @Override
+    public void openBannedPost(String im_group_id, String user_id, String times, String members) {
+        Subscription subscription = mRepository.openBannedPost(im_group_id,user_id,times,members)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<String>() {
+
+                    @Override
+                    protected void onSuccess(String data) {
+
+                    }
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+                });
+        addSubscrebe(subscription);
+    }
+
+    @Override
+    public void removeBannedPost(String im_group_id, String user_id, String members) {
+        Subscription subscription = mRepository.removeBannedPost(im_group_id,user_id,members)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<String>() {
+
+                    @Override
+                    protected void onSuccess(String data) {
+
+                    }
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+                });
+        addSubscrebe(subscription);
+    }
+
+    @Override
     public void updateGroup(ChatGroupBean chatGroupBean, boolean isEditGroupFace) {
         // 这里不是修改群主，所以newOwner直接传空
         Subscription subscription = mRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription(), 0, 200,
@@ -176,7 +227,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
     @Override
     public void getGroupChatInfo(String groupId) {
-        Subscription subscription = mRepository.getGroupChatInfo(groupId)
+        Subscription subscription = mRepository.getGroupChatNewInfo(groupId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap(chatGroupBeans -> {
@@ -191,9 +242,9 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     return Observable.just(chatGroupBeans.get(0));
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {
+                .subscribe(new BaseSubscribeForV2<ChatGroupNewBean>() {
                     @Override
-                    protected void onSuccess(ChatGroupBean data) {
+                    protected void onSuccess(ChatGroupNewBean data) {
                         mChatGroupBeanGreenDao.saveSingleData(data);
                         mRootView.getGroupInfoSuccess(data);
                         mRootView.isShowEmptyView(false, true);

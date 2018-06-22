@@ -58,6 +58,10 @@ public class NoticeItemBean extends BaseListBean implements Parcelable{
     public void setCreated_at(long created_at) {
         this.created_at = created_at;
     }
+
+    public NoticeItemBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -66,13 +70,18 @@ public class NoticeItemBean extends BaseListBean implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-    }
-
-    public NoticeItemBean() {
+        dest.writeString(this.title);
+        dest.writeString(this.content);
+        dest.writeString(this.author);
+        dest.writeLong(this.created_at);
     }
 
     protected NoticeItemBean(Parcel in) {
         super(in);
+        this.title = in.readString();
+        this.content = in.readString();
+        this.author = in.readString();
+        this.created_at = in.readLong();
     }
 
     public static final Creator<NoticeItemBean> CREATOR = new Creator<NoticeItemBean>() {
@@ -87,3 +96,4 @@ public class NoticeItemBean extends BaseListBean implements Parcelable{
         }
     };
 }
+

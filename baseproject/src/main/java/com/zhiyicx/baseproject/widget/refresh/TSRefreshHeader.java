@@ -46,7 +46,6 @@ public class TSRefreshHeader extends FrameLayout implements RefreshHeader {
     public TSRefreshHeader(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
-
     }
 
     private void init() {
@@ -101,7 +100,6 @@ public class TSRefreshHeader extends FrameLayout implements RefreshHeader {
         if (!background.isRunning()) {
             background.start();
         }
-
     }
 
     @Override

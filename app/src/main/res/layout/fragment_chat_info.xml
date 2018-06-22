@@ -215,7 +215,7 @@
                         android:ellipsize="end"
                         android:lines="2"
                         android:singleLine="true"
-                        android:text="@string/chat_edit_group_announcement"
+                        android:text="@string/ts_chat_no_message_default_notice"
                         android:textColor="@color/normal_for_assist_text"
                         android:textSize="@dimen/size_content_assist" />
 

@@ -37,13 +37,15 @@ public abstract class EaseChatRow extends LinearLayout {
 
     public interface OnTipMsgClickListener {
         void onTipMsgClick(TipMsgType tipMsgType);
+        void onOpenMuteClick(TipMsgType tipMsgType,String str);
     }
 
     public enum TipMsgType {
         /**
          * 创建群聊
          */
-        CREATE_GROUP
+        CREATE_GROUP,
+        OPEN_MUTE
     }
 
     protected static final String TAG = EaseChatRow.class.getSimpleName();

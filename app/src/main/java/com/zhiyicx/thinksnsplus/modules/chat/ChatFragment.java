@@ -7,13 +7,15 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
@@ -22,6 +24,7 @@ import com.hyphenate.chat.EMVoiceMessageBody;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.bean.ChatUserInfoBean;
+import com.hyphenate.easeui.widget.EaseChatPrimaryMenu;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.easeui.widget.presenter.EaseChatRowPresenter;
@@ -57,8 +60,9 @@ import com.zhiyicx.thinksnsplus.modules.chat.item.presenter.TSChatVoicePresenter
 import com.zhiyicx.thinksnsplus.modules.chat.location.SendLocationActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.video.ImageGridActivity;
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
+import com.zhiyicx.thinksnsplus.widget.chat.TSChatInputMenu;
+import com.zhiyicx.thinksnsplus.widget.chat.TSChatPrimaryMenu;
 
-import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
 
@@ -66,9 +70,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 import static com.hyphenate.easeui.EaseConstant.EXTRA_CHAT_TYPE;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_DELETE_QUIT;
+import static com.hyphenate.easeui.widget.chatrow.EaseChatRow.TipMsgType.OPEN_MUTE;
 
 /**
  * @author Catherine
@@ -105,6 +113,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     private static final int ITEM_VIDEO_TS = 34;
     private static final int ITEM_VOICE_CALL_TS = 35;
     private static final int ITEM_VIDEO_CALL_TS = 36;
+    @BindView(R.id.input_menu)
+    TSChatInputMenu inputMenu;
+    Unbinder unbinder;
 
     private ActionPopupWindow mActionPopupWindow;
 
@@ -180,6 +191,17 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             }
         });
         dialog.show(getFragmentManager(), LinkDialog.Tag);
+    }
+
+    @Override
+    public void onOpenMuteClick(EaseChatRow.TipMsgType tipMsgType,String str) {
+
+        if (tipMsgType == OPEN_MUTE) {
+            View view = inputMenu.setPrimaryMenuView();
+            EaseChatPrimaryMenu menu = (EaseChatPrimaryMenu) view.findViewById(R.id.primary_menu);
+            RelativeLayout mute = menu.getmOpenMute();
+            mute.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -460,9 +482,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                 String content = message.getBody().toString();
                 if (message.getBody() instanceof EMTextMessageBody) {
                     content = ((EMTextMessageBody) message.getBody()).getMessage();
-                }else if (message.getBody() instanceof EMImageMessageBody){
+                } else if (message.getBody() instanceof EMImageMessageBody) {
                     content = "[图片]";
-                }else if (message.getBody() instanceof EMVoiceMessageBody){
+                } else if (message.getBody() instanceof EMVoiceMessageBody) {
                     content = "[语音]";
                 }
 
@@ -495,6 +517,14 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 //            inputMenu.registerExtendMenuItem(R.string.attach_video_call, R.mipmap.ico_chat_videocall, ITEM_VIDEO_CALL_TS,
 //                    extendMenuItemClickListener);
 //        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
     private final class CustomChatRowProvider implements EaseCustomChatRowProvider {
@@ -697,5 +727,6 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     public void onDestroyView() {
         dismissPop(mActionPopupWindow);
         super.onDestroyView();
+        unbinder.unbind();
     }
 }
