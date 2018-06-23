@@ -26,7 +26,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         super.onCreate(savedInstanceState);
         api = WXAPIFactory.createWXAPI(this, UmengConfig.WEIXIN_APPID);
         api.handleIntent(getIntent(), this);
-
     }
 
     @Override

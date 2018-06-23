@@ -1,9 +1,16 @@
-package com.zhiyicx.thinksnsplus.modules.chat.adapter;
+package com.zhiyicx.thinksnsplus.modules.home.message.managergroup.jurisdiction;
+/*
+ * 文件名：
+ * 创建者：zhangl
+ * 描  述：
+ * 时  间：2018/6/23 9:50
+ * 修改者：
+ * 修改备注：
+ * 修改时间：
+ * 版  权：互动科技
+ */
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatCheckBox;
-import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +18,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.zhiyicx.baseproject.widget.UserAvatarView;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.modules.chat.adapter.SelectFriendsAllAdapter;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -18,21 +26,13 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
 
-/**
- * @author Catherine
- * @describe
- * @date 2018/1/12
- * @contact email:648129313@qq.com
- */
-
-public class SelectFriendsAllAdapter extends CommonAdapter<UserInfoBean> {
-
+public class SelectMuteAdapter extends CommonAdapter<UserInfoBean> {
     private OnUserSelectedListener mListener;
     private static final int STATE_SELECTED = 1;
     private static final int STATE_UNSELECTED = 0;
     private static final int STATE_CAN_NOT_BE_CHANGED = -1;
 
-    public SelectFriendsAllAdapter(Context context, List<UserInfoBean> datas, OnUserSelectedListener listener) {
+    public SelectMuteAdapter(Context context, List<UserInfoBean> datas, SelectMuteAdapter.OnUserSelectedListener listener) {
         super(context, R.layout.item_select_friends, datas);
         this.mListener = listener;
     }
@@ -49,9 +49,9 @@ public class SelectFriendsAllAdapter extends CommonAdapter<UserInfoBean> {
                 .subscribe(aVoid -> {
                     if (mListener != null && userInfoBean.getMember_mute() != STATE_CAN_NOT_BE_CHANGED) {
                         if (userInfoBean.getMember_mute() == STATE_SELECTED) {
-                            userInfoBean.setIsSelected(STATE_UNSELECTED);
+                            userInfoBean.setMember_mute(STATE_UNSELECTED);
                         } else {
-                            userInfoBean.setIsSelected(STATE_SELECTED);
+                            userInfoBean.setMember_mute(STATE_SELECTED);
                         }
                         setSelectedState(cbFriends, userInfoBean);
                         mListener.onUserSelected(userInfoBean);
@@ -72,7 +72,7 @@ public class SelectFriendsAllAdapter extends CommonAdapter<UserInfoBean> {
      * @param userInfoBean user
      */
     private void setSelectedState(ImageView imageView, UserInfoBean userInfoBean) {
-        switch (userInfoBean.getIsSelected()) {
+        switch (userInfoBean.getMember_mute()) {
             case STATE_SELECTED:
                 imageView.setImageResource(R.mipmap.msg_box_choose_now);
                 break;

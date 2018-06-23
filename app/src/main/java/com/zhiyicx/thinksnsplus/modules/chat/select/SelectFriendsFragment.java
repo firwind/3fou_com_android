@@ -115,7 +115,6 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
     }
 
     private void initListener() {
-
         RxTextView.textChanges(mEditSearchFriends)
                 .subscribe(charSequence -> {
                     // 搜索

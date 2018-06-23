@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50">
+        <Button
+            android:id="@+id/bt_open_mute"
+            android:text="@string/chat_info_setting_banned_post"
+            android:background="@color/colorAccent"
+            android:layout_marginRight="@dimen/dp20"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp30" />
+        <Button
+            android:id="@+id/bt_relieve_mute"
+            android:text="@string/chat_info_relieve_banned_post"
+            android:background="@color/white"
+            android:layout_marginRight="@dimen/dp20"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp30" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/fragment_select_friends"/>
+    </LinearLayout>
+
+
+</FrameLayout>

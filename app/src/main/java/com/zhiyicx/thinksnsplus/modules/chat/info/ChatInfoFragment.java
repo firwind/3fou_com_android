@@ -41,11 +41,14 @@ import com.zhiyicx.thinksnsplus.modules.chat.edit.owner.EditGroupOwnerActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.item.ChatConfig;
 import com.zhiyicx.thinksnsplus.modules.chat.member.GroupMemberListActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.jurisdiction.JurisdictionActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.utils.TSImHelperUtils;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
+
+import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,8 @@ import rx.schedulers.Schedulers;
 
 import static com.hyphenate.easeui.EaseConstant.EXTRA_BANNED_POST;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
+import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE;
+import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_ID;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_NAME;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.IS_GROUP_OWNER;
@@ -343,21 +348,21 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             case R.id.ll_announcement:
                 // 群公告
                 if (mChatType == ChatConfig.CHATTYPE_GROUP) {
-                    LogUtils.e("id---" + mChatGroupBean.getId());
                     Intent intentName = new Intent(getContext(), NoticeManagerActivity.class);
-
                     intentName.putExtra(GROUP_ORIGINAL_ID, mChatGroupBean.getId());
                     intentName.putExtra(IS_GROUP_OWNER, mPresenter.isGroupOwner());
-
                     startActivity(intentName);
+                }
+                break;
+            case R.id.tv_jurisdiction:
+                if (mChatType == ChatConfig.CHATTYPE_GROUP){
+                    JurisdictionActivity.startSelectFriendActivity(getContext(),mChatGroupBean);
                 }
                 break;
             case R.id.ll_photo:
             case R.id.ll_card:
             case R.id.tv_find_message:
             case R.id.tv_set_admin:
-            case R.id.ll_banned_post:
-            case R.id.tv_jurisdiction:
             case R.id.tv_upgrade:
                 ToastUtils.showLongToast(R.string.normal_dispark);
                 break;
@@ -717,5 +722,12 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
+    }
+    @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_MUTE)
+    public void onPublishNoticeSuccess(boolean isRefresh) {
+        if (isRefresh){
+            mPresenter.getGroupChatInfo(mChatId);//获取群信息
+        }
+
     }
 }

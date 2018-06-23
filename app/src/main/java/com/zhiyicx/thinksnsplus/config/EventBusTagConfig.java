@@ -196,6 +196,7 @@ public class EventBusTagConfig {
     public static final String EVENT_IM_GROUP_CREATE_FROM_SINGLE = "group_create_from_single";
     public static final String EVENT_IM_GROUP_UPDATE_GROUP_INFO = "group_update_group_info";
     public static final String EVENT_IM_GROUP_UPDATE_GROUP_NOTICE = "group_update_group_notice";
+    public static final String EVENT_IM_GROUP_UPDATE_GROUP_MUTE = "group_update_group_mute";
 
     /**
      * 消息底部提示信息相关

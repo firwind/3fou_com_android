@@ -93,6 +93,17 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     private String city;        // 城市
     @Transient
     private String area;        // 区
+    @Transient
+    private int member_mute;
+    public int getMember_mute() {
+        return member_mute;
+    }
+
+    public void setMember_mute(int member_mute) {
+        this.member_mute = member_mute;
+    }
+
+
     /**
      * 基于这条消息的用户是否关注了我
      */
@@ -763,6 +774,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         dest.writeString(this.province);
         dest.writeString(this.city);
         dest.writeString(this.area);
+        dest.writeInt(this.member_mute);
         dest.writeByte(this.following ? (byte) 1 : (byte) 0);
         dest.writeByte(this.follower ? (byte) 1 : (byte) 0);
         dest.writeString(this.created_at);
@@ -797,6 +809,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.province = in.readString();
         this.city = in.readString();
         this.area = in.readString();
+        this.member_mute = in.readInt();
         this.following = in.readByte() != 0;
         this.follower = in.readByte() != 0;
         this.created_at = in.readString();
