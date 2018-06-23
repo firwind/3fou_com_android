@@ -4,7 +4,7 @@
     <!--有按下效果的Imageview-->
     <declare-styleable name="GifTagImageView">
         <attr name="pressColor" format="reference|color"/>
-        <attr name="pressShape">
+        <attr name="pressShapeX">
             <enum name="square" value="0"/>
             <enum name="circle" value="1"/>
         </attr>

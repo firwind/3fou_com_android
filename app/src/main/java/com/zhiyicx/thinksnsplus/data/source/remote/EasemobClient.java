@@ -1,13 +1,18 @@
 package com.zhiyicx.thinksnsplus.data.source.remote;
 
 import com.zhiyicx.baseproject.config.ApiConfig;
+import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
+import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -136,4 +141,27 @@ public interface EasemobClient {
      */
     @DELETE(ApiConfig.APP_PATH_GET_GROUP_ADD_MEMBER)
     Observable<Object> removeGroupMember(@Query("im_group_id") String id, @Query("members") String member);
+
+
+    /**
+     * 添加群相册图片
+     * @param images
+     * @param group_id
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_GET_GROUP_ADD_ALBUM)
+    Observable<String> addGroupAlbum(@Query("images") String images,
+                                     @Query("group_id") String group_id);
+
+    /**
+     * 获取群相册图片
+     * @param group_id
+     * @param per_page
+     * @param page
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_ALBUM_LIST)
+    Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(@Query("group_id")String group_id,
+                                                                         @Query("per_page")int per_page, @Query("page")int page);
+
 }

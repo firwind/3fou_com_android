@@ -165,7 +165,8 @@
                     android:layout_marginLeft="@dimen/spacing_small"
                     android:layout_marginRight="@dimen/spacing_small"
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:scrollbars="none" />
+                    android:scrollbars="none"
+                    android:nestedScrollingEnabled="false"/>
 
                 <View
                     android:id="@+id/v_line_find_member"
@@ -242,11 +243,29 @@
                         android:textColor="@color/important_for_content"
                         android:textSize="@dimen/size_content" />
 
-                    <com.zhiyicx.baseproject.widget.photoview.NoScrollGridView
+                    <TextView
+                        android:id="@+id/tv_album_desc"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ts_chat_no_album_default_notice"
+                        android:textColor="@color/normal_for_assist_text"
+                        android:textSize="@dimen/size_content_assist" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_album"
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/spacing_mid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false">
+
+                    </android.support.v7.widget.RecyclerView>
+                    <!--<com.zhiyicx.baseproject.widget.photoview.NoScrollGridView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp90"
                         android:horizontalSpacing="@dimen/dp10"
-                        android:numColumns="5" />
+                        android:numColumns="5" />-->
                 </LinearLayout>
 
                 <View

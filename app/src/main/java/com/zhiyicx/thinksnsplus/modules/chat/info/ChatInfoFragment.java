@@ -18,6 +18,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.EaseConstant;
 import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.baseproject.config.ImageZipConfig;
 import com.zhiyicx.baseproject.impl.photoselector.DaggerPhotoSelectorImplComponent;
 import com.zhiyicx.baseproject.impl.photoselector.ImageBean;
 import com.zhiyicx.baseproject.impl.photoselector.PhotoSelectorImpl;
@@ -31,7 +32,10 @@ import com.zhiyicx.common.utils.recycleviewdecoration.TGridDecoration;
 import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
+import com.zhiyicx.thinksnsplus.data.beans.AnimationRectBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
@@ -41,12 +45,16 @@ import com.zhiyicx.thinksnsplus.modules.chat.edit.owner.EditGroupOwnerActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.item.ChatConfig;
 import com.zhiyicx.thinksnsplus.modules.chat.member.GroupMemberListActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
+import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.album.MessageGroupAlbumActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.jurisdiction.JurisdictionActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.utils.TSImHelperUtils;
+import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import org.simple.eventbus.Subscriber;
 
@@ -57,6 +65,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import me.iwf.photopicker.PhotoPagerActivity;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -127,6 +136,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     LinearLayout mLlAnnouncement;
     @BindView(R.id.ll_photo)
     LinearLayout mLlPhoto;
+    @BindView(R.id.rv_album)
+    RecyclerView mRvAlbum;
     @BindView(R.id.ll_card)
     LinearLayout mLlCard;
     @BindView(R.id.ll_set_stick)
@@ -156,6 +167,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     @BindView(R.id.tv_announcement)
     TextView mNoticeText;
+
+    @BindView(R.id.tv_album_desc)
+    TextView mTvAlbumDesc;
 
     private int mChatType;
     private String mChatId;
@@ -360,6 +374,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 }
                 break;
             case R.id.ll_photo:
+                startActivity(MessageGroupAlbumActivity.newIntent(mActivity,mChatGroupBean.getId()));
+                break;
             case R.id.ll_card:
             case R.id.tv_find_message:
             case R.id.tv_set_admin:
@@ -513,6 +529,37 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mScBannedPost.setChecked(false);
             }
         }
+
+        setGroupAlbumData(chatGroupBean.group_images_data);
+
+    }
+
+    @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_ALBUM_SUCCESS)
+    public void uploadAlbumSuccess(List<MessageGroupAlbumBean> newData){
+
+        setGroupAlbumData(newData);
+    }
+
+    /**
+     * 设置相册数据
+     * @param newData
+     */
+    private void setGroupAlbumData(List<MessageGroupAlbumBean> newData){
+
+        mRvAlbum.setVisibility( (null == newData || newData.size() == 0) ? View.GONE:View.VISIBLE );
+        mTvAlbumDesc.setVisibility((null == newData || newData.size() == 0) ? View.VISIBLE:View.GONE);
+
+        if(null == mRvAlbum.getAdapter())
+            initAlbumAdapter();
+
+        List<MessageGroupAlbumBean> fullData = newData.size()>4?newData.subList(0,4):newData;
+        if(fullData.size() == 4){
+            MessageGroupAlbumBean bean = new MessageGroupAlbumBean();
+            bean.file_id = -1;
+            fullData.add(bean);
+        }
+        ((CommonAdapter)mRvAlbum.getAdapter()).dataChange(fullData);
+
     }
 
     @Override
@@ -590,6 +637,64 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @Override
     public void getPhotoFailure(String errorMsg) {
         showSnackErrorMessage(errorMsg);
+    }
+
+    /**
+     * 初始化群相册
+     */
+    private void initAlbumAdapter(){
+
+        RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 5);
+        mRvAlbum.setLayoutManager(manager);
+        mRvAlbum.addItemDecoration(new TGridDecoration(getResources().getDimensionPixelOffset(R.dimen.spacing_normal_18dp)
+                , 0,
+                true));
+        CommonAdapter<MessageGroupAlbumBean> mAdapter = new CommonAdapter<MessageGroupAlbumBean>(getContext(),
+                R.layout.item_square_height_imageview,new ArrayList<>()) {
+            @Override
+            protected void convert(ViewHolder holder, MessageGroupAlbumBean messageGroupAlbumBean, int position) {
+                if(-1 != messageGroupAlbumBean.file_id)
+                ImageUtils.loadCircleImageDefault(holder.getImageViwe(R.id.iv),
+                        ImageUtils.imagePathConvertV2(messageGroupAlbumBean.file_id,0,0, ImageZipConfig.IMAGE_80_ZIP));
+                else{
+                    holder.getImageViwe(R.id.iv).setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    holder.getImageViwe(R.id.iv).setImageResource(R.mipmap.icon_more_deep_gray);
+                }
+                    /*ImageUtils.loadCircleImageDefault(holder.getImageViwe(R.id.iv),R.mipmap.icon_more_deep_gray,
+                            R.mipmap.icon_more_deep_gray,R.mipmap.icon_more_deep_gray);*/
+            }
+        };
+        mRvAlbum.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+
+
+                MessageGroupAlbumBean photo = ((CommonAdapter<MessageGroupAlbumBean>)mRvAlbum.getAdapter())
+                        .getDatas().get(position);
+                if(-1 == photo.file_id){
+                    startActivity(MessageGroupAlbumActivity.newIntent(mActivity,mChatGroupBean.getId()));
+                }else {
+                    ImageBean imageBean = new ImageBean();
+                    imageBean.setImgUrl(ImageUtils.imagePathConvertV2(photo.file_id,0,0,
+                            ImageZipConfig.IMAGE_80_ZIP));
+                    imageBean.setWidth(holder.itemView.findViewById(R.id.iv).getMeasuredWidth());
+                    imageBean.setHeight(holder.itemView.findViewById(R.id.iv).getMeasuredHeight());
+                    imageBean.setPosition(0);
+
+                    AnimationRectBean rect = AnimationRectBean.buildFromImageView((ImageView) view);
+
+                    GalleryActivity.startToSingleGallery(mActivity,0,imageBean,rect);
+                }
+
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
+
     }
 
     private void dealAddOrDeleteButton() {

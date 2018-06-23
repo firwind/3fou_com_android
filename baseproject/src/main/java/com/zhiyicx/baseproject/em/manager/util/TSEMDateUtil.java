@@ -1,5 +1,7 @@
 package com.zhiyicx.baseproject.em.manager.util;
 
+import com.google.gson.annotations.Expose;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,6 +36,7 @@ public class TSEMDateUtil {
     private static SimpleDateFormat formatDateNormal = new SimpleDateFormat("yyyy/MM/dd");
     private static SimpleDateFormat formatDateNoYear = new SimpleDateFormat("MM/dd");
     private static SimpleDateFormat formatTimeNormal = new SimpleDateFormat("HH:mm:ss");
+    private static SimpleDateFormat formatDateNormalWithLine = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * 获取当前格式化后的标准时间
@@ -132,6 +135,28 @@ public class TSEMDateUtil {
     public static String long2DateNoYear(long time) {
         Date date = new Date(time);
         return formatDateNoYear.format(date);
+    }
+
+    /**
+     * 格式化 例如：1992-03-23
+     * @param time
+     * @return
+     */
+    public static String long2DateWithLine(long time){
+        return formatDateNormalWithLine.format(new Date(time));
+    }
+
+    /**
+     * 格式化字符串时间
+     * @param time
+     * @return
+     */
+    public static String string2DateWithLine(String time){
+        try {
+            return formatDateNormalWithLine.format(formatDateNormalWithLine.parse(time));
+        }catch (Exception e){
+            return "";
+        }
     }
 
     /**

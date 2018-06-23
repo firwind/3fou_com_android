@@ -18,11 +18,15 @@ import com.google.gson.annotations.SerializedName;
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Transient;
 
+import java.util.List;
+
 public class ChatGroupNewBean extends ChatGroupBean implements Parcelable{
     @SerializedName("group_notice")
     @Convert(converter = NoticeItemBeanConverter.class, columnType = String.class)
     @Transient
     private GroupNoticeBean noticeItemBean = null;
+    @Transient
+    public List<MessageGroupAlbumBean> group_images_data = null;
     @SerializedName("is_mute")
     private int mIsMute;
 
@@ -52,6 +56,7 @@ public class ChatGroupNewBean extends ChatGroupBean implements Parcelable{
         super.writeToParcel(dest, flags);
         dest.writeParcelable(this.noticeItemBean, flags);
         dest.writeInt(this.mIsMute);
+        dest.writeList(this.group_images_data);
     }
 
     public ChatGroupNewBean() {
@@ -61,6 +66,7 @@ public class ChatGroupNewBean extends ChatGroupBean implements Parcelable{
         super(in);
         this.noticeItemBean = in.readParcelable(GroupNoticeBean.class.getClassLoader());
         this.mIsMute = in.readInt();
+        this.group_images_data = in.readArrayList(MessageGroupAlbumBean.class.getClassLoader());
     }
 
     public static final Creator<ChatGroupNewBean> CREATOR = new Creator<ChatGroupNewBean>() {

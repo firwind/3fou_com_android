@@ -137,6 +137,8 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_NOTICE_LIST = "api/" + API_VERSION_2 + "/easemob/group/findnotice";// 获取群公告列表
     public static final String APP_PATH_GET_GROUP_ADD_MUTE = "api/" + API_VERSION_2 + "/easemob/group/addmute";// 开启禁言
     public static final String APP_PATH_GET_GROUP_REMOVE_MUTE = "api/" + API_VERSION_2 + "/easemob/group/removemute";// 移除禁言
+    public static final String APP_PATH_GET_GROUP_ADD_ALBUM = "api/"+API_VERSION_2+"/easemob/group/images/pic";//提交群相册图片
+    public static final String APP_PATH_GET_GROUP_ALBUM_LIST = "api/"+API_VERSION_2+"/easemob/group/images/pic";//获取群相册图片列表
 
     /**
      * 关注粉丝 FollowFansClient

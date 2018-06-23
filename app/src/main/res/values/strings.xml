@@ -1120,6 +1120,7 @@
     <string name="min_short_video_time">不得小于%d秒</string>
     <string name="ts_chat_no_message_default_tip">暂无消息</string>
     <string name="ts_chat_no_message_default_notice">暂无公告</string>
+    <string name="ts_chat_no_album_default_notice">暂无相册</string>
     <string name="ts_message_history_deleted_tip">您正在删除聊天记录，删除后不可恢复</string>
     <string name="remove">移除</string>
     <string name="ts_blacklist">黑名单</string>
@@ -1149,6 +1150,6 @@
     <string name="tv_create_group_chat">创建群聊</string>
     <string name="tv_invite_Share">邀请分享</string>
 
-
+    <string name="please_wait">请稍后...</string>
 
 </resources>

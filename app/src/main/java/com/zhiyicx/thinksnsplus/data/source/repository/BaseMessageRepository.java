@@ -10,11 +10,13 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.zhiyicx.baseproject.base.SystemConfigBean;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
+import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatItemBean;
+import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
@@ -416,5 +418,15 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     public Observable<String> releaseNotice(String group_id, String title, String content, String author) {
         return mClient.releaseNotice(group_id,title,content,author)
                 .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<String> addGroupAlbum(String images, String group_id) {
+        return mClient.addGroupAlbum(images,group_id);
+    }
+
+    @Override
+    public Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(String group_id, int page) {
+        return mClient.getGroupAlbumList(group_id,15,page);
     }
 }

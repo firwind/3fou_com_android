@@ -17,6 +17,7 @@ import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.data.beans.AnimationRectBean;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,6 +43,23 @@ public class GalleryActivity extends TSActivity {
     public void onBackPressed() {
         ((BaseFragment) mContanierFragment).onBackPressed();
     }
+
+
+    /**
+     * 单个图片查看
+     * @param context
+     * @param position
+     * @param imageBean
+     * @param animationRectBean
+     */
+    public static void startToSingleGallery(Context context, int position, ImageBean imageBean, AnimationRectBean animationRectBean) {
+        ArrayList<ImageBean> imageBeanList = new ArrayList<>();
+        ArrayList<AnimationRectBean> animationRectBeanList = new ArrayList<>();
+        imageBeanList.add(imageBean);
+        animationRectBeanList.add(animationRectBean);
+        startToGallery(context, position, imageBeanList, animationRectBeanList, false);
+    }
+
 
     /**
      * 查看大图

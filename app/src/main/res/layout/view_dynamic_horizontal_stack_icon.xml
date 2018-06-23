@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/spacing_small"
-            android:layout_toEndOf="@id/iv_dig_head5"
+            android:layout_toEndOf="@+id/iv_dig_head5"
             android:textColor="@color/themeColor"
             android:textSize="@dimen/size_content_assist"
             tools:text="8人点赞"/>
@@ -36,7 +36,7 @@
             android:layout_width="@dimen/headpic_for_assist"
             android:layout_height="@dimen/headpic_for_assist"
             android:layout_marginStart="@dimen/head_right_margin_offset"
-            android:layout_toEndOf="@id/iv_dig_head4"
+            android:layout_toEndOf="@+id/iv_dig_head4"
             android:src="@mipmap/pic_default_secret"
             />
 
@@ -45,7 +45,7 @@
             android:layout_width="@dimen/headpic_for_assist"
             android:layout_height="@dimen/headpic_for_assist"
             android:layout_marginStart="@dimen/head_right_margin_offset"
-            android:layout_toEndOf="@id/iv_dig_head3"
+            android:layout_toEndOf="@+id/iv_dig_head3"
             android:src="@mipmap/pic_default_secret"
             />
 
@@ -54,7 +54,7 @@
             android:layout_width="@dimen/headpic_for_assist"
             android:layout_height="@dimen/headpic_for_assist"
             android:layout_marginStart="@dimen/head_right_margin_offset"
-            android:layout_toEndOf="@id/iv_dig_head2"
+            android:layout_toEndOf="@+id/iv_dig_head2"
             android:src="@mipmap/pic_default_secret"
             />
 
@@ -63,7 +63,7 @@
             android:layout_width="@dimen/headpic_for_assist"
             android:layout_height="@dimen/headpic_for_assist"
             android:layout_marginStart="@dimen/head_right_margin_offset"
-            android:layout_toEndOf="@id/iv_dig_head1"
+            android:layout_toEndOf="@+id/iv_dig_head1"
             android:src="@mipmap/pic_default_secret"
             />
 

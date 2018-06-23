@@ -49,7 +49,7 @@ public class GifTagImageView extends android.support.v7.widget.AppCompatImageVie
     private void initAttrs(Context context, AttributeSet attrs) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.GifTagImageView);
         mPressedColor = array.getInteger(R.styleable.GifTagImageView_pressColor, DEFAULT_PRESSED_COLOR);
-        mShape = array.getInteger(R.styleable.GifTagImageView_pressShape, SHAPE_SQUARE);
+        mShape = array.getInteger(R.styleable.GifTagImageView_pressShapeX, SHAPE_SQUARE);
         array.recycle();
         mPaint = new TextPaint();
         mPaint.setColor(mPressedColor);

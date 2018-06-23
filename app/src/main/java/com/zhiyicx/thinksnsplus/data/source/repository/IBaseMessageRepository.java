@@ -1,12 +1,15 @@
 package com.zhiyicx.thinksnsplus.data.source.repository;
 
+import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatItemBean;
+import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 
@@ -77,4 +80,22 @@ public interface IBaseMessageRepository {
      * @return
      */
     Observable<String> releaseNotice(String group_id, String title, String content, String author);
+
+
+    /**
+     * 添加群相册
+     * @param images
+     * @param group_id
+     * @return
+     */
+    Observable<String> addGroupAlbum(String images, String group_id);
+
+    /**
+     * 获取群相册图片
+     * @param group_id
+     * @param page
+     * @return
+     */
+    Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(String group_id, int page);
+
 }
