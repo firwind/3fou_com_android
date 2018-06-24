@@ -137,8 +137,11 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_NOTICE_LIST = "api/" + API_VERSION_2 + "/easemob/group/findnotice";// 获取群公告列表
     public static final String APP_PATH_GET_GROUP_ADD_MUTE = "api/" + API_VERSION_2 + "/easemob/group/addmute";// 开启禁言
     public static final String APP_PATH_GET_GROUP_REMOVE_MUTE = "api/" + API_VERSION_2 + "/easemob/group/removemute";// 移除禁言
+    public static final String APP_PATH_GET_GROUP_ADD_ROLU = "api/" + API_VERSION_2 + "/easemob/group/addadmin";// 添加群角色
     public static final String APP_PATH_GET_GROUP_ADD_ALBUM = "api/"+API_VERSION_2+"/easemob/group/images/pic";//提交群相册图片
     public static final String APP_PATH_GET_GROUP_ALBUM_LIST = "api/"+API_VERSION_2+"/easemob/group/images/pic";//获取群相册图片列表
+    public static final String APP_PATH_GET_GROUP_ADMIN_LIST = "api/" + API_VERSION_2 + "/easemob/group/getadmin";// 获取管理员/讲师/主持人列表
+    public static final String APP_PATH_GET_GROUP_REMOVE_ADMIN= "api/" + API_VERSION_2 + "/easemob/group/removeadmin";// 删除群角色（管理员/讲师/主持人）
 
     /**
      * 关注粉丝 FollowFansClient

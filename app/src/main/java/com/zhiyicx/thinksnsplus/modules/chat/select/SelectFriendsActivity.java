@@ -42,4 +42,5 @@ public class SelectFriendsActivity extends TSActivity<SelectFriendsPresenter, Se
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
+
 }

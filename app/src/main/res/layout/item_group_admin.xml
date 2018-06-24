@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    swipe:leftEdgeSwipeOffset="0dp"
+    swipe:rightEdgeSwipeOffset="0dp"
+    tools:context=".modules.home.message.managergroup.settingadmin.SettingAdminActivity">
+
+    <TextView
+        android:id="@+id/tv_setting_right"
+        android:layout_width="@dimen/slide_button_with"
+        android:layout_height="match_parent"
+        android:background="@color/important_for_note"
+        android:gravity="center"
+        android:text="@string/delete"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_content" />
+
+    <LinearLayout
+        android:id="@+id/ll_group_rank"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/select_friends_item_height"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/margin_16"
+        android:visibility="visible">
+
+        <com.zhiyicx.baseproject.widget.UserAvatarView
+            android:id="@+id/iv_user_portrait"
+
+            android:layout_width="@dimen/headpic_for_answer"
+            android:layout_height="@dimen/headpic_for_answer"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/spacing_mid" />
+
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/tv_add_rank_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/spacing_mid"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/add_administrator"
+            android:textColor="@color/important_for_content"
+            android:textSize="@dimen/size_rank_number" />
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_delete_admin"
+            android:layout_marginRight="@dimen/dp10"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_admin_delete"/>
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>

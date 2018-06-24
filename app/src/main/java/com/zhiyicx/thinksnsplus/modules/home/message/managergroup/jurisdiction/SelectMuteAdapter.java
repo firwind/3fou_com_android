@@ -31,10 +31,12 @@ public class SelectMuteAdapter extends CommonAdapter<UserInfoBean> {
     private static final int STATE_SELECTED = 1;
     private static final int STATE_UNSELECTED = 0;
     private static final int STATE_CAN_NOT_BE_CHANGED = -1;
+    private boolean mIsMute;
 
-    public SelectMuteAdapter(Context context, List<UserInfoBean> datas, SelectMuteAdapter.OnUserSelectedListener listener) {
+    public SelectMuteAdapter(Context context, List<UserInfoBean> datas, SelectMuteAdapter.OnUserSelectedListener listener, boolean isMute) {
         super(context, R.layout.item_select_friends, datas);
         this.mListener = listener;
+        this.mIsMute = isMute;
     }
 
     @Override
@@ -47,14 +49,26 @@ public class SelectMuteAdapter extends CommonAdapter<UserInfoBean> {
         setSelectedState(cbFriends, userInfoBean);
         RxView.clicks(holder.getConvertView())
                 .subscribe(aVoid -> {
-                    if (mListener != null && userInfoBean.getMember_mute() != STATE_CAN_NOT_BE_CHANGED) {
-                        if (userInfoBean.getMember_mute() == STATE_SELECTED) {
-                            userInfoBean.setMember_mute(STATE_UNSELECTED);
-                        } else {
-                            userInfoBean.setMember_mute(STATE_SELECTED);
+                    if (!mIsMute) {
+                        if (mListener != null && userInfoBean.getIsSelected() != STATE_CAN_NOT_BE_CHANGED) {
+                            if (userInfoBean.getIsSelected() == STATE_SELECTED) {
+                                userInfoBean.setIsSelected(STATE_UNSELECTED);
+                            } else {
+                                userInfoBean.setIsSelected(STATE_SELECTED);
+                            }
+                            setSelectedState(cbFriends, userInfoBean);
+                            mListener.onUserSelected(userInfoBean);
                         }
-                        setSelectedState(cbFriends, userInfoBean);
-                        mListener.onUserSelected(userInfoBean);
+                    }else {
+                        if (mListener != null && userInfoBean.getMember_mute() != STATE_CAN_NOT_BE_CHANGED) {
+                            if (userInfoBean.getMember_mute() == STATE_SELECTED) {
+                                userInfoBean.setMember_mute(STATE_UNSELECTED);
+                            } else {
+                                userInfoBean.setMember_mute(STATE_SELECTED);
+                            }
+                            setSelectedState(cbFriends, userInfoBean);
+                            mListener.onUserSelected(userInfoBean);
+                        }
                     }
                 });
         RxView.clicks(ivUserPortrait)
@@ -72,17 +86,28 @@ public class SelectMuteAdapter extends CommonAdapter<UserInfoBean> {
      * @param userInfoBean user
      */
     private void setSelectedState(ImageView imageView, UserInfoBean userInfoBean) {
-        switch (userInfoBean.getMember_mute()) {
-            case STATE_SELECTED:
-                imageView.setImageResource(R.mipmap.msg_box_choose_now);
-                break;
-            case STATE_UNSELECTED:
-                imageView.setImageResource(R.mipmap.msg_box);
-                break;
-            case STATE_CAN_NOT_BE_CHANGED:
-                imageView.setImageResource(R.mipmap.msg_box_choose_before);
-                break;
-            default:
+        if (!mIsMute) {
+            switch (userInfoBean.getIsSelected()) {
+                case STATE_UNSELECTED:
+                    imageView.setImageResource(R.mipmap.msg_box);
+                    break;
+                case STATE_SELECTED:
+                    imageView.setImageResource(R.mipmap.msg_box_choose_now);
+                    break;
+            }
+        }else {
+            switch (userInfoBean.getMember_mute()) {
+                case STATE_SELECTED:
+                    imageView.setImageResource(R.mipmap.msg_box_choose_now);
+                    break;
+                case STATE_UNSELECTED:
+                    imageView.setImageResource(R.mipmap.msg_box);
+                    break;
+                case STATE_CAN_NOT_BE_CHANGED:
+                    imageView.setImageResource(R.mipmap.msg_box_choose_before);
+                    break;
+                default:
+            }
         }
     }
 

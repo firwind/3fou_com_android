@@ -57,10 +57,8 @@ public class NoticeManagerPresenter extends AppBasePresenter<NoticeManagerContra
         Subscription subscription = mBaseMessageRepository.noticeList(mRootView.getGroupId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<List<NoticeItemBean>>() {
-
                     @Override
                     protected void onSuccess(List<NoticeItemBean> data) {
-
                         mRootView.onNetResponseSuccess(data, isLoadMore);
                     }
 

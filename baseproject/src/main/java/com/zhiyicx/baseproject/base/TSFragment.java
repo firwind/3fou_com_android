@@ -414,6 +414,7 @@ public abstract class TSFragment<P extends IBasePresenter> extends BaseFragment<
     @Override
     public void showSnackSuccessMessage(String message) {
         showSnackMessage(message, Prompt.SUCCESS);
+
     }
 
     /**

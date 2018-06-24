@@ -95,6 +95,28 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     private String area;        // 区
     @Transient
     private int member_mute;
+
+    public int getIs_owner() {
+        return is_owner;
+    }
+
+    public void setIs_owner(int is_owner) {
+        this.is_owner = is_owner;
+    }
+
+    @Transient
+    private int is_owner;
+
+    public int getAdmin_type() {
+        return admin_type;
+    }
+
+    public void setAdmin_type(int admin_type) {
+        this.admin_type = admin_type;
+    }
+
+    @Transient
+    private int admin_type;//1  管理员  2 主持人  3讲师
     public int getMember_mute() {
         return member_mute;
     }
@@ -775,6 +797,8 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         dest.writeString(this.city);
         dest.writeString(this.area);
         dest.writeInt(this.member_mute);
+        dest.writeInt(this.is_owner);
+        dest.writeInt(this.admin_type);
         dest.writeByte(this.following ? (byte) 1 : (byte) 0);
         dest.writeByte(this.follower ? (byte) 1 : (byte) 0);
         dest.writeString(this.created_at);
@@ -810,6 +834,8 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.city = in.readString();
         this.area = in.readString();
         this.member_mute = in.readInt();
+        this.is_owner = in.readInt();
+        this.admin_type = in.readInt();
         this.following = in.readByte() != 0;
         this.follower = in.readByte() != 0;
         this.created_at = in.readString();

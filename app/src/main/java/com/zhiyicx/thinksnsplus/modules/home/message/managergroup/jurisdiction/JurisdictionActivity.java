@@ -22,6 +22,7 @@ import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 
 import static com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsFragment.BUNDLE_GROUP_EDIT_DATA;
 import static com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsFragment.BUNDLE_GROUP_IS_DELETE;
+import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.jurisdiction.JurisdictionFragment.MANAGER_OBJ;
 
 public class JurisdictionActivity extends TSActivity<JurisdictionPresenter, JurisdictionFragment> {
 
@@ -43,6 +44,14 @@ public class JurisdictionActivity extends TSActivity<JurisdictionPresenter, Juri
         Intent intent = new Intent(context, JurisdictionActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_GROUP_EDIT_DATA, groupBean);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+    public static void startSelectFriendActivity(Context context, ChatGroupBean groupBean,String managerObj) {
+        Intent intent = new Intent(context, JurisdictionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BUNDLE_GROUP_EDIT_DATA, groupBean);
+        bundle.putString(MANAGER_OBJ, managerObj);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }

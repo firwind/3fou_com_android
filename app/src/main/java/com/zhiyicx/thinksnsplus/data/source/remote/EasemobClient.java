@@ -5,7 +5,9 @@ import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
+import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
+import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
 import java.util.List;
 import java.util.Map;
@@ -112,7 +114,33 @@ public interface EasemobClient {
     Observable<String> removeBannedPost(@Query("im_group_id") String im_group_id,
                                       @Query("user_id") String user_id,
                                       @Query("members") String members);
+    /**
+     * 移除禁言
+     *
+     * @param im_group_id im_group_id
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_ADD_ROLU)
+    Observable<String> addGroupRole(@Query("im_group_id") String im_group_id,
+                                      @Query("admin_id") String admin_id,
+                                      @Query("admin_type") String admin_type);
 
+    /**
+     * 获取管理员及主持人/讲师
+     *
+     * @param im_group_id im_group_id
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_ADMIN_LIST)
+    Observable<List<UserInfoBean>> getGroupHankInfo(@Query("im_group_id") String im_group_id);
+
+    /**
+     * 移除管理员
+     *
+     * @param im_group_id im_group_id
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_REMOVE_ADMIN)
+    Observable<String> removeRole(@Query("im_group_id") String im_group_id,
+                                  @Query("admin_id") String removeadmin,
+                                  @Query("admin_type") String admin_type);
     /**
      * 发布公告
      *
