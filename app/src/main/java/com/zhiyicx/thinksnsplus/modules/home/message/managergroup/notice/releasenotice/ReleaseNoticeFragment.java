@@ -106,7 +106,6 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
     @Override
     public void setUserInfo(UserInfoBean userInfoBean) {
         this.mUserInfoBean = userInfoBean;
-
     }
 
     @Override

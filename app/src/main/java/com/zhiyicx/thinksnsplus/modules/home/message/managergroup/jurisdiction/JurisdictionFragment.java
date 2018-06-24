@@ -24,11 +24,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.trycatch.mysnackbar.Prompt;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.common.utils.recycleviewdecoration.CustomLinearDecoration;
 import com.zhiyicx.common.utils.recycleviewdecoration.LinearDecoration;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
@@ -53,6 +55,7 @@ import static com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsFragment
 
 public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Presenter, UserInfoBean>
         implements JurisdictionContract.View, SelectMuteAdapter.OnUserSelectedListener {
+    public static final String MANAGER_OBJ = "manager_obj";
     @Inject
     JurisdictionPresenter mJurisdictionPresenter;
     Unbinder unbinder;
@@ -60,6 +63,7 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
      * 群信息
      */
     private ChatGroupBean mChatGroupBean;
+    private String mManagerObj;
     @BindView(R.id.iv_search_icon)
     ImageView mIvSearchIcon;
     @BindView(R.id.rv_select_result)
@@ -71,6 +75,7 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     private SelectedFriendsAdapter mSelectedFriendsAdapter;
     private List<UserInfoBean> mSelectedList;
     private List<UserInfoBean> mSearchResultList;
+    private UserInfoBean userInfoBean;
 
     public static JurisdictionFragment instance(Bundle bundle) {
         JurisdictionFragment jurisdictionFragment = new JurisdictionFragment();
@@ -84,9 +89,16 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
         getIntentData();
     }
 
+    boolean mIsMute;
+
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new SelectMuteAdapter(getContext(), mListDatas, this);
+        if (mManagerObj != null && mManagerObj.length() > 0) {
+            mIsMute = false;
+        } else {
+            mIsMute = true;
+        }
+        return new SelectMuteAdapter(getContext(), mListDatas, this, mIsMute);
     }
 
     @Override
@@ -102,6 +114,25 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     @Override
     public String getSearchKeyWord() {
         return mEditSearchFriends.getText().toString().trim();
+    }
+
+    /**
+     * 添加角色成功
+     */
+    @Override
+    public void addGroupRuloSuccess() {
+        EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO);
+        getActivity().finish();
+    }
+
+    @Override
+    public String setAddRuloName() {
+        return mManagerObj;
+    }
+
+    @Override
+    public String setGroupId() {
+        return mChatGroupBean.getId();
     }
 
     @Override
@@ -136,6 +167,8 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
         mSelectedFriendsAdapter = new SelectedFriendsAdapter(getContext(), mSelectedList);
         mRvSelectResult.setAdapter(mSelectedFriendsAdapter);
         mRvSelectResult.addItemDecoration(new LinearDecoration(0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small), 0));
+
+        getUserListData();
     }
 
     @Override
@@ -145,7 +178,9 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     }
 
     public void initView(List<UserInfoBean> data, boolean isLoadMore) {
-//        mLinearLayout.setVisibility(TextUtils.isEmpty(mEditSearchFriends.getText().toString().trim()) && data.isEmpty() ? View.GONE : View.VISIBLE);
+        if (mManagerObj != null && mManagerObj.length() > 0) {
+            mLinearLayout.setVisibility(TextUtils.isEmpty(mEditSearchFriends.getText().toString().trim()) && data.isEmpty() ? View.GONE : View.VISIBLE);
+        }
         checkUserIsSelected(data);
         super.onNetResponseSuccess(data, isLoadMore);
         if (!TextUtils.isEmpty(mEditSearchFriends.getText().toString().trim()) && mListDatas.isEmpty()) {
@@ -168,6 +203,7 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     private void getIntentData() {
         if (getArguments() != null) {
             mChatGroupBean = getArguments().getParcelable(BUNDLE_GROUP_EDIT_DATA);
+            mManagerObj = getArguments().getString(MANAGER_OBJ);
         }
     }
 
@@ -176,9 +212,45 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
         return R.layout.fragment_setting_jurisdiction;
     }
 
+    String mTitle;
+
+    @Override
+    protected String setRightTitle() {
+        if (!TextUtils.isEmpty(mManagerObj)) {
+            return getString(R.string.chat_edit_group_add);
+        }
+        return "";
+    }
+
+    @Override
+    protected void setRightClick() {
+        mPresenter.addGroupRole(mSelectedList);
+    }
+
     @Override
     protected String setCenterTitle() {
-        return getString(R.string.chat_setting_info_jurisdiction);
+        if (mManagerObj != null && mManagerObj.length() > 0) {
+            mTitle = getString(R.string.chat_edit_group_add) + mManagerObj;
+        } else {
+            mTitle = getString(R.string.chat_setting_info_jurisdiction);
+        }
+        return mTitle;
+    }
+
+    /**
+     * 弹窗关闭回掉
+     *
+     * @param prompt 弹框类型
+     */
+    @Override
+    protected void snackViewDismissWhenTimeOut(Prompt prompt) {
+        if (prompt == Prompt.SUCCESS) {
+            try {
+                addGroupRuloSuccess();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -197,9 +269,14 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     public void onUserSelected(UserInfoBean userInfoBean) {
         // 选中的列表中，如果是选中 那么直接加
 //        LogUtils.e(TAG,"是否禁言---"+userInfoBean.getMember_mute());
-        if (userInfoBean.getMember_mute() == 1) {
+        this.userInfoBean = userInfoBean;
+        if (mIsMute && userInfoBean.getMember_mute() == 1) {
+//            mSelectedList.add(userInfoBean);
+            if (TextUtils.isEmpty(mManagerObj)) {
+                mPresenter.openBannedPost(mChatGroupBean.getId(), String.valueOf(userInfoBean.getUser_id()), "", userInfoBean.getName());
+            }
+        } else if (userInfoBean.getIsSelected() == 1) {//设置成员角色
             mSelectedList.add(userInfoBean);
-            mPresenter.openBannedPost(mChatGroupBean.getId(), String.valueOf(userInfoBean.getUser_id()),"",userInfoBean.getName());
         } else {
             Iterator<UserInfoBean> userIterator = mSelectedList.iterator();
             while (userIterator.hasNext()) {
@@ -209,9 +286,11 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
                     userIterator.remove();
                 }
             }
-            mPresenter.removeBannedPost(mChatGroupBean.getId(), String.valueOf(userInfoBean.getUser_id()),userInfoBean.getName());
-        }
+            if (mManagerObj == null || mManagerObj.length() == 0) {
+                mPresenter.removeBannedPost(mChatGroupBean.getId(), String.valueOf(userInfoBean.getUser_id()), userInfoBean.getName());
+            }
 
+        }
         // 处理全部列表, 搜索有数据，则表示此时为搜索(在隐藏搜索列表时清空了列表)
         if (mSearchResultList.size() > 0 && mEditSearchFriends.hasFocus()) {
             int position = 0;
@@ -235,11 +314,26 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
      * 禁言按钮是否可以点击
      */
     private void checkData() {
+        mToolbarRight.setEnabled(mSelectedList.size() != 0);
         mIvSearchIcon.setVisibility(mSelectedList.size() > 0 ? View.GONE : View.VISIBLE);
+        if (mSelectedList.size() > 0) {
+            if (mChatGroupBean == null) {
+                if (mManagerObj.length() > 0)
+                    setRightText(String.format(getString(R.string.select_friends_right_title), mSelectedList.size()));
+            }
+
+            mToolbarRight.setTextColor(getColor(R.color.themeColor));
+        } else {
+            if (mChatGroupBean == null) {
+                if (mManagerObj.length() > 0)
+                    setRightText(getString(R.string.select_friends_right_title_default));
+            }
+            mToolbarRight.setTextColor(getColor(R.color.normal_for_disable_button_text));
+        }
         mSelectedFriendsAdapter.notifyDataSetChanged();
-//        if (!mSelectedList.isEmpty()) {
-//            mRvSelectResult.smoothScrollToPosition(mSelectedFriendsAdapter.getItemCount() - 1);
-//        }
+        if (!mSelectedList.isEmpty()) {
+            mRvSelectResult.smoothScrollToPosition(mSelectedFriendsAdapter.getItemCount() - 1);
+        }
     }
 
     @Override
@@ -271,5 +365,11 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     public void onBackPressed() {
         EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
         super.onBackPressed();
+    }
+
+    private void getUserListData() {
+        if (mPresenter != null) {
+            mRefreshlayout.autoRefresh(0);
+        }
     }
 }

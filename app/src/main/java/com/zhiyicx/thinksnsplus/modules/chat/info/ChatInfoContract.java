@@ -4,6 +4,7 @@ import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
+import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.IBaseFriendsRepository;
 
@@ -77,6 +78,14 @@ public interface ChatInfoContract {
          * @param members
          */
         void removeBannedPost(String im_group_id ,String user_id,String members);
+
+//        /**
+//         * 置顶
+//         * @param stick_id
+//         * @param author
+//         */
+//        void openStickMessage(String stick_id,String author);
+
         /**
          * 退群 或者 解散群
          * 群主是 解散，一般成员是退群
@@ -100,6 +109,11 @@ public interface ChatInfoContract {
         Observable<List<ChatGroupBean>> getGroupChatInfo(String groupId);
         Observable<List<ChatGroupNewBean>> getGroupChatNewInfo(String groupId);
         Observable<String> openBannedPost(String im_group_id ,String user_id,String times,String members);
+        Observable<String> addGroupRole(String im_group_id, String admin_id, String admin_type);
         Observable<String> removeBannedPost(String im_group_id ,String user_id,String members);
+        //获取群管理以及讲师或者主持人
+        Observable<List<UserInfoBean>> getGroupHankInfo(String im_group_id);
+        //删除管理员
+        Observable<String> removeRole(String im_group_id ,String removeadmin,String admin_type);
     }
 }

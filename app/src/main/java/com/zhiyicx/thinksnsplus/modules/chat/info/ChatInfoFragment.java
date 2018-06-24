@@ -49,6 +49,7 @@ import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.album.MessageGroupAlbumActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.jurisdiction.JurisdictionActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.settingadmin.SettingAdminActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.utils.TSImHelperUtils;
@@ -74,6 +75,7 @@ import static com.hyphenate.easeui.EaseConstant.EXTRA_BANNED_POST;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE;
+import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_ID;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_NAME;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.IS_GROUP_OWNER;
@@ -119,6 +121,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     SwitchCompat mScBlockMessage;
     @BindView(R.id.sc_banned_post)
     SwitchCompat mScBannedPost;
+    @BindView(R.id.sc_stick_message)
+    SwitchCompat mScStickMessage;
     @BindView(R.id.ll_container)
     View mLlContainer;
     @BindView(R.id.emptyView)
@@ -373,12 +377,17 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                     JurisdictionActivity.startSelectFriendActivity(getContext(),mChatGroupBean);
                 }
                 break;
+            case R.id.tv_set_admin:
+                if (mChatType == ChatConfig.CHATTYPE_GROUP){
+                    SettingAdminActivity.startSettingAdminActivty(getContext(),mChatGroupBean);
+                }
+                break;
             case R.id.ll_photo:
                 startActivity(MessageGroupAlbumActivity.newIntent(mActivity,mChatGroupBean.getId()));
                 break;
             case R.id.ll_card:
             case R.id.tv_find_message:
-            case R.id.tv_set_admin:
+
             case R.id.tv_upgrade:
                 ToastUtils.showLongToast(R.string.normal_dispark);
                 break;
@@ -519,6 +528,16 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 }
             }
         });
+        mScStickMessage.setOnCheckedChangeListener((buttonView, isChecked)->{
+            if (mChatType == EaseConstant.CHATTYPE_GROUP) {
+                if (mScBannedPost.isChecked()) {
+                    mPresenter.openBannedPost(mChatGroupBean.getId(), "0", "", EXTRA_BANNED_POST);//开启禁言
+                } else {
+                    mPresenter.removeBannedPost(mChatGroupBean.getId(), "0", EXTRA_BANNED_POST);//关闭禁言
+                }
+            }
+        });
+
         mNoticeText.setText(TextUtils.isEmpty(chatGroupBean.getNoticeItemBean().getOriginal().getContent()) ? "暂无公告" : chatGroupBean.getNoticeItemBean().getOriginal().getContent());
         if (mChatType == EaseConstant.CHATTYPE_GROUP) {
             if (chatGroupBean.getmIsMute() == EaseConstant.CLOESS_MUTS) {//关闭禁言状态
@@ -536,7 +555,6 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_ALBUM_SUCCESS)
     public void uploadAlbumSuccess(List<MessageGroupAlbumBean> newData){
-
         setGroupAlbumData(newData);
     }
 

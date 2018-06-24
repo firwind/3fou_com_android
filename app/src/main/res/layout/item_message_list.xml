@@ -103,7 +103,6 @@
             android:textColor="@color/normal_for_assist_text"
             android:textSize="@dimen/size_content_assist"
             tools:text="我送第几个 "/>
-
-
     </RelativeLayout>
+
 </com.daimajia.swipe.SwipeLayout>

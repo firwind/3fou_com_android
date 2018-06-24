@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import com.hyphenate.easeui.bean.ChatUserInfoBean;
 import com.zhiyicx.baseproject.widget.UserAvatarView;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.config.BaseStateConfig;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -62,13 +63,31 @@ public class ChatMemberAdapter extends CommonAdapter<UserInfoBean> {
             holder.setVisible(R.id.tv_owner_flag, View.GONE);
             holder.setVisible(R.id.tv_user_name, View.GONE);
             ivUserPortrait.getIvVerify().setVisibility(View.GONE);
-        } else {
+        }else {
             ImageUtils.loadUserHead(chatUserInfoBean, ivUserPortrait, false);
-            holder.setText(R.id.tv_user_name, chatUserInfoBean.getName());
-            holder.setVisible(R.id.tv_owner_flag, mOwnerId.equals(chatUserInfoBean.getUser_id()) ? View.VISIBLE : View.GONE);
+            holder.setText(R.id.tv_user_name, chatUserInfoBean.getName());//
+            holder.setVisible(R.id.tv_owner_flag,mOwnerId.equals(chatUserInfoBean.getUser_id()) ||
+                    chatUserInfoBean.getAdmin_type() == BaseStateConfig.ADMIN_TYPE ||
+                    chatUserInfoBean.getAdmin_type() == BaseStateConfig.LECTURER_TYPE ||
+                    chatUserInfoBean.getAdmin_type() == BaseStateConfig.COMPERE_TYPE
+                    ? View.VISIBLE : View.GONE);
+            if (chatUserInfoBean.getAdmin_type() == BaseStateConfig.ADMIN_TYPE) {//管理员
+                holder.setText(R.id.tv_owner_flag, getContext().getString(R.string.administrator));
+            } else if (chatUserInfoBean.getAdmin_type() == BaseStateConfig.LECTURER_TYPE) {//讲师
+                holder.setText(R.id.tv_owner_flag, getContext().getString(R.string.lecturer));
+            } else if (chatUserInfoBean.getAdmin_type() == BaseStateConfig.COMPERE_TYPE) {//主持人
+                holder.setText(R.id.tv_owner_flag, getContext().getString(R.string.compere));
+            }
             holder.setVisible(R.id.tv_user_name, View.VISIBLE);
             ivUserPortrait.getIvVerify().setVisibility(View.VISIBLE);
         }
+//        else {
+//            ImageUtils.loadUserHead(chatUserInfoBean, ivUserPortrait, false);
+//            holder.setText(R.id.tv_user_name, chatUserInfoBean.getName());
+//            holder.setVisible(R.id.tv_owner_flag, mOwnerId.equals(chatUserInfoBean.getUser_id()) ? View.VISIBLE : View.GONE);
+//            holder.setVisible(R.id.tv_user_name, View.VISIBLE);
+//            ivUserPortrait.getIvVerify().setVisibility(View.VISIBLE);
+//        }
     }
 
     public void setOwnerId(Long ownerId) {

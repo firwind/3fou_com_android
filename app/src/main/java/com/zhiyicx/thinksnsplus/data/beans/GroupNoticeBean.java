@@ -21,7 +21,6 @@ public class GroupNoticeBean extends BaseListBean implements Parcelable {
 
     private NoticeItemBean original;
 
-
     public NoticeItemBean getOriginal() {
         return original;
     }
@@ -49,7 +48,6 @@ public class GroupNoticeBean extends BaseListBean implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-
         dest.writeParcelable(this.original, flags);
         dest.writeString(this.exception);
     }

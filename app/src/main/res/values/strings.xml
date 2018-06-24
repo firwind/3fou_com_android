@@ -268,6 +268,11 @@
     <string name="circle_master_manager">圈主和管理员</string>
     <string name="circle_dealing">操作中</string>
     <string name="administrator">管理员</string>
+    <string name="add_administrator">添加管理员</string>
+    <string name="add_lecturer">添加讲师</string>
+    <string name="lecturer">讲师</string>
+    <string name="add_compere">添加主持人</string>
+    <string name="compere">主持人</string>
     <string name="joined_group">我加入的</string>
     <string name="more_group">查看更多</string>
     <string name="recommend_group">热门推荐</string>
@@ -1060,7 +1065,9 @@
     <string name="chat_info_shielded_message_alert">开启后将不再接受群的消息</string>
     <string name="chat_info_banned_post_alert">开启后只允许群主和管理员发言，进入“成员权限”可单个设置禁言</string>
     <string name="chat_info_setting_banned_post">开启禁言</string>
+    <string name="chat_info_setting_banned_post_success">禁言成功</string>
     <string name="chat_info_relieve_banned_post">解除禁言</string>
+    <string name="chat_info_relieve_banned_post_success">解除禁言成功</string>
     <string name="chat_info_clear_message">清空聊天记录</string>
     <string name="chat_info_find_message">查找聊天记录</string>
     <string name="chat_info_set_admin">设置管理员</string>
@@ -1104,6 +1111,7 @@
     <string name="chat_group">群</string>
     <string name="chat_group_all_member">全部成员</string>
     <string name="chat_edit_group_add_member">添加成员</string>
+    <string name="chat_edit_group_add_success">添加成功</string>
     <string name="chat_edit_group_remove_member">删除成员</string>
     <string name="chat_edit_group_add">添加</string>
     <string name="chat_edit_group_add_d">添加(%d)</string>
