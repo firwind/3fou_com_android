@@ -6,6 +6,7 @@ import com.zhiyicx.thinksnsplus.data.beans.AuthBean;
 import com.zhiyicx.thinksnsplus.data.beans.CheckInBean;
 import com.zhiyicx.thinksnsplus.data.beans.CommentedBean;
 import com.zhiyicx.thinksnsplus.data.beans.DigedBean;
+import com.zhiyicx.thinksnsplus.data.beans.InviteAndQrcode;
 import com.zhiyicx.thinksnsplus.data.beans.NearbyBean;
 import com.zhiyicx.thinksnsplus.data.beans.RechargeSuccessBean;
 import com.zhiyicx.thinksnsplus.data.beans.SendCertificationBean;
@@ -445,5 +446,11 @@ public interface IUserInfoRepository {
      * @return 把用户移除黑名单
      */
     Observable<Object> removeUserFromBlackList(Long userId);
+
+    /**
+     * 获取邀请码
+     * @return
+     */
+    Observable<InviteAndQrcode> getInviteCode();
 
 }

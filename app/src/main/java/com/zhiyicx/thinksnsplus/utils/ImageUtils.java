@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -15,6 +16,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.signature.StringSignature;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.hyphenate.easeui.bean.ChatUserInfoBean;
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.baseproject.impl.imageloader.glide.GlideImageConfig;
@@ -30,8 +35,11 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.SendCertificationBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
+import java.util.Hashtable;
 import java.util.Locale;
 
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
 import static com.zhiyicx.baseproject.config.ImageZipConfig.IMAGE_100_ZIP;
 import static com.zhiyicx.thinksnsplus.data.beans.DynamicDetailBeanV2.ImagesBean.FILE_MIME_TYPE_GIF;
 
@@ -711,6 +719,81 @@ public class ImageUtils {
     public static boolean isWithOrHeightOutOfBounds(int with, int height) {
         return with > MAX_SERVER_SUPPORT_CUT_IMAGE_WITH_OR_HEIGHT
                 || height > MAX_SERVER_SUPPORT_CUT_IMAGE_WITH_OR_HEIGHT;
+    }
+
+
+    /**
+     * 生成二维码图片
+     * @param text
+     * @param dimension 宽高
+     * @param logo
+     * @return
+     */
+    public static Bitmap createQrcodeImage(String text,int dimension,Bitmap logo) {
+        if (TextUtils.isEmpty(text)) {
+            return null;
+        }
+        try {
+            int w = dimension,h = dimension;
+            Bitmap scaleLogo = getScaleLogo(logo,w,h);
+
+            int offsetX = w / 2;
+            int offsetY = h / 2;
+
+            int scaleWidth = 0;
+            int scaleHeight = 0;
+            if (scaleLogo != null) {
+                scaleWidth = scaleLogo.getWidth();
+                scaleHeight = scaleLogo.getHeight();
+                offsetX = (w - scaleWidth) / 2;
+                offsetY = (h - scaleHeight) / 2;
+            }
+            Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
+            hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+            //容错级别
+            //hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);//这个默认就是L，可以不设置
+            //设置空白边距的宽度
+            hints.put(EncodeHintType.MARGIN, 0);
+            BitMatrix bitMatrix = new QRCodeWriter().encode(text, BarcodeFormat.QR_CODE, w, h, hints);
+            int[] pixels = new int[w * h];
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    if(scaleLogo != null && x >= offsetX && x < offsetX + scaleWidth && y>= offsetY && y < offsetY + scaleHeight){
+                        int pixel = scaleLogo.getPixel(x-offsetX,y-offsetY);
+                        if(pixel == 0){
+                            if(bitMatrix.get(x, y)){
+                                pixel = BLACK;
+                            }else{
+                                pixel = WHITE;
+                            }
+                        }
+                        pixels[y * w + x] = pixel;
+                    }else{
+                        if (bitMatrix.get(x, y)) {
+                            pixels[y * w + x] = BLACK;
+                        } else {
+                            pixels[y * w + x] = WHITE;
+                        }
+                    }
+                }
+            }
+            Bitmap bitmap = Bitmap.createBitmap(w, h,
+                    Bitmap.Config.ARGB_8888);
+            bitmap.setPixels(pixels, 0, w, 0, 0, w, h);
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static Bitmap getScaleLogo(Bitmap logo,int w,int h){
+        if(logo == null)return null;
+        Matrix matrix = new Matrix();
+        float scaleFactor = Math.min(w * 1.0f / 5 / logo.getWidth(), h * 1.0f / 5 /logo.getHeight());
+        matrix.postScale(scaleFactor,scaleFactor);
+        Bitmap result = Bitmap.createBitmap(logo, 0, 0, logo.getWidth(),   logo.getHeight(), matrix, true);
+        return result;
     }
 
 }

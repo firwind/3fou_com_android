@@ -226,8 +226,8 @@ public abstract class TSFragment<P extends IBasePresenter> extends BaseFragment<
 
             mCenterLoadingView = mLayoutInflater.inflate(R.layout.view_center_loading, null);
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            if (!showToolbar()) {
-                params.setMargins(0, getstatusbarAndToolbarHeight(), 0, 0);
+            if (!showToolbar() && setUseSatusbar() && setUseStatusView()) {
+                params.setMargins(0, DeviceUtils.getStatuBarHeight(getActivity())/*getstatusbarAndToolbarHeight()*/, 0, 0);
             }
             mCenterLoadingView.setLayoutParams(params);
             if (setUseCenterLoadingAnimation()) {

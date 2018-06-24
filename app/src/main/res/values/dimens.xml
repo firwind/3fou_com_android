@@ -138,4 +138,10 @@
     <dimen name="certify_margin_top">18dp</dimen>
     <dimen name="digg_boder_with">1dp</dimen>
 
+    <!--邀请分享-->
+    <dimen name="invite_content_width">300dp</dimen>
+    <dimen name="invite_content_height">400dp</dimen>
+    <dimen name="invite_img_size">130dp</dimen>
+    <dimen name="invite_share_height">116dp</dimen>
+
 </resources>

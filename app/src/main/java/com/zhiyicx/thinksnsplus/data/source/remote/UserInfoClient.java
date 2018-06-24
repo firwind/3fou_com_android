@@ -7,6 +7,7 @@ import com.zhiyicx.thinksnsplus.data.beans.CheckInBean;
 import com.zhiyicx.thinksnsplus.data.beans.CommentedBean;
 import com.zhiyicx.thinksnsplus.data.beans.DigedBean;
 import com.zhiyicx.thinksnsplus.data.beans.IMBean;
+import com.zhiyicx.thinksnsplus.data.beans.InviteAndQrcode;
 import com.zhiyicx.thinksnsplus.data.beans.NearbyBean;
 import com.zhiyicx.thinksnsplus.data.beans.ReportResultBean;
 import com.zhiyicx.thinksnsplus.data.beans.TSPNotificationBean;
@@ -64,6 +65,7 @@ import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_RECOMMENT_US
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_SPECIFIED_USER_INFO;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_USER_AROUND;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_USER_BLACK_LIST;
+import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_USER_INVITE_CODE;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_REMOVE_USER_FROM_BLACK_LIST;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_REPORT_USER;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_REWARD_USER;
@@ -562,4 +564,14 @@ public interface UserInfoClient {
      */
     @DELETE(APP_PATH_REMOVE_USER_FROM_BLACK_LIST)
     Observable<Object> removeUserFromBlackList(@Path("user_id") Long userId);
+
+    /**
+     * 获取用户邀请码
+     * @return
+     */
+    @GET(APP_PATH_GET_USER_INVITE_CODE)
+    Observable<InviteAndQrcode> getUserInviteCode();
+
+
+
 }

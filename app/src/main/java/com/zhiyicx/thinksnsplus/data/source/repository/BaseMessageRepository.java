@@ -38,6 +38,8 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
+import static com.zhiyicx.baseproject.base.TSListFragment.DEFAULT_ONE_PAGE_SHOW_MAX_SIZE;
+
 /**
  * @author Catherine
  * @describe
@@ -427,6 +429,6 @@ public class BaseMessageRepository implements IBaseMessageRepository {
 
     @Override
     public Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(String group_id, int page) {
-        return mClient.getGroupAlbumList(group_id,15,page);
+        return mClient.getGroupAlbumList(group_id,DEFAULT_ONE_PAGE_SHOW_MAX_SIZE,page);
     }
 }

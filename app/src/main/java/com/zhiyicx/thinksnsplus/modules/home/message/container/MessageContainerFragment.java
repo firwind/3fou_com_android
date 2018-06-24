@@ -29,6 +29,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
 import com.zhiyicx.thinksnsplus.modules.findsomeone.contianer.FindSomeOneContainerActivity;
+import com.zhiyicx.thinksnsplus.modules.home.common.invite.InviteShareActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.MessageFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagelist.MessageConversationFragment;
@@ -186,7 +187,8 @@ public class MessageContainerFragment extends TSViewPagerFragment implements Eas
                                                 });
                                         break;
                                     case 4:
-                                        ToastUtils.showLongToast("该功能正在开发");
+                                        //ToastUtils.showLongToast("该功能正在开发");
+                                        startActivity(InviteShareActivity.newIntent(mActivity));
                                         break;
                                 }
                             }

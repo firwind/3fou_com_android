@@ -768,6 +768,10 @@
             android:name=".modules.home.main.MainActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".modules.home.common.invite.InviteShareActivity"
+            android:screenOrientation="portrait"/>
+
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">
             <intent-filter android:priority="1000">

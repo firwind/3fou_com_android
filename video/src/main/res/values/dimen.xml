@@ -7,6 +7,7 @@
     <dimen name="dp2">2dp</dimen>
     <dimen name="dp1">1dp</dimen>
     <dimen name="dp10">10dp</dimen>
+    <dimen name="dp12">12dp</dimen>
     <dimen name="dp20">20dp</dimen>
     <dimen name="dp25">25dp</dimen>
     <dimen name="dp30">30dp</dimen>
@@ -21,6 +22,12 @@
     <dimen name="dp140">140dp</dimen>
     <dimen name="dp180">180dp</dimen>
     <dimen name="dp6">6dp</dimen>
+    <dimen name="dp43">43dp</dimen>
+
+
+    <!--sp尺寸-->
+    <dimen name="sp13">13sp</dimen>
+
 
     <!-- photo view -->
     <dimen name="selected_indicator_padding">7.5dp</dimen>

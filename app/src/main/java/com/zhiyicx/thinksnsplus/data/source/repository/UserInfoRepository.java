@@ -24,6 +24,7 @@ import com.zhiyicx.thinksnsplus.data.beans.BackgroundRequestTaskBean;
 import com.zhiyicx.thinksnsplus.data.beans.CheckInBean;
 import com.zhiyicx.thinksnsplus.data.beans.CommentedBean;
 import com.zhiyicx.thinksnsplus.data.beans.DigedBean;
+import com.zhiyicx.thinksnsplus.data.beans.InviteAndQrcode;
 import com.zhiyicx.thinksnsplus.data.beans.NearbyBean;
 import com.zhiyicx.thinksnsplus.data.beans.SendCertificationBean;
 import com.zhiyicx.thinksnsplus.data.beans.ThridInfoBean;
@@ -1038,5 +1039,10 @@ public class UserInfoRepository implements IUserInfoRepository {
         return mUserInfoClient.removeUserFromBlackList(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<InviteAndQrcode> getInviteCode() {
+        return mUserInfoClient.getUserInviteCode();
     }
 }

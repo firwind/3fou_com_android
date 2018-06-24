@@ -968,6 +968,8 @@ public class ApiConfig {
     public static final String APP_PATH_ADD_USER_TO_BLACK_LIST = "api/" + API_VERSION_2 + "/user/black/{user_id}";
     // 把用户加入黑名单
     public static final String APP_PATH_REMOVE_USER_FROM_BLACK_LIST = "api/" + API_VERSION_2 + "/user/black/{user_id}";
+    //获取邀请码和二维码图片
+    public static final String APP_PATH_GET_USER_INVITE_CODE = "api/" + API_VERSION_2 + "/getUserCodeData";
 
     /**
      * 签到

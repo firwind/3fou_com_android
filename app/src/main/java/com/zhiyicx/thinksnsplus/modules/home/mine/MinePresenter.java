@@ -176,7 +176,8 @@ public class MinePresenter extends AppBasePresenter<MineContract.View> implement
                     protected void onSuccess(UserInfoBean data) {
                         UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(data.getUser_id()));
                         if (!TextUtils.isEmpty(userInfoBean.getLocalAvatar())) {
-                            data.setAvatar(userInfoBean.getLocalAvatar());
+                            //data.setAvatar(userInfoBean.getLocalAvatar());
+                            data.setLocalAvatar(userInfoBean.getLocalAvatar());
                         }
                         mUserInfoBeanGreenDao.insertOrReplace(data);
                         if (data.getWallet() != null) {
