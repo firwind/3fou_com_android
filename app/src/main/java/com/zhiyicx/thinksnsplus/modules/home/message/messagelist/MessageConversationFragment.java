@@ -33,6 +33,7 @@ import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
 
@@ -328,7 +329,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
 
         mCheckSurePop = ActionPopupWindow
                 .builder()
-                .item1Str(getString(R.string.chat_delete_sure))
+                .item1Str(getString(R.string./*chat_delete_sure*/go_top))
                 .item2Str(getString(R.string.ts_delete))
                 .item2Color(ContextCompat.getColor(getContext(), R.color.important_for_note))
                 .bottomStr(getString(R.string.cancel))
@@ -336,6 +337,20 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
                 .isFocus(true)
                 .backgroundAlpha(POPUPWINDOW_ALPHA)
                 .with(mActivity)
+                .item1ClickListener(()->{
+                    /*try {
+                        JSONObject json;
+                        json = TextUtils.isEmpty(mListDatas.get(position).getConversation().getExtField())?
+                                new JSONObject() : new JSONObject(mListDatas.get(position).getConversation().getExtField());
+
+                        json.put(TSEMConstants.TS_ATTR_IS_TOP,true);
+                        mListDatas.get(position).getConversation().setExtField(json.toString());
+
+                    }catch (Exception e){
+                        return;
+                    }*/
+                    mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
+                })
                 .item2ClickListener(() -> {
                     deleteChatConversation(position);
                     mCheckSurePop.hide();

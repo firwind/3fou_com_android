@@ -1162,4 +1162,7 @@
 
     <string name="invite_share">邀请分享</string>
 
+    <string name="go_top">置顶</string>
+    <string name="cancel_top">取消置顶</string>
+
 </resources>

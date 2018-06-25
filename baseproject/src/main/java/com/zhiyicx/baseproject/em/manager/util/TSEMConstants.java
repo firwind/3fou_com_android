@@ -44,6 +44,8 @@ public class TSEMConstants {
      * 最后时间
      */
     public static final String TS_ATTR_LAST_TIME = "ts_attr_list_time";
+    //是否置顶
+    public static final String TS_ATTR_IS_TOP = "ts_attr_is_top";
     // 消息id
     public static final String ML_ATTR_MSG_ID = "ml_attr_msg_id";
 
