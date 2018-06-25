@@ -6,6 +6,7 @@ import com.zhiyicx.baseproject.base.ITSListView;
 import com.zhiyicx.common.base.BaseFragment;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
+import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.IBaseMessageRepository;
 
 import java.util.List;
@@ -27,10 +28,22 @@ public interface MessageConversationContract {
         BaseFragment getCurrentFragment();
 
         /**
-         *
          * @return 输入框的内容
          */
         String getsearchKeyWord();
+
+        void setSticksSuccess(String stick_id);
+
+        /**
+         * 获取置顶id
+         * @param data
+         */
+        void getSticksList(List<StickBean> data);
+
+        /**
+         * 获取置顶ID失败
+         */
+        void getSticksFailure();
     }
 
     /**
@@ -40,6 +53,20 @@ public interface MessageConversationContract {
     }
 
     interface Presenter extends ITSListPresenter<MessageItemBeanV2> {
+        /**
+         * 群/单聊ID
+         *
+         * @param author
+         */
+        void refreshSticks(String author);
+
+        /**
+         * 上传置顶群/单聊ID
+         * @param stick_id
+         * @param author
+         * @param isStick  是否置顶
+         */
+        void setSticks(String stick_id, String author,int isStick);
 
         /**
          * 刷新是否显示底部红点

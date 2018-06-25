@@ -24,6 +24,7 @@ import com.zhiyicx.common.utils.recycleviewdecoration.CustomLinearDecoration;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
+import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.i.OnUserInfoClickListener;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
@@ -121,6 +122,13 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     @Override
     public void onResume() {
         super.onResume();
+        mPresenter.refreshSticks(String.valueOf(AppApplication.getMyUserIdWithdefault()));
+    }
+
+    /**
+     * 刷新会话信息
+     */
+    private void refreshConversationInfo() {
         // 刷新信息内容
         if (mPresenter != null) {
             if (mListDatas.isEmpty()) {
@@ -175,8 +183,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     }
 
     @Override
-    public void showMessage(String message)
-    {
+    public void showMessage(String message) {
         showMessageNotSticky(message);
     }
 
@@ -321,15 +328,41 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     }
 
     /**
+     * 设置置顶成功回调
+     */
+    @Override
+    public void setSticksSuccess(String stick_id) {
+
+    }
+
+    /**
+     * 获取置顶id列表
+     *
+     * @param data
+     */
+    @Override
+    public void getSticksList(List<StickBean> data) {
+        refreshConversationInfo();
+    }
+
+    /**
+     * 获取置顶ID失败，继续执行获取会话列表
+     */
+    @Override
+    public void getSticksFailure() {
+        refreshConversationInfo();
+    }
+
+    /**
      * 解绑前的提示选择弹框
      *
      * @param position 被删除项在列表中的位置
      */
     private void initCheckSurePop(int position) {
-
+        String mStickStr = mListDatas.get(position).getIsStick() == 1 ? getString(R.string.go_top) : getString(R.string.cancel_top);
         mCheckSurePop = ActionPopupWindow
                 .builder()
-                .item1Str(getString(R.string./*chat_delete_sure*/go_top))
+                .item1Str(mStickStr)
                 .item2Str(getString(R.string.ts_delete))
                 .item2Color(ContextCompat.getColor(getContext(), R.color.important_for_note))
                 .bottomStr(getString(R.string.cancel))
@@ -337,19 +370,12 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
                 .isFocus(true)
                 .backgroundAlpha(POPUPWINDOW_ALPHA)
                 .with(mActivity)
-                .item1ClickListener(()->{
-                    /*try {
-                        JSONObject json;
-                        json = TextUtils.isEmpty(mListDatas.get(position).getConversation().getExtField())?
-                                new JSONObject() : new JSONObject(mListDatas.get(position).getConversation().getExtField());
+                .item1ClickListener(() -> {
+//                    mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
+                    //设置置顶
+                    mPresenter.setSticks(mListDatas.get(position).getEmKey(),
+                            String.valueOf(AppApplication.getMyUserIdWithdefault()),mListDatas.get(position).getIsStick());
 
-                        json.put(TSEMConstants.TS_ATTR_IS_TOP,true);
-                        mListDatas.get(position).getConversation().setExtField(json.toString());
-
-                    }catch (Exception e){
-                        return;
-                    }*/
-                    mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
                 })
                 .item2ClickListener(() -> {
                     deleteChatConversation(position);

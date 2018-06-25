@@ -23,7 +23,9 @@ import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
+import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.MessageConversationRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
 import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
@@ -59,6 +61,8 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
     @Inject
     UserInfoRepository mUserInfoRepository;
 
+    @Inject
+    ChatInfoRepository mChatInfoRepository;
     /**
      * 复制的所有原数据
      */
@@ -90,6 +94,57 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
     @Override
     public boolean insertOrUpdateData(@NotNull List<MessageItemBeanV2> data, boolean isLoadMore) {
         return false;
+    }
+
+    @Override
+    public void refreshSticks(String author) {
+        Subscription subscription = mChatInfoRepository.refreshSticks(author)
+                .subscribe(new BaseSubscribeForV2<List<StickBean>>() {
+                    @Override
+                    protected void onSuccess(List<StickBean> data) {
+                        mRootView.getSticksList(data);
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.getSticksFailure();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.getSticksFailure();
+                    }
+                });
+        addSubscrebe(subscription);
+    }
+
+    @Override
+    public void setSticks(String stick_id, String author,int isStick) {
+        Observable<String> observable = mChatInfoRepository.setStick(stick_id, author,isStick);
+
+        Subscription subscription = observable
+                .subscribe(new BaseSubscribeForV2<String>() {
+
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.setSticksSuccess(stick_id);//置顶成功
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+                });
+        addSubscrebe(subscription);
     }
 
     @Override
@@ -348,7 +403,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
     }
 
     private void getUserInfoForRefreshList(TSEMRefreshEvent event) {
-        Subscription subscription=mUserInfoRepository.getUserInfoWithOutLocalByIds(event.getStringExtra())
+        Subscription subscription = mUserInfoRepository.getUserInfoWithOutLocalByIds(event.getStringExtra())
                 .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
                     @Override
                     protected void onSuccess(List<UserInfoBean> data) {
@@ -396,7 +451,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
                         // 用收到的聊天的item的会话id去本地取出会话
                         EMConversation conversationNew = EMClient.getInstance().chatManager().getConversation(emMessage.conversationId());
-                        if (conversationNew != null && size !=0) {
+                        if (conversationNew != null && size != 0) {
                             // 会话已经存在
                             for (int i = 0; i < size; i++) {
                                 // 检测列表中是否已经存在了

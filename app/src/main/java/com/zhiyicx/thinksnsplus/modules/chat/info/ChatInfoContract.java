@@ -5,6 +5,7 @@ import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
+import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.IBaseFriendsRepository;
 
@@ -115,5 +116,12 @@ public interface ChatInfoContract {
         Observable<List<UserInfoBean>> getGroupHankInfo(String im_group_id);
         //删除管理员
         Observable<String> removeRole(String im_group_id ,String removeadmin,String admin_type);
+        //群/单聊置顶
+        Observable<String> setStick(String stick_id ,String author,int isStick);
+
+        //群/单聊置顶
+        Observable<List<StickBean>> refreshSticks(String author);
+
+
     }
 }

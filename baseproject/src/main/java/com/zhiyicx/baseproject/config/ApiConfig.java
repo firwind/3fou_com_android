@@ -142,6 +142,9 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_ALBUM_LIST = "api/"+API_VERSION_2+"/easemob/group/images/pic";//获取群相册图片列表
     public static final String APP_PATH_GET_GROUP_ADMIN_LIST = "api/" + API_VERSION_2 + "/easemob/group/getadmin";// 获取管理员/讲师/主持人列表
     public static final String APP_PATH_GET_GROUP_REMOVE_ADMIN= "api/" + API_VERSION_2 + "/easemob/group/removeadmin";// 删除群角色（管理员/讲师/主持人）
+    public static final String APP_PATH_GET_GROUP_SET_STICK= "api/" + API_VERSION_2 + "/easemob/group/addstick";// 设置置顶
+    public static final String APP_PATH_GET_GROUP_CANCEL_STICK= "api/" + API_VERSION_2 + "/easemob/group/delstick";// 取消置顶
+    public static final String APP_PATH_GET_GROUP_GET_STICKS= "api/" + API_VERSION_2 + "/easemob/group/getstick";// 获取置顶ID
 
     /**
      * 关注粉丝 FollowFansClient

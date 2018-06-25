@@ -24,6 +24,15 @@ public class MessageItemBeanV2 extends BaseListBean implements Serializable {
     private EMConversation.EMConversationType type;
     private List<UserInfoBean> list;
     private ChatGroupBean chatGroupBean;
+    private int isStick;
+
+    public int getIsStick() {
+        return isStick;
+    }
+
+    public void setIsStick(int isStick) {
+        this.isStick = isStick;
+    }
 
     public UserInfoBean getUserInfo() {
         return userInfo;
@@ -82,7 +91,7 @@ public class MessageItemBeanV2 extends BaseListBean implements Serializable {
                 ", type=" + type +
                 ", list=" + list +
                 ", chatGroupBean=" + chatGroupBean +
+                ", isStick=" + isStick +
                 '}';
     }
-
 }

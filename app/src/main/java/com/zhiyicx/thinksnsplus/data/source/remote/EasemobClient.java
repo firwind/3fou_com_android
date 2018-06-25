@@ -7,6 +7,7 @@ import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
+import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
 import java.util.List;
@@ -141,6 +142,31 @@ public interface EasemobClient {
     Observable<String> removeRole(@Query("im_group_id") String im_group_id,
                                   @Query("admin_id") String removeadmin,
                                   @Query("admin_type") String admin_type);
+
+    /**
+     * 设置置顶
+     *
+     * @param stick_id im_group_id
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_SET_STICK)
+    Observable<String> setStick(@Query("stick_id") String stick_id,
+                                  @Query("author") String author);
+    /**
+     * 取消置顶
+     *
+     * @param stick_id im_group_id
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_CANCEL_STICK)
+    Observable<String> cancelStick(@Query("stick_id") String stick_id,
+                                  @Query("author") String author);
+
+    /**
+     * 获取置顶ID列表
+     *
+     * @param author 用户ID
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_GET_STICKS)
+    Observable<List<StickBean>> getSticks(@Query("author") String author);
     /**
      * 发布公告
      *

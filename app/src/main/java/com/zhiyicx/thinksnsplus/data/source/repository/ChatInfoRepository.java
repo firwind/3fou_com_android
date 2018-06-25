@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.data.source.repository;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
+import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.remote.ServiceManager;
 import com.zhiyicx.thinksnsplus.modules.chat.info.ChatInfoContract;
@@ -77,6 +78,25 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
     @Override
     public Observable<String> removeRole(String im_group_id, String removeadmin, String admin_type) {
         return mEasemobClient.removeRole(im_group_id,removeadmin,admin_type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> setStick(String stick_id, String author,int isStick) {
+        Observable<String> observable;
+        if (isStick == 1) {
+            observable =  mEasemobClient.setStick(stick_id, author);//设置置顶
+        }else {
+            observable =  mEasemobClient.cancelStick(stick_id, author);//取消置顶
+        }
+        return observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<StickBean>> refreshSticks(String author) {
+        return mEasemobClient.getSticks(author)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
