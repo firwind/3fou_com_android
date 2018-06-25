@@ -57,6 +57,7 @@ import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
@@ -176,6 +177,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     TextView mTvAlbumDesc;
 
     private int mChatType;
+    private int mIsStick;
     private String mChatId;
 
     // 删除群聊
@@ -191,6 +193,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     private ChatMemberAdapter mChatMemberAdapter;
     private List<UserInfoBean> mChatMembers = new ArrayList<>();
+    private UserInfoBean user;
 
     public ChatInfoFragment instance(Bundle bundle) {
         ChatInfoFragment fragment = new ChatInfoFragment();
@@ -214,7 +217,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 .build().photoSelectorImpl();
         mChatType = getArguments().getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         mChatId = getArguments().getString(EXTRA_TO_USER_ID);
+
         if (mChatType == EaseConstant.CHATTYPE_SINGLE) {
+            mIsStick = getArguments().getInt(EaseConstant.EXTRA_IS_STICK, 0);
             // 屏蔽群聊的布局
             mLlGroup.setVisibility(View.GONE);
             mLlManager.setVisibility(View.GONE);
@@ -225,7 +230,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             setCenterText(getString(R.string.chat_info_title_single));
             // 单聊没有屏蔽消息
             mRlBlockMessage.setVisibility(View.GONE);
-
+//            mScStickMessage.setVisibility(View.GONE);
         } else {
             mPresenter.getGroupChatInfo(mChatId);
             mEmptyView.setNeedTextTip(false);
@@ -241,7 +246,29 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             mLlSingle.setVisibility(View.GONE);
 
         }
+
         initPhotoPopupWindow();
+    }
+
+    /**
+     * 设置置顶开关是否打开
+     *
+     * @param
+     */
+    private void setIsStick() {
+        if (mChatType == EaseConstant.CHATTYPE_GROUP) {
+            if (mChatGroupBean.getIs_stick() == EaseConstant.CLOESS_MUTS) {//关闭置顶
+                mScStickMessage.setChecked(false);
+            } else {
+                mScStickMessage.setChecked(true);
+            }
+        } else {
+            if (mIsStick == EaseConstant.CLOESS_MUTS) {//关闭置顶
+                mScStickMessage.setChecked(false);
+            } else {
+                mScStickMessage.setChecked(true);
+            }
+        }
     }
 
     @Override
@@ -373,19 +400,19 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 }
                 break;
             case R.id.tv_jurisdiction:
-                if (mChatType == ChatConfig.CHATTYPE_GROUP){
-                    JurisdictionActivity.startSelectFriendActivity(getContext(),mChatGroupBean);
+                if (mChatType == ChatConfig.CHATTYPE_GROUP) {
+                    JurisdictionActivity.startSelectFriendActivity(getContext(), mChatGroupBean);
                 }
                 break;
             case R.id.tv_set_admin:
-                if (mChatType == ChatConfig.CHATTYPE_GROUP){
-                    SettingAdminActivity.startSettingAdminActivty(getContext(),mChatGroupBean);
+                if (mChatType == ChatConfig.CHATTYPE_GROUP) {
+                    SettingAdminActivity.startSettingAdminActivty(getContext(), mChatGroupBean);
                 }
                 break;
             case R.id.ll_photo:
-                startActivity(MessageGroupAlbumActivity.newIntent(mActivity,mChatGroupBean.getId()));
+                startActivity(MessageGroupAlbumActivity.newIntent(mActivity, mChatGroupBean.getId()));
                 break;
-            case R.id.ll_card:
+//            case R.id.ll_card:
             case R.id.tv_find_message:
 
             case R.id.tv_upgrade:
@@ -505,6 +532,13 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     }
 
     @Override
+    public void setSticksSuccess() {
+        if (mChatType == EaseConstant.CHATTYPE_SINGLE) {
+            EventBus.getDefault().post(mIsStick == 0 ? 1 : 0, EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK);
+        }
+    }
+
+    @Override
     public void getGroupInfoSuccess(ChatGroupNewBean chatGroupBean) {
         mChatGroupBean = chatGroupBean;
         mChatGroupBean.setId(mChatId);
@@ -528,13 +562,12 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 }
             }
         });
-        mScStickMessage.setOnCheckedChangeListener((buttonView, isChecked)->{
-            if (mChatType == EaseConstant.CHATTYPE_GROUP) {
-                if (mScBannedPost.isChecked()) {
-                    mPresenter.openBannedPost(mChatGroupBean.getId(), "0", "", EXTRA_BANNED_POST);//开启禁言
-                } else {
-                    mPresenter.removeBannedPost(mChatGroupBean.getId(), "0", EXTRA_BANNED_POST);//关闭禁言
-                }
+        //设置置顶
+        mScStickMessage.setOnClickListener((buttonView) -> {//不知道什么原因  一进来页面就触发 setOnCheckedChangeListener事件
+            if (mScStickMessage.isChecked()) {
+                mPresenter.setSticks(String.valueOf(mChatGroupBean.getId()), String.valueOf(AppApplication.getMyUserIdWithdefault()), 0);
+            } else {
+                mPresenter.setSticks(String.valueOf(mChatGroupBean.getId()), String.valueOf(AppApplication.getMyUserIdWithdefault()), 1);
             }
         });
 
@@ -549,34 +582,37 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         }
 
+        setIsStick();
+
         setGroupAlbumData(chatGroupBean.group_images_data);
 
     }
 
     @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_ALBUM_SUCCESS)
-    public void uploadAlbumSuccess(List<MessageGroupAlbumBean> newData){
+    public void uploadAlbumSuccess(List<MessageGroupAlbumBean> newData) {
         setGroupAlbumData(newData);
     }
 
     /**
      * 设置相册数据
+     *
      * @param newData
      */
-    private void setGroupAlbumData(List<MessageGroupAlbumBean> newData){
+    private void setGroupAlbumData(List<MessageGroupAlbumBean> newData) {
 
-        mRvAlbum.setVisibility( (null == newData || newData.size() == 0) ? View.GONE:View.VISIBLE );
-        mTvAlbumDesc.setVisibility((null == newData || newData.size() == 0) ? View.VISIBLE:View.GONE);
+        mRvAlbum.setVisibility((null == newData || newData.size() == 0) ? View.GONE : View.VISIBLE);
+        mTvAlbumDesc.setVisibility((null == newData || newData.size() == 0) ? View.VISIBLE : View.GONE);
 
-        if(null == mRvAlbum.getAdapter())
+        if (null == mRvAlbum.getAdapter())
             initAlbumAdapter();
 
-        List<MessageGroupAlbumBean> fullData = newData.size()>4?newData.subList(0,4):newData;
-        if(fullData.size() == 4){
+        List<MessageGroupAlbumBean> fullData = newData.size() > 4 ? newData.subList(0, 4) : newData;
+        if (fullData.size() == 4) {
             MessageGroupAlbumBean bean = new MessageGroupAlbumBean();
             bean.file_id = -1;
             fullData.add(bean);
         }
-        ((CommonAdapter)mRvAlbum.getAdapter()).dataChange(fullData);
+        ((CommonAdapter) mRvAlbum.getAdapter()).dataChange(fullData);
 
     }
 
@@ -660,7 +696,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     /**
      * 初始化群相册
      */
-    private void initAlbumAdapter(){
+    private void initAlbumAdapter() {
 
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 5);
         mRvAlbum.setLayoutManager(manager);
@@ -668,13 +704,13 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 , 0,
                 true));
         CommonAdapter<MessageGroupAlbumBean> mAdapter = new CommonAdapter<MessageGroupAlbumBean>(getContext(),
-                R.layout.item_square_height_imageview,new ArrayList<>()) {
+                R.layout.item_square_height_imageview, new ArrayList<>()) {
             @Override
             protected void convert(ViewHolder holder, MessageGroupAlbumBean messageGroupAlbumBean, int position) {
-                if(-1 != messageGroupAlbumBean.file_id)
-                ImageUtils.loadCircleImageDefault(holder.getImageViwe(R.id.iv),
-                        ImageUtils.imagePathConvertV2(messageGroupAlbumBean.file_id,0,0, ImageZipConfig.IMAGE_80_ZIP));
-                else{
+                if (-1 != messageGroupAlbumBean.file_id)
+                    ImageUtils.loadCircleImageDefault(holder.getImageViwe(R.id.iv),
+                            ImageUtils.imagePathConvertV2(messageGroupAlbumBean.file_id, 0, 0, ImageZipConfig.IMAGE_80_ZIP));
+                else {
                     holder.getImageViwe(R.id.iv).setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                     holder.getImageViwe(R.id.iv).setImageResource(R.mipmap.icon_more_deep_gray);
                 }
@@ -688,13 +724,13 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
 
-                MessageGroupAlbumBean photo = ((CommonAdapter<MessageGroupAlbumBean>)mRvAlbum.getAdapter())
+                MessageGroupAlbumBean photo = ((CommonAdapter<MessageGroupAlbumBean>) mRvAlbum.getAdapter())
                         .getDatas().get(position);
-                if(-1 == photo.file_id){
-                    startActivity(MessageGroupAlbumActivity.newIntent(mActivity,mChatGroupBean.getId()));
-                }else {
+                if (-1 == photo.file_id) {
+                    startActivity(MessageGroupAlbumActivity.newIntent(mActivity, mChatGroupBean.getId()));
+                } else {
                     ImageBean imageBean = new ImageBean();
-                    imageBean.setImgUrl(ImageUtils.imagePathConvertV2(photo.file_id,0,0,
+                    imageBean.setImgUrl(ImageUtils.imagePathConvertV2(photo.file_id, 0, 0,
                             ImageZipConfig.IMAGE_80_ZIP));
                     imageBean.setWidth(holder.itemView.findViewById(R.id.iv).getMeasuredWidth());
                     imageBean.setHeight(holder.itemView.findViewById(R.id.iv).getMeasuredHeight());
@@ -702,7 +738,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
                     AnimationRectBean rect = AnimationRectBean.buildFromImageView((ImageView) view);
 
-                    GalleryActivity.startToSingleGallery(mActivity,0,imageBean,rect);
+                    GalleryActivity.startToSingleGallery(mActivity, 0, imageBean, rect);
                 }
 
             }
@@ -787,10 +823,19 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     private void setGroupData() {
         if (mChatType == EaseConstant.CHATTYPE_SINGLE) {
             // 单聊处理布局
-            UserInfoBean user = mPresenter.getUserInfoFromLocal(mChatId);
+            user = mPresenter.getUserInfoFromLocal(mChatId);
+            setIsStick();
             ImageUtils.loadUserHead(user, mIvUserPortrait, false);
             mTvUserName.setText(user.getName());
             mIvUserPortrait.setOnClickListener(v -> PersonalCenterFragment.startToPersonalCenter(getContext(), user));
+            //设置置顶
+            mScStickMessage.setOnClickListener((buttonView) -> {
+                if (mScStickMessage.isChecked()) {
+                    mPresenter.setSticks(String.valueOf(user.getUser_id()), String.valueOf(AppApplication.getMyUserIdWithdefault()), 0);
+                } else {
+                    mPresenter.setSticks(String.valueOf(user.getUser_id()), String.valueOf(AppApplication.getMyUserIdWithdefault()), 1);
+                }
+            });
         } else {
             // 非群主屏蔽群管理
             if (!mPresenter.isGroupOwner()) {
@@ -846,11 +891,11 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
+
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_MUTE)
     public void onPublishNoticeSuccess(boolean isRefresh) {
-        if (isRefresh){
+        if (isRefresh) {
             mPresenter.getGroupChatInfo(mChatId);//获取群信息
         }
-
     }
 }

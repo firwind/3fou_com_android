@@ -63,6 +63,7 @@ import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 import com.zhiyicx.thinksnsplus.widget.chat.TSChatInputMenu;
 import com.zhiyicx.thinksnsplus.widget.chat.TSChatPrimaryMenu;
 
+import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
 
@@ -75,6 +76,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static com.hyphenate.easeui.EaseConstant.EXTRA_CHAT_TYPE;
+import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_STICK;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
 import static com.hyphenate.easeui.widget.chatrow.EaseChatRow.TipMsgType.OPEN_MUTE;
 
@@ -194,7 +196,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     }
 
     @Override
-    public void onOpenMuteClick(EaseChatRow.TipMsgType tipMsgType,String str) {
+    public void onOpenMuteClick(EaseChatRow.TipMsgType tipMsgType, String str) {
 
         if (tipMsgType == OPEN_MUTE) {
             View view = inputMenu.setPrimaryMenuView();
@@ -254,11 +256,18 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
      */
     public void onNewIntent(Bundle bundle) {
         fragmentArgs = bundle;
+
         chatType = fragmentArgs.getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
         getArguments().putInt(EaseConstant.EXTRA_CHAT_TYPE, chatType);
         getArguments().putString(EaseConstant.EXTRA_USER_ID, toChatUsername);
+    }
+
+    @Override
+    protected void initView(View rootView) {
+        super.initView(rootView);
+        mIsStick = getArguments().getInt(EXTRA_IS_STICK, 0);
     }
 
     @Override
@@ -288,6 +297,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_TO_USER_ID, toChatUsername);
         bundle.putInt(EXTRA_CHAT_TYPE, chatType);
+        if (chatType == EaseConstant.CHATTYPE_SINGLE) {
+            bundle.putInt(EXTRA_IS_STICK, mIsStick);
+        }
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -696,7 +708,11 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             setCenterText(getString(R.string.chat_group_name_default, chatGroupBean.getName(), chatGroupBean.getAffiliations_count()));
         }
     }
-
+    @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK)
+    public void updateStick(int stick) {
+      mIsStick = stick;
+//      EventBus.getDefault().post(mIsStick == 0 ? 1 : 0, EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK);
+    }
     private void initPermissionPopUpWindow(String item1) {
         mActionPopupWindow = PermissionPopupWindow.builder()
                 .permissionName(getString(com.zhiyicx.baseproject.R.string.camera_permission))

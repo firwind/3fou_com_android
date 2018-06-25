@@ -165,8 +165,8 @@
                     android:layout_marginLeft="@dimen/spacing_small"
                     android:layout_marginRight="@dimen/spacing_small"
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:scrollbars="none"
-                    android:nestedScrollingEnabled="false"/>
+                    android:nestedScrollingEnabled="false"
+                    android:scrollbars="none" />
 
                 <View
                     android:id="@+id/v_line_find_member"
@@ -245,20 +245,20 @@
 
                     <TextView
                         android:id="@+id/tv_album_desc"
-                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:text="@string/ts_chat_no_album_default_notice"
                         android:textColor="@color/normal_for_assist_text"
                         android:textSize="@dimen/size_content_assist" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_album"
-                        android:visibility="gone"
-                        android:layout_marginTop="@dimen/spacing_mid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false">
+                        android:layout_marginTop="@dimen/spacing_mid"
+                        android:nestedScrollingEnabled="false"
+                        android:visibility="gone">
 
                     </android.support.v7.widget.RecyclerView>
                     <!--<com.zhiyicx.baseproject.widget.photoview.NoScrollGridView
@@ -280,6 +280,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/spacing_mid">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -288,6 +289,7 @@
                         android:text="@string/chat_edit_group_card"
                         android:textColor="@color/important_for_content"
                         android:textSize="@dimen/size_content" />
+
                     <TextView
                         android:id="@+id/tv_group_card_name"
                         android:layout_width="0dp"
@@ -301,20 +303,20 @@
                         android:textSize="@dimen/size_content_comment"
                         tools:text="xxxx" />
                     <!--<TextView-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:text="@string/chat_edit_group_card"-->
-                        <!--android:textColor="@color/important_for_content"-->
-                        <!--android:textSize="@dimen/size_content" />-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/chat_edit_group_card"-->
+                    <!--android:textColor="@color/important_for_content"-->
+                    <!--android:textSize="@dimen/size_content" />-->
 
                     <!--<TextView-->
 
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/app_name"-->
-                        <!--android:textColor="@color/normal_for_assist_text"-->
-                        <!--android:textSize="@dimen/size_content_assist" />-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/app_name"-->
+                    <!--android:textColor="@color/normal_for_assist_text"-->
+                    <!--android:textSize="@dimen/size_content_assist" />-->
                 </LinearLayout>
 
                 <View
@@ -333,32 +335,6 @@
                     android:textColor="@color/important_for_content"
                     android:textSize="@dimen/size_content" />
 
-                <View
-                    style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
-                <!--设置置顶-->
-                <LinearLayout
-                    android:id="@+id/ll_set_stick"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/spacing_mid">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chat_edit_group_set_stick"
-                        android:textColor="@color/important_for_content"
-                        android:textSize="@dimen/size_content" />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/sc_stick_message"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
 
                 <View
                     android:id="@+id/vw_set_stick"
@@ -486,7 +462,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/divider_line"
                 android:background="@color/white"
-                android:paddingBottom="@dimen/spacing_mid"
                 android:paddingLeft="@dimen/spacing_mid"
                 android:paddingRight="@dimen/spacing_mid"
                 android:paddingTop="@dimen/spacing_mid">
@@ -516,6 +491,31 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
+            <View
+                style="@style/style_divider_horizontal_light"
+                android:layout_height="@dimen/spacing_normal" />
+            <!--设置置顶-->
+            <LinearLayout
+                android:id="@+id/ll_set_stick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_mid">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/chat_edit_group_set_stick"
+                    android:textColor="@color/important_for_content"
+                    android:textSize="@dimen/size_content" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sc_stick_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <!--清空记录-->
             <TextView

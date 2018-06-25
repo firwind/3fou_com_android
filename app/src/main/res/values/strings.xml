@@ -33,7 +33,7 @@
     <string name="default_message_group">群组</string>
     <string name="has_no_body">还没有人</string>
     <string name="ts_helper">我的助手</string>
-    <string name="ts_helper_default_tip">小助手在线，点击告诉我们你的需求，即时快速反应。</string>
+    <string name="ts_helper_default_tip">小助手在线，有问题及时反馈，即时快速反应</string>
     <!--我的-->
     <string name="personal_page">个人主页</string>
     <string name="my_info">我的投稿</string>
@@ -1104,7 +1104,7 @@
     <string name="chat_edit_group_card">群名片</string>
     <string name="chat_edit_group_notice_title">标题(必填)，4-40个字</string>
     <string name="chat_edit_group_notice_content">正文(必填)，15-500个字</string>
-    <string name="chat_edit_group_set_stick">设置置顶群聊</string>
+    <string name="chat_edit_group_set_stick">设置置顶聊天</string>
     <string name="chat_edit_group_banned_post">全员禁言</string>
     <string name="chat_edit_group_photo">群相册</string>
     <string name="chat_group_owner">群主</string>

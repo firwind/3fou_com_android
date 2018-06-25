@@ -96,6 +96,17 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     @Transient
     private int member_mute;
 
+    public int getIsstick() {
+        return isstick;
+    }
+
+    public void setIsstick(int isstick) {
+        this.isstick = isstick;
+    }
+
+    @Transient
+    private int isstick;
+
     public int getIs_owner() {
         return is_owner;
     }
@@ -797,6 +808,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         dest.writeString(this.city);
         dest.writeString(this.area);
         dest.writeInt(this.member_mute);
+        dest.writeInt(this.isstick);
         dest.writeInt(this.is_owner);
         dest.writeInt(this.admin_type);
         dest.writeByte(this.following ? (byte) 1 : (byte) 0);
@@ -834,6 +846,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.city = in.readString();
         this.area = in.readString();
         this.member_mute = in.readInt();
+        this.isstick = in.readInt();
         this.is_owner = in.readInt();
         this.admin_type = in.readInt();
         this.following = in.readByte() != 0;

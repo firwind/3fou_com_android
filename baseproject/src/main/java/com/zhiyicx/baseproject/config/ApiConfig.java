@@ -82,8 +82,6 @@ public class ApiConfig {
     public static final String APP_PATH_DELETE_USER_PHONE = "api/" + API_VERSION_2 + "/user/phone";// 解除用户 Phone 绑定
     public static final String APP_PATH_DELETE_USER_EMAIL = "api/" + API_VERSION_2 + "/user/email";// 解除用户 E-Mail 绑定
     public static final String APP_PATH_DELETE_USER_FRIENDS_LIST = "api/" + API_VERSION_2 + "/user/follow-mutual";// 好友列表
-
-
     // 用户标签
     public static final String APP_PATH_GET_USER_TAGS = "api/" + API_VERSION_2 + "/users/{user_id}/tags";// 获取一个用户的标签
     public static final String APP_PATH_GET_CURRENT_USER_TAGS = "api/" + API_VERSION_2 + "/user/tags";// 获取当前认证用户的标签

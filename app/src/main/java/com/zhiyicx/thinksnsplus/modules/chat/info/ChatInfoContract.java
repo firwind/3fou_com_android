@@ -45,6 +45,9 @@ public interface ChatInfoContract {
         void closeCurrentActivity();
 
         void updateGroupOwner(ChatGroupBean chatGroupBean);
+
+        void setSticksSuccess();
+
     }
 
     interface Presenter extends IBasePresenter {
@@ -80,12 +83,13 @@ public interface ChatInfoContract {
          */
         void removeBannedPost(String im_group_id ,String user_id,String members);
 
-//        /**
-//         * 置顶
-//         * @param stick_id
-//         * @param author
-//         */
-//        void openStickMessage(String stick_id,String author);
+        /**
+         * 上传置顶群/单聊ID
+         * @param stick_id
+         * @param author
+         * @param isStick  是否置顶
+         */
+        void setSticks(String stick_id, String author,int isStick);
 
         /**
          * 退群 或者 解散群
@@ -104,6 +108,7 @@ public interface ChatInfoContract {
         boolean checkImhelper(String chatId);
 
         void saveGroupInfo(ChatGroupBean chatGroupBean);
+
     }
 
     interface Repository extends IBaseFriendsRepository {
@@ -121,6 +126,7 @@ public interface ChatInfoContract {
 
         //群/单聊置顶
         Observable<List<StickBean>> refreshSticks(String author);
+
 
 
     }

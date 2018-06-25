@@ -193,6 +193,31 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
     }
 
     @Override
+    public void setSticks(String stick_id, String author, int isStick) {
+        Subscription subscription = mRepository.setStick(stick_id,author,isStick)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<String>() {
+
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.setSticksSuccess();
+                    }
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+                });
+        addSubscrebe(subscription);
+    }
+
+    @Override
     public void updateGroup(ChatGroupBean chatGroupBean, boolean isEditGroupFace) {
         // 这里不是修改群主，所以newOwner直接传空
         Subscription subscription = mRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription(), 0, 200,

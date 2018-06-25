@@ -81,6 +81,17 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     private boolean allowinvites;
     private int maxusers;
     private long owner;
+
+    public int getIs_stick() {
+        return is_stick;
+    }
+
+    public void setIs_stick(int is_stick) {
+        this.is_stick = is_stick;
+    }
+
+    @Transient
+    private int is_stick;
     private String created;
     private String group_face;
     private int affiliations_count;
@@ -230,6 +241,7 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         dest.writeByte(this.membersonly ? (byte) 1 : (byte) 0);
         dest.writeByte(this.allowinvites ? (byte) 1 : (byte) 0);
         dest.writeInt(this.maxusers);
+        dest.writeInt(this.is_stick);
         dest.writeLong(this.owner);
         dest.writeString(this.created);
         dest.writeString(this.group_face);
@@ -270,6 +282,7 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         this.membersonly = in.readByte() != 0;
         this.allowinvites = in.readByte() != 0;
         this.maxusers = in.readInt();
+        this.is_stick = in.readInt();
         this.owner = in.readLong();
         this.created = in.readString();
         this.group_face = in.readString();

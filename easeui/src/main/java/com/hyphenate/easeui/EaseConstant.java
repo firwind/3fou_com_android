@@ -37,6 +37,7 @@ public class EaseConstant {
     public static final String EXTRA_CHAT_TYPE = "chatType";
     public static final String EXTRA_USER_ID = "userId";
     public static final String EXTRA_TO_USER_ID = "to_user_id";
+    public static final String EXTRA_IS_STICK= "is_stick";
 
 
     public static final String EXTRA_BANNED_POST = "全部";

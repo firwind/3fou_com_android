@@ -263,5 +263,7 @@ public class EventBusTagConfig {
 
     //上传图片成功
     public static final String EVENT_GROUP_UPLOAD_ALBUM_SUCCESS = "event_group_upload_album_success";
+    //置顶/取消置顶
+    public static final String EVENT_GROUP_UPLOAD_SET_STICK = "event_group_upload_set_stick";
 
 }

@@ -67,7 +67,7 @@ public class MyFriendsListAdapter extends CommonAdapter<UserInfoBean> {
                     messageItemBean.setUserInfo(userInfoBean);
                     try {
                         ChatActivity.startChatActivity(mContext, String.valueOf(userInfoBean.getUser_id()),
-                                EaseConstant.CHATTYPE_SINGLE);
+                                EaseConstant.CHATTYPE_SINGLE,userInfoBean.getIsstick());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -91,9 +91,25 @@ public class MyFriendsListAdapter extends CommonAdapter<UserInfoBean> {
         // 头像加载
         ImageUtils.loadCircleUserHeadPic(userInfoBean, holder.getView(R.id.iv_headpic));
         // 添加点击事件
-        RxView.clicks(holder.getConvertView())
+        RxView.clicks(holder.getView(R.id.iv_headpic))
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)   //两秒钟之内只取一个点击事件，防抖操作
                 .subscribe(aVoid -> toUserCenter(getContext(), userInfoBean));
+        // 添加点击事件
+        RxView.clicks(holder.getConvertView())
+                .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(aVoid -> {
+                    // 点击跳转聊天
+                    MessageItemBeanV2 messageItemBean = new MessageItemBeanV2();
+                    messageItemBean.setUserInfo(userInfoBean);
+                    try {
+                        ChatActivity.startChatActivity(mContext, String.valueOf(userInfoBean.getUser_id()),
+                                EaseConstant.CHATTYPE_SINGLE,userInfoBean.getIsstick());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
     /**
      * 前往用户个人中心

@@ -682,5 +682,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
             }
         }
         mRootView.refreshData();
+
     }
 }

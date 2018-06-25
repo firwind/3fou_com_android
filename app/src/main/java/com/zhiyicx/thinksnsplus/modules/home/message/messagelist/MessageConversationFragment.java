@@ -224,11 +224,11 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
         if(null == messageItemBean.getConversation()){
             ChatActivity.startChatActivity(mActivity, messageItemBean.getEmKey()
                     , messageItemBean.getType() == EMConversation.EMConversationType.Chat ? EaseConstant.CHATTYPE_SINGLE :
-                            EaseConstant.CHATTYPE_GROUP);
+                            EaseConstant.CHATTYPE_GROUP,messageItemBean.getIsStick());
         }else {
             ChatActivity.startChatActivity(mActivity, messageItemBean.getConversation().conversationId()
                     , messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat ? EaseConstant.CHATTYPE_SINGLE :
-                            EaseConstant.CHATTYPE_GROUP);
+                            EaseConstant.CHATTYPE_GROUP,messageItemBean.getIsStick());
         }
     }
 
