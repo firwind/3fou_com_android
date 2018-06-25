@@ -43,6 +43,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 /**
@@ -96,7 +97,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
         return false;
     }
 
-    @Override
+    /*@Override
     public void refreshSticks(String author) {
         Subscription subscription = mChatInfoRepository.refreshSticks(author)
                 .subscribe(new BaseSubscribeForV2<List<StickBean>>() {
@@ -118,7 +119,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                     }
                 });
         addSubscrebe(subscription);
-    }
+    }*/
 
     @Override
     public void setSticks(String stick_id, String author,int isStick) {
@@ -270,36 +271,77 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
             if (mAllConversaiotnSub != null && !mAllConversaiotnSub.isUnsubscribed()) {
                 mAllConversaiotnSub.unsubscribe();
             }
-            mAllConversaiotnSub = mRepository.getConversationList((int) AppApplication.getMyUserIdWithdefault())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
+
+            rx.Subscriber<List<MessageItemBeanV2>> msgSubscriber = new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
+                @Override
+                protected void onSuccess(List<MessageItemBeanV2> data) {
+                    if (mCopyConversationList == null) {
+                        mCopyConversationList = new ArrayList<>();
+                    }
+                    mCopyConversationList = data;
+                    mRootView.onNetResponseSuccess(data, isLoadMore);
+                    mRootView.hideStickyMessage();
+                    checkBottomMessageTip();
+                }
+
+                @Override
+                protected void onFailure(String message, int code) {
+                    super.onFailure(message, code);
+                    mRootView.showStickyMessage(message);
+                    mRootView.onResponseError(null, false);
+                }
+
+                @Override
+                protected void onException(Throwable throwable) {
+                    super.onException(throwable);
+                    mRootView.showStickyMessage(mContext.getString(R.string.chat_unconnected));
+                    mRootView.onResponseError(throwable, false);
+                }
+            };
+
+            mAllConversaiotnSub = Observable.zip(mRepository.getConversationList((int) AppApplication.getMyUserIdWithdefault()),
+                    mChatInfoRepository.refreshSticks(String.valueOf(AppApplication.getMyUserIdWithdefault())),
+                    new Func2<List<MessageItemBeanV2>, List<StickBean>, List<MessageItemBeanV2>>() {
                         @Override
-                        protected void onSuccess(List<MessageItemBeanV2> data) {
-                            if (mCopyConversationList == null) {
-                                mCopyConversationList = new ArrayList<>();
+                        public List<MessageItemBeanV2> call(List<MessageItemBeanV2> messageItemBeanV2s, List<StickBean> stickBeans) {
+
+                            List<String> topIds = new ArrayList<>();
+                            for (int i = 0; i < stickBeans.size(); i++) {
+                                topIds.add(stickBeans.get(i).getmStickId());
                             }
-                            mCopyConversationList = data;
-                            mRootView.onNetResponseSuccess(data, isLoadMore);
-                            mRootView.hideStickyMessage();
-                            checkBottomMessageTip();
+
+                            List<MessageItemBeanV2> tops = new ArrayList<>();
+                            List<MessageItemBeanV2> last = new ArrayList<>();
+                            for (int i = 0; i < messageItemBeanV2s.size(); i++) {
+                                try {
+                                    if (topIds.indexOf(messageItemBeanV2s.get(i).getEmKey()) != -1) {
+                                        messageItemBeanV2s.get(i).setIsStick(1);
+                                        tops.add(messageItemBeanV2s.get(i));
+                                        topIds.remove(messageItemBeanV2s.get(i).getEmKey());
+                                    } else {
+                                        messageItemBeanV2s.get(i).setIsStick(0);
+                                        last.add(messageItemBeanV2s.get(i));
+                                    }
+                                } catch (Exception e) {
+                                    messageItemBeanV2s.get(i).setIsStick(0);
+                                    last.add(messageItemBeanV2s.get(i));
+                                    continue;
+                                }
+                            }
+                            tops.addAll(last);
+
+                            /*if(topIds.size() > 0){
+                                for (int i = 0; i < topIds.size(); i++) {
+                                    MessageItemBeanV2 bean = new MessageItemBeanV2();
+                                    bean.setEmKey(topIds.get(i));
+                                    tops.add(0,bean);
+                                }
+                            }*/
+
+                            return tops;
                         }
+                    }).observeOn(AndroidSchedulers.mainThread()).subscribe(msgSubscriber);
 
-                        @Override
-                        protected void onFailure(String message, int code) {
-                            super.onFailure(message, code);
-                            mRootView.showStickyMessage(message);
-                            mRootView.onResponseError(null, false);
-                        }
-
-                        @Override
-                        protected void onException(Throwable throwable) {
-                            super.onException(throwable);
-                            mRootView.showStickyMessage(mContext.getString(R.string.chat_unconnected));
-                            mRootView.onResponseError(throwable, false);
-
-
-                        }
-                    });
             addSubscrebe(mAllConversaiotnSub);
         } else {
             if (!mIsFristConnectedIm) {

@@ -85,7 +85,7 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
     @Override
     public Observable<String> setStick(String stick_id, String author,int isStick) {
         Observable<String> observable;
-        if (isStick == 1) {
+        if (isStick == 0) {
             observable =  mEasemobClient.setStick(stick_id, author);//设置置顶
         }else {
             observable =  mEasemobClient.cancelStick(stick_id, author);//取消置顶

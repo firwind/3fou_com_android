@@ -38,12 +38,12 @@ public interface MessageConversationContract {
          * 获取置顶id
          * @param data
          */
-        void getSticksList(List<StickBean> data);
+        //void getSticksList(List<StickBean> data);
 
         /**
          * 获取置顶ID失败
          */
-        void getSticksFailure();
+        //void getSticksFailure();
     }
 
     /**
@@ -58,7 +58,7 @@ public interface MessageConversationContract {
          *
          * @param author
          */
-        void refreshSticks(String author);
+        /*void refreshSticks(String author);*/
 
         /**
          * 上传置顶群/单聊ID

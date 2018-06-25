@@ -122,7 +122,8 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.refreshSticks(String.valueOf(AppApplication.getMyUserIdWithdefault()));
+        //mPresenter.refreshSticks(String.valueOf(AppApplication.getMyUserIdWithdefault()));
+        refreshConversationInfo();
     }
 
     /**
@@ -332,7 +333,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
      */
     @Override
     public void setSticksSuccess(String stick_id) {
-
+        refreshConversationInfo();
     }
 
     /**
@@ -340,18 +341,18 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
      *
      * @param data
      */
-    @Override
+    /*@Override
     public void getSticksList(List<StickBean> data) {
         refreshConversationInfo();
-    }
+    }*/
 
     /**
      * 获取置顶ID失败，继续执行获取会话列表
      */
-    @Override
+    /*@Override
     public void getSticksFailure() {
         refreshConversationInfo();
-    }
+    }*/
 
     /**
      * 解绑前的提示选择弹框
@@ -359,7 +360,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
      * @param position 被删除项在列表中的位置
      */
     private void initCheckSurePop(int position) {
-        String mStickStr = mListDatas.get(position).getIsStick() == 1 ? getString(R.string.go_top) : getString(R.string.cancel_top);
+        String mStickStr = mListDatas.get(position).getIsStick() == 0 ? getString(R.string.go_top) : getString(R.string.cancel_top);
         mCheckSurePop = ActionPopupWindow
                 .builder()
                 .item1Str(mStickStr)
@@ -372,6 +373,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
                 .with(mActivity)
                 .item1ClickListener(() -> {
 //                    mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
+                    mCheckSurePop.hide();
                     //设置置顶
                     mPresenter.setSticks(mListDatas.get(position).getEmKey(),
                             String.valueOf(AppApplication.getMyUserIdWithdefault()),mListDatas.get(position).getIsStick());
