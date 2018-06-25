@@ -87,6 +87,7 @@ public class InviteSharePresenter extends AppBasePresenter<InviteShareContract.V
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                mRootView.showSnackErrorMessage(e.getMessage());
             }
 
             @Override

@@ -307,7 +307,12 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
                             List<String> topIds = new ArrayList<>();
                             for (int i = 0; i < stickBeans.size(); i++) {
-                                topIds.add(stickBeans.get(i).getmStickId());
+                                if(null != stickBeans.get(i).getChatGroupBean()){
+                                    topIds.add(String.valueOf(stickBeans.get(i).getChatGroupBean().id));
+                                }else if(null != stickBeans.get(i).getUserInfoBean()){
+                                    topIds.add(String.valueOf(stickBeans.get(i).getUserInfoBean().id));
+                                }
+                                //topIds.add(stickBeans.get(i).getmStickId());
                             }
 
                             List<MessageItemBeanV2> tops = new ArrayList<>();
@@ -330,13 +335,9 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                             }
                             tops.addAll(last);
 
-                            /*if(topIds.size() > 0){
-                                for (int i = 0; i < topIds.size(); i++) {
-                                    MessageItemBeanV2 bean = new MessageItemBeanV2();
-                                    bean.setEmKey(topIds.get(i));
-                                    tops.add(0,bean);
-                                }
-                            }*/
+                            //完善未匹配到的置顶消息填充到 消息List
+                            if(topIds.size() > 0)
+                                fillStickBeanInMessage(tops,topIds,stickBeans);
 
                             return tops;
                         }
@@ -354,6 +355,67 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
             mAuthRepository.loginIM();
         }
     }
+
+
+    /**
+     * 将匹配到id填充数据到消息列表
+     * @param originList 原始消息List
+     * @param topIds 匹配的id源
+     * @param stickBeans 待插入的消息List
+     */
+    private void fillStickBeanInMessage(List<MessageItemBeanV2> originList,List<String> topIds,List<StickBean> stickBeans){
+        //未被匹配到的 置顶id
+        for (int i = 0; i < topIds.size(); i++) {
+            for (int j = 0; j < stickBeans.size(); j++) {
+                String id;
+                try {
+                    id = null == stickBeans.get(j).getUserInfoBean() ?
+                            stickBeans.get(j).getChatGroupBean().id :
+                            stickBeans.get(j).getUserInfoBean().id;
+                }catch (Exception e){
+                    continue;
+                }
+                //找出未被匹配到的置顶信息
+                if(topIds.get(i).equals(id)){
+                    MessageItemBeanV2 message = new MessageItemBeanV2();
+                    message.setEmKey(topIds.get(i));
+                    message.setIsStick(1);
+
+                    if(null != stickBeans.get(j).getChatGroupBean()){
+                        //补充type数据
+                        message.setType(EMConversation.EMConversationType.GroupChat);
+                        //补充群组信息
+                        StickBean.StickChatGroupBean stickChatGroupBean = stickBeans.get(j).getChatGroupBean();
+                        ChatGroupBean chatGroupBean = new ChatGroupBean();
+                        chatGroupBean.setId(stickChatGroupBean.id);
+                        chatGroupBean.setName(stickChatGroupBean.name);
+                        chatGroupBean.setGroup_face(stickChatGroupBean.group_face);
+                        chatGroupBean.setAffiliations_count(stickChatGroupBean.affiliations_count);
+                        message.setChatGroupBean(chatGroupBean);
+
+                    }else if(null != stickBeans.get(j).getUserInfoBean()){
+                        //补充type数据
+                        message.setType(EMConversation.EMConversationType.Chat);
+                        //补充user数据
+                        StickBean.StickUserInfoBean stickUserInfoBean = stickBeans.get(j).getUserInfoBean();
+                        UserInfoBean userInfoBean = new UserInfoBean();
+                        userInfoBean.setUser_id(Long.parseLong(stickUserInfoBean.id));
+                        userInfoBean.setName(stickUserInfoBean.name);
+                        userInfoBean.setAvatar(stickUserInfoBean.avatar);
+                        message.setUserInfo(userInfoBean);
+
+                    }else {
+                        break;
+                    }
+                    originList.add(0,message);
+                    break;
+                }
+            }
+
+        }
+
+    }
+
 
     /**
      * 检测底部小红点是否需要显示

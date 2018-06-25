@@ -137,7 +137,9 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
             } else {
                 mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
             }
-            mPresenter.refreshConversationReadMessage();
+            //mPresenter.refreshConversationReadMessage();该请求已在MessageFragment中实现
+
+
         }
         if (getUserVisibleHint() && !TextUtils.isEmpty(mSearchView.getText())) {
             mSearchView.setText("");
@@ -219,9 +221,15 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
         if (messageItemBean == null) {
             return;
         }
-        ChatActivity.startChatActivity(mActivity, messageItemBean.getConversation().conversationId()
-                , messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat ? EaseConstant.CHATTYPE_SINGLE :
-                        EaseConstant.CHATTYPE_GROUP);
+        if(null == messageItemBean.getConversation()){
+            ChatActivity.startChatActivity(mActivity, messageItemBean.getEmKey()
+                    , messageItemBean.getType() == EMConversation.EMConversationType.Chat ? EaseConstant.CHATTYPE_SINGLE :
+                            EaseConstant.CHATTYPE_GROUP);
+        }else {
+            ChatActivity.startChatActivity(mActivity, messageItemBean.getConversation().conversationId()
+                    , messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat ? EaseConstant.CHATTYPE_SINGLE :
+                            EaseConstant.CHATTYPE_GROUP);
+        }
     }
 
     @Override

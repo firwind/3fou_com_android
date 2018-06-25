@@ -40,5 +40,7 @@
     <color name="invite_share_main">#564626</color>
     <color name="invite_share_light">#6e5f15</color>
     <color name="invite_share_gray">#36444d</color>
+
+    <color name="message_top_bg">#F3F3F7</color>
     
 </resources>

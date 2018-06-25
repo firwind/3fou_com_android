@@ -81,10 +81,14 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
     private void setItemData(ViewHolder holder, final MessageItemBeanV2 messageItemBean, final int position) {
         // 右边
         final SwipeLayout swipeLayout = holder.getView(R.id.swipe);
+
+        swipeLayout.setBackgroundResource(messageItemBean.getIsStick() == 0 ? R.color.white : R.color.message_top_bg);
+
         swipeLayout.setSwipeEnabled(false);
         UserAvatarView userAvatarView = holder.getView(R.id.iv_headpic);
         holder.getTextView(R.id.tv_time).setCompoundDrawables(null, null, null, null);
-        switch (messageItemBean.getConversation().getType()) {
+        switch (null == messageItemBean.getConversation()?messageItemBean.getType() :
+                messageItemBean.getConversation().getType()) {
             case Chat:
                 // 私聊
                 UserInfoBean singleChatUserinfo = messageItemBean.getUserInfo();
@@ -136,7 +140,7 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
 
                 break;
         }
-        if (messageItemBean.getConversation().getLastMessage() == null) {
+        if (null == messageItemBean.getConversation() || messageItemBean.getConversation().getLastMessage() == null) {
             holder.setText(R.id.tv_content, mContext.getString(R.string
                     .ts_chat_no_message_default_tip));
         } else {
@@ -202,14 +206,20 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
             }
             holder.setText(R.id.tv_content, content);
         }
-        if (messageItemBean.getConversation().getLastMessage() == null || messageItemBean.getConversation().getLastMessage().getMsgTime() == 0) {
+        if (null == messageItemBean.getConversation() ||
+                messageItemBean.getConversation().getLastMessage() == null ||
+                messageItemBean.getConversation().getLastMessage().getMsgTime() == 0) {
             holder.setText(R.id.tv_time, "");
         } else {
             holder.setText(R.id.tv_time, TimeUtils.getTimeFriendlyNormal(messageItemBean.getConversation().getLastMessage().getMsgTime()));
         }
         try {
-            ((BadgeView) holder.getView(R.id.tv_tip)).setBadgeCount(Integer.parseInt(ConvertUtils.messageNumberConvert(messageItemBean
-                    .getConversation().getUnreadMsgCount())));
+            if(null != messageItemBean.getConversation())
+                ((BadgeView) holder.getView(R.id.tv_tip)).setBadgeCount(Integer.parseInt(ConvertUtils.messageNumberConvert(messageItemBean
+                        .getConversation().getUnreadMsgCount())));
+            else {
+                //((BadgeView) holder.getView(R.id.tv_tip)).setBadgeCount(0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
