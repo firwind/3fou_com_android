@@ -204,6 +204,8 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
         mTsvToolbar.initTabView(mVpFragment, initTitles(), commonNavigatorAdapter);
         mTsvToolbar.setLeftImg(0);
 
+        mVpFragment.setCurrentItem(1);
+
     }
 
     public int getCurrentItem() {
