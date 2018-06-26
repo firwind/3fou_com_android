@@ -526,7 +526,7 @@
 
             <!--清空记录-->
             <TextView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/tv_clear_message"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/chat_info_header_view_width"

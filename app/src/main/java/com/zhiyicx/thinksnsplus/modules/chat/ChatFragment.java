@@ -76,6 +76,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static com.hyphenate.easeui.EaseConstant.EXTRA_CHAT_TYPE;
+import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_ADD_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_STICK;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
 import static com.hyphenate.easeui.widget.chatrow.EaseChatRow.TipMsgType.OPEN_MUTE;
@@ -297,6 +298,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_TO_USER_ID, toChatUsername);
         bundle.putInt(EXTRA_CHAT_TYPE, chatType);
+        bundle.putBoolean(EXTRA_IS_ADD_GROUP,true);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             bundle.putInt(EXTRA_IS_STICK, mIsStick);
         }

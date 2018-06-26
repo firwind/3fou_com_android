@@ -170,7 +170,7 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
                             // 创建成功 跳转聊天详情页面
                             String id = data.getId();
                             data.setName(groupName);
-                            data.setMembersonly(true);
+                            data.setMembersonly(false);
                             data.setMaxusers(200);
                             data.setAllowinvites(false);
                             data.setIsPublic(false);
