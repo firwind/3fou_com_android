@@ -197,7 +197,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     private ChatMemberAdapter mChatMemberAdapter;
     private List<UserInfoBean> mChatMembers = new ArrayList<>();
     private UserInfoBean user;
-    private boolean mIsAddGroup = false;//默认是已加入群组
+    private boolean mIsAddGroup = true;//默认是已加入群组
 
     public ChatInfoFragment instance(Bundle bundle) {
         ChatInfoFragment fragment = new ChatInfoFragment();
@@ -369,8 +369,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                  非本群用户：加入群聊
                  */
             case R.id.tv_delete_group:
-                initDeletePopupWindow(mPresenter.isGroupOwner() ? getString(R.string.chat_delete) : !mIsAddGroup ? getString(R.string.chat_quit) : getString(R.string.tv_add_group_chat)
-                        , mPresenter.isGroupOwner() ? getString(R.string.chat_delete_group_alert) : !mIsAddGroup ? getString(R.string.chat_quit_group_alert) : getString(R.string.chat_quit_group_add));
+                initDeletePopupWindow(mPresenter.isGroupOwner() ? getString(R.string.chat_delete) : mIsAddGroup ? getString(R.string.chat_quit) : getString(R.string.tv_add_group_chat)
+                        , mPresenter.isGroupOwner() ? getString(R.string.chat_delete_group_alert) : mIsAddGroup ? getString(R.string.chat_quit_group_alert) : getString(R.string.chat_quit_group_add));
                 break;
             case R.id.ll_group_portrait:
                 // 修改群头像
@@ -579,7 +579,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         });
         //禁言
-        mScBannedPost.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        mScBannedPost.setOnClickListener((buttonView) -> {
             if (mChatType == CHATTYPE_GROUP) {
                 if (mScBannedPost.isChecked()) {
                     mPresenter.openBannedPost(mChatGroupBean.getId(), "0", "", EXTRA_BANNED_POST);//开启禁言
@@ -881,7 +881,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 vwUpgrade.setVisibility(View.GONE);
                 vwSetStick.setVisibility(View.GONE);
 
-                if (mIsAddGroup) {
+                if (!mIsAddGroup) {
                     mLlSetStick.setVisibility(View.GONE);
                     mTvClearMessage.setVisibility(View.GONE);
                     mTvDeleteGroup.setText(getString(R.string.tv_add_group_chat));
@@ -897,7 +897,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mIvGropIconArrow.setVisibility(View.VISIBLE);
                 mIvGropNameArrow.setVisibility(View.VISIBLE);
             }
-            if (!mIsAddGroup) {
+            if (mIsAddGroup) {
                 // 群聊的信息展示
                 EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
                 // 屏蔽按钮
