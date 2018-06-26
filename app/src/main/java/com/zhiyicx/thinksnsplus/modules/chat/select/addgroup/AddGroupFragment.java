@@ -179,7 +179,7 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
 
     @Override
     public void checkIsAddGroup(String id, EMGroup data, boolean isExist) {
-        if (data != null && !isExist) {//已经在群里
+        if (data != null && isExist) {//已经在群里
             EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
             ChatActivity.startChatActivity(mActivity, conversation.conversationId(), CHATTYPE_GROUP);
 //            mActivity.finish();
