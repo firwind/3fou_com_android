@@ -15,6 +15,7 @@ public interface MessageGroupContract {
 
     interface View extends ITSListView<ChatGroupBean,Presenter>{
         String getsearchKeyWord();
+        boolean isOnlyOfficialGroup();
         void checkGroupExist(String id,EMGroup data);
     }
 

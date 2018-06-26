@@ -22,6 +22,8 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
+import com.zhiyicx.thinksnsplus.modules.home.addressbook.AddressBookFragment;
+import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListPresenter;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
@@ -53,6 +55,7 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     TSSearchView mSearchView;
     private List<ChatGroupBean> cache;
 
+    private static final String IS_ONLY_OFFICIAL_GROUP = "is_only_official_group";
     /**
      * 仅用于构造
      */
@@ -67,6 +70,15 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     public static MessageGroupListFragment newInstance() {
         MessageGroupListFragment fragment = new MessageGroupListFragment();
         Bundle args = new Bundle();
+        args.putBoolean(IS_ONLY_OFFICIAL_GROUP,false);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static MessageGroupListFragment newInstance(boolean isOnlyOfficialGroup) {
+        MessageGroupListFragment fragment = new MessageGroupListFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(IS_ONLY_OFFICIAL_GROUP,isOnlyOfficialGroup);
         fragment.setArguments(args);
         return fragment;
     }
@@ -122,14 +134,23 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     protected void initData() {
         super.initData();
         initListener();
-        // 刷新信息内容
-        getGroupListData();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!TextUtils.isEmpty(mSearchView.getText())) {
+
+        if (mPresenter != null) {
+            if (mListDatas.isEmpty()) {
+                mRefreshlayout.autoRefresh(0);
+            } else {
+                mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
+            }
+            //mPresenter.refreshConversationReadMessage();该请求已在MessageFragment中实现
+
+
+        }
+        if (getUserVisibleHint() && !TextUtils.isEmpty(mSearchView.getText())) {
             mSearchView.setText("");
         }
     }
@@ -163,6 +184,21 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
                         .transform(new GlideCircleTransform(mContext))
                         .into(holder.getImageViwe(R.id.uv_group_head));
 
+                int resId = 0;
+                switch (chatGroupBean.getGroup_level()){
+                    case 0:
+                        resId = 0;
+                        break;
+                    case 1:
+                        resId = R.mipmap.icon_official_group;
+                        break;
+                    case 2:
+                        resId = R.mipmap.icon_hot_group;
+                        break;
+                }
+                holder.getImageViwe(R.id.iv_group_sign).setVisibility(0 == resId ? View.INVISIBLE : View.VISIBLE);
+                if(0 != resId)
+                    holder.getImageViwe(R.id.iv_group_sign).setImageDrawable(mActivity.getResources().getDrawable(resId));
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
@@ -200,6 +236,11 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     @Override
     public String getsearchKeyWord() {
         return mSearchView.getText().toString().trim();
+    }
+
+    @Override
+    public boolean isOnlyOfficialGroup() {
+        return null == getArguments() ? false : getArguments().getBoolean(IS_ONLY_OFFICIAL_GROUP);
     }
 
     @Subscriber(mode = ThreadMode.MAIN)
@@ -276,5 +317,18 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         if (mPresenter != null) {
             mRefreshlayout.autoRefresh(0);
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        /*if(isVisibleToUser){
+            if (mSearchView != null)
+                mSearchView.setText("");
+            if( null != getParentFragment() && ( (getParentFragment() instanceof MessageContainerFragment
+                    && ((MessageContainerFragment)getParentFragment()).getCurrentItem() == 0)
+                    || getParentFragment() instanceof AddressBookFragment) )
+                onRefresh(null);
+        }*/
     }
 }

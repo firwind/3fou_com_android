@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.hyphenate.chat.EMClient;
@@ -29,6 +30,7 @@ import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.i.OnUserInfoClickListener;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.MessageAdapterV2;
+import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
@@ -126,6 +128,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
         refreshConversationInfo();
     }
 
+
     /**
      * 刷新会话信息
      */
@@ -152,6 +155,14 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
         if (isVisibleToUser) {
             if (mSearchView != null)
                 mSearchView.setText("");
+
+            //该事件会由以下两种情况出现
+            // ①MessageContainerfragment中的viewPager切换
+            // ②HomeFragment中的切换 --- MessageContainerFragment中的setUserVisibleHint方法
+            //只在 MessageConversationFragment真正可见时调用
+            /*if( null != getParentFragment() &&
+                    ((MessageContainerFragment)getParentFragment()).getCurrentItem() == 1 )
+                refreshConversationInfo();*/
         }
 
         if (isVisibleToUser && mAdapter != null && ((MessageAdapterV2) mAdapter).hasItemOpend()) {

@@ -155,6 +155,9 @@ public class MessageFragment extends TSListFragment<MessageContract.Presenter, M
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
+        //该事件会由以下两种情况出现
+        // ①MessageContainerfragment中的viewPager切换
+        // ②HomeFragment中的切换 --- MessageContainerFragment中的setUserVisibleHint方法
         if (mPresenter != null && isVisibleToUser) {
             // 除了通知的未读数用户信息获取
             mPresenter.handleFlushMessage();

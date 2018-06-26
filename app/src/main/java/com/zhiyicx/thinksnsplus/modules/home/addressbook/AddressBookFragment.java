@@ -71,13 +71,13 @@ public class AddressBookFragment extends TSViewPagerFragment {
 
     @Override
     protected int getOffsetPage() {
-        return 2;
+        return 3;
     }
 
     @Override
     protected void initView(View rootView) {
         // 需要在 initview 之前，应为在 initview 中使用了 dagger 注入的数据
-        AppApplication.AppComponentHolder.getAppComponent().inject(this);
+        //AppApplication.AppComponentHolder.getAppComponent().inject(this);
         super.initView(rootView);
         initToolBar();
     }

@@ -602,7 +602,7 @@ public class MessagePresenter extends AppBasePresenter<MessageContract.View> imp
                     boolean hasReviewMsg = mItemBeanReview != null && mItemBeanReview.getUnReadMessageNums() != 0;
 
                     isShowMessgeTip = hasSystemMsg || hasDigMsg || hasCommentMsg || hasReviewMsg;
-
+                    //是否有未读环信消息
                     mNotificaitonRedDotIsShow = TSEMHyphenate.getInstance().getUnreadMsgCount() > 0;
 
                     return isShowMessgeTip;
@@ -611,7 +611,8 @@ public class MessagePresenter extends AppBasePresenter<MessageContract.View> imp
                 .subscribe(isShowMessgeTip -> {
                     Fragment containerFragment = mRootView.getCureenFragment().getParentFragment();
                     if (containerFragment != null && containerFragment instanceof MessageContainerFragment) {
-                        ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(isShowMessgeTip, 0);
+                        ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(isShowMessgeTip, 2);
+                        //环信消息
                         ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(mNotificaitonRedDotIsShow, 1);
                     }
                     boolean messageContainerRedDotIsShow = isShowMessgeTip || mNotificaitonRedDotIsShow;

@@ -82,6 +82,18 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     private int maxusers;
     private long owner;
 
+    public static final Creator<ChatGroupBean> CREATOR = new Creator<ChatGroupBean>() {
+        @Override
+        public ChatGroupBean createFromParcel(Parcel in) {
+            return new ChatGroupBean(in);
+        }
+
+        @Override
+        public ChatGroupBean[] newArray(int size) {
+            return new ChatGroupBean[size];
+        }
+    };
+
     public int getIs_stick() {
         return is_stick;
     }
@@ -99,6 +111,16 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     private List<UserInfoBean> affiliations;
     @SerializedName("public")
     private boolean isPublic;
+
+    private int group_level;//群等级，1-官方群;2-热门群
+
+    public int getGroup_level() {
+        return group_level;
+    }
+
+    public void setGroup_level(int group_level) {
+        this.group_level = group_level;
+    }
 
     public String getId() {
         return id;
@@ -223,6 +245,7 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
                 ", affiliations_count=" + affiliations_count +
                 ", affiliations=" + affiliations +
                 ", isPublic=" + isPublic +
+                ", group_level" + group_level +
                 '}';
     }
 
@@ -248,6 +271,7 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         dest.writeInt(this.affiliations_count);
         dest.writeTypedList(this.affiliations);
         dest.writeByte(this.isPublic ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.group_level);
     }
 
     public Long getKey() {
@@ -289,12 +313,14 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         this.affiliations_count = in.readInt();
         this.affiliations = in.createTypedArrayList(UserInfoBean.CREATOR);
         this.isPublic = in.readByte() != 0;
+        this.group_level = in.readInt();
     }
 
-    @Generated(hash = 2060602613)
+    @Generated(hash = 363480501)
     public ChatGroupBean(Long key, String id, String name, String description, boolean membersonly,
             boolean allowinvites, int maxusers, long owner, String created, String group_face,
-            int affiliations_count, List<UserInfoBean> affiliations, boolean isPublic) {
+            int affiliations_count, List<UserInfoBean> affiliations, boolean isPublic,
+            int group_level) {
         this.key = key;
         this.id = id;
         this.name = name;
@@ -308,6 +334,7 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         this.affiliations_count = affiliations_count;
         this.affiliations = affiliations;
         this.isPublic = isPublic;
+        this.group_level = group_level;
     }
 
     public static class NoticeItemBeanConverter implements PropertyConverter<NoticeItemBean, String> {

@@ -20,6 +20,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -64,7 +66,21 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                                 builder.append(group.getGroupId());
                                 builder.append(",");
                             }
-                            return mBaseMessageRepository.getGroupInfoOnlyGroupFace(builder.toString());
+
+                            //筛选出官方群
+                            if(mRootView.isOnlyOfficialGroup()){
+                                return mBaseMessageRepository.getGroupInfoOnlyGroupFace(builder.toString())
+                                        .map(chatGroupBeans -> {
+                                            List<ChatGroupBean> list = new ArrayList<>();
+                                            for (int i = 0; i < chatGroupBeans.size(); i++) {
+                                                if(1 == chatGroupBeans.get(i).getGroup_level())
+                                                    list.add(chatGroupBeans.get(i));
+                                            }
+                                            return list;
+                                        });
+                            }else {
+                                return mBaseMessageRepository.getGroupInfoOnlyGroupFace(builder.toString());
+                            }
                         }
                         return Observable.just(new ArrayList<>());
                     } catch (HyphenateException e) {

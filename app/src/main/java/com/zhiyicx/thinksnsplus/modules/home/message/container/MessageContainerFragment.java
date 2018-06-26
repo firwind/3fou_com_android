@@ -20,6 +20,7 @@ import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.lwy.righttopmenu.MenuItem;
 import com.lwy.righttopmenu.RightTopMenu;
 import com.zhiyicx.baseproject.base.TSViewPagerFragment;
+import com.zhiyicx.baseproject.base.TSViewPagerFragmentV2;
 import com.zhiyicx.baseproject.widget.TabSelectView;
 import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.common.utils.StatusBarUtils;
@@ -32,6 +33,7 @@ import com.zhiyicx.thinksnsplus.modules.findsomeone.contianer.FindSomeOneContain
 import com.zhiyicx.thinksnsplus.modules.home.common.invite.InviteShareActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.MessageFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupListFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagelist.MessageConversationFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
 
@@ -59,7 +61,7 @@ import butterknife.BindView;
  * @contact email:648129313@qq.com
  */
 
-public class MessageContainerFragment extends TSViewPagerFragment implements EaseConversationListFragment.EaseConversationListItemClickListener {
+public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements EaseConversationListFragment.EaseConversationListItemClickListener*/ {
 
     private static final int DEFAULT_TAB_UNSELECTED_TEXTCOLOR = com.zhiyicx.baseproject.R.color.normal_for_assist_text;// 缺省的tab未选择文字
     private static final int DEFAULT_TAB_SELECTED_TEXTCOLOR = com.zhiyicx.baseproject.R.color.important_for_content;// 缺省的tab被选择文字
@@ -90,7 +92,7 @@ public class MessageContainerFragment extends TSViewPagerFragment implements Eas
 
     @Override
     protected int getOffsetPage() {
-        return 1;
+        return 3;
     }
 
     @Override
@@ -101,15 +103,16 @@ public class MessageContainerFragment extends TSViewPagerFragment implements Eas
 
     @Override
     protected List<String> initTitles() {
-        return Arrays.asList(getString(R.string.chat),getString(R.string.notification));
+        return Arrays.asList(getString(R.string.official_group),getString(R.string.chat),getString(R.string.notification));
     }
 
     @Override
     protected List<Fragment> initFragments() {
         if (mFragmentList == null) {
             mFragmentList = new ArrayList<>();
-            EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
-            conversationListFragment.setConversationListItemClickListener(this);
+            /*EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
+            conversationListFragment.setConversationListItemClickListener(this);*/
+            mFragmentList.add(MessageGroupListFragment.newInstance(true));
             mFragmentList.add(new MessageConversationFragment());
             mFragmentList.add(MessageFragment.newInstance());
         }
@@ -229,18 +232,18 @@ public class MessageContainerFragment extends TSViewPagerFragment implements Eas
      * @param position 位置 0-消息 1=通知
      */
     public void setNewMessageNoticeState(boolean isShow, int position) {
-        if (position != 0 && position != 1) {
+        if (position != 1 && position != 2) {
             return;
         }
         switch (position) {
-            case 0:
+            case 1:
                 if (isShow == mIsMessageTipShow) {
 //                    return;
                 } else {
                     mIsMessageTipShow = isShow;
                 }
                 break;
-            case 1:
+            case 2:
                 if (isShow == mIsNotificationTipShow) {
 //                    return;
                 } else {
@@ -333,8 +336,8 @@ public class MessageContainerFragment extends TSViewPagerFragment implements Eas
         }
     }
 
-    @Override
+    /*@Override
     public void onListItemClicked(EMConversation conversation) {
 
-    }
+    }*/
 }
