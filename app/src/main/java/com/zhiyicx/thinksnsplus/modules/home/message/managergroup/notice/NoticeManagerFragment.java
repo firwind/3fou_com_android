@@ -176,7 +176,7 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
     }
 
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_NOTICE)
-    public void onPublishNoticeSuccess(boolean isRefresh) {
+    public void onPublishNoticeSuccess(String isRefresh) {
         getNoticeListData();
     }
 

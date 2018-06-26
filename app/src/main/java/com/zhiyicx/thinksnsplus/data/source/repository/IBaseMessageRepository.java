@@ -1,7 +1,9 @@
 package com.zhiyicx.thinksnsplus.data.source.repository;
 
+import com.hyphenate.chat.EMGroup;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
@@ -45,6 +47,14 @@ public interface IBaseMessageRepository {
      * @return
      */
     Observable<List<ChatGroupBean>> getGroupInfoOnlyGroupFace(String ids);
+
+    /**
+     * 获取搜索群列表
+     *
+     * @param ids 群 id , 以 ， 分割
+     * @return
+     */
+    Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(String ids);
 
     /**
      * 完善用户信息 ，在 聊天详情界面
@@ -97,5 +107,6 @@ public interface IBaseMessageRepository {
      * @return
      */
     Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(String group_id, int page);
+
 
 }

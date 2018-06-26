@@ -81,13 +81,23 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                             // 解散群组
                             EMClient.getInstance().groupManager().destroyGroup(id);
                         } else {
-                            // 退群
-                            try {
-                                EMClient.getInstance().groupManager().leaveGroup(id);
-                            } catch (HyphenateException e) {
-                                e.printStackTrace();
+                            if (mRootView.getIsAddGroup()) {
+                                // 退群
+                                try {
+                                    EMClient.getInstance().groupManager().leaveGroup(id);
+                                } catch (HyphenateException e) {
+                                    e.printStackTrace();
+                                }
+                                EMClient.getInstance().chatManager().deleteConversation(id, true);
+                            }else {
+                                // 加群
+                                try {
+                                    EMClient.getInstance().groupManager().joinGroup(id);//需异步处理
+                                } catch (HyphenateException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                            EMClient.getInstance().chatManager().deleteConversation(id, true);
+
                         }
                         return Observable.just(id);
                     } catch (HyphenateException e) {
@@ -99,9 +109,13 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
-                        EventBus.getDefault().post(data, EVENT_IM_DELETE_QUIT);
-                        mRootView.closeCurrentActivity();
-                        EMClient.getInstance().chatManager().deleteConversation(data, true);
+                        if (mRootView.getIsAddGroup()) {
+                            EventBus.getDefault().post(data, EVENT_IM_DELETE_QUIT);
+                            mRootView.closeCurrentActivity();
+                            EMClient.getInstance().chatManager().deleteConversation(data, true);
+                        }else {
+                            mRootView.goChatActivity();
+                        }
                     }
 
                     @Override
@@ -144,14 +158,15 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
     @Override
     public void openBannedPost(String im_group_id, String user_id, String times, String members) {
-        Subscription subscription = mRepository.openBannedPost(im_group_id,user_id,times,members)
+        Subscription subscription = mRepository.openBannedPost(im_group_id, user_id, times, members)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
 
                     @Override
                     protected void onSuccess(String data) {
-
+                        mRootView.setBannedPostSuccess();
                     }
+
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
@@ -169,7 +184,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
     @Override
     public void removeBannedPost(String im_group_id, String user_id, String members) {
-        Subscription subscription = mRepository.removeBannedPost(im_group_id,user_id,members)
+        Subscription subscription = mRepository.removeBannedPost(im_group_id, user_id, members)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
 
@@ -177,6 +192,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     protected void onSuccess(String data) {
 
                     }
+
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
@@ -194,7 +210,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
     @Override
     public void setSticks(String stick_id, String author, int isStick) {
-        Subscription subscription = mRepository.setStick(stick_id,author,isStick)
+        Subscription subscription = mRepository.setStick(stick_id, author, isStick)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
 
@@ -202,6 +218,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     protected void onSuccess(String data) {
                         mRootView.setSticksSuccess();
                     }
+
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
@@ -294,7 +311,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
     public void createGroupFromSingleChat() {
         String name = AppApplication.getmCurrentLoginAuth().getUser().getName() + "、" + getUserInfoFromLocal(mRootView.getToUserId()).getName();
         String member = AppApplication.getMyUserIdWithdefault() + "," + mRootView.getToUserId();
-        Subscription subscription = mRepository.createGroup(name, "暂无", false,
+        Subscription subscription = mRepository.createGroup(name, "暂无", true,
                 200, false, true, AppApplication.getMyUserIdWithdefault(), member)
                 .doOnSubscribe(() -> {
                     // 这里的占位文字都没提供emm
@@ -419,4 +436,5 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
     public void saveGroupInfo(ChatGroupBean chatGroupBean) {
         mChatGroupBeanGreenDao.saveSingleData(chatGroupBean);
     }
+
 }

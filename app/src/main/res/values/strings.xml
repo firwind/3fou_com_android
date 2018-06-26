@@ -1084,6 +1084,7 @@
     <string name="chat_set_group_name">群名称</string>
     <string name="chat_quit_group">退出群聊</string>
     <string name="chat_quit_group_alert">是否退出群组？</string>
+    <string name="chat_quit_group_add">是否加入群组？</string>
     <string name="shield_group_msg">你已屏蔽该群聊</string>
     <string name="super_edit_group_name">快速编辑群名称，开启群聊</string>
     <string name="super_open_mute_hint">全部被禁言！</string>
@@ -1164,6 +1165,8 @@
 
     <string name="go_top">置顶</string>
     <string name="cancel_top">取消置顶</string>
+    <string name="search_group_name">搜索群名称</string>
+    <string name="no_result_group">该群不存在</string>
 
     <string name="official_group">官方群聊</string>
 

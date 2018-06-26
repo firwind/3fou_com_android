@@ -15,6 +15,7 @@ import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
@@ -359,6 +360,17 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     }
 
     @Override
+    public Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(String groupName) {
+        if (null != groupName && groupName.length() > 0) {
+            return mClient.getSearchGroupInfo(groupName)
+                    .subscribeOn(Schedulers.io());
+        } else {
+            return mClient.getSearchGroupInfoFace()
+                    .subscribeOn(Schedulers.io());
+        }
+    }
+
+    @Override
     public void deleteLocalChatGoup(String id) {
         mChatGroupBeanGreenDao.deleteChatGroupBeanById(id);
     }
@@ -418,17 +430,17 @@ public class BaseMessageRepository implements IBaseMessageRepository {
 
     @Override
     public Observable<String> releaseNotice(String group_id, String title, String content, String author) {
-        return mClient.releaseNotice(group_id,title,content,author)
+        return mClient.releaseNotice(group_id, title, content, author)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<String> addGroupAlbum(String images, String group_id) {
-        return mClient.addGroupAlbum(images,group_id);
+        return mClient.addGroupAlbum(images, group_id);
     }
 
     @Override
     public Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(String group_id, int page) {
-        return mClient.getGroupAlbumList(group_id,DEFAULT_ONE_PAGE_SHOW_MAX_SIZE,page);
+        return mClient.getGroupAlbumList(group_id, DEFAULT_ONE_PAGE_SHOW_MAX_SIZE, page);
     }
 }

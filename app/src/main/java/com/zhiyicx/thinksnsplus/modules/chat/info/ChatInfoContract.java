@@ -47,7 +47,9 @@ public interface ChatInfoContract {
         void updateGroupOwner(ChatGroupBean chatGroupBean);
 
         void setSticksSuccess();
-
+        void setBannedPostSuccess();
+        boolean getIsAddGroup();
+        void goChatActivity();
     }
 
     interface Presenter extends IBasePresenter {

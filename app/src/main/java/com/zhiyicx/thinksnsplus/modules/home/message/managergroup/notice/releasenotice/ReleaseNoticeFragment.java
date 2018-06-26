@@ -99,7 +99,8 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
 
     @Override
     public void relaseSuccess() {
-        EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE);
+
+        EventBus.getDefault().post(mNoticeContent, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE);
         getActivity().finish();
     }
 

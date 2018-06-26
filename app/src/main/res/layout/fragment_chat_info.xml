@@ -269,10 +269,12 @@
                 </LinearLayout>
 
                 <View
+                    android:visibility="gone"
                     style="@style/style_divider_horizontal_light"
                     android:layout_height="@dimen/spacing_normal" />
                 <!--群名片-->
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -325,6 +327,7 @@
 
                 <!--查找聊天记录-->
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_find_message"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chat_info_header_view_width"
@@ -337,6 +340,7 @@
 
 
                 <View
+                    android:visibility="gone"
                     android:id="@+id/vw_set_stick"
                     style="@style/style_divider_horizontal_light"
                     android:layout_height="@dimen/spacing_normal" />
@@ -414,6 +418,7 @@
                     android:layout_height="@dimen/spacing_normal" />
                 <!--升级群-->
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_upgrade"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chat_info_header_view_width"
@@ -425,6 +430,7 @@
                     android:textSize="@dimen/size_content" />
 
                 <View
+                    android:visibility="gone"
                     android:id="@+id/vw_upgrade"
                     style="@style/style_divider_horizontal_light"
                     android:layout_height="@dimen/spacing_normal" />
@@ -455,7 +461,7 @@
                         android:src="@mipmap/ic_arrow_smallgrey" />
                 </LinearLayout>
             </LinearLayout>
-            <!--单聊群聊公共的模块-->
+
             <RelativeLayout
                 android:id="@+id/rl_block_message"
                 android:layout_width="match_parent"
@@ -512,6 +518,7 @@
                     android:textSize="@dimen/size_content" />
 
                 <android.support.v7.widget.SwitchCompat
+
                     android:id="@+id/sc_stick_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -519,6 +526,7 @@
 
             <!--清空记录-->
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_clear_message"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/chat_info_header_view_width"

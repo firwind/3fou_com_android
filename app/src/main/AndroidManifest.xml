@@ -739,6 +739,9 @@
         <activity
             android:name=".modules.home.message.managergroup.album.MessageGroupAlbumActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.chat.select.addgroup.AddGroupActivity"
+            android:screenOrientation="portrait" />
 
 
         <activity

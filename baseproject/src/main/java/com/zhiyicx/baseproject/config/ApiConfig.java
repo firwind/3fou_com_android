@@ -130,6 +130,8 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_INFO = "api/" + API_VERSION_2 + "/easemob/group?im_group_id=%s";// 获取群信息
     public static final String APP_PATH_GET_GROUP_INFO_S = "api/" + API_VERSION_2 + "/easemob/group";// 获取群信息
     public static final String APP_PATH_GET_GROUP_INFO_S_FACE = "api/" + API_VERSION_2 + "/easemob/groups";// 获取群信息,只返回群头像，
+    public static final String APP_PATH_GET_GROUP_RECOMMEND= "api/" + API_VERSION_2 + "/group/randomquery";// 获取推荐群
+    public static final String APP_PATH_GET_GROUP_SEARCE= "api/" + API_VERSION_2 + "/easemob/group/search";// 搜索群
     public static final String APP_PATH_GET_GROUP_ADD_MEMBER = "api/" + API_VERSION_2 + "/easemob/group/member";// 修改成员 添加POST 移除delete
     public static final String APP_PATH_GET_GROUP_ADD_NOTICE = "api/" + API_VERSION_2 + "/easemob/group/addnotice";// 发布群公告
     public static final String APP_PATH_GET_GROUP_NOTICE_LIST = "api/" + API_VERSION_2 + "/easemob/group/findnotice";// 获取群公告列表

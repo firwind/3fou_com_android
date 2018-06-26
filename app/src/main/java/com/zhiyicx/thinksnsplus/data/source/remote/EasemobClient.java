@@ -4,6 +4,7 @@ import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
@@ -86,6 +87,21 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_S_FACE)
     Observable<List<ChatGroupBean>> getGroupInfoOnlyGroupFace(@Query("im_group_id") String ids);
+
+    /**
+     * 获取推荐群
+     *
+     * @param
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_RECOMMEND)
+    Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace();
+    /**
+     * 搜索群
+     *
+     * @param
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_SEARCE)
+    Observable<List<ChatGroupServerBean>> getSearchGroupInfo(@Query("name") String name);
 
     /**
      * 获取群公告列表

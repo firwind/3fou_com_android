@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.EaseConstant;
 import com.zhiyicx.baseproject.base.TSFragment;
@@ -72,7 +73,9 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.hyphenate.easeui.EaseConstant.CHATTYPE_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_BANNED_POST;
+import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_ADD_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE;
@@ -194,6 +197,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     private ChatMemberAdapter mChatMemberAdapter;
     private List<UserInfoBean> mChatMembers = new ArrayList<>();
     private UserInfoBean user;
+    private boolean mIsAddGroup = false;//默认是已加入群组
 
     public ChatInfoFragment instance(Bundle bundle) {
         ChatInfoFragment fragment = new ChatInfoFragment();
@@ -244,7 +248,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             });
             // 屏蔽单聊的布局
             mLlSingle.setVisibility(View.GONE);
-
+            mIsAddGroup = getArguments().getBoolean(EXTRA_IS_ADD_GROUP);
+            getIsAddGroup();
         }
 
         initPhotoPopupWindow();
@@ -256,7 +261,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
      * @param
      */
     private void setIsStick() {
-        if (mChatType == EaseConstant.CHATTYPE_GROUP) {
+        if (mChatType == CHATTYPE_GROUP) {
             if (mChatGroupBean.getIs_stick() == EaseConstant.CLOESS_MUTS) {//关闭置顶
                 mScStickMessage.setChecked(false);
             } else {
@@ -361,20 +366,21 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 /*
                  群主：删除群聊
                  普通用户：退出群
+                 非本群用户：加入群聊
                  */
             case R.id.tv_delete_group:
-                initDeletePopupWindow(mPresenter.isGroupOwner() ? getString(R.string.chat_delete) : getString(R.string.chat_quit)
-                        , mPresenter.isGroupOwner() ? getString(R.string.chat_delete_group_alert) : getString(R.string.chat_quit_group_alert));
+                initDeletePopupWindow(mPresenter.isGroupOwner() ? getString(R.string.chat_delete) : !mIsAddGroup ? getString(R.string.chat_quit) : getString(R.string.tv_add_group_chat)
+                        , mPresenter.isGroupOwner() ? getString(R.string.chat_delete_group_alert) : !mIsAddGroup ? getString(R.string.chat_quit_group_alert) : getString(R.string.chat_quit_group_add));
                 break;
             case R.id.ll_group_portrait:
                 // 修改群头像
-                if (mChatType == ChatConfig.CHATTYPE_GROUP && mPresenter.isGroupOwner()) {
+                if (mChatType == CHATTYPE_GROUP && mPresenter.isGroupOwner()) {
                     mPhotoPopupWindow.show();
                 }
                 break;
             case R.id.ll_group_name:
                 // 修改群名称
-                if (mChatType == ChatConfig.CHATTYPE_GROUP && mPresenter.isGroupOwner()) {
+                if (mChatType == CHATTYPE_GROUP && mPresenter.isGroupOwner()) {
                     Intent intentName = new Intent(getContext(), EditGroupNameActivity.class);
                     Bundle bundleName = new Bundle();
                     bundleName.putString(GROUP_ORIGINAL_NAME, mChatGroupBean.getName());
@@ -392,7 +398,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 break;
             case R.id.ll_announcement:
                 // 群公告
-                if (mChatType == ChatConfig.CHATTYPE_GROUP) {
+                if (mChatType == CHATTYPE_GROUP) {
                     Intent intentName = new Intent(getContext(), NoticeManagerActivity.class);
                     intentName.putExtra(GROUP_ORIGINAL_ID, mChatGroupBean.getId());
                     intentName.putExtra(IS_GROUP_OWNER, mPresenter.isGroupOwner());
@@ -400,12 +406,12 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 }
                 break;
             case R.id.tv_jurisdiction:
-                if (mChatType == ChatConfig.CHATTYPE_GROUP) {
+                if (mChatType == CHATTYPE_GROUP) {
                     JurisdictionActivity.startSelectFriendActivity(getContext(), mChatGroupBean);
                 }
                 break;
             case R.id.tv_set_admin:
-                if (mChatType == ChatConfig.CHATTYPE_GROUP) {
+                if (mChatType == CHATTYPE_GROUP) {
                     SettingAdminActivity.startSettingAdminActivty(getContext(), mChatGroupBean);
                 }
                 break;
@@ -538,6 +544,26 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         }
     }
 
+    /**
+     * 禁言成功
+     */
+    @Override
+    public void setBannedPostSuccess() {
+        onPublishGroupSuccess(true);
+    }
+
+    @Override
+    public boolean getIsAddGroup() {
+        return mIsAddGroup;
+    }
+
+    @Override
+    public void goChatActivity() {
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mChatId, EMConversation.EMConversationType.GroupChat, true);
+        ChatActivity.startChatActivity(mActivity, conversation.conversationId(), CHATTYPE_GROUP);
+        getActivity().finish();
+    }
+
     @Override
     public void getGroupInfoSuccess(ChatGroupNewBean chatGroupBean) {
         mChatGroupBean = chatGroupBean;
@@ -554,7 +580,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         });
         //禁言
         mScBannedPost.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (mChatType == EaseConstant.CHATTYPE_GROUP) {
+            if (mChatType == CHATTYPE_GROUP) {
                 if (mScBannedPost.isChecked()) {
                     mPresenter.openBannedPost(mChatGroupBean.getId(), "0", "", EXTRA_BANNED_POST);//开启禁言
                 } else {
@@ -572,7 +598,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         });
 
         mNoticeText.setText(TextUtils.isEmpty(chatGroupBean.getNoticeItemBean().getOriginal().getContent()) ? "暂无公告" : chatGroupBean.getNoticeItemBean().getOriginal().getContent());
-        if (mChatType == EaseConstant.CHATTYPE_GROUP) {
+        if (mChatType == CHATTYPE_GROUP) {
             if (chatGroupBean.getmIsMute() == EaseConstant.CLOESS_MUTS) {//关闭禁言状态
                 mScBannedPost.setChecked(false);
             } else if (chatGroupBean.getmIsMute() == EaseConstant.OPEN_MUTS) {//开启禁言状态
@@ -661,7 +687,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             showSnackErrorMessage(getString(R.string.create_fail));
         } else {
             // 点击跳转聊天
-            ChatActivity.startChatActivity(mActivity, id, EaseConstant.CHATTYPE_GROUP);
+            ChatActivity.startChatActivity(mActivity, id, CHATTYPE_GROUP);
             getActivity().finish();
         }
 
@@ -854,6 +880,14 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 vwJurisdiction.setVisibility(View.GONE);
                 vwUpgrade.setVisibility(View.GONE);
                 vwSetStick.setVisibility(View.GONE);
+
+                if (mIsAddGroup) {
+                    mLlSetStick.setVisibility(View.GONE);
+                    mTvClearMessage.setVisibility(View.GONE);
+                    mTvDeleteGroup.setText(getString(R.string.tv_add_group_chat));
+                    mRlBlockMessage.setVisibility(View.GONE);
+                }
+
             } else {
                 // 群主无法屏蔽消息
                 mTvGroupHeader.setText(R.string.chat_set_group_portrait);
@@ -863,11 +897,12 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mIvGropIconArrow.setVisibility(View.VISIBLE);
                 mIvGropNameArrow.setVisibility(View.VISIBLE);
             }
-            // 群聊的信息展示
-            EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
-            // 屏蔽按钮
-            mScBlockMessage.setChecked(group.isMsgBlocked());
-
+            if (!mIsAddGroup) {
+                // 群聊的信息展示
+                EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
+                // 屏蔽按钮
+                mScBlockMessage.setChecked(group.isMsgBlocked());
+            }
             // 群名称
             String groupName = mChatGroupBean.getName();
             // + "(" + mChatGroupBean.getAffiliations_count() + ")";
@@ -893,9 +928,16 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     }
 
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_MUTE)
-    public void onPublishNoticeSuccess(boolean isRefresh) {
+    public void onPublishGroupSuccess(boolean isRefresh) {
         if (isRefresh) {
             mPresenter.getGroupChatInfo(mChatId);//获取群信息
         }
+    }
+
+    @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_NOTICE)
+    public void onPublishNoticeSuccess(String noticeStr) {
+
+        mNoticeText.setText(noticeStr);
+
     }
 }
