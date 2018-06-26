@@ -59,10 +59,10 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     public Observable<ChatGroupBean> createGroup(String groupName, String groupIntro, boolean isPublic,
                                                  int maxUser, boolean isMemberOnly, boolean isAllowInvites,
                                                  long owner, String members) {
-        return mEasemobClient.createGroup(groupName, groupIntro, isPublic ? 1 : 0, maxUser, isMemberOnly, isAllowInvites ? 1 : 0, owner, members)
+        return mEasemobClient.createGroup(groupName, groupIntro, isPublic ? 1 : 0, maxUser, isMemberOnly ? 1 : 0, isAllowInvites ? 1 : 0, owner, members)
                 .subscribeOn(Schedulers.io());
-
     }
+
 
     @Override
     public Observable<ChatGroupBean> updateGroup(String imGroupId, String groupName, String groupIntro, int isPublic,
@@ -71,14 +71,14 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
         // 如果是修改头像才去上传图片
         if (isEditGroupFace) {
             return mUpLoadRepository.upLoadSingleFileV2(groupFace, "", true, 0, 0)
-                    .flatMap(integerBaseJson -> mEasemobClient.updateGroup(imGroupId, groupName, groupIntro, isPublic, maxUser, isMemberOnly, isAllowInvites, String.valueOf(integerBaseJson.getData()), newOwner)
+                    .flatMap(integerBaseJson -> mEasemobClient.updateGroup(imGroupId, groupName, groupIntro, isPublic, maxUser, isMemberOnly?1:0, isAllowInvites, String.valueOf(integerBaseJson.getData()), newOwner)
                             .flatMap(chatGroupBean -> {
                                 mChatGroupBeanGreenDao.updateGroupHeadImage(chatGroupBean.getId(), chatGroupBean.getGroup_face());
                                 return Observable.just(chatGroupBean);
                             })
                             .subscribeOn(Schedulers.io()));
         } else {
-            return mEasemobClient.updateGroup(imGroupId, groupName, groupIntro, isPublic, maxUser, isMemberOnly,
+            return mEasemobClient.updateGroup(imGroupId, groupName, groupIntro, isPublic, maxUser, isMemberOnly?1:0,
                     isAllowInvites, "", newOwner)
                     .flatMap(chatGroupBean -> {
                         mChatGroupBeanGreenDao.updateGroupInfo(imGroupId, groupName, groupIntro, isPublic, maxUser, isMemberOnly, isAllowInvites, newOwner);

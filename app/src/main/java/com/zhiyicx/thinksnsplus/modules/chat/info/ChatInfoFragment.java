@@ -269,6 +269,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         } else {
             if (mIsStick == EaseConstant.CLOESS_MUTS) {//关闭置顶
+
                 mScStickMessage.setChecked(false);
             } else {
                 mScStickMessage.setChecked(true);
