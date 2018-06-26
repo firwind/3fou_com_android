@@ -76,7 +76,7 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
 
     @Override
     public void updateGroup(ChatGroupBean chatGroupBean) {
-        Subscription subscription = mRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription(), 0,
+        Subscription subscription = mRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription(), 1,
                 DEFAULT_MAX_GRUOP_NUMBER, chatGroupBean.isMembersonly(),
                 0, chatGroupBean.getGroup_face(), false, chatGroupBean.getOwner() + "")
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.modifing)))

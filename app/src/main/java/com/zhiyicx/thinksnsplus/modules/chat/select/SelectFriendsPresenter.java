@@ -148,7 +148,7 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
             String groupIntro = "暂无";
 
             Subscription subscription = mRepository
-                    .createGroup(groupName, groupIntro, false,
+                    .createGroup(groupName, groupIntro, true,
                             200, true, false, list.get(0).getUser_id(), members.substring(0, members.length() - 1))
                     .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.circle_dealing)))
                     .flatMap(groupInfo -> {
