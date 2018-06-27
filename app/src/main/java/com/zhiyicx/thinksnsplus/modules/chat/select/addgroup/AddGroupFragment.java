@@ -240,7 +240,8 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
      */
     private void getGroupListData() {
         if (mPresenter != null) {
-            mRefreshlayout.autoRefresh(0);
+//            mRefreshlayout.autoRefresh(0);
+            mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID,false);
         }
     }
 }

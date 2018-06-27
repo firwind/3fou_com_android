@@ -75,7 +75,6 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
     @Override
     protected void initData() {
         super.initData();
-
         getAdminListData();
     }
 
@@ -84,7 +83,11 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
      */
     private void getAdminListData() {
         if (mPresenter != null) {
-            mRefreshlayout.autoRefresh(0);
+            if (mListDatas.isEmpty()) {
+                mRefreshlayout.autoRefresh(0);
+            } else {
+                mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
+            }
         }
     }
 

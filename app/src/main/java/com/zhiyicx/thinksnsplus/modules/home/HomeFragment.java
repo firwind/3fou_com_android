@@ -72,7 +72,7 @@ import static com.zhiyicx.thinksnsplus.modules.home.HomeActivity.BUNDLE_JPUSH_ME
  * @Date 2017/1/4
  * @Contact master.jungle68@gmail.com
  */
-public class HomeFragment extends TSFragment<HomeContract.Presenter> implements  HomeContract.View,
+public class HomeFragment extends TSFragment<HomeContract.Presenter> implements HomeContract.View,
         PhotoSelectorImpl.IPhotoBackListener {
     private static final int BOTTOM_MENU_SHOW_DELAY_TIME = 100;
     /**
@@ -131,7 +131,7 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
 
     private PhotoSelectorImpl mPhotoSelector;
 
-    private int mCurrenPage ;
+    private int mCurrenPage;
 
     /**
      * 图片选择弹框
@@ -233,7 +233,7 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
         return R.layout.fragment_home;
     }
 
-    @OnClick({R.id.ll_home, R.id.ll_find, R.id.fl_add, R.id.ll_message, R.id.ll_mine,R.id.ll_information})
+    @OnClick({R.id.ll_home, R.id.ll_find, R.id.fl_add, R.id.ll_message, R.id.ll_mine, R.id.ll_information})
     public void onClick(final View view) {
         switch (view.getId()) {
             // 点击主页
@@ -242,8 +242,8 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
 ////                    暂时不需要点击 home 刷新
 ////                    ((MainFragment) mFragmentList.get(mCurrenPage)).refreshCurrentPage();
 //                } else {
-                    mVpHome.setCurrentItem(PAGE_HOME, false);
-                    mCurrenPage = PAGE_HOME;
+                mVpHome.setCurrentItem(PAGE_HOME, false);
+                mCurrenPage = PAGE_HOME;
 //                }
                 break;
             // 点击发现

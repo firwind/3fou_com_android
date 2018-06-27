@@ -83,7 +83,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     }
 
     @Override
-    protected void initView(View rootView) {
+    protected void initView(View rootView) {// FIXME: 2018/6/27 
         super.initView(rootView);
         mSearchView.setVisibility(View.VISIBLE);
     }
@@ -232,14 +232,14 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
         if (messageItemBean == null) {
             return;
         }
-        if(null == messageItemBean.getConversation()){
+        if (null == messageItemBean.getConversation()) {
             ChatActivity.startChatActivity(mActivity, messageItemBean.getEmKey()
                     , messageItemBean.getType() == EMConversation.EMConversationType.Chat ? EaseConstant.CHATTYPE_SINGLE :
-                            EaseConstant.CHATTYPE_GROUP,messageItemBean.getIsStick());
-        }else {
+                            EaseConstant.CHATTYPE_GROUP, messageItemBean.getIsStick());
+        } else {
             ChatActivity.startChatActivity(mActivity, messageItemBean.getConversation().conversationId()
                     , messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat ? EaseConstant.CHATTYPE_SINGLE :
-                            EaseConstant.CHATTYPE_GROUP,messageItemBean.getIsStick());
+                            EaseConstant.CHATTYPE_GROUP, messageItemBean.getIsStick());
         }
     }
 
@@ -395,7 +395,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
                     mCheckSurePop.hide();
                     //设置置顶
                     mPresenter.setSticks(mListDatas.get(position).getEmKey(),
-                            String.valueOf(AppApplication.getMyUserIdWithdefault()),mListDatas.get(position).getIsStick());
+                            String.valueOf(AppApplication.getMyUserIdWithdefault()), mListDatas.get(position).getIsStick());
 
                 })
                 .item2ClickListener(() -> {
