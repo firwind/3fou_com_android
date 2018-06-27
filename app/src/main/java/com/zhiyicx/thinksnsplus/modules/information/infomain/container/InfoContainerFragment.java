@@ -167,6 +167,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
 
     @Override
     protected void initViewPager(View rootView) {
+
         mTsvToolbar = (TabSelectView) rootView.findViewById(com.zhiyicx.baseproject.R.id.tsv_toolbar);
         mTsvToolbar.setRightImg(R.mipmap.sec_nav_arrow, R.color.white);
         mTsvToolbar.setLeftImg(0);

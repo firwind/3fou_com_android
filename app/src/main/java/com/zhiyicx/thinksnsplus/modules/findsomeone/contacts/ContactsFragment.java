@@ -79,6 +79,12 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
 
     /**
      * 通讯录
+     * 需要避免该异常
+     * 传递的数据不能超过 1MB
+     * 5000多个通讯录数据
+     * Caused by: android.os.TransactionTooLargeException: data parcel size 2317736 bytes
+     *
+     * #todo 换一种方式去传递数据
      */
     public static void startToEditTagActivity(Context context, String title, ArrayList<ContactsContainerBean> listData) {
 
