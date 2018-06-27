@@ -46,6 +46,7 @@ import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerF
 import com.zhiyicx.thinksnsplus.modules.home.mine.MineFragment;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.container.InfoContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.shortvideo.helper.ZhiyiVideoView;
+import com.zhiyicx.thinksnsplus.widget.EmptyFragment;
 import com.zhiyicx.thinksnsplus.widget.popwindow.CheckInPopWindow;
 
 import java.util.ArrayList;
@@ -82,11 +83,11 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
     /**
      * 对应在 viewpager 中的位置
      */
-    public static final int PAGE_HOME = 0;
-    public static final int PAGE_FIND = 1;
-    public static final int PAGE_MESSAGE = 2;
-    public static final int PAGE_MINE = 3;
-    public static final int PAGE_INFORMATION = 4;
+    public static final int PAGE_MESSAGE = 0;
+    public static final int PAGE_HOME = 1;
+    public static final int PAGE_INFORMATION = 2;
+    public static final int PAGE_FIND = 3;
+    public static final int PAGE_MINE = 4;
 
     @BindView(R.id.iv_home)
     ImageView mIvHome;
@@ -207,7 +208,7 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
     @Override
     protected void initData() {
         setJpushAlias();
-        changeNavigationButton(PAGE_HOME);
+        changeNavigationButton(PAGE_MESSAGE);
         setCurrentPage();
         // app更新
         AppUpdateManager.getInstance(getContext()
@@ -372,15 +373,18 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
         TSViewPagerAdapter homePager = new TSViewPagerAdapter(getChildFragmentManager());
 
         mFragmentList.clear();
-        mFragmentList.add(AddressBookFragment.newInstance());
-        mFragmentList.add(FindFragment.newInstance());
-        if (TouristConfig.MESSAGE_CAN_LOOK || mPresenter.isLogin()) {
+        if (TouristConfig.MESSAGE_CAN_LOOK || mPresenter.isLogin())
             mFragmentList.add(MessageContainerFragment.instance());
-        }
-        if (TouristConfig.MINE_CAN_LOOK || mPresenter.isLogin()) {
-            mFragmentList.add(MineFragment.newInstance());
-        }
+        else
+            mFragmentList.add(new EmptyFragment());
+        mFragmentList.add(AddressBookFragment.newInstance());
         mFragmentList.add(InfoContainerFragment.newInstance());
+        mFragmentList.add(FindFragment.newInstance());
+        if (TouristConfig.MINE_CAN_LOOK || mPresenter.isLogin())
+            mFragmentList.add(MineFragment.newInstance());
+        else
+            mFragmentList.add(new EmptyFragment());
+
         //将 List 设置给 adapter
         homePager.bindData(mFragmentList);
         mVpHome.setAdapter(homePager);
@@ -483,7 +487,7 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
                     checkBottomItem(HomeFragment.PAGE_MESSAGE);
             }
         } else {
-            mVpHome.setCurrentItem(PAGE_MESSAGE, false);
+            mVpHome.setCurrentItem(mPresenter.isLogin() ? PAGE_MESSAGE : PAGE_INFORMATION, false);
         }
     }
 
