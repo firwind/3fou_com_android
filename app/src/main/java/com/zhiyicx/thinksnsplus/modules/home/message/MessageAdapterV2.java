@@ -259,8 +259,9 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                         closeAllItems();
                         return;
                     }
+
                     // 小助手不可以被删除
-                    boolean isCantDelete = messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat && messageItemBean.getUserInfo() != null && mPresenter.checkUserIsImHelper(messageItemBean.getUserInfo()
+                    boolean isCantDelete = null != messageItemBean.getConversation()&&messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat && messageItemBean.getUserInfo() != null && mPresenter.checkUserIsImHelper(messageItemBean.getUserInfo()
                             .getUser_id());
                     if (mOnConversationItemLongClickListener != null && !isCantDelete) {
                         mOnConversationItemLongClickListener.onConversationItemLongClick(position);

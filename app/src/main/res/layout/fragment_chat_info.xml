@@ -379,6 +379,7 @@
                         android:textSize="@dimen/size_content" />
 
                     <TextView
+
                         android:id="@+id/tv_banned_post_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -468,9 +469,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/divider_line"
                 android:background="@color/white"
-                android:paddingLeft="@dimen/spacing_mid"
-                android:paddingRight="@dimen/spacing_mid"
-                android:paddingTop="@dimen/spacing_mid">
+                android:padding="@dimen/spacing_mid">
 
                 <TextView
                     android:id="@+id/tv_alert_one"
