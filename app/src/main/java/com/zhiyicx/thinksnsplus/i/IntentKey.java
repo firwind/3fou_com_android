@@ -12,5 +12,6 @@ package com.zhiyicx.thinksnsplus.i;
 public interface IntentKey {
 
     String GROUP_ID = "group_id";
+    String IS_TOURIST_LOGIN = "is_tourist_login";//游客登陆
 
 }

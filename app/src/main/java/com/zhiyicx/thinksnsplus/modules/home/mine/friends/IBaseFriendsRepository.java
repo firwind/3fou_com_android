@@ -42,7 +42,7 @@ public interface IBaseFriendsRepository {
 
     Observable<ChatGroupBean> updateGroup(String im_group_id, String groupName, String groupIntro, int isPublic,
                                           int maxUser, boolean isMemberOnly,  int isAllowInvites, String groupFace,
-                                          boolean isEditGroupFace, String newOwner);
+                                          boolean isEditGroupFace, String newOwner,int groupLevel);
 
 
     /**

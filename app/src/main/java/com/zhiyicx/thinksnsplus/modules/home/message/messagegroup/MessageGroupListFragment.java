@@ -26,6 +26,7 @@ import com.zhiyicx.thinksnsplus.modules.home.addressbook.AddressBookFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListPresenter;
+import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
@@ -184,18 +185,7 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
                         .transform(new GlideCircleTransform(mContext))
                         .into(holder.getImageViwe(R.id.uv_group_head));
 
-                int resId = 0;
-                switch (chatGroupBean.getGroup_level()){
-                    case 0:
-                        resId = 0;
-                        break;
-                    case 1:
-                        resId = R.mipmap.icon_official_group;
-                        break;
-                    case 2:
-                        resId = R.mipmap.icon_hot_group;
-                        break;
-                }
+                int resId = ImageUtils.getGroupSignResId(chatGroupBean.getGroup_level());
                 holder.getImageViwe(R.id.iv_group_sign).setVisibility(0 == resId ? View.INVISIBLE : View.VISIBLE);
                 if(0 != resId)
                     holder.getImageViwe(R.id.iv_group_sign).setImageDrawable(mActivity.getResources().getDrawable(resId));

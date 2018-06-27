@@ -9,6 +9,7 @@ import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
 import com.zhiyicx.common.utils.ActivityUtils;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 /**
  * @author LiuChao
@@ -18,7 +19,6 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
  */
 
 public class LoginActivity extends TSActivity<LoginPresenter, LoginFragment> {
-    public static final String BUNDLE_TOURIST_LOGIN = "bundle_tourist_login";
 
     private boolean mIsTourstLogin = false;
 
@@ -36,14 +36,14 @@ public class LoginActivity extends TSActivity<LoginPresenter, LoginFragment> {
     }
 
     private void checkIntent(Intent intent) {
-        if (intent != null && intent.getBooleanExtra(BUNDLE_TOURIST_LOGIN, false)) {
+        if (intent != null && intent.getBooleanExtra(IntentKey.IS_TOURIST_LOGIN, false)) {
             mIsTourstLogin = true;
         }
     }
 
     @Override
     protected LoginFragment getFragment() {
-        return LoginFragment.newInstance(getIntent().getBooleanExtra(BUNDLE_TOURIST_LOGIN, false));
+        return LoginFragment.newInstance(getIntent().getBooleanExtra(IntentKey.IS_TOURIST_LOGIN, false));
     }
 
     @Override

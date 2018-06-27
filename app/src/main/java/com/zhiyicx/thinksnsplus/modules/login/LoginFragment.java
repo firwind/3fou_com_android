@@ -30,6 +30,7 @@ import com.zhiyicx.imsdk.utils.common.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.AccountBean;
 import com.zhiyicx.thinksnsplus.data.beans.ThridInfoBean;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.home.HomeActivity;
 import com.zhiyicx.thinksnsplus.modules.password.findpassword.FindPasswordActivity;
 import com.zhiyicx.thinksnsplus.modules.register.RegisterActivity;
@@ -49,7 +50,6 @@ import rx.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
-import static com.zhiyicx.thinksnsplus.modules.login.LoginActivity.BUNDLE_TOURIST_LOGIN;
 import static com.zhiyicx.thinksnsplus.modules.third_platform.choose_bind.ChooseBindActivity.BUNDLE_THIRD_INFO;
 
 /**
@@ -108,7 +108,7 @@ public class LoginFragment extends TSFragment<LoginContract.Presenter> implement
     public static LoginFragment newInstance(boolean isTourist) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
-        args.putBoolean(BUNDLE_TOURIST_LOGIN, isTourist);
+        args.putBoolean(IntentKey.IS_TOURIST_LOGIN, isTourist);
         fragment.setArguments(args);
         return fragment;
     }
@@ -116,7 +116,7 @@ public class LoginFragment extends TSFragment<LoginContract.Presenter> implement
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
-            mIsToourist = getArguments().getBoolean(BUNDLE_TOURIST_LOGIN);
+            mIsToourist = getArguments().getBoolean(IntentKey.IS_TOURIST_LOGIN);
         }
         mSystemConfigBean = mPresenter.getSystemConfigBean();
         super.onCreate(savedInstanceState);
@@ -276,7 +276,7 @@ public class LoginFragment extends TSFragment<LoginContract.Presenter> implement
     protected void setRightClick() {
         super.setRightClick();
         Intent intent = new Intent(getActivity(), RegisterActivity.class);
-        intent.putExtra(BUNDLE_TOURIST_LOGIN, mIsToourist);
+        intent.putExtra(IntentKey.IS_TOURIST_LOGIN, mIsToourist);
         startActivity(intent);
     }
 
@@ -306,7 +306,7 @@ public class LoginFragment extends TSFragment<LoginContract.Presenter> implement
             mLoginAnimationDrawable = mBtLoginLogin.getAnimationDrawable();
             DeviceUtils.hideSoftKeyboard(getContext(), mEtLoginPassword);
             if (mIsToourist) {
-                getActivity().setResult(RESULT_OK);
+                getActivity().setResult(RESULT_OK,getActivity().getIntent());
                 getActivity().finish();
             } else {
                 goHome();

@@ -33,14 +33,27 @@
         android:weightSum="1"
         >
 
-        <com.zhiyicx.baseproject.widget.UserAvatarView
-            android:id="@+id/iv_headpic"
+        <FrameLayout
+            android:id="@+id/fl_head_pic"
             android:layout_width="@dimen/headpic_for_list"
             android:layout_height="@dimen/headpic_for_list"
-            android:layout_marginRight="@dimen/spacing_mid"
-            android:src="@mipmap/pic_default_secret"
-            app:pressShape="circle"
-            app:ts_avatare_size="@dimen/headpic_for_list"/>
+            android:layout_marginRight="@dimen/spacing_mid">
+
+            <com.zhiyicx.baseproject.widget.UserAvatarView
+                android:id="@+id/iv_headpic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/pic_default_secret"
+                app:pressShape="circle"
+                app:ts_avatare_size="@dimen/headpic_for_list"/>
+
+            <ImageView
+                android:id="@+id/iv_group_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"/>
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_name"
@@ -49,7 +62,7 @@
             android:layout_marginRight="@dimen/spacing_mid"
             android:layout_marginTop="@dimen/textview_spacing_offset_height"
             android:layout_toLeftOf="@+id/tv_time"
-            android:layout_toRightOf="@id/iv_headpic"
+            android:layout_toRightOf="@id/fl_head_pic"
             android:ellipsize="middle"
             android:gravity="top"
             android:includeFontPadding="false"
@@ -92,7 +105,7 @@
             android:layout_marginBottom="@dimen/spacing_mid"
             android:layout_marginRight="@dimen/spacing_mid"
             android:layout_toLeftOf="@+id/tv_tip"
-            android:layout_toRightOf="@+id/iv_headpic"
+            android:layout_toRightOf="@+id/fl_head_pic"
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:gravity="bottom"

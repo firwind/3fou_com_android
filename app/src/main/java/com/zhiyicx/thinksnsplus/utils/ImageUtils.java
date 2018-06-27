@@ -796,4 +796,24 @@ public class ImageUtils {
         return result;
     }
 
+    /**
+     * 通过group_level得到等级的sign资源id
+     * @param group_level
+     * @return
+     */
+    public static int getGroupSignResId(int group_level){
+
+        int resId = 0;
+        switch (group_level){
+            case 1:
+                resId = R.mipmap.icon_official_group;
+                break;
+            case 2:
+                resId = R.mipmap.icon_hot_group;
+                break;
+        }
+
+        return resId;
+    }
+
 }

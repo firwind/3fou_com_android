@@ -19,6 +19,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.zhiyicx.appupdate.AppUpdateManager;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.base.TSViewPagerAdapter;
+import com.zhiyicx.baseproject.base.TSViewPagerAdapterV2;
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.baseproject.config.TouristConfig;
 import com.zhiyicx.baseproject.impl.photoselector.DaggerPhotoSelectorImplComponent;
@@ -36,6 +37,7 @@ import com.zhiyicx.thinksnsplus.config.JpushMessageTypeConfig;
 import com.zhiyicx.thinksnsplus.data.beans.CheckInBean;
 import com.zhiyicx.thinksnsplus.data.beans.JpushMessageBean;
 import com.zhiyicx.thinksnsplus.data.beans.SendDynamicDataBean;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.jpush.JpushAlias;
 import com.zhiyicx.thinksnsplus.modules.dynamic.send.SendDynamicActivity;
 import com.zhiyicx.thinksnsplus.modules.dynamic.send.dynamic_type.SelectDynamicTypeActivity;
@@ -149,6 +151,8 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
     private ArrayList<Fragment> mFragmentList = new ArrayList<>();
     private boolean isFirst = true;
 
+    private boolean isTouristLogined = false;
+
     public static HomeFragment newInstance(Bundle args) {
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
@@ -222,11 +226,14 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
     public void onResume() {
         super.onResume();
         // 游客登录后的处理
-        if (mPresenter.isLogin() && mFragmentList.size() < PAGE_NUMS) {
+        if(isTouristLogined){
             initViewPager();
-            mVpHome.setCurrentItem(mCurrenPage, false);
+            changeNavigationButton(0);
+            //mVpHome.setCurrentItem(PAGE_MESSAGE);
+            isTouristLogined = false;
         }
     }
+
 
     @Override
     protected int getBodyLayoutId() {
@@ -330,6 +337,14 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQ_CODE_TOURIST_LOGIN &&
+                resultCode == getActivity().RESULT_OK &&
+                null != data &&
+                data.getBooleanExtra(IntentKey.IS_TOURIST_LOGIN,false)){
+            isTouristLogined = true;
+
+            return;
+        }
         // 获取图片选择器返回结果
         if (mPhotoSelector != null) {
             mPhotoSelector.onActivityResult(requestCode, resultCode, data);
@@ -388,6 +403,7 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
         //将 List 设置给 adapter
         homePager.bindData(mFragmentList);
         mVpHome.setAdapter(homePager);
+        mCurrenPage = PAGE_MESSAGE;
 
     }
 

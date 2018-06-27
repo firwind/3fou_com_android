@@ -67,11 +67,12 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     @Override
     public Observable<ChatGroupBean> updateGroup(String imGroupId, String groupName, String groupIntro, int isPublic,
                                                  int maxUser, boolean isMemberOnly, int isAllowInvites, String groupFace,
-                                                 boolean isEditGroupFace, String newOwner) {
+                                                 boolean isEditGroupFace, String newOwner,int groupLevel) {
         // 如果是修改头像才去上传图片
         if (isEditGroupFace) {
             return mUpLoadRepository.upLoadSingleFileV2(groupFace, "", true, 0, 0)
-                    .flatMap(integerBaseJson -> mEasemobClient.updateGroup(imGroupId, groupName, groupIntro, isPublic, maxUser, isMemberOnly?1:0, isAllowInvites, String.valueOf(integerBaseJson.getData()), newOwner)
+                    .flatMap(integerBaseJson -> mEasemobClient.updateGroup(imGroupId, groupName, groupIntro, isPublic, maxUser, isMemberOnly?1:0,
+                            isAllowInvites, String.valueOf(integerBaseJson.getData()), newOwner,groupLevel)
                             .flatMap(chatGroupBean -> {
                                 mChatGroupBeanGreenDao.updateGroupHeadImage(chatGroupBean.getId(), chatGroupBean.getGroup_face());
                                 return Observable.just(chatGroupBean);
@@ -79,7 +80,7 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
                             .subscribeOn(Schedulers.io()));
         } else {
             return mEasemobClient.updateGroup(imGroupId, groupName, groupIntro, isPublic, maxUser, isMemberOnly?1:0,
-                    isAllowInvites, "", newOwner)
+                    isAllowInvites, "", newOwner,groupLevel)
                     .flatMap(chatGroupBean -> {
                         mChatGroupBeanGreenDao.updateGroupInfo(imGroupId, groupName, groupIntro, isPublic, maxUser, isMemberOnly, isAllowInvites, newOwner);
                         return Observable.just(chatGroupBean);

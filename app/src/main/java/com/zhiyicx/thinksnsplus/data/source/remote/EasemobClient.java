@@ -62,7 +62,7 @@ public interface EasemobClient {
     @PATCH(ApiConfig.APP_PATH_CREATE_CHAT_GROUP)
     Observable<ChatGroupBean> updateGroup(@Query("im_group_id") String im_group_id, @Query("groupname") String groupName, @Query("desc") String groupIntro, @Query("public") int isPublic,
                                           @Query("maxusers") int maxUser, @Query("members_only") int isMemberOnly, @Query("allowinvites") int isAllowInvites,
-                                          @Query("group_face") String groupFace, @Query("new_owner_user") String newOwner);
+                                          @Query("group_face") String groupFace, @Query("new_owner_user") String newOwner,@Query("grouplevel")int groupLevel);
 
     /**
      * 批量获取群信息
