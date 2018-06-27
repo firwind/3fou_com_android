@@ -104,7 +104,7 @@ public class HomeActivity extends TSActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UmengSharePolicyImpl.onActivityResult(requestCode, resultCode, data, this);
-        mContanierFragment.onActivityResult(requestCode, resultCode, data);
+        //mContanierFragment.onActivityResult(requestCode, resultCode, data);
     }
 
 

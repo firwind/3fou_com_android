@@ -75,6 +75,11 @@ public abstract class TSFragment<P extends IBasePresenter> extends BaseFragment<
     private static final int DEFAULT_TOOLBAR_LEFT_IMG = R.mipmap.topbar_back;
 
     /**
+     * 游客登陆的RequestCode
+     */
+    protected static final int REQ_CODE_TOURIST_LOGIN = 1111;
+
+    /**
      * 顶部导航栏左边控件
      */
     protected TextView mToolbarLeft;
@@ -1081,11 +1086,11 @@ public abstract class TSFragment<P extends IBasePresenter> extends BaseFragment<
         Intent intent = new Intent();
         intent.setAction("zhiyicx.intent.action.LOGIN");
         intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.putExtra("bundle_tourist_login", true);
+        intent.putExtra("is_tourist_login", true);
         intent.setType("text/plain");
         // Verify that the intent will resolve to an activity
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            startActivityForResult(intent, 0);
+            startActivityForResult(intent, REQ_CODE_TOURIST_LOGIN);
         }
     }
 

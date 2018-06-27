@@ -94,7 +94,17 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
         return getString(R.string.app_name);
     }
 
-//    @Override
+    @Override
+    protected boolean setUseSatusbar() {
+        return true;
+    }
+
+    @Override
+    protected boolean setUseStatusView() {
+        return true;
+    }
+
+    //    @Override
 //    protected int setTitleDrawableLeft() {
 //        return R.mipmap.btn_open;
 //    }

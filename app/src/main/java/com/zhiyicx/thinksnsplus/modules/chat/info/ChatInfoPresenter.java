@@ -239,7 +239,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
         // 这里不是修改群主，所以newOwner直接传空
         Subscription subscription = mRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription(), 1, 200,
                 chatGroupBean.isMembersonly(),
-                0, chatGroupBean.getGroup_face(), isEditGroupFace, "")
+                0, chatGroupBean.getGroup_face(), isEditGroupFace, "",chatGroupBean.getGroup_level())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("修改中..."))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {

@@ -2,8 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.register;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
-
-import static com.zhiyicx.thinksnsplus.modules.login.LoginActivity.BUNDLE_TOURIST_LOGIN;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 /**
  * @Describe
@@ -27,7 +26,7 @@ public class RegisterActivity extends TSActivity<RegisterPresenter, RegisterFrag
 
     @Override
     protected RegisterFragment getFragment() {
-        return RegisterFragment.newInstance(getIntent().getBooleanExtra(BUNDLE_TOURIST_LOGIN, false));
+        return RegisterFragment.newInstance(getIntent().getBooleanExtra(IntentKey.IS_TOURIST_LOGIN, false));
     }
 
 }

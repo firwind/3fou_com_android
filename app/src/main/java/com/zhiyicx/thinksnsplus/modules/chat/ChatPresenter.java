@@ -105,7 +105,7 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
         }
         Subscription subscription = mBaseFriendsRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription
                         (), 1, 200, chatGroupBean.isMembersonly(),
-                0, chatGroupBean.getGroup_face(), false, "")
+                0, chatGroupBean.getGroup_face(), false, "",chatGroupBean.getGroup_level())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("修改中..."))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {

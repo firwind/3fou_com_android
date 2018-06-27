@@ -24,6 +24,7 @@ import com.zhiyicx.common.utils.ActivityHandler;
 import com.zhiyicx.common.utils.RegexUtils;
 import com.zhiyicx.imsdk.utils.common.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.home.HomeActivity;
 import com.zhiyicx.thinksnsplus.modules.register.rule.UserRuleActivity;
 import com.zhiyicx.thinksnsplus.modules.usertag.EditUserTagFragment;
@@ -36,7 +37,6 @@ import butterknife.OnClick;
 
 import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
 import static com.zhiyicx.common.config.ConstantConfig.MOBILE_PHONE_NUMBER_LENGHT;
-import static com.zhiyicx.thinksnsplus.modules.login.LoginActivity.BUNDLE_TOURIST_LOGIN;
 
 /**
  * @Describe
@@ -92,7 +92,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
     public static RegisterFragment newInstance(boolean isTourist) {
         RegisterFragment fragment = new RegisterFragment();
         Bundle args = new Bundle();
-        args.putBoolean(BUNDLE_TOURIST_LOGIN, isTourist);
+        args.putBoolean(IntentKey.IS_TOURIST_LOGIN, isTourist);
         fragment.setArguments(args);
         return fragment;
     }
@@ -125,7 +125,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
-            mIsToourist = getArguments().getBoolean(BUNDLE_TOURIST_LOGIN);
+            mIsToourist = getArguments().getBoolean(IntentKey.IS_TOURIST_LOGIN);
         }
         mSystemConfigBean = mPresenter.getSystemConfigBean();
         super.onCreate(savedInstanceState);

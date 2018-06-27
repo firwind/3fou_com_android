@@ -78,7 +78,7 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
     public void updateGroup(ChatGroupBean chatGroupBean) {
         Subscription subscription = mRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription(), 1,
                 DEFAULT_MAX_GRUOP_NUMBER, chatGroupBean.isMembersonly(),
-                0, chatGroupBean.getGroup_face(), false, chatGroupBean.getOwner() + "")
+                0, chatGroupBean.getGroup_face(), false, chatGroupBean.getOwner() + "",chatGroupBean.getGroup_level())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.modifing)))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {

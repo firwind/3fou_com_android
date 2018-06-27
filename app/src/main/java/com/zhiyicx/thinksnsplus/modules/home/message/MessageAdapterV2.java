@@ -103,6 +103,7 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                 setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
 //                swipeLayout.setSwipeEnabled(mPresenter == null || (singleChatUserinfo!=null&&!mPresenter.checkUserIsImHelper(singleChatUserinfo
 // .getUser_id())));
+                holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
                 break;
             case GroupChat:
                 // 群组
@@ -135,9 +136,14 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
 //                swipeLayout.setSwipeEnabled(true);
                 setUserInfoClick(holder.getView(R.id.tv_name), messageItemBean);
                 setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
+
+                int resId = ImageUtils.getGroupSignResId(chatGroupBean.getGroup_level());
+                holder.getImageViwe(R.id.iv_group_sign).setVisibility(0 == resId ? View.INVISIBLE : View.VISIBLE);
+                if(0 != resId)
+                    holder.getImageViwe(R.id.iv_group_sign).setImageDrawable(mContext.getResources().getDrawable(resId));
                 break;
             default:
-
+                holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
                 break;
         }
         if (null == messageItemBean.getConversation() || messageItemBean.getConversation().getLastMessage() == null) {
@@ -259,8 +265,9 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                         closeAllItems();
                         return;
                     }
+
                     // 小助手不可以被删除
-                    boolean isCantDelete = messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat && messageItemBean.getUserInfo() != null && mPresenter.checkUserIsImHelper(messageItemBean.getUserInfo()
+                    boolean isCantDelete = null != messageItemBean.getConversation()&&messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat && messageItemBean.getUserInfo() != null && mPresenter.checkUserIsImHelper(messageItemBean.getUserInfo()
                             .getUser_id());
                     if (mOnConversationItemLongClickListener != null && !isCantDelete) {
                         mOnConversationItemLongClickListener.onConversationItemLongClick(position);
