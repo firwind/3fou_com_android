@@ -14,18 +14,12 @@ import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMConnectionEvent;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.baseproject.impl.imageloader.glide.transformation.GlideCircleTransform;
-import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
-import com.zhiyicx.common.utils.recycleviewdecoration.LinearDecoration;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
-import com.zhiyicx.thinksnsplus.modules.home.addressbook.AddressBookFragment;
-import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
-import com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListFragment;
-import com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListPresenter;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -220,7 +214,7 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
 
     @Override
     protected int getBodyLayoutId() {
-        return R.layout.fragment_message_grouplist;
+        return R.layout.fragment_tslist_with_search;
     }
 
     @Override

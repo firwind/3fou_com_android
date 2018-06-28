@@ -45,6 +45,7 @@ import com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.edit.owner.EditGroupOwnerActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.item.ChatConfig;
 import com.zhiyicx.thinksnsplus.modules.chat.member.GroupMemberListActivity;
+import com.zhiyicx.thinksnsplus.modules.chat.record.ChatRecordActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
 import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.album.MessageGroupAlbumActivity;
@@ -165,14 +166,14 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     TextView mTvGroupCardName;
     @BindView(R.id.ll_group_manager)
     LinearLayout llGroupManager;
-    @BindView(R.id.vw_set_admin)
+    /*@BindView(R.id.vw_set_admin)
     View vwSetAdmin;
     @BindView(R.id.vw_jurisdiction)
     View vwJurisdiction;
     @BindView(R.id.vw_upgrade)
     View vwUpgrade;
     @BindView(R.id.vw_set_stick)
-    View vwSetStick;
+    View vwSetStick;*/
 
     @BindView(R.id.tv_announcement)
     TextView mNoticeText;
@@ -422,7 +423,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 break;
 //            case R.id.ll_card:
             case R.id.tv_find_message:
+                ChatRecordActivity.startChatRecordActivity(mActivity,mChatId);
                 break;
+
             case R.id.tv_upgrade://升级群||举报群
                 if (mChatType == CHATTYPE_GROUP) {//群主跳转到升级群
                     UpgradeGroupActivity.startUpgradeGroupActivity(getContext(), mChatGroupBean.getId());
@@ -883,9 +886,11 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mTvJurisdiction.setVisibility(View.GONE);
                 mTvUpgrade.setText(getString(R.string.chat_info_report));
                 vwSetAdmin.setVisibility(View.GONE);
+                mTvUpgrade.setVisibility(View.GONE);
+                /*vwSetAdmin.setVisibility(View.GONE);
                 vwJurisdiction.setVisibility(View.GONE);
                 vwUpgrade.setVisibility(View.GONE);
-                vwSetStick.setVisibility(View.GONE);
+                vwSetStick.setVisibility(View.GONE);*/
 
                 if (!mIsAddGroup) {
                     mLlSetStick.setVisibility(View.GONE);
