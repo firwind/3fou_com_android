@@ -362,6 +362,9 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
      * @param originList 原始消息List
      * @param topIds 匹配的id源
      * @param stickBeans 待插入的消息List
+     *
+     * 这里要 将未匹配到的消息调用环信api 存入本地数据库
+     *EMClient.getInstance().chatManager().getConversation(tsHelper.getEmKey(), EMConversation.EMConversationType.Chat, true)
      */
     private void fillStickBeanInMessage(List<MessageItemBeanV2> originList,List<String> topIds,List<StickBean> stickBeans){
         //未被匹配到的 置顶id
@@ -391,6 +394,13 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                         chatGroupBean.setName(stickChatGroupBean.name);
                         chatGroupBean.setGroup_face(stickChatGroupBean.group_face);
                         chatGroupBean.setAffiliations_count(stickChatGroupBean.affiliations_count);
+
+                        // 创建会话的 conversation 要传入用户名 ts+采用用户Id作为用户名，聊天类型 单聊
+                        EMConversation conversation =
+                                EMClient.getInstance().chatManager().getConversation(stickChatGroupBean.id, EMConversation
+                                        .EMConversationType
+                                        .GroupChat, true);
+                        message.setConversation(conversation);
                         message.setChatGroupBean(chatGroupBean);
 
                     }else if(null != stickBeans.get(j).getUserInfoBean()){
@@ -403,6 +413,12 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                         userInfoBean.setName(stickUserInfoBean.name);
                         userInfoBean.setAvatar(stickUserInfoBean.avatar);
                         message.setUserInfo(userInfoBean);
+
+                        EMConversation conversation =
+                                EMClient.getInstance().chatManager().getConversation(stickUserInfoBean.id, EMConversation
+                                        .EMConversationType
+                                        .Chat, true);
+                        message.setConversation(conversation);
 
                     }else {
                         break;

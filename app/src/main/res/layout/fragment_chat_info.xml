@@ -154,9 +154,9 @@
                         android:visibility="gone" />
                 </LinearLayout>
 
-                <View
+                <!--<View
                     style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
+                    android:layout_height="@dimen/spacing_normal" />-->
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_member_list"
@@ -222,11 +222,12 @@
 
                 </LinearLayout>
 
-                <View
+                <!--<View
                     style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
+                    android:layout_height="@dimen/spacing_normal" />-->
                 <!--群相册-->
                 <LinearLayout
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:id="@+id/ll_photo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -268,12 +269,13 @@
                         android:numColumns="5" />-->
                 </LinearLayout>
 
-                <View
+                <!--<View
                     android:visibility="gone"
                     style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
+                    android:layout_height="@dimen/spacing_normal" />-->
                 <!--群名片-->
                 <LinearLayout
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:visibility="gone"
                     android:id="@+id/ll_card"
                     android:layout_width="match_parent"
@@ -321,32 +323,14 @@
                     <!--android:textSize="@dimen/size_content_assist" />-->
                 </LinearLayout>
 
-                <View
+                <!--<View
                     style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
+                    android:layout_height="@dimen/spacing_normal" />-->
 
-                <!--查找聊天记录-->
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/tv_find_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/chat_info_header_view_width"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/spacing_mid"
-                    android:text="@string/chat_info_find_message"
-                    android:textColor="@color/important_for_content"
-                    android:textSize="@dimen/size_content" />
-
-
-                <View
-                    android:visibility="gone"
-                    android:id="@+id/vw_set_stick"
-                    style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
                 <!--设置管理员-->
                 <TextView
                     android:id="@+id/tv_set_admin"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chat_info_header_view_width"
                     android:background="@color/white"
@@ -356,12 +340,13 @@
                     android:textColor="@color/important_for_content"
                     android:textSize="@dimen/size_content" />
 
-                <View
+                <!--<View
                     android:id="@+id/vw_set_admin"
                     style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
+                    android:layout_height="@dimen/spacing_normal" />-->
                 <!--全员禁言-->
                 <RelativeLayout
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:id="@+id/ll_banned_post"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -397,12 +382,13 @@
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
 
-                <View
+                <!--<View
                     android:id="@+id/vw_banned_post"
                     style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
+                    android:layout_height="@dimen/spacing_normal" />-->
                 <!--成员权限-->
                 <TextView
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:id="@+id/tv_jurisdiction"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chat_info_header_view_width"
@@ -413,12 +399,13 @@
                     android:textColor="@color/important_for_content"
                     android:textSize="@dimen/size_content" />
 
-                <View
+                <!--<View
                     android:id="@+id/vw_jurisdiction"
                     style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
+                    android:layout_height="@dimen/spacing_normal" />-->
                 <!--升级群-->
                 <TextView
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:visibility="gone"
                     android:id="@+id/tv_upgrade"
                     android:layout_width="match_parent"
@@ -430,13 +417,14 @@
                     android:textColor="@color/important_for_content"
                     android:textSize="@dimen/size_content" />
 
-                <View
+                <!--<View
                     android:visibility="gone"
                     android:id="@+id/vw_upgrade"
                     style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />
+                    android:layout_height="@dimen/spacing_normal" />-->
                 <!--群管理-->
                 <LinearLayout
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:id="@+id/ll_manager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -496,11 +484,12 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
-            <View
+            <!--<View
                 style="@style/style_divider_horizontal_light"
-                android:layout_height="@dimen/spacing_normal" />
+                android:layout_height="@dimen/spacing_normal" />-->
             <!--设置置顶-->
             <LinearLayout
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:id="@+id/ll_set_stick"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -522,6 +511,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
+            <!--<View
+                android:id="@+id/vw_set_stick"
+                style="@style/style_divider_horizontal_light"
+                android:layout_height="@dimen/spacing_normal" />-->
+
+            <!--查找聊天记录-->
+            <TextView
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:id="@+id/tv_find_message"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/chat_info_header_view_width"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/spacing_mid"
+                android:text="@string/chat_info_find_message"
+                android:textColor="@color/important_for_content"
+                android:textSize="@dimen/size_content" />
+
+            <!--<View
+                android:id="@+id/vw_set_stick"
+                style="@style/style_divider_horizontal_light"
+                android:layout_height="@dimen/spacing_normal" />-->
 
             <!--清空记录-->
             <TextView

@@ -37,7 +37,11 @@ public class NetChangeReceiver extends BroadcastReceiver {
             for (Network network : networks) {
                 //获取ConnectivityManager对象对应的NetworkInfo对象
                 NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
-                if ("WIFI".equals(networkInfo.getTypeName())) {
+                //exception description:
+                // Caused by: java.lang.NullPointerException:
+                // Attempt to invoke virtual method 'java.lang.String android.net.NetworkInfo.getTypeName()' on a null object reference
+                //fix by huwenyong on 2018/06/28
+                if (null != networkInfo && "WIFI".equals(networkInfo.getTypeName())) {
                     hasWifi = networkInfo.isConnected();
                 } else {
                     hasWifi = false;
