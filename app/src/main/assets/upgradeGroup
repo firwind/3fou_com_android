@@ -1,0 +1,12 @@
+[
+  {
+    "price": "88",
+    "upgrade_title": "升级官方群",
+    "id": 1
+  },
+  {
+    "price": "68",
+    "upgrade_title": "升级热门群",
+    "id": 2
+  }
+]

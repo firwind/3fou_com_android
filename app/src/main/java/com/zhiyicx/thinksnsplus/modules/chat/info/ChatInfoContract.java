@@ -6,6 +6,7 @@ import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
+import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.IBaseFriendsRepository;
 
@@ -128,8 +129,10 @@ public interface ChatInfoContract {
 
         //群/单聊置顶
         Observable<List<StickBean>> refreshSticks(String author);
-
-
+        //获取本地升级群类型
+        Observable<List<UpgradeTypeBean>> getUpgradeGroups();
+        //提交升级群
+        Observable<String> upgradeGroup(String groupId,int type);
 
     }
 }

@@ -49,6 +49,7 @@ import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
 import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.album.MessageGroupAlbumActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.jurisdiction.JurisdictionActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradegroup.UpgradeGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.settingadmin.SettingAdminActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
@@ -421,9 +422,13 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 break;
 //            case R.id.ll_card:
             case R.id.tv_find_message:
+                break;
+            case R.id.tv_upgrade://升级群||举报群
+                if (mChatType == CHATTYPE_GROUP) {//群主跳转到升级群
+                    UpgradeGroupActivity.startUpgradeGroupActivity(getContext(), mChatGroupBean.getId());
+                }else {//跳转到举报群
 
-            case R.id.tv_upgrade:
-                ToastUtils.showLongToast(R.string.normal_dispark);
+                }
                 break;
             default:
         }
@@ -876,7 +881,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mTvSetAdmin.setVisibility(View.GONE);
                 mLlBannedPost.setVisibility(View.GONE);
                 mTvJurisdiction.setVisibility(View.GONE);
-                mTvUpgrade.setVisibility(View.GONE);
+                mTvUpgrade.setText(getString(R.string.chat_info_report));
                 vwSetAdmin.setVisibility(View.GONE);
                 vwJurisdiction.setVisibility(View.GONE);
                 vwUpgrade.setVisibility(View.GONE);

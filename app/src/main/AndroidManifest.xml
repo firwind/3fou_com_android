@@ -742,6 +742,12 @@
         <activity
             android:name=".modules.chat.select.addgroup.AddGroupActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.home.message.managergroup.maintain.upgradegroup.UpgradeGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.home.message.managergroup.maintain.report.ReportGroupActivity"
+            android:screenOrientation="portrait" />
 
 
         <activity

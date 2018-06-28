@@ -419,7 +419,7 @@
                     android:layout_height="@dimen/spacing_normal" />
                 <!--升级群-->
                 <TextView
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/tv_upgrade"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chat_info_header_view_width"
@@ -431,7 +431,7 @@
                     android:textSize="@dimen/size_content" />
 
                 <View
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/vw_upgrade"
                     style="@style/style_divider_horizontal_light"
                     android:layout_height="@dimen/spacing_normal" />

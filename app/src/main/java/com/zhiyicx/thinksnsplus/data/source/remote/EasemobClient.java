@@ -184,6 +184,14 @@ public interface EasemobClient {
     @GET(ApiConfig.APP_PATH_GET_GROUP_GET_STICKS)
     Observable<List<StickBean>> getSticks(@Query("author") String author);
     /**
+     * 升级群
+     *
+     * @param type 升级类型
+     */
+    @POST(ApiConfig.APP_PATH_GET_GROUP_UPGRADE_GROUP)
+    Observable<String> upgradeGroup(@Query("im_group_id") String im_group_id,
+                                             @Query("type") int type);
+    /**
      * 发布公告
      *
      * @param ids im_group_id

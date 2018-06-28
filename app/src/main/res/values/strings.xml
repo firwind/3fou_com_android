@@ -609,6 +609,7 @@
     <string name="certification_basic_info_id_card">身份证号码</string>
     <string name="id_card_hint">输入正确的身份证号码</string>
     <string name="certification_basic_info_phone">手机号码</string>
+    <string name="certification_edit_info_phone">请填写您手机号码</string>
     <string name="info_phone_hint">输入11位手机号码</string>
 
     <string name="certification_basic_info_company_name">机构名称</string>
@@ -1060,6 +1061,7 @@
     <string name="chat_info_title">群聊信息</string>
     <string name="group_title">群聊</string>
     <string name="mobile_contact_title">手机联系人</string>
+    <string name="mobile_contact_information">联系方式</string>
     <string name="chat_info_title_single">聊天信息</string>
     <string name="chat_info_shielded_message">屏蔽消息</string>
     <string name="chat_info_shielded_message_alert">开启后将不再接受群的消息</string>
@@ -1074,6 +1076,17 @@
     <string name="chat_info_jurisdiction">成员权限</string>
     <string name="chat_setting_info_jurisdiction">设置成员权限</string>
     <string name="chat_info_upgrade">升级群</string>
+    <string name="chat_info_report">举报群</string>
+    <string name="chat_info_upgrade_success">升级成功</string>
+    <string name="group_member_help">会员帮助中心</string>
+
+    <string name="upgrade_group_advantage_01">群成员人数不限制</string>
+    <string name="upgrade_group_advantage_02">您的群将被加上 "V" 型标志</string>
+    <string name="upgrade_group_advantage_03">官方群位置优先展示</string>
+    <string name="upgrade_group_advantage_04">搜索群热门推荐</string>
+    <string name="upgrade_group_advantage_05">群相册超大容量</string>
+    <string name="upgrade_immediately">立即升级</string>
+
     <string name="chat_view_all_members">查看全部成员</string>
     <string name="chat_group_manager">群管理</string>
     <string name="chat_delete_group">解散群组</string>

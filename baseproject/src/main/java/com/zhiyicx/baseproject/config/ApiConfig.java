@@ -67,6 +67,7 @@ public class ApiConfig {
     public static final String APP_PATH_CHANGE_PASSWORD_V2 = "api/" + API_VERSION_2 + "/user/password";// 修改密码
     public static final String APP_PATH_FIND_PASSWORD_V2 = "api/" + API_VERSION_2 + "/user/retrieve-password";// 找回密码
     /**
+     *
      * 注册 RegitstClient
      */
     public static final String APP_PATH_REGISTER = "api/" + API_VERSION_2 + "/users";// 注册
@@ -145,6 +146,7 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_SET_STICK= "api/" + API_VERSION_2 + "/easemob/group/addstick";// 设置置顶
     public static final String APP_PATH_GET_GROUP_CANCEL_STICK= "api/" + API_VERSION_2 + "/easemob/group/delstick";// 取消置顶
     public static final String APP_PATH_GET_GROUP_GET_STICKS= "api/" + API_VERSION_2 + "/easemob/group/getstick";// 获取置顶ID
+    public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP= "api/" + API_VERSION_2 + "/easemob/group/upgradegroup";// 获取置顶ID
 
     /**
      * 关注粉丝 FollowFansClient

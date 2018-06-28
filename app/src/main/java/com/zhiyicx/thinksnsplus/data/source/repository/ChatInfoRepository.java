@@ -1,18 +1,28 @@
 package com.zhiyicx.thinksnsplus.data.source.repository;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
+import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.remote.ServiceManager;
 import com.zhiyicx.thinksnsplus.modules.chat.info.ChatInfoContract;
+import com.zhiyicx.thinksnsplus.utils.JsonUtils;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -63,7 +73,7 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
 
     @Override
     public Observable<String> removeBannedPost(String im_group_id, String user_id, String members) {
-        return mEasemobClient.removeBannedPost(im_group_id,user_id,members)
+        return mEasemobClient.removeBannedPost(im_group_id, user_id, members)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -77,18 +87,18 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
 
     @Override
     public Observable<String> removeRole(String im_group_id, String removeadmin, String admin_type) {
-        return mEasemobClient.removeRole(im_group_id,removeadmin,admin_type)
+        return mEasemobClient.removeRole(im_group_id, removeadmin, admin_type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Observable<String> setStick(String stick_id, String author,int isStick) {
+    public Observable<String> setStick(String stick_id, String author, int isStick) {
         Observable<String> observable;
         if (isStick == 0) {
-            observable =  mEasemobClient.setStick(stick_id, author);//设置置顶
-        }else {
-            observable =  mEasemobClient.cancelStick(stick_id, author);//取消置顶
+            observable = mEasemobClient.setStick(stick_id, author);//设置置顶
+        } else {
+            observable = mEasemobClient.cancelStick(stick_id, author);//取消置顶
         }
         return observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -97,6 +107,32 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
     @Override
     public Observable<List<StickBean>> refreshSticks(String author) {
         return mEasemobClient.getSticks(author)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<UpgradeTypeBean>> getUpgradeGroups() {
+          Observable observable = Observable.create(new Observable.OnSubscribe<List<UpgradeTypeBean>>() {
+            @Override
+            public void call(Subscriber<? super List<UpgradeTypeBean>> subscriber) {
+
+                String json = JsonUtils.getJson("upgradeGroup", AppApplication.getContext());
+                Type listType = new TypeToken<List<UpgradeTypeBean>>() {
+                }.getType();
+                //这里的json是字符串类型 = jsonArray.toString();
+                List<UpgradeTypeBean> typeBeans = new Gson().fromJson(json, listType);
+                subscriber.onNext(typeBeans);
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    @Override
+    public Observable<String> upgradeGroup(String groupId, int type) {
+        return mEasemobClient.upgradeGroup(groupId,type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

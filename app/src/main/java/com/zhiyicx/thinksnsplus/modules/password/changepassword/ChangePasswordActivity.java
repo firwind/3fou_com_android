@@ -19,7 +19,6 @@ public class ChangePasswordActivity extends TSActivity<ChangePasswordPresenter, 
                 .changePasswordPresenterModule(new ChangePasswordPresenterModule(mContanierFragment))
                 .build()
                 .inject(this);
-
     }
 
     @Override
