@@ -282,19 +282,19 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
     @Override
     public void getGroupChatInfo(String groupId) {
-        Subscription subscription = mRepository.getGroupChatNewInfo(groupId)
+        Subscription subscription = mRepository.getNewGroupInfoV2(groupId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap(chatGroupBeans -> {
-                    if (chatGroupBeans.isEmpty()) {
+                    /*if (chatGroupBeans.isEmpty()) {
                         return null;
                     }
                     try {
                         EMClient.getInstance().groupManager().getGroupFromServer(chatGroupBeans.get(0).getId());
                     } catch (HyphenateException e) {
                         e.printStackTrace();
-                    }
-                    return Observable.just(chatGroupBeans.get(0));
+                    }*/
+                    return Observable.just(chatGroupBeans/*.get(0)*/);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<ChatGroupNewBean>() {

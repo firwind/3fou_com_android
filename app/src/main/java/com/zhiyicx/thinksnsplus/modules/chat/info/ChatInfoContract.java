@@ -125,6 +125,7 @@ public interface ChatInfoContract {
 
     interface Repository extends IBaseFriendsRepository {
         Observable<List<ChatGroupBean>> getGroupChatInfo(String groupId);
+        @Deprecated
 
         Observable<List<ChatGroupNewBean>> getGroupChatNewInfo(String groupId);
 
@@ -150,8 +151,9 @@ public interface ChatInfoContract {
         Observable<List<UpgradeTypeBean>> getUpgradeGroups();
 
         //提交升级群
-        Observable<String> upgradeGroup(String groupId, int type);
-
+        Observable<String> upgradeGroup(String groupId,int type);
+        //新的获取群信息的接口
+        Observable<ChatGroupNewBean> getNewGroupInfoV2(String group_id);
         //提交举报群
         Observable<String> reportGroup(String userId, String groupId, String reason, String tel);
 

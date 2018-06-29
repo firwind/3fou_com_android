@@ -148,6 +148,8 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_GET_STICKS= "api/" + API_VERSION_2 + "/easemob/group/getstick";// 获取置顶ID
     public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP= "api/" + API_VERSION_2 + "/easemob/group/upgradegroup";// 升级群
     public static final String APP_PATH_GET_GROUP_REPORT_GROUP= "api/" + API_VERSION_2 + "/easemob/group/report";//举报群
+    public static final String APP_PATH_GET_SIMPLE_GROUP_INFO= "api/" + API_VERSION_2 + "/easemob/group/grouplist";//简单获取群信息
+    public static final String APP_PATH_GET_GROUP_INFO_NEW= "api/" + API_VERSION_2 + "easemob/group/groupinfo";//简单获取群信息
 
     /**
      * 关注粉丝 FollowFansClient

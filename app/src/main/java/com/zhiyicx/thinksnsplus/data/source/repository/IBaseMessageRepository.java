@@ -109,4 +109,12 @@ public interface IBaseMessageRepository {
     Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(String group_id, int page);
 
 
+    /**
+     * 简单获取群信息
+     * @param group_id
+     * @param group_level
+     * @return
+     */
+    Observable<List<ChatGroupBean>> getSimpleGroupList(String group_id,int group_level);
+
 }

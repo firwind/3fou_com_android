@@ -67,6 +67,7 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                                 builder.append(",");
                             }
 
+                            //return mBaseMessageRepository.getSimpleGroupList(builder.toString(),mRootView.isOnlyOfficialGroup()?1:0);
                             //筛选出官方群
                             if(mRootView.isOnlyOfficialGroup()){
                                 return mBaseMessageRepository.getGroupInfoOnlyGroupFace(builder.toString())

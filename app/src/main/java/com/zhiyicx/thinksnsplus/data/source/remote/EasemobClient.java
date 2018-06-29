@@ -77,6 +77,7 @@ public interface EasemobClient {
      *
      * @param ids im_group_id 以逗号隔开
      */
+    @Deprecated
     @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_S)
     Observable<List<ChatGroupNewBean>> getNewGroupInfo(@Query("im_group_id") String ids);
 
@@ -270,5 +271,22 @@ public interface EasemobClient {
      */
     @DELETE(ApiConfig.APP_PATH_GET_GROUP_INFO_S)
     Observable<String> deleteGroup(@Query("im_group_id")String group_id);
+
+    /**
+     * 获取简单群信息
+     * @param im_group_id
+     * @param group_level
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_SIMPLE_GROUP_INFO)
+    Observable<List<ChatGroupBean>> getSimpleGroupInfo(@Query("im_group_id")String im_group_id,@Query("grouplevel")int group_level);
+
+    /**
+     * 新的获取群组信息
+     * @param ids
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_NEW)
+    Observable<ChatGroupNewBean> getNewGroupInfoV2(@Query("im_group_id") String ids);
 
 }

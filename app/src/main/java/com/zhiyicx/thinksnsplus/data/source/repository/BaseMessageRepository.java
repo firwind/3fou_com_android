@@ -483,4 +483,9 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     public Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(String group_id, int page) {
         return mClient.getGroupAlbumList(group_id, DEFAULT_ONE_PAGE_SHOW_MAX_SIZE, page);
     }
+
+    @Override
+    public Observable<List<ChatGroupBean>> getSimpleGroupList(String group_id, int group_level) {
+        return mClient.getSimpleGroupInfo(group_id,group_level);
+    }
 }
