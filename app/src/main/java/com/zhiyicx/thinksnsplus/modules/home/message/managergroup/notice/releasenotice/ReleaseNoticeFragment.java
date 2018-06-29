@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
+import com.zhiyicx.baseproject.em.manager.util.TSEMessageUtils;
 import com.zhiyicx.baseproject.widget.edittext.DeleteEditText;
 import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
@@ -99,7 +101,7 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
 
     @Override
     public void relaseSuccess() {
-
+        TSEMessageUtils.sendNoticeGroupMessage(mUserInfoBean.getName(),String.valueOf(System.currentTimeMillis()),mNoticeContent,mNoticeTitle,mGroupId,true, TSEMConstants.TS_ATTR_RELEASE_NOTICE);
         EventBus.getDefault().post(mNoticeContent, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE);
         getActivity().finish();
     }
@@ -110,6 +112,7 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
     }
 
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);

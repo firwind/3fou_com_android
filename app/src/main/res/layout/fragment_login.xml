@@ -153,7 +153,8 @@
                         android:layout_weight="1"/>
                 </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_34">
@@ -165,6 +166,8 @@
                         android:text="@string/third_qq"/>
 
                     <TextView
+
+                        android:visibility="gone"
                         android:id="@+id/tv_login_by_weibo"
                         style="@style/ThirdLoginButton"
                         android:layout_centerInParent="true"
@@ -172,12 +175,13 @@
                         android:text="@string/third_weibo"/>
 
                     <TextView
+                        android:layout_marginLeft="@dimen/dp50"
                         android:id="@+id/tv_login_by_wechat"
                         style="@style/ThirdLoginButton"
                         android:layout_alignParentRight="true"
                         android:drawableTop="@mipmap/login_wechat"
                         android:text="@string/third_wechat"/>
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

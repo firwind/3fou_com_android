@@ -136,4 +136,11 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<String> reportGroup(String userId, String groupId, String reason, String tel) {
+        return mEasemobClient.reportGroup(userId,groupId,reason,tel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

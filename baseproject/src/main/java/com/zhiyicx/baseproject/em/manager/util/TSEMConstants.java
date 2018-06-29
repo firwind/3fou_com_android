@@ -62,8 +62,14 @@ public class TSEMConstants {
     public static final String TS_ATTR_RECALL = "ts_attr_recall";
 
     public static final String TS_ATTR_ID = "ts_attr_id";
-    public static final String TS_ATTR_NAME = "ts_attr_name";
 
+    public static final String TS_ATTR_NAME = "ts_attr_name";
+    public static final String TS_USER_NAME = "ts_user_name";
+    public static final String TS_TIME = "ts_time";
+    public static final String TS_CONTENT = "ts_content";
+    public static final String TS_TITLE = "ts_title";
+    public static final String TS_GROUP_ID = "ts_group_id";
+    public static final String TS_GROUP_OWNER = "ts_group_owner";
     /**
      * 用户加入群组
      */
@@ -83,6 +89,10 @@ public class TSEMConstants {
      * 群解散
      */
     public static final String TS_ATTR_GROUP_DISBAND = "ts_group_disband";
+    /**
+     * 发布群公告
+     */
+    public static final String TS_ATTR_RELEASE_NOTICE = "ts_release_notice";
 
     /**
      * 被移除

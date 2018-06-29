@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.trycatch.mysnackbar.Prompt;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
@@ -23,6 +24,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.zhiyicx.thinksnsplus.i.IntentKey.GROUP_ID;
 
 /**
  * Created by zhang on 2018/6/28.
@@ -53,7 +56,7 @@ public class UpgradeGroupFragment extends TSFragment<UpgradeGroupContract.Presen
 
     @Override
     protected void initData() {
-        mGroupId = getArguments().getString(UpgradeGroupActivity.GROUP_ID);
+        mGroupId = getArguments().getString(GROUP_ID);
         mPresenter.getUpgradeType();//从本地获取升级群Bean
     }
 
@@ -104,6 +107,13 @@ public class UpgradeGroupFragment extends TSFragment<UpgradeGroupContract.Presen
         mViewPager.setAdapter(new UpgradeAdapter());
         mViewPager.setCurrentItem(0);
     }
+
+    @Override
+    protected void snackViewDismissWhenTimeOut(Prompt prompt) {
+        super.snackViewDismissWhenTimeOut(prompt);
+        getActivity().finish();
+    }
+
     /**
      * ViewPager 适配器
      */

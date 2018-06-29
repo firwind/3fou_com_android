@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.repo
 
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppComponent;
+import com.zhiyicx.thinksnsplus.base.InjectComponent;
 
 import dagger.Component;
 
@@ -14,6 +15,6 @@ import dagger.Component;
  */
 @FragmentScoped
 @Component(dependencies = AppComponent.class, modules = ReportGroupPresenterModule.class)
-public interface ReportGroupComponent {
+public interface ReportGroupComponent extends InjectComponent<ReportGroupActivity> {
 
 }

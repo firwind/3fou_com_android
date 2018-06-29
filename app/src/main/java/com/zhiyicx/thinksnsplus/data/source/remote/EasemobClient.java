@@ -62,7 +62,7 @@ public interface EasemobClient {
     @PATCH(ApiConfig.APP_PATH_CREATE_CHAT_GROUP)
     Observable<ChatGroupBean> updateGroup(@Query("im_group_id") String im_group_id, @Query("groupname") String groupName, @Query("desc") String groupIntro, @Query("public") int isPublic,
                                           @Query("maxusers") int maxUser, @Query("members_only") int isMemberOnly, @Query("allowinvites") int isAllowInvites,
-                                          @Query("group_face") String groupFace, @Query("new_owner_user") String newOwner,@Query("grouplevel")int groupLevel);
+                                          @Query("group_face") String groupFace, @Query("new_owner_user") String newOwner, @Query("grouplevel") int groupLevel);
 
     /**
      * 批量获取群信息
@@ -95,6 +95,7 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_RECOMMEND)
     Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace();
+
     /**
      * 搜索群
      *
@@ -129,8 +130,9 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_REMOVE_MUTE)
     Observable<String> removeBannedPost(@Query("im_group_id") String im_group_id,
-                                      @Query("user_id") String user_id,
-                                      @Query("members") String members);
+                                        @Query("user_id") String user_id,
+                                        @Query("members") String members);
+
     /**
      * 移除禁言
      *
@@ -138,8 +140,8 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_ADD_ROLU)
     Observable<String> addGroupRole(@Query("im_group_id") String im_group_id,
-                                      @Query("admin_id") String admin_id,
-                                      @Query("admin_type") String admin_type);
+                                    @Query("admin_id") String admin_id,
+                                    @Query("admin_type") String admin_type);
 
     /**
      * 获取管理员及主持人/讲师
@@ -166,7 +168,8 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_SET_STICK)
     Observable<String> setStick(@Query("stick_id") String stick_id,
-                                  @Query("author") String author);
+                                @Query("author") String author);
+
     /**
      * 取消置顶
      *
@@ -174,7 +177,7 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_CANCEL_STICK)
     Observable<String> cancelStick(@Query("stick_id") String stick_id,
-                                  @Query("author") String author);
+                                   @Query("author") String author);
 
     /**
      * 获取置顶ID列表
@@ -183,6 +186,7 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_GET_STICKS)
     Observable<List<StickBean>> getSticks(@Query("author") String author);
+
     /**
      * 升级群
      *
@@ -190,7 +194,22 @@ public interface EasemobClient {
      */
     @POST(ApiConfig.APP_PATH_GET_GROUP_UPGRADE_GROUP)
     Observable<String> upgradeGroup(@Query("im_group_id") String im_group_id,
-                                             @Query("type") int type);
+                                    @Query("type") int type);
+
+    /**
+     * 举报群
+     * @param user_id  用户ID
+     * @param im_group_id 群ID
+     * @param reason  内容
+     * @param tel  手机
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_GET_GROUP_REPORT_GROUP)
+    Observable<String> reportGroup(@Query("user_id") String user_id,
+                                   @Query("im_group_id") String im_group_id,
+                                   @Query("reason") String reason,
+                                   @Query("tel") String tel);
+
     /**
      * 发布公告
      *
@@ -223,6 +242,7 @@ public interface EasemobClient {
 
     /**
      * 添加群相册图片
+     *
      * @param images
      * @param group_id
      * @return
@@ -233,14 +253,15 @@ public interface EasemobClient {
 
     /**
      * 获取群相册图片
+     *
      * @param group_id
      * @param per_page
      * @param page
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_ALBUM_LIST)
-    Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(@Query("group_id")String group_id,
-                                                                         @Query("per_page")int per_page, @Query("page")int page);
+    Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(@Query("group_id") String group_id,
+                                                                          @Query("per_page") int per_page, @Query("page") int page);
 
     /**
      * 删除群组

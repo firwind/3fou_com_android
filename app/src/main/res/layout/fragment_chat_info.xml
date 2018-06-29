@@ -414,16 +414,15 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/spacing_mid"
                     android:text="@string/chat_info_upgrade"
+                    android:layout_marginBottom="@dimen/dp10"
                     android:textColor="@color/important_for_content"
                     android:textSize="@dimen/size_content" />
 
-                <!--<View
-                    android:visibility="gone"
-                <View
-                    android:visibility="visible"
-                    android:id="@+id/vw_upgrade"
-                    style="@style/style_divider_horizontal_light"
-                    android:layout_height="@dimen/spacing_normal" />-->
+                <!--<View-->
+                    <!--android:visibility="visible"-->
+                    <!--android:id="@+id/vw_upgrade"-->
+                    <!--style="@style/style_divider_horizontal_light"-->
+                    <!--android:layout_height="@dimen/spacing_normal" />-->
                 <!--群管理-->
                 <LinearLayout
                     android:layout_marginTop="@dimen/spacing_normal"

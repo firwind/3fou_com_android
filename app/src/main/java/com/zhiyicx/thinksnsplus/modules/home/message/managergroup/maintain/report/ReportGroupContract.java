@@ -18,6 +18,6 @@ public class ReportGroupContract {
     }
 
     interface Presenter extends IBasePresenter {
-
+        void sumitReport(String groupId,String reason,String tel);
     }
 }

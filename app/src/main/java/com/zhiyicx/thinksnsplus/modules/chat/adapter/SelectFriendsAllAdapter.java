@@ -48,7 +48,7 @@ public class SelectFriendsAllAdapter extends CommonAdapter<UserInfoBean> {
         RxView.clicks(holder.getConvertView())
                 .subscribe(aVoid -> {
                     if (mListener != null && userInfoBean.getMember_mute() != STATE_CAN_NOT_BE_CHANGED) {
-                        if (userInfoBean.getMember_mute() == STATE_SELECTED) {
+                        if (userInfoBean.getIsSelected() == STATE_SELECTED) {
                             userInfoBean.setIsSelected(STATE_UNSELECTED);
                         } else {
                             userInfoBean.setIsSelected(STATE_SELECTED);

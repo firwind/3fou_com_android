@@ -50,6 +50,7 @@ import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
 import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.album.MessageGroupAlbumActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.jurisdiction.JurisdictionActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.report.ReportGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradegroup.UpgradeGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.settingadmin.SettingAdminActivity;
@@ -166,14 +167,14 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     TextView mTvGroupCardName;
     @BindView(R.id.ll_group_manager)
     LinearLayout llGroupManager;
-    /*@BindView(R.id.vw_set_admin)
-    View vwSetAdmin;
-    @BindView(R.id.vw_jurisdiction)
-    View vwJurisdiction;
-    @BindView(R.id.vw_upgrade)
-    View vwUpgrade;
-    @BindView(R.id.vw_set_stick)
-    View vwSetStick;*/
+//    @BindView(R.id.vw_set_admin)
+//    View vwSetAdmin;
+//    @BindView(R.id.vw_jurisdiction)
+//    View vwJurisdiction;
+//    @BindView(R.id.vw_upgrade)
+//    View vwUpgrade;
+//    @BindView(R.id.vw_set_stick)
+//    View vwSetStick;
 
     @BindView(R.id.tv_announcement)
     TextView mNoticeText;
@@ -423,14 +424,16 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 break;
 //            case R.id.ll_card:
             case R.id.tv_find_message:
-                ChatRecordActivity.startChatRecordActivity(mActivity,mChatId);
+                ChatRecordActivity.startChatRecordActivity(mActivity, mChatId);
                 break;
 
             case R.id.tv_upgrade://升级群||举报群
-                if (mChatType == CHATTYPE_GROUP) {//群主跳转到升级群
-                    UpgradeGroupActivity.startUpgradeGroupActivity(getContext(), mChatGroupBean.getId());
-                }else {//跳转到举报群
-
+                if (mChatType == CHATTYPE_GROUP) {
+                    if (mPresenter.isGroupOwner()) {
+                        UpgradeGroupActivity.startUpgradeGroupActivity(getContext(), mChatGroupBean.getId());
+                    }else {//跳转到举报群
+                        ReportGroupActivity.startReportGroupActivity(getContext(), mChatGroupBean.getId());
+                    }
                 }
                 break;
             default:
@@ -885,6 +888,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mLlBannedPost.setVisibility(View.GONE);
                 mTvJurisdiction.setVisibility(View.GONE);
                 mTvUpgrade.setText(getString(R.string.chat_info_report));
+
+//                vwSetAdmin.setVisibility(View.GONE);
+//                mTvUpgrade.setVisibility(View.VISIBLE);
                 //vwSetAdmin.setVisibility(View.GONE);
                 mTvUpgrade.setVisibility(View.GONE);
                 /*vwSetAdmin.setVisibility(View.GONE);

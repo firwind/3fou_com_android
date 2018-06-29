@@ -31,8 +31,8 @@ public class ApiConfig {
 //    public static final String APP_DOMAIN_TEST = "http://test-plus.zhibocloud.cn/";// 在线测试服务器
     public static final String APP_DOMAIN_TEST = "http://faceke.com/";// 在线测试服务器
 //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
-    public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
-//    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
+//    public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
+    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
 //    public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://192.168.2.152/";// 乔老师本地服务器
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
@@ -146,7 +146,8 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_SET_STICK= "api/" + API_VERSION_2 + "/easemob/group/addstick";// 设置置顶
     public static final String APP_PATH_GET_GROUP_CANCEL_STICK= "api/" + API_VERSION_2 + "/easemob/group/delstick";// 取消置顶
     public static final String APP_PATH_GET_GROUP_GET_STICKS= "api/" + API_VERSION_2 + "/easemob/group/getstick";// 获取置顶ID
-    public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP= "api/" + API_VERSION_2 + "/easemob/group/upgradegroup";// 获取置顶ID
+    public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP= "api/" + API_VERSION_2 + "/easemob/group/upgradegroup";// 升级群
+    public static final String APP_PATH_GET_GROUP_REPORT_GROUP= "api/" + API_VERSION_2 + "/easemob/group/report";//举报群
 
     /**
      * 关注粉丝 FollowFansClient

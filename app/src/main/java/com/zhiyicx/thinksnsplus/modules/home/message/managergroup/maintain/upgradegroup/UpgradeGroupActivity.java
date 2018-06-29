@@ -10,12 +10,14 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 
 import javax.inject.Inject;
 
+import static com.zhiyicx.thinksnsplus.i.IntentKey.GROUP_ID;
+
 /**
  * Created by zhang on 2018/6/28.
  */
 
 public class UpgradeGroupActivity extends TSActivity<UpgradeGroupPresenter, UpgradeGroupFragment> {
-    public static final String GROUP_ID = "group_id";
+
 
     @Override
     protected UpgradeGroupFragment getFragment() {

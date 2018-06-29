@@ -17,6 +17,7 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.EmptySubscribe;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseMessageRepository;
@@ -25,8 +26,10 @@ import org.simple.eventbus.EventBus;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ReleaseNoticePresenter extends AppBasePresenter<ReleaseNoticeContract.View> implements ReleaseNoticeContract.Presenter {
 
@@ -49,11 +52,18 @@ public class ReleaseNoticePresenter extends AppBasePresenter<ReleaseNoticeContra
                     protected void onSuccess(String data) {
                         // 成功后重置页面
                         mRootView.dismissSnackBar();
-                        try {
-                            EMClient.getInstance().groupManager().updateGroupAnnouncement(group_id, content);//更新群公告
-                        } catch (HyphenateException e) {
-                            e.printStackTrace();
-                        }
+                        Observable.empty()
+                                .observeOn(Schedulers.io())
+                                .subscribe(new EmptySubscribe<Object>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        try {
+                                            EMClient.getInstance().groupManager().updateGroupAnnouncement(group_id, content);//更新群公告
+                                        } catch (HyphenateException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
                         mRootView.relaseSuccess();
                     }
 

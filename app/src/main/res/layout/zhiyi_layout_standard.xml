@@ -330,6 +330,7 @@
                 android:text="@string/weCircle_share"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/share_weibo"
                 style="@style/ThirdLoginButton"
                 android:layout_width="0dp"

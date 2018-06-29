@@ -8,6 +8,7 @@ import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
@@ -31,13 +33,17 @@ import com.hyphenate.easeui.widget.presenter.EaseChatRowPresenter;
 import com.hyphenate.util.PathUtil;
 import com.zhiyi.richtexteditorlib.view.dialogs.LinkDialog;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMRefreshEvent;
+import com.zhiyicx.baseproject.em.manager.eventbus.TSEMessageEvent;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
+import com.zhiyicx.baseproject.widget.popwindow.NoticePopupWindow;
 import com.zhiyicx.baseproject.widget.popwindow.PermissionPopupWindow;
 import com.zhiyicx.common.utils.AndroidBug5497Workaround;
 import com.zhiyicx.common.utils.DeviceUtils;
+import com.zhiyicx.common.utils.TimeUtils;
 import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
+import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.TSEaseChatFragment;
@@ -59,6 +65,7 @@ import com.zhiyicx.thinksnsplus.modules.chat.item.presenter.TSChatVideoPresenter
 import com.zhiyicx.thinksnsplus.modules.chat.item.presenter.TSChatVoicePresenter;
 import com.zhiyicx.thinksnsplus.modules.chat.location.SendLocationActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.video.ImageGridActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 import com.zhiyicx.thinksnsplus.widget.chat.TSChatInputMenu;
 import com.zhiyicx.thinksnsplus.widget.chat.TSChatPrimaryMenu;
@@ -80,6 +87,8 @@ import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_ADD_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_STICK;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
 import static com.hyphenate.easeui.widget.chatrow.EaseChatRow.TipMsgType.OPEN_MUTE;
+import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_ID;
+import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.IS_GROUP_OWNER;
 
 /**
  * @author Catherine
@@ -298,7 +307,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_TO_USER_ID, toChatUsername);
         bundle.putInt(EXTRA_CHAT_TYPE, chatType);
-        bundle.putBoolean(EXTRA_IS_ADD_GROUP,true);
+        bundle.putBoolean(EXTRA_IS_ADD_GROUP, true);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             bundle.putInt(EXTRA_IS_STICK, mIsStick);
         }
@@ -710,11 +719,70 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             setCenterText(getString(R.string.chat_group_name_default, chatGroupBean.getName(), chatGroupBean.getAffiliations_count()));
         }
     }
+
     @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK)
     public void updateStick(int stick) {
-      mIsStick = stick;
+        mIsStick = stick;
 //      EventBus.getDefault().post(mIsStick == 0 ? 1 : 0, EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK);
     }
+
+    private NoticePopupWindow mNoticePop;
+
+    /**
+     * 获取公告信息
+     *
+     * @param event
+     */
+    @Subscriber(mode = ThreadMode.MAIN)
+    public void onTSEMessageEventEventBus(TSEMessageEvent event) {
+        String userName = event.getMessage().getStringAttribute(TSEMConstants.TS_USER_NAME, null);
+        String time = event.getMessage().getStringAttribute(TSEMConstants.TS_TIME, null);
+        String title = event.getMessage().getStringAttribute(TSEMConstants.TS_TITLE, null);
+        String content = event.getMessage().getStringAttribute(TSEMConstants.TS_CONTENT, null);
+        String groupId = event.getMessage().getStringAttribute(TSEMConstants.TS_GROUP_ID, null);
+        boolean isOwner = event.getMessage().getBooleanAttribute(TSEMConstants.TS_GROUP_OWNER, false);
+        EMCmdMessageBody body = (EMCmdMessageBody) event.getMessage().getBody();
+        switch (body.action()) {
+            case TSEMConstants.TS_ATTR_RELEASE_NOTICE://获取发布公告
+                if (mNoticePop != null) {
+                    mNoticePop.show();
+                    return;
+                }
+                mNoticePop = NoticePopupWindow.builder()
+                        .titleStr(title)
+                        .desStr(content)
+                        .item1Str(getString(R.string.get_it))
+                        .nameStr(userName)
+                        .timeStr(TimeUtils.getTimeFriendlyNormal(time))
+                        .isOutsideTouch(true)
+                        .item1Color(R.color.white)
+                        .isFocus(true)
+                        .animationStyle(R.style.style_actionPopupAnimation)
+                        .backgroundAlpha(CustomPopupWindow.POPUPWINDOW_ALPHA)
+                        .buildNoticePopWindowItem1ClickListener(new NoticePopupWindow.NoticePopWindowItem1ClickListener() {
+                            @Override
+                            public void onClicked() {
+                                mNoticePop.hide();
+                            }
+
+                            @Override
+                            public void onMore() {
+                                Intent intentName = new Intent(getContext(), NoticeManagerActivity.class);
+                                intentName.putExtra(GROUP_ORIGINAL_ID, groupId);
+                                intentName.putExtra(IS_GROUP_OWNER, isOwner);
+                                startActivity(intentName);
+
+                            }
+                        })
+                        .with(getActivity())
+                        .parentView(getView())
+                        .build();
+                mNoticePop.show();
+                break;
+        }
+    }
+
+
     private void initPermissionPopUpWindow(String item1) {
         mActionPopupWindow = PermissionPopupWindow.builder()
                 .permissionName(getString(com.zhiyicx.baseproject.R.string.camera_permission))

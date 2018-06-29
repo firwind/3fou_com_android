@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tool="http://schemas.android.com/tools"
+        android:layout_width="@dimen/ppw_notice_width"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_popwindow"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_25">
+       <LinearLayout
+           android:id="@+id/ll_more"
+           android:orientation="horizontal"
+           android:background="@color/chat_message_bubble_other_bgColor"
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/dp40">
+           <TextView
+               android:layout_weight="1"
+               android:gravity="center_vertical"
+               android:layout_marginLeft="@dimen/dp10"
+               android:drawablePadding="@dimen/dp10"
+               android:drawableLeft="@mipmap/notice_icon"
+               android:layout_gravity="center_vertical"
+               android:text="群公告"
+               android:textSize="@dimen/dp16"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:textColor="@color/normal_for_dynamic_list_content"/>
+           <TextView
+
+               android:layout_marginRight="@dimen/dp10"
+               android:layout_gravity="center_vertical"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="@dimen/dp16"
+               android:text="更多 >"/>
+       </LinearLayout>
+        <TextView
+
+            android:layout_marginTop="@dimen/dp5"
+            android:layout_gravity="left"
+            android:id="@+id/ppw_center_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/important_for_content"
+            android:textSize="@dimen/size_primary_title"
+            android:textStyle="bold"
+            tool:text="title" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/ppw_center_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dp12"
+                tool:text="xxx"/>
+            <TextView
+                android:id="@+id/ppw_center_time"
+                android:layout_marginLeft="@dimen/dp20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dp12"
+                tool:text="xxx"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/certification_detail_img_width"
+            android:scrollbars="vertical">
+
+            <TextView
+                android:id="@+id/ppw_center_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_12"
+                android:paddingBottom="@dimen/spacing_normal"
+                android:textColor="@color/normal_for_dynamic_list_content"
+                android:textSize="@dimen/size_content_assist"
+                tool:text="我不要钱,控股发电技术管理经费控股发电技术管理经费的失落感更加疯狂楼市的价格轮番看电视剧管理费的角控股发电技术管理经费控股发电技术管理经费的失落感更加疯狂楼市的价格轮番看电视剧管理费的角色加工费的失落感积分控股发电技术管理经费的失落感更加疯狂楼市的价格轮番看电视剧管理费的角色加工费的失落感积分的失落感更加疯狂楼市的价格轮番看电视剧管理费的角色加工费的失落感积分色加工费的失落感积分控股发电技术管理经费的失落感更加疯狂楼市的价格轮番看电视剧管理费的角色加工费的失落感积分的失落感更加疯狂楼市的价格轮番看电视剧管理费的角色加工费的失落感积分" />
+        </ScrollView>
+
+        <TextView
+            android:background="@color/themeColor"
+            android:id="@+id/ppw_center_item"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/load_more_height"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_content"
+            tool:text="我知道了" />
+    </LinearLayout>
+</FrameLayout>

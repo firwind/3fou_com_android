@@ -184,6 +184,33 @@ public class TSEMessageUtils {
     }
 
     /**
+     * 发送一条公告信息的透传，这里需要和接收方协商定义
+     *
+     * @param userName
+     * @param time
+     */
+    public static void sendNoticeGroupMessage(String userName, String time, String content, String title, String groupId, boolean isOwner, String action) {
+        long currTime = TSEMDateUtil.getCurrentMillisecond();
+        EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
+        cmdMessage.setChatType(EMMessage.ChatType.GroupChat);
+        // 创建CMD 消息的消息体 并设置 action 为 disband
+        EMCmdMessageBody body = new EMCmdMessageBody(action);
+        cmdMessage.addBody(body);
+        cmdMessage.setMsgTime(currTime);
+        cmdMessage.setAttribute(TSEMConstants.TS_USER_NAME, userName);
+        cmdMessage.setAttribute(TSEMConstants.TS_TIME, time);
+        cmdMessage.setAttribute(TSEMConstants.TS_CONTENT, content);
+        cmdMessage.setAttribute(TSEMConstants.TS_TITLE, title);
+        cmdMessage.setAttribute(TSEMConstants.TS_GROUP_ID, groupId);
+        cmdMessage.setAttribute(TSEMConstants.TS_GROUP_OWNER, isOwner);
+
+        TSEMessageEvent event = new TSEMessageEvent();
+        event.setMessage(cmdMessage);
+        event.setStatus(cmdMessage.status());
+        EventBus.getDefault().post(event);
+    }
+
+    /**
      * 创建群聊 快速编辑群名称
      *
      * @param content 内容
@@ -206,6 +233,7 @@ public class TSEMessageUtils {
 
     /**
      * 删除某条消息
+     *
      * @param conversationId
      * @param msgId
      */

@@ -30,10 +30,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
+            android:maxLength="11"
             android:id="@+id/ed_input_phone"
             android:background="@color/white"
             android:hint="@string/certification_edit_info_phone"
             android:textSize="@dimen/dp12"
+            android:textColor="@color/text_color_black"
+            android:inputType="phone"
             android:layout_weight="0.8"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

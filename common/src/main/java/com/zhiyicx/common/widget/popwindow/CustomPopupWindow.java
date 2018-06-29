@@ -22,6 +22,14 @@ import com.zhiyicx.common.utils.DeviceUtils;
 public class CustomPopupWindow extends PopupWindow {
     public static final float POPUPWINDOW_ALPHA = .8f;
 
+    public View getmContentView() {
+        return mContentView;
+    }
+
+    public void setmContentView(View mContentView) {
+        this.mContentView = mContentView;
+    }
+
     protected View mContentView;
     protected int mContentViewId;
     protected Activity mActivity;

@@ -166,7 +166,11 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
      */
     private void getNoticeListData() {
         if (mPresenter != null) {
-            mRefreshlayout.autoRefresh(0);
+            if (mListDatas.isEmpty()) {
+                mRefreshlayout.autoRefresh(0);
+            } else {
+                mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
+            }
         }
     }
 
@@ -179,6 +183,4 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
     public void onPublishNoticeSuccess(String isRefresh) {
         getNoticeListData();
     }
-
-
 }

@@ -172,15 +172,15 @@ public class InviteShareFragment extends TSFragment<InviteShareContract.Presente
                 getString(com.zhiyicx.baseproject.R.string.weChat_share),SHARE_MEDIA.WEIXIN);
         ShareBean weCircle = new ShareBean(com.zhiyicx.baseproject.R.mipmap.detail_share_friends,
                 getString(com.zhiyicx.baseproject.R.string.weCircle_share),SHARE_MEDIA.WEIXIN_CIRCLE);
-        ShareBean weibo = new ShareBean(com.zhiyicx.baseproject.R.mipmap.detail_share_weibo,
-                getString(com.zhiyicx.baseproject.R.string.weibo_share),SHARE_MEDIA.SINA);
+//        ShareBean weibo = new ShareBean(com.zhiyicx.baseproject.R.mipmap.detail_share_weibo,
+//                getString(com.zhiyicx.baseproject.R.string.weibo_share),SHARE_MEDIA.SINA);
         mDatas.add(qq);
         mDatas.add(qZone);
         mDatas.add(weChat);
         mDatas.add(weCircle);
-        mDatas.add(weibo);
+//        mDatas.add(weibo);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 5);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 4);
         mRvShare.addItemDecoration(new ShareDecoration(getResources().getDimensionPixelSize(R.dimen.spacing_mid)));
         mRvShare.setLayoutManager(gridLayoutManager);
 

@@ -48,8 +48,11 @@ public interface ChatInfoContract {
         void updateGroupOwner(ChatGroupBean chatGroupBean);
 
         void setSticksSuccess();
+
         void setBannedPostSuccess();
+
         boolean getIsAddGroup();
+
         void goChatActivity();
     }
 
@@ -64,6 +67,7 @@ public interface ChatInfoContract {
 
         /**
          * 接受，或者屏蔽群消息
+         *
          * @param isChecked
          * @param chatId
          */
@@ -71,32 +75,36 @@ public interface ChatInfoContract {
 
         /**
          * 禁言
-         * @param im_group_id  群ID
-         * @param user_id  用户id   以逗号隔开
-         * @param times  禁言时长
-         * @param members  用户昵称
+         *
+         * @param im_group_id 群ID
+         * @param user_id     用户id   以逗号隔开
+         * @param times       禁言时长
+         * @param members     用户昵称
          */
-        void openBannedPost(String im_group_id ,String user_id,String times,String members);
+        void openBannedPost(String im_group_id, String user_id, String times, String members);
 
         /**
          * 解除禁言
+         *
          * @param im_group_id
          * @param user_id
          * @param members
          */
-        void removeBannedPost(String im_group_id ,String user_id,String members);
+        void removeBannedPost(String im_group_id, String user_id, String members);
 
         /**
          * 上传置顶群/单聊ID
+         *
          * @param stick_id
          * @param author
          * @param isStick  是否置顶
          */
-        void setSticks(String stick_id, String author,int isStick);
+        void setSticks(String stick_id, String author, int isStick);
 
         /**
          * 退群 或者 解散群
          * 群主是 解散，一般成员是退群
+         *
          * @param chatId
          */
         void destoryOrLeaveGroup(String chatId);
@@ -105,6 +113,7 @@ public interface ChatInfoContract {
 
         /**
          * 检查 userId 是否是小助手
+         *
          * @param chatId
          * @return
          */
@@ -116,23 +125,35 @@ public interface ChatInfoContract {
 
     interface Repository extends IBaseFriendsRepository {
         Observable<List<ChatGroupBean>> getGroupChatInfo(String groupId);
+
         Observable<List<ChatGroupNewBean>> getGroupChatNewInfo(String groupId);
-        Observable<String> openBannedPost(String im_group_id ,String user_id,String times,String members);
+
+        Observable<String> openBannedPost(String im_group_id, String user_id, String times, String members);
+
         Observable<String> addGroupRole(String im_group_id, String admin_id, String admin_type);
-        Observable<String> removeBannedPost(String im_group_id ,String user_id,String members);
+
+        Observable<String> removeBannedPost(String im_group_id, String user_id, String members);
+
         //获取群管理以及讲师或者主持人
         Observable<List<UserInfoBean>> getGroupHankInfo(String im_group_id);
+
         //删除管理员
-        Observable<String> removeRole(String im_group_id ,String removeadmin,String admin_type);
+        Observable<String> removeRole(String im_group_id, String removeadmin, String admin_type);
+
         //群/单聊置顶
-        Observable<String> setStick(String stick_id ,String author,int isStick);
+        Observable<String> setStick(String stick_id, String author, int isStick);
 
         //群/单聊置顶
         Observable<List<StickBean>> refreshSticks(String author);
+
         //获取本地升级群类型
         Observable<List<UpgradeTypeBean>> getUpgradeGroups();
+
         //提交升级群
-        Observable<String> upgradeGroup(String groupId,int type);
+        Observable<String> upgradeGroup(String groupId, int type);
+
+        //提交举报群
+        Observable<String> reportGroup(String userId, String groupId, String reason, String tel);
 
     }
 }
