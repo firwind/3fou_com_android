@@ -294,7 +294,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                 @Override
                 protected void onException(Throwable throwable) {
                     super.onException(throwable);
-                    mRootView.showStickyMessage(mContext.getString(R.string.chat_unconnected));
+                    mRootView.showStickyMessage(throwable.getMessage()/*mContext.getString(R.string.chat_unconnected)*/);
                     mRootView.onResponseError(throwable, false);
                 }
             };
@@ -400,6 +400,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                                 EMClient.getInstance().chatManager().getConversation(stickChatGroupBean.id, EMConversation
                                         .EMConversationType
                                         .GroupChat, true);
+
                         message.setConversation(conversation);
                         message.setChatGroupBean(chatGroupBean);
 
@@ -418,6 +419,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                                 EMClient.getInstance().chatManager().getConversation(stickUserInfoBean.id, EMConversation
                                         .EMConversationType
                                         .Chat, true);
+
                         message.setConversation(conversation);
 
                     }else {

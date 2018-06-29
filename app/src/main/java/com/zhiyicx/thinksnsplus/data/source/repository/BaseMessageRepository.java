@@ -127,7 +127,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                     }
                     return completeEmConversation(list)
                             .map(list1 -> {
-                                List<MessageItemBeanV2> tmps = new ArrayList<>();
+                                /*List<MessageItemBeanV2> tmps = new ArrayList<>();
                                 HashSet<String> emKeys = new HashSet<>();
 
                                 for (MessageItemBeanV2 messageItemBeanV2 : list1) {
@@ -149,8 +149,12 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                 if (tmps.size() > 1) {
                                     // 数据大于一个才排序
                                     Collections.sort(tmps, new EmTimeSortClass());
+                                }*/
+                                if (list1.size() > 1) {
+                                    // 数据大于一个才排序
+                                    Collections.sort(list1, new EmTimeSortClass());
                                 }
-                                return tmps;
+                                return /*tmps*/list1;
                             });
                 });
     }
@@ -187,7 +191,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                         } else if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.GroupChat) {
                             // 群聊
                             String chatGroupId = itemBeanV2.getConversation().conversationId();
-                            try {
+                           /* try {
                                 EMMessage message = itemBeanV2.getConversation().getLastMessage();
 
                                 if ("admin".equals(message.getFrom()) && null != message.ext()) {
@@ -218,7 +222,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
 
                             } catch (Exception ignored) {
                                 LogUtils.e(ignored.getMessage());
-                            }
+                            }*/
 
                             ChatGroupBean chatGroupBean = mChatGroupBeanGreenDao.getChatGroupBeanById(chatGroupId);
 
@@ -269,7 +273,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                                     // 退出群组
                                                     EMMessage message = list1.get(i).getConversation().getLastMessage();
 
-                                                    if(null != message.ext()){
+                                                    if(null != message && null != message.ext()){
                                                         boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
                                                         boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
 
@@ -292,7 +296,8 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                         });
                             }).flatMap(messages -> {
                                 if (TextUtils.isEmpty(groupIds.toString())) {
-                                    String lastConversationId = "";
+                                    //todo:此处去重 感觉没有必要，暂时干掉这段代码
+                                    /*String lastConversationId = "";
                                     List<MessageItemBeanV2> repeatItemBeanList = new ArrayList<>();
                                     for (MessageItemBeanV2 exitItem : messages) {
                                         String currentConversationId = exitItem.getConversation().conversationId();
@@ -301,17 +306,39 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                             repeatItemBeanList.add(exitItem);
                                         }
                                         lastConversationId = exitItem.getConversation().conversationId();
-                                    }
-                                    return Observable.just(repeatItemBeanList);
+                                    }*/
+                                    return Observable.just(messages/*repeatItemBeanList*/);
                                 }
                                 return getGroupInfo(groupIds.deleteCharAt(groupIds.length() - 1).toString())
                                         .flatMap(data -> {
-                                            List<MessageItemBeanV2> repeatItemBeanList = new ArrayList<>();
+                                            //data是从服务器获取的 群聊信息
+                                            //保存信息到数据库
+                                            mChatGroupBeanGreenDao.saveMultiData(data);
+                                            //遍历data和list1，将list1中未获取到群信息的MessageItemBeanV2塞进去ChatGroupBean
+                                            for (ChatGroupBean chatGroupBean:
+                                                 data) {
+
+                                                for (MessageItemBeanV2 message:
+                                                     list1) {
+
+                                                    if(chatGroupBean.getId().equals(message.getConversation().conversationId())){
+
+                                                        message.setEmKey(chatGroupBean.getId());
+                                                        message.setList(chatGroupBean.getAffiliations());
+                                                        message.setChatGroupBean(chatGroupBean);
+
+                                                        //如果匹配，结束掉当前循环
+                                                        break;
+                                                    }
+
+                                                }
+
+                                            }
+
+                                            /*List<MessageItemBeanV2> repeatItemBeanList = new ArrayList<>();
                                             String lastConversationId = "";
                                             mChatGroupBeanGreenDao.saveMultiData(data);
                                             for (ChatGroupBean chatGroupBean : data) {
-
-
                                                 mUserInfoBeanGreenDao.saveMultiData(chatGroupBean.getAffiliations());
                                                 for (MessageItemBeanV2 exitItem : list1) {
                                                     String currentConversationId = exitItem.getConversation().conversationId();
@@ -331,8 +358,9 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                                     lastConversationId = exitItem.getConversation().conversationId();
                                                 }
 
-                                            }
-                                            return Observable.just(repeatItemBeanList);
+                                            }*/
+
+                                            return Observable.just(list1/*repeatItemBeanList*/);
                                         });
                             });
                 });
