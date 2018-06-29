@@ -190,7 +190,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                             try {
                                 EMMessage message = itemBeanV2.getConversation().getLastMessage();
 
-                                if ("admin".equals(message.getFrom())) {
+                                if ("admin".equals(message.getFrom()) && null != message.ext()) {
 
                                     boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
                                     boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
@@ -269,20 +269,23 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                                     // 退出群组
                                                     EMMessage message = list1.get(i).getConversation().getLastMessage();
 
-                                                    boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
-                                                    boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
+                                                    if(null != message.ext()){
+                                                        boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
+                                                        boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
 
-                                                    if (isUserExit || isUserJoin && EMMessage.Type.TXT.equals(message.getType())) {
-                                                        String id = ((EMTextMessageBody) message.getBody()).getMessage();
-                                                        try {
-                                                            int key = Integer.parseInt(id);
-                                                            UserInfoBean userInfoBean = userInfoBeanSparseArray.get(key);
-                                                            EMTextMessageBody textBody = new EMTextMessageBody(mContext.getResources().getString(R
-                                                                    .string.userup_exit_group, userInfoBean.getName()));
-                                                            message.addBody(textBody);
-                                                        } catch (Exception ignore) {
+                                                        if (isUserExit || isUserJoin && EMMessage.Type.TXT.equals(message.getType())) {
+                                                            String id = ((EMTextMessageBody) message.getBody()).getMessage();
+                                                            try {
+                                                                int key = Integer.parseInt(id);
+                                                                UserInfoBean userInfoBean = userInfoBeanSparseArray.get(key);
+                                                                EMTextMessageBody textBody = new EMTextMessageBody(mContext.getResources().getString(R
+                                                                        .string.userup_exit_group, userInfoBean.getName()));
+                                                                message.addBody(textBody);
+                                                            } catch (Exception ignore) {
+                                                            }
                                                         }
                                                     }
+
                                                 }
                                             }
                                             return list1;
