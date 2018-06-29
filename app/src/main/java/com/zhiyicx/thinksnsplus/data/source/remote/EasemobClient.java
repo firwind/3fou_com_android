@@ -242,4 +242,12 @@ public interface EasemobClient {
     Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(@Query("group_id")String group_id,
                                                                          @Query("per_page")int per_page, @Query("page")int page);
 
+    /**
+     * 删除群组
+     * @param group_id
+     * @return
+     */
+    @DELETE(ApiConfig.APP_PATH_GET_GROUP_INFO_S)
+    Observable<String> deleteGroup(@Query("im_group_id")String group_id);
+
 }

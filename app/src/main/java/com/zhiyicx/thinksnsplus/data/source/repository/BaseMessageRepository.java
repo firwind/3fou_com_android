@@ -191,38 +191,47 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                         } else if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.GroupChat) {
                             // 群聊
                             String chatGroupId = itemBeanV2.getConversation().conversationId();
-                           /* try {
-                                EMMessage message = itemBeanV2.getConversation().getLastMessage();
 
-                                if ("admin".equals(message.getFrom()) && null != message.ext()) {
+                            //拿到群聊信息最后一条记录，看发消息的人本地数据库有没有
+                            EMMessage message = itemBeanV2.getConversation().getLastMessage();
 
-                                    boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
-                                    boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
-
-                                    String userId = (String) message.ext().get("uid");
-
-                                    if (isUserJoin) {
-                                        UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getUserInfoById(userId);
-                                        if (userInfoBean == null) {
-                                            users.add(userId);
-                                        }
-                                    }
-
-                                    if (groupIds.indexOf(chatGroupId) == -1 && (isUserJoin || isUserExit)) {
-                                        groupIds.append(chatGroupId);
-                                        groupIds.append(",");
-                                    }
-
-                                } else {
-                                    Long userId = Long.parseLong(message.getFrom());
-                                    if (mUserInfoBeanGreenDao.getSingleDataFromCache(userId) == null) {
-                                        users.add(itemBeanV2.getConversation().getLastMessage().getFrom());
+                            //如果是 admin ,消息会是：xxx修改了群信息，xxx进入了聊天群之类的通知
+                            if (null != message && "admin".equals(message.getFrom()) &&  null != message.ext()) {
+                                boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
+                                boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
+                                //这个userId格式可能不合法，例如邀请多个人聊天，这里的userId 会是  [3,4,5]
+                                //这里只拿单个的用户信息
+                                Long userId = null;
+                                try {
+                                    userId = Long.parseLong((String) message.ext().get("uid"));
+                                }catch (Exception e){
+                                    //
+                                }
+                                if (null != userId && isUserJoin) {
+                                    UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getSingleDataFromCache(userId);
+                                    if (userInfoBean == null) {
+                                        users.add(userId);
                                     }
                                 }
+                                /*这里重复创建了会话 fix by huwenyong on 2018/06/29
 
-                            } catch (Exception ignored) {
-                                LogUtils.e(ignored.getMessage());
-                            }*/
+                                if (groupIds.indexOf(chatGroupId) == -1 && (isUserJoin || isUserExit)) {
+                                    groupIds.append(chatGroupId);
+                                    groupIds.append(",");
+                                }*/
+
+                            } else {
+                                Long userId = null;
+                                try {
+                                    userId = Long.parseLong(message.getFrom());
+                                }catch (Exception e){
+                                    //
+                                }
+                                if (null != userId && mUserInfoBeanGreenDao.getSingleDataFromCache(userId) == null) {
+                                    users.add(itemBeanV2.getConversation().getLastMessage().getFrom());
+                                }
+                            }
+
 
                             ChatGroupBean chatGroupBean = mChatGroupBeanGreenDao.getChatGroupBeanById(chatGroupId);
 

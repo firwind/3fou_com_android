@@ -60,4 +60,11 @@ public interface IBaseFriendsRepository {
      * @return
      */
     Observable<Object> removeGroupMember(String id, String member);
+
+    /**
+     * 删除群组
+     * @param group_id
+     * @return
+     */
+    Observable<String> deleteGroup(String group_id);
 }

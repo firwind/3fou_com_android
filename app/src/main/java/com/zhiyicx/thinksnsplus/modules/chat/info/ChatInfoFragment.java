@@ -885,7 +885,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mLlBannedPost.setVisibility(View.GONE);
                 mTvJurisdiction.setVisibility(View.GONE);
                 mTvUpgrade.setText(getString(R.string.chat_info_report));
-                vwSetAdmin.setVisibility(View.GONE);
+                //vwSetAdmin.setVisibility(View.GONE);
                 mTvUpgrade.setVisibility(View.GONE);
                 /*vwSetAdmin.setVisibility(View.GONE);
                 vwJurisdiction.setVisibility(View.GONE);

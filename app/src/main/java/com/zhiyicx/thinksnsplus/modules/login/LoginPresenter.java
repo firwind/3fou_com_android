@@ -130,7 +130,7 @@ public class LoginPresenter extends AppBasePresenter<LoginContract.View> impleme
      */
     @Override
     public void checkBindOrLogin(String provider, String accessToken) {
-
+        mRootView.setLogining();
         Subscription subscribe = mUserInfoRepository.checkThridIsRegitser(provider, accessToken)
                 .observeOn(Schedulers.io())
                 .map(data -> {
@@ -159,6 +159,7 @@ public class LoginPresenter extends AppBasePresenter<LoginContract.View> impleme
                     protected void onFailure(String message, int code) {
                         if (code == DATA_HAS_BE_DELETED) {
                             // 三方注册
+                            mRootView.setLoginState(false);
                             mRootView.registerByThrid(provider, accessToken);
                         } else {
                             // 登录失败

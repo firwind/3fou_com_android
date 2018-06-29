@@ -15,6 +15,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.source.repository.AuthRepository;
 import com.zhiyicx.thinksnsplus.modules.circle.main.CircleMainActivity;
 import com.zhiyicx.thinksnsplus.modules.findsomeone.contianer.FindSomeOneContainerActivity;
+import com.zhiyicx.thinksnsplus.modules.home.find.market.MarketActivity;
 import com.zhiyicx.thinksnsplus.modules.home.main.MainActivity;
 import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
 import com.zhiyicx.thinksnsplus.modules.music_fm.music_album_list.MusicListActivity;
@@ -121,7 +122,8 @@ public class FindFragment extends TSFragment {
             case R.id.find_info:
                 if (TouristConfig.INFO_LIST_CAN_LOOK || !mAuthRepository.isTourist()) {
 //                    startActivity(new Intent(getActivity(), InfoActivity.class));
-                    ToastUtils.showLongToast(getString(R.string.normal_dispark));
+                    //ToastUtils.showLongToast(getString(R.string.normal_dispark));
+                    MarketActivity.startMarketActivity(mActivity);
                 } else {
                     showLoginPop();
                 }

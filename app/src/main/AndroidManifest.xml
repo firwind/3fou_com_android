@@ -761,6 +761,9 @@
         <activity
             android:name=".modules.chat.record.ChatRecordActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.home.find.market.MarketActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">

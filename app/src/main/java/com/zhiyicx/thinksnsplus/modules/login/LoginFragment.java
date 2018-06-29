@@ -25,6 +25,7 @@ import com.zhiyicx.baseproject.config.SystemConfig;
 import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
 import com.zhiyicx.baseproject.widget.button.LoadingButton;
 import com.zhiyicx.common.utils.ActivityHandler;
+import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.UIUtils;
 import com.zhiyicx.imsdk.utils.common.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
@@ -145,6 +146,11 @@ public class LoginFragment extends TSFragment<LoginContract.Presenter> implement
 
 
     private void initListener() {
+        //登录过程中，这个透明view会覆盖整个界面，设置点击事件防止事件穿透
+        mFlPlaceholder.setOnClickListener(v->{
+            ToastUtils.showToast("我点击了透明view");
+        });
+
         // 手机号码输入框观察
         RxTextView.textChanges(mEtLoginPhone)
                 .compose(this.bindToLifecycle())
@@ -312,6 +318,9 @@ public class LoginFragment extends TSFragment<LoginContract.Presenter> implement
                 goHome();
             }
         } else {
+
+            dismissSnackBar();
+
             // 失败立马停止，成功的话 ondestroy 中处理
             mBtLoginLogin.handleAnimation(false);
             mToolbarRight.setEnabled(true);
@@ -431,7 +440,6 @@ public class LoginFragment extends TSFragment<LoginContract.Presenter> implement
          */
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            dismissSnackBar();
             String providerQq = ApiConfig.PROVIDER_QQ;
             switch (platform) {
                 case QQ:

@@ -76,6 +76,9 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
     private Subscription mAllConversaiotnSub;
     private Subscription mSearchSub;
 
+    //置顶会话的长度
+    private int topConversationSize = 0;
+
 
     @Inject
     public MessageConversationPresenter(MessageConversationContract.View rootView) {
@@ -304,6 +307,8 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                     new Func2<List<MessageItemBeanV2>, List<StickBean>, List<MessageItemBeanV2>>() {
                         @Override
                         public List<MessageItemBeanV2> call(List<MessageItemBeanV2> messageItemBeanV2s, List<StickBean> stickBeans) {
+
+                            topConversationSize = stickBeans.size();
 
                             List<String> topIds = new ArrayList<>();
                             for (int i = 0; i < stickBeans.size(); i++) {
@@ -640,7 +645,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                             }
                         }
                         // 加载到第一条
-                        mRootView.getListDatas().addAll(0, data);
+                        mRootView.getListDatas().addAll(topConversationSize, data);
                         mRootView.refreshData();
                         // 小红点是否要显示
                         checkBottomMessageTip();

@@ -17,6 +17,7 @@ import com.zhiyicx.thinksnsplus.base.EmptySubscribe;
 import com.zhiyicx.thinksnsplus.config.DefaultUserInfoConfig;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBeanDao;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
@@ -33,6 +34,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_DELETE_QUIT;
@@ -76,10 +78,15 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
         Observable.just(chatId)
                 .subscribeOn(Schedulers.io())
                 .flatMap(id -> {
-                    try {
                         if (isGroupOwner()) {
                             // 解散群组
-                            EMClient.getInstance().groupManager().destroyGroup(id);
+                            return mRepository.deleteGroup(id)
+                                    .map(new Func1<String, String>() {
+                                        @Override
+                                        public String call(String s) {
+                                            return id;
+                                        }
+                                    });
                         } else {
                             if (mRootView.getIsAddGroup()) {
                                 // 退群
@@ -88,7 +95,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                                 } catch (HyphenateException e) {
                                     e.printStackTrace();
                                 }
-                                EMClient.getInstance().chatManager().deleteConversation(id, true);
+                                //EMClient.getInstance().chatManager().deleteConversation(id, true);
                             }else {
                                 // 加群
                                 try {
@@ -100,9 +107,6 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
                         }
                         return Observable.just(id);
-                    } catch (HyphenateException e) {
-                        return Observable.error(e);
-                    }
 
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -120,6 +124,12 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
                     @Override
                     protected void onException(Throwable throwable) {
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.bill_doing_fialed));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
                         mRootView.showSnackErrorMessage(mContext.getString(R.string.bill_doing_fialed));
                     }
                 });
@@ -245,6 +255,9 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                 .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {
                     @Override
                     protected void onSuccess(ChatGroupBean data) {
+
+                        mChatGroupBeanGreenDao.saveSingleData(data);
+
                         // 成功后重置页面
                         LogUtils.d("updateGroup", data);
                         mRootView.updateGroup(data);

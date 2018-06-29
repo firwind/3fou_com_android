@@ -151,10 +151,8 @@ public class UmengSharePolicyWithoutViewImpl implements SharePolicy, OnShareCall
      */
     public void startShare(SHARE_MEDIA share_media){
 
-        if(!UMShareAPI.get(mContext).isInstall((Activity) mContext, share_media)){
-            installThirdAppTip();
-            return;
-        }else {
+        if(UMShareAPI.get(mContext).isInstall((Activity) mContext, share_media)
+                || (share_media == QZONE && UMShareAPI.get(mContext).isInstall((Activity) mContext, QQ))){
             switch (share_media){
                 case QQ:
                     shareQQ((Activity) mContext, mOnShareCallbackListener);
@@ -172,6 +170,8 @@ public class UmengSharePolicyWithoutViewImpl implements SharePolicy, OnShareCall
                     shareWeibo((Activity) mContext, mOnShareCallbackListener);
                     break;
             }
+        }else {
+            installThirdAppTip();
         }
 
     }
