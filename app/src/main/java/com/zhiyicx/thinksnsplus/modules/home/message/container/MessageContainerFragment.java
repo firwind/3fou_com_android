@@ -99,7 +99,7 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        initToolBar();
+        //initToolBar();
     }
 
     @Override
@@ -220,7 +220,7 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
 
     @Override
     protected boolean setUseSatusbar() {
-        return true;
+        return false;
     }
 
     @Override

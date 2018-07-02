@@ -5,6 +5,9 @@ import android.content.Intent;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.modules.home.find.market.list.MarketListFragment;
+import com.zhiyicx.thinksnsplus.modules.home.find.market.list.MarketListPresenter;
+import com.zhiyicx.thinksnsplus.modules.home.find.market.list.MarketListPresenterMoudle;
 
 /**
  * author: huwenyong
@@ -27,6 +30,7 @@ public class MarketActivity extends TSActivity<MarketPresenter,MarketFragment>{
 
     @Override
     protected void componentInject() {
+
         DaggerMarketComponent.builder()
                 .appComponent(AppApplication.AppComponentHolder.getAppComponent())
                 .marketPresenterMoudle(new MarketPresenterMoudle(mContanierFragment))

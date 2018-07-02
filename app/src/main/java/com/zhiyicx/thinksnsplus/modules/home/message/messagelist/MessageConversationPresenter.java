@@ -297,7 +297,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                 @Override
                 protected void onException(Throwable throwable) {
                     super.onException(throwable);
-                    mRootView.showStickyMessage(throwable.getMessage()/*mContext.getString(R.string.chat_unconnected)*/);
+                    mRootView.showStickyMessage(/*throwable.getMessage()*/mContext.getString(R.string.chat_unconnected));
                     mRootView.onResponseError(throwable, false);
                 }
             };

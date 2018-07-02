@@ -9,6 +9,7 @@
         android:id="@+id/v_status_bar_placeholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="@color/white"/>
 
     <com.zhiyicx.baseproject.widget.TabSelectView

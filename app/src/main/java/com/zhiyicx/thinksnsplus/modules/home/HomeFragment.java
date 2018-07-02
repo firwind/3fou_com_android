@@ -181,7 +181,7 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
 
     @Override
     protected boolean setUseSatusbar() {
-        return true;
+        return false;
     }
 
     @Override

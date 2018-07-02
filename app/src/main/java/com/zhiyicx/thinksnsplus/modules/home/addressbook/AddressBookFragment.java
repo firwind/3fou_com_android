@@ -62,7 +62,7 @@ public class AddressBookFragment extends TSViewPagerFragment {
 
     @Override
     protected boolean setUseSatusbar() {
-        return true;
+        return false;
     }
 
     @Override
@@ -90,13 +90,13 @@ public class AddressBookFragment extends TSViewPagerFragment {
 
     private void initToolBar() {
         // toolBar设置状态栏高度的marginTop
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DeviceUtils
+        /*RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DeviceUtils
                 .getStatuBarHeight(getContext()));
         mStatusBarPlaceholder.setLayoutParams(layoutParams);
         // 适配非6.0以上、非魅族系统、非小米系统状态栏
         if (StatusBarUtils.intgetType(getActivity().getWindow()) == 0) {
             mStatusBarPlaceholder.setBackgroundResource(R.color.themeColor);
-        }
+        }*/
         //不需要返回键
         mTsvToolbar.setLeftImg(0);
         mTsvToolbar.setRightImg(R.mipmap.channel_ico_add_blue, R.color.white);

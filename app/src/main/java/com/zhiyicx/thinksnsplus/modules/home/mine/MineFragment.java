@@ -182,12 +182,12 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
 
     @Override
     protected boolean setUseSatusbar() {
-        return true;
+        return false;
     }
 
     @Override
     protected boolean setUseStatusView() {
-        return true;
+        return false;
     }
 
     @Override

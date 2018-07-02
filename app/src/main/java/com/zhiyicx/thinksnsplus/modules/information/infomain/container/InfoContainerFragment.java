@@ -96,12 +96,12 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
 
     @Override
     protected boolean setUseSatusbar() {
-        return true;
+        return false;
     }
 
     @Override
     protected boolean setUseStatusView() {
-        return true;
+        return false;
     }
 
     //    @Override

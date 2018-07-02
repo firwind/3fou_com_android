@@ -5,21 +5,21 @@ import dagger.Provides;
 
 /**
  * author: huwenyong
- * date: 2018/6/28 19:32
+ * date: 2018/7/2 9:31
  * description:
  * version:
  */
 @Module
 public class MarketPresenterMoudle {
 
-    private MarketContract.View mView;
+    private MarketContract.MarketView mView;
 
-    public MarketPresenterMoudle(MarketContract.View mView) {
+    public MarketPresenterMoudle(MarketContract.MarketView mView) {
         this.mView = mView;
     }
 
     @Provides
-    public MarketContract.View provideMarketContractView(){
+    public MarketContract.MarketView provideMarketContractView(){
         return mView;
     }
 
