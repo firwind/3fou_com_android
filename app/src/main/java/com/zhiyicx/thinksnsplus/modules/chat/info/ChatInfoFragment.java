@@ -561,7 +561,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
      */
     @Override
     public void setBannedPostSuccess() {
-        onPublishGroupSuccess(true);
+        onPublishGroupSuccess(null);
     }
 
     @Override
@@ -945,10 +945,12 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     }
 
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_MUTE)
-    public void onPublishGroupSuccess(boolean isRefresh) {
-        if (isRefresh) {
-            mPresenter.getGroupChatInfo(mChatId);//获取群信息
-        }
+    public void onPublishGroupSuccess(List<UserInfoBean> userInfoBean) {
+        /*if (isRefresh) {
+
+        }*/
+        mPresenter.getGroupChatInfo(mChatId);//获取群信息
+//        mChatGroupBean.setAffiliations(userInfoBean);
     }
 
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_NOTICE)

@@ -55,6 +55,9 @@ public class SelectFriendsAllAdapter extends CommonAdapter<UserInfoBean> {
                         }
                         setSelectedState(cbFriends, userInfoBean);
                         mListener.onUserSelected(userInfoBean);
+                    }else {
+                        userInfoBean.setIsSelected(STATE_CAN_NOT_BE_CHANGED);
+                        mListener.onUserSelected(userInfoBean);
                     }
                 });
         RxView.clicks(ivUserPortrait)
@@ -75,9 +78,11 @@ public class SelectFriendsAllAdapter extends CommonAdapter<UserInfoBean> {
         switch (userInfoBean.getIsSelected()) {
             case STATE_SELECTED:
                 imageView.setImageResource(R.mipmap.msg_box_choose_now);
+
                 break;
             case STATE_UNSELECTED:
                 imageView.setImageResource(R.mipmap.msg_box);
+
                 break;
             case STATE_CAN_NOT_BE_CHANGED:
                 imageView.setImageResource(R.mipmap.msg_box_choose_before);

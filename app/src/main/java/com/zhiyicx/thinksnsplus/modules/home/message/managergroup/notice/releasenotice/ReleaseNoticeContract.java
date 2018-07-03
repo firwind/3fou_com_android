@@ -34,7 +34,15 @@ public interface ReleaseNoticeContract {
     }
 
     interface Presenter extends IBasePresenter{
-        void releaseNotice(String group_id,String title,String content,String author);
+        /**
+         * 发布和更新群公告
+         * @param id
+         * @param title
+         * @param content
+         * @param author
+         */
+        void releaseNotice(String id,String title,String content,String author,int state);
+
         /**
          * 从数据库获取当前用户的信息
          */

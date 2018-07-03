@@ -1,56 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/white"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-
-        android:orientation="vertical"
-        android:layout_margin="@dimen/margin_10dp"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <Button
+        android:id="@+id/et_edit_group_notice"
+        android:background="@color/themeColor"
+        android:layout_margin="@dimen/dp20"
+        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_notice_details_title"
-            android:textColor="@color/common_bottom_bar_selected_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/margin_16"
-            android:text="标题"/>
+        android:layout_height="@dimen/dp45"
+        android:textSize="@dimen/sp16"
+        android:textColor="@color/white"
+        android:text="@string/chat_edit_group_notice"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/button_corner_small_3dp"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/margin_10dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_notice_details_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="张小哇"
-                android:textColor="@color/grid_state_focused"
-                android:textSize="@dimen/margin_12" />
-
-            <TextView
-                android:id="@+id/tv_notice_details_time"
-                android:layout_marginLeft="@dimen/dp20"
+                android:id="@+id/tv_notice_details_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2018年6月19号"
-                android:textColor="@color/grid_state_focused"
-                android:textSize="@dimen/margin_12" />
+                android:text="标题"
+                android:textColor="@color/common_bottom_bar_selected_bg"
+                android:textSize="@dimen/margin_16" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/button_corner_small_3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_notice_details_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="张小哇"
+                    android:textColor="@color/grid_state_focused"
+                    android:textSize="@dimen/margin_12" />
+
+                <TextView
+                    android:id="@+id/tv_notice_details_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp20"
+                    android:text="2018年6月19号"
+                    android:textColor="@color/grid_state_focused"
+                    android:textSize="@dimen/margin_12" />
+            </LinearLayout>
+
         </LinearLayout>
 
+        <View style="@style/style_divider_horizontal" />
+
+        <TextView
+            android:id="@+id/tv_notice_details_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp10"
+            android:text="公告内容"
+            android:textColor="@color/common_bottom_bar_selected_bg"
+            android:textSize="@dimen/margin_14" />
     </LinearLayout>
-    <View
-        style="@style/style_divider_horizontal"/>
-    <TextView
-        android:id="@+id/tv_notice_details_content"
-        android:textColor="@color/common_bottom_bar_selected_bg"
-        android:textSize="@dimen/margin_14"
-        android:layout_margin="@dimen/dp10"
-        android:text="公告内容"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+
+
+</FrameLayout>

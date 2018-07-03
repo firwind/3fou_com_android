@@ -33,6 +33,7 @@ public class ApiConfig {
 //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
     public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
   //  public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
+//    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
 //    public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://192.168.2.152/";// 乔老师本地服务器
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
@@ -135,6 +136,8 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_SEARCE= "api/" + API_VERSION_2 + "/easemob/group/search";// 搜索群
     public static final String APP_PATH_GET_GROUP_ADD_MEMBER = "api/" + API_VERSION_2 + "/easemob/group/member";// 修改成员 添加POST 移除delete
     public static final String APP_PATH_GET_GROUP_ADD_NOTICE = "api/" + API_VERSION_2 + "/easemob/group/addnotice";// 发布群公告
+    public static final String APP_PATH_GET_GROUP_UPDATE_NOTICE = "api/" + API_VERSION_2 + "/easemob/group/updatenotice";// 更新群公告
+    public static final String APP_PATH_GET_GROUP_DEL_NOTICE = "api/" + API_VERSION_2 + "/easemob/group/delnotice";// 删除群公告
     public static final String APP_PATH_GET_GROUP_NOTICE_LIST = "api/" + API_VERSION_2 + "/easemob/group/findnotice";// 获取群公告列表
     public static final String APP_PATH_GET_GROUP_ADD_MUTE = "api/" + API_VERSION_2 + "/easemob/group/addmute";// 开启禁言
     public static final String APP_PATH_GET_GROUP_REMOVE_MUTE = "api/" + API_VERSION_2 + "/easemob/group/removemute";// 移除禁言

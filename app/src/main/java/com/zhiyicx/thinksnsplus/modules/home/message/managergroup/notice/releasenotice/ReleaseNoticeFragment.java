@@ -27,6 +27,7 @@ import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
+import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
 import org.simple.eventbus.EventBus;
@@ -35,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.noticedetails.NoticeDetailsActivity.ITEM_NOTICE_BEAN;
 import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.releasenotice.ReleaseNoticeActivity.GROUP_INFO_ID;
 
 public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Presenter> implements ReleaseNoticeContract.View {
@@ -47,11 +49,13 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
     private String mGroupId;
     private String mNoticeTitle, mNoticeContent;
     private UserInfoBean mUserInfoBean;
+    private NoticeItemBean noticeItemBean;
 
-    public static ReleaseNoticeFragment newInstance(String groupId) {
+    public static ReleaseNoticeFragment newInstance(Bundle bundle) {
         ReleaseNoticeFragment fragment = new ReleaseNoticeFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(GROUP_INFO_ID, groupId);
+//        Bundle bundle = new Bundle();
+//        bundle.putString(GROUP_INFO_ID, groupId);
+//        bundle.putParcelable(ITEM_NOTICE_BEAN, noticeItemBean);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -63,7 +67,10 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
 
     @Override
     protected String setCenterTitle() {
-        return getString(R.string.chat_release_group_announcement);
+        if (noticeItemBean == null)
+            return getString(R.string.chat_edit_group_notice);
+        else
+            return getString(R.string.chat_release_group_announcement);
     }
 
     @Override
@@ -79,10 +86,22 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
 
         if (TextUtils.isEmpty(mNoticeTitle)) {
             ToastUtils.showToast("请输入公告标题");
+        } else if (mNoticeTitle.length() < 4) {
+            ToastUtils.showToast("公告标题不能少于4个字");
+        } else if (mNoticeTitle.length() > 40) {
+            ToastUtils.showToast("公告标题不能多于40个字");
         } else if (TextUtils.isEmpty(mNoticeContent)) {
             ToastUtils.showToast("请输入公告内容");
+        } else if (mNoticeContent.length() < 15) {
+            ToastUtils.showToast("公告内容不能少于15个字");
+        } else if (mNoticeContent.length() > 500) {
+            ToastUtils.showToast("公告内容不能多于500个字");
         } else {
-            mPresenter.releaseNotice(mGroupId, mNoticeTitle, mNoticeContent, mUserInfoBean.getName());
+            if (noticeItemBean == null) {
+                mPresenter.releaseNotice(mGroupId, mNoticeTitle, mNoticeContent, mUserInfoBean.getName(),0);
+            }else {
+                mPresenter.releaseNotice(mGroupId, mNoticeTitle, mNoticeContent, mUserInfoBean.getName(),1);
+            }
         }
     }
 
@@ -90,6 +109,11 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
     protected void initData() {
         if (getArguments() != null) {
             mGroupId = getArguments().getString(GROUP_INFO_ID);
+            noticeItemBean = getArguments().getParcelable(ITEM_NOTICE_BEAN);
+        }
+        if (noticeItemBean != null) {
+            mReleaseNoticeTitle.setText(noticeItemBean.getTitle());
+            mReleaseNoticeContent.setText(noticeItemBean.getContent());
         }
 
     }
@@ -101,7 +125,7 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
 
     @Override
     public void relaseSuccess() {
-        TSEMessageUtils.sendNoticeGroupMessage(mUserInfoBean.getName(),String.valueOf(System.currentTimeMillis()),mNoticeContent,mNoticeTitle,mGroupId,true, TSEMConstants.TS_ATTR_RELEASE_NOTICE);
+        TSEMessageUtils.sendNoticeGroupMessage(mUserInfoBean.getName(), String.valueOf(System.currentTimeMillis()), mNoticeContent, mNoticeTitle, mGroupId, true, TSEMConstants.TS_ATTR_RELEASE_NOTICE);
         EventBus.getDefault().post(mNoticeContent, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE);
         getActivity().finish();
     }

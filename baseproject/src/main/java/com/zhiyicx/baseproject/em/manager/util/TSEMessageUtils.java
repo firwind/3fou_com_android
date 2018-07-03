@@ -173,6 +173,7 @@ public class TSEMessageUtils {
         // 创建CMD 消息的消息体 并设置 action 为 disband
         EMCmdMessageBody body = new EMCmdMessageBody(action);
         cmdMessage.addBody(body);
+
         cmdMessage.setMsgTime(currTime);
         cmdMessage.setAttribute(TSEMConstants.TS_ATTR_ID, groupId);
         cmdMessage.setAttribute(TSEMConstants.TS_ATTR_NAME, groupName);
@@ -196,7 +197,10 @@ public class TSEMessageUtils {
         // 创建CMD 消息的消息体 并设置 action 为 disband
         EMCmdMessageBody body = new EMCmdMessageBody(action);
         cmdMessage.addBody(body);
+        cmdMessage.setFrom("admin");
         cmdMessage.setMsgTime(currTime);
+        // 设置消息的扩展
+        cmdMessage.setAttribute("type", TSEMConstants.TS_ATTR_RELEASE_NOTICE);
         cmdMessage.setAttribute(TSEMConstants.TS_USER_NAME, userName);
         cmdMessage.setAttribute(TSEMConstants.TS_TIME, time);
         cmdMessage.setAttribute(TSEMConstants.TS_CONTENT, content);

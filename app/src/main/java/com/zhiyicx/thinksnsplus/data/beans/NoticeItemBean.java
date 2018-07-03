@@ -27,6 +27,16 @@ public class NoticeItemBean extends BaseListBean implements Parcelable{
     private String author;
     private long created_at;
 
+    public String getNotice_id() {
+        return notice_id;
+    }
+
+    public void setNotice_id(String notice_id) {
+        this.notice_id = notice_id;
+    }
+
+    private String notice_id;
+
     public String getTitle() {
         return title;
     }
@@ -74,6 +84,7 @@ public class NoticeItemBean extends BaseListBean implements Parcelable{
         dest.writeString(this.content);
         dest.writeString(this.author);
         dest.writeLong(this.created_at);
+        dest.writeString(this.notice_id);
     }
 
     protected NoticeItemBean(Parcel in) {
@@ -82,6 +93,7 @@ public class NoticeItemBean extends BaseListBean implements Parcelable{
         this.content = in.readString();
         this.author = in.readString();
         this.created_at = in.readLong();
+        this.notice_id = in.readString();
     }
 
     public static final Creator<NoticeItemBean> CREATOR = new Creator<NoticeItemBean>() {

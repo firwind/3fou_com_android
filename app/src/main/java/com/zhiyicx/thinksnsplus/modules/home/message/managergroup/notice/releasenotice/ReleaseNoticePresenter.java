@@ -43,8 +43,8 @@ public class ReleaseNoticePresenter extends AppBasePresenter<ReleaseNoticeContra
 
 
     @Override
-    public void releaseNotice(String group_id, String title, String content, String author) {
-        Subscription subscription = mBaseMessageRepository.releaseNotice(group_id, title, content, author)
+    public void releaseNotice(String group_id, String title, String content, String author,int state) {
+        Subscription subscription = mBaseMessageRepository.releaseNotice(group_id, title, content, author,state)
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("发布中..."))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
@@ -98,6 +98,5 @@ public class ReleaseNoticePresenter extends AppBasePresenter<ReleaseNoticeContra
             mRootView.setUserInfo(userInfoBean);
         }
     }
-
 
 }

@@ -42,10 +42,11 @@ public class SettingAdminItemAdapter extends CommonAdapter<UserInfoBean> {
 
     @Override
     protected void convert(ViewHolder holder, UserInfoBean userInfoBean, int position) {
+        LinearLayout mGroupRank = holder.getView(R.id.ll_group_rank);
         holder.setText(R.id.tv_add_rank_name, TextUtils.isEmpty(userInfoBean.getName())?"":userInfoBean.getName());
         UserAvatarView cbFriends = holder.getView(R.id.iv_user_portrait);
         ImageView ivDelete = holder.getView(R.id.iv_delete_admin);
-        LinearLayout mGroupRank = holder.getView(R.id.ll_group_rank);
+
         ImageUtils.loadCircleUserHeadPic(userInfoBean, cbFriends);
         if (userInfoBean.getIsSelected()==1){
             ivDelete.setVisibility(View.VISIBLE);

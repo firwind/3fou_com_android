@@ -24,6 +24,8 @@ import javax.inject.Inject;
 
 import butterknife.OnClick;
 
+import static com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListActivity.IS_SHOW_TOOR_BAR;
+
 /**
  * @author Catherine
  * @describe 我的好友列表 有搜索和跳转聊天的功能
@@ -33,6 +35,7 @@ import butterknife.OnClick;
 
 public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.Presenter, UserInfoBean>
         implements MyFriendsListContract.View {
+    private boolean isShowToolBar = false;
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
@@ -45,13 +48,17 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
     @Inject
     MyFriendsListPresenter mFriendsListPresenter;
 
-    public static MyFriendsListFragment newInstance() {
+    public static MyFriendsListFragment newInstance(Bundle bundle) {
         MyFriendsListFragment fragment = new MyFriendsListFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+        fragment.setArguments(bundle);
         return fragment;
     }
-
+    public static MyFriendsListFragment newInstance() {
+        MyFriendsListFragment fragment = new MyFriendsListFragment();
+        Bundle bundle = new Bundle();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     @Override
     protected void initView(View rootView) {
         DaggerMyFriendsListFComponent.builder()
@@ -69,12 +76,18 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
 
     @Override
     protected boolean showToolbar() {
-        return false;
+        if (getArguments()!=null) {
+            isShowToolBar = getArguments().getBoolean(IS_SHOW_TOOR_BAR, false);
+        }
+        return isShowToolBar;
     }
-
+    @Override
+    protected String setCenterTitle() {
+        return getString(R.string.tv_add_friends);
+    }
     @Override
     protected boolean showToolBarDivider() {
-        return false;
+        return isShowToolBar;
     }
 
     @Override
@@ -116,6 +129,6 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
 
     @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK)
     public void updateStick(int stick) {
-        mPresenter.requestCacheData(0L,false);
+        mPresenter.requestCacheData(0L, false);
     }
 }

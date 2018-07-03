@@ -19,6 +19,7 @@ import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import java.sql.Time;
 import java.util.List;
 
 public class NoticeManagerAdapter extends CommonAdapter<NoticeItemBean>{
@@ -31,6 +32,7 @@ public class NoticeManagerAdapter extends CommonAdapter<NoticeItemBean>{
         holder.setText(R.id.tv_notice_title, TextUtils.isEmpty(noticeItemBean.getTitle())?"":noticeItemBean.getTitle());
         holder.setText(R.id.tv_notice_content,TextUtils.isEmpty(noticeItemBean.getContent())?"":noticeItemBean.getContent());
         holder.setText(R.id.tv_notice_user_name,TextUtils.isEmpty(noticeItemBean.getAuthor())?"":noticeItemBean.getAuthor());
-        holder.setText(R.id.tv_notice_time, TimeUtils.getTimeFriendlyNormal(noticeItemBean.getAuthor()));
+        String time = TimeUtils.millis2String(noticeItemBean.getCreated_at());
+        holder.setText(R.id.tv_notice_time, TimeUtils.getTimeFriendlyNormal(time));
     }
 }

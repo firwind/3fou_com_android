@@ -465,7 +465,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                 username = message.getFrom();
             }
             // 从左到右依次：用户加入，用户退出，创建群聊，屏蔽/接收群消息，该群消息作用对象是否是自己,群信息修改
-            boolean isUserJoin, isUserExit, isCreate, isBlock, userTag;
+            boolean isUserJoin, isUserExit, isCreate, isBlock, userTag , groupNotice;
 
             isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
             isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
@@ -475,6 +475,8 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             }
             isCreate = message.getBooleanAttribute(TSEMConstants.TS_ATTR_GROUP_CRATE, false);
             isBlock = message.getBooleanAttribute(TSEMConstants.TS_ATTR_BLOCK, false);
+            groupNotice = message.getBooleanAttribute(TSEMConstants.TS_ATTR_RELEASE_NOTICE,false);
+
             userTag = AppApplication.getMyUserIdWithdefault() == message.getLongAttribute(TSEMConstants.TS_ATTR_TAG, -1L);
 
             if (isCreate || isBlock) {
@@ -488,7 +490,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                 mPresenter.updateChatGroupMemberCount(message.conversationId(), 1, isUserJoin);
                 setCenterText(mPresenter.getGroupName(message.conversationId()));
             }
-
+            if (groupNotice){
+                ToastUtils.showLongToast("收到公告");
+            }
             // if the message is for current conversation
             if (username.equals(toChatUsername) || message.getTo().equals(toChatUsername)
                     || message.conversationId().equals(toChatUsername)) {
@@ -562,7 +566,8 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         public int getCustomChatRowType(EMMessage message) {
             boolean isGroupChange = TSEMConstants.TS_ATTR_GROUP_CHANGE.equals(message.ext().get("type"))
                     || TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"))
-                    || TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
+                    || TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"))
+                    || TSEMConstants.TS_ATTR_RELEASE_NOTICE.equals(message.ext().get("type"));
 
             if (message.getType() == EMMessage.Type.TXT) {
                 //voice call

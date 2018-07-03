@@ -16,23 +16,32 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.zhiyicx.baseproject.base.TSActivity;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 
-public class NoticeDetailsActivity extends TSActivity{
+public class NoticeDetailsActivity extends TSActivity<NoticeDetailsPresenter, NoticeDetailsFragment> {
     public static final String ITEM_NOTICE_BEAN = "itemNoticeBean";
+    public static final String IS_GROUP = "is_group";
+    public static final String GROUP_ID = "group_id";
+
     @Override
-    protected Fragment getFragment() {
+    protected NoticeDetailsFragment getFragment() {
         return NoticeDetailsFragment.newInstance(getIntent().getExtras());
     }
 
     @Override
     protected void componentInject() {
+        DaggerNoticeDetailsComponent.builder().appComponent(AppApplication.AppComponentHolder.getAppComponent())
+                .noticeDetailsPresenterModule(new NoticeDetailsPresenterModule(mContanierFragment))
+                .build().inject(this);
     }
 
-    public static Intent newNoticeDetailsIntent(Context context, NoticeItemBean itemBean){
-        Intent intent = new Intent(context,NoticeDetailsActivity.class);
+    public static Intent newNoticeDetailsIntent(Context context, NoticeItemBean itemBean,boolean isGroup,String group_id) {
+        Intent intent = new Intent(context, NoticeDetailsActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ITEM_NOTICE_BEAN,itemBean);
+        bundle.putParcelable(ITEM_NOTICE_BEAN, itemBean);
+        bundle.putBoolean(IS_GROUP,isGroup);
+        bundle.putString(GROUP_ID,group_id);
         intent.putExtras(bundle);
         return intent;
     }

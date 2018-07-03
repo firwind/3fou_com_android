@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
 import com.zhiyicx.common.utils.ActivityUtils;
+import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.config.JpushMessageTypeConfig;
 import com.zhiyicx.thinksnsplus.data.beans.JpushMessageBean;
@@ -92,13 +93,21 @@ public class HomeActivity extends TSActivity {
         return HomeFragment.newInstance(getIntent().getExtras());
     }
 
+    private long startTime;
     @Override
     public void onBackPressed() {
         if (JZVideoPlayer.backPress()) {
             return;
         }
-        ActivityUtils.goHome(this);
+//        ActivityUtils.goHome(this);
+        if (System.currentTimeMillis() - startTime > 2000) {//退出APP
+            startTime = System.currentTimeMillis();
+            ToastUtils.showToast("再按一下返回键退出");
+        } else {
+            finish();
+        }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

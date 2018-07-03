@@ -36,6 +36,7 @@ import rx.android.schedulers.AndroidSchedulers;
 public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract.View> implements JurisdictionContract.Presenter {
     @Inject
     ChatInfoRepository mRepository;
+
     @Inject
     public JurisdictionPresenter(JurisdictionContract.View rootView) {
         super(rootView);
@@ -44,7 +45,7 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
         String keyWord = mRootView.getSearchKeyWord();
-        if (keyWord!=null) {
+        if (keyWord != null) {
             getLocalUser(keyWord);
         }
     }
@@ -60,7 +61,7 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
             return;
         }
         List<UserInfoBean> list = mRootView.getGroupData().getAffiliations();
-        // 移除自己
+        // 移除自己和管理员/讲师/主持人
         Observable.just(list)
                 .map(list1 -> {
                     int position = -1;
@@ -68,6 +69,8 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
                         list1.get(i).setIsSelected(0);
                         if (list1.get(i).getUser_id().equals(AppApplication.getMyUserIdWithdefault())) {
                             position = i;
+                        }else if (list1.get(i).getAdmin_type() != 0){
+                            list1.get(i).setIsSelected(-1);
                         }
                     }
                     if (position != -1) {
@@ -104,7 +107,7 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
 
     @Override
     public void openBannedPost(String im_group_id, String user_id, String times, String members) {
-        Subscription subscription = mRepository.openBannedPost(im_group_id,user_id,times,members)
+        Subscription subscription = mRepository.openBannedPost(im_group_id, user_id, times, members)
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.circle_dealing)))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
@@ -113,6 +116,7 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
                     protected void onSuccess(String data) {
                         mRootView.showSnackSuccessMessage(mContext.getString(R.string.chat_info_setting_banned_post_success));
                     }
+
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
@@ -138,12 +142,12 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
         id = new StringBuilder(id.substring(0, id.length() - 1));
         if (mRootView.setAddRuloName().equals(mContext.getString(R.string.administrator))) {//添加管理员
             type = "1";
-        }else if (mRootView.setAddRuloName().equals(mContext.getString(R.string.lecturer))) {//添加讲师
+        } else if (mRootView.setAddRuloName().equals(mContext.getString(R.string.lecturer))) {//添加讲师
             type = "3";
-        }else if (mRootView.setAddRuloName().equals(mContext.getString(R.string.compere))){
+        } else if (mRootView.setAddRuloName().equals(mContext.getString(R.string.compere))) {
             type = "2";
         }
-        Subscription subscription = mRepository.addGroupRole(mRootView.setGroupId(),id.toString(),type)
+        Subscription subscription = mRepository.addGroupRole(mRootView.setGroupId(), id.toString(), type)
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.circle_dealing)))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
@@ -176,7 +180,7 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
 
     @Override
     public void removeBannedPost(String im_group_id, String user_id, String members) {
-        Subscription subscription = mRepository.removeBannedPost(im_group_id,user_id,members)
+        Subscription subscription = mRepository.removeBannedPost(im_group_id, user_id, members)
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.circle_dealing)))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
@@ -185,6 +189,7 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
                     protected void onSuccess(String data) {
                         mRootView.showSnackSuccessMessage(mContext.getString(R.string.chat_info_relieve_banned_post_success));
                     }
+
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import com.zhiyicx.thinksnsplus.modules.home.HomeActivity;
 import com.zhiyicx.thinksnsplus.modules.register.rule.UserRuleActivity;
 import com.zhiyicx.thinksnsplus.modules.usertag.EditUserTagFragment;
 import com.zhiyicx.thinksnsplus.modules.usertag.TagFrom;
+import com.zhiyicx.thinksnsplus.utils.StringUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -129,7 +131,6 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
         }
         mSystemConfigBean = mPresenter.getSystemConfigBean();
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -169,7 +170,8 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
         RxTextView.textChanges(mEtRegistUsername)
                 .compose(this.bindToLifecycle())
                 .subscribe(charSequence -> {
-                    isNameEdited = !TextUtils.isEmpty(charSequence.toString());
+
+                    isNameEdited = !TextUtils.isEmpty(charSequence.toString())&&charSequence.toString().getBytes().length>4&& !StringUtils.isSpecialChar(charSequence.toString());
                     setConfirmEnable();
                 });
         // 电话号码观察
@@ -177,6 +179,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
                 .compose(this.bindToLifecycle())
                 .subscribe(charSequence -> {
                     if (mIsVertifyCodeEnalbe) {
+
                         mBtRegistSendVertifyCode.setEnabled(charSequence.length() ==
                                 MOBILE_PHONE_NUMBER_LENGHT);
                     }
@@ -372,6 +375,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
      * 设置确定按钮是否可点击
      */
     private void setConfirmEnable() {
+        
         if (isNameEdited && isCodeEdited && isPassEdited && !isRegisting) {
             if ((mCurrentRegisterType == REGISTER_PHONE && isPhoneEdited)
                     || (mCurrentRegisterType == REGISTER_EMAIL && isEmailEdited)) {

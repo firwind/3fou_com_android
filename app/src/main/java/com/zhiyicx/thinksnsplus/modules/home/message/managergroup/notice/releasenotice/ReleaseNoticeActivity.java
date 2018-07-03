@@ -16,20 +16,28 @@ import android.os.Bundle;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
+
+import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.noticedetails.NoticeDetailsActivity.ITEM_NOTICE_BEAN;
 
 public class ReleaseNoticeActivity extends TSActivity<ReleaseNoticePresenter, ReleaseNoticeFragment> {
     public static String GROUP_INFO_ID = "group_id";
 
-    public static Intent newIntent(Context context, String group_id) {
+    public static Intent newIntent(Context context, String group_id, NoticeItemBean noticeItemBean) {
         Intent intent = new Intent(context, ReleaseNoticeActivity.class);
-        intent.putExtra(GROUP_INFO_ID, group_id);
+        Bundle bundle = new Bundle();
+        bundle.putString(GROUP_INFO_ID,group_id);
+        bundle.putParcelable(ITEM_NOTICE_BEAN,noticeItemBean);
+        intent.putExtras(bundle);
         return intent;
     }
 
+
     @Override
     protected ReleaseNoticeFragment getFragment() {
-        return ReleaseNoticeFragment.newInstance(getIntent().getStringExtra(GROUP_INFO_ID));
+//        getIntent().getStringExtra(GROUP_INFO_ID),getIntent().getParcelableExtra(ITEM_NOTICE_BEAN)
+        return ReleaseNoticeFragment.newInstance(getIntent().getExtras());
     }
 
     @Override

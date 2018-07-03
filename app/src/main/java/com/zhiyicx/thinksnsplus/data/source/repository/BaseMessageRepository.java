@@ -198,7 +198,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                             EMMessage message = itemBeanV2.getConversation().getLastMessage();
 
                             //如果是 admin ,消息会是：xxx修改了群信息，xxx进入了聊天群之类的通知
-                            if (null != message && "admin".equals(message.getFrom()) &&  null != message.ext()) {
+                            if (null != message && "admin".equals(message.getFrom()) && null != message.ext()) {
                                 boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
                                 boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
                                 //这个userId格式可能不合法，例如邀请多个人聊天，这里的userId 会是  [3,4,5]
@@ -206,7 +206,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                 Long userId = null;
                                 try {
                                     userId = Long.parseLong((String) message.ext().get("uid"));
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     //
                                 }
                                 if (null != userId && isUserJoin) {
@@ -226,7 +226,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                 Long userId = null;
                                 try {
                                     userId = Long.parseLong(message.getFrom());
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     //
                                 }
                                 if (null != userId && mUserInfoBeanGreenDao.getSingleDataFromCache(userId) == null) {
@@ -284,7 +284,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                                     // 退出群组
                                                     EMMessage message = list1.get(i).getConversation().getLastMessage();
 
-                                                    if(null != message && null != message.ext()){
+                                                    if (null != message && null != message.ext()) {
                                                         boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
                                                         boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
 
@@ -326,13 +326,13 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                             //保存信息到数据库
                                             mChatGroupBeanGreenDao.saveMultiData(data);
                                             //遍历data和list1，将list1中未获取到群信息的MessageItemBeanV2塞进去ChatGroupBean
-                                            for (ChatGroupBean chatGroupBean:
-                                                 data) {
+                                            for (ChatGroupBean chatGroupBean :
+                                                    data) {
 
-                                                for (MessageItemBeanV2 message:
-                                                     list1) {
+                                                for (MessageItemBeanV2 message :
+                                                        list1) {
 
-                                                    if(chatGroupBean.getId().equals(message.getConversation().conversationId())){
+                                                    if (chatGroupBean.getId().equals(message.getConversation().conversationId())) {
 
                                                         message.setEmKey(chatGroupBean.getId());
                                                         message.setList(chatGroupBean.getAffiliations());
@@ -471,8 +471,18 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     }
 
     @Override
-    public Observable<String> releaseNotice(String group_id, String title, String content, String author) {
-        return mClient.releaseNotice(group_id, title, content, author)
+    public Observable<String> releaseNotice(String id, String title, String content, String author, int state) {
+        if (state == 0)
+            return mClient.releaseNotice(id, title, content, author)
+                    .subscribeOn(Schedulers.io());
+        else
+            return mClient.updateNotice(id, title, content, author)
+                    .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<String> delNotice(String notice_id) {
+        return mClient.deleteGroup(notice_id)
                 .subscribeOn(Schedulers.io());
     }
 

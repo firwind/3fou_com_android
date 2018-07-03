@@ -58,7 +58,7 @@ public class SelectMuteAdapter extends CommonAdapter<UserInfoBean> {
                             setSelectedState(cbFriends, userInfoBean);
                             mListener.onUserSelected(userInfoBean);
                         }
-                    }else {
+                    } else {
                         if (mListener != null && userInfoBean.getMember_mute() != STATE_CAN_NOT_BE_CHANGED) {
                             if (userInfoBean.getMember_mute() == STATE_SELECTED) {
                                 userInfoBean.setMember_mute(STATE_UNSELECTED);
@@ -94,7 +94,7 @@ public class SelectMuteAdapter extends CommonAdapter<UserInfoBean> {
                     imageView.setImageResource(R.mipmap.msg_box_choose_now);
                     break;
             }
-        }else {
+        } else {
             switch (userInfoBean.getMember_mute()) {
                 case STATE_SELECTED:
                     imageView.setImageResource(R.mipmap.msg_box_choose_now);

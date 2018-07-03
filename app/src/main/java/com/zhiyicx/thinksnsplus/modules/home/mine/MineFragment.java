@@ -325,7 +325,8 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
                 break;
             case R.id.ll_friends_container:
                 // 我的朋友
-                startActivity(new Intent(mActivity, MyFriendsListActivity.class));
+//                startActivity(new Intent(mActivity, MyFriendsListActivity.class));
+                MyFriendsListActivity.startMyFriendsListActivity(getContext(),true);
                 break;
             default:
         }

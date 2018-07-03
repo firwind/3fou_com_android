@@ -1115,6 +1115,7 @@
     <string name="chat_edit_group_all_member">转让群主</string>
     <string name="chat_edit_group_announcement">群公告</string>
     <string name="chat_release_group_announcement">发布公告</string>
+    <string name="chat_edit_group_notice">编辑公告</string>
     <string name="chat_edit_group_card">群名片</string>
     <string name="chat_edit_group_notice_title">标题(必填)，4-40个字</string>
     <string name="chat_edit_group_notice_content">正文(必填)，15-500个字</string>

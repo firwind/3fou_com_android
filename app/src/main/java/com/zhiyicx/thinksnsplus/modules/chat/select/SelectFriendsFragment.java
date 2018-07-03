@@ -19,6 +19,7 @@ import com.hyphenate.easeui.bean.ChatUserInfoBean;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.recycleviewdecoration.CustomLinearDecoration;
 import com.zhiyicx.common.utils.recycleviewdecoration.LinearDecoration;
 import com.zhiyicx.thinksnsplus.R;
@@ -244,6 +245,10 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
 
     @Override
     public void onUserSelected(UserInfoBean userInfoBean) {
+        if (userInfoBean.getIsSelected() == -1){
+            ToastUtils.showToast("已经是群成员，不能重复选择");
+            return;
+        }
         // 选中的列表中，如果是选中 那么直接加
         if (userInfoBean.getIsSelected() == 1) {
             mSelectedList.add(userInfoBean);

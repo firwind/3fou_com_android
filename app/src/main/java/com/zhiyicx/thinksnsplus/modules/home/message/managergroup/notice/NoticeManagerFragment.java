@@ -27,6 +27,7 @@ import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.release
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupContract;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
+import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
     private boolean isGroupOwner;
     @Inject
     NoticeManagerPresenter mNoticeManagerPresenter;
+    private NoticeManagerAdapter adapter;
 
     public static NoticeManagerFragment newInstance(String groupId, boolean isGroupOwner) {
         NoticeManagerFragment noticeManagerFragment = new NoticeManagerFragment();
@@ -55,12 +57,12 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        NoticeManagerAdapter adapter = new NoticeManagerAdapter(getContext(), mListDatas);
+        adapter = new NoticeManagerAdapter(getContext(), mListDatas);
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 NoticeItemBean itemBean = mListDatas.get(position);
-                startActivity(NoticeDetailsActivity.newNoticeDetailsIntent(getContext(), itemBean));
+                startActivity(NoticeDetailsActivity.newNoticeDetailsIntent(getContext(), itemBean,isGroupOwner,getGroupId()));
             }
 
             @Override
@@ -70,6 +72,13 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
         });
         return adapter;
 
+
+    }
+
+    @Override
+    protected void setLeftClick() {
+        liftClick();
+        super.setLeftClick();
 
     }
 
@@ -96,6 +105,12 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
     }
 
     @Override
+    protected void requestNetData(Long maxId, boolean isLoadMore) {
+        super.requestNetData(maxId, isLoadMore);
+//
+    }
+
+    @Override
     protected String setRightTitle() {
         return getString(R.string.qa_publish_btn);
     }
@@ -104,7 +119,7 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
     @Override
     protected void setRightClick() {
         super.setRightClick();
-        startActivity(ReleaseNoticeActivity.newIntent(getContext(), mGroupId));
+        startActivity(ReleaseNoticeActivity.newIntent(getContext(), mGroupId,null));
     }
 
     @Override
@@ -182,5 +197,15 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_NOTICE)
     public void onPublishNoticeSuccess(String isRefresh) {
         getNoticeListData();
+    }
+
+    @Override
+    public void onBackPressed() {
+        liftClick();
+        super.onBackPressed();
+    }
+
+    private void liftClick(){
+        EventBus.getDefault().post(mListDatas.get(0).getContent(), EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE);
     }
 }

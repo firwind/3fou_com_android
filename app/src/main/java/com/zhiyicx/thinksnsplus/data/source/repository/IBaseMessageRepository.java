@@ -89,8 +89,14 @@ public interface IBaseMessageRepository {
      * @param
      * @return
      */
-    Observable<String> releaseNotice(String group_id, String title, String content, String author);
+    Observable<String> releaseNotice(String group_id, String title, String content, String author,int state);
 
+    /**
+     * 删除公告
+     * @param notice_id
+     * @return
+     */
+    Observable<String> delNotice(String notice_id);
 
     /**
      * 添加群相册

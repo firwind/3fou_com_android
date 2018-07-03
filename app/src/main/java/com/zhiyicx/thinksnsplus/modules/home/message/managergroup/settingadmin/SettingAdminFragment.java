@@ -32,6 +32,7 @@ import org.simple.eventbus.Subscriber;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO;
 import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.settingadmin.SettingAdminActivity.GROUP_INFO_BEAN;
@@ -52,6 +53,7 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
     protected RecyclerView.Adapter getAdapter() {
         adminAdapter = new SettingAdminAdapter(getContext(), mListDatas, mChatGroupBean);
         adminAdapter.setListener(this);
+
         return adminAdapter;
 
     }
@@ -148,5 +150,11 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
     public void onPublishGroupSuccess(boolean isSuccess) {
 //        requestCacheData(0L,false);
         getAdminListData();
+    }
+
+    @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_MUTE)
+    public void onPublishGroupSuccess(List<UserInfoBean> userInfoBean) {
+//        requestCacheData(0L,false);
+        mUserInfoBeans = userInfoBean;
     }
 }

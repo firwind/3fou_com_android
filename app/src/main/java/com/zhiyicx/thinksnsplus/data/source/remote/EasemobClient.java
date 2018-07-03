@@ -221,6 +221,16 @@ public interface EasemobClient {
                                      @Query("title") String title,
                                      @Query("content") String content,
                                      @Query("author") String author);
+    /**
+     * 修改群公告
+     *
+     * @param ids im_group_id
+     */
+    @PATCH(ApiConfig.APP_PATH_GET_GROUP_UPDATE_NOTICE)
+    Observable<String> updateNotice(@Query("notice_id") String ids,
+                                     @Query("title") String title,
+                                     @Query("content") String content,
+                                     @Query("author") String author);
 
     /**
      * 添加群组成员
@@ -279,8 +289,8 @@ public interface EasemobClient {
      * @param group_id
      * @return
      */
-    @DELETE(ApiConfig.APP_PATH_GET_GROUP_INFO_S)
-    Observable<String> deleteGroup(@Query("im_group_id")String group_id);
+    @DELETE(ApiConfig.APP_PATH_GET_GROUP_DEL_NOTICE)
+    Observable<String> deleteGroup(@Query("notice_id")String group_id);
 
     /**
      * 获取简单群信息
