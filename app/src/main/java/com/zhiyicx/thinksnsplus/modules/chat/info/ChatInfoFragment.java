@@ -420,7 +420,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 }
                 break;
             case R.id.ll_photo:
-                startActivity(MessageGroupAlbumActivity.newIntent(mActivity, mChatGroupBean.getId()));
+                startActivity(MessageGroupAlbumActivity.newIntent(mActivity, (ChatGroupNewBean) mChatGroupBean));
                 break;
 //            case R.id.ll_card:
             case R.id.tv_find_message:
@@ -626,7 +626,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     }
 
-    @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_ALBUM_SUCCESS)
+    @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPDATE_ALBUM_SUCCESS)
     public void uploadAlbumSuccess(List<MessageGroupAlbumBean> newData) {
         setGroupAlbumData(newData);
     }
@@ -765,11 +765,11 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 MessageGroupAlbumBean photo = ((CommonAdapter<MessageGroupAlbumBean>) mRvAlbum.getAdapter())
                         .getDatas().get(position);
                 if (-1 == photo.file_id) {
-                    startActivity(MessageGroupAlbumActivity.newIntent(mActivity, mChatGroupBean.getId()));
+                    startActivity(MessageGroupAlbumActivity.newIntent(mActivity, (ChatGroupNewBean) mChatGroupBean));
                 } else {
                     ImageBean imageBean = new ImageBean();
                     imageBean.setImgUrl(ImageUtils.imagePathConvertV2(photo.file_id, 0, 0,
-                            ImageZipConfig.IMAGE_80_ZIP));
+                            ImageZipConfig.IMAGE_50_ZIP));
                     imageBean.setWidth(holder.itemView.findViewById(R.id.iv).getMeasuredWidth());
                     imageBean.setHeight(holder.itemView.findViewById(R.id.iv).getMeasuredHeight());
                     imageBean.setPosition(0);

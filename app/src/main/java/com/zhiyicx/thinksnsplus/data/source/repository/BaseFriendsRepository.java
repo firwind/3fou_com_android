@@ -92,15 +92,15 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     }
 
     @Override
-    public Observable<Object> addGroupMember(String id, String member) {
-        return mEasemobClient.addGroupMember(id, member)
+    public Observable<Object> addGroupMember(String id, String member,int grouplevel) {
+        return mEasemobClient.addGroupMember(id, member,grouplevel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Observable<Object> removeGroupMember(String id, String member) {
-        return mEasemobClient.removeGroupMember(id, member)
+    public Observable<Object> removeGroupMember(String id, String member,int grouplevel) {
+        return mEasemobClient.removeGroupMember(id, member,grouplevel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

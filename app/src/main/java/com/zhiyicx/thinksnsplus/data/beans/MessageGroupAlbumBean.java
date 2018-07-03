@@ -21,7 +21,7 @@ public class MessageGroupAlbumBean extends BaseListBean implements Parcelable{
     public String group_images_id;
     public int file_id;
     public String created_at;
-    public String user_id;
+    public long user_id;
     public String user_name;
 
     public MessageGroupAlbumBean(){
@@ -34,7 +34,7 @@ public class MessageGroupAlbumBean extends BaseListBean implements Parcelable{
         group_images_id = in.readString();
         file_id = in.readInt();
         created_at = in.readString();
-        user_id = in.readString();
+        user_id = in.readLong();
         user_name = in.readString();
     }
 
@@ -45,7 +45,7 @@ public class MessageGroupAlbumBean extends BaseListBean implements Parcelable{
         dest.writeString(group_images_id);
         dest.writeInt(file_id);
         dest.writeString(created_at);
-        dest.writeString(user_id);
+        dest.writeLong(user_id);
         dest.writeString(user_name);
     }
 

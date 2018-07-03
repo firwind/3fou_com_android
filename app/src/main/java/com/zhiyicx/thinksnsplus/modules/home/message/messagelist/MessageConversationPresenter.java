@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.modules.home.message.messagelist;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.SparseArray;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -36,6 +37,8 @@ import org.simple.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -563,7 +566,66 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
         Subscription subscribe = Observable.just(list)
                 .subscribeOn(Schedulers.io())
                 .flatMap(messageList -> {
-                    LogUtils.d("Cathy", "MessagePresenter onMessageReceived -----");
+
+                    List<EMMessage> notExitInViewList = new ArrayList<>();
+                    notExitInViewList.addAll(messageList);
+
+                    for (MessageItemBeanV2 itemBean:
+                            mRootView.getListDatas()) {
+
+                        for (EMMessage message:
+                             messageList) {
+
+                            // 删除本地群信息后会更新
+                            boolean isGroupChange = TSEMConstants.TS_ATTR_GROUP_CHANGE.equals(message.ext().get("type"));
+                            if (isGroupChange) {
+                                mRepository.deleteLocalChatGoup(message.conversationId());
+                            }
+
+                            if(itemBean.getEmKey().equals(message.conversationId())){
+                                //直接替换会话
+                                itemBean.setConversation(EMClient.getInstance().chatManager()
+                                        .getConversation(message.conversationId()));
+                                //对已存在的message移除
+                                notExitInViewList.remove(message);
+                            }
+                        }
+
+                        //如果不存在的会话
+                        if(notExitInViewList.size() == 0)
+                            break;
+
+                    }
+
+
+                    //重组会话
+                    List<MessageItemBeanV2> composeList = new ArrayList<>();
+                    if(notExitInViewList.size() > 0){
+                        for (EMMessage message:
+                                notExitInViewList) {
+                            //判断重组会话中是否已经存在会话
+                            boolean isExit = false;
+                            for (int i = 0; i < composeList.size(); i++) {
+                                if(composeList.get(i).getEmKey().equals(message.conversationId())){
+                                    isExit = true;
+                                    break;
+                                }
+                            }
+                            if(!isExit){
+                                MessageItemBeanV2 itemBeanV2 = new MessageItemBeanV2();
+                                //其实到这里时，获取的conversation已经是最新的了
+                                itemBeanV2.setConversation(EMClient.getInstance().chatManager()
+                                        .getConversation(message.conversationId()));
+                                itemBeanV2.setEmKey(message.conversationId());
+                                composeList.add(itemBeanV2);
+                            }
+                        }
+
+
+                    }
+
+
+                    /*LogUtils.d("Cathy", "MessagePresenter onMessageReceived -----");
                     int size = mRootView.getListDatas().size();
                     // 对话是否存在
                     // 用来装新的会话item
@@ -630,20 +692,21 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                             itemBeanV2.setEmKey(emMessage.conversationId());
                             messageItemBeanV2List.add(itemBeanV2);
                         }
-                    }
-                    return mRepository.completeEmConversation(messageItemBeanV2List)
+                    }*/
+                    return mRepository.completeEmConversation(composeList/*messageItemBeanV2List*/)
                             .map(list12 -> list12);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
                     @Override
                     protected void onSuccess(List<MessageItemBeanV2> data) {
-                        for (MessageItemBeanV2 messageItemBeanV2 : data) {
+                        /*for (MessageItemBeanV2 messageItemBeanV2 : data) {
                             // 移除原来的
                             if (mRootView.getListDatas().indexOf(messageItemBeanV2) != -1) {
                                 mRootView.getListDatas().remove(messageItemBeanV2);
                             }
-                        }
+                        }*/
+
                         // 加载到第一条
                         mRootView.getListDatas().addAll(topConversationSize, data);
                         mRootView.refreshData();

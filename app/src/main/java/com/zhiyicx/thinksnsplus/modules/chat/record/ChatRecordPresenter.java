@@ -99,33 +99,42 @@ public class ChatRecordPresenter extends AppBasePresenter<ChatRecordContract.Vie
      */
     private rx.Observable<List<ChatRecord>> loadChatRecord() {
 
-        return rx.Observable.create(new rx.Observable.OnSubscribe<List<EMMessage>>() {
+        return Observable.create(new Observable.OnSubscribe<List<EMMessage>>() {
             @Override
             public void call(Subscriber<? super List<EMMessage>> subscriber) {
                 if (null == messageList){
-                    messageList = EMClient.getInstance().chatManager().getConversation(mRootView.getConversationId()).getAllMessages();
+                    messageList = new ArrayList<>();
+
+                    List<EMMessage> originalList = EMClient.getInstance().chatManager()
+                            .getConversation(mRootView.getConversationId()).getAllMessages();
+                    //只匹配文本
+                    for (EMMessage message:
+                         originalList) {
+                        if(EMMessage.Type.TXT == message.getType()){
+                            messageList.add(message);
+                        }
+                    }
                     //反转，按照时间倒序
                     Collections.reverse(messageList);
                 }
+
+
                 List<EMMessage> searchedList = new ArrayList<>();
-                if (TextUtils.isEmpty(mRootView.getSearchText())) {
-                    searchedList = messageList;
-                } else {
-                    for (int i = 0; i < messageList.size(); i++) {
-                        //只匹配文本
-                        if (EMMessage.Type.TXT == messageList.get(i).getType()
-                                && (((EMTextMessageBody) messageList.get(i).getBody()).getMessage())
-                                .contains(mRootView.getSearchText())) {
-                            searchedList.add(messageList.get(i));
-                        }
+
+                for (int i = 0; i < messageList.size(); i++) {
+                    //只匹配文本
+                    if (TextUtils.isEmpty(mRootView.getSearchText()) ||
+                            (((EMTextMessageBody) messageList.get(i).getBody()).getMessage()).contains(mRootView.getSearchText())) {
+                        searchedList.add(messageList.get(i));
                     }
                 }
+
                 subscriber.onNext(searchedList);
                 subscriber.onCompleted();
             }
-        }).flatMap(new Func1<List<EMMessage>, rx.Observable<List<ChatRecord>>>() {
+        }).flatMap(new Func1<List<EMMessage>, Observable<List<ChatRecord>>>() {
             @Override
-            public rx.Observable<List<ChatRecord>> call(List<EMMessage> emMessages) {
+            public Observable<List<ChatRecord>> call(List<EMMessage> emMessages) {
                 //本地数据库没有用户信息的 Message
                 /*List<EMMessage> usersNotInDbMessage = new ArrayList<>();
                 //本地数据库没有用户信息的id

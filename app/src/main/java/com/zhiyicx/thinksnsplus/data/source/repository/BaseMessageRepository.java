@@ -9,6 +9,7 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.zhiyicx.baseproject.base.SystemConfigBean;
+import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.utils.log.LogUtils;
@@ -37,6 +38,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.zhiyicx.baseproject.base.TSListFragment.DEFAULT_ONE_PAGE_SHOW_MAX_SIZE;
@@ -476,16 +478,29 @@ public class BaseMessageRepository implements IBaseMessageRepository {
 
     @Override
     public Observable<String> addGroupAlbum(String images, String group_id) {
-        return mClient.addGroupAlbum(images, group_id);
+        return mClient.addGroupAlbum(images, group_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> deleteGroupAlbum(String image_id,String im_group_id) {
+        return mClient.deleteGroupAlbum(image_id,im_group_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(String group_id, int page) {
-        return mClient.getGroupAlbumList(group_id, DEFAULT_ONE_PAGE_SHOW_MAX_SIZE, page);
+        return mClient.getGroupAlbumList(group_id, TSListFragment.DEFAULT_PAGE_SIZE, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<List<ChatGroupBean>> getSimpleGroupList(String group_id, int group_level) {
-        return mClient.getSimpleGroupInfo(group_id,group_level);
+        return mClient.getSimpleGroupInfo(group_id,group_level)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

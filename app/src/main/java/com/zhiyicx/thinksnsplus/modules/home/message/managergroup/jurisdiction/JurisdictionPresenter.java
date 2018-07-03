@@ -150,8 +150,8 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
 
                     @Override
                     protected void onSuccess(String data) {
-
                         mRootView.showSnackSuccessMessage(mContext.getString(R.string.chat_edit_group_add_success));
+                        mRootView.addGroupRuloSuccess();
                     }
 
                     @Override

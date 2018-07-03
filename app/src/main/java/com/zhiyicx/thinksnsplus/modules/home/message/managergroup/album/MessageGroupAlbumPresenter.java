@@ -50,16 +50,17 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
 
         addSubscrebe(mMessageRepository.getGroupAlbumList(mRootView.getGroupId(), mRootView.getPage())
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new BaseSubscribeForV2<BaseJsonV2<List<MessageGroupAlbumBean>>>() {
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<BaseJsonV2<List<MessageGroupAlbumBean>>>() {
                     @Override
                     protected void onSuccess(BaseJsonV2<List<MessageGroupAlbumBean>> data) {
-                        mRootView.onNetResponseSuccess(data.getData(),false);
+                        mRootView.onNetResponseSuccess(data.getData(),isLoadMore);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        mRootView.onResponseError(e,false);
+                        mRootView.onResponseError(e,isLoadMore);
                     }
                 }));
 
@@ -67,7 +68,7 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
 
     @Override
     public void requestCacheData(Long maxId, boolean isLoadMore) {
-        mRootView.onCacheResponseSuccess(null, false);
+        //mRootView.onCacheResponseSuccess(null, false);
     }
 
     @Override
@@ -133,5 +134,24 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
                 mRootView.hideCenterLoading();
             }
         }));
+    }
+
+    @Override
+    public void requestDeleteAlbum(MessageGroupAlbumBean messageGroupAlbumBean) {
+        addSubscrebe(mMessageRepository.deleteGroupAlbum(String.valueOf(messageGroupAlbumBean.file_id),mRootView.getGroupId())
+                .subscribe(new BaseSubscribeForV2<String>() {
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.deleteAlbumOk(messageGroupAlbumBean);
+                        mRootView.showSnackSuccessMessage("删除成功!");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+
+                }));
     }
 }

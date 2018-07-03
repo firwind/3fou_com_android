@@ -239,9 +239,9 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     /**
      * 弹窗关闭回掉
      *
-     * @param prompt 弹框类型
+     * @paramprompt 弹框类型
      */
-    @Override
+    /*@Override
     protected void snackViewDismissWhenTimeOut(Prompt prompt) {
         if (prompt == Prompt.SUCCESS) {
             try {
@@ -250,7 +250,7 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
     @Override
     protected boolean useEventBus() {
@@ -259,8 +259,8 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
 
     @Override
     protected void setLeftClick() {
-        EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
-        onBackPressed();
+        /*EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
+        onBackPressed();*/
         super.setLeftClick();
     }
 
@@ -362,7 +362,7 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
 
     @Override
     public void onBackPressed() {
-        EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
+        //EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
         super.onBackPressed();
     }
 

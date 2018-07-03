@@ -229,7 +229,8 @@ public interface EasemobClient {
      * @param member 群成员 1,2,3 这种样式的
      */
     @POST(ApiConfig.APP_PATH_GET_GROUP_ADD_MEMBER)
-    Observable<Object> addGroupMember(@Query("im_group_id") String id, @Query("members") String member);
+    Observable<Object> addGroupMember(@Query("im_group_id") String id, @Query("members") String member
+            ,@Query("grouplevel")int grouplevel);
 
     /**
      * 添加群组成员
@@ -238,7 +239,8 @@ public interface EasemobClient {
      * @param member 群成员 1,2,3 这种样式的
      */
     @DELETE(ApiConfig.APP_PATH_GET_GROUP_ADD_MEMBER)
-    Observable<Object> removeGroupMember(@Query("im_group_id") String id, @Query("members") String member);
+    Observable<Object> removeGroupMember(@Query("im_group_id") String id,
+                                         @Query("members") String member,@Query("grouplevel")int grouplevel);
 
 
     /**
@@ -248,9 +250,17 @@ public interface EasemobClient {
      * @param group_id
      * @return
      */
-    @POST(ApiConfig.APP_PATH_GET_GROUP_ADD_ALBUM)
+    @POST(ApiConfig.APP_PATH_GET_GROUP_ALBUM)
     Observable<String> addGroupAlbum(@Query("images") String images,
                                      @Query("group_id") String group_id);
+
+    /**
+     * 删除群相册图片
+     * @param image_id
+     * @return
+     */
+    @DELETE(ApiConfig.APP_PATH_GET_GROUP_ALBUM)
+    Observable<String> deleteGroupAlbum(@Query("image_id") String image_id,@Query("im_group_id")String im_group_id);
 
     /**
      * 获取群相册图片

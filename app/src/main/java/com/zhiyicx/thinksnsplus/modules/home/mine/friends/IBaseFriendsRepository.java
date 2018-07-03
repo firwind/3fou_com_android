@@ -51,7 +51,7 @@ public interface IBaseFriendsRepository {
      * @param member
      * @return
      */
-    Observable<Object> addGroupMember(String id, String member);
+    Observable<Object> addGroupMember(String id, String member,int grouplevel);
 
     /**
      * 移除成员
@@ -59,7 +59,7 @@ public interface IBaseFriendsRepository {
      * @param member
      * @return
      */
-    Observable<Object> removeGroupMember(String id, String member);
+    Observable<Object> removeGroupMember(String id, String member,int grouplevel);
 
     /**
      * 删除群组

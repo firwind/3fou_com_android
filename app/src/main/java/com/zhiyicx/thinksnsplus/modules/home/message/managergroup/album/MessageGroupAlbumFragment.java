@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Looper;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,9 +24,12 @@ import com.zhiyicx.baseproject.impl.photoselector.DaggerPhotoSelectorImplCompone
 import com.zhiyicx.baseproject.impl.photoselector.ImageBean;
 import com.zhiyicx.baseproject.impl.photoselector.PhotoSelectorImpl;
 import com.zhiyicx.baseproject.impl.photoselector.PhotoSeletorImplModule;
+import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.AnimationRectBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
@@ -32,12 +37,15 @@ import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
 
 import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.zhiyicx.common.widget.popwindow.CustomPopupWindow.POPUPWINDOW_ALPHA;
 
 /**
  * <pre>
@@ -49,16 +57,22 @@ import java.util.List;
  */
 
 public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumContract.Presenter,MessageGroupAlbumBean>
-        implements MessageGroupAlbumContract.View, PhotoSelectorImpl.IPhotoBackListener,View.OnClickListener {
+        implements MessageGroupAlbumContract.View, PhotoSelectorImpl.IPhotoBackListener/*,View.OnClickListener*/ {
 
     private PhotoSelectorImpl mPhotoSelector;
     private ArrayList<String> mImgList = new ArrayList<>();
     private boolean isNeedTranNewData = false;//是否向上一界面传递数据
+    private ChatGroupNewBean mChatGroupBean;
 
-    public static MessageGroupAlbumFragment newInstance(String group_id){
+    /**
+     * 删除确认弹框
+     */
+    private ActionPopupWindow mCheckSurePop;
+
+    public static MessageGroupAlbumFragment newInstance(ChatGroupNewBean chatGroupNewBean){
         MessageGroupAlbumFragment fragment = new MessageGroupAlbumFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(IntentKey.GROUP_ID,group_id);
+        bundle.putParcelable(IntentKey.GROUP_INFO,chatGroupNewBean);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -66,10 +80,14 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
+
+        this.mChatGroupBean = getArguments().getParcelable(IntentKey.GROUP_INFO);
+
         setCenterText("群相册");
+        setRightText("上传");
         initPhotoSelector();
         //((MessageGroupAlbumActivity)mActivity).addTextView();
-        TextView textView = new TextView(mActivity);
+        /*TextView textView = new TextView(mActivity);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(DensityUtil.dip2px(mActivity,125),
                 DensityUtil.dip2px(mActivity,30));
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -80,7 +98,13 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
         textView.setGravity(Gravity.CENTER);
         textView.setText("上传照片");
         textView.setOnClickListener(this);
-        ((RelativeLayout)rootView.findViewById(R.id.rl_parent)).addView(textView);
+        ((RelativeLayout)rootView.findViewById(R.id.rl_parent)).addView(textView);*/
+    }
+
+    @Override
+    protected void setRightClick() {
+        super.setRightClick();
+        mPhotoSelector.getPhotoListFromSelector(3, mImgList);
     }
 
     @Override
@@ -95,12 +119,24 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
 
     @Override
     public String getGroupId() {
-        return null != getArguments()?getArguments().getString(IntentKey.GROUP_ID):null;
+        return null != getArguments()?
+                ((ChatGroupNewBean)getArguments().getParcelable(IntentKey.GROUP_INFO)).getId():null;
     }
 
     @Override
     public void uploadOk() {
         isNeedTranNewData = true;
+    }
+
+    @Override
+    public void deleteAlbumOk(MessageGroupAlbumBean messageGroupAlbumBean) {
+        //int position = mListDatas.indexOf(messageGroupAlbumBean);
+        mListDatas.remove(messageGroupAlbumBean);
+        //mRvList.getAdapter().notifyItemRemoved(position);
+        //mRvList.getAdapter().notifyItemRangeChanged(position,mListDatas.size());
+        mRvList.getAdapter().notifyDataSetChanged();
+        EventBus.getDefault().post(mListDatas.size()>4?mListDatas.subList(0,4):mListDatas,
+                EventBusTagConfig.EVENT_GROUP_UPDATE_ALBUM_SUCCESS);
     }
 
     @Override
@@ -116,7 +152,7 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
                         ImageUtils.imagePathConvertV2(messageGroupAlbumBean.file_id,
                                 holder.itemView.findViewById(R.id.iv).getMeasuredWidth(),
                                 holder.itemView.findViewById(R.id.iv).getMeasuredHeight(),
-                                ImageZipConfig.IMAGE_80_ZIP));
+                                ImageZipConfig.IMAGE_50_ZIP));
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
@@ -137,7 +173,33 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
 
             @Override
             public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                return false;
+
+                boolean isAdmin = false;
+                long curUserId = AppApplication.getmCurrentLoginAuth().getUser_id();
+                if(null != mChatGroupBean.admin_type){
+                    for (int i = 0; i < mChatGroupBean.admin_type.size(); i++) {
+                        try {
+                            //admin_type:1-管理员；2-讲师
+                            if(mChatGroupBean.admin_type.get(i).admin_type.equals("1") &&
+                                    Long.parseLong(mChatGroupBean.admin_type.get(i).user_id) == curUserId ){
+                                isAdmin = true;
+                                break;
+                            }
+                        }catch (Exception e){
+                            continue;
+                        }
+                    }
+                }
+                //管理员或者群所有者或者上传该图片的人
+                if(isAdmin ||
+                        mChatGroupBean.getOwner() == curUserId ||
+                        curUserId == adapter.getItem(position).user_id){
+                    showCheckSureDeletePop(adapter.getItem(position));
+                }else {
+                    showSnackErrorMessage(getString(R.string.no_permission_to_operate));
+                }
+
+                return true;
             }
         });
 
@@ -195,10 +257,15 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
         if(isNeedTranNewData){
             if(null == data || data.size() == 0)
                 return;
-            EventBus.getDefault().post(data.size()>4?data.subList(0,4):data, EventBusTagConfig.EVENT_GROUP_UPLOAD_ALBUM_SUCCESS);
+            EventBus.getDefault().post(data.size()>4?data.subList(0,4):data, EventBusTagConfig.EVENT_GROUP_UPDATE_ALBUM_SUCCESS);
             isNeedTranNewData = false;
         }
 
+    }
+
+    @Override
+    protected boolean isLayzLoad() {
+        return true;
     }
 
     @Override
@@ -207,8 +274,37 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
     }
 
     //上传图片点击
-    @Override
+    /*@Override
     public void onClick(View view) {
-        mPhotoSelector.getPhotoListFromSelector(9, mImgList);
+        mPhotoSelector.getPhotoListFromSelector(3, mImgList);
+    }*/
+
+
+    /**
+     * 删除弹窗
+     */
+    private void showCheckSureDeletePop(MessageGroupAlbumBean messageGroupAlbumBean) {
+
+        mCheckSurePop = ActionPopupWindow
+                .builder()
+                .item1Str(getString(R.string.chat_delete_sure))
+                .item2Str(getString(R.string.ts_delete))
+                .item2Color(ContextCompat.getColor(getContext(), R.color.important_for_note))
+                .bottomStr(getString(R.string.cancel))
+                .isOutsideTouch(true)
+                .isFocus(true)
+                .backgroundAlpha(POPUPWINDOW_ALPHA)
+                .with(mActivity)
+                .item2ClickListener(() -> {
+                    mCheckSurePop.hide();
+                    showSnackLoadingMessage(getString(R.string.please_wait));
+                    mPresenter.requestDeleteAlbum(messageGroupAlbumBean);
+                })
+                .bottomClickListener(() -> mCheckSurePop.hide())
+                .build();
+
+        mCheckSurePop.show();
+
     }
+
 }

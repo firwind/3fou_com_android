@@ -216,9 +216,11 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
         Observable<Object> observable;
         if (mRootView.getIsDeleteMember()) {
             // 删除
-            observable = mRepository.removeGroupMember(mRootView.getGroupData().getId(), id.toString());
+            observable = mRepository.removeGroupMember(mRootView.getGroupData().getId(),
+                    id.toString(),mRootView.getGroupData().getGroup_level());
         } else {
-            observable = mRepository.addGroupMember(mRootView.getGroupData().getId(), id.toString());
+            observable = mRepository.addGroupMember(mRootView.getGroupData().getId(), id.toString()
+                    ,mRootView.getGroupData().getGroup_level());
         }
         Subscription subscription = observable
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.circle_dealing)))

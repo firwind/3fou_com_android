@@ -24,7 +24,7 @@ public interface MarketContract {
     }
 
     interface MarketPresenter extends IBaseTouristPresenter{
-
+        //void getMarketSymbols();
     }
 
 

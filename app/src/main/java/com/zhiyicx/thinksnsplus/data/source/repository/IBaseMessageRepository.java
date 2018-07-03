@@ -101,6 +101,13 @@ public interface IBaseMessageRepository {
     Observable<String> addGroupAlbum(String images, String group_id);
 
     /**
+     * 删除群相册
+     * @param image_id
+     * @return
+     */
+    Observable<String> deleteGroupAlbum(String image_id,String im_group_id);
+
+    /**
      * 获取群相册图片
      * @param group_id
      * @param page

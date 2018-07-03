@@ -49,7 +49,7 @@ import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
 public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends BaseListBean> extends TSFragment<P> implements ITSListView<T, P>, com
         .scwang.smartrefresh.layout.listener.OnRefreshListener, OnLoadmoreListener {
     /**
-     * 默认每页的数量
+     * 默认每页的数量, SystemRepository 中的 getBootstrappersInfoFromServer方法中进行赋值
      */
     public static Integer DEFAULT_PAGE_SIZE = null;
     /**

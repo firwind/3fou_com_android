@@ -5,13 +5,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <net.lucode.hackware.magicindicator.MagicIndicator
-        android:id="@+id/indicator"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:background="@color/white"
-        android:layout_height="@dimen/toolbar_with_tab_height">
+        android:layout_height="@dimen/toolbar_with_tab_height"
+        app:tabMode="scrollable"
+        app:tabIndicatorColor="@color/themeColor"
+        app:tabIndicatorHeight="@dimen/dp2"
+        app:tabTextColor="@color/text_color"
+        app:tabSelectedTextColor="@color/text_color_black">
 
-    </net.lucode.hackware.magicindicator.MagicIndicator>
+    </android.support.design.widget.TabLayout>
 
     <View
         style="@style/style_divider_horizontal"/>

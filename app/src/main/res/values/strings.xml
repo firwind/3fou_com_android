@@ -1186,4 +1186,6 @@
 
     <string name="rank_market">排行</string>
 
+    <string name="no_permission_to_operate">您没有权限操作！</string>
+
 </resources>

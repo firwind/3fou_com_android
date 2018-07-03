@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.orhanobut.logger.Logger;
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 /**
@@ -28,15 +30,15 @@ import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 public class MessageGroupAlbumActivity extends TSActivity<MessageGroupAlbumPresenter,MessageGroupAlbumFragment>{
 
-    public static Intent newIntent(Context mContext,String group_id){
+    public static Intent newIntent(Context mContext, ChatGroupNewBean chatGroupNewBean){
         Intent intent = new Intent(mContext,MessageGroupAlbumActivity.class);
-        intent.putExtra(IntentKey.GROUP_ID,group_id);
+        intent.putExtra(IntentKey.GROUP_INFO, (Parcelable) chatGroupNewBean);
         return intent;
     }
 
     @Override
     protected MessageGroupAlbumFragment getFragment() {
-        return MessageGroupAlbumFragment.newInstance(getIntent().getStringExtra(IntentKey.GROUP_ID));
+        return MessageGroupAlbumFragment.newInstance(getIntent().getParcelableExtra(IntentKey.GROUP_INFO));
     }
 
     @Override

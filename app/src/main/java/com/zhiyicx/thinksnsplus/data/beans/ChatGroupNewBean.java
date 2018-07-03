@@ -30,6 +30,9 @@ public class ChatGroupNewBean extends ChatGroupBean implements Parcelable{
     @SerializedName("is_mute")
     private int mIsMute;
 
+    @Transient
+    public List<GroupAdminType> admin_type;
+
     public GroupNoticeBean getNoticeItemBean() {
         return noticeItemBean;
     }
@@ -57,6 +60,7 @@ public class ChatGroupNewBean extends ChatGroupBean implements Parcelable{
         dest.writeParcelable(this.noticeItemBean, flags);
         dest.writeInt(this.mIsMute);
         dest.writeList(this.group_images_data);
+        dest.writeList(this.admin_type);
     }
 
     public ChatGroupNewBean() {
@@ -67,6 +71,7 @@ public class ChatGroupNewBean extends ChatGroupBean implements Parcelable{
         this.noticeItemBean = in.readParcelable(GroupNoticeBean.class.getClassLoader());
         this.mIsMute = in.readInt();
         this.group_images_data = in.readArrayList(MessageGroupAlbumBean.class.getClassLoader());
+        this.admin_type = in.readArrayList(GroupAdminType.class.getClassLoader());
     }
 
     public static final Creator<ChatGroupNewBean> CREATOR = new Creator<ChatGroupNewBean>() {
