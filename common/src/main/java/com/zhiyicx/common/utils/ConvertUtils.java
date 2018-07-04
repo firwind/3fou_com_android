@@ -1067,6 +1067,10 @@ public class ConvertUtils {
         return new Gson().toJson(obj);
     }
 
+    public static <T> T string2Object(String str,Class<T> clazz){
+        return new Gson().fromJson(str,clazz);
+    }
+
     /**
      * 替换 emoji 长度 =1
      *

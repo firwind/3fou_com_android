@@ -11,6 +11,7 @@ import com.zhiyicx.thinksnsplus.data.source.remote.EasemobClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.FollowFansClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.InfoMainClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.LoginClient;
+import com.zhiyicx.thinksnsplus.data.source.remote.MarketClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.MusicClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.PasswordClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.QAClient;
@@ -185,6 +186,12 @@ public class ServiceModule {
     @Provides
     EasemobClient provideEasemobClient(Retrofit retrofit){
         return retrofit.create(EasemobClient.class);
+    }
+
+    @Singleton
+    @Provides
+    MarketClient provideMarketClient(Retrofit retrofit){
+        return retrofit.create(MarketClient.class);
     }
 
 }

@@ -10,6 +10,8 @@ import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.StockCertificateBean;
 
+import java.util.List;
+
 /**
  * author: huwenyong
  * date: 2018/6/28 19:29
@@ -20,11 +22,11 @@ import com.zhiyicx.thinksnsplus.data.beans.StockCertificateBean;
 public interface MarketContract {
 
     interface MarketView extends IBaseView<MarketPresenter>{
-
+        void getCurrencyListSuccess(List<String> list);
     }
 
     interface MarketPresenter extends IBaseTouristPresenter{
-        //void getMarketSymbols();
+        void getMarketCurrencyList();
     }
 
 

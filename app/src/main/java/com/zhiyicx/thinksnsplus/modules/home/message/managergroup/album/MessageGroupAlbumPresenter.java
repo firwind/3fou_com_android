@@ -78,11 +78,12 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
 
     @Override
     public void requestUploadToAlbum(List<ImageBean> imgList) {
-        // 先处理图片上传，图片上传成功后，在进行动态发布
+        // 先处理图片上传，图片上传成功后，在调接口
         List<Observable<BaseJson<Integer>>> upLoadPics = new ArrayList<>();
         for (int i = 0; i < imgList.size(); i++) {
             String filePath = imgList.get(i).getImgUrl();
-            upLoadPics.add(mUpLoadRepository.upLoadSingleFileV2(filePath, imgList.get(i).getImgMimeType(), true, (int) (imgList.get(i).getWidth()),
+            upLoadPics.add(mUpLoadRepository.upLoadSingleImageV2(filePath, imgList.get(i).getImgMimeType(),
+                    (int) (imgList.get(i).getWidth()),
                     (int) (imgList.get(i).getHeight())));
         }
         Observable<String> observable = // 组合多个图片上传任务

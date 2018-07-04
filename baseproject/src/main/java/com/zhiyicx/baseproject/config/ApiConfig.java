@@ -1118,4 +1118,16 @@ public class ApiConfig {
     // 资讯排行
     public static final String APP_PATH_RANK_NEWS = "api/" + API_VERSION_2 + "/news/ranks";
     /*资讯 end*/
+
+
+  /**
+   * 行情
+   */
+  //获取币种列表
+  public static final String APP_PATH_MARKET_CURRENCY_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency";
+  //币种排行
+  public static final String APP_PATH_MARKET_CURRENCY_RANK_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency/ranks";
+
+
+
 }

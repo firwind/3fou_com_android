@@ -14,6 +14,7 @@
         app:tabIndicatorColor="@color/themeColor"
         app:tabIndicatorHeight="@dimen/dp2"
         app:tabTextColor="@color/text_color"
+        app:tabMinWidth="@dimen/dp40"
         app:tabSelectedTextColor="@color/text_color_black">
 
     </android.support.design.widget.TabLayout>

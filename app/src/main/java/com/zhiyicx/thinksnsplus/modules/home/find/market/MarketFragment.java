@@ -5,11 +5,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.common.config.ConstantConfig;
+import com.zhiyicx.common.utils.ConvertUtils;
+import com.zhiyicx.common.utils.SharePreferenceUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.modules.home.find.market.list.MarketListFragment;
+import com.zhiyicx.thinksnsplus.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +35,8 @@ public class MarketFragment extends TSFragment<MarketContract.MarketPresenter> i
     @BindView(R.id.vp)
     ViewPager mVp;
 
-    private List<String> mTitles;
-    private List<Fragment> mFragments;
+    private List<String> mTitles = new ArrayList<>();
+    private List<Fragment> mFragments = new ArrayList<>();
 
     public static MarketFragment newInstance(){
         MarketFragment marketFragment = new MarketFragment();
@@ -63,34 +68,34 @@ public class MarketFragment extends TSFragment<MarketContract.MarketPresenter> i
 
     @Override
     protected void initView(View rootView) {
-
-        mTitles = new ArrayList<>();
         mTitles.add(getString(R.string.rank_market));
-        mTitles.add("A");
-        mTitles.add("B");
-        mTitles.add("C");
-        mTitles.add("D");
-        mTitles.add("E");
-        mTitles.add("A");
-        mTitles.add("B");
-        mTitles.add("C");
-        mTitles.add("D");
-        mTitles.add("E");
-        mTitles.add("A");
-        mTitles.add("B");
-        mTitles.add("C");
-        mTitles.add("D");
-        mTitles.add("E");
+        //获取缓存中的币种列表
+        try {
+            String currencyList = SharePreferenceUtils.getString(mActivity,SharePreferenceUtils.MARKET_CURRENCY_LIST);
+            if(!TextUtils.isEmpty(currencyList)){
+                String[] arr = currencyList.split(ConstantConfig.SPLIT_SMBOL);
+                for (int i = 0; i < arr.length; i++) {
+                    mTitles.add(arr[i]);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         initViewPager();
-
     }
 
 
+    @Override
+    protected void initData() {
+        mPresenter.getMarketCurrencyList();
+    }
+
+
+
     private void initViewPager() {
-        mFragments = new ArrayList<>();
         mFragments.add(MarketListFragment.newInstance(null));
-        mFragments.add(MarketListFragment.newInstance("A"));
+        mFragments.add(MarketListFragment.newInstance("A"));//先添加一个假的币种，点击tab选择时会更新
         mVp.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -127,10 +132,29 @@ public class MarketFragment extends TSFragment<MarketContract.MarketPresenter> i
     }
 
     @Override
-    protected void initData() {
+    public void getCurrencyListSuccess(List<String> list) {
+        String local = SharePreferenceUtils.getString(mActivity,SharePreferenceUtils.MARKET_CURRENCY_LIST);
+        StringBuilder net = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            net.append(list.get(i));
+            if(i != list.size()-1)
+                net.append(ConstantConfig.SPLIT_SMBOL);
+        }
+        //如果本地数据和网络数据不同步，则更新本地和当前页面
+        if(!net.toString().equals(local)){
+
+            String[] netCurrencyArr = net.toString().split(ConstantConfig.SPLIT_SMBOL);
+            mTitles.clear();
+            mTitles.add(getString(R.string.rank_market));
+            mTabLayout.removeAllTabs();
+            mTabLayout.addTab(mTabLayout.newTab().setText(mTitles.get(0)));
+            for (int i = 0; i < netCurrencyArr.length; i++) {
+                mTitles.add(netCurrencyArr[i]);
+                mTabLayout.addTab(mTabLayout.newTab().setText(netCurrencyArr[i]));
+            }
+
+            SharePreferenceUtils.saveString(mActivity,SharePreferenceUtils.MARKET_CURRENCY_LIST,net.toString());
+        }
 
     }
-
-
-
 }

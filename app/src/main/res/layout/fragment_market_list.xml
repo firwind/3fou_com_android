@@ -10,7 +10,7 @@
         android:layout_height="@dimen/dp43">
 
         <TextView
-            android:id="@+id/tv_type"
+            android:id="@+id/tv1"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -19,7 +19,7 @@
             android:textSize="@dimen/sp16"/>
 
         <TextView
-            android:id="@+id/tv_price"
+            android:id="@+id/tv2"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -28,7 +28,7 @@
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/tv_chg"
+            android:id="@+id/tv3"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"

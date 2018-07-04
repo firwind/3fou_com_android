@@ -16,6 +16,8 @@ public class SharePreferenceUtils {
     public static final String SP_DOMAIN = "sp_domain";
     /**视频动态暂存标识*/
     public static final String VIDEO_DYNAMIC = "video_dynamic";
+    //行情币种列表
+    public static final String MARKET_CURRENCY_LIST = "market_currency_list";
 
     /**
      * 存储重要信息到 sharedPreferences；

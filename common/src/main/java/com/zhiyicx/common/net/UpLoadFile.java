@@ -1,10 +1,13 @@
 package com.zhiyicx.common.net;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import com.zhiyicx.common.net.listener.ProgressRequestBody;
 import com.zhiyicx.common.utils.FileUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -123,6 +126,83 @@ public class UpLoadFile {
         }
         return builder.build().parts();
     }
+
+    /**
+     * 得到图片的上传对象
+     * @param filePathList
+     * @param params
+     * @param isZip 是否压缩
+     * @return
+     */
+    public static List<MultipartBody.Part> upLoadImageAndParams(Map<String, String> filePathList,
+                                                                Map<String, Object> params,boolean isZip) {
+
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        //表单类型
+        builder.setType(MultipartBody.FORM);
+        if (params != null) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                if (entry.getValue() == null) {
+                    continue;
+                }
+                if (entry.getValue() instanceof List) {
+                    builder.addFormDataPart(entry.getKey(), entry.getValue().toString());
+                } else {
+                    builder.addFormDataPart(entry.getKey(), entry.getValue().toString());
+                }
+
+            }
+
+        }
+        if (filePathList != null) {
+            Set<String> filePathKey = filePathList.keySet();
+            for (String fileParam : filePathKey) {
+                try {
+                    File file = new File(filePathList.get(fileParam));
+                    String mimeType = FileUtils.getMimeTypeByFile(file);
+                    RequestBody imageBody = null;
+
+
+                    if(isZip){
+
+                        BitmapFactory.Options onlyGetSizeOptions = new BitmapFactory.Options();
+                        onlyGetSizeOptions.inJustDecodeBounds = true;
+                        //返回为空
+                        BitmapFactory.decodeFile(filePathList.get(fileParam), onlyGetSizeOptions);
+
+                        //如果宽或高大于 2048px ，进行压缩
+                        float max = Math.max(onlyGetSizeOptions.outWidth,onlyGetSizeOptions.outHeight);
+                        onlyGetSizeOptions.inJustDecodeBounds = false;
+                        onlyGetSizeOptions.inSampleSize = (int)max/1024;
+
+                        //将压缩后的图片转成 byte数组
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        BitmapFactory.decodeFile(filePathList.get(fileParam),onlyGetSizeOptions)
+                                .compress(Bitmap.CompressFormat.JPEG, 100,outputStream);
+
+                        imageBody = RequestBody.create(
+                                MediaType.parse(TextUtils.isEmpty(mimeType) ? "multipart/form-data" : mimeType),
+                                outputStream.toByteArray());
+
+                    }else {
+
+                        imageBody = RequestBody.create(
+                                MediaType.parse(TextUtils.isEmpty(mimeType) ? "multipart/form-data" : mimeType), file);
+                    }
+                    //imgfile 后台接收图片流的参数名
+                    builder.addFormDataPart(fileParam, file.getName(), imageBody);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        // 如果没有任何参数传入，又调用了该方法，需要传一个缺省参数， Multipart body must have at least one part.
+        if ((params == null || params.isEmpty()) && (filePathList == null || filePathList.isEmpty())) {
+            builder.addFormDataPart("file", "zhiyicx");
+        }
+        return builder.build().parts();
+    }
+
 
     public static List<MultipartBody.Part> upLoadFileAndProgress(Map<String, String> filePathList, HashMap<String, Object> params,
                                                                  ProgressRequestBody.ProgressRequestListener listener) {

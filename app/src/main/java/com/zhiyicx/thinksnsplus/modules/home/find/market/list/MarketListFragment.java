@@ -29,12 +29,12 @@ import butterknife.BindView;
 public class MarketListFragment extends TSListFragment<MarketContract.MarektListPresenter,BaseListBean> implements
         MarketContract.MarketListView{
 
-    @BindView(R.id.tv_type)
-    TextView mTvType;
-    @BindView(R.id.tv_price)
-    TextView mTvPrice;
-    @BindView(R.id.tv_chg)
-    TextView mTvChg;
+    @BindView(R.id.tv1)
+    TextView mTv1;
+    @BindView(R.id.tv2)
+    TextView mTv2;
+    @BindView(R.id.tv3)
+    TextView mTv3;
 
     @Inject
     public MarketListPresenter mPresenter;
@@ -67,6 +67,8 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
                 .inject(MarketListFragment.this);
 
         super.initView(rootView);
+
+        mTv1.setText(isRankMarket()?"名称":"交易所");
     }
 
     @Override
@@ -87,8 +89,13 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
     }
 
     @Override
-    protected boolean isNeedRefreshDataWhenComeIn() {
+    protected boolean isLayzLoad() {
         return true;
+    }
+
+    @Override
+    protected boolean isLoadingMoreEnable() {
+        return false;
     }
 
     @Override

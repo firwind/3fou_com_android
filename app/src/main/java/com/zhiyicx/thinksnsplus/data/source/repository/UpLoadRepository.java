@@ -112,6 +112,59 @@ public class UpLoadRepository implements IUploadRepository {
                 });
     }
 
+    @Override
+    public Observable<BaseJson<Integer>> upLoadSingleImageV2(String filePath, String mimeType, int photoWidth, int photoHeight) {
+        File file = new File(filePath);
+        // 封装上传文件的参数
+        final HashMap<String, String> paramMap = new HashMap<>();
+        paramMap.put("hash", FileUtils.getFileMD5ToString(file));
+        LogUtils.d("filePath::" + filePath);
+        LogUtils.d("upLoadSingleFileV2::" + paramMap.get("hash"));
+        paramMap.put("origin_filename", file.getName());
+        if (photoWidth != 0 && photoHeight != 0) {
+            paramMap.put("width", photoWidth + "");
+            paramMap.put("height", photoHeight + "");
+        }
+        // 如果是图片就处理图片
+        paramMap.put("mime_type", mimeType);
+
+        return checkStorageHash(paramMap.get("hash"))
+                .retryWhen(new RetryWithInterceptDelay(RETRY_MAX_COUNT, RETRY_INTERVAL_TIME) {
+                    @Override
+                    protected boolean extraReTryCondition(Throwable throwable) {
+                        // 文件不存在 服务器返回404.
+                        return !throwable.toString().contains("404");
+                    }
+                })
+                .onErrorReturn(throwable -> {
+                    BaseJsonV2 baseJson = new BaseJsonV2();
+                    baseJson.setId(-1);
+                    return baseJson;
+                })
+                .flatMap(baseJson -> {
+                    if (baseJson.getId() != -1) {
+                        BaseJson<Integer> success = new BaseJson<>();
+                        success.setData(baseJson.getId());
+                        success.setStatus(true);
+                        return Observable.just(success);
+                    } else {
+                        // 封装图片File
+                        HashMap<String, String> fileMap = new HashMap<>();
+                        fileMap.put("file", filePath);
+                        Map<String, Object> params = new HashMap<>(paramMap);
+                        return mCommonClient.upLoadFileByPostV2(UpLoadFile.upLoadImageAndParams(fileMap, params,true))
+                                .flatMap(uploadFileResultV2 -> {
+                                    BaseJson<Integer> success = new BaseJson<>();
+                                    success.setData(uploadFileResultV2.getId());
+                                    baseJson.setId(1);
+                                    success.setStatus(true);
+                                    return Observable.just(success);
+                                }, Observable::error, () -> null);
+
+                    }
+                });
+    }
+
     /**
      * @param position 记录上传成功的个数
      * @author Jliuer
