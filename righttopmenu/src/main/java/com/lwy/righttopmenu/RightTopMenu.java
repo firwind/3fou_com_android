@@ -3,6 +3,7 @@ package com.lwy.righttopmenu;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -68,7 +69,7 @@ public class RightTopMenu {
             mMenuItems = new ArrayList<>();
         mAdapter = new MenuAdapter(mActivity, this, mMenuItems);
         mAdapter.setOnMenuItemClickListener(mOnMenuItemClickListener);
-//        mMenuContainer.addItemDecoration(new NormalDividerItemDecoration(mActivity, NormalDividerItemDecoration.VERTICAL_LIST));
+        mMenuContainer.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
     }
 
     private PopupWindow getPopupWindow() {

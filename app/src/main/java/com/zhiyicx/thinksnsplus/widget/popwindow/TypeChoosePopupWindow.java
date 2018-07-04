@@ -68,7 +68,7 @@ public class TypeChoosePopupWindow extends PopupWindow {
         setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         setFocusable(mIsFocus);
         setOutsideTouchable(mIsOutsideTouch);
-        setBackgroundDrawable(mBackgroundDrawable);
+
 //        setAnimationStyle(R.style.style_actionPopupAnimation);
         setContentView(mContentView);
     }

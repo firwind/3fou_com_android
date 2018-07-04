@@ -197,7 +197,6 @@ public class TSEMessageUtils {
         // 创建CMD 消息的消息体 并设置 action 为 disband
         EMCmdMessageBody body = new EMCmdMessageBody(action);
         cmdMessage.addBody(body);
-        cmdMessage.setFrom("admin");
         cmdMessage.setMsgTime(currTime);
         // 设置消息的扩展
         cmdMessage.setAttribute("type", TSEMConstants.TS_ATTR_RELEASE_NOTICE);

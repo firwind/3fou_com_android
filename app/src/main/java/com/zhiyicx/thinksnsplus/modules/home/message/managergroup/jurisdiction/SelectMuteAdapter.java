@@ -52,8 +52,10 @@ public class SelectMuteAdapter extends CommonAdapter<UserInfoBean> {
                         if (mListener != null && userInfoBean.getIsSelected() != STATE_CAN_NOT_BE_CHANGED) {
                             if (userInfoBean.getIsSelected() == STATE_SELECTED) {
                                 userInfoBean.setIsSelected(STATE_UNSELECTED);
+                                userInfoBean.setAdmin_type(0);
                             } else {
                                 userInfoBean.setIsSelected(STATE_SELECTED);
+                                userInfoBean.setAdmin_type(1);
                             }
                             setSelectedState(cbFriends, userInfoBean);
                             mListener.onUserSelected(userInfoBean);

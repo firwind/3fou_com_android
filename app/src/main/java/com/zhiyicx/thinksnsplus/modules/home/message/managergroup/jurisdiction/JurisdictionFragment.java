@@ -121,7 +121,7 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     @Override
     public void addGroupRuloSuccess() {
 
-        EventBus.getDefault().post(mListDatas, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
+        EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO);
         getActivity().finish();
     }
 

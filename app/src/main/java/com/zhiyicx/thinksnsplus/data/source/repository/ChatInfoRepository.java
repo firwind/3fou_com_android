@@ -113,7 +113,7 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
 
     @Override
     public Observable<List<UpgradeTypeBean>> getUpgradeGroups() {
-          Observable observable = Observable.create(new Observable.OnSubscribe<List<UpgradeTypeBean>>() {
+        Observable observable = Observable.create(new Observable.OnSubscribe<List<UpgradeTypeBean>>() {
             @Override
             public void call(Subscriber<? super List<UpgradeTypeBean>> subscriber) {
 
@@ -132,14 +132,14 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
 
     @Override
     public Observable<String> upgradeGroup(String groupId, int type) {
-        return mEasemobClient.upgradeGroup(groupId,type)
+        return mEasemobClient.upgradeGroup(groupId, type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<String> reportGroup(String userId, String groupId, String reason, String tel) {
-        return mEasemobClient.reportGroup(userId,groupId,reason,tel)
+        return mEasemobClient.reportGroup(userId, groupId, reason, tel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -147,5 +147,12 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
     @Override
     public Observable<ChatGroupNewBean> getNewGroupInfoV2(String group_id) {
         return mEasemobClient.getNewGroupInfoV2(group_id);
+    }
+
+    @Override
+    public Observable<List<UserInfoBean>> getUserInfoInfo(String group_id, String searchKey) {
+        return mEasemobClient.getGroupUserInfoInfo(group_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

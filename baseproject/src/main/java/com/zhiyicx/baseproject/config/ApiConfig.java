@@ -153,6 +153,7 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_REPORT_GROUP= "api/" + API_VERSION_2 + "/easemob/group/report";//举报群
     public static final String APP_PATH_GET_SIMPLE_GROUP_INFO= "api/" + API_VERSION_2 + "/easemob/group/grouplist";//简单获取群信息
     public static final String APP_PATH_GET_GROUP_INFO_NEW= "api/" + API_VERSION_2 + "/easemob/group/groupinfo";//简单获取群信息
+    public static final String APP_PATH_GET_GROUP_MEMBER_INFO_NEW= "api/" + API_VERSION_2 + "/easemob/group/memberlist";//获取群成员信息
 
     /**
      * 关注粉丝 FollowFansClient

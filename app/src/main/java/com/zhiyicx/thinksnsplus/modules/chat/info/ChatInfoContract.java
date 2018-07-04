@@ -154,6 +154,8 @@ public interface ChatInfoContract {
         Observable<String> upgradeGroup(String groupId,int type);
         //新的获取群信息的接口
         Observable<ChatGroupNewBean> getNewGroupInfoV2(String group_id);
+        //获取群成员接口
+        Observable<List<UserInfoBean>> getUserInfoInfo(String group_id,String searchKey);
         //提交举报群
         Observable<String> reportGroup(String userId, String groupId, String reason, String tel);
 

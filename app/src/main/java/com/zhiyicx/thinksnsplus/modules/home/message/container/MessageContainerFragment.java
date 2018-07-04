@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -76,8 +75,6 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
 
     @BindView(R.id.v_status_bar_placeholder)
     View mStatusBarPlaceholder;
-    @BindView(R.id.fl_content)
-    FrameLayout mFlContent;
     private RightTopMenu mRightTopMenu;
     private List<BadgePagerTitleView> mBadgePagerTitleViews;
     /**

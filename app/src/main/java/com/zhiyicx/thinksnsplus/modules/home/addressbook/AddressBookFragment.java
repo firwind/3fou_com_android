@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.hyphenate.util.DensityUtil;
 import com.lwy.righttopmenu.MenuItem;
 import com.lwy.righttopmenu.RightTopMenu;
 import com.zhiyicx.baseproject.base.TSViewPagerFragment;
@@ -115,6 +116,7 @@ public class AddressBookFragment extends TSViewPagerFragment {
                         .needAnimationStyle(true)   //显示动画，默认为true
                         .animationStyle(R.style.RTM_ANIM_STYLE)  //默认为R.style.RTM_ANIM_STYLE
                         .menuItems(menuItems)
+                        .windowWidth(DensityUtil.dip2px(mActivity,160))
                         .onMenuItemClickListener(new RightTopMenu.OnMenuItemClickListener() {
                             @Override
                             public void onMenuItemClick(int position) {
@@ -157,7 +159,7 @@ public class AddressBookFragment extends TSViewPagerFragment {
                             }
                         }).build();
             }
-            mRightTopMenu.showAsDropDown(mTsvToolbar.getRightTextView(), 20, 0);
+            mRightTopMenu.showAsDropDown(mTsvToolbar.getRightTextView(),DensityUtil.dip2px(mActivity,15),0);
         });
     }
 

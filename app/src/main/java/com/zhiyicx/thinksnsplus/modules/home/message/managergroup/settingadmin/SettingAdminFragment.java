@@ -12,10 +12,12 @@ package com.zhiyicx.thinksnsplus.modules.home.message.managergroup.settingadmin;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 
 import com.trycatch.mysnackbar.Prompt;
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
@@ -32,6 +34,7 @@ import org.simple.eventbus.Subscriber;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zhiyicx.common.widget.popwindow.CustomPopupWindow.POPUPWINDOW_ALPHA;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO;
@@ -42,7 +45,10 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
     private ChatGroupBean mChatGroupBean;
     private List<UserInfoBean> mUserInfoBeans;
     private SettingAdminAdapter adminAdapter;
-
+    /**
+     * 删除确认弹框
+     */
+    private ActionPopupWindow mCheckSurePop;
     public static SettingAdminFragment newInstance(Bundle bundle) {
         SettingAdminFragment settingAdminFragment = new SettingAdminFragment();
         settingAdminFragment.setArguments(bundle);
@@ -112,10 +118,26 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
     private UserInfoBean userInfoBean;
     @Override
     public void onDeleteClick(UserInfoBean userInfoBean,String type,int parentPostion,int sonPostion) {
-        mPresenter.deleteRole(userInfoBean,type);
-        this.userInfoBean = userInfoBean;
-        mParentPostion = parentPostion;
-        mSonPostion = sonPostion;
+        mCheckSurePop = ActionPopupWindow.builder()
+                .item1Str(getString(R.string.chat_delete_sure))
+                .item2Str(getString(R.string.ts_delete))
+                .item2Color(ContextCompat.getColor(getContext(), R.color.important_for_note))
+                .bottomStr(getString(R.string.cancel))
+                .isOutsideTouch(true)
+                .isFocus(true)
+                .backgroundAlpha(POPUPWINDOW_ALPHA)
+                .with(mActivity)
+                .item2ClickListener(() -> {//删除公告
+                    mPresenter.deleteRole(userInfoBean,type);
+                    this.userInfoBean = userInfoBean;
+                    mParentPostion = parentPostion;
+                    mSonPostion = sonPostion;
+                    mCheckSurePop.hide();
+                })
+                .bottomClickListener(() -> mCheckSurePop.hide())
+                .build();
+        mCheckSurePop.show();
+
     }
 
     @Override
@@ -134,11 +156,8 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
     protected void snackViewDismissWhenTimeOut(Prompt prompt) {
         super.snackViewDismissWhenTimeOut(prompt);
         if (prompt == Prompt.SUCCESS){
+            EventBus.getDefault().post(mListDatas, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
             getAdminListData();
-//            List<GroupHankBean> data = adminAdapter.getDatas();
-//            data.get(mParentPostion).getUserInfoBeans().remove(mSonPostion);
-//            adminAdapter.notifyDataSetChanged();
-//            mUserInfoBeans.remove(userInfoBean);
         }
     }
 

@@ -57,41 +57,59 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
     }
 
     private void getLocalUser(String key) {
-        if (mRootView.getGroupData() == null) {
-            return;
-        }
-        List<UserInfoBean> list = mRootView.getGroupData().getAffiliations();
-        // 移除自己和管理员/讲师/主持人
-        Observable.just(list)
-                .map(list1 -> {
-                    int position = -1;
-                    for (int i = 0; i < list1.size(); i++) {
-                        list1.get(i).setIsSelected(0);
-                        if (list1.get(i).getUser_id().equals(AppApplication.getMyUserIdWithdefault())) {
-                            position = i;
-                        }else if (list1.get(i).getAdmin_type() != 0){
-                            list1.get(i).setIsSelected(-1);
-                        }
+        mRepository.getUserInfoInfo(mRootView.getGroupData().getId(),key)
+                .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
+                    @Override
+                    protected void onSuccess(List<UserInfoBean> data) {
+                        // 移除自己和管理员/讲师/主持人
+                        Observable.just(data)
+                                .map(list1 -> {
+                                    int position = -1;
+                                    for (int i = 0; i < list1.size(); i++) {
+                                        list1.get(i).setIsSelected(0);
+                                        if (list1.get(i).getUser_id().equals(AppApplication.getMyUserIdWithdefault())) {
+                                            position = i;
+                                        }else if (list1.get(i).getAdmin_type() != 0){
+                                            list1.get(i).setIsSelected(-1);
+                                        }
+                                    }
+                                    if (position != -1) {
+                                        list1.remove(position);
+                                    }
+                                    return list1;
+                                })
+                                .subscribe(list12 -> {
+                                    // 有key表示是搜素，没有就是全部 直接获取就好了
+                                    if (TextUtils.isEmpty(key)) {
+                                        mRootView.onNetResponseSuccess(list12, false);
+                                    } else {
+                                        List<UserInfoBean> searchResult = new ArrayList<>();
+                                        for (UserInfoBean userInfoBean : mRootView.getGroupData().getAffiliations()) {
+                                            if (!TextUtils.isEmpty(userInfoBean.getName()) && userInfoBean.getName().toLowerCase().contains(key.toLowerCase())) {
+                                                searchResult.add(userInfoBean);
+                                            }
+                                        }
+                                        mRootView.onNetResponseSuccess(searchResult, false);
+                                    }
+                                });
                     }
-                    if (position != -1) {
-                        list1.remove(position);
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(throwable.getMessage());
                     }
-                    return list1;
-                })
-                .subscribe(list12 -> {
-                    // 有key表示是搜素，没有就是全部 直接获取就好了
-                    if (TextUtils.isEmpty(key)) {
-                        mRootView.onNetResponseSuccess(list12, false);
-                    } else {
-                        List<UserInfoBean> searchResult = new ArrayList<>();
-                        for (UserInfoBean userInfoBean : mRootView.getGroupData().getAffiliations()) {
-                            if (!TextUtils.isEmpty(userInfoBean.getName()) && userInfoBean.getName().toLowerCase().contains(key.toLowerCase())) {
-                                searchResult.add(userInfoBean);
-                            }
-                        }
-                        mRootView.onNetResponseSuccess(searchResult, false);
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
                     }
                 });
+
+
+
+
+
 
     }
 

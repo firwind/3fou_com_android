@@ -15,7 +15,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.daimajia.swipe.SimpleSwipeListener;
+import com.daimajia.swipe.SwipeLayout;
 import com.jakewharton.rxbinding.view.RxView;
 import com.zhiyicx.baseproject.widget.UserAvatarView;
 import com.zhiyicx.thinksnsplus.R;
@@ -42,20 +45,32 @@ public class SettingAdminItemAdapter extends CommonAdapter<UserInfoBean> {
 
     @Override
     protected void convert(ViewHolder holder, UserInfoBean userInfoBean, int position) {
+        // 右边
+        final SwipeLayout swipeLayout = holder.getView(R.id.swipe);
+        swipeLayout.setSwipeEnabled(true);
+        swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+        swipeLayout.addSwipeListener(new SimpleSwipeListener() {
+            @Override
+            public void onOpen(SwipeLayout layout) {
+//                YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(layout.findViewById(R.id.trash));
+            }
+        });
         LinearLayout mGroupRank = holder.getView(R.id.ll_group_rank);
+        TextView mSettingRight = holder.getView(R.id.tv_setting_right);
         holder.setText(R.id.tv_add_rank_name, TextUtils.isEmpty(userInfoBean.getName())?"":userInfoBean.getName());
         UserAvatarView cbFriends = holder.getView(R.id.iv_user_portrait);
         ImageView ivDelete = holder.getView(R.id.iv_delete_admin);
 
         ImageUtils.loadCircleUserHeadPic(userInfoBean, cbFriends);
         if (userInfoBean.getIsSelected()==1){
-            ivDelete.setVisibility(View.VISIBLE);
+            swipeLayout.open();
         }else {
-            ivDelete.setVisibility(View.GONE);
+            swipeLayout.close();
         }
-        RxView.clicks(ivDelete)//删除管理/讲师/主持人
+        RxView.clicks(mSettingRight)//删除管理/讲师/主持人
                 .subscribe(aVoid -> {
                     listener.onDeleteClick(userInfoBean,mType,mPostion,position);
+                    swipeLayout.close();
                 });
 
         RxView.clicks(mGroupRank)
