@@ -113,7 +113,7 @@ public class RightTopMenu {
             getPopupWindow();
         }
         if (!mPopupWindow.isShowing()) {
-            mPopupWindow.showAsDropDown(anchor, -anchor.getWidth() - xoff, yoff);
+            mPopupWindow.showAsDropDown(anchor, -mWindowWidth + anchor.getWidth() - xoff, yoff);
             mAdapter.notifyDataSetChanged();
             if (mDimBackground) {
                 setBackgroundAlpha(1f, mAlpha, 240);

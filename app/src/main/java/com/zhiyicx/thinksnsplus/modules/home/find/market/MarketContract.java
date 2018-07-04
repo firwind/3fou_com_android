@@ -32,6 +32,7 @@ public interface MarketContract {
 
     interface MarketListView extends ITSListView<BaseListBean,MarektListPresenter> {
         boolean isRankMarket();
+        String getCurrency();
     }
 
     interface MarektListPresenter extends ITSListPresenter<BaseListBean>{

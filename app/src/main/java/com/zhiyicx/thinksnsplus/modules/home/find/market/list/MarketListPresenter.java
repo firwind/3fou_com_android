@@ -1,20 +1,21 @@
 package com.zhiyicx.thinksnsplus.modules.home.find.market.list;
 
 import com.zhiyicx.baseproject.base.BaseListBean;
+import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
-import com.zhiyicx.thinksnsplus.data.beans.StockCertificateBean;
-import com.zhiyicx.thinksnsplus.data.source.local.CurrencyRankBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.MarketRepository;
 import com.zhiyicx.thinksnsplus.modules.home.find.market.MarketContract;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
 
 /**
  * author: huwenyong
@@ -28,6 +29,8 @@ public class MarketListPresenter extends AppBasePresenter<MarketContract.MarketL
     @Inject
     public MarketRepository mMarketRepository;
 
+    private Subscription mSubscription;
+
     @Inject
     public MarketListPresenter(MarketContract.MarketListView rootView) {
         super(rootView);
@@ -36,23 +39,35 @@ public class MarketListPresenter extends AppBasePresenter<MarketContract.MarketL
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
 
-        if (mRootView.isRankMarket()) {
+        if(null != mSubscription && !mSubscription.isUnsubscribed())
+            mSubscription.unsubscribe();
 
-            addSubscrebe(mMarketRepository.getMarketCurrencyRankList().subscribe(
-                    new BaseSubscribeForV2<Object>() {
-                        @Override
-                        protected void onSuccess(Object data) {
-                            mRootView.onNetResponseSuccess((List<BaseListBean>) data, isLoadMore);
+        Observable observable = mRootView.isRankMarket()?mMarketRepository.getMarketCurrencyRankList():
+                mMarketRepository.getMarketCurrencyDetails(mRootView.getCurrency());
+
+        mSubscription = observable.subscribe(
+                new BaseSubscribeForV2<Object>() {
+                    @Override
+                    protected void onSuccess(Object data) {
+                        if(data instanceof BaseJsonV2){
+                            mRootView.onNetResponseSuccess(((BaseJsonV2<List<BaseListBean>>) data).getData(), isLoadMore);
+                        }else if(data instanceof List){
+                            mRootView.onNetResponseSuccess((List) data, isLoadMore);
                         }
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            super.onError(e);
-                            mRootView.onResponseError(e,isLoadMore);
-                        }
-                    }));
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.onResponseError(throwable,isLoadMore);
+                    }
 
-        }
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.onResponseError(e,isLoadMore);
+                    }
+                });
 
     }
 

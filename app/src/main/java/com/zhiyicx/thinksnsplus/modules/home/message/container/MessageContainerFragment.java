@@ -11,12 +11,14 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
+import com.hyphenate.util.DensityUtil;
 import com.lwy.righttopmenu.MenuItem;
 import com.lwy.righttopmenu.RightTopMenu;
 import com.zhiyicx.baseproject.base.TSViewPagerFragment;
@@ -74,6 +76,8 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
 
     @BindView(R.id.v_status_bar_placeholder)
     View mStatusBarPlaceholder;
+    @BindView(R.id.fl_content)
+    FrameLayout mFlContent;
     private RightTopMenu mRightTopMenu;
     private List<BadgePagerTitleView> mBadgePagerTitleViews;
     /**
@@ -156,6 +160,7 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
                         .needAnimationStyle(true)   //显示动画，默认为true
                         .animationStyle(R.style.RTM_ANIM_STYLE)  //默认为R.style.RTM_ANIM_STYLE
                         .menuItems(menuItems)
+                        .windowWidth(DensityUtil.dip2px(mActivity,160))
                         .onMenuItemClickListener(new RightTopMenu.OnMenuItemClickListener() {
                             @Override
                             public void onMenuItemClick(int position) {
@@ -198,7 +203,9 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
                             }
                         }).build();
             }
-            mRightTopMenu.showAsDropDown(mTsvToolbar.getRightTextView(), -100, 0);
+            /*int topOff = getResources().getDimensionPixelOffset(R.dimen.toolbar_with_tab_height);
+            mRightTopMenu.showAtLocation(mFlContent, DensityUtil.dip2px(mActivity,15),topOff);*/
+            mRightTopMenu.showAsDropDown(mTsvToolbar.getRightTextView(),DensityUtil.dip2px(mActivity,15),0);
         });
         mBadgePagerTitleViews = new ArrayList<>();
         CommonNavigatorAdapter commonNavigatorAdapter = getCommonNavigatorAdapter(initTitles());

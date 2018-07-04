@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.data.source.repository.i;
 
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.source.local.CurrencyRankBean;
+import com.zhiyicx.thinksnsplus.data.source.local.MarketCurrencyBean;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface IMarketRepository {
     Observable<BaseJsonV2<List<String>>> getMarketCurrencyList();
 
     Observable<List<CurrencyRankBean>> getMarketCurrencyRankList();
+
+    Observable<BaseJsonV2<List<MarketCurrencyBean>>> getMarketCurrencyDetails(String currency);
 }

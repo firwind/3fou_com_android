@@ -9,7 +9,6 @@ import com.zhiyicx.baseproject.base.BaseListBean;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
-import com.zhiyicx.thinksnsplus.data.beans.StockCertificateBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.home.find.market.MarketContract;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -43,7 +42,7 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
     public static MarketListFragment newInstance(String marketType){
         MarketListFragment marketListFragment = new MarketListFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(IntentKey.MARKET_TYPE,marketType);
+        bundle.putString(IntentKey.CURRENCY_TYPE,marketType);
         marketListFragment.setArguments(bundle);
         return marketListFragment;
     }
@@ -79,7 +78,7 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
     @Override
     protected RecyclerView.Adapter getAdapter() {
         CommonAdapter<BaseListBean> mAapter = new CommonAdapter<BaseListBean>(mActivity,
-                R.layout.item_stock_certificate, mListDatas) {
+                R.layout.item_market_currency, mListDatas) {
             @Override
             protected void convert(ViewHolder holder, BaseListBean baseListBean, int position) {
 
@@ -100,6 +99,20 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
 
     @Override
     public boolean isRankMarket() {
-        return null == getArguments().getString(IntentKey.MARKET_TYPE);
+        return null == getArguments().getString(IntentKey.CURRENCY_TYPE);
     }
+
+    @Override
+    public String getCurrency() {
+        return getArguments().getString(IntentKey.CURRENCY_TYPE);
+    }
+
+    /**
+     * 设置币种类型
+     * @param currency
+     */
+    public void setCurrencyType(String currency){
+        getArguments().putString(IntentKey.CURRENCY_TYPE,currency);
+    }
+
 }

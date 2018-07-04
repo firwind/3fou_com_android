@@ -1127,6 +1127,8 @@ public class ApiConfig {
   public static final String APP_PATH_MARKET_CURRENCY_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency";
   //币种排行
   public static final String APP_PATH_MARKET_CURRENCY_RANK_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency/ranks";
+  //币种详情
+  public static final String APP_PATH_MARKET_CURRENCY_DETAILS = "api/" + API_VERSION_2 + "/jinsecaijing/symbols";
 
 
 

@@ -115,7 +115,13 @@ public class MarketFragment extends TSFragment<MarketContract.MarketPresenter> i
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mVp.setCurrentItem(tab.getPosition() > 0 ? 1:0,false);
+                int position = tab.getPosition();
+                mVp.setCurrentItem(position > 0 ? 1:0,false);
+                if(position > 0){
+                    ((MarketListFragment)mFragments.get(1)).setCurrencyType(tab.getText().toString());
+                    ((MarketListFragment)mFragments.get(1)).startRefrsh();
+                }
+
             }
 
             @Override

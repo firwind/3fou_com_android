@@ -27,11 +27,19 @@
         android:background="@color/masked_color"
         android:visibility="gone"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_fragment"
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_below="@id/tsv_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bgColor"
-        android:layout_below="@id/tsv_toolbar"/>
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bgColor"/>
+
+
+    </FrameLayout>
 
 </RelativeLayout>
