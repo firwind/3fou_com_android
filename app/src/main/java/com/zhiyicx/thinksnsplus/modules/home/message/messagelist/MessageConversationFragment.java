@@ -357,7 +357,8 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
      */
     @Override
     public void setSticksSuccess(String stick_id) {
-        refreshConversationInfo();
+        //已在P层进行本地更新，不再重新请求服务器
+        //refreshConversationInfo();
     }
 
     /**
@@ -399,8 +400,8 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
 //                    mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
                     mCheckSurePop.hide();
                     //设置置顶
-                    mPresenter.setSticks(mListDatas.get(position).getEmKey(),
-                            String.valueOf(AppApplication.getMyUserIdWithdefault()), mListDatas.get(position).getIsStick());
+                    mPresenter.setSticks(mListDatas.get(position),
+                            String.valueOf(AppApplication.getMyUserIdWithdefault()));
 
                 })
                 .item2ClickListener(() -> {

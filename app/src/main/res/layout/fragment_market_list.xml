@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="交易品种"
-            android:textSize="@dimen/sp16"/>
+            android:textSize="@dimen/sp14"/>
 
         <TextView
             android:id="@+id/tv2"
@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="价格"
-            android:textSize="@dimen/sp16"
+            android:textSize="@dimen/sp14"
             android:paddingRight="@dimen/dp16"
             android:gravity="center_vertical|right"/>
 
@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="涨跌幅"
-            android:textSize="@dimen/sp16"/>
+            android:textSize="@dimen/sp14"/>
 
     </LinearLayout>
 

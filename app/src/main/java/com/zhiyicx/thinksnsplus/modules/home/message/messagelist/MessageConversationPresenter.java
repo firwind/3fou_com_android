@@ -30,6 +30,7 @@ import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.MessageConversationRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
 import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
+import com.zhiyicx.thinksnsplus.utils.MessageTimeAndStickSort;
 
 import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.Subscriber;
@@ -79,9 +80,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
     private Subscription mAllConversaiotnSub;
     private Subscription mSearchSub;
 
-    //置顶会话的长度
-    private int topConversationSize = 0;
-
 
     @Inject
     public MessageConversationPresenter(MessageConversationContract.View rootView) {
@@ -128,15 +126,20 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
     }*/
 
     @Override
-    public void setSticks(String stick_id, String author,int isStick) {
-        Observable<String> observable = mChatInfoRepository.setStick(stick_id, author,isStick);
+    public void setSticks(MessageItemBeanV2 message, String author) {
+        Observable<String> observable = mChatInfoRepository.setStick(message.getEmKey(), author,message.getIsStick());
 
         Subscription subscription = observable
                 .subscribe(new BaseSubscribeForV2<String>() {
 
                     @Override
                     protected void onSuccess(String data) {
-                        mRootView.setSticksSuccess(stick_id);//置顶成功
+                        message.setIsStick(message.getIsStick()==0?1:0);
+                        //重新进行排序
+                        Collections.sort(mRootView.getListDatas(),new MessageTimeAndStickSort());
+                        mRootView.refreshData();
+
+                        mRootView.setSticksSuccess(message.getEmKey());//置顶成功
                     }
 
                     @Override
@@ -311,8 +314,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                         @Override
                         public List<MessageItemBeanV2> call(List<MessageItemBeanV2> messageItemBeanV2s, List<StickBean> stickBeans) {
 
-                            topConversationSize = stickBeans.size();
-
                             List<String> topIds = new ArrayList<>();
                             for (int i = 0; i < stickBeans.size(); i++) {
                                 if(null != stickBeans.get(i).getChatGroupBean()){
@@ -323,31 +324,28 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                                 //topIds.add(stickBeans.get(i).getmStickId());
                             }
 
-                            List<MessageItemBeanV2> tops = new ArrayList<>();
-                            List<MessageItemBeanV2> last = new ArrayList<>();
                             for (int i = 0; i < messageItemBeanV2s.size(); i++) {
                                 try {
                                     if (topIds.indexOf(messageItemBeanV2s.get(i).getEmKey()) != -1) {
                                         messageItemBeanV2s.get(i).setIsStick(1);
-                                        tops.add(messageItemBeanV2s.get(i));
                                         topIds.remove(messageItemBeanV2s.get(i).getEmKey());
                                     } else {
                                         messageItemBeanV2s.get(i).setIsStick(0);
-                                        last.add(messageItemBeanV2s.get(i));
                                     }
                                 } catch (Exception e) {
                                     messageItemBeanV2s.get(i).setIsStick(0);
-                                    last.add(messageItemBeanV2s.get(i));
                                     continue;
                                 }
                             }
-                            tops.addAll(last);
 
                             //完善未匹配到的置顶消息填充到 消息List
                             if(topIds.size() > 0)
-                                fillStickBeanInMessage(tops,topIds,stickBeans);
+                                fillStickBeanInMessage(messageItemBeanV2s,topIds,stickBeans);
 
-                            return tops;
+                            //根据置顶和消息时间进行排序
+                            Collections.sort(messageItemBeanV2s,new MessageTimeAndStickSort());
+
+                            return messageItemBeanV2s;
                         }
                     }).observeOn(AndroidSchedulers.mainThread()).subscribe(msgSubscriber);
 
@@ -431,9 +429,11 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                         message.setConversation(conversation);
 
                     }else {
+                        //结束掉内循环，进行下一个外循环
                         break;
                     }
                     originList.add(0,message);
+                    // //结束掉内循环，进行下一个外循环
                     break;
                 }
             }
@@ -598,8 +598,8 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                     }
 
 
-                    //重组会话
                     List<MessageItemBeanV2> composeList = new ArrayList<>();
+                    //则重组会话
                     if(notExitInViewList.size() > 0){
                         for (EMMessage message:
                                 notExitInViewList) {
@@ -707,10 +707,12 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                             }
                         }*/
 
-                        // 加载到第一条
-                        mRootView.getListDatas().addAll(topConversationSize, data);
-                        //根据时间再次排序
-                        Collections.sort(mRootView.getListDatas(), new EmTimeSortClass());
+                        //如果本地没有消息的会话，
+                        mRootView.getListDatas().addAll(data);
+                        //根据时间和置顶再次排序
+                        Collections.sort(mRootView.getListDatas(), new MessageTimeAndStickSort());
+
+
                         mRootView.refreshData();
                         // 小红点是否要显示
                         checkBottomMessageTip();

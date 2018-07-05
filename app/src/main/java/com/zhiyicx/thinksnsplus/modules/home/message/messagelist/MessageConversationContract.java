@@ -62,11 +62,10 @@ public interface MessageConversationContract {
 
         /**
          * 上传置顶群/单聊ID
-         * @param stick_id
+         * @param message
          * @param author
-         * @param isStick  是否置顶
          */
-        void setSticks(String stick_id, String author,int isStick);
+        void setSticks(MessageItemBeanV2 message, String author);
 
         /**
          * 刷新是否显示底部红点

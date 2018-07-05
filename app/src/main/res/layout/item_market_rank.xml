@@ -56,14 +56,10 @@
 
         <TextView
             android:id="@+id/tv_chg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp10"
-            android:paddingRight="@dimen/dp10"
-            android:paddingTop="@dimen/dp5"
-            android:paddingBottom="@dimen/dp5"
+            android:layout_width="@dimen/dp60"
+            android:layout_height="@dimen/dp20"
             android:gravity="center"
-            android:text="- 0%"
+            android:text="-00.00%"
             android:layout_gravity="center"
             android:textSize="@dimen/sp10"
             android:textColor="@color/white"
