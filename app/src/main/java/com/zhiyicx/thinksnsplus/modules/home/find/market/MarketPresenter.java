@@ -4,6 +4,7 @@ import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.data.source.local.CurrencyBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.MarketRepository;
 
 import java.util.List;
@@ -30,10 +31,10 @@ public class MarketPresenter extends AppBasePresenter<MarketContract.MarketView>
     @Override
     public void getMarketCurrencyList() {
         addSubscrebe(mMarketRepository.getMarketCurrencyList()
-                .subscribe(new BaseSubscribeForV2<BaseJsonV2<List<String>>>() {
+                .subscribe(new BaseSubscribeForV2<List<CurrencyBean>>() {
                     @Override
-                    protected void onSuccess(BaseJsonV2<List<String>> data) {
-                        mRootView.getCurrencyListSuccess(data.getData());
+                    protected void onSuccess(List<CurrencyBean> data) {
+                        mRootView.getCurrencyListSuccess(data);
                     }
 
                     @Override

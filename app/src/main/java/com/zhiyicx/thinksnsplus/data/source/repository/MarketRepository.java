@@ -1,6 +1,7 @@
 package com.zhiyicx.thinksnsplus.data.source.repository;
 
 import com.zhiyicx.common.base.BaseJsonV2;
+import com.zhiyicx.thinksnsplus.data.source.local.CurrencyBean;
 import com.zhiyicx.thinksnsplus.data.source.local.CurrencyRankBean;
 import com.zhiyicx.thinksnsplus.data.source.local.MarketCurrencyBean;
 import com.zhiyicx.thinksnsplus.data.source.remote.MarketClient;
@@ -32,8 +33,8 @@ public class MarketRepository implements IMarketRepository{
     }
 
     @Override
-    public Observable<BaseJsonV2<List<String>>> getMarketCurrencyList() {
-        return mMarketClient.getMarketCurrencyList()
+    public Observable<List<CurrencyBean>> getMarketCurrencyList() {
+        return mMarketClient.getMarketCurrencyList("http://api.jinse.com/v4/market/currencyList?version=3.2.0&source=android")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -46,8 +47,10 @@ public class MarketRepository implements IMarketRepository{
     }
 
     @Override
-    public Observable<BaseJsonV2<List<MarketCurrencyBean>>> getMarketCurrencyDetails(String currency) {
-        return mMarketClient.getMarketCurrencyDetails(currency)
+    public Observable<List<MarketCurrencyBean>> getMarketCurrencyDetails(String currency,String type) {
+        return mMarketClient.getMarketCurrencyDetails(
+                String.format("http://api.jinse.com/v3/market/list?currency_type=%s&type=%s&currency=CNY&version=3.2.0&source=android"
+                        ,currency,type))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

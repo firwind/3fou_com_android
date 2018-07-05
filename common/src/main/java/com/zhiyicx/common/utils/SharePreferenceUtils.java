@@ -3,6 +3,14 @@ package com.zhiyicx.common.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Describe SharePreference 工具类
  * @Author zl
@@ -43,6 +51,68 @@ public class SharePreferenceUtils {
             mSharedPreferences = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
         }
         return mSharedPreferences.getString(key, null);
+    }
+
+    /**
+     * 存储list
+     * @param context
+     * @param key
+     * @param list
+     * @param <T>
+     */
+    public static <T> void saveList(Context context,String key, List<T> list) {
+        if (null == list || list.size() <= 0)
+            return;
+        if (mSharedPreferences == null) {
+            mSharedPreferences = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        }
+        //转换成json数据，再保存
+        String strJson = new Gson().toJson(list);
+        mSharedPreferences.edit().putString(key, strJson).commit();
+    }
+
+    /**
+     * 获取List
+     * @param key
+     * @return
+     */
+    public static <T> List<T> getList(Context context, String key,Class<T> clazz) {
+        if (mSharedPreferences == null) {
+            mSharedPreferences = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        }
+
+        List<T> list = new ArrayList<>();
+        String strJson = mSharedPreferences.getString(key, null);
+        if (null == strJson) {
+            return list;
+        }
+        list = new Gson().fromJson(strJson, new ParameterizedListTypeImpl(clazz));
+        return list;
+
+    }
+
+    //将List参数序列化
+    static class ParameterizedListTypeImpl implements ParameterizedType {
+        Class clazz;
+
+        public ParameterizedListTypeImpl(Class clz) {
+            clazz = clz;
+        }
+
+        @Override
+        public Type[] getActualTypeArguments() {
+            return new Type[]{clazz};
+        }
+
+        @Override
+        public Type getRawType() {
+            return List.class;
+        }
+
+        @Override
+        public Type getOwnerType() {
+            return null;
+        }
     }
 
     /**

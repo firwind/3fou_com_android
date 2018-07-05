@@ -9,6 +9,7 @@ import com.zhiyicx.common.mvp.BasePresenter;
 import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.StockCertificateBean;
+import com.zhiyicx.thinksnsplus.data.source.local.CurrencyBean;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public interface MarketContract {
 
     interface MarketView extends IBaseView<MarketPresenter>{
-        void getCurrencyListSuccess(List<String> list);
+        void getCurrencyListSuccess(List<CurrencyBean> list);
     }
 
     interface MarketPresenter extends IBaseTouristPresenter{
@@ -32,7 +33,7 @@ public interface MarketContract {
 
     interface MarketListView extends ITSListView<BaseListBean,MarektListPresenter> {
         boolean isRankMarket();
-        String getCurrency();
+        CurrencyBean getCurrency();
     }
 
     interface MarektListPresenter extends ITSListPresenter<BaseListBean>{

@@ -200,8 +200,6 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
                             }
                         }).build();
             }
-            /*int topOff = getResources().getDimensionPixelOffset(R.dimen.toolbar_with_tab_height);
-            mRightTopMenu.showAtLocation(mFlContent, DensityUtil.dip2px(mActivity,15),topOff);*/
             mRightTopMenu.showAsDropDown(mTsvToolbar.getRightTextView(),DensityUtil.dip2px(mActivity,15),0);
         });
         mBadgePagerTitleViews = new ArrayList<>();

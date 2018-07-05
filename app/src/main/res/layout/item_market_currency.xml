@@ -5,13 +5,13 @@
     android:gravity="center_vertical">
 
     <RelativeLayout
-        android:paddingLeft="20dp"
-        android:layout_weight="1"
+        android:paddingLeft="@dimen/dp16"
+        android:layout_weight="1.5"
         android:layout_width="0dp"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tv_btc"
+            android:id="@+id/tv_market"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BTC"
@@ -20,62 +20,74 @@
             android:textColor="@color/text_color_black"/>
 
         <TextView
+            android:id="@+id/tv_unit"
             android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@id/tv_btc"
+            android:layout_toRightOf="@id/tv_market"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="usdt"
-            android:textSize="@dimen/sp12"/>
+            android:textSize="@dimen/sp16"/>
 
         <TextView
+            android:id="@+id/tv_vol"
             android:layout_marginTop="6dp"
-            android:layout_below="@id/tv_btc"
+            android:layout_below="@id/tv_market"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="量 539.2"
+            android:text="量 0万"
             android:textSize="@dimen/sp12"/>
 
     </RelativeLayout>
 
     <LinearLayout
-        android:paddingLeft="20dp"
+        android:paddingRight="@dimen/dp16"
         android:layout_width="0dp"
         android:layout_weight="1"
+        android:gravity="center_vertical|right"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_last_cny"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$6385.00"
+            android:text="¥0"
             android:textSize="@dimen/sp16"
             android:textColor="@color/market_red"/>
 
         <TextView
+            android:id="@+id/tv_last_usd"
             android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp12"
-            android:text="¥40974.00" />
+            android:text="$0" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:paddingLeft="20dp"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="@dimen/dp32"
-            android:layout_height="@dimen/dp16"
+            android:id="@+id/tv_degree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
+            android:paddingTop="@dimen/dp5"
+            android:paddingBottom="@dimen/dp5"
             android:textSize="@dimen/sp10"
             android:text="-5.01%"
-            android:background="@drawable/shape_radius_2dp_bg_red"/>
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:background="@drawable/selector_market_up_or_down"/>
 
         <ImageView
             android:padding="6dp"
+            android:layout_marginLeft="@dimen/dp10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_stock_certificate"/>

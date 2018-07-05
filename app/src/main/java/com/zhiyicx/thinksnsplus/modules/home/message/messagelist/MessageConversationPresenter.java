@@ -709,6 +709,8 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
                         // 加载到第一条
                         mRootView.getListDatas().addAll(topConversationSize, data);
+                        //根据时间再次排序
+                        Collections.sort(mRootView.getListDatas(), new EmTimeSortClass());
                         mRootView.refreshData();
                         // 小红点是否要显示
                         checkBottomMessageTip();

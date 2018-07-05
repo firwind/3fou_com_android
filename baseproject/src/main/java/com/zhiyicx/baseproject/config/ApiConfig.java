@@ -1121,15 +1121,19 @@ public class ApiConfig {
     /*资讯 end*/
 
 
+    public static final String APP_MARKET_DOMAIN = "http://api.jinse.com/";
+    ///v4/market/currencyList?version=3.2.0&source=android  获取币种列表
+  ///v3/market/list?currency_type=btc&type=1&currency=CNY&version=3.2.0&source=android  获取单个coin在交易所的列表
+
   /**
    * 行情
    */
   //获取币种列表
-  public static final String APP_PATH_MARKET_CURRENCY_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency";
+  public static final String APP_PATH_MARKET_CURRENCY_LIST = APP_MARKET_DOMAIN + "/v4/market/currencyList?version=3.2.0&source=android";
   //币种排行
   public static final String APP_PATH_MARKET_CURRENCY_RANK_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency/ranks";
-  //币种详情
-  public static final String APP_PATH_MARKET_CURRENCY_DETAILS = "api/" + API_VERSION_2 + "/jinsecaijing/symbols";
+  //单个币种在各个交易
+  public static final String APP_PATH_MARKET_CURRENCY_DETAILS = APP_MARKET_DOMAIN + "/v3/market/list?currency_type=btc&type=1&currency=CNY&version=3.2.0&source=android";
 
 
 

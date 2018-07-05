@@ -43,17 +43,14 @@ public class MarketListPresenter extends AppBasePresenter<MarketContract.MarketL
             mSubscription.unsubscribe();
 
         Observable observable = mRootView.isRankMarket()?mMarketRepository.getMarketCurrencyRankList():
-                mMarketRepository.getMarketCurrencyDetails(mRootView.getCurrency());
+                mMarketRepository.getMarketCurrencyDetails(mRootView.getCurrency().currency_type,
+                        String.valueOf(mRootView.getCurrency().type));
 
         mSubscription = observable.subscribe(
-                new BaseSubscribeForV2<Object>() {
+                new BaseSubscribeForV2<List>() {
                     @Override
-                    protected void onSuccess(Object data) {
-                        if(data instanceof BaseJsonV2){
-                            mRootView.onNetResponseSuccess(((BaseJsonV2<List<BaseListBean>>) data).getData(), isLoadMore);
-                        }else if(data instanceof List){
-                            mRootView.onNetResponseSuccess((List) data, isLoadMore);
-                        }
+                    protected void onSuccess(List data) {
+                        mRootView.onNetResponseSuccess(data, isLoadMore);
                     }
 
                     @Override

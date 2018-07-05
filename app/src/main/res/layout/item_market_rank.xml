@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp80"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:layout_weight="1.5"
+        android:layout_width="0dp"
+        android:paddingLeft="@dimen/dp16"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/tv_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp14"
+            tools:text="1"/>
+
+        <ImageView
+            android:id="@+id/iv_currency_icon"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_width="@dimen/dp32"
+            android:layout_height="@dimen/dp32"
+            android:scaleType="fitCenter"/>
+
+        <TextView
+            android:id="@+id/tv_currency_name"
+            android:layout_marginLeft="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BTC"
+            android:textSize="@dimen/sp16"
+            android:textColor="@color/text_color_black"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:paddingRight="@dimen/dp16"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:textSize="@dimen/sp16"
+        android:gravity="center_vertical|right"
+        android:textColor="@color/text_color_black"
+        android:layout_height="wrap_content"
+        android:text="¥0.0"/>
+
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_chg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
+            android:paddingTop="@dimen/dp5"
+            android:paddingBottom="@dimen/dp5"
+            android:gravity="center"
+            android:text="- 0%"
+            android:layout_gravity="center"
+            android:textSize="@dimen/sp10"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_market_up_or_down"/>
+
+    </FrameLayout>
+
+</LinearLayout>
