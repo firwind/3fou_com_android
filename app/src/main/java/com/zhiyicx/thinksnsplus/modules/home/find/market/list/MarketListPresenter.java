@@ -43,7 +43,7 @@ public class MarketListPresenter extends AppBasePresenter<MarketContract.MarketL
             mSubscription.unsubscribe();
 
         Observable observable = mRootView.isRankMarket()?mMarketRepository.getMarketCurrencyRankList():
-                mMarketRepository.getMarketCurrencyDetails(mRootView.getCurrency().currency_type,
+                mMarketRepository.getMarketList(mRootView.getCurrency().currency_type,
                         String.valueOf(mRootView.getCurrency().type));
 
         mSubscription = observable.subscribe(

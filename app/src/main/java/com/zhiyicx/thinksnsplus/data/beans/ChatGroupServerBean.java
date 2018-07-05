@@ -73,7 +73,7 @@ public class ChatGroupServerBean extends BaseListBean implements Parcelable {
     private String created_at;
     private Object updated_at;
     private Object deleted_at;
-    private int grouplevel;
+    private int group_level;
 
     public int getCluster_id() {
         return cluster_id;
@@ -236,11 +236,11 @@ public class ChatGroupServerBean extends BaseListBean implements Parcelable {
     }
 
     public int getGrouplevel() {
-        return grouplevel;
+        return group_level;
     }
 
     public void setGrouplevel(int grouplevel) {
-        this.grouplevel = grouplevel;
+        this.group_level = grouplevel;
     }
 
     @Override
@@ -268,7 +268,7 @@ public class ChatGroupServerBean extends BaseListBean implements Parcelable {
         dest.writeInt(this.is_mute);
         dest.writeString(this.created_at);
 
-        dest.writeInt(this.grouplevel);
+        dest.writeInt(this.group_level);
     }
 
     public ChatGroupServerBean() {
@@ -296,7 +296,7 @@ public class ChatGroupServerBean extends BaseListBean implements Parcelable {
         this.created_at = in.readString();
         this.updated_at = in.readParcelable(Object.class.getClassLoader());
         this.deleted_at = in.readParcelable(Object.class.getClassLoader());
-        this.grouplevel = in.readInt();
+        this.group_level = in.readInt();
     }
 
     public static final Creator<ChatGroupServerBean> CREATOR = new Creator<ChatGroupServerBean>() {

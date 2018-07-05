@@ -5,6 +5,7 @@ import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.source.local.CurrencyBean;
 import com.zhiyicx.thinksnsplus.data.source.local.CurrencyRankBean;
 import com.zhiyicx.thinksnsplus.data.source.local.MarketCurrencyBean;
+import com.zhiyicx.thinksnsplus.utils.kline.KLineEntity;
 
 import java.util.List;
 
@@ -31,5 +32,10 @@ public interface MarketClient {
 
     @GET
     Observable<List<MarketCurrencyBean>> getMarketCurrencyDetails(@Url String url);
+
+    @GET(ApiConfig.APP_PATH_GET_CURRENCY_KLINE_DATA)
+    Observable<List<KLineEntity>> getCurrencyKLineData(@Query("ticker") String ticker,@Query("period") String period);
+
+
 
 }

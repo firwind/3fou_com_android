@@ -57,7 +57,7 @@
         <TextView
             android:id="@+id/tv_chg"
             android:layout_width="@dimen/dp60"
-            android:layout_height="@dimen/dp20"
+            android:layout_height="@dimen/dp25"
             android:gravity="center"
             android:text="-00.00%"
             android:layout_gravity="center"

@@ -1883,7 +1883,7 @@ public class JavaTest {
 
     @Test
     public void testSplit() {
-        String str1 = "我的中国梦，我的天空，我的人生";
+        /*String str1 = "我的中国梦，我的天空，我的人生";
         String str2 = "中国梦，我的天空，我的人生";
         String str3 = "中国梦，我的天空，我的";
         String str4 = "我的中国梦，我的天空，我的人生";
@@ -1891,9 +1891,10 @@ public class JavaTest {
         System.out.println("str1 = " + str1.split("我的").length);
         System.out.println("str2 = " + str2.split("我的").length);
         System.out.println("str3 = " + str3.split("我的").length);
-        System.out.println("str4 = " + str4.split("我的").length);
+        System.out.println("str4 = " + str4.split("我的").length);*/
 
-
+        String str = "222223334444";
+        System.out.print(str.indexOf("333"));
 
 
     }

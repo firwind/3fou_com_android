@@ -74,7 +74,7 @@
         <TextView
             android:id="@+id/tv_degree"
             android:layout_width="@dimen/dp60"
-            android:layout_height="@dimen/dp20"
+            android:layout_height="@dimen/dp25"
             android:textSize="@dimen/sp10"
             android:text="-5.01%"
             android:textColor="@color/white"

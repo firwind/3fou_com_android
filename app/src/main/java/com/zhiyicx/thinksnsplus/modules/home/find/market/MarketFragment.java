@@ -137,7 +137,7 @@ public class MarketFragment extends TSFragment<MarketContract.MarketPresenter> i
                 if(position > 0){
                     //position-1----前面有一个排行
                     ((MarketListFragment)mFragments.get(1)).setCurrencyType(mCurrencyList.get(position-1));
-                    ((MarketListFragment)mFragments.get(1)).startRefrsh();
+                    ((MarketListFragment)mFragments.get(1)).onNewReqRefresh();
                 }
             }
 

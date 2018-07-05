@@ -62,7 +62,7 @@ public interface EasemobClient {
     @PATCH(ApiConfig.APP_PATH_CREATE_CHAT_GROUP)
     Observable<ChatGroupBean> updateGroup(@Query("im_group_id") String im_group_id, @Query("groupname") String groupName, @Query("desc") String groupIntro, @Query("public") int isPublic,
                                           @Query("maxusers") int maxUser, @Query("members_only") int isMemberOnly, @Query("allowinvites") int isAllowInvites,
-                                          @Query("group_face") String groupFace, @Query("new_owner_user") String newOwner, @Query("grouplevel") int groupLevel);
+                                          @Query("group_face") String groupFace, @Query("new_owner_user") String newOwner, @Query("group_level") int groupLevel);
 
     /**
      * 批量获取群信息
@@ -240,7 +240,7 @@ public interface EasemobClient {
      */
     @POST(ApiConfig.APP_PATH_GET_GROUP_ADD_MEMBER)
     Observable<Object> addGroupMember(@Query("im_group_id") String id, @Query("members") String member
-            ,@Query("grouplevel")int grouplevel);
+            ,@Query("group_level")int grouplevel);
 
     /**
      * 添加群组成员
@@ -250,7 +250,7 @@ public interface EasemobClient {
      */
     @DELETE(ApiConfig.APP_PATH_GET_GROUP_ADD_MEMBER)
     Observable<Object> removeGroupMember(@Query("im_group_id") String id,
-                                         @Query("members") String member,@Query("grouplevel")int grouplevel);
+                                         @Query("members") String member,@Query("group_level")int grouplevel);
 
 
     /**
@@ -299,7 +299,7 @@ public interface EasemobClient {
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_SIMPLE_GROUP_INFO)
-    Observable<List<ChatGroupBean>> getSimpleGroupInfo(@Query("im_group_id")String im_group_id,@Query("grouplevel")int group_level);
+    Observable<List<ChatGroupBean>> getSimpleGroupInfo(@Query("im_group_id")String im_group_id,@Query("group_level")int group_level);
 
     /**
      * 新的获取群组信息

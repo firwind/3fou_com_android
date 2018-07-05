@@ -17,5 +17,6 @@ public interface IntentKey {
     String CONVERSATION_ID = "conversation_id";//会话id
     String CONVERSATION_TYPE = "conversation_type";//会话type
     String CURRENCY_TYPE = "currency_type";//行情type
+    String CURRENCY_IN_MARKET = "currency_in_market";//在交易所的货币
 
 }

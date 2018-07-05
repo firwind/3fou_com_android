@@ -1128,13 +1128,10 @@ public class ApiConfig {
   /**
    * 行情
    */
-  //获取币种列表
-  public static final String APP_PATH_MARKET_CURRENCY_LIST = APP_MARKET_DOMAIN + "/v4/market/currencyList?version=3.2.0&source=android";
-  //币种排行
+   //币种排行
   public static final String APP_PATH_MARKET_CURRENCY_RANK_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency/ranks";
-  //单个币种在各个交易
-  public static final String APP_PATH_MARKET_CURRENCY_DETAILS = APP_MARKET_DOMAIN + "/v3/market/list?currency_type=btc&type=1&currency=CNY&version=3.2.0&source=android";
-
+  //k线图数据
+  public static final String APP_PATH_GET_CURRENCY_KLINE_DATA = "api/"+API_VERSION_2+"/jinsecaijing/getklines";
 
 
 }

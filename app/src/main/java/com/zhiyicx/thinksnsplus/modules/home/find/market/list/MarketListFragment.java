@@ -16,8 +16,10 @@ import com.zhiyicx.thinksnsplus.data.source.local.CurrencyRankBean;
 import com.zhiyicx.thinksnsplus.data.source.local.MarketCurrencyBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.home.find.market.MarketContract;
+import com.zhiyicx.thinksnsplus.modules.home.find.market.details.CurrencyKLineActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import javax.inject.Inject;
@@ -83,48 +85,20 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        CommonAdapter mAdapter = null;
-        if(isRankMarket()){
-
-            mAdapter = new CommonAdapter<BaseListBean>(mActivity,
-                    R.layout.item_market_rank, mListDatas) {
+        CommonAdapter mAdapter = isRankMarket()?getCurrencyRankListAdapter():getMarketCurrencyAdapter();
+        if(!isRankMarket()){
+            mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                 @Override
-                protected void convert(ViewHolder holder, BaseListBean baseListBean, int position) {
-                    CurrencyRankBean data = (CurrencyRankBean) baseListBean;
-                    holder.setText(R.id.tv_rank,String.valueOf(position+1));
-                    ImageUtils.loadImageDefault(holder.getImageViwe(R.id.iv_currency_icon),data.iconUrl);
-                    holder.setText(R.id.tv_currency_name,data.currency);
-                    holder.setText(R.id.tv_price,"¥"+data.price);
-                    holder.setText(R.id.tv_chg,(data.change>0?"+":"")+data.change+"%");
-                    holder.getView(R.id.tv_chg).setSelected(data.change>0);
-
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    //跳转k线图
+                    CurrencyKLineActivity.startActivity(mActivity, (MarketCurrencyBean) mListDatas.get(position));
                 }
-            };
-        }else {
-            mAdapter = new CommonAdapter<BaseListBean>(mActivity,
-                    R.layout.item_market_currency, mListDatas) {
+
                 @Override
-                protected void convert(ViewHolder holder, BaseListBean baseListBean, int position) {
-                    MarketCurrencyBean data = (MarketCurrencyBean) baseListBean;
-                    holder.setText(R.id.tv_market,data.exchange_name);
-                    holder.setText(R.id.tv_unit,data.unit);
-                    holder.setText(R.id.tv_vol,"量："+data.vol+"万");
-                    holder.setText(R.id.tv_last_cny,"¥"+data.last_cny);
-                    holder.setText(R.id.tv_last_usd,"$"+data.last_usd);
-                    double degree = 0;
-                    try {
-                        degree = Double.parseDouble(data.degree);
-                    }catch (Exception e){
-
-                    }
-                    holder.setText(R.id.tv_degree,(degree>0?"+":"")+data.degree+"%" );
-
-                    holder.getTextView(R.id.tv_last_cny).setTextColor(getResources()
-                            .getColor(degree>0?R.color.market_red:R.color.market_green));
-                    holder.getView(R.id.tv_degree).setSelected(degree>0);
-
+                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    return false;
                 }
-            };
+            });
         }
         return mAdapter;
     }
@@ -162,6 +136,69 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
      */
     public void setCurrencyType(CurrencyBean currency){
         getArguments().putParcelable(IntentKey.CURRENCY_TYPE,currency);
+    }
+
+    /**
+     * 重新请求刷新数据
+     */
+    public void onNewReqRefresh(){
+        if(mRefreshlayout.isRefreshing()){
+            onRefresh(null);
+        }else {
+            startRefrsh();
+        }
+    }
+
+    /**
+     * 获取marketAdapter
+     * @return
+     */
+    private CommonAdapter getMarketCurrencyAdapter() {
+        return new CommonAdapter<BaseListBean>(mActivity,
+                R.layout.item_market_currency, mListDatas) {
+            @Override
+            protected void convert(ViewHolder holder, BaseListBean baseListBean, int position) {
+                MarketCurrencyBean data = (MarketCurrencyBean) baseListBean;
+                holder.setText(R.id.tv_market, data.exchange_name);
+                holder.setText(R.id.tv_unit, data.unit);
+                holder.setText(R.id.tv_vol, "量：" + data.vol + "万");
+                holder.setText(R.id.tv_last_cny, "¥" + data.last_cny);
+                holder.setText(R.id.tv_last_usd, "$" + data.last_usd);
+                double degree = 0;
+                try {
+                    degree = Double.parseDouble(data.degree);
+                } catch (Exception e) {
+
+                }
+                holder.setText(R.id.tv_degree, (degree > 0 ? "+" : "") + data.degree + "%");
+
+                holder.getTextView(R.id.tv_last_cny).setTextColor(getResources()
+                        .getColor(degree > 0 ? R.color.market_red : R.color.market_green));
+                holder.getView(R.id.tv_degree).setSelected(degree > 0);
+
+            }
+        };
+    }
+
+    /**
+     * 获取排行adapter
+     * @return
+     */
+    private CommonAdapter getCurrencyRankListAdapter(){
+        return new CommonAdapter<BaseListBean>(mActivity,
+                R.layout.item_market_rank, mListDatas) {
+            @Override
+            protected void convert(ViewHolder holder, BaseListBean baseListBean, int position) {
+                CurrencyRankBean data = (CurrencyRankBean) baseListBean;
+                holder.setText(R.id.tv_rank,String.valueOf(position+1));
+                ImageUtils.loadImageDefault(holder.getImageViwe(R.id.iv_currency_icon),data.iconUrl);
+                holder.setText(R.id.tv_currency_name,data.currency);
+                holder.setText(R.id.tv_price,"¥"+data.price);
+                holder.setText(R.id.tv_chg,(data.change>0?"+":"")+data.change+"%");
+                holder.getView(R.id.tv_chg).setSelected(data.change>0);
+
+            }
+        };
     }
 
 }

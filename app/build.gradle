@@ -252,4 +252,5 @@ dependencies {
     //    compile dataDependences.bigGlideImageLoader 内部s使用了glide4.5
     //    compile project(':GlideImageLoader')
     implementation project(':righttopmenu')
+    implementation project(':kchartlib')
 }
