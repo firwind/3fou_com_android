@@ -78,35 +78,40 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
         Observable.just(chatId)
                 .subscribeOn(Schedulers.io())
                 .flatMap(id -> {
-                        if (isGroupOwner()) {
-                            // 解散群组
-                            return mRepository.deleteGroup(id)
-                                    .map(new Func1<String, String>() {
-                                        @Override
-                                        public String call(String s) {
-                                            return id;
-                                        }
-                                    });
-                        } else {
-                            if (mRootView.getIsAddGroup()) {
-                                // 退群
-                                try {
+                    if (isGroupOwner()) {
+                        // 解散群组
+                        return mRepository.deleteGroup(id)
+                                .map(new Func1<String, String>() {
+                                    @Override
+                                    public String call(String s) {
+                                        return id;
+                                    }
+                                });
+                    } else {
+                        if (mRootView.getIsAddGroup()) {
+                            // 退群
+                                /*try {
                                     EMClient.getInstance().groupManager().leaveGroup(id);
                                 } catch (HyphenateException e) {
                                     e.printStackTrace();
-                                }
-                                //EMClient.getInstance().chatManager().deleteConversation(id, true);
-                            }else {
-                                // 加群
-                                try {
+                                }*/
+                            //EMClient.getInstance().chatManager().deleteConversation(id, true);
+                            return mRepository.removeGroupMember(mRootView.getGroupBean().getId(),
+                                    id.toString(), mRootView.getGroupBean().getGroup_level()).flatMap(o -> Observable.just(id));
+                        } else {
+                            // 加群
+                                /*try {
                                     EMClient.getInstance().groupManager().joinGroup(id);//需异步处理
                                 } catch (HyphenateException e) {
                                     e.printStackTrace();
-                                }
-                            }
-
+                                }*/
+                            return mRepository.addGroupMember(mRootView.getGroupBean().getId(), id.toString()
+                                    , mRootView.getGroupBean().getGroup_level())
+                                    .flatMap(o -> Observable.just(id));
                         }
-                        return Observable.just(id);
+
+                    }
+                    //return Observable.just(id);
 
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -117,7 +122,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                             EventBus.getDefault().post(data, EVENT_IM_DELETE_QUIT);
                             mRootView.closeCurrentActivity();
                             EMClient.getInstance().chatManager().deleteConversation(data, true);
-                        }else {
+                        } else {
                             mRootView.goChatActivity();
                         }
                     }
@@ -249,7 +254,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
         // 这里不是修改群主，所以newOwner直接传空
         Subscription subscription = mRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription(), 1, 200,
                 chatGroupBean.isMembersonly(),
-                0, chatGroupBean.getGroup_face(), isEditGroupFace, "",chatGroupBean.getGroup_level())
+                0, chatGroupBean.getGroup_face(), isEditGroupFace, "", chatGroupBean.getGroup_level())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("修改中..."))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {

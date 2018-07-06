@@ -194,34 +194,37 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
         }
         mGroupExistSubscription = Observable.just(groupBean.getId())
                 .subscribeOn(Schedulers.io())
-                .flatMap(s -> {
-                    EMGroup group = null;
-                    try {
-                        group = EMClient.getInstance().groupManager().getGroupFromServer(s);
-                    } catch (HyphenateException e) {
-                        e.printStackTrace();
-                    }
-                    if (group!=null){
-                        return mBaseMessageRepository.getChickIsAddGroup(groupBean.getId())
-                                .map(new Func1<ChatGroupBean, String>() {
-                                    @Override
-                                    public String call(ChatGroupBean s) {
-                                        if (s.getIs_in() == 1){
-                                            return "";
-                                        }else {
-                                            return "";/*mChatInfoRepository.addGroupMember(groupBean.getId(), String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()),groupBean.getGroup_level())
-                                                    .map(new Func1<Object, String>() {
-                                                        @Override
-                                                        public String call(Object o) {
-                                                            return "";
-                                                        }
-                                                    });*/
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s) {
+                        EMGroup group = null;
+                        try {
+                            group = EMClient.getInstance().groupManager().getGroupFromServer(s);
+                        } catch (HyphenateException e) {
+                            e.printStackTrace();
+                        }
+                        if (group!=null){
+                            return mBaseMessageRepository.getChickIsAddGroup(groupBean.getId())
+                                    .flatMap(new Func1<ChatGroupBean, Observable<String>>() {
+                                        @Override
+                                        public Observable<String> call(ChatGroupBean chatGroupBean) {
+                                            if(chatGroupBean.getIs_in() == 1){
+                                                return Observable.just(groupBean.getId());
+                                            }else {
+                                                return mChatInfoRepository.addGroupMember(groupBean.getId(),
+                                                        String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()),groupBean.getGroup_level())
+                                                        .flatMap(new Func1<Object, Observable<String>>() {
+                                                            @Override
+                                                            public Observable<String> call(Object o) {
+                                                                return Observable.just(groupBean.getId());
+                                                            }
+                                                        });
+                                            }
                                         }
-
-                                    }
-                                });
-                    }else {
-                        return Observable.just(null);
+                                    });
+                        }else {
+                            return Observable.just(groupBean.getId());
+                        }
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
