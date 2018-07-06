@@ -44,7 +44,7 @@ import butterknife.BindView;
  * @Description
  */
 public class MessageGroupListFragment extends TSListFragment<MessageGroupContract.Presenter, ChatGroupBean>
-        implements MessageGroupContract.View ,GroupListAdapter.OnItemClickListener{
+        implements MessageGroupContract.View, GroupListAdapter.OnItemClickListener {
 
     @BindView(R.id.searchView)
     TSSearchView mSearchView;
@@ -170,28 +170,33 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     @Override
     protected RecyclerView.Adapter getAdapter() {
         if (!isOnlyOfficialGroup()) {
-            GroupListAdapter adapter = new GroupListAdapter(getContext(), mListDatas);
-            adapter.setListener(this);
-//            adapter.setOnScrollListener((pos)-> adapter.notifyDataSetChanged());
-            adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            GroupAdapter adapter = new GroupAdapter(getContext(), mListDatas);
+//            adapter.setListener(this);
+            adapter.setOnScrollListener(new GroupAdapter.OnScrollListener() {
                 @Override
-                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-//                    ChatGroupBean bean =mListDatas.get(position);
+                public void scrollTo(int pos) {
+//                    adapter.notifyDataSetChanged();
+                }
+            });
+//            adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+//
+//                    ChatGroupBean bean =adapter.getDatas().get(position);
 //                    if (bean.isExpand()){
 //                        bean.setExpand(false);
 //                    }else {
-
 //                        bean.setExpand(true);
 //                    }
 //                    adapter.dataChange(adapter.getDatas());
 //                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                    return false;
-                }
-            });
+//                }
+//
+//                @Override
+//                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+//                    return false;
+//                }
+//            });
             return adapter;
         } else {
             CommonAdapter adapter = new CommonAdapter<ChatGroupBean>(getActivity(), R.layout.item_group_list, mListDatas) {
@@ -230,15 +235,10 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     }
 
     @Override
-    public void checkGroupExist(String id, EMGroup data) {
-        if (data != null) {
-            EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
-            ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
+    public void checkGroupExist(String id) {
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
+        ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
 //            mActivity.finish();
-        } else {
-            ToastUtils.showLongToast("该群不存在");
-        }
-
     }
 
     @Override

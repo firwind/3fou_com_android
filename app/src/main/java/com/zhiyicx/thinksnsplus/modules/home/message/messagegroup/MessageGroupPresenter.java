@@ -232,7 +232,7 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                     @SuppressLint("LogNotUsed")
                     @Override
                     protected void onSuccess(String data) {
-
+                        mRootView.checkGroupExist(data);
                     }
                     @Override
                     protected void onFailure(String message, int code) {
