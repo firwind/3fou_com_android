@@ -176,14 +176,15 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
             adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                    ChatGroupBean bean =mListDatas.get(position);
-                    if (bean.isExpand()){
-                        bean.setExpand(false);
-                    }else {
-                        bean.setExpand(true);
-                    }
-                    adapter.dataChange(adapter.getDatas());
-                    adapter.notifyDataSetChanged();
+//                    ChatGroupBean bean =mListDatas.get(position);
+//                    if (bean.isExpand()){
+//                        bean.setExpand(false);
+//                    }else {
+
+//                        bean.setExpand(true);
+//                    }
+//                    adapter.dataChange(adapter.getDatas());
+//                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -233,7 +234,6 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         if (data != null) {
             EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
             ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
-
 //            mActivity.finish();
         } else {
             ToastUtils.showLongToast("该群不存在");
