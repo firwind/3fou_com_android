@@ -141,7 +141,7 @@ public abstract class BaseKChartView extends ScrollAndScaleView {
         mBottomPadding = (int)getResources().getDimension(R.dimen.chart_bottom_padding);
 
         mKChartTabView = new KChartTabView(getContext());
-        addView(mKChartTabView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        addView(mKChartTabView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0/*ViewGroup.LayoutParams.WRAP_CONTENT*/));
         mKChartTabView.setOnTabSelectListener(new KChartTabView.TabSelectListener() {
             @Override
             public void onTabSelected(int type) {
@@ -163,7 +163,8 @@ public abstract class BaseKChartView extends ScrollAndScaleView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        this.mWidth = w;
+        int rightPadding = (int)(getResources().getDisplayMetrics().density*56+0.5F);
+        this.mWidth = w-rightPadding;
         initRect(w,h);
         mKChartTabView.setTranslationY(mMainRect.bottom);
         setTranslateXFromScrollX(mScrollX);
@@ -281,13 +282,13 @@ public abstract class BaseKChartView extends ScrollAndScaleView {
         float baseLine = (textHeight - fm.bottom - fm.top) / 2;
         //--------------画上方k线图的值-------------
         if (mMainDraw != null) {
-            canvas.drawText(formatValue(mMainMaxValue), 0, baseLine+mMainRect.top, mTextPaint);
-            canvas.drawText(formatValue(mMainMinValue), 0, mMainRect.bottom-textHeight+baseLine, mTextPaint);
+            canvas.drawText(formatValue(mMainMaxValue), mWidth, baseLine+mMainRect.top, mTextPaint);
+            canvas.drawText(formatValue(mMainMinValue), mWidth, mMainRect.bottom-textHeight+baseLine, mTextPaint);
             float rowValue = (mMainMaxValue - mMainMinValue) / mGridRows;
             float rowSpace = mMainRect.height() / mGridRows;
             for (int i = 1; i < mGridRows; i++) {
                 String text = formatValue(rowValue * (mGridRows - i) + mMainMinValue);
-                canvas.drawText(text, 0, fixTextY(rowSpace * i+mMainRect.top), mTextPaint);
+                canvas.drawText(text, mWidth, fixTextY(rowSpace * i+mMainRect.top), mTextPaint);
             }
         }
         //--------------画下方子图的值-------------
@@ -570,7 +571,7 @@ public abstract class BaseKChartView extends ScrollAndScaleView {
      * 设置子图的绘制方法
      * @param position
      */
-    private void setChildDraw(int position) {
+    protected void setChildDraw(int position) {
         this.mChildDraw = mChildDraws.get(position);
         mChildDrawPosition = position;
         invalidate();

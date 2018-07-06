@@ -36,4 +36,10 @@ public class CurrencyKLineActivity extends TSActivity<CurrencyKLinePresenter, Cu
                 .build()
                 .inject(this);
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        mContanierFragment.onBackPressed();
+    }
 }

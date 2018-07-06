@@ -103,4 +103,10 @@
         <item name="TSRightTopRaduis">0dp</item>
         <item name="TSRightBottomRaduis">@dimen/ts_chat_item_iamge_raduis</item>
     </style>
+
+    <style name="popupwindow_translateY_anim">
+        <item name="android:windowEnterAnimation">@anim/popup_translate_y_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/popup_translate_y_exit_anim</item>
+    </style>
+
 </resources>

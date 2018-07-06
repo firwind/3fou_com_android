@@ -2,47 +2,211 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/dp100"
+    android:orientation="vertical"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <FrameLayout
+        android:id="@+id/fl_currency_data1"
+        android:layout_marginTop="@dimen/dp20"
+        android:paddingLeft="@dimen/dp14"
+        android:paddingRight="@dimen/dp14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_cny"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/sp20"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/tv_chg"
+            android:layout_width="@dimen/dp60"
+            android:layout_height="@dimen/dp25"
+            android:gravity="center"
+            android:text="--"
+            android:layout_gravity="right|center_vertical"
+            android:textSize="@dimen/sp12"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_market_up_or_down"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_currency_data2"
+        android:paddingLeft="@dimen/dp14"
+        android:paddingRight="@dimen/dp14"
+        android:layout_marginTop="@dimen/dp14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_high"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp12"
+            android:text="最高：--"
+            android:textColor="@color/text_color"/>
+
+        <TextView
+            android:id="@+id/tv_low"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp12"
+            android:text="最低：--"
+            android:textColor="@color/text_color"/>
+
+        <TextView
+            android:id="@+id/tv_vol"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp12"
+            android:text="成交量：--"
+            android:textColor="@color/text_color"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp8"
+        android:layout_marginBottom="@dimen/dp16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_kline_m1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:paddingTop="@dimen/dp8"
+            android:paddingBottom="@dimen/dp8"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="1分"
+            android:textColor="@color/selector_kline_color"
+            android:textSize="@dimen/sp12"/>
+
+        <TextView
+            android:id="@+id/tv_kline_m15"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:paddingTop="@dimen/dp8"
+            android:paddingBottom="@dimen/dp8"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="15分"
+            android:textColor="@color/selector_kline_color"
+            android:textSize="@dimen/sp12"/>
+
+        <TextView
+            android:id="@+id/tv_kline_h4"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:paddingTop="@dimen/dp8"
+            android:paddingBottom="@dimen/dp8"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="4小时"
+            android:textColor="@color/selector_kline_color"
+            android:textSize="@dimen/sp12"/>
+
+        <TextView
+            android:id="@+id/tv_kline_day"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:paddingTop="@dimen/dp8"
+            android:paddingBottom="@dimen/dp8"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="日线"
+            android:textColor="@color/selector_kline_color"
+            android:textSize="@dimen/sp12"/>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_more"
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/dp8"
+                android:paddingBottom="@dimen/dp8"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="更多"
+                android:textColor="@color/selector_kline_color"
+                android:textSize="@dimen/sp12"/>
+
+            <ImageView
+                android:id="@+id/iv_more_corner"
+                android:layout_marginBottom="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp6"
+                android:layout_gravity="bottom|right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/selector_corner_sign"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_quota"
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/dp8"
+                android:paddingBottom="@dimen/dp8"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="指标"
+                android:background="@drawable/selector_kline_bg"
+                android:textColor="@color/selector_kline_color"
+                android:textSize="@dimen/sp12"/>
+
+            <ImageView
+                android:id="@+id/iv_quota_corner"
+                android:layout_marginBottom="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp6"
+                android:layout_gravity="bottom|right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/selector_corner_sign"/>
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/iv_reverse"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:paddingTop="@dimen/dp8"
+            android:paddingBottom="@dimen/dp8"
+            android:gravity="center"
+            android:src="@mipmap/icon_reverse"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
 
     <com.github.tifezh.kchartlib.chart.KChartView
         android:id="@+id/kchart_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:kc_text_size="@dimen/chart_text_size"
-        app:kc_text_color="#787878"
-        app:kc_line_width="@dimen/chart_line_width"
-        app:kc_background_color="#FFF"
-        app:kc_selected_line_color="#B1B2B6"
-        app:kc_selected_line_width="1dp"
-        app:kc_grid_line_color="#d0d0d0"
+        app:kc_background_color="@color/white"
+        app:kc_grid_line_color="#D8D8D8"
         app:kc_grid_line_width="0.5dp"
-        app:kc_point_width="6dp"
-        app:kc_macd_width="4dp"
-        app:kc_dif_color="@color/chart_ma5"
-        app:kc_dea_color="@color/chart_ma10"
-        app:kc_macd_color="@color/chart_ma20"
-        app:kc_k_color="@color/chart_ma5"
-        app:kc_d_color="@color/chart_ma10"
-        app:kc_j_color="@color/chart_ma20"
-        app:kc_rsi1_color="@color/chart_ma5"
-        app:kc_rsi2_color="@color/chart_ma10"
-        app:kc_ris3_color="@color/chart_ma20"
-        app:kc_up_color="@color/chart_ma5"
-        app:kc_mb_color="@color/chart_ma10"
-        app:kc_dn_color="@color/chart_ma20"
-        app:kc_ma5_color="@color/chart_ma5"
-        app:kc_ma10_color="@color/chart_ma10"
-        app:kc_ma20_color="@color/chart_ma20"
-        app:kc_candle_line_width="1dp"
-        app:kc_candle_width="4dp"
-        app:kc_selector_background_color="#c8d0d0d0"
-        app:kc_selector_text_size="@dimen/chart_selector_text_size"
-        app:kc_tab_text_color="@drawable/tab_text_color_selector"
-        app:kc_tab_indicator_color="#4473b1"
-        app:kc_tab_background_color="#fff"
-        app:kc_candle_solid="false">
+        app:kc_selector_background_color="@color/light_gray"
+        android:layout_marginBottom="@dimen/dp80">
 
     </com.github.tifezh.kchartlib.chart.KChartView>
 

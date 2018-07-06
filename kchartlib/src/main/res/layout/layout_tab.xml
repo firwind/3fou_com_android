@@ -9,8 +9,7 @@
         android:id="@+id/ll_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:dividerPadding="5dp">
+        android:orientation="horizontal">
 
     </LinearLayout>
 

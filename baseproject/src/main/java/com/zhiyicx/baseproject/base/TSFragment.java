@@ -1016,6 +1016,14 @@ public abstract class TSFragment<P extends IBasePresenter> extends BaseFragment<
     }
 
     /**
+     * 设置右边的字体颜色
+     * @param resId
+     */
+    protected void setRightTextColor(@ColorRes int resId) {
+        mToolbarRight.setTextColor(ContextCompat.getColor(getContext(), resId));
+    }
+
+    /**
      * 设置右侧文字
      *
      * @param rightText 设置右侧文字 ，文字内容

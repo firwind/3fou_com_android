@@ -13,23 +13,44 @@ import java.util.Map;
 
 public class KLineDataHelper {
 
-    private static Map<String,String> mKinePeriod = null;
+    /**
+     * 获取k线周期值
+     * @param period
+     * @return
+     */
+    public static String getkLinePeriod(KLInePeriod period) {
+        String mKLinePeriod = "";
+        switch (period) {
+            case M1:
+                mKLinePeriod = "M1";
+                break;
+            case M5:
+                mKLinePeriod = "M5";
+                break;
+            case M15:
+                mKLinePeriod = "M15";
+                break;
+            case M30:
+                mKLinePeriod = "M30";
+                break;
+            case H1:
+                mKLinePeriod = "H1";
+                break;
+            case H4:
+                mKLinePeriod = "H4";
+                break;
+            case D1:
+                mKLinePeriod = "D1";
+                break;
+            case W1:
+                mKLinePeriod = "W1";
+                break;
+            case MONTH:
+                mKLinePeriod = "MONTH";
+                break;
 
-    public static Map<String, String> getkLinePeriod() {
-        if(null == mKinePeriod){
-            /*K线周期，支持的值：M1/M5/M15/M30/H1/H4/D1/W1/MONTH ,分别对应：1分钟、5分钟、15分钟、30分钟、1小时、4小时、1天、1周、1月*/
-            mKinePeriod = new HashMap<>();
-            mKinePeriod.put("1分钟","M1");
-            mKinePeriod.put("5分钟","M5");
-            mKinePeriod.put("15分钟","M15");
-            mKinePeriod.put("30分钟","M30");
-            mKinePeriod.put("1小时","H1");
-            mKinePeriod.put("4小时","H4");
-            mKinePeriod.put("1天","D1");
-            mKinePeriod.put("1周","W1");
-            mKinePeriod.put("1月","MONTH");
         }
-        return mKinePeriod;
+        return mKLinePeriod;
     }
 
     /**

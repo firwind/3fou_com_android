@@ -149,7 +149,7 @@ public class KChartView extends BaseKChartView {
 
     @Override
     public void onLeftSide() {
-        showLoading();
+        //showLoading();
     }
 
     @Override
@@ -419,5 +419,10 @@ public class KChartView extends BaseKChartView {
      */
     public void setRefreshListener(KChartRefreshListener refreshListener) {
         mRefreshListener = refreshListener;
+    }
+
+    @Override
+    public void setChildDraw(int position) {
+        super.setChildDraw(position);
     }
 }

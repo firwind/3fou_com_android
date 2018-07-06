@@ -1,7 +1,10 @@
 package com.zhiyicx.thinksnsplus.utils.kline;
 
+import android.support.annotation.NonNull;
+
 import com.github.tifezh.kchartlib.chart.entity.IKLine;
 
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -11,7 +14,7 @@ import java.util.Date;
  * version:
  */
 
-public class KLineEntity implements IKLine{
+public class KLineEntity implements IKLine,Comparable<KLineEntity>{
 
 
     public String getDatetime() {
@@ -177,6 +180,8 @@ public class KLineEntity implements IKLine{
 
     public float MA10Volume;
 
-
-
+    @Override
+    public int compareTo(@NonNull KLineEntity o) {
+        return (int)(this.dateTime-o.dateTime);
+    }
 }

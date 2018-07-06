@@ -82,11 +82,12 @@
             android:background="@drawable/selector_market_up_or_down"/>
 
         <ImageView
+            android:id="@+id/iv_rank"
             android:padding="6dp"
             android:layout_marginLeft="@dimen/dp10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_stock_certificate"/>
+            android:src="@drawable/selector_stock_certificate"/>
 
     </LinearLayout>
 

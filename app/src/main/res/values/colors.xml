@@ -44,7 +44,7 @@
     <color name="message_top_bg">#F3F3F7</color>
 
     <color name="market_red">#ff1231</color>
-
     <color name="market_green">#5DA310</color>
-    
+    <color name="light_gray">#F3F3F3</color>
+
 </resources>

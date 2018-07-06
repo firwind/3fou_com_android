@@ -766,7 +766,8 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.home.find.market.details.CurrencyKLineActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">

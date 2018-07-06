@@ -7,6 +7,8 @@ import com.zhiyicx.thinksnsplus.data.source.repository.MarketRepository;
 import com.zhiyicx.thinksnsplus.utils.kline.KLineDataHelper;
 import com.zhiyicx.thinksnsplus.utils.kline.KLineEntity;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,6 +40,7 @@ public class CurrencyKLinePresenter extends AppBasePresenter<CurrencyKLineContra
                 .flatMap(new Func1<List<KLineEntity>, Observable<List<KLineEntity>>>() {
                     @Override
                     public Observable<List<KLineEntity>> call(List<KLineEntity> kLineEntities) {
+                        Collections.sort(kLineEntities);
                         KLineDataHelper.calculate(kLineEntities);
                         return Observable.just(kLineEntities);
                     }

@@ -3,11 +3,13 @@ package com.zhiyicx.thinksnsplus.modules.home.find.market.list;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.zhiyicx.baseproject.base.BaseListBean;
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.recycleviewdecoration.CustomLinearDecoration;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -90,8 +92,12 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
             mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                    //跳转k线图
-                    CurrencyKLineActivity.startActivity(mActivity, (MarketCurrencyBean) mListDatas.get(position));
+                    if(!TextUtils.isEmpty(((MarketCurrencyBean)mListDatas.get(position)).ticker)){
+                        //跳转k线图
+                        CurrencyKLineActivity.startActivity(mActivity, (MarketCurrencyBean) mListDatas.get(position));
+                    }else {
+                        ToastUtils.showToast("行情信息正在赶来的路上~");
+                    }
                 }
 
                 @Override
@@ -164,6 +170,7 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
                 holder.setText(R.id.tv_vol, "量：" + data.vol + "万");
                 holder.setText(R.id.tv_last_cny, "¥" + data.last_cny);
                 holder.setText(R.id.tv_last_usd, "$" + data.last_usd);
+                holder.getView(R.id.iv_rank).setSelected(!TextUtils.isEmpty(data.ticker));
                 double degree = 0;
                 try {
                     degree = Double.parseDouble(data.degree);
