@@ -96,6 +96,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                                     e.printStackTrace();
                                 }*/
                             //EMClient.getInstance().chatManager().deleteConversation(id, true);
+
                             return mRepository.removeGroupMember(mRootView.getGroupBean().getId(),
                                     String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()),
                                     mRootView.getGroupBean().getGroup_level()).flatMap(o -> Observable.just(id));
