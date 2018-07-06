@@ -97,7 +97,8 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                                 }*/
                             //EMClient.getInstance().chatManager().deleteConversation(id, true);
                             return mRepository.removeGroupMember(mRootView.getGroupBean().getId(),
-                                    id.toString(), mRootView.getGroupBean().getGroup_level()).flatMap(o -> Observable.just(id));
+                                    String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()),
+                                    mRootView.getGroupBean().getGroup_level()).flatMap(o -> Observable.just(id));
                         } else {
                             // 加群
                                 /*try {
@@ -105,7 +106,8 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                                 } catch (HyphenateException e) {
                                     e.printStackTrace();
                                 }*/
-                            return mRepository.addGroupMember(mRootView.getGroupBean().getId(), id.toString()
+                            return mRepository.addGroupMember(mRootView.getGroupBean().getId(),
+                                    String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id())
                                     , mRootView.getGroupBean().getGroup_level())
                                     .flatMap(o -> Observable.just(id));
                         }
