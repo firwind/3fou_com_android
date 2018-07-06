@@ -379,7 +379,6 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
      */
     protected void setRefreshLayoutListener() {
         swipeRefreshLayout.setOnRefreshListener(this);
-
     }
 
     /**

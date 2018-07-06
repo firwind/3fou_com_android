@@ -21,6 +21,6 @@ public interface MessageGroupContract {
 
     interface Presenter extends ITSListPresenter<ChatGroupBean>{
 
-        void checkGroupExist(String id);
+        void checkGroupExist(ChatGroupBean chatGroupBean);
     }
 }

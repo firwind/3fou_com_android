@@ -32,7 +32,6 @@ public class ApiConfig {
     public static final String APP_DOMAIN_TEST = "http://faceke.com/";// 在线测试服务器
 //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
     public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
-  //  public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
 //    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
 //    public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://192.168.2.152/";// 乔老师本地服务器
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
@@ -132,6 +131,8 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_INFO = "api/" + API_VERSION_2 + "/easemob/group?im_group_id=%s";// 获取群信息
     public static final String APP_PATH_GET_GROUP_INFO_S = "api/" + API_VERSION_2 + "/easemob/group";// 获取群信息
     public static final String APP_PATH_GET_GROUP_INFO_S_FACE = "api/" + API_VERSION_2 + "/easemob/groups";// 获取群信息,只返回群头像，
+    public static final String APP_PATH_GET_GROUP_INFO_OFFICIAL = "api/" + API_VERSION_2 + "/easemob/group/getOfficialGroup";// 获取所有官方群
+    public static final String APP_PATH_GET_GROUP_INFO_S_FACE_V2 = "api/" + API_VERSION_2 + "/easemob/group/newGroupList";// 获取用户加入的群组列表
     public static final String APP_PATH_GET_GROUP_RECOMMEND= "api/" + API_VERSION_2 + "/group/randomquery";// 获取推荐群
     public static final String APP_PATH_GET_GROUP_SEARCE= "api/" + API_VERSION_2 + "/easemob/group/search";// 搜索群
     public static final String APP_PATH_GET_GROUP_ADD_MEMBER = "api/" + API_VERSION_2 + "/easemob/group/member";// 修改成员 添加POST 移除delete
@@ -154,6 +155,7 @@ public class ApiConfig {
     public static final String APP_PATH_GET_SIMPLE_GROUP_INFO= "api/" + API_VERSION_2 + "/easemob/group/grouplist";//简单获取群信息
     public static final String APP_PATH_GET_GROUP_INFO_NEW= "api/" + API_VERSION_2 + "/easemob/group/groupinfo";//简单获取群信息
     public static final String APP_PATH_GET_GROUP_MEMBER_INFO_NEW= "api/" + API_VERSION_2 + "/easemob/group/memberlist";//获取群成员信息
+    public static final String APP_PATH_GET_GROUP_MEMBER_IS_ADD_GROUP= "api/" + API_VERSION_2 + "/easemob/group/isGroupMember";//是否加入该群
 
     /**
      * 关注粉丝 FollowFansClient

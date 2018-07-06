@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.data.source.remote;
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
@@ -88,6 +89,20 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_S_FACE)
     Observable<List<ChatGroupBean>> getGroupInfoOnlyGroupFace(@Query("im_group_id") String ids);
+    /**
+     * 获取所有官方群
+     *
+     * @param
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_OFFICIAL)
+    Observable<List<ChatGroupBean>> getOfficialGroupInfo();
+    /**
+     * 获取用户加入的群组列表
+     *
+     * @param
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_S_FACE_V2)
+    Observable<ChatGroupBean> getGroupInfoOnlyGroupFaceV2();
 
     /**
      * 获取推荐群
@@ -290,7 +305,15 @@ public interface EasemobClient {
      * @return
      */
     @DELETE(ApiConfig.APP_PATH_GET_GROUP_DEL_NOTICE)
-    Observable<String> deleteGroup(@Query("notice_id")String group_id);
+    Observable<String> deleteNotice(@Query("notice_id")String group_id);
+
+    /**
+     * 删除群组
+     * @param group_id
+     * @return
+     */
+    @DELETE(ApiConfig.APP_PATH_GET_GROUP_INFO_S)
+    Observable<String> deleteGroup(@Query("im_group_id")String group_id);
 
     /**
      * 获取简单群信息
@@ -315,5 +338,12 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_MEMBER_INFO_NEW)
     Observable<List<UserInfoBean>> getGroupUserInfoInfo(@Query("im_group_id") String ids);
+    /**
+     * 获取群成员
+     * @param ids
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_MEMBER_IS_ADD_GROUP)
+    Observable<ChatGroupBean> getChickIsAddGroup(@Query("im_group_id") String ids);
 
 }

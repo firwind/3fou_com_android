@@ -797,9 +797,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         mChatMembers.clear();
         mChatMembers.addAll(mChatGroupBean.getAffiliations());
         if (mPresenter.isGroupOwner()) {
-            if (mChatMembers.size() > 18) {
+            if (mChatMembers.size() > 11) {
                 // 是群主 18 + 2
-                mChatMembers = mChatMembers.subList(0, 18);
+                mChatMembers = mChatMembers.subList(0, 11);
                 mVLineFindMember.setVisibility(View.VISIBLE);
                 mTvToAllMembers.setVisibility(View.VISIBLE);
             } else {
@@ -808,9 +808,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         } else {
             // 不是群主
-            if (mChatMembers.size() > 19) {
+            if (mChatMembers.size() > 10) {
                 // 19 +1
-                mChatMembers = mChatMembers.subList(0, 19);
+                mChatMembers = mChatMembers.subList(0, 10);
                 mVLineFindMember.setVisibility(View.VISIBLE);
                 mTvToAllMembers.setVisibility(View.VISIBLE);
             } else {

@@ -198,6 +198,7 @@ public class TSEMessageUtils {
         EMCmdMessageBody body = new EMCmdMessageBody(action);
         cmdMessage.addBody(body);
         cmdMessage.setMsgTime(currTime);
+        cmdMessage.setTo(groupId);
         // 设置消息的扩展
         cmdMessage.setAttribute("type", TSEMConstants.TS_ATTR_RELEASE_NOTICE);
         cmdMessage.setAttribute(TSEMConstants.TS_USER_NAME, userName);
@@ -211,6 +212,7 @@ public class TSEMessageUtils {
         event.setMessage(cmdMessage);
         event.setStatus(cmdMessage.status());
         EventBus.getDefault().post(event);
+        EMClient.getInstance().chatManager().sendMessage(cmdMessage);
     }
 
     /**

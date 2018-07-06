@@ -170,7 +170,11 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
         RxTextView.textChanges(mEtRegistUsername)
                 .compose(this.bindToLifecycle())
                 .subscribe(charSequence -> {
-
+                    if (StringUtils.isSpecialChar(charSequence.toString())){
+                        showMessage(getString(R.string.edit_user_name_hint));
+                    }else {
+                        showMessage("");
+                    }
                     isNameEdited = !TextUtils.isEmpty(charSequence.toString())&&charSequence.toString().getBytes().length>4&& !StringUtils.isSpecialChar(charSequence.toString());
                     setConfirmEnable();
                 });

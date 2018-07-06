@@ -217,6 +217,11 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     }
 
     @Override
+    public void onNoticeSingleClick(String noticeJson) {
+
+    }
+
+    @Override
     protected void setUpView() {
         setChatFragmentHelper(this);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {

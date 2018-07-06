@@ -38,6 +38,7 @@ public abstract class EaseChatRow extends LinearLayout {
     public interface OnTipMsgClickListener {
         void onTipMsgClick(TipMsgType tipMsgType);
         void onOpenMuteClick(TipMsgType tipMsgType,String str);
+        void onNoticeSingleClick(String noticeJson);
     }
 
     public enum TipMsgType {

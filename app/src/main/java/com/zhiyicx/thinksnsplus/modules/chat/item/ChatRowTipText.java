@@ -80,6 +80,7 @@ public class ChatRowTipText extends ChatBaseRow {
         }
         try {
             EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
+            
             // 正文
             Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
             mTvChatContent.setText(span, TextView.BufferType.SPANNABLE);
@@ -87,7 +88,7 @@ public class ChatRowTipText extends ChatBaseRow {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e(TAG,"str---"+mTvChatContent.getText().toString());
+//
         if (mTvChatContent.getText().toString().equals(context.getString(R.string.super_open_mute_hint))) {
             mOnTipMsgClickListener.onOpenMuteClick(TipMsgType.OPEN_MUTE, mTvChatContent.getText().toString());
         }

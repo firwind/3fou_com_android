@@ -44,7 +44,7 @@ import butterknife.BindView;
  * @Description
  */
 public class MessageGroupListFragment extends TSListFragment<MessageGroupContract.Presenter, ChatGroupBean>
-        implements MessageGroupContract.View {
+        implements MessageGroupContract.View ,GroupListAdapter.OnItemClickListener{
 
     @BindView(R.id.searchView)
     TSSearchView mSearchView;
@@ -65,7 +65,7 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     public static MessageGroupListFragment newInstance() {
         MessageGroupListFragment fragment = new MessageGroupListFragment();
         Bundle args = new Bundle();
-        args.putBoolean(IS_ONLY_OFFICIAL_GROUP,false);
+        args.putBoolean(IS_ONLY_OFFICIAL_GROUP, false);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,7 +73,7 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     public static MessageGroupListFragment newInstance(boolean isOnlyOfficialGroup) {
         MessageGroupListFragment fragment = new MessageGroupListFragment();
         Bundle args = new Bundle();
-        args.putBoolean(IS_ONLY_OFFICIAL_GROUP,isOnlyOfficialGroup);
+        args.putBoolean(IS_ONLY_OFFICIAL_GROUP, isOnlyOfficialGroup);
         fragment.setArguments(args);
         return fragment;
     }
@@ -105,6 +105,8 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         }
         return super.getstatusbarAndToolbarHeight();
     }
+
+
     @Override
     protected String setCenterTitle() {
         return getString(R.string.chat_group);
@@ -142,8 +144,6 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
                 mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
             }
             //mPresenter.refreshConversationReadMessage();该请求已在MessageFragment中实现
-
-
         }
         if (getUserVisibleHint() && !TextUtils.isEmpty(mSearchView.getText())) {
             mSearchView.setText("");
@@ -159,45 +159,73 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         } else {
             mSearchView.setVisibility(View.VISIBLE);
         }
+
         super.onNetResponseSuccess(data, isLoadMore);
         if (!notSearch && mListDatas.isEmpty()) {
             setEmptyViewVisiable(false);
         }
     }
 
+
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        CommonAdapter adapter = new CommonAdapter<ChatGroupBean>(getActivity(), R.layout.item_group_list, mListDatas) {
-            @Override
-            protected void convert(ViewHolder holder, ChatGroupBean chatGroupBean, int position) {
-                holder.setText(R.id.tv_group_name, chatGroupBean.getName());
-                Glide.with(mContext)
-                        .load(TextUtils.isEmpty(chatGroupBean.getGroup_face()) ? R.mipmap.ico_ts_assistant : chatGroupBean
-                                .getGroup_face())
-                        .error(R.mipmap.ico_ts_assistant)
-                        .placeholder(R.mipmap.ico_ts_assistant)
-                        .transform(new GlideCircleTransform(mContext))
-                        .into(holder.getImageViwe(R.id.uv_group_head));
+        if (!isOnlyOfficialGroup()) {
+            GroupListAdapter adapter = new GroupListAdapter(getContext(), mListDatas);
+            adapter.setListener(this);
+//            adapter.setOnScrollListener((pos)-> adapter.notifyDataSetChanged());
+            adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    ChatGroupBean bean =mListDatas.get(position);
+                    if (bean.isExpand()){
+                        bean.setExpand(false);
+                    }else {
+                        bean.setExpand(true);
+                    }
+                    adapter.dataChange(adapter.getDatas());
+                    adapter.notifyDataSetChanged();
+                }
 
-                int resId = ImageUtils.getGroupSignResId(chatGroupBean.getGroup_level());
-                holder.getImageViwe(R.id.iv_group_sign).setVisibility(0 == resId ? View.INVISIBLE : View.VISIBLE);
-                if(0 != resId)
-                    holder.getImageViwe(R.id.iv_group_sign).setImageDrawable(mActivity.getResources().getDrawable(resId));
-            }
-        };
-        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                ChatGroupBean groupBean = mListDatas.get(position);
-                mPresenter.checkGroupExist(groupBean.getId());
-            }
+                @Override
+                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    return false;
+                }
+            });
+            return adapter;
+        } else {
+            CommonAdapter adapter = new CommonAdapter<ChatGroupBean>(getActivity(), R.layout.item_group_list, mListDatas) {
+                @Override
+                protected void convert(ViewHolder holder, ChatGroupBean chatGroupBean, int position) {
+                    holder.setText(R.id.tv_group_name, chatGroupBean.getName());
+                    Glide.with(mContext)
+                            .load(TextUtils.isEmpty(chatGroupBean.getGroup_face()) ? R.mipmap.ico_ts_assistant : chatGroupBean
+                                    .getGroup_face())
+                            .error(R.mipmap.ico_ts_assistant)
+                            .placeholder(R.mipmap.ico_ts_assistant)
+                            .transform(new GlideCircleTransform(mContext))
+                            .into(holder.getImageViwe(R.id.uv_group_head));
 
-            @Override
-            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                return false;
-            }
-        });
-        return adapter;
+                    int resId = ImageUtils.getGroupSignResId(chatGroupBean.getGroup_level());
+                    holder.getImageViwe(R.id.iv_group_sign).setVisibility(0 == resId ? View.INVISIBLE : View.VISIBLE);
+                    if (0 != resId)
+                        holder.getImageViwe(R.id.iv_group_sign).setImageDrawable(mActivity.getResources().getDrawable(resId));
+                }
+            };
+            adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    ChatGroupBean groupBean = mListDatas.get(position);
+                    mPresenter.checkGroupExist(groupBean);
+                }
+
+                @Override
+                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    return false;
+                }
+            });
+
+            return adapter;
+        }
     }
 
     @Override
@@ -205,9 +233,10 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         if (data != null) {
             EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
             ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
+
 //            mActivity.finish();
         } else {
-            ToastUtils.showLongToast("error");
+            ToastUtils.showLongToast("该群不存在");
         }
 
     }
@@ -314,5 +343,10 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
                     || getParentFragment() instanceof AddressBookFragment) )
                 onRefresh(null);
         }*/
+    }
+
+    @Override
+    public void onItemClick(ChatGroupBean groupBean) {
+        mPresenter.checkGroupExist(groupBean);
     }
 }

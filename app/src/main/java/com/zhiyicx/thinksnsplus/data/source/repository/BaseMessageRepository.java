@@ -16,6 +16,7 @@ import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
@@ -404,6 +405,18 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     }
 
     @Override
+    public Observable<List<ChatGroupBean>> getOfficialGroupInfo() {
+        return mClient.getOfficialGroupInfo()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<ChatGroupBean> getGroupInfoOnlyGroupFaceV2() {
+        return mClient.getGroupInfoOnlyGroupFaceV2()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
     public Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(String groupName) {
         if (null != groupName && groupName.length() > 0) {
             return mClient.getSearchGroupInfo(groupName)
@@ -484,7 +497,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
 
     @Override
     public Observable<String> delNotice(String notice_id) {
-        return mClient.deleteGroup(notice_id)
+        return mClient.deleteNotice(notice_id)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -512,6 +525,13 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     @Override
     public Observable<List<ChatGroupBean>> getSimpleGroupList(String group_id, int group_level) {
         return mClient.getSimpleGroupInfo(group_id,group_level)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<ChatGroupBean> getChickIsAddGroup(String group_id) {
+        return mClient.getChickIsAddGroup(group_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

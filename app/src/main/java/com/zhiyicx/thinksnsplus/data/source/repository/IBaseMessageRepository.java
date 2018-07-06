@@ -47,6 +47,21 @@ public interface IBaseMessageRepository {
      * @return
      */
     Observable<List<ChatGroupBean>> getGroupInfoOnlyGroupFace(String ids);
+    /**
+     * 获取所有官方群
+     *
+     * @param
+     * @return
+     */
+    Observable<List<ChatGroupBean>> getOfficialGroupInfo();
+
+    /**
+     * 获取多组群信息，只有群头像
+     *
+     * @param
+     * @return
+     */
+    Observable<ChatGroupBean> getGroupInfoOnlyGroupFaceV2();
 
     /**
      * 获取搜索群列表
@@ -129,5 +144,13 @@ public interface IBaseMessageRepository {
      * @return
      */
     Observable<List<ChatGroupBean>> getSimpleGroupList(String group_id,int group_level);
+
+    /**
+     * 检测是否加入该群
+     * @param group_id
+     * @param
+     * @return
+     */
+    Observable<ChatGroupBean> getChickIsAddGroup(String group_id);
 
 }

@@ -33,37 +33,6 @@ import org.greenrobot.greendao.converter.PropertyConverter;
 public class ChatGroupBean extends BaseListBean implements Parcelable, Serializable {
 
     private static final long serialVersionUID = -8073135988935750687L;
-
-    /**
-     "id": "38389154906114",
-     "name": "二三三、帅炸天",
-     "description": "暂无",
-     "membersonly": true,
-     "allowinvites": false,
-     "maxusers": 200,
-     "owner": "76",
-     "created": 1516009151820,
-     "custom": "",
-     "affiliations_count": 3,
-     "affiliations": [],
-     "public": false
-     "group_face":
-     */
-
-
-    /**
-     * 更新群信息返回的内容
-     * "groupname": "呱呱",
-     * "desc": "暂无",
-     * "public": false,
-     * "maxusers": "200",
-     * "members_only": true,
-     * "allowinvites": false,
-     * "group_face": "",
-     * "im_group_id": "39098857357316"
-     */
-
-
     @Id(autoincrement = true)
     private Long key;
     @SerializedName(value = "id", alternate = {"im_group_id"})
@@ -82,18 +51,6 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     private int maxusers;
     private long owner;
 
-    public static final Creator<ChatGroupBean> CREATOR = new Creator<ChatGroupBean>() {
-        @Override
-        public ChatGroupBean createFromParcel(Parcel in) {
-            return new ChatGroupBean(in);
-        }
-
-        @Override
-        public ChatGroupBean[] newArray(int size) {
-            return new ChatGroupBean[size];
-        }
-    };
-
     public int getIs_stick() {
         return is_stick;
     }
@@ -111,8 +68,116 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     private List<UserInfoBean> affiliations;
     @SerializedName("public")
     private boolean isPublic;
-
     private int group_level;//群等级，1-官方群;2-热门群
+    @Transient
+    public static final int ONELIST = 0;//一级列表
+    @Transient
+    public static final int TWOLIST = 1;//二级列表
+    @Transient
+    public int type = ONELIST;//默认一级
+    @Transient
+    private List<ChatGroupBean> official;
+    @Transient
+    private List<ChatGroupBean> hot;
+    @Transient
+    private List<ChatGroupBean> common;
+    @Transient
+    public String leaf1;//支叶内容
+    @Transient
+    private boolean expand = false;//是否展开子项
+    @Transient
+    private List<ChatGroupBean> treeBeanList;
+    @Transient
+    private String mParentName;
+    @Transient
+    private int mParentNum;
+
+    public int getIs_in() {
+        return mIsIn;
+    }
+
+    public void setIs_in(int is_in) {
+        this.mIsIn = is_in;
+    }
+    @SerializedName(value = "mIsIn", alternate = {"is_in"})
+    @Transient
+    private int mIsIn;//是否加入该群
+
+    public String getLeaf1() {
+        return leaf1;
+    }
+
+    public void setLeaf1(String leaf1) {
+        this.leaf1 = leaf1;
+    }
+
+    public List<ChatGroupBean> getTreeBeanList() {
+        return treeBeanList;
+    }
+    public void setTreeBeanList(List<ChatGroupBean> treeBeanList) {
+        this.treeBeanList = treeBeanList;
+    }
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public boolean isExpand() {
+        return expand;
+    }
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
+    }
+    public static int getONELIST() {
+        return ONELIST;
+    }
+
+    public static int getTWOLIST() {
+        return TWOLIST;
+    }
+    public String getmParentName() {
+        return mParentName;
+    }
+
+    public void setmParentName(String mParentName) {
+        this.mParentName = mParentName;
+    }
+
+    public int getmParentNum() {
+        return mParentNum;
+    }
+
+    public void setmParentNum(int mParentNum) {
+        this.mParentNum = mParentNum;
+    }
+
+    public List<ChatGroupBean> getOfficial() {
+        return official;
+    }
+
+    public void setOfficial(List<ChatGroupBean> official) {
+        this.official = official;
+    }
+
+    public List<ChatGroupBean> getHot() {
+        return hot;
+    }
+
+    public void setHot(List<ChatGroupBean> hot) {
+        this.hot = hot;
+    }
+
+    public List<ChatGroupBean> getCommon() {
+        return common;
+    }
+
+    public void setCommon(List<ChatGroupBean> common) {
+        this.common = common;
+    }
 
     public int getGroup_level() {
         return group_level;
@@ -250,30 +315,6 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeString(this.id);
-        dest.writeString(this.name);
-        dest.writeString(this.description);
-        dest.writeByte(this.membersonly ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.allowinvites ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.maxusers);
-        dest.writeInt(this.is_stick);
-        dest.writeLong(this.owner);
-        dest.writeString(this.created);
-        dest.writeString(this.group_face);
-        dest.writeInt(this.affiliations_count);
-        dest.writeTypedList(this.affiliations);
-        dest.writeByte(this.isPublic ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.group_level);
-    }
-
     public Long getKey() {
         return this.key;
     }
@@ -296,24 +337,6 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
 
     public void setIsPublic(boolean isPublic) {
         this.isPublic = isPublic;
-    }
-
-    protected ChatGroupBean(Parcel in) {
-        super(in);
-        this.id = in.readString();
-        this.name = in.readString();
-        this.description = in.readString();
-        this.membersonly = in.readByte() != 0;
-        this.allowinvites = in.readByte() != 0;
-        this.maxusers = in.readInt();
-        this.is_stick = in.readInt();
-        this.owner = in.readLong();
-        this.created = in.readString();
-        this.group_face = in.readString();
-        this.affiliations_count = in.readInt();
-        this.affiliations = in.createTypedArrayList(UserInfoBean.CREATOR);
-        this.isPublic = in.readByte() != 0;
-        this.group_level = in.readInt();
     }
 
     @Generated(hash = 363480501)
@@ -355,4 +378,78 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
             return ConvertUtils.object2Base64Str(noticeItemBean);
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.key);
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeByte(this.membersonly ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.allowinvites ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.maxusers);
+        dest.writeLong(this.owner);
+        dest.writeInt(this.is_stick);
+        dest.writeString(this.created);
+        dest.writeString(this.group_face);
+        dest.writeInt(this.affiliations_count);
+        dest.writeTypedList(this.affiliations);
+        dest.writeByte(this.isPublic ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.group_level);
+        dest.writeInt(this.type);
+        dest.writeTypedList(this.official);
+        dest.writeTypedList(this.hot);
+        dest.writeTypedList(this.common);
+        dest.writeString(this.leaf1);
+        dest.writeByte(this.expand ? (byte) 1 : (byte) 0);
+        dest.writeTypedList(this.treeBeanList);
+        dest.writeString(this.mParentName);
+        dest.writeInt(this.mParentNum);
+    }
+
+    protected ChatGroupBean(Parcel in) {
+        super(in);
+        this.key = (Long) in.readValue(Long.class.getClassLoader());
+        this.id = in.readString();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.membersonly = in.readByte() != 0;
+        this.allowinvites = in.readByte() != 0;
+        this.maxusers = in.readInt();
+        this.owner = in.readLong();
+        this.is_stick = in.readInt();
+        this.created = in.readString();
+        this.group_face = in.readString();
+        this.affiliations_count = in.readInt();
+        this.affiliations = in.createTypedArrayList(UserInfoBean.CREATOR);
+        this.isPublic = in.readByte() != 0;
+        this.group_level = in.readInt();
+        this.type = in.readInt();
+        this.official = in.createTypedArrayList(ChatGroupBean.CREATOR);
+        this.hot = in.createTypedArrayList(ChatGroupBean.CREATOR);
+        this.common = in.createTypedArrayList(ChatGroupBean.CREATOR);
+        this.leaf1 = in.readString();
+        this.expand = in.readByte() != 0;
+        this.treeBeanList = in.createTypedArrayList(ChatGroupBean.CREATOR);
+        this.mParentName = in.readString();
+        this.mParentNum = in.readInt();
+    }
+
+    public static final Creator<ChatGroupBean> CREATOR = new Creator<ChatGroupBean>() {
+        @Override
+        public ChatGroupBean createFromParcel(Parcel source) {
+            return new ChatGroupBean(source);
+        }
+
+        @Override
+        public ChatGroupBean[] newArray(int size) {
+            return new ChatGroupBean[size];
+        }
+    };
 }
