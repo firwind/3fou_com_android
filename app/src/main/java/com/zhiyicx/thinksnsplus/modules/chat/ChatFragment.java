@@ -249,6 +249,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     @Override
     public void onResume() {
         super.onResume();
+
+        setNeedRefreshToLast(false);
+
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             setCenterText(mPresenter.getUserName(toChatUsername));
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {

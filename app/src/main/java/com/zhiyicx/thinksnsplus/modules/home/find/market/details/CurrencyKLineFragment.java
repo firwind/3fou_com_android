@@ -82,6 +82,8 @@ public class CurrencyKLineFragment extends TSFragment<CurrencyKLineContract.Pres
     ImageView mIvMoreCorner;
     @BindView(R.id.iv_quota_corner)
     ImageView mIvQuotaCorner;
+    @BindView(R.id.fl_kline_container)
+    FrameLayout mFlKLineContainer;
 
     private KLinePeriodOrQuoteView mKLinePeriodView;
     private KLinePeriodOrQuoteView mKLineQuoteView;
@@ -186,9 +188,9 @@ public class CurrencyKLineFragment extends TSFragment<CurrencyKLineContract.Pres
             mFlCurrencyData1.setVisibility(View.VISIBLE);
             mLlCurrencyData2.setVisibility(View.VISIBLE);
 
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mKchartView.getLayoutParams();
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mFlKLineContainer.getLayoutParams();
             params.bottomMargin = DensityUtil.dip2px(mActivity,80);
-            mKchartView.setLayoutParams(params);
+            mFlKLineContainer.setLayoutParams(params);
 
         }else {
 
@@ -196,9 +198,9 @@ public class CurrencyKLineFragment extends TSFragment<CurrencyKLineContract.Pres
             mFlCurrencyData1.setVisibility(View.GONE);
             mLlCurrencyData2.setVisibility(View.GONE);
 
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mKchartView.getLayoutParams();
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mFlKLineContainer.getLayoutParams();
             params.bottomMargin = DensityUtil.dip2px(mActivity,0);
-            mKchartView.setLayoutParams(params);
+            mFlKLineContainer.setLayoutParams(params);
 
         }
 

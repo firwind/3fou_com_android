@@ -148,7 +148,7 @@ public class LoginFragment extends TSFragment<LoginContract.Presenter> implement
     private void initListener() {
         //登录过程中，这个透明view会覆盖整个界面，设置点击事件防止事件穿透
         mFlPlaceholder.setOnClickListener(v->{
-            ToastUtils.showToast("我点击了透明view");
+            //ToastUtils.showToast("我点击了透明view");
         });
 
         // 手机号码输入框观察

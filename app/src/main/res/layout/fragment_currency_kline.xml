@@ -198,16 +198,31 @@
 
     </LinearLayout>
 
-    <com.github.tifezh.kchartlib.chart.KChartView
-        android:id="@+id/kchart_view"
+    <FrameLayout
+        android:id="@+id/fl_kline_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:kc_background_color="@color/white"
-        app:kc_grid_line_color="#D8D8D8"
-        app:kc_grid_line_width="0.5dp"
-        app:kc_selector_background_color="@color/light_gray"
         android:layout_marginBottom="@dimen/dp80">
 
-    </com.github.tifezh.kchartlib.chart.KChartView>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bg_kline"
+            android:layout_gravity="center"/>
+
+        <com.github.tifezh.kchartlib.chart.KChartView
+            android:id="@+id/kchart_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:kc_background_color="@color/transparent"
+            app:kc_grid_line_color="#D8D8D8"
+            app:kc_grid_line_width="0.5dp"
+            app:kc_selector_background_color="@color/light_gray">
+
+        </com.github.tifezh.kchartlib.chart.KChartView>
+
+
+
+    </FrameLayout>
 
 </LinearLayout>
