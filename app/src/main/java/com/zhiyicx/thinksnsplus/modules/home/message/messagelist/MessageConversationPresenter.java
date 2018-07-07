@@ -576,11 +576,14 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                         for (EMMessage message:
                              messageList) {
 
-                            // 删除本地群信息后会更新
-                            boolean isGroupChange = TSEMConstants.TS_ATTR_GROUP_CHANGE.equals(message.ext().get("type"));
+                            // 删除本地群信息后会更新，
+                            //这里会有异常，如下：
+                            //在群详情更新群信息后，返回聊天界面，title是【该用户已删除】，
+                            // 原因是这里会收到信息，删除了本地的ChatGoupBean
+                            /*boolean isGroupChange = TSEMConstants.TS_ATTR_GROUP_CHANGE.equals(message.ext().get("type"));
                             if (isGroupChange) {
                                 mRepository.deleteLocalChatGoup(message.conversationId());
-                            }
+                            }*/
 
                             if(itemBean.getEmKey().equals(message.conversationId())){
                                 //直接替换会话

@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.chat;
 
 import com.hyphenate.chat.EMMessage;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMRefreshEvent;
+import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;

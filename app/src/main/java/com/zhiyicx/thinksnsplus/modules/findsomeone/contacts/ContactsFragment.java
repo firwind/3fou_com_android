@@ -129,16 +129,27 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
     //设置展示状态栏
     @Override
     protected boolean setUseSatusbar() {
-        return true;
+        return false;
     }
-    //设置状态栏为0
+
     @Override
+    protected String setCenterTitle() {
+        return null == getParentFragment() ? "联系人列表":"";
+    }
+
+    @Override
+    protected boolean showToolbar() {
+        return null == getParentFragment();
+    }
+
+    //设置状态栏为0
+    /*@Override
     protected int getstatusbarAndToolbarHeight() {
         if (setUseSatusbar()) {
             return 0;
         }
         return super.getstatusbarAndToolbarHeight();
-    }
+    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -181,10 +192,6 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
     private void updateChooseTip() {
     }
 
-    @Override
-    protected boolean showToolbar() {
-        return false;
-    }
 
     @Override
     protected void initData() {
