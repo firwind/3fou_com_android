@@ -9,6 +9,7 @@ import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup.ExpandChatGroupBean;
 
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public interface IBaseMessageRepository {
      * @param
      * @return
      */
-    Observable<ChatGroupBean> getGroupInfoOnlyGroupFaceV2();
+    Observable<ExpandChatGroupBean> getGroupInfoOnlyGroupFaceV2();
 
     /**
      * 获取搜索群列表

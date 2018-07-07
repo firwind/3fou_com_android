@@ -81,7 +81,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="adjustNothing"></activity>
         <activity
             android:name=".modules.settings.SettingsActivity"
             android:screenOrientation="portrait"></activity>

@@ -1,8 +1,7 @@
-package com.zhiyicx.thinksnsplus.modules.home.message.messagegroup;
+package com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
@@ -13,20 +12,18 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
-import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseMessageRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -39,8 +36,8 @@ import rx.schedulers.Schedulers;
  * @Description
  */
 @FragmentScoped
-public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract.View>
-        implements MessageGroupContract.Presenter {
+public class NewMessageGroupPresenter extends AppBasePresenter<NewMessageGroupContract.View>
+        implements NewMessageGroupContract.Presenter {
 
     @Inject
     BaseMessageRepository mBaseMessageRepository;
@@ -49,7 +46,7 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
     private Subscription mGroupExistSubscription;
 
     @Inject
-    public MessageGroupPresenter(MessageGroupContract.View rootView) {
+    public NewMessageGroupPresenter(NewMessageGroupContract.View rootView) {
         super(rootView);
     }
 
@@ -61,13 +58,20 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
             return;
         }
 
-        Subscription subscribe = mBaseMessageRepository.getOfficialGroupInfo()
+        Subscription subscribe = mBaseMessageRepository.getGroupInfoOnlyGroupFaceV2()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscribeForV2<List<ChatGroupBean>>() {
+                .subscribe(new BaseSubscribeForV2<ExpandChatGroupBean>() {
                     @Override
-                    protected void onSuccess(List<ChatGroupBean> data) {
-                        mRootView.onNetResponseSuccess(data, isLoadMore);
+                    protected void onSuccess(ExpandChatGroupBean data) {
+                        List<GroupParentBean> list = new ArrayList<>();
+                        GroupParentBean bean1 = new GroupParentBean("官方群聊",data.official);
+                        GroupParentBean bean2 = new GroupParentBean("热门群聊",data.hot);
+                        GroupParentBean bean3 = new GroupParentBean("自建群聊",data.common);
+                        list.add(bean1);
+                        list.add(bean2);
+                        list.add(bean3);
+                        mRootView.onNetResponseSuccess(list, isLoadMore);
                     }
                     @Override
                     protected void onFailure(String message, int code) {
@@ -83,7 +87,6 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                         mRootView.onResponseError(throwable, false);
                     }
                 });
-
         addSubscrebe(subscribe);
     }
 
@@ -129,7 +132,6 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
-                    @SuppressLint("LogNotUsed")
                     @Override
                     protected void onSuccess(String data) {
                         mRootView.checkGroupExist(data);
@@ -160,8 +162,14 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
     }
 
     @Override
-    public boolean insertOrUpdateData(@NotNull List<ChatGroupBean> data, boolean isLoadMore) {
-        mBaseMessageRepository.saveChatGoup(data);
+    public boolean insertOrUpdateData(@NotNull List<GroupParentBean> data, boolean isLoadMore) {
+
+        if(null != data){
+            for (int i = 0; i < data.size(); i++) {
+                mBaseMessageRepository.saveChatGoup(data.get(i).childs);
+            }
+        }
         return false;
     }
+
 }

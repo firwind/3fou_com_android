@@ -11,6 +11,7 @@ import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup.ExpandChatGroupBean;
 
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,7 @@ public interface EasemobClient {
      * @param
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_S_FACE_V2)
-    Observable<ChatGroupBean> getGroupInfoOnlyGroupFaceV2();
+    Observable<ExpandChatGroupBean> getGroupInfoOnlyGroupFaceV2();
 
     /**
      * 获取推荐群

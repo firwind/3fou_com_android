@@ -33,6 +33,7 @@ import com.zhiyicx.thinksnsplus.modules.findsomeone.contacts.ContactsFragment;
 import com.zhiyicx.thinksnsplus.modules.findsomeone.contianer.FindSomeOneContainerActivity;
 import com.zhiyicx.thinksnsplus.modules.home.common.invite.InviteShareActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupListFragment;
+import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup.NewMessageGroupListFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
 
@@ -180,7 +181,7 @@ public class AddressBookFragment extends TSViewPagerFragment {
         if (mFragmentList == null) {
             mFragmentList = new ArrayList();
             mFragmentList.add(MyFriendsListFragment.newInstance());
-            mFragmentList.add(MessageGroupListFragment.newInstance());
+            mFragmentList.add(/*MessageGroupListFragment.newInstance()*/NewMessageGroupListFragment.newInstance());
             mFragmentList.add(ContactsFragment.newInstance());
         }
         return mFragmentList;

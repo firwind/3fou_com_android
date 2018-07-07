@@ -2,6 +2,7 @@
 <resources>
 
     <!--DP尺寸-->
+    <dimen name="dp0.5">0.5dp</dimen>
     <dimen name="dp5">5dp</dimen>
     <dimen name="dp3">3dp</dimen>
     <dimen name="dp2">2dp</dimen>

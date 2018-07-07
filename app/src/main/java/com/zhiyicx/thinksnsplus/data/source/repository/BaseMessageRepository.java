@@ -27,6 +27,7 @@ import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.remote.EasemobClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.ServiceManager;
+import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup.ExpandChatGroupBean;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagelist.EmTimeSortClass;
 import com.zhiyicx.thinksnsplus.utils.TSImHelperUtils;
 
@@ -411,7 +412,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     }
 
     @Override
-    public Observable<ChatGroupBean> getGroupInfoOnlyGroupFaceV2() {
+    public Observable<ExpandChatGroupBean> getGroupInfoOnlyGroupFaceV2() {
         return mClient.getGroupInfoOnlyGroupFaceV2()
                 .subscribeOn(Schedulers.io());
     }
