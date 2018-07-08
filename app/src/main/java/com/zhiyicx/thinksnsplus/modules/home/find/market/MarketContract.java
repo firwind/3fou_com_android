@@ -4,12 +4,8 @@ import com.zhiyicx.baseproject.base.BaseListBean;
 import com.zhiyicx.baseproject.base.IBaseTouristPresenter;
 import com.zhiyicx.baseproject.base.ITSListPresenter;
 import com.zhiyicx.baseproject.base.ITSListView;
-import com.zhiyicx.baseproject.base.TSListFragment;
-import com.zhiyicx.common.mvp.BasePresenter;
-import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
-import com.zhiyicx.thinksnsplus.data.beans.StockCertificateBean;
-import com.zhiyicx.thinksnsplus.data.source.local.CurrencyBean;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyBean;
 
 import java.util.List;
 

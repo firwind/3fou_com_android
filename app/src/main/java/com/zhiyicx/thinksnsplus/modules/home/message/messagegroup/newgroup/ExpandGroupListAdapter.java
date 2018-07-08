@@ -14,6 +14,7 @@ import com.zhiyicx.baseproject.impl.imageloader.glide.transformation.GlideCircle
 import com.zhiyicx.baseproject.widget.imageview.FilterImageView;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.GroupParentBean;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 
 import java.util.List;

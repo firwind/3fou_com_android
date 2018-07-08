@@ -1,6 +1,5 @@
 package com.zhiyicx.thinksnsplus.data.source.repository;
 
-import com.hyphenate.chat.EMGroup;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
@@ -9,10 +8,9 @@ import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
-import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup.ExpandChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ExpandChatGroupBean;
 
 import java.util.List;
-import java.util.Map;
 
 import rx.Observable;
 

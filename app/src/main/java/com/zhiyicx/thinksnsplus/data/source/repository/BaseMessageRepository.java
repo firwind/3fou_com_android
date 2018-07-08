@@ -16,7 +16,6 @@ import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
-import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
@@ -27,13 +26,10 @@ import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.remote.EasemobClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.ServiceManager;
-import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup.ExpandChatGroupBean;
-import com.zhiyicx.thinksnsplus.modules.home.message.messagelist.EmTimeSortClass;
+import com.zhiyicx.thinksnsplus.data.beans.ExpandChatGroupBean;
 import com.zhiyicx.thinksnsplus.utils.TSImHelperUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +38,6 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static com.zhiyicx.baseproject.base.TSListFragment.DEFAULT_ONE_PAGE_SHOW_MAX_SIZE;
 
 /**
  * @author Catherine

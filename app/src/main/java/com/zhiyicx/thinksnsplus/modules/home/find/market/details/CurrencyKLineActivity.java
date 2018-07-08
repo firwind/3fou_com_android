@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
-import com.zhiyicx.thinksnsplus.data.source.local.MarketCurrencyBean;
+import com.zhiyicx.thinksnsplus.data.beans.MarketCurrencyBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 /**

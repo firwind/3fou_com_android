@@ -3,26 +3,22 @@ package com.zhiyicx.thinksnsplus.modules.home.find.market.details;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.tifezh.kchartlib.chart.KChartView;
 import com.hyphenate.util.DensityUtil;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.thinksnsplus.R;
-import com.zhiyicx.thinksnsplus.data.source.local.MarketCurrencyBean;
+import com.zhiyicx.thinksnsplus.data.beans.MarketCurrencyBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.utils.kline.KLInePeriod;
 import com.zhiyicx.thinksnsplus.utils.kline.KLineAdapter;
@@ -30,9 +26,7 @@ import com.zhiyicx.thinksnsplus.utils.kline.KLineDataHelper;
 import com.zhiyicx.thinksnsplus.utils.kline.KLineEntity;
 import com.zhiyicx.thinksnsplus.utils.kline.KLinePeriodOrQuoteView;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;

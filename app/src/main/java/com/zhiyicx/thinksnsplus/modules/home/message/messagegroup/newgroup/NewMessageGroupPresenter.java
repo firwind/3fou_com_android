@@ -1,6 +1,5 @@
 package com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup;
 
-import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
 import com.hyphenate.chat.EMClient;
@@ -12,12 +11,13 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.ExpandChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.GroupParentBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseMessageRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 

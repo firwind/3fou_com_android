@@ -5,19 +5,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.google.gson.Gson;
 import com.zhiyicx.baseproject.base.TSFragment;
-import com.zhiyicx.common.config.ConstantConfig;
-import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.SharePreferenceUtils;
 import com.zhiyicx.thinksnsplus.R;
-import com.zhiyicx.thinksnsplus.data.source.local.CurrencyBean;
-import com.zhiyicx.thinksnsplus.data.source.local.CurrencyRankBean;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyBean;
 import com.zhiyicx.thinksnsplus.modules.home.find.market.list.MarketListFragment;
-import com.zhiyicx.thinksnsplus.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +67,12 @@ public class MarketFragment extends TSFragment<MarketContract.MarketPresenter> i
     @Override
     protected void initView(View rootView) {
         //获取缓存中的币种列表
-        mCurrencyList = SharePreferenceUtils.getList(mActivity,SharePreferenceUtils.MARKET_CURRENCY_LIST, CurrencyBean.class);
+        try {
+            mCurrencyList = SharePreferenceUtils.getList(mActivity,SharePreferenceUtils.MARKET_CURRENCY_LIST, CurrencyBean.class);
+        }catch (Exception e){
+
+        }
+
         initViewPager();
         initTabs();
     }
@@ -88,8 +88,15 @@ public class MarketFragment extends TSFragment<MarketContract.MarketPresenter> i
     public void getCurrencyListSuccess(List<CurrencyBean> list) {
         //如果本地数据和网络数据不同步，则更新本地和当前页面
         Gson gson = new Gson();
-        String net = gson.toJson(list);
-        String local = gson.toJson(mCurrencyList);
+        String net = "";
+        String local = "";
+        try {
+            net = gson.toJson(list);
+            local = gson.toJson(mCurrencyList);
+        }catch (Exception e){
+            showSnackErrorMessage("数据解析失败!");
+            return;
+        }
         if(!net.equals(local)){
             mCurrencyList = list;
             initTabs();

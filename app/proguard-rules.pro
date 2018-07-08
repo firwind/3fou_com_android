@@ -55,6 +55,10 @@ public static final int *;
 -keep class solid.ren.skinlibrary.** { *; }
 -keep interface  solid.ren.skinlibrary.** { *; }
 
+################kchartlib#################
+-keep class com.github.tifezh.kchartlib.**{*;}
+-keep interface com.github.tifezh.kchartlib.**{*;}
+
 ################tspay (ping++ sdk)###############
 # Ping++ 混淆过滤
 -dontwarn com.pingplusplus.**

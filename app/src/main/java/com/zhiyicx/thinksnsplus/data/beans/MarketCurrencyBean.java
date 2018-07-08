@@ -1,11 +1,9 @@
-package com.zhiyicx.thinksnsplus.data.source.local;
+package com.zhiyicx.thinksnsplus.data.beans;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.zhiyicx.baseproject.base.BaseListBean;
-
-import java.util.List;
 
 /**
  * author: huwenyong

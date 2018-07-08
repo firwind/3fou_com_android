@@ -1,10 +1,9 @@
-package com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup;
+package com.zhiyicx.thinksnsplus.data.beans;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.zhiyicx.baseproject.base.BaseListBean;
-import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 
 import java.util.List;
 

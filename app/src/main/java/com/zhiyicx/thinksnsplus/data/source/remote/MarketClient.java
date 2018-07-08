@@ -1,16 +1,14 @@
 package com.zhiyicx.thinksnsplus.data.source.remote;
 
 import com.zhiyicx.baseproject.config.ApiConfig;
-import com.zhiyicx.common.base.BaseJsonV2;
-import com.zhiyicx.thinksnsplus.data.source.local.CurrencyBean;
-import com.zhiyicx.thinksnsplus.data.source.local.CurrencyRankBean;
-import com.zhiyicx.thinksnsplus.data.source.local.MarketCurrencyBean;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyBean;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyRankBean;
+import com.zhiyicx.thinksnsplus.data.beans.MarketCurrencyBean;
 import com.zhiyicx.thinksnsplus.utils.kline.KLineEntity;
 
 import java.util.List;
 
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
