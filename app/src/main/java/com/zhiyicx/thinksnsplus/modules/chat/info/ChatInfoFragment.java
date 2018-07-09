@@ -61,6 +61,7 @@ import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import org.eclipse.jdt.core.IField;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
@@ -441,6 +442,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     }
 
     private void initDeletePopupWindow(String item2, String dec) {
+
         mDeleteGroupPopupWindow = ActionPopupWindow.builder()
                 .item1Str(getString(R.string.prompt))
                 .item2Str(item2)
@@ -797,9 +799,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         mChatMembers.clear();
         mChatMembers.addAll(mChatGroupBean.getAffiliations());
         if (mPresenter.isGroupOwner()) {
-            if (mChatMembers.size() > 11) {
+            if (mChatGroupBean.getAffiliations_count() > 11) {
                 // 是群主 18 + 2
-                mChatMembers = mChatMembers.subList(0, 11);
+//                mChatMembers = mChatMembers.subList(0, 11);
                 mVLineFindMember.setVisibility(View.VISIBLE);
                 mTvToAllMembers.setVisibility(View.VISIBLE);
             } else {
@@ -808,9 +810,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         } else {
             // 不是群主
-            if (mChatMembers.size() > 10) {
+            if (mChatGroupBean.getAffiliations_count()> 10) {
                 // 19 +1
-                mChatMembers = mChatMembers.subList(0, 10);
+//                mChatMembers = mChatMembers.subList(0, 10);
                 mVLineFindMember.setVisibility(View.VISIBLE);
                 mTvToAllMembers.setVisibility(View.VISIBLE);
             } else {
@@ -918,7 +920,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 // 群聊的信息展示
                 EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
                 // 屏蔽按钮
+                if (group!=null)
                 mScBlockMessage.setChecked(group.isMsgBlocked());
+
             }
             // 群名称
             String groupName = mChatGroupBean.getName();

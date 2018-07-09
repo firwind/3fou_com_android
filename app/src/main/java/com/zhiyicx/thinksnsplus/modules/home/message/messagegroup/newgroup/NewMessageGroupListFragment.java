@@ -75,7 +75,7 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
 
         //去掉自带的箭头
         //mSearchView.setVisibility(View.VISIBLE);
-        mLvList.setGroupIndicator(null);
+//        mLvList.setGroupIndicator(null);
         mLvList.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
             mPresenter.checkGroupExist(mListDatas.get(groupPosition).childs.get(childPosition));
             return false;

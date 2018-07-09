@@ -27,6 +27,7 @@ import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
+import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.SelectFriendsRepository;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +41,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
 
 /**
@@ -56,6 +58,10 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
     SelectFriendsRepository mRepository;
     @Inject
     ChatGroupBeanGreenDaoImpl mChatGroupBeanGreenDao;
+
+    @Inject
+    ChatInfoRepository mChatInfoRepository;
+
     private Subscription mSearchSub;
 
     @Inject
@@ -217,10 +223,10 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
         if (mRootView.getIsDeleteMember()) {
             // 删除
             observable = mRepository.removeGroupMember(mRootView.getGroupData().getId(),
-                    id.toString(),mRootView.getGroupData().getGroup_level());
+                    id.toString(), mRootView.getGroupData().getGroup_level());
         } else {
             observable = mRepository.addGroupMember(mRootView.getGroupData().getId(), id.toString()
-                    ,mRootView.getGroupData().getGroup_level());
+                    , mRootView.getGroupData().getGroup_level());
         }
         Subscription subscription = observable
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.circle_dealing)))
@@ -287,35 +293,43 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
         if (mRootView.getGroupData() == null) {
             return;
         }
-        List<UserInfoBean> list = mRootView.getGroupData().getAffiliations();
-        // 移除自己
-        Observable.just(list)
-                .map(list1 -> {
-                    int position = -1;
-                    for (int i = 0; i < list1.size(); i++) {
-                        list1.get(i).setIsSelected(0);
-                        if (list1.get(i).getUser_id().equals(AppApplication.getMyUserIdWithdefault())) {
-                            position = i;
-                        }
-                    }
-                    if (position != -1) {
-                        list1.remove(position);
-                    }
-                    return list1;
+//        List<UserInfoBean> list = mRootView.getGroupData().getAffiliations();
+        mChatInfoRepository.getUserInfoInfo(mRootView.getGroupData().getId(), key)//从服务器获取该群的用户数据
+                .flatMap(userInfoBeans -> {
+                    return // 移除自己
+                            Observable.just(userInfoBeans)
+                                    .map(list1 -> {
+                                        int position = -1;
+                                        for (int i = 0; i < list1.size(); i++) {
+                                            list1.get(i).setIsSelected(0);
+                                            if (list1.get(i).getUser_id().equals(AppApplication.getMyUserIdWithdefault())) {
+                                                position = i;
+                                            }
+                                        }
+                                        if (position != -1) {
+                                            list1.remove(position);
+                                        }
+                                        return list1;
+                                    });
                 })
-                .subscribe(list12 -> {
-                    // 有key表示是搜素，没有就是全部 直接获取就好了
-                    if (TextUtils.isEmpty(key)) {
-                        mRootView.onNetResponseSuccess(list12, false);
-                    } else {
-                        List<UserInfoBean> searchResult = new ArrayList<>();
-                        for (UserInfoBean userInfoBean : mRootView.getGroupData().getAffiliations()) {
-                            if (!TextUtils.isEmpty(userInfoBean.getName()) && userInfoBean.getName().toLowerCase().contains(key.toLowerCase())) {
-                                searchResult.add(userInfoBean);
+                .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
+                    @Override
+                    protected void onSuccess(List<UserInfoBean> data) {
+                        // 有key表示是搜素，没有就是全部 直接获取就好了
+                        if (TextUtils.isEmpty(key)) {
+                            mRootView.onNetResponseSuccess(data, false);
+                        } else {
+                            List<UserInfoBean> searchResult = new ArrayList<>();
+                            for (UserInfoBean userInfoBean : mRootView.getGroupData().getAffiliations()) {
+                                if (!TextUtils.isEmpty(userInfoBean.getName()) && userInfoBean.getName().toLowerCase().contains(key.toLowerCase())) {
+                                    searchResult.add(userInfoBean);
+                                }
                             }
+                            mRootView.onNetResponseSuccess(searchResult, false);
                         }
-                        mRootView.onNetResponseSuccess(searchResult, false);
+
                     }
                 });
+
     }
 }

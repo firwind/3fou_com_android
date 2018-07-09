@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
+
             android:dividerHeight="@dimen/dp0.5" />
 
         <com.zhiyicx.baseproject.widget.refresh.TSRefreshFooter

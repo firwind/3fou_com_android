@@ -4,8 +4,10 @@ import android.os.Bundle;
 
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
+import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.GroupMemberListRepository;
 
 import org.simple.eventbus.Subscriber;
@@ -30,7 +32,8 @@ public class GroupMemberListPresenter extends AppBasePresenter< GroupMemberListC
 
     @Inject
     GroupMemberListRepository mGroupMemberListRepository;
-
+    @Inject
+    ChatInfoRepository mChatInfoRepository;
     @Inject
     public GroupMemberListPresenter( GroupMemberListContract.View rootView) {
         super(rootView);
@@ -39,6 +42,18 @@ public class GroupMemberListPresenter extends AppBasePresenter< GroupMemberListC
     @Override
     public boolean isOwner() {
         return mRootView.getGroupData().getOwner() == AppApplication.getMyUserIdWithdefault();
+    }
+
+    @Override
+    public void getAllUserBean(String groupId) {
+        mChatInfoRepository.getUserInfoInfo(groupId,"")
+                .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
+
+                    @Override
+                    protected void onSuccess(List<UserInfoBean> data) {
+                        mRootView.getUserInfos(data);
+                    }
+                });
     }
 
     @Subscriber(tag = EVENT_IM_GROUP_REMOVE_MEMBER)

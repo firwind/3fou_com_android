@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp45"
+        android:layout_height="@dimen/dp50"
         android:orientation="horizontal">
 
 
@@ -31,7 +31,7 @@
             tools:text="官方群聊" />
 
         <TextView
-            android:id="@+id/tv_parent_num"
+            android:id="@+id/tv_parent_group_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

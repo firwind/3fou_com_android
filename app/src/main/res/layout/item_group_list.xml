@@ -5,6 +5,7 @@
     android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="vertical"
+    android:id="@+id/item_group_ll"
     android:paddingLeft="@dimen/spacing_mid">
 
     <LinearLayout

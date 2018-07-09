@@ -76,7 +76,31 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
     protected void initData() {
         mMemberList = new ArrayList<>();
         mChatGroupBean = getArguments().getParcelable(BUNDLE_GROUP_MEMBER);
+//        initMemberList();
+        mPresenter.getAllUserBean(mChatGroupBean.getId());
+    }
+
+    @Override
+    protected int getBodyLayoutId() {
+        return R.layout.fragment_group_member_list;
+    }
+
+    @Override
+    public ChatGroupBean getGroupData() {
+        return mChatGroupBean;
+    }
+
+    @Override
+    public void updateGroup(ChatGroupBean chatGroupBean) {
         initMemberList();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getUserInfos(List<UserInfoBean> data) {
+        initMemberList();
+        mMemberList.addAll(data);
+
         mAdapter = new ChatMemberAdapter(getContext(), mMemberList, mChatGroupBean.getOwner(), true);
         mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
@@ -111,22 +135,6 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
 //        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getResources().getDimensionPixelOffset(com
 //                .hyphenate.easeui.R.dimen.chat_bottom_footer_height)));
         mRvMemberList.setAdapter(mAdapter);
-    }
-
-    @Override
-    protected int getBodyLayoutId() {
-        return R.layout.fragment_group_member_list;
-    }
-
-    @Override
-    public ChatGroupBean getGroupData() {
-        return mChatGroupBean;
-    }
-
-    @Override
-    public void updateGroup(ChatGroupBean chatGroupBean) {
-        initMemberList();
-        mAdapter.notifyDataSetChanged();
     }
 
     private void initMemberList() {

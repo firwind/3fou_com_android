@@ -3,23 +3,25 @@ package com.zhiyicx.thinksnsplus.modules.home.message.messagegroup;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.EaseConstant;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMConnectionEvent;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.baseproject.impl.imageloader.glide.transformation.GlideCircleTransform;
-import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.holder.GroupItemAdapter;
+import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.holder.SecondaryListAdapter;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -36,6 +38,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @Author Jliuer
@@ -44,10 +48,13 @@ import butterknife.BindView;
  * @Description
  */
 public class MessageGroupListFragment extends TSListFragment<MessageGroupContract.Presenter, ChatGroupBean>
-        implements MessageGroupContract.View, GroupListAdapter.OnItemClickListener {
+        implements MessageGroupContract.View {
 
     @BindView(R.id.searchView)
     TSSearchView mSearchView;
+    @BindView(R.id.swipe_target)
+    RecyclerView swipeTarget;
+    Unbinder unbinder;
     private List<ChatGroupBean> cache;
 
     private static final String IS_ONLY_OFFICIAL_GROUP = "is_only_official_group";
@@ -161,6 +168,8 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         }
 
         super.onNetResponseSuccess(data, isLoadMore);
+        List<SecondaryListAdapter.DataTree<ChatGroupBean, ChatGroupBean>> datas = new ArrayList<>();
+
         if (!notSearch && mListDatas.isEmpty()) {
             setEmptyViewVisiable(false);
         }
@@ -170,33 +179,18 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     @Override
     protected RecyclerView.Adapter getAdapter() {
         if (!isOnlyOfficialGroup()) {
-            GroupAdapter adapter = new GroupAdapter(getContext(), mListDatas);
-//            adapter.setListener(this);
-            adapter.setOnScrollListener(new GroupAdapter.OnScrollListener() {
+            List<SecondaryListAdapter.DataTree<ChatGroupBean, ChatGroupBean>> datas = new ArrayList<>();
+            for (int i = 0; i < mListDatas.size(); i++) {
+                ChatGroupBean chatGroupBean = mListDatas.get(i);
+                datas.add(new SecondaryListAdapter.DataTree<ChatGroupBean, ChatGroupBean>(chatGroupBean, chatGroupBean.getTreeBeanList()));
+            }
+            GroupItemAdapter adapter = new GroupItemAdapter(getContext(), new GroupItemAdapter.OnScrollListener() {
                 @Override
-                public void scrollTo(int pos) {
-//                    adapter.notifyDataSetChanged();
+                public void checkIsGroup(ChatGroupBean groupBean) {
+                    mPresenter.checkGroupExist(groupBean);
                 }
             });
-//            adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-//
-//                    ChatGroupBean bean =adapter.getDatas().get(position);
-//                    if (bean.isExpand()){
-//                        bean.setExpand(false);
-//                    }else {
-//                        bean.setExpand(true);
-//                    }
-//                    adapter.dataChange(adapter.getDatas());
-//                    adapter.notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-//                    return false;
-//                }
-//            });
+            adapter.setData(datas);
             return adapter;
         } else {
             CommonAdapter adapter = new CommonAdapter<ChatGroupBean>(getActivity(), R.layout.item_group_list, mListDatas) {
@@ -345,8 +339,18 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         }*/
     }
 
+
     @Override
-    public void onItemClick(ChatGroupBean groupBean) {
-        mPresenter.checkGroupExist(groupBean);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

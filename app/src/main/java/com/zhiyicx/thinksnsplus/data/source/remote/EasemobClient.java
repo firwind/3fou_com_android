@@ -334,8 +334,9 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_MEMBER_INFO_NEW)
     Observable<List<UserInfoBean>> getGroupUserInfoInfo(@Query("im_group_id") String ids);
+
     /**
-     * 获取群成员
+     * 是否加入群
      * @param ids
      * @return
      */
