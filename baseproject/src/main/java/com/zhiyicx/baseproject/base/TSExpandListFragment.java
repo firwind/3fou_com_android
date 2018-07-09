@@ -751,7 +751,8 @@ public abstract class TSExpandListFragment<P extends ITSListPresenter<T>, T exte
         if (!isLoadMore && (mListDatas.size() == 0)) {
             layzLoadEmptyView();
             mEmptyView.setErrorType(EmptyView.STATE_NETWORK_ERROR);
-            mAdapter.notifyDataSetChanged();
+            if(null != mAdapter)
+                mAdapter.notifyDataSetChanged();
             if (mListDatas.size() <= 0) {
                 setEmptyViewVisiable(true);
             } else {
