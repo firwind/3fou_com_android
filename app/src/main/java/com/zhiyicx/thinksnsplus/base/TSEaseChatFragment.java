@@ -58,6 +58,8 @@ import com.hyphenate.util.PathUtil;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.baseproject.em.manager.util.TSEMessageUtils;
+import com.zhiyicx.baseproject.impl.photoselector.ImageBean;
+import com.zhiyicx.baseproject.impl.photoselector.PhotoSelectorImpl;
 import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.utils.FileUtils;
 import com.zhiyicx.common.utils.ToastUtils;
@@ -132,6 +134,8 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
      * onResume 是时候是否需要刷新
      */
     protected boolean mIsNeedRefreshToLast = false;
+
+    protected PhotoSelectorImpl mPhotoSelector;
 
     public void setNeedRefreshToLast(boolean needRefreshToLast) {
         mIsNeedRefreshToLast = needRefreshToLast;
@@ -439,19 +443,23 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if(null != mPhotoSelector)
+            mPhotoSelector.onActivityResult(requestCode,resultCode,data);
+
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CODE_CAMERA) { // capture new image
                 if (cameraFile != null && cameraFile.exists()) {
                     sendImageMessage(cameraFile.getAbsolutePath());
                 }
-            } else if (requestCode == REQUEST_CODE_LOCAL) { // send local image
+            } /*else if (requestCode == REQUEST_CODE_LOCAL) { // send local image---这里改用PhotoSelector
                 if (data != null) {
                     Uri selectedImage = data.getData();
                     if (selectedImage != null) {
                         sendPicByUri(selectedImage);
                     }
                 }
-            } else if (requestCode == REQUEST_CODE_MAP) { // location
+            }*/ else if (requestCode == REQUEST_CODE_MAP) { // location
                 if (data == null) {
                     return;
                 }
@@ -889,15 +897,35 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
      * select local image
      */
     protected void selectPicFromLocal() {
-        Intent intent;
+        /*Intent intent;
         if (Build.VERSION.SDK_INT < 19) {
             intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
+            intent.setType("image*//*");
 
         } else {
             intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         }
-        startActivityForResult(intent, REQUEST_CODE_LOCAL);
+        startActivityForResult(intent, REQUEST_CODE_LOCAL);*/
+        if(null == mPhotoSelector){
+            mPhotoSelector = new PhotoSelectorImpl(new PhotoSelectorImpl.IPhotoBackListener() {
+                @Override
+                public void getPhotoSuccess(List<ImageBean> photoList) {
+                    try {
+                        for (int i = 0; i < photoList.size(); i++) {
+                            sendPicByUri(Uri.parse(photoList.get(i).getImgUrl()));
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void getPhotoFailure(String errorMsg) {
+                    showMessage(errorMsg);
+                }
+            },this,PhotoSelectorImpl.NO_CRAFT);
+        }
+        mPhotoSelector.getPhotoListFromSelector(9,null);
         mIsNeedRefreshToLast = false;
     }
 

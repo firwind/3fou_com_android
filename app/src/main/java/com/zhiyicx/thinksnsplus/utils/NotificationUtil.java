@@ -181,13 +181,13 @@ public class NotificationUtil {
         builder.setPriority(Notification.PRIORITY_MAX);
 
         //这里设置未读消息的数量
-        builder.setNumber(1);
-
-        /*try {
-            builder.setNumber(EMClient.getInstance().chatManager().getConversation(chatId).getUnreadMsgCount());
+        int num = 1;
+        try {
+            num = EMClient.getInstance().chatManager().getConversation(chatId).getUnreadMsgCount();
         }catch (Exception e){
-            builder.setNumber(1);
-        }*/
+
+        }
+        builder.setNumber(num);
 
         builder.setAutoCancel(true);
         Notification notification = builder.build();
@@ -195,8 +195,7 @@ public class NotificationUtil {
         notificationManager.notify(chatId, 0, notification);
 
         //为小米单独设置角标
-        CommonBadgeUtil.changeMIUIBadge(context,notification,
-                EMClient.getInstance().chatManager().getConversation(chatId).getUnreadMsgCount(),chatId);
+        CommonBadgeUtil.changeMIUIBadge(context,notification, num,chatId);
     }
 
     /**
