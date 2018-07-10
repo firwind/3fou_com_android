@@ -17,6 +17,7 @@ import com.trycatch.mysnackbar.Prompt;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
+import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradepay.UpgradePayActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,11 @@ public class UpgradeGroupFragment extends TSFragment<UpgradeGroupContract.Presen
     @Override
     protected int getBodyLayoutId() {
         return R.layout.fragment_upgrade_group;
+    }
+
+    @Override
+    protected boolean showToolBarDivider() {
+        return true;
     }
 
     @Override
@@ -145,11 +151,9 @@ public class UpgradeGroupFragment extends TSFragment<UpgradeGroupContract.Presen
             LinearLayout mHot = (LinearLayout) view.findViewById(R.id.ll_upgrade_group_advantage_04);
             LinearLayout mAlbum = (LinearLayout) view.findViewById(R.id.ll_upgrade_group_advantage_05);
             Button button = (Button) view.findViewById(R.id.bt_upgrade_immediately);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mPresenter.upgradegroup(mGroupId,upgradeTypeBean.getId());
-                }
+            button.setOnClickListener(view1 -> {
+//                    mPresenter.upgradegroup(mGroupId,upgradeTypeBean.getId());
+                UpgradePayActivity.startUpgradePayActivity(getContext(),upgradeTypeBean);
             });
             mTitle.setText(upgradeTypeBean.getUpgrade_title());
             mPrice.setText("￥" + upgradeTypeBean.getPrice());

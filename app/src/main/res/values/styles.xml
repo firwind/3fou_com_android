@@ -108,5 +108,7 @@
         <item name="android:windowEnterAnimation">@anim/popup_translate_y_enter_anim</item>
         <item name="android:windowExitAnimation">@anim/popup_translate_y_exit_anim</item>
     </style>
-
+    <style name="check_pay_type">
+        <item name="android:button">@drawable/selector_pay_type</item>
+    </style>
 </resources>

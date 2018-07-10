@@ -2,11 +2,39 @@
   {
     "price": "88",
     "upgrade_title": "升级官方群",
-    "id": 1
+    "id": 1,
+    "combo": [
+      {
+        "combo_price":100,
+        "duration":3
+      },
+      {
+        "combo_price":88,
+        "duration":6
+      },
+      {
+        "combo_price":68,
+        "duration":12
+      }
+    ]
   },
   {
     "price": "68",
     "upgrade_title": "升级热门群",
-    "id": 2
+    "id": 2,
+    "combo": [
+      {
+        "combo_price":100,
+        "duration":3
+      },
+      {
+        "combo_price":88,
+        "duration":6
+      },
+      {
+        "combo_price":68,
+        "duration":12
+      }
+    ]
   }
 ]

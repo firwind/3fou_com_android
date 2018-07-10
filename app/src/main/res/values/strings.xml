@@ -428,6 +428,7 @@
     <string name="et_top_input">输入金额</string>
     <string name="et_top_total">总金额</string>
     <string name="et_top_total_pay">共需支付</string>
+    <string name="et_need_total_pay">需付款：</string>
     <string name="words_holder">囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧囧</string>
     <string name="to_top">申请置顶</string>
     <string name="to_recharge">余额不足，去充值</string>
@@ -519,6 +520,11 @@
     <string name="choose_recharge_money">选择充值金额</string>
     <string name="custom_recharge_money">自定义金额</string>
     <string name="choose_recharge_style">选择充值方式</string>
+    <string name="wechat_pay_text">微信支付</string>
+    <string name="ali_pay_text">支付宝支付</string>
+    <string name="blance_pay_text">余额支付</string>
+    <string name="immediately_pay_text">立即支付</string>
+    <string name="member_agreement_text">同意《链圈财经会员协议》</string>
     <string name="choose_recharge_style_formart">%s充值</string>
     <string name="choose_withdrawals_style_formart">%s提现</string>
 
@@ -1077,6 +1083,7 @@
     <string name="chat_info_jurisdiction">成员权限</string>
     <string name="chat_setting_info_jurisdiction">设置成员权限</string>
     <string name="chat_info_upgrade">升级群</string>
+    <string name="selector_pay_way">选择支付方式</string>
     <string name="chat_info_report">举报群</string>
     <string name="chat_info_upgrade_success">升级成功</string>
     <string name="group_member_help">会员帮助中心</string>

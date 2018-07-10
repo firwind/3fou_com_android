@@ -74,23 +74,23 @@
         </activity>
         <activity
             android:name=".modules.usertag.EditUserTagActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.register.RegisterActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".modules.home.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"></activity>
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".modules.settings.SettingsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.password.changepassword.ChangePasswordActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.settings.account.AccountManagementActivity"
             android:screenOrientation="portrait" />
@@ -102,7 +102,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.password.findpassword.FindPasswordActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.login.LoginActivity"
             android:screenOrientation="portrait">
@@ -127,12 +127,12 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".modules.settings.aboutus.CustomWEBActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.edit_userinfo.UserInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
             android:name=".modules.edit_userinfo.location.search.LocationSearchActivity"
             android:screenOrientation="portrait"
@@ -143,23 +143,23 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".modules.home.message.messagecomment.MessageCommentActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.home.message.messagelike.MessageLikeActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.crop.CropActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.photopicker.PhotoAlbumListActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.photopicker.PhotoAlbumDetailsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.photopicker.PhotoViewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TransParentTheme"></activity>
+            android:theme="@style/TransParentTheme"/>
 
         <!-- 低配手机用不起硬件加速 比如 HUAWEI Che1-CL10 Android 6.0.1 API 23 -->
         <activity
@@ -167,13 +167,13 @@
             android:hardwareAccelerated="false"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/TransParentTheme"></activity>
+            android:theme="@style/TransParentTheme"/>
         <activity
             android:name=".modules.music_fm.music_album_list.MusicListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.follow_fans.FollowFansListActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.music_fm.music_album_detail.MusicDetailActivity"
             android:screenOrientation="portrait" />
@@ -202,27 +202,27 @@
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".modules.wallet.WalletActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.wallet.rule.WalletRuleActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.dynamic.detail.DynamicDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".modules.dynamic.detail.dig_list.DigListActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.personal_center.PersonalCenterActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <!-- 查看头像页 -->
         <activity
             android:name=".modules.personal_center.portrait.HeadPortraitViewActivity"
@@ -231,12 +231,12 @@
         <activity
             android:name=".modules.music_fm.music_comment.MusicCommentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".modules.wallet.recharge.RechargeActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
 
         <!-- 问答相关 -->
         <activity
@@ -325,9 +325,9 @@
             android:label="NetworkConnection">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                // 网络切换
+                <!--// 网络切换-->
                 <action android:name="android.intent.action.USER_PRESENT" />
-                // 例如锁屏被唤醒
+                <!--// 例如锁屏被唤醒-->
             </intent-filter>
         </receiver>
         <!-- 极光推送 -->
@@ -397,12 +397,12 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind"/>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind"/>
 
         <activity
             android:name=".modules.collect.CollectListActivity"
@@ -445,11 +445,11 @@
         <activity
             android:name=".modules.q_a.QA_Activity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.q_a.search.container.QASearchContainerActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name=".modules.wallet.reward.RewardActivity"
@@ -462,11 +462,11 @@
         <activity
             android:name=".modules.information.publish.addinfo.AddInfoActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".modules.information.publish.addinfo.AddInfoCategoryActivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.information.publish.uploadcover.UploadCoverActivity"
             android:hardwareAccelerated="true"
@@ -479,7 +479,7 @@
         <activity
             android:name=".modules.q_a.detail.answer.AnswerDetailsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"/>
 
         <!-- 找人 -->
         <activity
@@ -689,6 +689,7 @@
         <activity
             android:name=".modules.home.message.managergroup.notice.noticedetails.NoticeDetailsActivity"
             android:screenOrientation="portrait" />
+
         <!--群成员列表页面-->
         <activity
             android:name=".modules.chat.member.GroupMemberListActivity"
@@ -732,7 +733,6 @@
         <activity
             android:name=".modules.home.message.messagegroup.MessageGroupActivity"
             android:screenOrientation="portrait"/>
-            android:screenOrientation="portrait" />
         <activity
             android:name=".modules.home.message.managergroup.jurisdiction.JurisdictionActivity"
             android:screenOrientation="portrait" />
@@ -745,8 +745,13 @@
         <activity
             android:name=".modules.chat.select.addgroup.AddGroupActivity"
             android:screenOrientation="portrait" />
+        <!--升级群-->
         <activity
             android:name=".modules.home.message.managergroup.maintain.upgradegroup.UpgradeGroupActivity"
+            android:screenOrientation="portrait" />
+        <!--升级群支付-->
+        <activity
+            android:name=".modules.home.message.managergroup.maintain.upgradepay.UpgradePayActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.home.message.managergroup.maintain.report.ReportGroupActivity"

@@ -788,9 +788,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 return false;
             }
         });
-
     }
-
     private void dealAddOrDeleteButton() {
 
         if (mChatGroupBean == null) {
@@ -799,7 +797,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         mChatMembers.clear();
         mChatMembers.addAll(mChatGroupBean.getAffiliations());
         if (mPresenter.isGroupOwner()) {
-            if (mChatGroupBean.getAffiliations_count() > 11) {
+            if (mChatGroupBean.getAffiliations_count() > 10) {
                 // 是群主 18 + 2
 //                mChatMembers = mChatMembers.subList(0, 11);
                 mVLineFindMember.setVisibility(View.VISIBLE);
@@ -810,7 +808,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         } else {
             // 不是群主
-            if (mChatGroupBean.getAffiliations_count()> 10) {
+            if (mChatGroupBean.getAffiliations_count()> 9) {
                 // 19 +1
 //                mChatMembers = mChatMembers.subList(0, 10);
                 mVLineFindMember.setVisibility(View.VISIBLE);

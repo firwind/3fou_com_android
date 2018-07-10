@@ -19,6 +19,7 @@ import static com.zhiyicx.thinksnsplus.i.IntentKey.GROUP_ID;
 public class UpgradeGroupActivity extends TSActivity<UpgradeGroupPresenter, UpgradeGroupFragment> {
 
 
+
     @Override
     protected UpgradeGroupFragment getFragment() {
         return UpgradeGroupFragment.newInstance(getIntent().getExtras());

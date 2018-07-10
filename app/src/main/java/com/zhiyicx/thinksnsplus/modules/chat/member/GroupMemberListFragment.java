@@ -92,12 +92,15 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
 
     @Override
     public void updateGroup(ChatGroupBean chatGroupBean) {
+        mMemberList.clear();
+        mMemberList.addAll(chatGroupBean.getAffiliations());
         initMemberList();
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void getUserInfos(List<UserInfoBean> data) {
+        mChatGroupBean.setAffiliations(data);
         initMemberList();
         mMemberList.addAll(data);
 
@@ -138,7 +141,7 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
     }
 
     private void initMemberList() {
-        mMemberList.clear();
+//        mMemberList.clear();
         // 添加按钮，都可以拉人
         UserInfoBean chatUserInfoBean = new UserInfoBean();
         chatUserInfoBean.setUser_id(-1L);
@@ -149,6 +152,6 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
             chatUserInfoBean1.setUser_id(-2L);
             mMemberList.add(chatUserInfoBean1);
         }
-        mMemberList.addAll(mChatGroupBean.getAffiliations());
+//        mMemberList.addAll(mChatGroupBean.getAffiliations());
     }
 }
