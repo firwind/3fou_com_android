@@ -7,6 +7,10 @@ package com.zhiyicx.thinksnsplus.utils;
  * 版  权: 九曲互动
  */
 
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,5 +26,17 @@ public class StringUtils {
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
         return m.find();
+    }
+
+    /**
+     * 设置字符串字体大小
+     * @param str
+     * @return
+     */
+    public static Spannable setStringFontSize(String str,int start,int end,float fontSize){
+        Spannable spanString = new SpannableString(str);
+        AbsoluteSizeSpan span = new AbsoluteSizeSpan((int) fontSize);
+        spanString.setSpan(span, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        return spanString;
     }
 }
