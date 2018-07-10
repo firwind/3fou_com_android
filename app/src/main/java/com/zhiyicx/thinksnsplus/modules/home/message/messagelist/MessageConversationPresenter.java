@@ -3,7 +3,6 @@ package com.zhiyicx.thinksnsplus.modules.home.message.messagelist;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.SparseArray;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -14,9 +13,7 @@ import com.hyphenate.easeui.bean.ChatUserInfoBean;
 import com.hyphenate.easeui.bean.ChatVerifiedBean;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMMultipleMessagesEvent;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMRefreshEvent;
-import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
-import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
@@ -29,8 +26,10 @@ import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.MessageConversationRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
+import com.zhiyicx.thinksnsplus.modules.chat.call.TSEMHyphenate;
 import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
 import com.zhiyicx.thinksnsplus.utils.MessageTimeAndStickSort;
+import com.zhiyicx.thinksnsplus.utils.badge.CommonBadgeUtil;
 
 import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.Subscriber;
@@ -38,8 +37,6 @@ import org.simple.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -448,10 +445,11 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
      */
     private void checkBottomMessageTip() {
         Subscription subscribe = Observable.just(true)
+                .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(aBoolean -> {
                     // 是否显示底部红点
-                    boolean isShowMessageTip = false;
+                    /*boolean isShowMessageTip = false;
                     for (MessageItemBeanV2 messageItemBean : mRootView.getListDatas()) {
                         if (messageItemBean.getConversation() != null && messageItemBean.getConversation().getUnreadMsgCount() > 0) {
                             isShowMessageTip = true;
@@ -459,8 +457,13 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                         } else {
                             isShowMessageTip = false;
                         }
-                    }
-                    return isShowMessageTip;
+                    }*/
+                    int unreadCount = TSEMHyphenate.getInstance().getUnreadMsgCount();
+                    //这里通知桌面更新角标
+                    //ShortcutBadgeUtil.getInstance().toChangeBadge(mRootView.getCurrentFragment().getContext(),unreadCount);
+                    CommonBadgeUtil.setBadge(mRootView.getCurrentFragment().getContext(),unreadCount);
+
+                    return unreadCount>0;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(isShowMessageTip -> {

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.zhiyicx.common.utils.appprocess.BackgroundUtil;
@@ -19,6 +20,7 @@ import com.zhiyicx.thinksnsplus.data.beans.JpushMessageBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.home.HomeActivity;
+import com.zhiyicx.thinksnsplus.utils.badge.CommonBadgeUtil;
 
 /**
  * @Describe 通知工具类
@@ -177,11 +179,24 @@ public class NotificationUtil {
         // 第一次提示消失的时候显示在通知栏上的
         builder.setTicker("new message");
         builder.setPriority(Notification.PRIORITY_MAX);
+
+        //这里设置未读消息的数量
         builder.setNumber(1);
+
+        /*try {
+            builder.setNumber(EMClient.getInstance().chatManager().getConversation(chatId).getUnreadMsgCount());
+        }catch (Exception e){
+            builder.setNumber(1);
+        }*/
+
         builder.setAutoCancel(true);
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(chatId, 0, notification);
+
+        //为小米单独设置角标
+        CommonBadgeUtil.changeMIUIBadge(context,notification,
+                EMClient.getInstance().chatManager().getConversation(chatId).getUnreadMsgCount(),chatId);
     }
 
     /**

@@ -28,7 +28,9 @@ import com.zhiyicx.baseproject.impl.photoselector.PhotoSelectorImpl;
 import com.zhiyicx.baseproject.impl.photoselector.PhotoSeletorImplModule;
 import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
 import com.zhiyicx.common.BuildConfig;
+import com.zhiyicx.common.utils.ActivityHandler;
 import com.zhiyicx.common.utils.DeviceUtils;
+import com.zhiyicx.common.utils.appprocess.BackgroundUtil;
 import com.zhiyicx.common.widget.NoPullViewPager;
 import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
@@ -353,10 +355,15 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
 
     @Override
     public boolean needShowChatNotofication() {
-        int msgItem = 2;
+        //如果应用在后台，则需要通知
+        if(!BackgroundUtil.getAppIsForegroundStatus())
+            return true;
+
+        int msgItem = 0;
+        //如果当前主界面不是会话界面,则需要通知
         if (mVpHome.getCurrentItem() == msgItem) {
             MessageContainerFragment messageContainerFragment = (MessageContainerFragment) mFragmentList.get(msgItem);
-            return messageContainerFragment != null && messageContainerFragment.getCurrentItem() == 0;
+            return messageContainerFragment != null && messageContainerFragment.getCurrentItem() != 1;
         } else {
             return true;
         }

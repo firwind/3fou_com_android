@@ -35,6 +35,9 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!--适配华为角标-->
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
+
     <!-- allowBackup =true  用于 adb backup 与 adb restore;发布后需要关闭，保证数据安全  android:persistent="true" 应用保持活与自启动 -->
     <application
         android:name=".base.AppApplication"

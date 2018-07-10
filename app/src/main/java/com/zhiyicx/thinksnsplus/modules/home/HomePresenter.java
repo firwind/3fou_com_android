@@ -9,11 +9,9 @@ import com.hyphenate.chat.EMVoiceMessageBody;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMMultipleMessagesEvent;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
-import com.zhiyicx.common.utils.appprocess.BackgroundUtil;
 import com.zhiyicx.imsdk.db.dao.MessageDao;
 import com.zhiyicx.imsdk.entity.AuthData;
 import com.zhiyicx.imsdk.entity.Message;
-import com.zhiyicx.imsdk.manage.ChatClient;
 import com.zhiyicx.imsdk.manage.ZBIMClient;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -24,12 +22,10 @@ import com.zhiyicx.thinksnsplus.config.JpushMessageTypeConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.CheckInBean;
 import com.zhiyicx.thinksnsplus.data.beans.JpushMessageBean;
-import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.WalletConfigBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseMessageRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
-import com.zhiyicx.thinksnsplus.modules.chat.ChatFragment;
 import com.zhiyicx.thinksnsplus.modules.chat.call.TSEMHyphenate;
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 
@@ -43,7 +39,6 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
@@ -290,7 +285,7 @@ class HomePresenter extends AppBasePresenter<HomeContract.View> implements HomeC
                         return Observable.just(chatItemBean1);
                     })
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(Schedulers.io())
                     .subscribe(chatItemBean12 -> {
                         JpushMessageBean jpushMessageBean = new JpushMessageBean();
                         jpushMessageBean.setType(JpushMessageTypeConfig.JPUSH_MESSAGE_TYPE_IM);
@@ -311,8 +306,12 @@ class HomePresenter extends AppBasePresenter<HomeContract.View> implements HomeC
                             content = chatItemBean12.getUserInfo().getName() + ":" + content;
                         }
                         jpushMessageBean.setMessage(content);
-                        NotificationUtil.showChatNotifyMessageExceptCurrentConversation(mContext, jpushMessageBean, chatItemBean12.getMessage()
-                                .conversationId());
+
+                        NotificationUtil.showChatNotifyMessageExceptCurrentConversation(mContext,
+                                jpushMessageBean, chatItemBean12.getMessage().conversationId());
+                        /*int unreadCount = EMClient.getInstance().chatManager().getUnreadMessageCount();
+                        在MessageConversationPresenter做角标更新
+                        ShortcutBadgeUtil.getInstance().toChangeBadge(ActivityHandler.getInstance().currentActivity(), unreadCount);*/
                     });
         }
     }
