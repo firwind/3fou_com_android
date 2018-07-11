@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.zhiyicx.baseproject.base.TSFragment;
 
+import com.zhiyicx.baseproject.config.PayConfig;
 import com.zhiyicx.common.utils.recycleviewdecoration.GridDecoration;
 import com.zhiyicx.common.widget.NoPullRecycleView;
 import com.zhiyicx.imsdk.utils.common.DeviceUtils;
@@ -36,7 +37,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradepay.UpgradePayActivity.GRADE_ID;
 import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradepay.UpgradePayActivity.UPGRADE_TYPE;
+import static com.zhiyicx.tspay.TSPayClient.CHANNEL_ALIPAY_V2;
+import static com.zhiyicx.tspay.TSPayClient.CHANNEL_WXPAY_V2;
 
 public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter> implements UpgradePayContract.View {
     private static final int DEFAULT_COLUMN = 3;
@@ -62,7 +66,11 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
     CheckBox[] checkBoxes = new CheckBox[3];
     private CommonAdapter mCommonAdapter;
     private UpgradeTypeBean mUpgradeTypeBean;
-
+    private String mGroupId;
+    private String upgradeType;
+    private String payType;
+    private double mPayPrice;
+    private int mPayMonth;
     public static final UpgradePayFragment newInstance(Bundle bundle) {
         UpgradePayFragment fragment = new UpgradePayFragment();
         fragment.setArguments(bundle);
@@ -94,20 +102,24 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
         mMoneyList.setHasFixedSize(true);
         mMoneyList.addItemDecoration(new GridDecoration(getResources().getDimensionPixelOffset(R.dimen.spacing_mid), getResources()
                 .getDimensionPixelOffset(R.dimen.spacing_mid)));
-        mCommonAdapter = new CommonAdapter<UpgradeTypeBean.ComboBean>(getContext(), R.layout.item_upgrade_combo, mUpgradeTypeBean.getCombo()) {
+        mCommonAdapter = new CommonAdapter<UpgradeTypeBean.ZhekouDataBean>(getContext(), R.layout.item_upgrade_combo, mUpgradeTypeBean.getZhekou_data()) {
 
             @Override
-            protected void convert(ViewHolder holder, UpgradeTypeBean.ComboBean comboBean, int position) {
+            protected void convert(ViewHolder holder, UpgradeTypeBean.ZhekouDataBean comboBean, int position) {
                 StringBuffer priceBf = new StringBuffer();
                 StringBuffer durationBf = new StringBuffer();
-                priceBf.append("￥").append(comboBean.getCombo_price()).append("/月");
-                durationBf.append(comboBean.getDuration()).append("个月");
+                int money = (int) (mUpgradeTypeBean.getPrice()*comboBean.getDiscount());
+                priceBf.append("￥").append(money).append("/月");
+                durationBf.append(comboBean.getFewmouths()).append("个月");
                 TextView textView =  holder.getView(R.id.tv_price);
                 textView.setText(StringUtils.setStringFontSize(priceBf.toString(), 1, priceBf.toString().indexOf("/"), DeviceUtils.dpToPixel(getContext(), 28f)));
                 holder.setText(R.id.tv_combo_duration,durationBf.toString());
                 if (comboBean.isSelector()){
                     holder.setTextColor(R.id.tv_price,mContext.getResources().getColor(R.color.themeColor));
                     holder.setTextColor(R.id.tv_combo_duration,mContext.getResources().getColor(R.color.themeColor));
+                    mPayPrice = mUpgradeTypeBean.getPrice()*comboBean.getDiscount()*comboBean.getFewmouths();
+                    mPayMonth = comboBean.getFewmouths();
+                    mPayMoney.setText("￥ "+(mUpgradeTypeBean.getPrice()*comboBean.getDiscount()*comboBean.getFewmouths()));
                 }else {
                     holder.setTextColor(R.id.tv_price,mContext.getResources().getColor(R.color.black_deep));
                     holder.setTextColor(R.id.tv_combo_duration,mContext.getResources().getColor(R.color.black_deep));
@@ -117,11 +129,12 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
         mCommonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                List<UpgradeTypeBean.ComboBean> comboBeans = (List<UpgradeTypeBean.ComboBean>) mCommonAdapter.getDatas();
-                for (UpgradeTypeBean.ComboBean comboBean : comboBeans){
+                List<UpgradeTypeBean.ZhekouDataBean> comboBeans = (List<UpgradeTypeBean.ZhekouDataBean>) mCommonAdapter.getDatas();
+                for (UpgradeTypeBean.ZhekouDataBean comboBean : comboBeans){
                     if (comboBeans.indexOf(comboBean) == position){
                         comboBean.setSelector(true);
-                        mPayMoney.setText("￥ "+(comboBean.getCombo_price()*comboBean.getDuration()));
+//                        mPayMoney.setText("￥ "+(mUpgradeTypeBean.getPrice()*comboBean.getDiscount()*comboBean.getFewmouths()));
+
                     }else {
                         comboBean.setSelector(false);
                     }
@@ -141,7 +154,9 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
     protected void initData() {
         if (getArguments() != null) {
             mUpgradeTypeBean = getArguments().getParcelable(UPGRADE_TYPE);
+            mGroupId = getArguments().getString(GRADE_ID);
         }
+        mUpgradeTypeBean.getZhekou_data().get(0).setSelector(true);//默认选择第一个为选中目标
         initRv();
     }
 
@@ -169,9 +184,11 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
         switch (view.getId()) {
             case R.id.ll_wechat_pay:
                 selectorPayType(0);
+                payType = CHANNEL_WXPAY_V2;
                 break;
             case R.id.ll_ali_pay:
                 selectorPayType(1);
+                payType = CHANNEL_ALIPAY_V2;
                 break;
             case R.id.ll_balance_pay:
                 selectorPayType(2);
@@ -179,6 +196,8 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
             case R.id.tv_agree_agreement:
                 break;
             case R.id.bt_pay:
+//                mPresenter.getPayStr(mGroupId,String.valueOf(mUpgradeTypeBean.getClause_id()),payType, PayConfig.realCurrencyYuan2Fen(mPayPrice),mPayMonth);
+                mPresenter.getPayStr(mGroupId,String.valueOf(mUpgradeTypeBean.getClause_id()),payType, 1,mPayMonth);
                 break;
         }
     }
@@ -191,5 +210,10 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
                 checkBoxes[i].setChecked(false);
             }
         }
+    }
+
+    @Override
+    public double getMoney() {
+        return 0;
     }
 }

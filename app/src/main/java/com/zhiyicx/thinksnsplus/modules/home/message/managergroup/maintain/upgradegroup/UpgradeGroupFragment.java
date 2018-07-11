@@ -5,19 +5,28 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.trycatch.mysnackbar.Prompt;
 import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.baseproject.impl.imageloader.glide.transformation.GlideCircleTransform;
+import com.zhiyicx.common.widget.NoPullRecycleView;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradepay.UpgradePayActivity;
+import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +67,7 @@ public class UpgradeGroupFragment extends TSFragment<UpgradeGroupContract.Presen
     @Override
     protected void initData() {
         mGroupId = getArguments().getString(GROUP_ID);
-        mPresenter.getUpgradeType();//从本地获取升级群Bean
+        mPresenter.getUpgradeType();//从获取升级群Bean
     }
 
     @Override
@@ -145,22 +154,34 @@ public class UpgradeGroupFragment extends TSFragment<UpgradeGroupContract.Presen
             UpgradeTypeBean upgradeTypeBean = data.get(position);
             TextView mTitle = (TextView) view.findViewById(R.id.tv_upgrade_item_title);
             TextView mPrice = (TextView) view.findViewById(R.id.tv_upgrade_price);
-            LinearLayout mNumber = (LinearLayout) view.findViewById(R.id.ll_upgrade_group_advantage_01);
-            LinearLayout mVip = (LinearLayout) view.findViewById(R.id.ll_upgrade_group_advantage_02);
-            LinearLayout mLocation = (LinearLayout) view.findViewById(R.id.ll_upgrade_group_advantage_03);
-            LinearLayout mHot = (LinearLayout) view.findViewById(R.id.ll_upgrade_group_advantage_04);
-            LinearLayout mAlbum = (LinearLayout) view.findViewById(R.id.ll_upgrade_group_advantage_05);
+            NoPullRecycleView recycleView = (NoPullRecycleView) view.findViewById(R.id.upgrade_group_rv);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            recycleView.setLayoutManager(linearLayoutManager);
+            CommonAdapter adapter = new CommonAdapter<UpgradeTypeBean.TaocanDataBean>(getContext(),R.layout.item_combo,upgradeTypeBean.getTaocan_data()) {
+                @Override
+                protected void convert(ViewHolder holder, UpgradeTypeBean.TaocanDataBean comboBean, int position) {
+                    Glide.with(mContext)
+                            .load(TextUtils.isEmpty(comboBean.getIcon()) ? R.mipmap.album_icon : comboBean
+                                    .getIcon())
+                            .error(R.mipmap.album_icon)
+                            .placeholder(R.mipmap.album_icon)
+                            .transform(new GlideCircleTransform(mContext))
+                            .into(holder.getImageViwe(R.id.iv_combo_icon));
+                    holder.setText(R.id.tv_combo_str,comboBean.getDec());
+                }
+            };
+            recycleView.setAdapter(adapter);
             Button button = (Button) view.findViewById(R.id.bt_upgrade_immediately);
             button.setOnClickListener(view1 -> {
 //                    mPresenter.upgradegroup(mGroupId,upgradeTypeBean.getId());
-                UpgradePayActivity.startUpgradePayActivity(getContext(),upgradeTypeBean);
+                UpgradePayActivity.startUpgradePayActivity(getContext(),upgradeTypeBean,mGroupId);
             });
-            mTitle.setText(upgradeTypeBean.getUpgrade_title());
+            mTitle.setText(upgradeTypeBean.getName());
             mPrice.setText("￥" + upgradeTypeBean.getPrice());
-            if (upgradeTypeBean.getId() == 2) {
-                mVip.setVisibility(View.GONE);
-                mLocation.setVisibility(View.GONE);
-            }
+//            if (upgradeTypeBean.getId() == 2) {
+//                mVip.setVisibility(View.GONE);
+//                mLocation.setVisibility(View.GONE);
+//            }
             container.addView(view);
             return views.get(position);
         }

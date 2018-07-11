@@ -104,7 +104,7 @@ public class RechargePresenter extends AppBasePresenter<RechargeContract.View> i
                     return Observable.just(alipay.payV2(orderInfo, true));
                 })
                 .flatMap((Func1<Map<String, String>, Observable<BaseJsonV2<String>>>) stringStringMap -> {
-                    if (TSPayClient.CHANNEL_ALIPAY_SUCCESS.equals(stringStringMap.get("resultStatus"))){
+                    if (TSPayClient.CHANNEL_ALIPAY_SUCCESS.equals(stringStringMap.get("resultStatus"))) {
                         return mBillRepository.aliPayVerify(stringStringMap.get("memo"),
                                 stringStringMap.get("result"), stringStringMap.get("resultStatus"));
                     }
@@ -130,6 +130,7 @@ public class RechargePresenter extends AppBasePresenter<RechargeContract.View> i
                     }
                 });
     }
+
     @Override
     public void rechargeSuccess(String charge) {
         Subscription subscribe = mBillRepository.rechargeSuccess(charge).subscribe(new BaseSubscribeForV2<RechargeSuccessBean>() {

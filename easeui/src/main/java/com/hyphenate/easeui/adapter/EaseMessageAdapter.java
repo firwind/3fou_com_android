@@ -86,6 +86,15 @@ public class EaseMessageAdapter extends BaseAdapter {
 
     // reference to conversation object in chatsdk
     private EMConversation conversation;
+
+    public List<EMMessage> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<EMMessage> messages) {
+        this.messages = messages;
+    }
+
     private List<EMMessage> messages = new ArrayList<>();
     /**
      * 当前聊天的用户列表

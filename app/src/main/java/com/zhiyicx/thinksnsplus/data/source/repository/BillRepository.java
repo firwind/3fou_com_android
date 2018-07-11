@@ -157,10 +157,24 @@ public class BillRepository implements IBillRepository {
     }
 
     @Override
+    public Observable<BaseJsonV2<String>> getUpgradeGroupAliPayStr(String groupId,String upGradeType, String channel, double amount, int fewmouths) {
+        return mWalletClient.getUpgradeGroupAliPayStr(groupId,upGradeType, channel, (long) amount, "" + ApiConfig.ANDROID_PLATFORM, fewmouths)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
     public Observable<BaseJsonV2<WXPayInfo>> getWXPayStr(String channel, double amount) {
         return mWalletClient.getWXPayStr(channel, (long) amount, "" + ApiConfig.ANDROID_PLATFORM)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseJsonV2<WXPayInfo>> getUpgradeGroupWXPayStr(String groupId,String upGradeType, String channel, double amount, int fewmouths) {
+        return mWalletClient.getUpgradeGroupWXPayStr(groupId,upGradeType, channel, (long) amount, "" + ApiConfig.ANDROID_PLATFORM, fewmouths)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -272,4 +286,6 @@ public class BillRepository implements IBillRepository {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+
 }

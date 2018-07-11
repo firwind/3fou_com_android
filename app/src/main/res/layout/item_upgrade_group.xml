@@ -27,6 +27,7 @@
         android:textSize="20sp"
         android:textStyle="bold" />
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_upgrade_group_advantage_01"
         android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp20"
@@ -46,6 +47,7 @@
             android:text="@string/upgrade_group_advantage_01"/>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_upgrade_group_advantage_02"
         android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp20"
@@ -65,6 +67,7 @@
             android:text="@string/upgrade_group_advantage_02"/>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_upgrade_group_advantage_03"
         android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp20"
@@ -84,6 +87,7 @@
             android:text="@string/upgrade_group_advantage_03"/>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_upgrade_group_advantage_04"
         android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp20"
@@ -104,6 +108,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_upgrade_group_advantage_05"
         android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp20"
@@ -122,7 +127,15 @@
             android:layout_height="wrap_content"
             android:text="@string/upgrade_group_advantage_05"/>
     </LinearLayout>
+    <com.zhiyicx.common.widget.NoPullRecycleView
+        android:id="@+id/upgrade_group_rv"
+        android:paddingTop="@dimen/dp20"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+    </com.zhiyicx.common.widget.NoPullRecycleView>
     <Button
         android:id="@+id/bt_upgrade_immediately"
         android:textColor="@color/white"

@@ -15,8 +15,10 @@ import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
 
-public class UpgradePayActivity extends TSActivity<UpgradePayPresenter,UpgradePayFragment>{
+public class UpgradePayActivity extends TSActivity<UpgradePayPresenter, UpgradePayFragment> {
     public static final String UPGRADE_TYPE = "upgradeTypeBean";
+    public static final String GRADE_ID = "group_id";
+
     @Override
     protected UpgradePayFragment getFragment() {
         return UpgradePayFragment.newInstance(getIntent().getExtras());
@@ -31,11 +33,18 @@ public class UpgradePayActivity extends TSActivity<UpgradePayPresenter,UpgradePa
                 .inject(this);
     }
 
-    public static void startUpgradePayActivity(Context context, UpgradeTypeBean upgradeTypeBean){
-        Intent intent = new Intent(context,UpgradePayActivity.class);
+    public static void startUpgradePayActivity(Context context, UpgradeTypeBean upgradeTypeBean, String groupId) {
+        Intent intent = new Intent(context, UpgradePayActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(UPGRADE_TYPE,upgradeTypeBean);
+        bundle.putParcelable(UPGRADE_TYPE, upgradeTypeBean);
+        bundle.putString(GRADE_ID, groupId);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mContanierFragment.onActivityResult(requestCode, resultCode, data);
     }
 }

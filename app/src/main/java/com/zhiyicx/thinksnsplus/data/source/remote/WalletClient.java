@@ -27,6 +27,7 @@ import static com.zhiyicx.baseproject.config.ApiConfig.APP_PAHT_INTEGRATION_RECH
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PAHT_INTEGRATION_RECHARGE_V2;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PAHT_INTEGRATION_VERIFY_V2;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PAHT_INTEGRATION_WITHDRAWALS;
+import static com.zhiyicx.baseproject.config.ApiConfig.APP_PAHT_UPGRADE_GROUP_V2;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PAHT_WALLET_BALANCE_TO_INTEGRATION;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PAHT_WALLET_CONFIG;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PAHT_WALLET_RECHARGE;
@@ -115,6 +116,43 @@ public interface WalletClient {
     @POST(APP_PAHT_WALLET_RECHARGE_V2)
     Observable<BaseJsonV2<WXPayInfo>> getWXPayStr(@Field("type") String channel, @Field("amount") long amount, @Field("from") String from);
 
+    /**
+     * 升级群微信支付
+     *
+     * @param upgradeType
+     * @param channel
+     * @param amount
+     * @param from
+     * @param fewmouths
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(APP_PAHT_UPGRADE_GROUP_V2)
+    Observable<BaseJsonV2<WXPayInfo>> getUpgradeGroupWXPayStr(
+                                                            @Field("im_group_id") String groupId,
+                                                            @Field("type") String upgradeType,
+                                                            @Field("paytype") String channel,
+                                                            @Field("amount") long amount,
+                                                            @Field("from") String from,
+                                                            @Field("fewmouths") int fewmouths);
+
+    /**
+     * 升级群支付宝支付
+     *
+     * @param amount
+     * @return
+     */
+
+    @FormUrlEncoded
+    @POST(APP_PAHT_UPGRADE_GROUP_V2)
+    Observable<BaseJsonV2<String>> getUpgradeGroupAliPayStr(
+            @Field("im_group_id") String groupId,
+            @Field("type") String upgradeType,
+            @Field("paytype") String channel,
+            @Field("amount") long amount,
+            @Field("from") String from,
+            @Field("fewmouths") int fewmouths);
+
     @FormUrlEncoded
     @POST(APP_PAHT_INTEGRATION_RECHARGE_V2)
     Observable<BaseJsonV2<WXPayInfo>> getIntegrationWXPayStr(@Field("type") String channel, @Field("amount") long amount, @Field("from") String from);
@@ -135,7 +173,6 @@ public interface WalletClient {
     @FormUrlEncoded
     @POST(APP_PAHT_INTEGRATION_VERIFY_V2)
     Observable<BaseJsonV2<String>> aliPayIntegrationVerify(@Field("memo") String memo, @Field("result") String result, @Field("resultStatus") String resultStatus);
-
 
     /**
      * 钱包余额转积分

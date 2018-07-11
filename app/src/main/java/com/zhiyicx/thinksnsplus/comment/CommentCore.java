@@ -1,6 +1,6 @@
 package com.zhiyicx.thinksnsplus.comment;
 
-import com.zhiyicx.baseproject.config.ApiConfig;
+import com.zhiyicx.baseproject.config. ApiConfig;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.service.backgroundtask.BackgroundTaskHandler;
 

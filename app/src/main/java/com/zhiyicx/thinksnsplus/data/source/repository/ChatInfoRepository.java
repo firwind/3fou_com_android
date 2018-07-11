@@ -113,18 +113,10 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
 
     @Override
     public Observable<List<UpgradeTypeBean>> getUpgradeGroups() {
-        Observable observable = Observable.create((Observable.OnSubscribe<List<UpgradeTypeBean>>) subscriber -> {
-
-            String json = JsonUtils.getJson("upgradeGroup", AppApplication.getContext());
-            Type listType = new TypeToken<List<UpgradeTypeBean>>() {
-            }.getType();
-            //这里的json是字符串类型 = jsonArray.toString();
-            List<UpgradeTypeBean> typeBeans = new Gson().fromJson(json, listType);
-            subscriber.onNext(typeBeans);
-            subscriber.onCompleted();
-        }).subscribeOn(Schedulers.io())
+        return mEasemobClient.upgradeGroupClause()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-        return observable;
+
     }
 
     @Override

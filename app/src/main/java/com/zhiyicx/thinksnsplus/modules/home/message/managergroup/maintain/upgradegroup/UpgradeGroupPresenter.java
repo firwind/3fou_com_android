@@ -20,9 +20,10 @@ import javax.inject.Inject;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class UpgradeGroupPresenter extends AppBasePresenter<UpgradeGroupContract.View> implements UpgradeGroupContract.Presenter{
+public class UpgradeGroupPresenter extends AppBasePresenter<UpgradeGroupContract.View> implements UpgradeGroupContract.Presenter {
     @Inject
     ChatInfoRepository repository;
+
     @Inject
     public UpgradeGroupPresenter(UpgradeGroupContract.View rootView) {
         super(rootView);
@@ -30,28 +31,31 @@ public class UpgradeGroupPresenter extends AppBasePresenter<UpgradeGroupContract
 
     @Override
     public void getUpgradeType() {
-        repository.getUpgradeGroups().subscribe(new BaseSubscribeForV2<List<UpgradeTypeBean>>() {
-            @Override
-            protected void onSuccess(List<UpgradeTypeBean> data) {
-                mRootView.getUpgradeTypes(data);
-            }
+        Subscription subscription = repository.getUpgradeGroups()
+                .subscribe(new BaseSubscribeForV2<List<UpgradeTypeBean>>() {
+                    @Override
+                    protected void onSuccess(List<UpgradeTypeBean> data) {
+                        mRootView.getUpgradeTypes(data);
+                    }
 
-            @Override
-            public void onCompleted() {
-                super.onCompleted();
-            }
-        });
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                    }
+                });
+        addSubscrebe(subscription);
     }
 
     @Override
     public void upgradegroup(String groupId, int type) {
-        Subscription subscription = repository.upgradeGroup(groupId,type)
+        Subscription subscription = repository.upgradeGroup(groupId, type)
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("升级中..."))
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
                         mRootView.showSnackSuccessMessage(mContext.getString(R.string.chat_info_upgrade_success));
                     }
+
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);

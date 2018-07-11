@@ -151,6 +151,7 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_CANCEL_STICK= "api/" + API_VERSION_2 + "/easemob/group/delstick";// 取消置顶
     public static final String APP_PATH_GET_GROUP_GET_STICKS= "api/" + API_VERSION_2 + "/easemob/group/getstick";// 获取置顶ID
     public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP= "api/" + API_VERSION_2 + "/easemob/group/upgradegroup";// 升级群
+    public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP_CLAUSE= "api/" + API_VERSION_2 + "/easemob/group/getClause";// 群套餐
     public static final String APP_PATH_GET_GROUP_REPORT_GROUP= "api/" + API_VERSION_2 + "/easemob/group/report";//举报群
     public static final String APP_PATH_GET_SIMPLE_GROUP_INFO= "api/" + API_VERSION_2 + "/easemob/group/grouplist";//简单获取群信息
     public static final String APP_PATH_GET_GROUP_INFO_NEW= "api/" + API_VERSION_2 + "/easemob/group/groupinfo";//简单获取群信息
@@ -1070,12 +1071,13 @@ public class ApiConfig {
 
     // 支付宝充值
     public static final String APP_PAHT_WALLET_RECHARGE_V2 = "api/" + API_VERSION_2 + "/walletRecharge/orders";
+    //升级群支付
+    public static final String APP_PAHT_UPGRADE_GROUP_V2 = "api/" + API_VERSION_2 + "/easemob/group/upgradegroup";
 
     // 余额充值验证
     public static final String APP_PAHT_WALLET_VERIFY_V2 = "api/" + API_VERSION_2 + "/walletRecharge/checkOrders";
     // 积分充值验证
     public static final String APP_PAHT_INTEGRATION_VERIFY_V2 = "api/" + API_VERSION_2 + "/currencyRecharge/checkOrders";
-
 
     /**
      * 积分

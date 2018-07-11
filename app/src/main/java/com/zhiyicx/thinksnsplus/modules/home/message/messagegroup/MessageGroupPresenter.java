@@ -69,6 +69,7 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                     protected void onSuccess(List<ChatGroupBean> data) {
                         mRootView.onNetResponseSuccess(data, isLoadMore);
                     }
+
                     @Override
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);
@@ -88,7 +89,7 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
     }
 
     @Override
-    public void checkGroupExist( ChatGroupBean groupBean ) {
+    public void checkGroupExist(ChatGroupBean groupBean) {
         if (mGroupExistSubscription != null && !mGroupExistSubscription.isUnsubscribed()) {
             mGroupExistSubscription.unsubscribe();
         }
@@ -97,34 +98,50 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                 .flatMap(new Func1<String, Observable<String>>() {
                     @Override
                     public Observable<String> call(String s) {
-                        EMGroup group = null;
-                        try {
-                            group = EMClient.getInstance().groupManager().getGroupFromServer(s);
-                        } catch (HyphenateException e) {
-                            e.printStackTrace();
-                        }
-                        if (group!=null){
-                            return mBaseMessageRepository.getChickIsAddGroup(groupBean.getId())
-                                    .flatMap(new Func1<ChatGroupBean, Observable<String>>() {
-                                        @Override
-                                        public Observable<String> call(ChatGroupBean chatGroupBean) {
-                                            if(chatGroupBean.getIs_in() == 1){
-                                                return Observable.just(groupBean.getId());
-                                            }else {
-                                                return mChatInfoRepository.addGroupMember(groupBean.getId(),
-                                                        String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()),groupBean.getGroup_level())
-                                                        .flatMap(new Func1<Object, Observable<String>>() {
-                                                            @Override
-                                                            public Observable<String> call(Object o) {
-                                                                return Observable.just(groupBean.getId());
-                                                            }
-                                                        });
+//                        EMGroup group = null;
+//                        try {
+//                            group = EMClient.getInstance().groupManager().getGroupFromServer(s);
+//                        } catch (HyphenateException e) {
+//                            e.printStackTrace();
+//                        }
+//                        if (group != null) {
+                            try {
+                                List<EMGroup> grouplist = EMClient.getInstance().groupManager().getAllGroups();//需异步处理
+                                return Observable.just(grouplist).flatMap(new Func1<List<EMGroup>, Observable<String>>() {
+                                    @Override
+                                    public Observable<String> call(List<EMGroup> emGroups) {
+                                        boolean isAddGroup = false;
+                                        for (EMGroup emGroup : emGroups) {
+                                            String groupId = emGroup.getGroupId();
+                                            if (groupBean.getId().equals(groupId)) {
+                                                isAddGroup = true;
+                                                break;
+                                            } else {
+                                                isAddGroup = false;
                                             }
                                         }
-                                    });
-                        }else {
-                            return Observable.just(groupBean.getId());
-                        }
+                                        if (isAddGroup) {
+                                            return Observable.just(groupBean.getId());
+                                        } else {
+                                            return mChatInfoRepository.addGroupMember(groupBean.getId(),
+                                                    String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()), groupBean.getGroup_level())
+                                                    .flatMap(new Func1<Object, Observable<String>>() {
+                                                        @Override
+                                                        public Observable<String> call(Object o) {
+                                                            return Observable.just(groupBean.getId());
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                mRootView.showSnackErrorMessage("获取群组列表失败");
+                                return Observable.just(groupBean.getId());
+                            }
+//                        } else {
+//                            return Observable.just(groupBean.getId());
+//                        }
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -134,6 +151,7 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                     protected void onSuccess(String data) {
                         mRootView.checkGroupExist(data);
                     }
+
                     @Override
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);

@@ -907,6 +907,7 @@
     <string name="pay_alert_ing">支付中&#8230;</string>
     <string name="pay_alert_success">支付成功</string>
     <string name="pay_alert_failed">支付失败</string>
+
     <!--发布公用-->
     <string name="publish_success">发布成功</string>
     <string name="publish_failed">发布失败</string>
@@ -1085,7 +1086,7 @@
     <string name="chat_info_upgrade">升级群</string>
     <string name="selector_pay_way">选择支付方式</string>
     <string name="chat_info_report">举报群</string>
-    <string name="chat_info_upgrade_success">升级成功</string>
+    <string name="chat_info_upgrade_success">恭喜您，升级成功</string>
     <string name="group_member_help">会员帮助中心</string>
 
     <string name="upgrade_group_advantage_01">群成员人数不限制</string>

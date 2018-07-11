@@ -8,6 +8,7 @@ import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
+import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.beans.ExpandChatGroupBean;
 
@@ -207,6 +208,13 @@ public interface EasemobClient {
     @POST(ApiConfig.APP_PATH_GET_GROUP_UPGRADE_GROUP)
     Observable<String> upgradeGroup(@Query("im_group_id") String im_group_id,
                                     @Query("type") int type);
+    /**
+     * 升级群
+     *
+     * @param
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_UPGRADE_GROUP_CLAUSE)
+    Observable<List<UpgradeTypeBean>> upgradeGroupClause();
 
     /**
      * 举报群

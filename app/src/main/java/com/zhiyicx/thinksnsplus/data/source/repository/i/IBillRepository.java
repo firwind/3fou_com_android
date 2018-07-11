@@ -65,6 +65,12 @@ public interface IBillRepository {
      * @return
      */
     Observable<BaseJsonV2<String>> getAliPayStr(String channel, double amount);
+    /**
+     * 获取升级群支付宝支付信息
+     * @param amount
+     * @return
+     */
+    Observable<BaseJsonV2<String>> getUpgradeGroupAliPayStr(String groupId,String upGradeType,String channel, double amount,int fewmouths);
 
     /**
      * 获取wx支付信息V2
@@ -73,6 +79,12 @@ public interface IBillRepository {
      * @return
      */
     Observable<BaseJsonV2<WXPayInfo>> getWXPayStr(String channel, double amount);
+    /**
+     * 获取升级群微信支付信息
+     * @param amount
+     * @return
+     */
+    Observable<BaseJsonV2<WXPayInfo>> getUpgradeGroupWXPayStr(String groupId,String upGradeType,String channel, double amount,int fewmouths);
 
     /**
      * 支付宝支付验证，3个参数都是支付宝返回
@@ -149,5 +161,7 @@ public interface IBillRepository {
      * @return
      */
     Observable<BaseJsonV2> integrationWithdrawals(Integer amount);
+
+
 
 }

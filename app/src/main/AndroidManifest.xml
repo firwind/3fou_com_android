@@ -753,6 +753,10 @@
         <activity
             android:name=".modules.home.message.managergroup.maintain.upgradepay.UpgradePayActivity"
             android:screenOrientation="portrait" />
+        <!--升级群支付-->
+        <activity
+            android:name=".modules.home.message.managergroup.maintain.upgradepay.PaySuccessActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".modules.home.message.managergroup.maintain.report.ReportGroupActivity"
             android:screenOrientation="portrait" />

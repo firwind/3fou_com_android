@@ -18,7 +18,7 @@ import static com.zhiyicx.thinksnsplus.i.IntentKey.GROUP_ID;
 
 public class UpgradeGroupActivity extends TSActivity<UpgradeGroupPresenter, UpgradeGroupFragment> {
 
-
+    public static UpgradeGroupActivity mFlag = null;
 
     @Override
     protected UpgradeGroupFragment getFragment() {
@@ -32,6 +32,7 @@ public class UpgradeGroupActivity extends TSActivity<UpgradeGroupPresenter, Upgr
                 .upgradeGroupPresenterModule(new UpgradeGroupPresenterModule(mContanierFragment))
                 .build()
                 .inject(this);
+        mFlag = this;
     }
 
     public static void startUpgradeGroupActivity(Context context, String groupId) {
