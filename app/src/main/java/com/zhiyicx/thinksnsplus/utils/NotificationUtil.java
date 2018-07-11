@@ -40,6 +40,7 @@ import com.zhiyicx.thinksnsplus.utils.badge.CommonBadgeUtil;
 public class NotificationUtil {
     private Context context;
     private NotificationManager notificationManager;
+    private static final int NOTIFY_MESSAGE_ID = 11;
 
     public NotificationUtil(Context context) {
         this.context = context;
@@ -192,10 +193,17 @@ public class NotificationUtil {
         builder.setAutoCancel(true);
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(chatId, 0, notification);
+        notificationManager.notify(chatId, NOTIFY_MESSAGE_ID, notification);
 
         //为小米单独设置角标
         CommonBadgeUtil.changeMIUIBadge(context,notification, num,chatId);
+    }
+
+    /**
+     * 删除所有会话通知
+     */
+    public void cancelAllChatNotification(){
+        notificationManager.cancel(NOTIFY_MESSAGE_ID);
     }
 
     /**

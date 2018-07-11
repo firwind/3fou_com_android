@@ -71,6 +71,8 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
      */
     private ActionPopupWindow mCheckSurePop;
 
+    //private NotificationUtil mNotificationUtil;
+
     @Override
     protected boolean useEventBus() {
         return true;
@@ -123,6 +125,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     protected void initData() {
         super.initData();
         initListener();
+        //mNotificationUtil = new NotificationUtil(mActivity);
     }
 
     @Override
@@ -130,6 +133,8 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
         super.onResume();
         //mPresenter.refreshSticks(String.valueOf(AppApplication.getMyUserIdWithdefault()));
         refreshConversationInfo();
+        //删除所有会话通知
+        //mNotificationUtil.cancelAllChatNotification();
     }
 
 

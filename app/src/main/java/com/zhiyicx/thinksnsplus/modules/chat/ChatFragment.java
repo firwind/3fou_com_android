@@ -2,11 +2,13 @@ package com.zhiyicx.thinksnsplus.modules.chat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -76,6 +78,7 @@ import org.simple.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -130,6 +133,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     Unbinder unbinder;
 
     private ActionPopupWindow mActionPopupWindow;
+
 
     public static ChatFragment instance(Bundle bundle) {
         ChatFragment chatFragment = new ChatFragment();
@@ -340,7 +344,22 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
     @Override
     public void onMessageBubbleLongClick(EMMessage message) {
-
+        new AlertDialog.Builder(mActivity)
+                .setItems(new String[]{"复制","删除"},
+                        (dialog, which) -> {
+                            if(which == 0){
+                                if(EMMessage.Type.TXT == message.getType()){
+                                    DeviceUtils.copyTextToBoard(mActivity,
+                                            ((EMTextMessageBody) message.getBody()).getMessage());
+                                }
+                            }else {
+                                EMClient.getInstance().chatManager().getConversation(message.conversationId())
+                                        .removeMessage(message.getMsgId());
+                                messageList.refresh();
+                            }
+                        })
+                .create()
+                .show();
     }
 
     @Override
