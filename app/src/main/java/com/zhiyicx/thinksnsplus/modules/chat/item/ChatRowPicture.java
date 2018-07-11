@@ -31,6 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import rx.Subscriber;
+import rx.functions.Action1;
+import rx.functions.Func0;
+
 import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
 
 /**
@@ -173,6 +177,12 @@ public class ChatRowPicture extends ChatBaseRow {
             mIvChatContent.setLayoutParams(layoutParams);
 
             ImageUtils.loadImageDefault(mIvChatContent, url);
+
+            //外层bubbleLayout接收不到长按事件，在这里添加
+            RxView.longClicks(mIvChatContent).subscribe(aVoid -> {
+                if(null != itemClickListener)
+                    itemClickListener.onBubbleLongClick(message);
+            });
 
             RxView.clicks(mIvChatContent)
                     .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)   //两秒钟之内只取一个点击事件，防抖操作
