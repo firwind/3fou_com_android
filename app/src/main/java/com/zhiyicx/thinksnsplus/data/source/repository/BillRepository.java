@@ -160,7 +160,7 @@ public class BillRepository implements IBillRepository {
     public Observable<BaseJsonV2<String>> getUpgradeGroupAliPayStr(String groupId,String upGradeType, String channel, double amount, int fewmouths) {
         return mWalletClient.getUpgradeGroupAliPayStr(groupId,upGradeType, channel, (long) amount, "" + ApiConfig.ANDROID_PLATFORM, fewmouths)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(Schedulers.io());
     }
 
     @Override

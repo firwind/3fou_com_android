@@ -86,6 +86,7 @@ public class UpgradePayPresenter extends AppBasePresenter<UpgradePayContract.Vie
     }
 
     private void getAliPayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths) {
+//        mBillRepository.getAliPayStr(channel, amount)
         mBillRepository.getUpgradeGroupAliPayStr(groupId, upGradeType, channel, amount, fewmouths)
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.recharge_credentials_ing)))
                 .flatMap(stringBaseJsonV2 -> {
