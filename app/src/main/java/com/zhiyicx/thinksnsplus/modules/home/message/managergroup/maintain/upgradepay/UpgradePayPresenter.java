@@ -22,9 +22,15 @@ import com.zhiyicx.thinksnsplus.data.source.repository.BillRepository;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradegroup.UpgradeGroupActivity;
 
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_WX_PAY_RESULT;
 import static com.zhiyicx.tspay.TSPayClient.CHANNEL_ALIPAY_SUCCESS;
 import static com.zhiyicx.tspay.TSPayClient.CHANNEL_ALIPAY_V2;
@@ -89,6 +95,8 @@ public class UpgradePayPresenter extends AppBasePresenter<UpgradePayContract.Vie
 //        mBillRepository.getAliPayStr(channel, amount)
         mBillRepository.getUpgradeGroupAliPayStr(groupId, upGradeType, channel, amount, fewmouths)
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.recharge_credentials_ing)))
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .flatMap(stringBaseJsonV2 -> {
                     PayTask payTask = new PayTask(mRootView.getActivity());
                     String orderInfo = stringBaseJsonV2.getData();
@@ -102,6 +110,8 @@ public class UpgradePayPresenter extends AppBasePresenter<UpgradePayContract.Vie
                         return Observable.error(new IllegalArgumentException(stringStringMap.get("memo")));
                     }
                 })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<BaseJsonV2<String>>() {
                     @Override
                     protected void onSuccess(BaseJsonV2<String> data) {

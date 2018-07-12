@@ -77,7 +77,7 @@ public class MarketListFragment extends TSListFragment<MarketContract.MarektList
 
         super.initView(rootView);
 
-        mTv1.setText(isRankMarket()?"名称":"交易所");
+        //mTv1.setText(isRankMarket()?"名称":"交易所");
     }
 
     @Override

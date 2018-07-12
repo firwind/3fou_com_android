@@ -40,7 +40,7 @@ import com.zhiyicx.thinksnsplus.utils.badge.CommonBadgeUtil;
 public class NotificationUtil {
     private Context context;
     private NotificationManager notificationManager;
-    private static final int NOTIFY_MESSAGE_ID = 11;
+    public static final int NOTIFY_MESSAGE_ID = 11;
 
     public NotificationUtil(Context context) {
         this.context = context;

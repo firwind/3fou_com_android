@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.zhiyicx.thinksnsplus.modules.guide.GuideActivity;
+import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -70,7 +71,7 @@ public class CommonBadgeUtil {
             Object extraNotification = field.get(notification);
             Method method = extraNotification.getClass().getDeclaredMethod("setMessageCount", int.class);
             method.invoke(extraNotification, count);
-            mNotificationManager.notify(chatId,0,notification);
+            mNotificationManager.notify(chatId, NotificationUtil.NOTIFY_MESSAGE_ID,notification);
         } catch (Exception e) {
             e.printStackTrace();
         }
