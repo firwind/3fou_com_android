@@ -157,8 +157,8 @@ public class BillRepository implements IBillRepository {
     }
 
     @Override
-    public Observable<BaseJsonV2<String>> getUpgradeGroupAliPayStr(String groupId,String upGradeType, String channel, double amount, int fewmouths) {
-        return mWalletClient.getUpgradeGroupAliPayStr(groupId,upGradeType, channel, (long) amount, "" + ApiConfig.ANDROID_PLATFORM, fewmouths)
+    public Observable<BaseJsonV2<String>> getUpgradeGroupAliPayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths) {
+        return mWalletClient.getUpgradeGroupAliPayStr(groupId, upGradeType, channel, (long) amount, "" + ApiConfig.ANDROID_PLATFORM, fewmouths)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io());
     }
@@ -171,8 +171,15 @@ public class BillRepository implements IBillRepository {
     }
 
     @Override
-    public Observable<BaseJsonV2<WXPayInfo>> getUpgradeGroupWXPayStr(String groupId,String upGradeType, String channel, double amount, int fewmouths) {
-        return mWalletClient.getUpgradeGroupWXPayStr(groupId,upGradeType, channel, (long) amount, "" + ApiConfig.ANDROID_PLATFORM, fewmouths)
+    public Observable<BaseJsonV2<WXPayInfo>> getUpgradeGroupWXPayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths) {
+        return mWalletClient.getUpgradeGroupWXPayStr(groupId, upGradeType, channel, (long) amount, "" + ApiConfig.ANDROID_PLATFORM, fewmouths)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> getUpgradeGroupBalancePayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths) {
+        return mWalletClient.getUpgradeGroupBalancePayStr(groupId, upGradeType, channel, (long) amount, "" + ApiConfig.ANDROID_PLATFORM, fewmouths)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

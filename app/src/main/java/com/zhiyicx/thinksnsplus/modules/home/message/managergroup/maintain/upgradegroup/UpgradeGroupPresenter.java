@@ -34,13 +34,24 @@ public class UpgradeGroupPresenter extends AppBasePresenter<UpgradeGroupContract
         Subscription subscription = repository.getUpgradeGroups()
                 .subscribe(new BaseSubscribeForV2<List<UpgradeTypeBean>>() {
                     @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        mRootView.closeLoadingView();
+                    }
+                    @Override
                     protected void onSuccess(List<UpgradeTypeBean> data) {
                         mRootView.getUpgradeTypes(data);
                     }
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                    }
 
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
                     }
                 });
         addSubscrebe(subscription);

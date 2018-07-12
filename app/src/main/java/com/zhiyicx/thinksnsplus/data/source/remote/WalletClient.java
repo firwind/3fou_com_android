@@ -152,6 +152,22 @@ public interface WalletClient {
             @Field("amount") long amount,
             @Field("from") String from,
             @Field("fewmouths") int fewmouths);
+    /**
+     * 升级群余额支付
+     *
+     * @param amount
+     * @return
+     */
+
+    @FormUrlEncoded
+    @POST(APP_PAHT_UPGRADE_GROUP_V2)
+    Observable<String> getUpgradeGroupBalancePayStr(
+            @Field("im_group_id") String groupId,
+            @Field("type") String upgradeType,
+            @Field("paytype") String channel,
+            @Field("amount") long amount,
+            @Field("from") String from,
+            @Field("fewmouths") int fewmouths);
 
     @FormUrlEncoded
     @POST(APP_PAHT_INTEGRATION_RECHARGE_V2)

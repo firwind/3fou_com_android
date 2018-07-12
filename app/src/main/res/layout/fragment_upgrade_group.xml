@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="@dimen/dp100"
         android:clipChildren="false">
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_upgrade_group_viewpager"

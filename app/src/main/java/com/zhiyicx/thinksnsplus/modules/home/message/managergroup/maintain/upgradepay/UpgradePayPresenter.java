@@ -35,6 +35,7 @@ import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_WX_PAY_RES
 import static com.zhiyicx.tspay.TSPayClient.CHANNEL_ALIPAY_SUCCESS;
 import static com.zhiyicx.tspay.TSPayClient.CHANNEL_ALIPAY_V2;
 import static com.zhiyicx.tspay.TSPayClient.CHANNEL_BALANCE;
+import static com.zhiyicx.tspay.TSPayClient.CHANNEL_BALANCE_V2;
 import static com.zhiyicx.tspay.TSPayClient.CHANNEL_WXPAY_V2;
 
 public class UpgradePayPresenter extends AppBasePresenter<UpgradePayContract.View> implements UpgradePayContract.Presenter {
@@ -48,13 +49,36 @@ public class UpgradePayPresenter extends AppBasePresenter<UpgradePayContract.Vie
 
     @Override
     public void getPayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths) {
-        if (channel.equals(CHANNEL_BALANCE)) {//余额支付
-//            mBillRepository
+        if (channel.equals(CHANNEL_BALANCE_V2)) {//余额支付
+            getBalancePayStr(groupId, upGradeType, channel, amount, fewmouths);
         } else if (channel.equals(CHANNEL_ALIPAY_V2)) {
             getAliPayStr(groupId, upGradeType, channel, amount, fewmouths);//支付宝
         } else if (channel.equals(CHANNEL_WXPAY_V2)) {
             getWeChatStr(groupId, upGradeType, channel, amount, fewmouths);//微信支付
         }
+    }
+
+    private void getBalancePayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths ) {
+        mBillRepository.getUpgradeGroupBalancePayStr(groupId, upGradeType, channel, amount, fewmouths)
+                .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.recharge_credentials_ing)))
+                .subscribe(new BaseSubscribeForV2<String>() {
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.showSnackSuccessMessage(mContext.getString(R.string.pay_alert_success));
+                        gotoSuccessActivity();
+                    }
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getResources().getString(R.string.err_net_not_work));
+                    }
+                });
     }
 
     private void getWeChatStr(String groupId, String upGradeType, String channel, double amount, int fewmouths) {
@@ -92,7 +116,6 @@ public class UpgradePayPresenter extends AppBasePresenter<UpgradePayContract.Vie
     }
 
     private void getAliPayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths) {
-//        mBillRepository.getAliPayStr(channel, amount)
         mBillRepository.getUpgradeGroupAliPayStr(groupId, upGradeType, channel, amount, fewmouths)
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.recharge_credentials_ing)))
                 .subscribeOn(AndroidSchedulers.mainThread())

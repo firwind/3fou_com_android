@@ -14,12 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhiyicx.baseproject.base.TSFragment;
 
 import com.zhiyicx.baseproject.config.PayConfig;
+import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.recycleviewdecoration.GridDecoration;
 import com.zhiyicx.common.widget.NoPullRecycleView;
 import com.zhiyicx.imsdk.utils.common.DeviceUtils;
@@ -40,9 +42,10 @@ import butterknife.Unbinder;
 import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradepay.UpgradePayActivity.GRADE_ID;
 import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradepay.UpgradePayActivity.UPGRADE_TYPE;
 import static com.zhiyicx.tspay.TSPayClient.CHANNEL_ALIPAY_V2;
+import static com.zhiyicx.tspay.TSPayClient.CHANNEL_BALANCE_V2;
 import static com.zhiyicx.tspay.TSPayClient.CHANNEL_WXPAY_V2;
 
-public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter> implements UpgradePayContract.View {
+public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter> implements UpgradePayContract.View,CompoundButton.OnCheckedChangeListener{
     private static final int DEFAULT_COLUMN = 3;
     @BindView(R.id.rv_money_list)
     NoPullRecycleView mMoneyList;
@@ -79,16 +82,24 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
 
     @Override
     protected void initView(View rootView) {
-        mBalancePay.setChecked(true);
         checkBoxes[0] = mWechatPay;
         checkBoxes[1] = mAliPay;
         checkBoxes[2] = mBalancePay;
-
+        checkBoxes[2].setChecked(true);
+        payType = CHANNEL_BALANCE_V2;
+//        mWechatPay.setOnCheckedChangeListener(this);
+//        mAliPay.setOnCheckedChangeListener(this);
+//        mBalancePay.setOnCheckedChangeListener(this);
     }
 
     @Override
     protected String setCenterTitle() {
         return getString(R.string.selector_pay_way);
+    }
+
+    @Override
+    protected boolean showToolBarDivider() {
+        return true;
     }
 
     @Override
@@ -134,7 +145,6 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
                     if (comboBeans.indexOf(comboBean) == position){
                         comboBean.setSelector(true);
 //                        mPayMoney.setText("￥ "+(mUpgradeTypeBean.getPrice()*comboBean.getDiscount()*comboBean.getFewmouths()));
-
                     }else {
                         comboBean.setSelector(false);
                     }
@@ -192,12 +202,13 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
                 break;
             case R.id.ll_balance_pay:
                 selectorPayType(2);
+                payType = CHANNEL_BALANCE_V2;
                 break;
             case R.id.tv_agree_agreement:
                 break;
             case R.id.bt_pay:
-//                mPresenter.getPayStr(mGroupId,String.valueOf(mUpgradeTypeBean.getClause_id()),payType, PayConfig.realCurrencyYuan2Fen(mPayPrice),mPayMonth);
-                mPresenter.getPayStr(mGroupId,String.valueOf(mUpgradeTypeBean.getClause_id()),payType, 1,mPayMonth);
+                mPresenter.getPayStr(mGroupId,String.valueOf(mUpgradeTypeBean.getClause_id()),payType, PayConfig.realCurrencyYuan2Fen(mPayPrice),mPayMonth);
+//                mPresenter.getPayStr(mGroupId,String.valueOf(mUpgradeTypeBean.getClause_id()),payType, 1,mPayMonth);
                 break;
         }
     }
@@ -215,5 +226,23 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
     @Override
     public double getMoney() {
         return 0;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        switch (compoundButton.getId()){
+            case R.id.cb_wechat_pay:
+                selectorPayType(0);
+                payType = CHANNEL_WXPAY_V2;
+                break;
+            case R.id.ll_ali_pay:
+                selectorPayType(1);
+                payType = CHANNEL_ALIPAY_V2;
+                break;
+            case R.id.ll_balance_pay:
+                selectorPayType(2);
+                payType = CHANNEL_BALANCE_V2;
+                break;
+        }
     }
 }

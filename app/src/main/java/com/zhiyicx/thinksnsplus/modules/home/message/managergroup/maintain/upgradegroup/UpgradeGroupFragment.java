@@ -60,6 +60,12 @@ public class UpgradeGroupFragment extends TSFragment<UpgradeGroupContract.Presen
     }
 
     @Override
+    protected boolean setUseCenterLoading() {
+        return true;
+    }
+
+
+    @Override
     protected String setCenterTitle() {
         return getString(R.string.chat_info_upgrade);
     }

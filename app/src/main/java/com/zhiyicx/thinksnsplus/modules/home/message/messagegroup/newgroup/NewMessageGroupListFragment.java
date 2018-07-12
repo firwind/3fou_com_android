@@ -77,7 +77,8 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
         //mSearchView.setVisibility(View.VISIBLE);
 //        mLvList.setGroupIndicator(null);
         mLvList.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-            mPresenter.checkGroupExist(mListDatas.get(groupPosition).childs.get(childPosition));
+//            mPresenter.checkGroupExist(mListDatas.get(groupPosition).childs.get(childPosition));
+            checkGroupExist(mListDatas.get(groupPosition).childs.get(childPosition).getId());
             return false;
         });
     }

@@ -60,34 +60,49 @@ public interface IBillRepository {
     /**
      * 获取ali支付信息V2
      * 不在调用 ping++
+     *
      * @param channel 支付渠道
      * @param amount  支付金额
      * @return
      */
     Observable<BaseJsonV2<String>> getAliPayStr(String channel, double amount);
+
     /**
      * 获取升级群支付宝支付信息
+     *
      * @param amount
      * @return
      */
-    Observable<BaseJsonV2<String>> getUpgradeGroupAliPayStr(String groupId,String upGradeType,String channel, double amount,int fewmouths);
+    Observable<BaseJsonV2<String>> getUpgradeGroupAliPayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths);
 
     /**
      * 获取wx支付信息V2
+     *
      * @param channel
      * @param amount
      * @return
      */
     Observable<BaseJsonV2<WXPayInfo>> getWXPayStr(String channel, double amount);
+
     /**
      * 获取升级群微信支付信息
+     *
      * @param amount
      * @return
      */
-    Observable<BaseJsonV2<WXPayInfo>> getUpgradeGroupWXPayStr(String groupId,String upGradeType,String channel, double amount,int fewmouths);
+    Observable<BaseJsonV2<WXPayInfo>> getUpgradeGroupWXPayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths);
+
+    /**
+     * 获取升级群支付宝信息
+     *
+     * @param amount
+     * @return
+     */
+    Observable<String> getUpgradeGroupBalancePayStr(String groupId, String upGradeType, String channel, double amount, int fewmouths);
 
     /**
      * 支付宝支付验证，3个参数都是支付宝返回
+     *
      * @param memo
      * @param result
      * @param resultStatus
@@ -100,6 +115,7 @@ public interface IBillRepository {
 
     /**
      * 微信支付验证，3个参数都是支付宝返回
+     *
      * @param memo
      * @param result
      * @param resultStatus
@@ -114,7 +130,6 @@ public interface IBillRepository {
      * @return
      */
     Observable<BaseJsonV2> balance2Integration(long amount);
-
 
 
     /*******************************************  积分  *********************************************/
@@ -134,7 +149,9 @@ public interface IBillRepository {
      * @return
      */
     Observable<PayStrV2Bean> getIntegrationPayStr(String type, long amount, String extra);
+
     Observable<BaseJsonV2<String>> getIntegrationAliPayStr(String channel, double amount);
+
     Observable<BaseJsonV2<WXPayInfo>> getIntegrationWXPayStr(String channel, double amount);
 
     /**
@@ -161,7 +178,6 @@ public interface IBillRepository {
      * @return
      */
     Observable<BaseJsonV2> integrationWithdrawals(Integer amount);
-
 
 
 }

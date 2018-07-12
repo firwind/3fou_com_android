@@ -41,6 +41,7 @@ public class TSPayClient {
      * 余额支付
      */
     public static final String CHANNEL_BALANCE = "balance";
+    public static final String CHANNEL_BALANCE_V2 = "BalanceOrder";
     /**
      * 手机网页发起微信支付
      */

@@ -67,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/wechat_pay_text"/>
             <CheckBox
+                android:enabled="false"
                 android:id="@+id/cb_wechat_pay"
                 android:checked="false"
                 android:layout_marginRight="@dimen/dp10"
@@ -97,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ali_pay_text"/>
             <CheckBox
+                android:enabled="false"
                 android:id="@+id/cb_ali_pay"
                 android:checked="false"
                 android:layout_marginRight="@dimen/dp10"
@@ -127,6 +129,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/blance_pay_text"/>
             <CheckBox
+                android:enabled="false"
                 android:id="@+id/cb_balance_pay"
                 android:checked="true"
                 android:layout_marginRight="@dimen/dp10"
