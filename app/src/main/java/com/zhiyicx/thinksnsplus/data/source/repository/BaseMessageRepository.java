@@ -198,7 +198,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                             //如果是 admin ,消息会是：xxx修改了群信息，xxx进入了聊天群之类的通知
                             if (null != message && "admin".equals(message.getFrom()) && null != message.ext()) {
                                 boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
-                                boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
+                                boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext( ).get("type"));
                                 //这个userId格式可能不合法，例如邀请多个人聊天，这里的userId 会是  [3,4,5]
                                 //这里只拿单个的用户信息
                                 Long userId = null;
@@ -231,10 +231,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                     users.add(itemBeanV2.getConversation().getLastMessage().getFrom());
                                 }
                             }
-
-
                             ChatGroupBean chatGroupBean = mChatGroupBeanGreenDao.getChatGroupBeanById(chatGroupId);
-
                             if (chatGroupBean == null) {
                                 // 之前在这里也许重复创建了会话 ，fix by tym on 2018-5-4 16:09:22
                                 if (groupIds.indexOf(chatGroupId) == -1) {

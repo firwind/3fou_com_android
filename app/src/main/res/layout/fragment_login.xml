@@ -166,7 +166,6 @@
                         android:text="@string/third_qq"/>
 
                     <TextView
-
                         android:visibility="gone"
                         android:id="@+id/tv_login_by_weibo"
                         style="@style/ThirdLoginButton"

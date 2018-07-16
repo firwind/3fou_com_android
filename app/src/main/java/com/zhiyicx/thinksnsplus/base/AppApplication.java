@@ -393,7 +393,6 @@ public class AppApplication extends TSApplication {
         public static AppComponent getAppComponent() {
             return sAppComponent;
         }
-
     }
 
     /**

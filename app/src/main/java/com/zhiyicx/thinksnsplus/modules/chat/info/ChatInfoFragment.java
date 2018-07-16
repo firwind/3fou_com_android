@@ -892,7 +892,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 //                vwSetAdmin.setVisibility(View.GONE);
 //                mTvUpgrade.setVisibility(View.VISIBLE);
                 //vwSetAdmin.setVisibility(View.GONE);
-                mTvUpgrade.setVisibility(View.GONE);
+                mTvUpgrade.setVisibility(View.VISIBLE);
                 /*vwSetAdmin.setVisibility(View.GONE);
                 vwJurisdiction.setVisibility(View.GONE);
                 vwUpgrade.setVisibility(View.GONE);
@@ -957,8 +957,6 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_NOTICE)
     public void onPublishNoticeSuccess(String noticeStr) {
-
         mNoticeText.setText(noticeStr);
-
     }
 }

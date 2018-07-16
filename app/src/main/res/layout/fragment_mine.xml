@@ -275,7 +275,7 @@
                     android:visibility="gone"
                     app:showLine="false"
                     app:rightImage="@mipmap/ic_arrow_smallgrey"/>
-            <!--钱包-->
+            <!--我的钱包-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_wallet"
                 android:layout_marginTop="@dimen/spacing_mid"
@@ -285,6 +285,28 @@
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/ico_me_wallet"
                 app:leftText="@string/wallet"
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true"/>
+            <!--我的现金-->
+            <com.zhiyicx.baseproject.widget.button.CombinationButton
+                android:id="@+id/bt_cash"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/full_button_height"
+                app:dividerLeftMargin="@dimen/spacing_normal"
+                app:dividerRightMargin="@dimen/spacing_normal"
+                app:leftImage="@mipmap/cash_icon"
+                app:leftText="@string/cash"
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true"/>
+            <!--我的现金-->
+            <com.zhiyicx.baseproject.widget.button.CombinationButton
+                android:id="@+id/bt_team"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/full_button_height"
+                app:dividerLeftMargin="@dimen/spacing_normal"
+                app:dividerRightMargin="@dimen/spacing_normal"
+                app:leftImage="@mipmap/team_icon"
+                app:leftText="@string/team"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
                 app:showLine="true"/>
             <!--我的积分-->
@@ -300,6 +322,20 @@
                 app:showLine="true"/>
             <!--收藏-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
+                android:layout_marginTop="@dimen/spacing_mid"
+                android:id="@+id/bt_download"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/full_button_height"
+                android:visibility="visible"
+                app:dividerLeftMargin="@dimen/spacing_normal"
+                app:dividerRightMargin="@dimen/spacing_normal"
+                app:leftImage="@mipmap/downment_icon"
+                app:leftText="@string/download_recommend"
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true"/>
+            <!--收藏-->
+            <com.zhiyicx.baseproject.widget.button.CombinationButton
+
                 android:id="@+id/bt_collect"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
@@ -309,7 +345,7 @@
                 app:leftImage="@mipmap/ico_me_collect"
                 app:leftText="@string/mine_collect"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="false"/>
+                app:showLine="true"/>
             <!--购买的音乐-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_music"
@@ -342,11 +378,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
                 android:visibility="visible"
-                android:layout_marginTop="@dimen/spacing_mid"
                 app:dividerLeftMargin="@dimen/spacing_normal"
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/ico_me_draft"
                 app:leftText="@string/draft_box"
+                app:showLine="true"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"/>
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_my_info"

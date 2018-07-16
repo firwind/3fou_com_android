@@ -80,8 +80,8 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
     TextView mTvFollowCount;
     @BindView(R.id.tv_friends_count)
     TextView mTvFriendsCount;
-    @BindView(R.id.bt_wallet)
-    CombinationButton mBtWallet;
+    @BindView(R.id.bt_cash)
+    CombinationButton mBtCash;
     @BindView(R.id.bt_mine_integration)
     CombinationButton btMineIntegration;
     @BindView(R.id.bt_certification)
@@ -207,7 +207,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
     }
 
     @OnClick({R.id.rl_userinfo_container, R.id.ll_fans_container, R.id.ll_follow_container, R.id.bt_my_info,
-            R.id.bt_personal_page, R.id.bt_collect, R.id.bt_wallet, R.id.bt_mine_integration, R.id.bt_music,
+            R.id.bt_personal_page, R.id.bt_collect, R.id.bt_cash, R.id.bt_mine_integration, R.id.bt_music,
             R.id.bt_draft_box, R.id.bt_setting, R.id.bt_certification, R.id.bt_my_qa, R.id.bt_my_group,
             R.id.ll_friends_container})
     public void onClick(View view) {
@@ -255,9 +255,9 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
                 startActivity(new Intent(mActivity, CollectListActivity.class));
                 break;
             /*
-              我的钱包
+              我的现金
              */
-            case R.id.bt_wallet:
+            case R.id.bt_cash:
                 startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
             /*
@@ -368,7 +368,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
         if (userInfoBean.getWallet() != null) {
             myMoney = userInfoBean.getWallet().getBalance();
         }
-        mBtWallet.setRightText(getString(R.string.money_format_with_unit, PayConfig.realCurrencyFen2Yuan(myMoney)
+        mBtCash.setRightText(getString(R.string.money_format_with_unit, PayConfig.realCurrencyFen2Yuan(myMoney)
                 , ""));
         btMineIntegration.setRightText(String.valueOf(userInfoBean.getFormatCurrencyNum()));
         this.mUserInfoBean = userInfoBean;
