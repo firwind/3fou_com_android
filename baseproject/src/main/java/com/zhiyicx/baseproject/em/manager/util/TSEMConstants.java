@@ -12,8 +12,8 @@ public class TSEMConstants {
     public static final String ML_GCM_NUMBER = "163141467698";
 
     // 集成小米推送需要的 appid 和 appkey
-    public static final String ML_MI_APP_ID = "2882303761517493144";
-    public static final String ML_MI_APP_KEY = "5601749395144";
+    public static final String ML_MI_APP_ID = "2882303761517568058"/*"2882303761517493144"*/;
+    public static final String ML_MI_APP_KEY = "5441756827058"/*"5601749395144"*/;
 
     // 华为推送 APPID
     public static final String ML_HUAWEI_APP_ID = "10598250";

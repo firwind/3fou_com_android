@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_marginTop="@dimen/dp36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp13"
+        android:textColor="@color/black_deep"
+        android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+
+    <ImageView
+        android:id="@+id/iv_qrcode"
+        android:layout_marginTop="@dimen/dp14"
+        android:layout_width="@dimen/dp156"
+        android:layout_height="@dimen/dp156" />
+
+    <Button
+        android:layout_marginTop="@dimen/dp14"
+        android:layout_width="@dimen/dp178"
+        android:layout_height="@dimen/dp35"
+        android:textSize="@dimen/sp14"
+        android:textColor="@color/white"
+        android:text="复制钱包地址"
+        android:background="@drawable/shape_corner_4dp_bg_theme"/>
+
+    <LinearLayout
+        android:paddingLeft="@dimen/dp25"
+        android:paddingRight="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp24"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp48"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="账本"
+            android:gravity="center"
+            android:textColor="@color/black_deep"
+            android:textSize="@dimen/sp14"
+            android:drawablePadding="@dimen/dp10"
+            android:drawableLeft="@mipmap/icon_account_book"/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp10"
+            android:text="每笔交易记录都在这里"
+            android:textColor="@color/gray_normal"
+            android:gravity="center_vertical"
+            android:drawableRight="@mipmap/icon_arrow_right"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingLeft="@dimen/dp25"
+        android:paddingRight="@dimen/dp20"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp48"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提币"
+            android:gravity="center"
+            android:textColor="@color/black_deep"
+            android:textSize="@dimen/sp14"
+            android:drawablePadding="@dimen/dp10"
+            android:drawableLeft="@mipmap/icon_pick_up_currency"/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp10"
+            android:text="将BCB转到其他地址"
+            android:textColor="@color/gray_normal"
+            android:gravity="center_vertical"
+            android:drawableRight="@mipmap/icon_arrow_right"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -344,13 +344,19 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
     @Override
     public void onMessageBubbleLongClick(EMMessage message) {
+        String[] items = message.getType() == EMMessage.Type.TXT ?
+                new String[]{"复制","删除"}:new String[]{"删除"};
         new AlertDialog.Builder(mActivity)
-                .setItems(new String[]{"复制","删除"},
+                .setItems(items,
                         (dialog, which) -> {
                             if(which == 0){
                                 if(EMMessage.Type.TXT == message.getType()){
                                     DeviceUtils.copyTextToBoard(mActivity,
                                             ((EMTextMessageBody) message.getBody()).getMessage());
+                                }else {
+                                    EMClient.getInstance().chatManager().getConversation(message.conversationId())
+                                            .removeMessage(message.getMsgId());
+                                    messageList.refresh();
                                 }
                             }else {
                                 EMClient.getInstance().chatManager().getConversation(message.conversationId())
@@ -483,6 +489,13 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         boolean isGroupChange = false;
         String chatGroupId = "";
         for (EMMessage message : messages) {
+
+            //屏蔽掉不是该群的对话
+            if(!message.conversationId().equals(toChatUsername)){
+                continue;
+            }
+
+
             String username = null;
             // group message
             if (message.getChatType() == EMMessage.ChatType.GroupChat || message.getChatType() == EMMessage.ChatType.ChatRoom) {
@@ -491,6 +504,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                 // single chat message
                 username = message.getFrom();
             }
+
             // 从左到右依次：用户加入，用户退出，创建群聊，屏蔽/接收群消息，该群消息作用对象是否是自己,群信息修改
             boolean isUserJoin, isUserExit, isCreate, isBlock, userTag , groupNotice;
 

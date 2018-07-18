@@ -136,6 +136,7 @@ public class MarketFragment extends TSFragment<MarketContract.MarketPresenter> i
         for (int i = 0; i < mCurrencyList.size(); i++) {
             mTabLayout.addTab(mTabLayout.newTab().setText(mCurrencyList.get(i).currency_name));
         }
+        mTabLayout.scrollTo(0,0);
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

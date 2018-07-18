@@ -13,6 +13,7 @@ import com.hyphenate.EMError;
 import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMCallStateChangeListener;
+import com.hyphenate.chat.EMChatManager;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
@@ -228,7 +229,7 @@ public class TSEMHyphenate {
 
         // 设置集成小米推送的appid和appkey
         options.setMipushConfig(TSEMConstants.ML_MI_APP_ID, TSEMConstants.ML_MI_APP_KEY);
-        // TODO 主动调用华为官方的注册华为推送 测试用，SDK内部已经调用
+        // 主动调用华为官方的注册华为推送 测试用，SDK内部已经调用
         // PushManager.requestToken(mContext);
         return options;
     }
@@ -811,7 +812,7 @@ public class TSEMHyphenate {
              */
             @Override
             public void onInvitationReceived(String groupId, String groupName, String inviter, String reason) {
-                EMGroup group = EMClient.getInstance().groupManager().getGroup(groupId);
+                //EMGroup group = EMClient.getInstance().groupManager().getGroup(groupId);
             }
 
 

@@ -780,6 +780,11 @@
             android:name=".modules.home.find.market.details.CurrencyKLineActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name=".modules.currency.MyCurrencyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".modules.currency.recharge.RechargeCurrencyActivity" />
+        <activity android:name=".modules.currency.withdraw.WithdrawCurrencyActivity" />
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">

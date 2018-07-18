@@ -28,6 +28,7 @@ import com.zhiyicx.thinksnsplus.modules.certification.input.CertificationInputAc
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.circle.mine.container.MyCircleContainerActivity;
 import com.zhiyicx.thinksnsplus.modules.collect.CollectListActivity;
+import com.zhiyicx.thinksnsplus.modules.currency.MyCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.draftbox.DraftBoxActivity;
 import com.zhiyicx.thinksnsplus.modules.edit_userinfo.UserInfoActivity;
 import com.zhiyicx.thinksnsplus.modules.feedback.FeedBackActivity;
@@ -209,7 +210,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
     @OnClick({R.id.rl_userinfo_container, R.id.ll_fans_container, R.id.ll_follow_container, R.id.bt_my_info,
             R.id.bt_personal_page, R.id.bt_collect, R.id.bt_cash, R.id.bt_mine_integration, R.id.bt_music,
             R.id.bt_draft_box, R.id.bt_setting, R.id.bt_certification, R.id.bt_my_qa, R.id.bt_my_group,
-            R.id.ll_friends_container})
+            R.id.ll_friends_container,R.id.bt_wallet})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_userinfo_container:
@@ -327,6 +328,10 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
                 // 我的朋友
 //                startActivity(new Intent(mActivity, MyFriendsListActivity.class));
                 MyFriendsListActivity.startMyFriendsListActivity(getContext(),true);
+                break;
+            case R.id.bt_wallet:
+                //我的钱包
+                MyCurrencyActivity.startMyCurrencyActivity(getContext());
                 break;
             default:
         }

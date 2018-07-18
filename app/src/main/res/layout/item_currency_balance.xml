@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp160"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <FrameLayout
+        android:layout_marginTop="@dimen/dp30"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp25">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_width="@dimen/dp25"
+            android:layout_height="@dimen/dp25"
+            android:background="@color/themeColor"/>
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BCB"
+            android:textColor="@color/black_deep"/>
+
+        <TextView
+            android:paddingLeft="@dimen/dp12"
+            android:paddingRight="@dimen/dp12"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="明细"
+            android:textSize="@dimen/sp12"
+            android:textColor="@color/gray_normal"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp72">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.000000"
+                android:textColor="@color/gray_normal"
+                android:textSize="@dimen/sp16"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="可用"
+                android:textColor="@color/black_deep"
+                android:textSize="@dimen/sp12"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.000000"
+                android:textColor="@color/gray_normal"
+                android:textSize="@dimen/sp16"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="冻结"
+                android:textColor="@color/black_deep"
+                android:textSize="@dimen/sp12"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingLeft="@dimen/dp16"
+        android:paddingRight="@dimen/dp16"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/bt_recharge"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:background="@color/themeColor"
+            android:textSize="@dimen/sp12"
+            android:text="充币"/>
+
+        <Button
+            android:id="@+id/bt_withdraw"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:background="@color/themeColor"
+            android:textSize="@dimen/sp12"
+            android:text="提币"/>
+
+        <Button
+            android:id="@+id/bt_exchange"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:background="@color/themeColor"
+            android:textSize="@dimen/sp12"
+            android:text="兑换币"/>
+
+    </LinearLayout>
+
+</LinearLayout>

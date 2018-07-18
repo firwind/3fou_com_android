@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/themeColor">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="应用推荐"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp13"
+        android:paddingLeft="@dimen/dp20"
+        android:paddingRight="@dimen/dp20"
+        android:paddingTop="@dimen/dp10"
+        android:paddingBottom="@dimen/dp10"/>
+
+    <LinearLayout
+        android:layout_marginTop="28dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="持币生息"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp13"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ 0.00%"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp30" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="预计年化收益率"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp9"/>
+
+        <Button
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp10"
+            android:layout_width="@dimen/dp178"
+            android:layout_height="@dimen/dp32"
+            android:text="立即加入"
+            android:textSize="@dimen/sp12"
+            android:background="@drawable/shape_corner_360dp_bg_pink"/>
+
+    </LinearLayout>
+
+</FrameLayout>
