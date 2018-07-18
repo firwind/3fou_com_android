@@ -27,7 +27,7 @@ public interface RegisterClient {
      * @param password        用户密码，长度最小可无，最大不能超过 64 位4
      * @param verifiable_type Required, Notification serve verification type.
      * @param verifiable_code Required, Verification code.
-     * @return
+     * @return`
      */
     @FormUrlEncoded
     @POST(APP_PATH_REGISTER)

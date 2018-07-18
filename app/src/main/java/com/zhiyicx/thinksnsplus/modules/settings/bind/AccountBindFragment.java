@@ -129,16 +129,17 @@ public class AccountBindFragment extends TSFragment<AccountBindContract.Presente
             mLlContainerSurePassword.setVisibility(View.GONE);
             mIsNeedSetPasswordWithBindAccount = false;
 //            if (mUserInfoBean.getPhone() == null && mUserInfoBean.getEmail() == null) { // 需要设置密码
-//                mIsNeedSetPasswordWithBindAccount = true;
-//                mLlContainerPassword.setVisibility(View.VISIBLE);
-//                mLlContainerSurePassword.setVisibility(View.VISIBLE);
-//                mTvPaswordTip.setText(getString(R.string.set_password));
-//            } else {
-//                mIsNeedSetPasswordWithBindAccount = false;
-//                mLlContainerPassword.setVisibility(View.GONE);
-//                mLlContainerSurePassword.setVisibility(View.GONE);
-//                mTvPaswordTip.setText(getString(R.string.password));
-//            }
+            if (mCurrentType == DEAL_TYPE_PHONE) { // 需要设置密码
+                mIsNeedSetPasswordWithBindAccount = true;
+                mLlContainerPassword.setVisibility(View.VISIBLE);
+                mLlContainerSurePassword.setVisibility(View.VISIBLE);
+                mTvPaswordTip.setText(getString(R.string.set_password));
+            } else {
+                mIsNeedSetPasswordWithBindAccount = false;
+                mLlContainerPassword.setVisibility(View.GONE);
+                mLlContainerSurePassword.setVisibility(View.GONE);
+                mTvPaswordTip.setText(getString(R.string.password));
+            }
         }
 
     }
@@ -184,6 +185,7 @@ public class AccountBindFragment extends TSFragment<AccountBindContract.Presente
     }
 
     @Override
+
     public void setVerifyCodeBtText(String text) {
         mBtSendVerifyCode.setText(text);
     }

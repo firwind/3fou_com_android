@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.home.message.messagelist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +18,7 @@ import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMConnectionEvent;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMessageEvent;
 import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
+import com.zhiyicx.baseproject.widget.popwindow.CenterAlertPopWindow;
 import com.zhiyicx.baseproject.widget.popwindow.CenterInfoPopWindow;
 import com.zhiyicx.baseproject.widget.popwindow.NoticePopupWindow;
 import com.zhiyicx.baseproject.widget.recycleview.BlankClickRecycleView;
@@ -36,6 +38,7 @@ import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.MessageAdapterV2;
 import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
+import com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity;
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
 
@@ -51,6 +54,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 import static com.zhiyicx.common.widget.popwindow.CustomPopupWindow.POPUPWINDOW_ALPHA;
+import static com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity.BUNDLE_BIND_DATA;
+import static com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity.BUNDLE_BIND_STATE;
+import static com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity.BUNDLE_BIND_TYPE;
+import static com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindFragment.DEAL_TYPE_PHONE;
 
 /**
  * @author Catherine
@@ -70,9 +77,9 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
      * 删除确认弹框
      */
     private ActionPopupWindow mCheckSurePop;
-
+    private UserInfoBean userInfoBean;
     //private NotificationUtil mNotificationUtil;
-
+    private CenterAlertPopWindow mBindPop;
     @Override
     protected boolean useEventBus() {
         return true;
@@ -92,8 +99,55 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     protected void initView(View rootView) {// FIXME: 2018/6/27 
         super.initView(rootView);
         mSearchView.setVisibility(View.VISIBLE);
+        userInfoBean = AppApplication.getmCurrentLoginAuth().getUser();
+        if (TextUtils.isEmpty(userInfoBean.getPhone())){
+            showBindPopupWindow();
+        }
+    }
+    /**
+     * 提示绑定手机号
+     */
+    private void showBindPopupWindow() {
+        if (mBindPop != null) {
+            mBindPop.show();
+            return;
+        }
+        mBindPop = CenterAlertPopWindow.builder()
+                .titleStr(getString(R.string.tips))
+                .desStr(getString(R.string.you_must_bind_phone_hint))
+                .itemRight(getString(R.string.go_bind))
+                .itemRightColor(R.color.themeColor)
+                .isOutsideTouch(true)
+                .isFocus(true)
+                .animationStyle(R.style.style_actionPopupAnimation)
+                .backgroundAlpha(CustomPopupWindow.POPUPWINDOW_ALPHA)
+                .with(getActivity())
+                .buildCenterPopWindowItem1ClickListener(new CenterAlertPopWindow.CenterPopWindowItemClickListener() {
+                    @Override
+                    public void onRightClicked() {
+                        goBindPhone();
+                    }
+
+                    @Override
+                    public void onLeftClicked() {
+                        mBindPop.hide();
+                    }
+                })
+                .parentView(getView())
+                .build();
+        mBindPop.show();
     }
 
+    private void goBindPhone() {
+        mBindPop.hide();
+        Intent intent = new Intent(getActivity(), AccountBindActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(BUNDLE_BIND_TYPE, DEAL_TYPE_PHONE);
+        bundle.putBoolean(BUNDLE_BIND_STATE, !TextUtils.isEmpty(userInfoBean.getPhone()));
+        bundle.putParcelable(BUNDLE_BIND_DATA, userInfoBean);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
     @Override
     protected int getBodyLayoutId() {
         return R.layout.fragment_home_message_list;

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
 # in /Users/zhy/android/sdk/android-sdk-macosx/tools/proguard/proguard-android.txt
@@ -16,7 +16,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-=======
+
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
 # in /Users/zhy/android/sdk/android-sdk-macosx/tools/proguard/proguard-android.txt
@@ -34,4 +34,3 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
->>>>>>> 5eb1174523744bea0c0756f5af31310a1467fb94

@@ -52,15 +52,34 @@
             style="@style/style_divider_horizontal_light"
             android:layout_marginTop="@dimen/margin_9"
             />
-
-        <TextView
-            android:id="@+id/ppw_center_item"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/load_more_height"
+        <LinearLayout
             android:layout_marginTop="@dimen/spacing_normal"
-            android:gravity="center"
-            android:textColor="@color/themeColor"
-            android:textSize="@dimen/size_content"
-            tool:text="返回"/>
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/ppw_cancel_item"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/load_more_height"
+                android:visibility="gone"
+                android:gravity="center"
+                android:textColor="@color/themeColor"
+                android:textSize="@dimen/size_content"
+                tool:text="返回"/>
+            <!--<View-->
+               <!--style="@style/style_divider_veitical"/>-->
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/ppw_center_item"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/load_more_height"
+
+                android:gravity="center"
+                android:textColor="@color/themeColor"
+                android:textSize="@dimen/size_content"
+                tool:text="返回"/>
+        </LinearLayout>
+
     </LinearLayout>
 </FrameLayout>

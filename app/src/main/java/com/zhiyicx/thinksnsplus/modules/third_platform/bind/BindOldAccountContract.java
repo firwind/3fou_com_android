@@ -20,11 +20,17 @@ public interface BindOldAccountContract {
 
         void setLogining();
 
+        void setVerifyCodeBtEnabled(boolean isEnable);
+
+        void setVerifyCodeLoading(boolean isEnable);
+
+        void setVerifyCodeBtText(String text);
     }
 
     interface Presenter extends IBasePresenter {
-
+        void checkName(ThridInfoBean thridInfoBean,String name);
         void bindAccount(ThridInfoBean thridInfoBean, String string, String string1);
+        void getVertifyCode(String trim);
     }
 
 }

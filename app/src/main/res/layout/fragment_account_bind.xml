@@ -137,7 +137,7 @@
                 android:maxLength="@integer/password_maxlenght"/>
 
         </LinearLayout>
-
+       
         <include
             layout="@layout/include_error_tip_text"/>
 

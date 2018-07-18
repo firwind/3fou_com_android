@@ -762,8 +762,6 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-
-
                 MessageGroupAlbumBean photo = ((CommonAdapter<MessageGroupAlbumBean>) mRvAlbum.getAdapter())
                         .getDatas().get(position);
                 if (-1 == photo.file_id) {

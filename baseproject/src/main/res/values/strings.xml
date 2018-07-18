@@ -25,12 +25,14 @@
     <string name="old_password">旧密码</string>
     <string name="new_password">新密码</string>
     <string name="sure_new_password">确认新密码</string>
+    <string name="sure_password">确认密码</string>
     <string name="duplicate_password">重复密码</string>
     <string name="vertify_code">验证码</string>
     <string name="phone_number">手机号</string>
     <string name="phone_hint">手机</string>
     <string name="email_address">邮箱</string>
     <string name="login_account">账号</string>
+    <string name="invitation_code">邀请码</string>
     <string name="send_vertify_code">获取验证码</string>
     <string name="forget_password">忘记密码</string>
     <string name="find_password">找回密码</string>
@@ -71,6 +73,7 @@
     <string name="phone_number_input_hint">输入11位手机号</string>
     <string name="email_address_input_hint">输入邮箱地址</string>
     <string name="login_account_hint">用户名/手机号/邮箱</string>
+    <string name="input_invitation_code">输入邀请码</string>
     <string name="phone_number_toast_hint">请输入大陆地区合法手机号码</string>
     <string name="email_address_toast_hint">请输入正确的邮箱地址</string>
     <string name="login_account_toast_hint">请输入账号</string>
@@ -91,6 +94,7 @@
     <string name="third_platform_complete_register">注册新用户</string>
     <string name="third_platform_bind_old_account">绑定已有账号</string>
     <string name="third_platform_bind_account">绑定账号</string>
+    <string name="third_platform_bind_phone">绑定手机号</string>
     <string name="third_platform_exist_account">已有账号</string>
     <string name="third_platform_bind_confirm">确认绑定</string>
     <string name="third_qq">QQ</string>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.zhiyicx.baseproject.impl.photoselector.ImageBean;
 import com.zhiyicx.baseproject.impl.photoselector.PhotoSelectorImpl;
 import com.zhiyicx.baseproject.impl.photoselector.PhotoSeletorImplModule;
 import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
+import com.zhiyicx.baseproject.widget.popwindow.CenterInfoPopWindow;
 import com.zhiyicx.common.BuildConfig;
 import com.zhiyicx.common.utils.ActivityHandler;
 import com.zhiyicx.common.utils.DeviceUtils;
@@ -39,6 +41,7 @@ import com.zhiyicx.thinksnsplus.config.JpushMessageTypeConfig;
 import com.zhiyicx.thinksnsplus.data.beans.CheckInBean;
 import com.zhiyicx.thinksnsplus.data.beans.JpushMessageBean;
 import com.zhiyicx.thinksnsplus.data.beans.SendDynamicDataBean;
+import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.jpush.JpushAlias;
 import com.zhiyicx.thinksnsplus.modules.dynamic.send.SendDynamicActivity;
@@ -49,6 +52,7 @@ import com.zhiyicx.thinksnsplus.modules.home.main.MainFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.MineFragment;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.container.InfoContainerFragment;
+import com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity;
 import com.zhiyicx.thinksnsplus.modules.shortvideo.helper.ZhiyiVideoView;
 import com.zhiyicx.thinksnsplus.widget.EmptyFragment;
 import com.zhiyicx.thinksnsplus.widget.popwindow.CheckInPopWindow;
@@ -69,6 +73,10 @@ import rx.android.schedulers.AndroidSchedulers;
 
 import static com.zhiyicx.baseproject.impl.photoselector.PhotoSelectorImpl.MAX_DEFAULT_COUNT;
 import static com.zhiyicx.thinksnsplus.modules.home.HomeActivity.BUNDLE_JPUSH_MESSAGE;
+import static com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity.BUNDLE_BIND_DATA;
+import static com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity.BUNDLE_BIND_STATE;
+import static com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity.BUNDLE_BIND_TYPE;
+import static com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindFragment.DEAL_TYPE_PHONE;
 
 /**
  * @Describe
@@ -146,13 +154,14 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
      */
     private CheckInPopWindow mCheckInPopWindow;
 
+    private CenterInfoPopWindow mBindPop;
     /**
      * 签到信息
      */
     private CheckInBean mCheckInBean;
     private ArrayList<Fragment> mFragmentList = new ArrayList<>();
     private boolean isFirst = true;
-
+    private UserInfoBean userInfoBean;
     private boolean isTouristLogined = false;
 
     public static HomeFragment newInstance(Bundle args) {
@@ -216,13 +225,19 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
         setJpushAlias();
         changeNavigationButton(PAGE_MESSAGE);
         setCurrentPage();
+//        UserInfoBean userInfoBean = AppApplication.getmCurrentLoginAuth();
         // app更新
         AppUpdateManager.getInstance(getContext()
                 , ApiConfig.APP_DOMAIN + ApiConfig.APP_PATH_GET_APP_VERSION + "?version_code=" + DeviceUtils.getVersionCode(getContext()) +
                         "&type=android")
                 .startVersionCheck();
+
         mPresenter.getCheckInInfoData();
     }
+
+
+
+
 
     @Override
     public void onResume() {

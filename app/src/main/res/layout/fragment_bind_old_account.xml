@@ -1,79 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wcy.overscroll.OverScrollLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/overscroll"
+<com.wcy.overscroll.OverScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/overscroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        <LinearLayout
-                style="@style/style_edit_white_container">
+        <LinearLayout style="@style/style_edit_white_container">
 
             <TextView
-                    style="@style/style_small_text"
-                    android:text="@string/login_account"/>
+                style="@style/style_small_text"
+                android:text="@string/username" />
 
             <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/et_complete_input"
                 style="@style/style_edit"
-                android:hint="@string/login_account_hint"
-                android:completionThreshold="@integer/login_hint_mix_count"
-                android:visibility="visible"
-                android:singleLine="true"
+                android:layout_width="0dp"
                 android:layout_weight="1"
+                android:completionThreshold="@integer/login_hint_mix_count"
+                android:hint="@string/username_input_hint"
                 android:imeOptions="actionNext"
-                android:layout_width="0dp"/>
+                android:singleLine="true"
+                android:visibility="visible" />
 
             <ImageView
-                    android:id="@+id/iv_clear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/login_inputbox_clean"
-                    android:padding="15dp"
-                    android:visibility="gone"/>
+                android:id="@+id/iv_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:src="@mipmap/login_inputbox_clean"
+                android:visibility="gone" />
 
             <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
-                    android:id="@+id/et_login_phone"
-                    style="@style/style_edit"
-                    android:hint="@string/login_account_hint"
-                    android:inputType="textPersonName"
-                    android:visibility="gone"/>
+                android:id="@+id/et_login_phone"
+                style="@style/style_edit"
+                android:hint="@string/login_account_hint"
+                android:inputType="textPersonName"
+                android:visibility="gone" />
         </LinearLayout>
 
-        <ImageView style="@style/style_divider_horizontal_light"/>
-
+        <ImageView style="@style/style_divider_horizontal_light" />
+        <!--手机找回-->
         <LinearLayout
-                style="@style/style_edit_white_container">
+            android:id="@+id/ll_bind_phone"
+            style="@style/style_edit_white_container">
 
             <TextView
-                    style="@style/style_small_text"
-                    android:text="@string/password"/>
+                style="@style/style_bind_account_text"
+                android:text="@string/phone_number" />
 
-            <com.zhiyicx.baseproject.widget.edittext.PasswordEditText
-                    android:id="@+id/et_login_password"
-                    style="@style/style_passward_edit"
-                    android:hint="@string/password_input_hint"
-                    android:inputType="text"
-                    android:text=""/>
+            <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
+                android:id="@+id/et_phone"
+                style="@style/style_edit"
+                android:layout_weight="1"
+                android:hint="@string/phone_number_input_hint"
+                android:inputType="phone"
+                android:maxLength="@integer/phone_number_length" />
+
+            <TextView
+                android:id="@+id/bt_send_verify_code"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:background="@null"
+                android:enabled="false"
+                android:gravity="center"
+                android:minWidth="@dimen/button_send_vertify_code_min_width"
+                android:text="@string/send_vertify_code"
+                android:textColor="@color/selector_text_color"
+                android:textSize="@dimen/size_content" />
+            <ImageView
+                android:id="@+id/iv_verify_loading"
+                android:layout_width="@dimen/icon_for_assist_small"
+                android:layout_height="@dimen/icon_for_assist_small"
+                android:layout_centerInParent="true"
+                android:src="@drawable/frame_loading_grey"
+                android:visibility="invisible"
+                />
         </LinearLayout>
 
+        <ImageView style="@style/style_divider_horizontal_light" />
+
+        <LinearLayout style="@style/style_edit_white_container">
+
+            <TextView
+                style="@style/style_bind_account_text"
+                android:text="@string/vertify_code" />
+
+            <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
+                android:id="@+id/et_verify_code"
+                style="@style/style_edit"
+                android:hint="@string/vertify_code_input_hint"
+                android:inputType="number"
+                android:maxLength="@integer/vertiry_code_lenght" />
+        </LinearLayout>
+
+        <ImageView style="@style/style_divider_horizontal_light" />
+
+        <LinearLayout style="@style/style_edit_white_container">
+
+            <TextView
+                style="@style/style_small_text"
+                android:text="@string/password" />
+
+            <com.zhiyicx.baseproject.widget.edittext.PasswordEditText
+                android:id="@+id/et_login_password"
+                style="@style/style_passward_edit"
+                android:hint="@string/password_input_hint"
+                android:inputType="text"
+                android:text="" />
+        </LinearLayout>
+
+        <ImageView style="@style/style_divider_horizontal_light" />
+
+        <LinearLayout
+            android:id="@+id/ll_container_sure_password"
+            style="@style/style_edit_white_container">
+
+            <TextView
+                style="@style/style_bind_account_text"
+                android:text="@string/sure_password" />
+
+            <com.zhiyicx.baseproject.widget.edittext.PasswordEditText
+                android:id="@+id/et_sure_password"
+                style="@style/style_passward_edit"
+                android:hint="@string/password_input_hint"
+                android:inputType="textPassword"
+                android:maxLength="@integer/password_maxlenght" />
+
+        </LinearLayout>
+        <ImageView style="@style/style_divider_horizontal_light" />
+        <LinearLayout
+            android:id="@+id/ll_invitation_code"
+            style="@style/style_edit_white_container">
+
+            <TextView
+                style="@style/style_bind_account_text"
+                android:text="@string/invitation_code" />
+
+            <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
+                android:id="@+id/et_invitation_code"
+                style="@style/style_passward_edit"
+                android:hint="@string/input_invitation_code"
+                android:inputType="number"
+                android:maxLength="@integer/password_maxlenght" />
+
+        </LinearLayout>
+        <!--<LinearLayout-->
+        <!--style="@style/style_edit_white_container">-->
+
+        <!--<TextView-->
+        <!--style="@style/style_small_text"-->
+        <!--android:text="@string/invitation_code"/>-->
+
+        <!--<android.support.v7.widget.AppCompatAutoCompleteTextView-->
+        <!--android:id="@+id/et_complete_input"-->
+        <!--style="@style/style_edit"-->
+        <!--android:hint="@string/login_account_hint"-->
+        <!--android:completionThreshold="@integer/login_hint_mix_count"-->
+        <!--android:visibility="visible"-->
+        <!--android:singleLine="true"-->
+        <!--android:layout_weight="1"-->
+        <!--android:imeOptions="actionNext"-->
+        <!--android:layout_width="0dp"/>-->
+
+        <!--<ImageView-->
+        <!--android:id="@+id/iv_clear"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@mipmap/login_inputbox_clean"-->
+        <!--android:padding="15dp"-->
+        <!--android:visibility="gone"/>-->
+
+        <!--<com.zhiyicx.baseproject.widget.edittext.DeleteEditText-->
+        <!--android:id="@+id/et_login_phone"-->
+        <!--style="@style/style_edit"-->
+        <!--android:hint="@string/input_invitation_code"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:visibility="gone"/>-->
+        <!--</LinearLayout>-->
         <!--登录异常相关提示-->
-        <include
-                layout="@layout/include_error_tip_text"/>
+        <include layout="@layout/include_error_tip_text" />
 
         <com.zhiyicx.baseproject.widget.button.LoadingButton
-                android:id="@+id/bt_login_login"
-                style="@style/style_login_button"
-                android:layout_marginTop="@dimen/button_login_margin_top"
-                android:enabled="false"
-                app:text="@string/third_platform_bind_confirm"/>
+            android:id="@+id/bt_login_login"
+            style="@style/style_login_button"
+            android:layout_marginTop="@dimen/button_login_margin_top"
+            android:enabled="false"
+            app:text="@string/third_platform_bind_confirm" />
 
     </LinearLayout>
 </com.wcy.overscroll.OverScrollLayout>
