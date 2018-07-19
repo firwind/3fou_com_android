@@ -33,7 +33,7 @@ public class ServiceManager {
     private CircleClient mCircleClient;
     private EasemobClient mEasemobClient;
     private MarketClient mMarketClient;
-
+    private CurrencyClient mCurrencyClient;
     /**
      * 如果需要添加 service 只需在构造方法中添加对应的 service,在提供 get 方法返回出去,只要在 ServiceModule 提供了该 service
      * Dagger2 会自行注入
@@ -58,7 +58,8 @@ public class ServiceManager {
             , RankClient rankClient
             , CircleClient circleClient
             , EasemobClient easemobClient
-            ,MarketClient marketClient) {
+            ,MarketClient marketClient
+            ,CurrencyClient currencyClient) {
         this.mCommonClient = commonClient;
         this.mLoginClient = loginClient;
         this.mQAClient = qAClient;
@@ -77,6 +78,7 @@ public class ServiceManager {
         this.mCircleClient = circleClient;
         this.mEasemobClient = easemobClient;
         this.mMarketClient = marketClient;
+        this.mCurrencyClient = currencyClient;
     }
 
     public CommonClient getCommonClient() {
@@ -150,4 +152,8 @@ public class ServiceManager {
     public MarketClient getMarketClient() {
         return mMarketClient;
     }
+    public CurrencyClient getmCurrencyClient() {
+        return mCurrencyClient;
+    }
+
 }

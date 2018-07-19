@@ -53,10 +53,11 @@
 
         <!--绑定微博-->
         <com.zhiyicx.baseproject.widget.button.CombinationButton
+
             android:id="@+id/bt_bind_weibo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/full_button_height"
-            android:visibility="visible"
+            android:visibility="gone"
             app:leftText="@string/account_bind_weibo"
             app:leftTextLeftPadding="@dimen/spacing_mid"
             app:rightImage="@mipmap/ic_arrow_smallgrey"/>

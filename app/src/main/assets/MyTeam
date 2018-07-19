@@ -1,0 +1,13 @@
+[
+  {
+    "total":"100"
+  },
+  {
+    "currencyName": "BCB",
+    "id": 1
+  },
+  {
+    "currencyName": "BTB",
+    "id": 2
+  }
+]

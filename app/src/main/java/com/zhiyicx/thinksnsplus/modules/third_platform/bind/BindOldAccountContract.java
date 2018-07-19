@@ -29,7 +29,7 @@ public interface BindOldAccountContract {
 
     interface Presenter extends IBasePresenter {
         void checkName(ThridInfoBean thridInfoBean,String name);
-        void bindAccount(ThridInfoBean thridInfoBean, String string, String string1);
+        void bindAccount(ThridInfoBean thridInfoBean, String string, String string1,String phone,String verifiable_code,String user_code);
         void getVertifyCode(String trim);
     }
 

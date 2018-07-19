@@ -6,6 +6,7 @@ import com.zhiyicx.thinksnsplus.data.source.remote.ChannelClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.ChatInfoClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.CircleClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.CommonClient;
+import com.zhiyicx.thinksnsplus.data.source.remote.CurrencyClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.DynamicClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.EasemobClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.FollowFansClient;
@@ -193,5 +194,9 @@ public class ServiceModule {
     MarketClient provideMarketClient(Retrofit retrofit){
         return retrofit.create(MarketClient.class);
     }
-
+    @Singleton
+    @Provides
+    CurrencyClient provideCurrencyClient(Retrofit retrofit){
+        return retrofit.create(CurrencyClient.class);
+    }
 }

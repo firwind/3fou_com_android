@@ -51,6 +51,8 @@
     <string name="wallet">我的钱包</string>
     <string name="cash">我的现金</string>
     <string name="team">我的团队</string>
+    <string name="earnings">收益</string>
+    <string name="time">时间</string>
     <string name="me_music">购买的音乐</string>
     <string name="follow">关注</string>
     <string name="friends">好友</string>

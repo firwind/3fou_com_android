@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp20"
+        android:background="@drawable/shape_qr_code_bg"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp10">
+
+        <Spinner
+            android:id="@+id/sp_team_spinner"
+            android:layout_width="@dimen/dp120"
+            android:layout_height="match_parent"/>
+        <View
+            style="@style/style_divider_veitical"
+            android:layout_marginRight="@dimen/dp10" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的总资产：0BCB"
+            android:textColor="@color/black_deep"
+            android:textSize="@dimen/sp16" />
+    </LinearLayout>
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="@dimen/sp16"
+            android:gravity="center"
+            android:text="@string/user_name"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="@dimen/sp16"
+            android:gravity="center"
+            android:text="@string/earnings"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="@dimen/sp16"
+            android:gravity="center"
+            android:text="@string/time"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:layout_marginTop="@dimen/margin_10dp"
+        style="@style/style_divider_horizontal"/>
+    <include
+        layout="@layout/fragment_tslist"/>
+</LinearLayout>

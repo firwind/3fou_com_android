@@ -166,7 +166,9 @@ public class UpgradePayFragment extends TSFragment<UpgradePayContract.Presenter>
             mUpgradeTypeBean = getArguments().getParcelable(UPGRADE_TYPE);
             mGroupId = getArguments().getString(GRADE_ID);
         }
-        mUpgradeTypeBean.getZhekou_data().get(0).setSelector(true);//默认选择第一个为选中目标
+        if (mUpgradeTypeBean.getZhekou_data().size()!=0) {
+            mUpgradeTypeBean.getZhekou_data().get(0).setSelector(true);//默认选择第一个为选中目标
+        }
         initRv();
     }
 

@@ -207,6 +207,9 @@
             android:name=".modules.wallet.WalletActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".modules.home.mine.team.MyTeamActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".modules.wallet.rule.WalletRuleActivity"
             android:screenOrientation="portrait"/>
         <activity

@@ -13,6 +13,7 @@ import com.zhiyicx.thinksnsplus.data.beans.BackgroundRequestTaskBean;
 import com.zhiyicx.thinksnsplus.data.beans.ThridInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.WalletBeanGreenDaoImpl;
+import com.zhiyicx.thinksnsplus.data.source.remote.RegisterClient;
 import com.zhiyicx.thinksnsplus.data.source.repository.AuthRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.BillRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
@@ -50,6 +51,7 @@ public class BindOldAccountPresenter extends BasePresenter<BindOldAccountContrac
     VertifyCodeRepository mVertifyCodeRepository;
 
     private int mTimeOut = SNS_TIME;
+
     @Inject
     public BindOldAccountPresenter(
             BindOldAccountContract.View rootView) {
@@ -64,9 +66,9 @@ public class BindOldAccountPresenter extends BasePresenter<BindOldAccountContrac
     }
 
     @Override
-    public void bindAccount(ThridInfoBean thridInfoBean, String login, String password) {
+    public void bindAccount(ThridInfoBean thridInfoBean, String login, String password, String phone, String verifiable_code, String user_code) {
         mRootView.setLogining();
-        Subscription subscribe = mUserInfoRepository.bindWithInput(thridInfoBean.getProvider(), thridInfoBean.getAccess_token(), login, password)
+        Subscription subscribe = mUserInfoRepository.bindWithInput(thridInfoBean.getProvider(), thridInfoBean.getAccess_token(), login, password, phone, verifiable_code, RegisterClient.REGITER_TYPE_SMS, user_code,thridInfoBean.getName())
                 .subscribe(new BaseSubscribeForV2<AuthBean>() {
                     @Override
                     protected void onSuccess(AuthBean data) {
@@ -105,12 +107,14 @@ public class BindOldAccountPresenter extends BasePresenter<BindOldAccountContrac
                         timer.start();//开始倒计时
                         mRootView.setVerifyCodeLoading(false);
                     }
+
                     @Override
                     protected void onFailure(String message, int code) {
                         mRootView.showMessage(message);
                         mRootView.setVerifyCodeBtEnabled(true);
                         mRootView.setVerifyCodeLoading(false);
                     }
+
                     @Override
                     protected void onException(Throwable throwable) {
                         throwable.printStackTrace();

@@ -360,6 +360,16 @@ public interface IUserInfoRepository {
      * @return
      */
     Observable<AuthBean> bindWithInput(String provider, String access_token, String login, String password);
+    /**
+     * 输入账号密码绑定(新版)
+     *
+     * @param provider     type qq\weibo\wechat
+     * @param access_token 获取的 Provider Access Token。
+     * @param login        用户登录名，手机，邮箱
+     * @param password     用户密码。
+     * @return
+     */
+    Observable<AuthBean> bindWithInput(String provider, String access_token, String login, String password,String phone,String verifiable_code,String verifiable_type,String user_code,String name);
 
     /**
      * 取消绑定

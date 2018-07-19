@@ -872,6 +872,12 @@ public class UserInfoRepository implements IUserInfoRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<AuthBean> bindWithInput(String provider, String access_token, String login, String password, String phone, String verifiable_code, String verifiable_type, String user_code,String name) {
+        return mUserInfoClient.bindWithInput(provider, new BindAccountRequstBean(access_token, login, password, phone, verifiable_code, verifiable_type, user_code,name))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
     /**
      * 取消绑定
      *
