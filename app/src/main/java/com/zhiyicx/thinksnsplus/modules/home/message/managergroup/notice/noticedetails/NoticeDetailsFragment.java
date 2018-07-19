@@ -141,14 +141,14 @@ public class NoticeDetailsFragment extends TSFragment<NoticeDetailsContract.Pres
         return rootView;
     }
 
-    @Override
+    /*@Override
     protected void snackViewDismissWhenTimeOut(Prompt prompt) {
         super.snackViewDismissWhenTimeOut(prompt);
         if (prompt == Prompt.SUCCESS) {
             EventBus.getDefault().post("", EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE);
             getActivity().finish();
         }
-    }
+    }*/
 
     @Override
     public void onDestroyView() {

@@ -189,15 +189,22 @@ public class EventBusTagConfig {
     public static final String EVENT_IM_GET_GROUP_INFO = "getChatGroupInfo";
     public static final String EVENT_IM_GROUP_EDIT_NAME = "group_edit_name";
     public static final String EVENT_IM_DELETE_QUIT = "group_quit";
-    public static final String EVENT_IM_GROUP_CHANGE_OWNER = "group_change_owner";
+
+    public static final String EVENT_IM_GROUP_UPDATE_INFO = "group_update_info";
+    public static final String EVENT_IM_GROUP_CREATE_FROM_SINGLE = "group_create_from_single";
+
+    /*public static final String EVENT_IM_GROUP_CHANGE_OWNER = "group_change_owner";
     public static final String EVENT_IM_GROUP_DATA_CHANGED = "group_data_changed";
     public static final String EVENT_IM_GROUP_ADD_MEMBER = "group_add_member";
     public static final String EVENT_IM_GROUP_REMOVE_MEMBER = "group_remove_member";
-    public static final String EVENT_IM_GROUP_CREATE_FROM_SINGLE = "group_create_from_single";
     public static final String EVENT_IM_GROUP_UPDATE_GROUP_INFO = "group_update_group_info";
     public static final String EVENT_IM_GROUP_UPDATE_GROUP_NOTICE = "group_update_group_notice";
     public static final String EVENT_IM_GROUP_UPDATE_GROUP_MUTE = "group_update_group_mute";
     public static final String EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO= "group_update_group_user_info";
+    //上传图片成功
+    public static final String EVENT_GROUP_UPDATE_ALBUM_SUCCESS = "EVENT_GROUP_UPDATE_ALBUM_SUCCESS";
+    //置顶/取消置顶
+    public static final String EVENT_GROUP_UPLOAD_SET_STICK = "event_group_upload_set_stick";*/
 
     /**
      * 消息底部提示信息相关
@@ -261,9 +268,5 @@ public class EventBusTagConfig {
 
     public static final String EVENT_USER_HEADPIC_UPDATE="event_user_update_headpic";
 
-    //上传图片成功
-    public static final String EVENT_GROUP_UPDATE_ALBUM_SUCCESS = "EVENT_GROUP_UPDATE_ALBUM_SUCCESS";
-    //置顶/取消置顶
-    public static final String EVENT_GROUP_UPLOAD_SET_STICK = "event_group_upload_set_stick";
 
 }

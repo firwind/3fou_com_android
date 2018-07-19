@@ -17,9 +17,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_ADD_MEMBER;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_REMOVE_MEMBER;
-
 /**
  * @author Catherine
  * @describe
@@ -56,7 +53,7 @@ public class GroupMemberListPresenter extends AppBasePresenter< GroupMemberListC
                 });
     }
 
-    @Subscriber(tag = EVENT_IM_GROUP_REMOVE_MEMBER)
+    /*@Subscriber(tag = EVENT_IM_GROUP_REMOVE_MEMBER)
     public void onGroupMemberRemoved(Bundle bundle){
         List<UserInfoBean> removedList = bundle.getParcelableArrayList(EVENT_IM_GROUP_REMOVE_MEMBER);
         if (removedList == null) {
@@ -86,7 +83,7 @@ public class GroupMemberListPresenter extends AppBasePresenter< GroupMemberListC
         ChatGroupBean chatGroupBean = mRootView.getGroupData();
         chatGroupBean.getAffiliations().addAll(addedList);
         mRootView.updateGroup(chatGroupBean);
-    }
+    }*/
 
     @Override
     protected boolean useEventBus() {

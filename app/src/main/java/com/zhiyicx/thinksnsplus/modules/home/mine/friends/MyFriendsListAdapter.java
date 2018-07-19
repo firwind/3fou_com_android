@@ -67,7 +67,7 @@ public class MyFriendsListAdapter extends CommonAdapter<UserInfoBean> {
                     messageItemBean.setUserInfo(userInfoBean);
                     try {
                         ChatActivity.startChatActivity(mContext, String.valueOf(userInfoBean.getUser_id()),
-                                EaseConstant.CHATTYPE_SINGLE,userInfoBean.getIsstick());
+                                EaseConstant.CHATTYPE_SINGLE);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -105,7 +105,7 @@ public class MyFriendsListAdapter extends CommonAdapter<UserInfoBean> {
                     messageItemBean.setUserInfo(userInfoBean);
                     try {
                         ChatActivity.startChatActivity(mContext, String.valueOf(userInfoBean.getUser_id()),
-                                EaseConstant.CHATTYPE_SINGLE,userInfoBean.getIsstick());
+                                EaseConstant.CHATTYPE_SINGLE);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

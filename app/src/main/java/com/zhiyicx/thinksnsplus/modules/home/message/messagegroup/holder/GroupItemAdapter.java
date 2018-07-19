@@ -56,7 +56,7 @@ public class GroupItemAdapter extends SecondaryListAdapter<GroupItemAdapter.Grou
     @Override
     public void onGroupItemBindViewHolder(RecyclerView.ViewHolder holder, int groupItemIndex) {
         ChatGroupBean chatGroupBean = dts.get(groupItemIndex).getGroupItem();
-        ((GroupItemViewHolder) holder).tvGroupName.setText(chatGroupBean.getmParentName());
+//        ((GroupItemViewHolder) holder).tvGroupName.setText(chatGroupBean.getmParentName());
 //        ((GroupItemViewHolder) holder).tvGroupNum.setText(chatGroupBean.getmParentNum());
 
     }

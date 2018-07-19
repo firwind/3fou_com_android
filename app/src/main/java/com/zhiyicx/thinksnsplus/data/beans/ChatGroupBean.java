@@ -69,28 +69,6 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     @SerializedName("public")
     private boolean isPublic;
     private int group_level;//群等级，1-官方群;2-热门群
-    @Transient
-    public static final int ONELIST = 0;//一级列表
-    @Transient
-    public static final int TWOLIST = 1;//二级列表
-    @Transient
-    public int type = ONELIST;//默认一级
-    @Transient
-    private List<ChatGroupBean> official;
-    @Transient
-    private List<ChatGroupBean> hot;
-    @Transient
-    private List<ChatGroupBean> common;
-    @Transient
-    public String leaf1;//支叶内容
-    @Transient
-    private boolean expand = false;//是否展开子项
-    @Transient
-    private List<ChatGroupBean> treeBeanList;
-    @Transient
-    private String mParentName;
-    @Transient
-    private int mParentNum;
 
     public int getIs_in() {
         return mIsIn;
@@ -102,82 +80,6 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     @SerializedName(value = "mIsIn", alternate = {"is_in"})
     @Transient
     private int mIsIn;//是否加入该群
-
-    public String getLeaf1() {
-        return leaf1;
-    }
-
-    public void setLeaf1(String leaf1) {
-        this.leaf1 = leaf1;
-    }
-
-    public List<ChatGroupBean> getTreeBeanList() {
-        return treeBeanList;
-    }
-    public void setTreeBeanList(List<ChatGroupBean> treeBeanList) {
-        this.treeBeanList = treeBeanList;
-    }
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public boolean isExpand() {
-        return expand;
-    }
-
-    public void setExpand(boolean expand) {
-        this.expand = expand;
-    }
-    public static int getONELIST() {
-        return ONELIST;
-    }
-
-    public static int getTWOLIST() {
-        return TWOLIST;
-    }
-    public String getmParentName() {
-        return mParentName;
-    }
-
-    public void setmParentName(String mParentName) {
-        this.mParentName = mParentName;
-    }
-
-    public int getmParentNum() {
-        return mParentNum;
-    }
-
-    public void setmParentNum(int mParentNum) {
-        this.mParentNum = mParentNum;
-    }
-
-    public List<ChatGroupBean> getOfficial() {
-        return official;
-    }
-
-    public void setOfficial(List<ChatGroupBean> official) {
-        this.official = official;
-    }
-
-    public List<ChatGroupBean> getHot() {
-        return hot;
-    }
-
-    public void setHot(List<ChatGroupBean> hot) {
-        this.hot = hot;
-    }
-
-    public List<ChatGroupBean> getCommon() {
-        return common;
-    }
-
-    public void setCommon(List<ChatGroupBean> common) {
-        this.common = common;
-    }
 
     public int getGroup_level() {
         return group_level;
@@ -402,15 +304,6 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         dest.writeTypedList(this.affiliations);
         dest.writeByte(this.isPublic ? (byte) 1 : (byte) 0);
         dest.writeInt(this.group_level);
-        dest.writeInt(this.type);
-        dest.writeTypedList(this.official);
-        dest.writeTypedList(this.hot);
-        dest.writeTypedList(this.common);
-        dest.writeString(this.leaf1);
-        dest.writeByte(this.expand ? (byte) 1 : (byte) 0);
-        dest.writeTypedList(this.treeBeanList);
-        dest.writeString(this.mParentName);
-        dest.writeInt(this.mParentNum);
     }
 
     protected ChatGroupBean(Parcel in) {
@@ -430,15 +323,6 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         this.affiliations = in.createTypedArrayList(UserInfoBean.CREATOR);
         this.isPublic = in.readByte() != 0;
         this.group_level = in.readInt();
-        this.type = in.readInt();
-        this.official = in.createTypedArrayList(ChatGroupBean.CREATOR);
-        this.hot = in.createTypedArrayList(ChatGroupBean.CREATOR);
-        this.common = in.createTypedArrayList(ChatGroupBean.CREATOR);
-        this.leaf1 = in.readString();
-        this.expand = in.readByte() != 0;
-        this.treeBeanList = in.createTypedArrayList(ChatGroupBean.CREATOR);
-        this.mParentName = in.readString();
-        this.mParentNum = in.readInt();
     }
 
     public static final Creator<ChatGroupBean> CREATOR = new Creator<ChatGroupBean>() {

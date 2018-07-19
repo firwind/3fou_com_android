@@ -154,8 +154,10 @@ public class SettingAdminPresenter extends AppBasePresenter<SettingAdminContract
 
                     @Override
                     protected void onSuccess(String data) {
-
                         mRootView.showSnackSuccessMessage(mContext.getString(R.string.clean_success));
+                        mRootView.startRefrsh();
+                        //EventBus.getDefault().post(mListDatas, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
+                        EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
                     }
 
                     @Override

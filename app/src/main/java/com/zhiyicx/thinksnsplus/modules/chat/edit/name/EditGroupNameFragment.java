@@ -88,6 +88,7 @@ public class EditGroupNameFragment extends TSFragment<EditGroupNameContract.Pres
             return;
         }
         EventBus.getDefault().post(mNewName, EventBusTagConfig.EVENT_IM_GROUP_EDIT_NAME);
+//        EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
         getActivity().finish();
     }
 

@@ -103,19 +103,40 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
                     });
             addSubscrebe(mSearchSub);
         } else {
-            getLocalUser(keyWord);
+            //getLocalUser(keyWord);
+            mSearchSub = mChatInfoRepository.getUserInfoInfo(mRootView.getGroupData().getId(),keyWord)
+                    .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
+                        @Override
+                        protected void onSuccess(List<UserInfoBean> data) {
+                            int selfPosition = -1;
+                            long userId = AppApplication.getMyUserIdWithdefault();
+                            for (int i = 0; i < data.size(); i++) {
+                                if(data.get(i).getUser_id() == userId)
+                                    selfPosition = i;
+                                data.get(i).setIsSelected(0);
+                            }
+                            data.remove(selfPosition);
+                            mRootView.onNetResponseSuccess(data,false);
+                        }
+
+                        @Override
+                        protected void onException(Throwable throwable) {
+                            super.onException(throwable);
+                            mRootView.onResponseError(throwable, false);
+                        }
+                    });
         }
 
     }
 
     @Override
     public void requestCacheData(Long maxId, boolean isLoadMore) {
-        if (!mRootView.getIsDeleteMember()) {
+        /*if (!mRootView.getIsDeleteMember()) {
 
             mRootView.onCacheResponseSuccess(new ArrayList<>(), isLoadMore);
         } else {
             getLocalUser("");
-        }
+        }*/
     }
 
     @Override
@@ -233,14 +254,15 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
                 .subscribe(new BaseSubscribeForV2<Object>() {
                     @Override
                     protected void onSuccess(Object data) {
-                        Bundle bundle = new Bundle();
+                        /*Bundle bundle = new Bundle();
                         if (mRootView.getIsDeleteMember()) {
                             bundle.putParcelableArrayList(EventBusTagConfig.EVENT_IM_GROUP_REMOVE_MEMBER, (ArrayList<? extends Parcelable>) list);
                             EventBus.getDefault().post(bundle, EventBusTagConfig.EVENT_IM_GROUP_REMOVE_MEMBER);
                         } else {
                             bundle.putParcelableArrayList(EventBusTagConfig.EVENT_IM_GROUP_ADD_MEMBER, (ArrayList<? extends Parcelable>) list);
                             EventBus.getDefault().post(bundle, EventBusTagConfig.EVENT_IM_GROUP_ADD_MEMBER);
-                        }
+                        }*/
+                        EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
                         mRootView.dealGroupMemberResult();
                     }
 

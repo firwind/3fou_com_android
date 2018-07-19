@@ -54,7 +54,6 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     TSSearchView mSearchView;
     @BindView(R.id.swipe_target)
     RecyclerView swipeTarget;
-    Unbinder unbinder;
     private List<ChatGroupBean> cache;
 
     private static final String IS_ONLY_OFFICIAL_GROUP = "is_only_official_group";
@@ -72,15 +71,6 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
     public static MessageGroupListFragment newInstance() {
         MessageGroupListFragment fragment = new MessageGroupListFragment();
         Bundle args = new Bundle();
-        args.putBoolean(IS_ONLY_OFFICIAL_GROUP, false);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static MessageGroupListFragment newInstance(boolean isOnlyOfficialGroup) {
-        MessageGroupListFragment fragment = new MessageGroupListFragment();
-        Bundle args = new Bundle();
-        args.putBoolean(IS_ONLY_OFFICIAL_GROUP, isOnlyOfficialGroup);
         fragment.setArguments(args);
         return fragment;
     }
@@ -178,11 +168,11 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        if (!isOnlyOfficialGroup()) {
+        /*if (!isOnlyOfficialGroup()) {
             List<SecondaryListAdapter.DataTree<ChatGroupBean, ChatGroupBean>> datas = new ArrayList<>();
             for (int i = 0; i < mListDatas.size(); i++) {
                 ChatGroupBean chatGroupBean = mListDatas.get(i);
-                datas.add(new SecondaryListAdapter.DataTree<ChatGroupBean, ChatGroupBean>(chatGroupBean, chatGroupBean.getTreeBeanList()));
+//                datas.add(new SecondaryListAdapter.DataTree<ChatGroupBean, ChatGroupBean>(chatGroupBean, chatGroupBean.getTreeBeanList()));
             }
             GroupItemAdapter adapter = new GroupItemAdapter(getContext(), new GroupItemAdapter.OnScrollListener() {
                 @Override
@@ -192,7 +182,7 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
             });
             adapter.setData(datas);
             return adapter;
-        } else {
+        } else {*/
             CommonAdapter adapter = new CommonAdapter<ChatGroupBean>(getActivity(), R.layout.item_group_list, mListDatas) {
                 @Override
                 protected void convert(ViewHolder holder, ChatGroupBean chatGroupBean, int position) {
@@ -225,7 +215,6 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
             });
 
             return adapter;
-        }
     }
 
     @Override
@@ -245,10 +234,10 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         return mSearchView.getText().toString().trim();
     }
 
-    @Override
+    /*@Override
     public boolean isOnlyOfficialGroup() {
         return null == getArguments() ? false : getArguments().getBoolean(IS_ONLY_OFFICIAL_GROUP);
-    }
+    }*/
 
     @Subscriber(mode = ThreadMode.MAIN)
     public void onTSEMConnectionEventBus(TSEMConnectionEvent event) {
@@ -339,18 +328,4 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         }*/
     }
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 }

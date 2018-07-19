@@ -15,8 +15,6 @@ import javax.inject.Inject;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_CHANGE_OWNER;
-
 /**
  * @author Catherine
  * @describe
@@ -40,10 +38,10 @@ public class GroupManagerPresenter extends AppBasePresenter<GroupManagerContract
         return true;
     }
 
-    @Subscriber(tag = EVENT_IM_GROUP_CHANGE_OWNER)
+    /*@Subscriber(tag = EVENT_IM_GROUP_CHANGE_OWNER)
     public void onGroupOwnerChanged(UserInfoBean userInfoBean) {
         mRootView.closeCurrentActivity();
-    }
+    }*/
 
     @Override
     public void updateGroup(ChatGroupBean chatGroupBean) {

@@ -31,7 +31,6 @@ import javax.inject.Inject;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE;
 
 @FragmentScoped
 public class NoticeManagerPresenter extends AppBasePresenter<NoticeManagerContract.View>

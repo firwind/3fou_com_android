@@ -114,7 +114,7 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
             mFragmentList = new ArrayList<>();
             /*EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
             conversationListFragment.setConversationListItemClickListener(this);*/
-            mFragmentList.add(MessageGroupListFragment.newInstance(true));
+            mFragmentList.add(MessageGroupListFragment.newInstance());
             mFragmentList.add(new MessageConversationFragment());
             mFragmentList.add(MessageFragment.newInstance());
         }

@@ -2,7 +2,9 @@ package com.zhiyicx.baseproject.base;
 
 
 import android.graphics.Canvas;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +52,9 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
         .scwang.smartrefresh.layout.listener.OnRefreshListener, OnLoadmoreListener {
     /**
      * 默认每页的数量, SystemRepository 中的 getBootstrappersInfoFromServer方法中进行赋值
+     *
+     * 当手机内存不足时，如果该app处于后台，会回收当前资源，如果初始化为null的话，app从内存恢复资源时，
+     * 即使该静态变量在之前已经赋值为15，在从内存恢复后，仍然为null，需要在onSaveInstanceState中保存状态
      */
     public static Integer DEFAULT_PAGE_SIZE = null;
     /**
@@ -157,6 +162,18 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
      */
     private static boolean sIsScrolling;
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("default_page_size",null == DEFAULT_PAGE_SIZE ? 15 : DEFAULT_PAGE_SIZE);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(null != savedInstanceState && null == DEFAULT_PAGE_SIZE)
+            DEFAULT_PAGE_SIZE = savedInstanceState.getInt("default_page_size");
+    }
 
     /**
      * @return 页面布局 xml
@@ -716,6 +733,18 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
         if (mRefreshlayout != null) {
             mRvList.scrollToPosition(0);
             mRefreshlayout.autoRefresh(1);
+        }
+    }
+
+    /**
+     * 手动刷新，如果数据为空，则有动画，否则取消动画
+     */
+    public void startRefreshNoAnimIfEmpty(){
+        if(mRefreshlayout != null){
+            if(mListDatas.size() == 0 && isNeedRefreshAnimation())
+                startRefrsh();
+            else
+                onRefresh(null);
         }
     }
 

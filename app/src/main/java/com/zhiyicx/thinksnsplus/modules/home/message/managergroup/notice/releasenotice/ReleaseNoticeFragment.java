@@ -126,7 +126,8 @@ public class ReleaseNoticeFragment extends TSFragment<ReleaseNoticeContract.Pres
     @Override
     public void relaseSuccess() {
         TSEMessageUtils.sendNoticeGroupMessage(mUserInfoBean.getName(), String.valueOf(System.currentTimeMillis()), mNoticeContent, mNoticeTitle, mGroupId, true, TSEMConstants.TS_ATTR_RELEASE_NOTICE);
-        EventBus.getDefault().post(mNoticeContent, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE);
+//        EventBus.getDefault().post(mNoticeContent, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE);
+        EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
         getActivity().finish();
     }
 

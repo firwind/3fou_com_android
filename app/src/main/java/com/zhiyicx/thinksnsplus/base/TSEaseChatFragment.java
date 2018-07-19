@@ -92,7 +92,6 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
      */
     protected Bundle fragmentArgs;
     protected int chatType;
-    protected int mIsStick;
     public String toChatUsername;
     protected EaseChatMessageList messageList;
     protected EaseChatInputMenu inputMenu;

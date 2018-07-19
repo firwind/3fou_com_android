@@ -195,6 +195,17 @@
         </receiver>
 
 
+        <!--配置华为推送-->
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="appid=10492024" />
+        <!-- 接入HMSSDK 需要注册的provider，authorities 一定不能与其他应用一样，所以这边 com.hyphenate.chatuidemo 要替换上您应用的包名-->
+        <provider
+            android:name="com.huawei.hms.update.provider.UpdateProvider"
+            android:authorities="${applicationId}.hms.update.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" />
+
     </application>
 
 </manifest>

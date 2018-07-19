@@ -127,8 +127,8 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
         return true;
     }
 
-    @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK)
+    /*@Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK)
     public void updateStick(int stick) {
         mPresenter.requestCacheData(0L, false);
-    }
+    }*/
 }

@@ -301,7 +301,7 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_ALBUM_LIST)
     Observable<BaseJsonV2<List<MessageGroupAlbumBean>>> getGroupAlbumList(@Query("group_id") String group_id,
-                                                                          @Query("per_page") int per_page, @Query("page") int page);
+                                                                          @Query("per_page") Integer per_page, @Query("page") int page);
 
     /**
      * 删除群组

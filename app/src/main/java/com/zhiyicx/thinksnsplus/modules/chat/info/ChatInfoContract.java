@@ -47,13 +47,15 @@ public interface ChatInfoContract {
 
         void updateGroupOwner(ChatGroupBean chatGroupBean);
 
-        void setSticksSuccess();
+        //void setSticksSuccess();
 
         void setBannedPostSuccess();
 
         boolean getIsAddGroup();
 
         void goChatActivity();
+
+        void setStickState(boolean isStick);
     }
 
     interface Presenter extends IBasePresenter {
@@ -120,6 +122,8 @@ public interface ChatInfoContract {
         boolean checkImhelper(String chatId);
 
         void saveGroupInfo(ChatGroupBean chatGroupBean);
+
+        void getConversationStickList(String chatId);
 
     }
 

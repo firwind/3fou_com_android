@@ -54,13 +54,13 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
                 .subscribe(new BaseSubscribeForV2<BaseJsonV2<List<MessageGroupAlbumBean>>>() {
                     @Override
                     protected void onSuccess(BaseJsonV2<List<MessageGroupAlbumBean>> data) {
-                        mRootView.onNetResponseSuccess(data.getData(),isLoadMore);
+                        mRootView.onNetResponseSuccess(data.getData(), isLoadMore);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        mRootView.onResponseError(e,isLoadMore);
+                        mRootView.onResponseError(e, isLoadMore);
                     }
                 }));
 
@@ -68,7 +68,7 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
 
     @Override
     public void requestCacheData(Long maxId, boolean isLoadMore) {
-        //mRootView.onCacheResponseSuccess(null, false);
+        mRootView.onCacheResponseSuccess(null, isLoadMore);
     }
 
     @Override
@@ -113,14 +113,13 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
                         }
                         return mMessageRepository.addGroupAlbum(images.toString(), mRootView.getGroupId());// 进行添加群相册
                     }
-                }).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         addSubscrebe(observable.subscribe(new BaseSubscribeForV2<String>() {
             @Override
             protected void onSuccess(String data) {
                 mRootView.showMessage("上传成功");
-                mRootView.uploadOk();
                 mRootView.startRefrsh();
+                mRootView.uploadOk();
             }
 
             @Override
@@ -139,7 +138,7 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
 
     @Override
     public void requestDeleteAlbum(MessageGroupAlbumBean messageGroupAlbumBean) {
-        addSubscrebe(mMessageRepository.deleteGroupAlbum(String.valueOf(messageGroupAlbumBean.file_id),mRootView.getGroupId())
+        addSubscrebe(mMessageRepository.deleteGroupAlbum(String.valueOf(messageGroupAlbumBean.file_id), mRootView.getGroupId())
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {

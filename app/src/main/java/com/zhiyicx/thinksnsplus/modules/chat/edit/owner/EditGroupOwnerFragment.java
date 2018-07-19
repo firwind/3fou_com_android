@@ -160,8 +160,9 @@ public class EditGroupOwnerFragment extends TSListFragment<EditGroupOwnerContrac
 
     @Override
     public void updateGroup(ChatGroupBean chatGroupBean) {
-        EventBus.getDefault().post(mChatGroupBean, EventBusTagConfig.EVENT_IM_GROUP_DATA_CHANGED);
-        EventBus.getDefault().post(mNewOwner, EventBusTagConfig.EVENT_IM_GROUP_CHANGE_OWNER);
+        /*EventBus.getDefault().post(mChatGroupBean, EventBusTagConfig.EVENT_IM_GROUP_DATA_CHANGED);
+        EventBus.getDefault().post(mNewOwner, EventBusTagConfig.EVENT_IM_GROUP_CHANGE_OWNER);*/
+        EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
         TSEMessageUtils.deleteMessage(mChatGroupBean.getId(), TSEMConstants.TS_ATTR_GROUP_CRATE);
         getActivity().finish();
     }

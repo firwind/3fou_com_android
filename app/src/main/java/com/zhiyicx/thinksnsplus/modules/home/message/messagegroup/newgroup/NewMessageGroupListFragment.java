@@ -45,8 +45,6 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
     TSSearchView mSearchView;
     private List<GroupParentBean> cache = new ArrayList<>();
 
-    private static final String IS_ONLY_OFFICIAL_GROUP = "is_only_official_group";
-
     @Inject
     public NewMessageGroupPresenter mPresenter;
 

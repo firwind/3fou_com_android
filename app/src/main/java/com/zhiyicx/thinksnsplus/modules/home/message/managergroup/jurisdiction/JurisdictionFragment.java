@@ -57,7 +57,6 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     public static final String MANAGER_OBJ = "manager_obj";
     @Inject
     JurisdictionPresenter mJurisdictionPresenter;
-    Unbinder unbinder;
     /**
      * 群信息
      */
@@ -121,7 +120,8 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
     @Override
     public void addGroupRuloSuccess() {
 
-        EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO);
+//        EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO);
+        EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
         getActivity().finish();
     }
 
@@ -260,8 +260,8 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
 
     @Override
     protected void setLeftClick() {
-        EventBus.getDefault().post(mListDatas, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
-        onBackPressed();
+        /*EventBus.getDefault().post(mListDatas, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
+        onBackPressed();*/
         super.setLeftClick();
     }
 
@@ -336,20 +336,6 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     @OnClick({R.id.bt_open_mute, R.id.bt_relieve_mute})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -361,11 +347,11 @@ public class JurisdictionFragment extends TSListFragment<JurisdictionContract.Pr
         }
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         EventBus.getDefault().post(mListDatas, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
         super.onBackPressed();
-    }
+    }*/
 
     private void getUserListData() {
         if (mPresenter != null) {

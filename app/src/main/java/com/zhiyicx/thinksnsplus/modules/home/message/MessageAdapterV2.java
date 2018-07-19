@@ -344,7 +344,7 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                     }
                     ChatActivity.startChatActivity(mContext, messageItemBean.getConversation().conversationId()
                             , messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat ? EaseConstant.CHATTYPE_SINGLE
-                                    : EaseConstant.CHATTYPE_GROUP,messageItemBean.getIsStick());
+                                    : EaseConstant.CHATTYPE_GROUP);
                 });
     }
 

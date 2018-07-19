@@ -81,9 +81,7 @@ import static com.hyphenate.easeui.EaseConstant.CHATTYPE_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_BANNED_POST;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_ADD_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO;
+import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_ID;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_NAME;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.IS_GROUP_OWNER;
@@ -161,7 +159,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @BindView(R.id.tv_upgrade)
     TextView mTvUpgrade;
 
-    Unbinder unbinder;
+    //Unbinder unbinder;
     @BindView(R.id.tv_set_admin)
     TextView mTvSetAdmin;
     @BindView(R.id.tv_group_card_name)
@@ -227,7 +225,6 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         mChatId = getArguments().getString(EXTRA_TO_USER_ID);
 
         if (mChatType == EaseConstant.CHATTYPE_SINGLE) {
-            mIsStick = getArguments().getInt(EaseConstant.EXTRA_IS_STICK, 0);
             // 屏蔽群聊的布局
             mLlGroup.setVisibility(View.GONE);
             mLlManager.setVisibility(View.GONE);
@@ -266,7 +263,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
      */
     private void setIsStick() {
         if (mChatType == CHATTYPE_GROUP) {
-            if (mChatGroupBean.getIs_stick() == EaseConstant.CLOESS_MUTS) {//关闭置顶
+            if (mIsStick == EaseConstant.CLOESS_MUTS) {//关闭置顶
                 mScStickMessage.setChecked(false);
             } else {
                 mScStickMessage.setChecked(true);
@@ -309,6 +306,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 return false;
             }
         });
+        //获取置顶列表匹配
+        mPresenter.getConversationStickList(mChatId);
     }
 
     @Override
@@ -524,7 +523,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         Observable.just(chatGroupBean)
                 .subscribeOn(Schedulers.io())
                 .map(chatGroupBean1 -> {
-                    System.out.println("Thread.currentThread().getName() = " + Thread.currentThread().getName());
+                    //System.out.println("Thread.currentThread().getName() = " + Thread.currentThread().getName());
                     mChatGroupBean.setGroup_face(chatGroupBean.getGroup_face());
                     mChatGroupBean.setOwner(chatGroupBean.getOwner());
                     mChatGroupBean.setPublic(chatGroupBean.isPublic());
@@ -551,19 +550,19 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 }, Throwable::printStackTrace);
     }
 
-    @Override
+    /*@Override
     public void setSticksSuccess() {
         if (mChatType == EaseConstant.CHATTYPE_SINGLE) {
             EventBus.getDefault().post(mIsStick == 0 ? 1 : 0, EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK);
         }
-    }
+    }*/
 
     /**
      * 禁言成功
      */
     @Override
     public void setBannedPostSuccess() {
-        onPublishGroupSuccess(null);
+        //onPublishGroupSuccess(null);
     }
 
     @Override
@@ -576,6 +575,12 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mChatId, EMConversation.EMConversationType.GroupChat, true);
         ChatActivity.startChatActivity(mActivity, conversation.conversationId(), CHATTYPE_GROUP);
         getActivity().finish();
+    }
+
+    @Override
+    public void setStickState(boolean isStick) {
+        mIsStick = isStick?1:0;
+        setIsStick();
     }
 
     @Override
@@ -622,16 +627,16 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         }
 
-        setIsStick();
+//        setIsStick();
 
         setGroupAlbumData(chatGroupBean.group_images_data);
 
     }
 
-    @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPDATE_ALBUM_SUCCESS)
+    /*@Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPDATE_ALBUM_SUCCESS)
     public void uploadAlbumSuccess(List<MessageGroupAlbumBean> newData) {
         setGroupAlbumData(newData);
-    }
+    }*/
 
     /**
      * 设置相册数据
@@ -719,7 +724,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         dismissPop(mPhotoPopupWindow);
         dismissPop(mDeleteGroupPopupWindow);
         super.onDestroyView();
-        unbinder.unbind();
+        //unbinder.unbind();
     }
 
     @Override
@@ -860,7 +865,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         if (mChatType == EaseConstant.CHATTYPE_SINGLE) {
             // 单聊处理布局
             user = mPresenter.getUserInfoFromLocal(mChatId);
-            setIsStick();
+//            setIsStick();
             ImageUtils.loadUserHead(user, mIvUserPortrait, false);
             mTvUserName.setText(user.getName());
             mIvUserPortrait.setOnClickListener(v -> PersonalCenterFragment.startToPersonalCenter(getContext(), user));
@@ -936,7 +941,16 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         }
     }
 
-    @Override
+    /**
+     * 更新群信息
+     */
+    @Subscriber(tag = EVENT_IM_GROUP_UPDATE_INFO)
+    public void onPublishGroupSuccess(boolean result) {
+        if(result)
+            mPresenter.getGroupChatInfo(mChatId);
+    }
+
+   /* @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
@@ -946,9 +960,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_MUTE)
     public void onPublishGroupSuccess(List<UserInfoBean> userInfoBean) {
-        /*if (isRefresh) {
+        *//*if (isRefresh) {
 
-        }*/
+        }*//*
         mPresenter.getGroupChatInfo(mChatId);//获取群信息
 //        mChatGroupBean.setAffiliations(userInfoBean);
     }
@@ -956,5 +970,5 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_NOTICE)
     public void onPublishNoticeSuccess(String noticeStr) {
         mNoticeText.setText(noticeStr);
-    }
+    }*/
 }

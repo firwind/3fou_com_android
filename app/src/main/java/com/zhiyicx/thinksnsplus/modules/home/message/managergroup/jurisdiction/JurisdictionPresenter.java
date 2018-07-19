@@ -53,7 +53,7 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
     @Override
     public void requestCacheData(Long maxId, boolean isLoadMore) {
 
-        getLocalUser("");
+        //getLocalUser("");
     }
 
     private void getLocalUser(String key) {
@@ -105,11 +105,6 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
                         mRootView.showSnackErrorMessage(e.getMessage());
                     }
                 });
-
-
-
-
-
 
     }
 

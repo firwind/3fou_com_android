@@ -337,12 +337,12 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
 
     @Override
     public void onCacheResponseSuccess(List<UserInfoBean> data, boolean isLoadMore) {
-        mLinearLayout.setVisibility(TextUtils.isEmpty(mEditSearchFriends.getText().toString().trim()) && data.isEmpty() ? View.GONE : View.VISIBLE);
+        /*mLinearLayout.setVisibility(TextUtils.isEmpty(mEditSearchFriends.getText().toString().trim()) && data.isEmpty() ? View.GONE : View.VISIBLE);
         checkUserIsSelected(data);
         super.onCacheResponseSuccess(data, isLoadMore);
         if (!TextUtils.isEmpty(mEditSearchFriends.getText().toString().trim()) && mListDatas.isEmpty()) {
             setEmptyViewVisiable(false);
-        }
+        }*/
     }
 
     @Override

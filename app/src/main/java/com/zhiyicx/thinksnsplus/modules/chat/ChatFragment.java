@@ -87,7 +87,6 @@ import butterknife.Unbinder;
 
 import static com.hyphenate.easeui.EaseConstant.EXTRA_CHAT_TYPE;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_ADD_GROUP;
-import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_STICK;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
 import static com.hyphenate.easeui.widget.chatrow.EaseChatRow.TipMsgType.OPEN_MUTE;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_ID;
@@ -287,12 +286,6 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     }
 
     @Override
-    protected void initView(View rootView) {
-        super.initView(rootView);
-        mIsStick = getArguments().getInt(EXTRA_IS_STICK, 0);
-    }
-
-    @Override
     protected void setLeftClick() {
         onBackPressed();
     }
@@ -320,9 +313,6 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         bundle.putString(EXTRA_TO_USER_ID, toChatUsername);
         bundle.putInt(EXTRA_CHAT_TYPE, chatType);
         bundle.putBoolean(EXTRA_IS_ADD_GROUP, true);
-        if (chatType == EaseConstant.CHATTYPE_SINGLE) {
-            bundle.putInt(EXTRA_IS_STICK, mIsStick);
-        }
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -759,18 +749,14 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         }
     }
 
+    /*OnResume中 已经重新设置了
     @Subscriber(tag = EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_INFO)
     public void updateCurrent(ChatGroupBean chatGroupBean) {
         if (chatGroupBean.getId().equals(toChatUsername)) {
             setCenterText(getString(R.string.chat_group_name_default, chatGroupBean.getName(), chatGroupBean.getAffiliations_count()));
         }
-    }
+    }*/
 
-    @Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK)
-    public void updateStick(int stick) {
-        mIsStick = stick;
-//      EventBus.getDefault().post(mIsStick == 0 ? 1 : 0, EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK);
-    }
 
     private NoticePopupWindow mNoticePop;
 

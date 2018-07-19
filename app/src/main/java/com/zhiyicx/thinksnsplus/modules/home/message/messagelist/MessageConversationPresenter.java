@@ -770,8 +770,9 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
     /**
      * 更新群信息
+     * OnResume()中已经做了更新
      */
-    @Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_INFO)
+    /*@Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_INFO)
     public void updateGroup(ChatGroupBean chatGroupBean) {
         for (MessageItemBeanV2 itemBeanV2 : mRootView.getListDatas()) {
             if (itemBeanV2.getEmKey().equals(chatGroupBean.getId())) {
@@ -780,5 +781,5 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
         }
         mRootView.refreshData();
 
-    }
+    }*/
 }

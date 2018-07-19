@@ -35,9 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.zhiyicx.common.widget.popwindow.CustomPopupWindow.POPUPWINDOW_ALPHA;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO;
 import static com.zhiyicx.thinksnsplus.modules.home.message.managergroup.settingadmin.SettingAdminActivity.GROUP_INFO_BEAN;
 
 public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Presenter, GroupHankBean> implements SettingAdminContract.View,
@@ -49,6 +46,7 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
      * 删除确认弹框
      */
     private ActionPopupWindow mCheckSurePop;
+
     public static SettingAdminFragment newInstance(Bundle bundle) {
         SettingAdminFragment settingAdminFragment = new SettingAdminFragment();
         settingAdminFragment.setArguments(bundle);
@@ -59,15 +57,9 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
     protected RecyclerView.Adapter getAdapter() {
         adminAdapter = new SettingAdminAdapter(getContext(), mListDatas, mChatGroupBean);
         adminAdapter.setListener(this);
-
         return adminAdapter;
-
     }
 
-    @Override
-    public void onNetResponseSuccess(@NotNull List<GroupHankBean> data, boolean isLoadMore) {
-        super.onNetResponseSuccess(data, isLoadMore);
-    }
 
     @Override
     protected String setCenterTitle() {
@@ -83,13 +75,20 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
     @Override
     protected void initData() {
         super.initData();
-        getAdminListData();
+        //getAdminListData();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startRefreshNoAnimIfEmpty();
     }
 
     /**
      * 获取管理员以及讲师或者主持人列表
      */
-    private void getAdminListData() {
+    /*private void getAdminListData() {
         if (mPresenter != null) {
             if (mListDatas.isEmpty()) {
                 mRefreshlayout.autoRefresh(0);
@@ -97,7 +96,7 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
                 mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
             }
         }
-    }
+    }*/
 
     @Override
     protected int getBodyLayoutId() {
@@ -140,7 +139,7 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
 
     }
 
-    @Override
+    /*@Override
     protected void setLeftClick() {
         EventBus.getDefault().post(mUserInfoBeans, EventBusTagConfig.EVENT_IM_GROUP_ADD_MEMBER);
         super.setLeftClick();
@@ -155,25 +154,24 @@ public class SettingAdminFragment extends TSListFragment<SettingAdminContract.Pr
     @Override
     protected void snackViewDismissWhenTimeOut(Prompt prompt) {
         super.snackViewDismissWhenTimeOut(prompt);
-        if (prompt == Prompt.SUCCESS){
+        if (prompt == Prompt.SUCCESS) {
             EventBus.getDefault().post(mListDatas, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_MUTE);
             getAdminListData();
         }
-    }
+    }*/
 
     @Override
     protected boolean useEventBus() {
         return true;
     }
-    @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO)
+
+    /*@Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_USER_INFO)
     public void onPublishGroupSuccess(boolean isSuccess) {
-//        requestCacheData(0L,false);
-        getAdminListData();
+        startRefrsh();
     }
 
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_MUTE)
     public void onPublishGroupSuccess(List<UserInfoBean> userInfoBean) {
-//        requestCacheData(0L,false);
         mUserInfoBeans = userInfoBean;
-    }
+    }*/
 }

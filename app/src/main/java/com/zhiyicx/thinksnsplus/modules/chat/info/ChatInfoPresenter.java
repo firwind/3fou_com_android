@@ -19,6 +19,7 @@ import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBeanDao;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
+import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
@@ -38,10 +39,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_DELETE_QUIT;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_ADD_MEMBER;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_DATA_CHANGED;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_EDIT_NAME;
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_REMOVE_MEMBER;
 
 /**
  * @author Catherine
@@ -234,7 +232,8 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
                     @Override
                     protected void onSuccess(String data) {
-                        mRootView.setSticksSuccess();
+//                        mRootView.setSticksSuccess();
+                        mRootView.setStickState(isStick==0?true:false);
                     }
 
                     @Override
@@ -263,14 +262,14 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                 .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {
                     @Override
                     protected void onSuccess(ChatGroupBean data) {
-
-                        mChatGroupBeanGreenDao.saveSingleData(data);
-
-                        // 成功后重置页面
-                        LogUtils.d("updateGroup", data);
-                        mRootView.updateGroup(data);
                         mRootView.dismissSnackBar();
-                        EventBus.getDefault().post(mRootView.getGroupBean(), EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_INFO);
+                        /*mChatGroupBeanGreenDao.saveSingleData(data);
+
+                        mRootView.updateGroup(data);
+                        mRootView.dismissSnackBar();*/
+
+                        //EventBus.getDefault().post(mRootView.getGroupBean(), EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_INFO);
+                        EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
                     }
 
                     @Override
@@ -395,7 +394,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
         updateGroup(chatGroupBean, false);
     }
 
-    @Subscriber(tag = EVENT_IM_GROUP_DATA_CHANGED)
+    /*@Subscriber(tag = EVENT_IM_GROUP_DATA_CHANGED)
     public void onGroupOwnerChanged(ChatGroupBean chatGroupBean) {
         mRootView.updateGroupOwner(chatGroupBean);
     }
@@ -432,7 +431,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
         chatGroupBean.getAffiliations().addAll(addedList);
         chatGroupBean.setAffiliations_count(chatGroupBean.getAffiliations_count() + addedList.size());
         mRootView.updateGroup(chatGroupBean);
-    }
+    }*/
 
     @Override
     public UserInfoBean getUserInfoFromLocal(String id) {
@@ -456,6 +455,30 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
     @Override
     public void saveGroupInfo(ChatGroupBean chatGroupBean) {
         mChatGroupBeanGreenDao.saveSingleData(chatGroupBean);
+    }
+
+    @Override
+    public void getConversationStickList(String chatId) {
+        mRepository.refreshSticks(String.valueOf(AppApplication.getMyUserIdWithdefault()))
+                .subscribe(new BaseSubscribeForV2<List<StickBean>>() {
+                    @Override
+                    protected void onSuccess(List<StickBean> data) {
+                        for (int i = 0; i < data.size(); i++) {
+                            if(null != data.get(i).getChatGroupBean()){
+                                if(chatId.equals(data.get(i).getChatGroupBean().id)){
+                                    mRootView.setStickState(true);
+                                    return;
+                                }
+                            }else if(null != data.get(i).getUserInfoBean()){
+                                if(chatId.equals(data.get(i).getUserInfoBean().id)){
+                                    mRootView.setStickState(true);
+                                    return;
+                                }
+                            }
+                        }
+                        mRootView.setStickState(false);
+                    }
+                });
     }
 
 }

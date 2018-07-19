@@ -43,13 +43,4 @@ public class ChatActivity extends TSActivity<ChatPresenter, ChatFragment> {
         context.startActivity(intent);
     }
 
-    public static void startChatActivity(Context context,String to,int chatType,int isStick){
-        Intent intent = new Intent(context, ChatActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(EaseConstant.EXTRA_USER_ID, to);
-        bundle.putInt(EaseConstant.EXTRA_CHAT_TYPE, chatType);
-        bundle.putInt(EaseConstant.EXTRA_IS_STICK, isStick);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
-    }
 }

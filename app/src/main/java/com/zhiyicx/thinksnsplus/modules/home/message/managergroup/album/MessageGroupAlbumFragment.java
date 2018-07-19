@@ -61,7 +61,6 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
 
     private PhotoSelectorImpl mPhotoSelector;
     private ArrayList<String> mImgList = new ArrayList<>();
-    private boolean isNeedTranNewData = false;//是否向上一界面传递数据
     private ChatGroupNewBean mChatGroupBean;
 
     /**
@@ -118,6 +117,11 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
     }
 
     @Override
+    protected boolean isNeedRefreshDataWhenComeIn() {
+        return true;
+    }
+
+    @Override
     public String getGroupId() {
         return null != getArguments()?
                 ((ChatGroupNewBean)getArguments().getParcelable(IntentKey.GROUP_INFO)).getId():null;
@@ -125,18 +129,22 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
 
     @Override
     public void uploadOk() {
-        isNeedTranNewData = true;
+        if(mListDatas.size()< 5)
+            EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
     }
 
     @Override
     public void deleteAlbumOk(MessageGroupAlbumBean messageGroupAlbumBean) {
         //int position = mListDatas.indexOf(messageGroupAlbumBean);
+
+        if(mListDatas.indexOf(messageGroupAlbumBean) < 4)
+            EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
+
         mListDatas.remove(messageGroupAlbumBean);
-        //mRvList.getAdapter().notifyItemRemoved(position);
-        //mRvList.getAdapter().notifyItemRangeChanged(position,mListDatas.size());
         mRvList.getAdapter().notifyDataSetChanged();
-        EventBus.getDefault().post(mListDatas.size()>4?mListDatas.subList(0,4):mListDatas,
-                EventBusTagConfig.EVENT_GROUP_UPDATE_ALBUM_SUCCESS);
+        /*EventBus.getDefault().post(mListDatas.size()>4?mListDatas.subList(0,4):mListDatas,
+                EventBusTagConfig.EVENT_GROUP_UPDATE_ALBUM_SUCCESS);*/
+
     }
 
     @Override
@@ -250,23 +258,10 @@ public class MessageGroupAlbumFragment extends TSListFragment<MessageGroupAlbumC
         mPresenter.requestUploadToAlbum(photoList);
     }
 
-    @Override
-    public void onNetResponseSuccess(@NotNull List<MessageGroupAlbumBean> data, boolean isLoadMore) {
-        super.onNetResponseSuccess(data, isLoadMore);
-
-        if(isNeedTranNewData){
-            if(null == data || data.size() == 0)
-                return;
-            EventBus.getDefault().post(data.size()>4?data.subList(0,4):data, EventBusTagConfig.EVENT_GROUP_UPDATE_ALBUM_SUCCESS);
-            isNeedTranNewData = false;
-        }
-
-    }
-
-    @Override
+    /*@Override
     protected boolean isLayzLoad() {
         return true;
-    }
+    }*/
 
     @Override
     public void getPhotoFailure(String errorMsg) {

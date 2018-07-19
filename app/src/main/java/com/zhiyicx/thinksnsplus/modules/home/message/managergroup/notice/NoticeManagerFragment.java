@@ -34,7 +34,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_ID;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.IS_GROUP_OWNER;
 
@@ -77,7 +76,6 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
 
     @Override
     protected void setLeftClick() {
-        liftClick();
         super.setLeftClick();
 
     }
@@ -154,7 +152,7 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
 
     @Override
     protected boolean isNeedRefreshDataWhenComeIn() {
-        return true;
+        return false;
     }
 
     @Override
@@ -164,6 +162,12 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
 
     @Override
     public void getNoticeItemBeanList(List<NoticeItemBean> noticeItemBeans) {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startRefrsh();
     }
 
     @Override
@@ -194,18 +198,18 @@ public class NoticeManagerFragment extends TSListFragment<NoticeManagerContract.
         return true;
     }
 
-    @Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_NOTICE)
+    /*@Subscriber(tag = EVENT_IM_GROUP_UPDATE_GROUP_NOTICE)
     public void onPublishNoticeSuccess(String isRefresh) {
         getNoticeListData();
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
-        liftClick();
+        /*liftClick();*/
         super.onBackPressed();
     }
 
-    private void liftClick(){
+    /*private void liftClick(){
         EventBus.getDefault().post(mListDatas.get(0).getContent(), EventBusTagConfig.EVENT_IM_GROUP_UPDATE_GROUP_NOTICE);
-    }
+    }*/
 }

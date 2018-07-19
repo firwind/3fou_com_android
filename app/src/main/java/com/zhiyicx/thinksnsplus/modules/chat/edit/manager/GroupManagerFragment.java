@@ -99,7 +99,9 @@ public class GroupManagerFragment extends TSFragment<GroupManagerContract.Presen
             // emm 由于没有完全返回所有信息 再加上字段也不同 所以手动改一下
             mChatGroupBean.setMembersonly(chatGroupBean.isMembersonly());
             mIsNeedChange = true;
-            EventBus.getDefault().post(mChatGroupBean, EventBusTagConfig.EVENT_IM_GROUP_DATA_CHANGED);
+//            EventBus.getDefault().post(mChatGroupBean, EventBusTagConfig.EVENT_IM_GROUP_DATA_CHANGED);
+            EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
+
         } else {
             // 失败了
             mIsNeedChange = false;
