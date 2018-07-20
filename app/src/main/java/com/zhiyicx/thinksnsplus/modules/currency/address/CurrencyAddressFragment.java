@@ -1,58 +1,59 @@
-package com.zhiyicx.thinksnsplus.modules.currency.withdraw;
+package com.zhiyicx.thinksnsplus.modules.currency.address;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.hyphenate.util.DensityUtil;
 import com.lwy.righttopmenu.MenuItem;
 import com.lwy.righttopmenu.RightTopMenu;
-import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
-import com.zhiyicx.thinksnsplus.modules.currency.address.CurrencyAddressActivity;
+import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 /**
  * author: huwenyong
- * date: 2018/7/18 11:48
+ * date: 2018/7/20 9:55
  * description:
  * version:
  */
 
-public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContract.Presenter> implements WithdrawCurrencyContract.View{
+public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContract.Presenter,CurrencyAddress>
+        implements CurrencyAddressContract.View{
+
 
     private RightTopMenu mRightTopMenu;
 
-    public static WithdrawCurrencyFragment newInstance(){
-        WithdrawCurrencyFragment fragment = new WithdrawCurrencyFragment();
+
+    public static CurrencyAddressFragment newInstance(boolean isSelect){
+
+        CurrencyAddressFragment fragment = new CurrencyAddressFragment();
         Bundle bundle = new Bundle();
+        bundle.putBoolean(IntentKey.IS_SELECT,isSelect);
         fragment.setArguments(bundle);
+
         return fragment;
     }
 
-
     @Override
     protected void initView(View rootView) {
+        super.initView(rootView);
         setCenterTextColor(R.color.white);
-    }
 
-    @Override
-    protected void initData() {
+
 
     }
 
     @Override
-    protected int getBodyLayoutId() {
-        return R.layout.fragment_withdraw_currency;
+    protected boolean isLayzLoad() {
+        return true;
     }
-
 
     @Override
     protected boolean setStatusbarGrey() {
@@ -78,7 +79,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
 
     @Override
     protected String setCenterTitle() {
-        return "提币";
+        return "常用地址";
     }
 
     @Override
@@ -86,26 +87,16 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         return R.color.themeColor;
     }
 
-    @OnClick({R.id.iv_address})
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.iv_address:
-                CurrencyAddressActivity.startCurrencyAddressActivityForResult(mActivity,true, IntentKey.REQ_CODE_IS_SELECT);
-                break;
-        }
-    }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected RecyclerView.Adapter getAdapter() {
+        return new CommonAdapter<CurrencyAddress>(mActivity,R.layout.item_currency_address,mListDatas) {
+            @Override
+            protected void convert(ViewHolder holder, CurrencyAddress currencyAddress, int position) {
 
-        //选择钱包地址返回
-        if(resultCode == mActivity.RESULT_OK && requestCode == IntentKey.REQ_CODE_IS_SELECT
-                && null != data){
-
-        }
-
+            }
+        };
     }
+
 
     /**
      * 右上角弹窗

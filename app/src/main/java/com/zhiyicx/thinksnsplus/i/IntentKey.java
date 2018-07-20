@@ -19,4 +19,8 @@ public interface IntentKey {
     String CURRENCY_TYPE = "currency_type";//行情type
     String CURRENCY_IN_MARKET = "currency_in_market";//在交易所的货币
 
+    String IS_SELECT = "is_select";//是否选择
+
+    int REQ_CODE_IS_SELECT = 100;
+
 }

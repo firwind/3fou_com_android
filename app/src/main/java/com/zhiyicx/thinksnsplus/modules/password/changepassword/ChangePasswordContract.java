@@ -22,11 +22,13 @@ public interface ChangePasswordContract {
         /**
          * 关闭
          */
-        void finsh();
+        void changePwdSuccess();
     }
     interface Presenter extends IBasePresenter {
 
         void changePassword(String oldPassword, String newPassword, String sureNewPassword);
+
+        void logOut();
 
     }
 

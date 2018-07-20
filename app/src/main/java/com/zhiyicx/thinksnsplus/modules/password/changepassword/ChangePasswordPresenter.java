@@ -4,6 +4,7 @@ import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.mvp.BasePresenter;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.data.source.repository.AuthRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.PasswordRepository;
 
 import javax.inject.Inject;
@@ -21,6 +22,8 @@ public class ChangePasswordPresenter extends BasePresenter<ChangePasswordContrac
 
     @Inject
     PasswordRepository mPasswordRepository;
+    @Inject
+    AuthRepository mIAuthRepository;
 
     @Inject
     public ChangePasswordPresenter(ChangePasswordContract.View rootView) {
@@ -48,11 +51,13 @@ public class ChangePasswordPresenter extends BasePresenter<ChangePasswordContrac
             mRootView.showMessage(mContext.getString(R.string.password_diffrent));
             return;
         }
+        mRootView.showSnackLoadingMessage("正在处理......");
         Subscription changePasswordSub = mPasswordRepository.changePasswordV2(oldPassword, newPassword)
                 .subscribe(new BaseSubscribeForV2<Object>() {
                     @Override
                     protected void onSuccess(Object data) {
                         mRootView.showSnackSuccessMessage(mContext.getString(R.string.change_success));
+                        mRootView.changePwdSuccess();
                     }
 
                     @Override
@@ -67,6 +72,12 @@ public class ChangePasswordPresenter extends BasePresenter<ChangePasswordContrac
                     }
                 });
         addSubscrebe(changePasswordSub);
+    }
+
+    @Override
+    public void logOut() {
+        mIAuthRepository.clearAuthBean();
+        mIAuthRepository.clearThridAuth();
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.password.changepassword;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -10,6 +11,8 @@ import com.trycatch.mysnackbar.Prompt;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.widget.edittext.PasswordEditText;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.modules.login.LoginActivity;
+import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 
 import butterknife.BindView;
 import rx.functions.Action1;
@@ -124,7 +127,7 @@ public class ChangePasswordFragment extends TSFragment<ChangePasswordContract.Pr
         }
     }
 
-    @Override
+    /*@Override
     protected void snackViewDismissWhenTimeOut(Prompt prompt) {
         if (prompt == Prompt.SUCCESS) {
             try {
@@ -133,11 +136,12 @@ public class ChangePasswordFragment extends TSFragment<ChangePasswordContract.Pr
                 e.printStackTrace();
             }
         }
-    }
-
+    }*/
 
     @Override
-    public void finsh() {
-        getActivity().finish();
+    public void changePwdSuccess() {
+       mPresenter.logOut();
+        NotificationUtil.cancelAllNotification(getContext());
+        startActivity(new Intent(mActivity, LoginActivity.class));
     }
 }

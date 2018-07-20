@@ -62,12 +62,22 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
         }
 
         Subscription subscribe = mBaseMessageRepository.getOfficialGroupInfo()
+                .map(chatGroupBeans -> {
+                    try {
+                        //同步自己加入的群组，此api获取的群组sdk会自动保存到内存和db。
+                        EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+                    } catch (HyphenateException e) {
+                        //e.printStackTrace();
+                    }
+                    return chatGroupBeans;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<List<ChatGroupBean>>() {
                     @Override
                     protected void onSuccess(List<ChatGroupBean> data) {
                         mRootView.onNetResponseSuccess(data, isLoadMore);
+                        mRootView.hideStickyMessage();
                     }
 
                     @Override

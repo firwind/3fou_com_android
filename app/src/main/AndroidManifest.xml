@@ -788,6 +788,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".modules.currency.recharge.RechargeCurrencyActivity" />
         <activity android:name=".modules.currency.withdraw.WithdrawCurrencyActivity" />
+        <activity android:name=".modules.currency.address.CurrencyAddressActivity" />
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">
