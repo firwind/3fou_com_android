@@ -42,6 +42,7 @@ public class TypeChoosePopupWindow extends PopupWindow {
     private int mOritation = VERTICAL;
     private int mSpanCount;
     private int mItemSpacing;
+    private int mViewWidth;
     private Drawable mBackgroundDrawable = new ColorDrawable(0x00000000);// 默认为透明;
     private CommonAdapter mAdapter;
 
@@ -59,12 +60,13 @@ public class TypeChoosePopupWindow extends PopupWindow {
         this.mOritation = builder.mOritation;
         this.mSpanCount = builder.mSpanCount;
         this.mItemSpacing = builder.mItemSpacing;
+        this.mViewWidth = builder.mViewWidth;
         initView();
     }
 
     private void initView() {
         initLayout();
-        setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        setWidth(mViewWidth > 0 ? mViewWidth : LinearLayout.LayoutParams.WRAP_CONTENT);
         setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         setFocusable(mIsFocus);
         setOutsideTouchable(mIsOutsideTouch);
@@ -84,7 +86,7 @@ public class TypeChoosePopupWindow extends PopupWindow {
                 LinearLayoutManager verticalManager = new LinearLayoutManager(mActivity);
                 verticalManager.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(verticalManager);
-                recyclerView.addItemDecoration(new LinearDecoration(0, mItemSpacing, 0,0 ,false));
+                recyclerView.addItemDecoration(new LinearDecoration(0, mItemSpacing, 0, 0, false));
                 break;
             case HORIZONTAL:
                 LinearLayoutManager horizontalManager = new LinearLayoutManager(mActivity);
@@ -136,6 +138,7 @@ public class TypeChoosePopupWindow extends PopupWindow {
         private int mOritation = VERTICAL;
         private int mSpanCount;
         private int mItemSpacing = 1;
+        private int mViewWidth;
 
         private Builder() {
         }
@@ -191,6 +194,10 @@ public class TypeChoosePopupWindow extends PopupWindow {
             return this;
         }
 
+        public TypeChoosePopupWindow.Builder width(int viewWidth) {
+            this.mViewWidth = viewWidth;
+            return this;
+        }
 
         public TypeChoosePopupWindow build() {
             return new TypeChoosePopupWindow(this);

@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/question_list_type_width"
     android:layout_height="@dimen/question_list_type_height"
+    android:id="@+id/fl_popup_view"
     android:background="@drawable/bg_wihte_pop_with_shadow"
     android:padding="@dimen/spacing_big_line"
     >

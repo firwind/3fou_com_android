@@ -292,7 +292,12 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 if (mChatMembers.get(position).getUser_id() == -1L) {
                     // 添加
-                    SelectFriendsActivity.startSelectFriendActivity(mActivity, mChatGroupBean, false);
+//                    SelectFriendsActivity.startSelectFriendActivity(mActivity, mChatGroupBean, false);
+                    Intent intentAllMember1 = new Intent(getContext(), GroupMemberListActivity.class);
+                    Bundle bundleAllMember1 = new Bundle();
+                    bundleAllMember1.putParcelable(BUNDLE_GROUP_MEMBER, mChatGroupBean);
+                    intentAllMember1.putExtras(bundleAllMember1);
+                    startActivity(intentAllMember1);
                 } else if (mChatMembers.get(position).getUser_id() == -2L) {
                     // 移除
                     SelectFriendsActivity.startSelectFriendActivity(mActivity, mChatGroupBean, true);
@@ -332,18 +337,14 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         switch (view.getId()) {
             case R.id.iv_add_user:
 //                // 添加成员
-//                if (mChatGroupBean == null) {
-//                    mChatGroupBean = new ChatGroupBean();
-//                }
-//                List<UserInfoBean> userInfoBeanList = new ArrayList<>();
-//                userInfoBeanList.add(mPresenter.getUserInfoFromLocal(mChatId));
-//                mChatGroupBean.setAffiliations(userInfoBeanList);
-//                SelectFriendsActivity.startSelectFriendActivity(mActivity, mChatGroupBean, false);
-                Intent intentAllMember1 = new Intent(getContext(), GroupMemberListActivity.class);
-                Bundle bundleAllMember1 = new Bundle();
-                bundleAllMember1.putParcelable(BUNDLE_GROUP_MEMBER, mChatGroupBean);
-                intentAllMember1.putExtras(bundleAllMember1);
-                startActivity(intentAllMember1);
+                if (mChatGroupBean == null) {
+                    mChatGroupBean = new ChatGroupBean();
+                }
+                List<UserInfoBean> userInfoBeanList = new ArrayList<>();
+                userInfoBeanList.add(mPresenter.getUserInfoFromLocal(mChatId));
+                mChatGroupBean.setAffiliations(userInfoBeanList);
+                SelectFriendsActivity.startSelectFriendActivity(mActivity, mChatGroupBean, false);
+
                 break;
             case R.id.tv_to_all_members:
                 // 查看所有成员
@@ -435,7 +436,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 if (mChatType == CHATTYPE_GROUP) {
                     if (mPresenter.isGroupOwner()) {
                         UpgradeGroupActivity.startUpgradeGroupActivity(getContext(), mChatGroupBean.getId());
-                    }else {//跳转到举报群
+                    } else {//跳转到举报群
                         ReportGroupActivity.startReportGroupActivity(getContext(), mChatGroupBean.getId());
                     }
                 }
@@ -583,7 +584,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     @Override
     public void setStickState(boolean isStick) {
-        mIsStick = isStick?1:0;
+        mIsStick = isStick ? 1 : 0;
         setIsStick();
     }
 
@@ -796,6 +797,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         });
     }
+
     private void dealAddOrDeleteButton() {
 
         if (mChatGroupBean == null) {
@@ -815,7 +817,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         } else {
             // 不是群主
-            if (mChatGroupBean.getAffiliations_count()> 9) {
+            if (mChatGroupBean.getAffiliations_count() > 9) {
                 // 19 +1
 //                mChatMembers = mChatMembers.subList(0, 10);
                 mVLineFindMember.setVisibility(View.VISIBLE);
@@ -925,8 +927,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 // 群聊的信息展示
                 EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
                 // 屏蔽按钮
-                if (group!=null)
-                mScBlockMessage.setChecked(group.isMsgBlocked());
+                if (group != null)
+                    mScBlockMessage.setChecked(group.isMsgBlocked());
 
             }
             // 群名称
@@ -950,7 +952,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
      */
     @Subscriber(tag = EVENT_IM_GROUP_UPDATE_INFO)
     public void onPublishGroupSuccess(boolean result) {
-        if(result)
+        if (result)
             mPresenter.getGroupChatInfo(mChatId);
     }
 

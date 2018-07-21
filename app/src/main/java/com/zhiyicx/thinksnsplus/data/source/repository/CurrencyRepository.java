@@ -33,15 +33,41 @@ import rx.schedulers.Schedulers;
 public class CurrencyRepository implements ICurrencyRepository {
 
     CurrencyClient mCurrencyClient;
+
     @Inject
-    public CurrencyRepository(ServiceManager manager){
+    public CurrencyRepository(ServiceManager manager) {
         mCurrencyClient = manager.getmCurrencyClient();
     }
+
     @Override
     public Observable<List<CurrencyTypeBean>> getCurrencyType(Context context) {
         String currencyJson = JsonUtils.getJson("currencyType", context);
 
-        return Observable.just(currencyJson).map((Func1<String, List<CurrencyTypeBean>>) s -> new Gson().fromJson(s, new TypeToken<List<TeamBean>>() {
+        return Observable.just(currencyJson).map((Func1<String, List<CurrencyTypeBean>>) s -> new Gson().fromJson(s, new TypeToken<List<CurrencyTypeBean>>() {
+        }.getType()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+    @Override
+    public Observable<TeamBean> getTeamList(Context context) {
+        String teamBeanJson = JsonUtils.getJson("MyTeam", context);
+        TeamBean teamBean = new Gson().fromJson(teamBeanJson, TeamBean.class);
+        return Observable.just(teamBean)
+                .map(new Func1<TeamBean, TeamBean>() {
+                    @Override
+                    public TeamBean call(TeamBean s) {
+                        return s;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<TeamBean.TeamListBean>> getEarningList(Context context, int id) {
+        String earnings = JsonUtils.getJson("Earnings", context);
+        return Observable.just(earnings).map((Func1<String, List<TeamBean.TeamListBean>>) s -> new Gson().fromJson(s, new TypeToken<List<TeamBean.TeamListBean>>() {
         }.getType()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

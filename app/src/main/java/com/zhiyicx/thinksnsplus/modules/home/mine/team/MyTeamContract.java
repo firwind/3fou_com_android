@@ -15,11 +15,12 @@ import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 import java.util.List;
 
 public class MyTeamContract {
-    interface View extends ITSListView<TeamBean, Presenter> {
+    interface View extends ITSListView<TeamBean.TeamListBean, Presenter> {
         void getCurrencyType(List<CurrencyTypeBean> bean);
+        void getTotal(String total,String unit);
     }
 
-    interface Presenter extends ITSListPresenter<TeamBean> {
+    interface Presenter extends ITSListPresenter<TeamBean.TeamListBean> {
         void requestCurrencyType();
     }
 }

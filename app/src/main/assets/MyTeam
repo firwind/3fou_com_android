@@ -1,13 +1,25 @@
-[
+
   {
-    "total":"100"
-  },
-  {
-    "currencyName": "BCB",
-    "id": 1
-  },
-  {
-    "currencyName": "BTB",
-    "id": 2
+    "total": "100",
+    "unit": "BCB",
+    "teamList": [
+      {
+        "userName": "张小哇",
+        "earnings":"100",
+        "time":"2018/7/20",
+        "id": 1
+      },
+      {
+        "userName": "文能安邦",
+        "earnings":"100",
+        "time":"2018/7/20",
+        "id": 2
+      },
+      {
+        "userName": "huwenyong",
+        "earnings":"100",
+        "time":"2018/7/20",
+        "id": 3
+      }
+    ]
   }
-]

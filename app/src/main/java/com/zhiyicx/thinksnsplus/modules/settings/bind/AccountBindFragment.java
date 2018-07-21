@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.settings.bind;
 
+import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,6 +21,7 @@ import com.zhiyicx.baseproject.widget.edittext.PasswordEditText;
 import com.zhiyicx.common.utils.RegexUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.modules.login.LoginActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -185,7 +187,6 @@ public class AccountBindFragment extends TSFragment<AccountBindContract.Presente
     }
 
     @Override
-
     public void setVerifyCodeBtText(String text) {
         mBtSendVerifyCode.setText(text);
     }
@@ -193,11 +194,13 @@ public class AccountBindFragment extends TSFragment<AccountBindContract.Presente
 
     @Override
     public void unBindPhoneOrEmailSuccess(boolean isPhone) {
+
         getActivity().finish();
     }
 
     @Override
     public void BindPhoneOrEmailSuccess(boolean isPhone) {
+        startActivity(new Intent(getContext(),LoginActivity.class));
         getActivity().finish();
     }
 
@@ -310,6 +313,7 @@ public class AccountBindFragment extends TSFragment<AccountBindContract.Presente
                         mPresenter.unBindPhoneOrEmail(mEtPassword.getText().toString(), mEtVerifyCode.getText().toString(), mCurrentType ==
                                 DEAL_TYPE_PHONE);
                     } else {// 绑定
+
                         mPresenter.bindPhoneOrEmail(mEtPassword.getText().toString(), mEtSurePassword.getText().toString(), mEtPhone.getText()
                                 .toString(), mEtEmail.getText().toString(), mEtVerifyCode.getText().toString(), mCurrentType == DEAL_TYPE_PHONE);
                     }

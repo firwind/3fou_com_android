@@ -64,6 +64,8 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
     ImageView mIvVertifyLoading;
     @BindView(R.id.et_regist_vertify_code)
     DeleteEditText mEtRegistVertifyCode;
+    @BindView(R.id.et_invite_code)
+    DeleteEditText mInviteCode;
     @BindView(R.id.et_regist_password)
     PasswordEditText mEtRegistPassword;
     @BindView(R.id.bt_regist_regist)
@@ -280,6 +282,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
                                     , mEtRegistPhone.getText().toString().trim()
                                     , mEtRegistVertifyCode.getText().toString().trim()
                                     , mEtRegistPassword.getText().toString().trim()
+                                    , mInviteCode.getText().toString().trim()
                             );
                         } else {
                             // 邮箱注册
@@ -287,6 +290,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
                                     , mEtRegisterEmail.getText().toString().trim()
                                     , mEtRegistVertifyCode.getText().toString().trim()
                                     , mEtRegistPassword.getText().toString().trim()
+                                    ,mInviteCode.getText().toString().trim()
                             );
                         }
 
@@ -433,6 +437,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
         mEtRegistPhone.setText("");
         mEtRegistVertifyCode.setText("");
         mEtRegistPassword.setText("");
+        mInviteCode.setText("");
         isNameEdited = false;
         isEmailEdited = false;
         isPhoneEdited = false;

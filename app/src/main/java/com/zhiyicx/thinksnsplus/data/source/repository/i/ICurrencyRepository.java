@@ -23,5 +23,14 @@ public interface ICurrencyRepository {
      * @return
      */
     Observable<List<CurrencyTypeBean>> getCurrencyType(Context context);
-
+    /**
+     * 获取币种
+     * @return
+     */
+    Observable<TeamBean> getTeamList(Context context);
+    /**
+     * 获取收益明细
+     * @return
+     */
+    Observable<List<TeamBean.TeamListBean>> getEarningList(Context context,int id);
 }

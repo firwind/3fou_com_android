@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.third_platform.bind;
 
+import com.zhiyicx.baseproject.base.IBaseTouristPresenter;
 import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.ThridInfoBean;
@@ -25,9 +26,11 @@ public interface BindOldAccountContract {
         void setVerifyCodeLoading(boolean isEnable);
 
         void setVerifyCodeBtText(String text);
+
+        void goHome();
     }
 
-    interface Presenter extends IBasePresenter {
+    interface Presenter extends IBaseTouristPresenter {
         void checkName(ThridInfoBean thridInfoBean,String name);
         void bindAccount(ThridInfoBean thridInfoBean, String string, String string1,String phone,String verifiable_code,String user_code);
         void getVertifyCode(String trim);

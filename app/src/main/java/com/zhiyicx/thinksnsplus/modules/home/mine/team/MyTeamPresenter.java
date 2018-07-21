@@ -28,6 +28,7 @@ public class MyTeamPresenter extends AppBasePresenter<MyTeamContract.View>
     MyTeamContract.View mView;
     @Inject
     CurrencyRepository currencyRepository;
+
     @Inject
     public MyTeamPresenter(MyTeamContract.View rootView) {
         super(rootView);
@@ -36,7 +37,15 @@ public class MyTeamPresenter extends AppBasePresenter<MyTeamContract.View>
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-
+        Subscription subscribe = currencyRepository.getTeamList(mContext)
+                .subscribe(new BaseSubscribeForV2<TeamBean>() {
+                    @Override
+                    protected void onSuccess(TeamBean data) {
+                        mRootView.getTotal(data.getTotal(),data.getUnit());
+                        mRootView.onNetResponseSuccess(data.getTeamList(), isLoadMore);
+                    }
+                });
+        addSubscrebe(subscribe);
     }
 
     @Override
@@ -45,7 +54,7 @@ public class MyTeamPresenter extends AppBasePresenter<MyTeamContract.View>
     }
 
     @Override
-    public boolean insertOrUpdateData(@NotNull List<TeamBean> data, boolean isLoadMore) {
+    public boolean insertOrUpdateData(@NotNull List<TeamBean.TeamListBean> data, boolean isLoadMore) {
         return false;
     }
 

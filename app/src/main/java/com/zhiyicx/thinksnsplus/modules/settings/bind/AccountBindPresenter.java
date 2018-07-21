@@ -222,13 +222,13 @@ public class AccountBindPresenter extends BasePresenter<AccountBindContract.View
     @Override
     public void bindPhoneOrEmail(String pasword, String surepassword, String phone, String email, String verifyCode, boolean isPhone) {
         // 现在绑定都不需要密码了
-//        if (!pasword.equals(surepassword)) {
-//            mRootView.showMessage(mContext.getString(R.string.password_diffrent));
-//            return;
-//        }
-//        if (checkPasswordLength(pasword)) {
-//            return;
-//        }
+        if (!pasword.equals(surepassword)) {
+            mRootView.showMessage(mContext.getString(R.string.password_diffrent));
+            return;
+        }
+        if (checkPasswordLength(pasword)) {
+            return;
+        }
         if (isPhone && checkPhone(phone)) {
             return;
         }
@@ -237,16 +237,16 @@ public class AccountBindPresenter extends BasePresenter<AccountBindContract.View
         }
         mRootView.setSureBtEnabled(false);
 
-        Subscription subscribe = mUserInfoRepository.updatePhoneOrEmail(isPhone ? phone : null, isPhone ? null : email, verifyCode)
+        Subscription subscribe = mUserInfoRepository.updatePhoneOrEmail(isPhone ? phone : null, isPhone ? null : email, verifyCode,pasword)
                 .doAfterTerminate(() -> mRootView.setSureBtEnabled(true))
                 .flatMap(new Func1<Object, Observable<Object>>() {
                     @Override
                     public Observable<Object> call(Object o) {
-                        if (TextUtils.isEmpty(surepassword)) {
+//                        if (TextUtils.isEmpty(surepassword)) {
                             return Observable.just(o);
-                        } else {
-                            return mChangePasswordRepository.changePasswordV2(null, surepassword);
-                        }
+//                        } else {
+//                            return mChangePasswordRepository.changePasswordV2(null, surepassword);
+//                        }
                     }
                 })
                 .subscribe(new BaseSubscribeForV2<Object>() {

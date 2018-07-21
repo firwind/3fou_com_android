@@ -26,6 +26,8 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.ThridInfoBean;
 import com.zhiyicx.thinksnsplus.modules.home.HomeActivity;
 import com.zhiyicx.thinksnsplus.modules.third_platform.choose_bind.ChooseBindActivity;
+import com.zhiyicx.thinksnsplus.modules.usertag.EditUserTagFragment;
+import com.zhiyicx.thinksnsplus.modules.usertag.TagFrom;
 
 import java.util.concurrent.TimeUnit;
 
@@ -89,6 +91,7 @@ public class BindOldAccountFragment extends TSFragment<BindOldAccountContract.Pr
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        mSystemConfigBean = mPresenter.getSystemConfigBean();
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mThridInfoBean = getArguments().getParcelable(ChooseBindActivity.BUNDLE_THIRD_INFO);
@@ -115,6 +118,7 @@ public class BindOldAccountFragment extends TSFragment<BindOldAccountContract.Pr
                 .compose(this.bindToLifecycle())
                 .subscribe(charSequence -> {
                     mNameEdited = !TextUtils.isEmpty(charSequence.toString());
+                    mThridInfoBean.setName(mEtLoginName.getText().toString());
                     setConfirmEnable();
                 });
         // 手机号码输入框观察
@@ -230,6 +234,7 @@ public class BindOldAccountFragment extends TSFragment<BindOldAccountContract.Pr
             mEtLoginPassword.setText("");
             mEtCompleteInput.setText("");
             mEtInvitationCode.setText("");
+            mEtVerifyCode.setText("");
             mEtPhone.setText("");
             mEtSurePassword.setText("");
             mEtCompleteInput.requestFocus();
@@ -237,10 +242,18 @@ public class BindOldAccountFragment extends TSFragment<BindOldAccountContract.Pr
             goHome();
         }
     }
-
-    private void goHome() {
+    @Override
+    public void goHome() {
+//        startActivity(new Intent(getActivity(), HomeActivity.class));
+//        getActivity().finish();
         ActivityHandler.getInstance().finishAllActivityEcepteCurrent();// 清除 homeAcitivity 重新加载
-        startActivity(new Intent(getActivity(), HomeActivity.class));
+//        boolean needCompleteUserInfo = mSystemConfigBean.getRegisterSettings() == null
+//                || mSystemConfigBean.getRegisterSettings().isCompleteData() || "need".equals(mSystemConfigBean.getRegisterSettings().getFixed());
+//        if (needCompleteUserInfo) {
+            EditUserTagFragment.startToEditTagActivity(getActivity(), TagFrom.REGISTER, null);
+//        } else {
+//            startActivity(new Intent(getActivity(), HomeActivity.class));
+//        }
         getActivity().finish();
     }
 

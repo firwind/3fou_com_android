@@ -6,6 +6,7 @@ import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.mvp.BasePresenter;
 import com.zhiyicx.common.utils.RegexUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.config.BackgroundTaskRequestMethodConfig;
 import com.zhiyicx.thinksnsplus.data.beans.AuthBean;
@@ -34,7 +35,7 @@ import static com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindPresente
  * @contact email:648129313@qq.com
  */
 @FragmentScoped
-public class BindOldAccountPresenter extends BasePresenter<BindOldAccountContract.View>
+public class BindOldAccountPresenter extends AppBasePresenter<BindOldAccountContract.View>
         implements BindOldAccountContract.Presenter {
 
     @Inject
@@ -69,10 +70,27 @@ public class BindOldAccountPresenter extends BasePresenter<BindOldAccountContrac
     public void bindAccount(ThridInfoBean thridInfoBean, String login, String password, String phone, String verifiable_code, String user_code) {
         mRootView.setLogining();
         Subscription subscribe = mUserInfoRepository.bindWithInput(thridInfoBean.getProvider(), thridInfoBean.getAccess_token(), login, password, phone, verifiable_code, RegisterClient.REGITER_TYPE_SMS, user_code,thridInfoBean.getName())
+                .flatMap(authBean -> {
+                    // 保存登录认证信息
+                    mAuthRepository.saveAuthBean(authBean);
+                    return mUserInfoRepository.getCurrentLoginUserInfo()
+                            .map(userInfoBean -> {
+                                authBean.setUser(userInfoBean);
+                                authBean.setUser_id(userInfoBean.getUser_id());
+                                return authBean;
+                            });
+                })
                 .subscribe(new BaseSubscribeForV2<AuthBean>() {
                     @Override
                     protected void onSuccess(AuthBean data) {
-                        loginSuccess(data);
+//                        loginSuccess(data);
+                        mRootView.setLoginState(true);
+                        // 保存登录认证信息
+                        mAuthRepository.saveAuthBean(data);
+                        mUserInfoBeanGreenDao.insertOrReplace(data.getUser());
+                        // IM 登录 需要 token ,所以需要先保存登录信息
+                        handleIMLogin();
+//                        mRootView.goHome();
                     }
 
                     @Override
@@ -84,7 +102,8 @@ public class BindOldAccountPresenter extends BasePresenter<BindOldAccountContrac
 
                     @Override
                     protected void onException(Throwable throwable) {
-                        mRootView.showErrorTips(mContext.getString(R.string.err_net_not_work));
+                        throwable.printStackTrace();
+                        mRootView.showMessage(mContext.getString(R.string.err_net_not_work));
                         mRootView.setLoginState(false);
                     }
                 });
@@ -198,4 +217,11 @@ public class BindOldAccountPresenter extends BasePresenter<BindOldAccountContrac
         return false;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (timer != null) {
+            timer.cancel();
+        }
+    }
 }

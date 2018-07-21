@@ -57,9 +57,9 @@ public interface RegisterContract {
 
         void getVerifyCodeByEmail(String email);
 
-        void register(String name, String phone, String vertifyCode, String password);
+        void register(String name, String phone, String vertifyCode, String password,String invite);
 
-        void registerByEmail(String name, String email, String verifyCode, String password);
+        void registerByEmail(String name, String email, String verifyCode, String password,String invite);
 
         void closeTimer();
     }

@@ -163,7 +163,24 @@
                         android:maxLength="@integer/password_maxlenght"/>
 
                 </LinearLayout>
+                <ImageView style="@style/style_divider_horizontal_light"/>
+                <LinearLayout
+                    style="@style/style_edit_white_container">
 
+                    <TextView
+                        style="@style/style_small_text"
+                        android:text="@string/invitation_code"/>
+
+                    <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
+                        android:id="@+id/et_invite_code"
+                        style="@style/style_passward_edit"
+                        android:layout_marginLeft="0dp"
+
+                        android:hint="@string/input_invitation_code"
+
+                        android:maxLength="@integer/password_maxlenght"/>
+
+                </LinearLayout>
 
                 <include
                     layout="@layout/include_error_tip_text"/>

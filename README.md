@@ -1,8 +1,8 @@
 2017年10月17日10:58:48
-# 链圈财经 Android  Dev Doc
+# 前链财经 Android  Dev Doc
 
 ## 简介
-本文档旨在帮助开发者快速理解并基于 `链圈财经 Android ` 端的开发，为二次开发提高效率。
+本文档旨在帮助开发者快速理解并基于 `前链财经 Android ` 端的开发，为二次开发提高效率。
 
 整个项目相关的决策工作安排等记录在[thinksns-plus-document](https://github.com/zhiyicx/thinksns-plus-document).
 

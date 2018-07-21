@@ -21,7 +21,7 @@ public class ChatGroupServerBean extends BaseListBean implements Parcelable {
     /**
      * cluster_id : 96
      * id : 52584069005313
-     * name : 黎明之景、链圈小助手、root、买大买大大呢
+     * name : 黎明之景、前链小助手、root、买大买大大呢
      * description : 暂无
      * public : 0
      * membersonly : 1

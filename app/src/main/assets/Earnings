@@ -1,0 +1,30 @@
+[
+  {
+    "userName": "张小哇",
+    "earnings":"100",
+    "time":"2018/7/20",
+    "endTime":"2018/7/21",
+    "id": 1
+  },
+  {
+    "userName": "张小哇",
+    "earnings":"101",
+    "time":"2018/7/20",
+    "endTime":"2018/7/21",
+    "id": 2
+  },
+  {
+    "userName": "张小哇",
+    "earnings":"102",
+    "time":"2018/7/20",
+    "endTime":"2018/7/21",
+    "id": 3
+  },
+  {
+    "userName": "张小哇",
+    "earnings":"103",
+    "time":"2018/7/20",
+    "endTime":"2018/7/21",
+    "id": 4
+  }
+]

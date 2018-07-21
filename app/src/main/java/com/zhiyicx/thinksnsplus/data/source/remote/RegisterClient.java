@@ -36,6 +36,7 @@ public interface RegisterClient {
             , @Field("name") String name
             , @Field("password") String password
             , @Field("verifiable_type") String verifiable_type
-            , @Field("verifiable_code") String verifiable_code);
+            , @Field("verifiable_code") String verifiable_code
+            , @Field("user_code") String invite);
 
 }

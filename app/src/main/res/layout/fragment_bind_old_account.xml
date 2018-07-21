@@ -151,7 +151,7 @@
                 android:id="@+id/et_invitation_code"
                 style="@style/style_passward_edit"
                 android:hint="@string/input_invitation_code"
-                android:inputType="number"
+
                 android:maxLength="@integer/password_maxlenght" />
 
         </LinearLayout>

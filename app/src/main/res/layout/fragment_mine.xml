@@ -261,8 +261,20 @@
                     app:leftImage="@mipmap/ico_me_circle"
                     app:leftText="@string/group_mine"
                     android:visibility="visible"
-                    app:showLine="false"
+                    app:showLine="true"
                     app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+            <!--我的邀请-->
+            <com.zhiyicx.baseproject.widget.button.CombinationButton
+                android:id="@+id/bt_my_invite"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/full_button_height"
+                app:dividerLeftMargin="@dimen/spacing_normal"
+                app:dividerRightMargin="@dimen/spacing_normal"
+                app:leftImage="@mipmap/invite_icon"
+                app:leftText="@string/my_invite"
+                android:visibility="visible"
+                app:showLine="false"
+                app:rightImage="@mipmap/ic_arrow_smallgrey"/>
             <!--我的好友-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                     android:id="@+id/bt_my_friends"

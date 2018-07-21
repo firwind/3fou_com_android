@@ -16,6 +16,7 @@ import com.zhiyicx.baseproject.widget.BadgeView;
 import com.zhiyicx.baseproject.widget.UserAvatarView;
 import com.zhiyicx.baseproject.widget.button.CombinationButton;
 import com.zhiyicx.common.utils.ConvertUtils;
+import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -34,6 +35,7 @@ import com.zhiyicx.thinksnsplus.modules.edit_userinfo.UserInfoActivity;
 import com.zhiyicx.thinksnsplus.modules.feedback.FeedBackActivity;
 import com.zhiyicx.thinksnsplus.modules.follow_fans.FollowFansListActivity;
 import com.zhiyicx.thinksnsplus.modules.follow_fans.FollowFansListFragment;
+import com.zhiyicx.thinksnsplus.modules.home.common.invite.InviteShareActivity;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListActivity;
 import com.zhiyicx.thinksnsplus.modules.home.mine.mycode.MyCodeActivity;
 import com.zhiyicx.thinksnsplus.modules.home.mine.team.MyTeamActivity;
@@ -211,7 +213,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
     @OnClick({R.id.rl_userinfo_container, R.id.ll_fans_container, R.id.ll_follow_container, R.id.bt_my_info,
             R.id.bt_personal_page, R.id.bt_collect, R.id.bt_cash, R.id.bt_mine_integration, R.id.bt_music,
             R.id.bt_draft_box, R.id.bt_setting, R.id.bt_certification, R.id.bt_my_qa, R.id.bt_my_group,
-            R.id.ll_friends_container,R.id.bt_wallet,R.id.bt_team})
+            R.id.ll_friends_container,R.id.bt_wallet,R.id.bt_team,R.id.bt_my_invite,R.id.bt_download})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_userinfo_container:
@@ -336,6 +338,12 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
             case R.id.bt_wallet:
                 //我的钱包
                 MyCurrencyActivity.startMyCurrencyActivity(getContext());
+                break;
+            case R.id.bt_my_invite:
+                startActivity(InviteShareActivity.newIntent(mActivity));
+                break;
+            case R.id.bt_download:
+                ToastUtils.showToast("正在开发中....");
                 break;
             default:
         }

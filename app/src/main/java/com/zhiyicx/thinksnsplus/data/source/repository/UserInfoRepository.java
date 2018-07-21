@@ -108,8 +108,8 @@ public class UserInfoRepository implements IUserInfoRepository {
 
 
     @Override
-    public Observable<AuthBean> registerByPhone(String phone, String name, String vertifyCode, String password) {
-        return mRegisterClient.register(phone, null, name, password, RegisterClient.REGITER_TYPE_SMS, vertifyCode)
+    public Observable<AuthBean> registerByPhone(String phone, String name, String vertifyCode, String password,String invite) {
+        return mRegisterClient.register(phone, null, name, password, RegisterClient.REGITER_TYPE_SMS, vertifyCode,invite)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .flatMap(authBean -> {
                     mAuthRepository.saveAuthBean(authBean);
@@ -123,8 +123,8 @@ public class UserInfoRepository implements IUserInfoRepository {
     }
 
     @Override
-    public Observable<AuthBean> registerByEmail(String email, String name, String vertifyCode, String password) {
-        return mRegisterClient.register(null, email, name, password, RegisterClient.REGITER_TYPE_EMAIL, vertifyCode)
+    public Observable<AuthBean> registerByEmail(String email, String name, String vertifyCode, String password,String invite) {
+        return mRegisterClient.register(null, email, name, password, RegisterClient.REGITER_TYPE_EMAIL, vertifyCode,invite)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .flatMap(authBean -> {
                     mAuthRepository.saveAuthBean(authBean);
@@ -549,6 +549,13 @@ public class UserInfoRepository implements IUserInfoRepository {
     @Override
     public Observable<Object> updatePhoneOrEmail(String phone, String email, String verifiable_code) {
         return mUserInfoClient.updatePhoneOrEmail(new UpdateUserPhoneOrEmailRequestBean(phone, email, verifiable_code))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<Object> updatePhoneOrEmail(String phone, String email, String verifiable_code, String password) {
+        return mUserInfoClient.updatePhoneOrEmail(new UpdateUserPhoneOrEmailRequestBean(phone, email, verifiable_code,password))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

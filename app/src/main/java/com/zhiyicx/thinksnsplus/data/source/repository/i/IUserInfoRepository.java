@@ -51,7 +51,7 @@ public interface IUserInfoRepository {
      * @param password    用户密码
      * @return
      */
-    Observable<AuthBean> registerByPhone(String phone, String name, String vertifyCode, String password);
+    Observable<AuthBean> registerByPhone(String phone, String name, String vertifyCode, String password,String invite);
 
     /**
      * @param email       注册的邮箱
@@ -60,7 +60,7 @@ public interface IUserInfoRepository {
      * @param password    用户密码
      * @return
      */
-    Observable<AuthBean> registerByEmail(String email, String name, String vertifyCode, String password);
+    Observable<AuthBean> registerByEmail(String email, String name, String vertifyCode, String password,String invite);
 
     Observable<AuthBean> loginV2(final String account, final String password);
 
@@ -165,6 +165,15 @@ public interface IUserInfoRepository {
      * @return
      */
     Observable<Object> updatePhoneOrEmail(String phone, String email, String verifiable_code);
+    /**
+     * 更新认证用户的手机号码和邮箱
+     *
+     * @param phone
+     * @param email
+     * @param verifiable_code
+     * @return
+     */
+    Observable<Object> updatePhoneOrEmail(String phone, String email, String verifiable_code,String password);
 
     /**
      * 解除用户 Phone 绑定:

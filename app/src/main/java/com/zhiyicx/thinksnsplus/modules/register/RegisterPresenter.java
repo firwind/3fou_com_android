@@ -160,7 +160,7 @@ public class RegisterPresenter extends AppBasePresenter<RegisterContract.View>
      * @param password    密码
      */
     @Override
-    public void register(final String name, final String phone, String vertifyCode, String password) {
+    public void register(final String name, final String phone, String vertifyCode, String password,String invite) {
         if (checkUsername(name)) {
             return;
         }
@@ -174,7 +174,7 @@ public class RegisterPresenter extends AppBasePresenter<RegisterContract.View>
             return;
         }
         mRootView.setRegisterBtEnabled(false);
-        Subscription registerSub = mUserInfoRepository.registerByPhone(phone, name, vertifyCode, password)
+        Subscription registerSub = mUserInfoRepository.registerByPhone(phone, name, vertifyCode, password,invite)
                 .flatMap(authBean -> {
                     // 保存登录认证信息
                     mAuthRepository.saveAuthBean(authBean);
@@ -217,7 +217,7 @@ public class RegisterPresenter extends AppBasePresenter<RegisterContract.View>
     }
 
     @Override
-    public void registerByEmail(String name, String email, String verifyCode, String password) {
+    public void registerByEmail(String name, String email, String verifyCode, String password,String invite) {
         if (checkUsername(name)) {
             return;
         }
@@ -231,7 +231,7 @@ public class RegisterPresenter extends AppBasePresenter<RegisterContract.View>
             return;
         }
         mRootView.setRegisterBtEnabled(false);
-        Subscription registerSub = mUserInfoRepository.registerByEmail(email, name, verifyCode, password)
+        Subscription registerSub = mUserInfoRepository.registerByEmail(email, name, verifyCode, password,invite)
                 .flatMap(authBean -> {
                     // 保存登录认证信息
                     mAuthRepository.saveAuthBean(authBean);
@@ -246,7 +246,6 @@ public class RegisterPresenter extends AppBasePresenter<RegisterContract.View>
                     @Override
                     public void onSuccess(AuthBean data) {
                         mRootView.setRegisterBtEnabled(true);
-
                         // 保存登录认证信息
                         mAuthRepository.saveAuthBean(data);
                         mUserInfoBeanGreenDao.insertOrReplace(data.getUser());
