@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp280"
+    android:layout_height="@dimen/dp200"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dp20"
+    android:paddingRight="@dimen/dp32"
+    android:layout_gravity="center"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加常用地址"
+        android:textColor="@color/black_deep"
+        android:textSize="@dimen/sp16"/>
+
+    <FrameLayout
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp34"
+        android:background="@drawable/shape_stroke_1dp_gray">
+
+        <EditText
+            android:id="@+id/et_address"
+            android:paddingLeft="@dimen/dp6"
+            android:paddingRight="@dimen/dp20"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textSize="@dimen/sp13"
+            android:hint="钱包地址"
+            android:maxLines="1"
+            android:textColor="@color/black_deep"
+            android:gravity="center_vertical"/>
+
+        <ImageView
+            android:id="@+id/iv_scan"
+            android:paddingRight="@dimen/dp8"
+            android:paddingLeft="@dimen/dp8"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:src="@mipmap/icon_scan"
+            android:scaleType="centerInside"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_marginTop="@dimen/dp14"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp34"
+        android:background="@drawable/shape_stroke_1dp_gray">
+
+        <EditText
+            android:id="@+id/et_tag"
+            android:paddingLeft="@dimen/dp6"
+            android:paddingRight="@dimen/dp8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textSize="@dimen/sp13"
+            android:hint="地址标签"
+            android:textColor="@color/black_deep"
+            android:maxLines="1"
+            android:gravity="center_vertical"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp14"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/sp13"
+            android:gravity="center"
+            android:textColor="@color/selector_theme_normal_or_light"
+            android:text="保存"
+            android:enabled="false"/>
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/sp13"
+            android:gravity="center"
+            android:textColor="@color/black_deep"
+            android:text="取消"/>
+
+    </LinearLayout>
+
+</LinearLayout>

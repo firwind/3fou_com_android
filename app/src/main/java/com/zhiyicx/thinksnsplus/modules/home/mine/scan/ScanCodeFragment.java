@@ -1,6 +1,7 @@
 package com.zhiyicx.thinksnsplus.modules.home.mine.scan;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -25,6 +26,7 @@ import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 
 import butterknife.BindView;
@@ -59,6 +61,16 @@ public class ScanCodeFragment extends TSFragment<ScanCodeContract.Presenter> imp
     private boolean mIsOpenLight;
     private boolean getCameraPermissonSuccess;
     private ActionPopupWindow mActionPopupWindow;
+
+    public static ScanCodeFragment newInsatnce(boolean isGetResult){
+
+        ScanCodeFragment fragment = new ScanCodeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IntentKey.IS_GET_SCAN_RESULT,isGetResult);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
 
     @Override
     protected void initView(View rootView) {
@@ -177,26 +189,37 @@ public class ScanCodeFragment extends TSFragment<ScanCodeContract.Presenter> imp
     public void onScanQRCodeSuccess(String result) {
         mZxScan.stopSpotAndHiddenRect();
         vibrate();
-        // 扫描到结果后直接跳转到个人中心  成功的结果应该是uid=xxx 所以直接取等号后面的内容
-        // 至于为什么是uid=xxx ios定的 我也不知道
-        try {
-            result = ConvertUtils.urldecode(result);
-            if (result.contains(APP_DOMAIN + APP_SHARE_URL_FORMAT + "/users/")) {
-                String[] splits = result.split("/");
-                Long uid = Long.parseLong(splits[splits.length - 1]);
-                UserInfoBean userInfoBean = new UserInfoBean();
-                userInfoBean.setUser_id(uid);
-                PersonalCenterFragment.startToPersonalCenter(getContext(), userInfoBean);
-                cancleVibrate();
-                getActivity().finish();
-            } else {
+
+        if(getArguments().getBoolean(IntentKey.IS_GET_SCAN_RESULT,false)){
+            cancleVibrate();
+            Intent intent = mActivity.getIntent();
+            intent.putExtra(IntentKey.RESULT_SCAN,result);
+            mActivity.setResult(Activity.RESULT_OK,intent);
+            getActivity().finish();
+
+        }else {
+            // 扫描到结果后直接跳转到个人中心  成功的结果应该是uid=xxx 所以直接取等号后面的内容
+            // 至于为什么是uid=xxx ios定的 我也不知道
+            try {
+                result = ConvertUtils.urldecode(result);
+                if (result.contains(APP_DOMAIN + APP_SHARE_URL_FORMAT + "/users/")) {
+                    String[] splits = result.split("/");
+                    Long uid = Long.parseLong(splits[splits.length - 1]);
+                    UserInfoBean userInfoBean = new UserInfoBean();
+                    userInfoBean.setUser_id(uid);
+                    PersonalCenterFragment.startToPersonalCenter(getContext(), userInfoBean);
+                    cancleVibrate();
+                    getActivity().finish();
+                } else {
+                    startScan();
+                    showSnackErrorMessage(getString(R.string.qr_scan_failed_alert));
+                }
+            } catch (Exception e) {
                 startScan();
                 showSnackErrorMessage(getString(R.string.qr_scan_failed_alert));
             }
-        } catch (Exception e) {
-            startScan();
-            showSnackErrorMessage(getString(R.string.qr_scan_failed_alert));
         }
+
     }
 
     @Override

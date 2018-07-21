@@ -26,12 +26,12 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        List<CurrencyAddress> list = new ArrayList<>();
+        /*List<CurrencyAddress> list = new ArrayList<>();
         list.add(new CurrencyAddress());
         list.add(new CurrencyAddress());
         list.add(new CurrencyAddress());
-        list.add(new CurrencyAddress());
-        mRootView.onNetResponseSuccess(list,isLoadMore);
+        list.add(new CurrencyAddress());*/
+        mRootView.onNetResponseSuccess(null,isLoadMore);
     }
 
     @Override

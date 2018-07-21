@@ -47,4 +47,5 @@
     <color name="market_green">#5DA310</color>
     <color name="light_gray">#F3F3F3</color>
 
+    <color name="theme_not_enabled">#F27314</color>
 </resources>

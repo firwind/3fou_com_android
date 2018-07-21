@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.modules.currency.withdraw;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.hyphenate.util.DensityUtil;
@@ -10,6 +11,7 @@ import com.lwy.righttopmenu.MenuItem;
 import com.lwy.righttopmenu.RightTopMenu;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.currency.address.CurrencyAddressActivity;
 
@@ -27,6 +29,11 @@ import butterknife.OnClick;
  */
 
 public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContract.Presenter> implements WithdrawCurrencyContract.View{
+
+    @BindView(R.id.et_address)
+    EditText mEtAddress;
+    @BindView(R.id.et_tag)
+    EditText mEtTag;
 
     private RightTopMenu mRightTopMenu;
 
@@ -90,7 +97,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     public void onClick(View v){
         switch (v.getId()){
             case R.id.iv_address:
-                CurrencyAddressActivity.startCurrencyAddressActivityForResult(mActivity,true, IntentKey.REQ_CODE_IS_SELECT);
+                CurrencyAddressActivity.startCurrencyAddressActivityForResult(this,true, IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS);
                 break;
         }
     }
@@ -100,9 +107,10 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         super.onActivityResult(requestCode, resultCode, data);
 
         //选择钱包地址返回
-        if(resultCode == mActivity.RESULT_OK && requestCode == IntentKey.REQ_CODE_IS_SELECT
+        if(resultCode == mActivity.RESULT_OK && requestCode == IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS
                 && null != data){
-
+            mEtAddress.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).address );
+            mEtTag.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).tag );
         }
 
     }

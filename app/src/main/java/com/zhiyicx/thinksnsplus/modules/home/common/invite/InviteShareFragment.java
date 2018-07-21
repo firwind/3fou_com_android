@@ -60,6 +60,8 @@ public class InviteShareFragment extends TSFragment<InviteShareContract.Presente
     LinearLayout mLLContent;
     @BindView(R.id.rv_share)
     RecyclerView mRvShare;
+    @BindView(R.id.tv_msg)
+    TextView mTvMsg;
 
     public static InviteShareFragment newInstance(){
         InviteShareFragment fragment = new InviteShareFragment();
@@ -129,7 +131,7 @@ public class InviteShareFragment extends TSFragment<InviteShareContract.Presente
     @Override
     public void setInviteAndQrCode(InviteAndQrcode inviteAndQrCode) {
         mTvInviteCode.setText(inviteAndQrCode.user_code);
-
+        mTvMsg.setText(inviteAndQrCode.user_msg);
         /*int qrcodeSize = getResources().getDimensionPixelSize(R.dimen.dp40);
         SimpleTarget<Bitmap> simpleTarget = new SimpleTarget<Bitmap>(qrcodeSize,qrcodeSize) {
             @Override

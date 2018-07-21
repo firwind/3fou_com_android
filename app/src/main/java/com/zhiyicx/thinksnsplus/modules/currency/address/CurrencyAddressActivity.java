@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.modules.currency.address;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -31,11 +32,11 @@ public class CurrencyAddressActivity extends TSActivity<CurrencyAddressPresenter
     }
 
 
-    public static void startCurrencyAddressActivityForResult(Activity mActivity, boolean isSelect,int requestCode){
+    public static void startCurrencyAddressActivityForResult(Fragment mFragment, boolean isSelect, int requestCode){
 
-        Intent intent = new Intent(mActivity,CurrencyAddressActivity.class);
+        Intent intent = new Intent(mFragment.getContext(),CurrencyAddressActivity.class);
         intent.putExtra(IntentKey.IS_SELECT,isSelect);
-        mActivity.startActivityForResult(intent,requestCode);
+        mFragment.startActivityForResult(intent,requestCode);
 
     }
 

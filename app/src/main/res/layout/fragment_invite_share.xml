@@ -20,10 +20,10 @@
             android:gravity="center"
             android:id="@+id/ll_content">
 
-            <android.support.v7.widget.CardView
-                app:cardCornerRadius="12dp"
+            <FrameLayout
                 android:layout_width="@dimen/invite_content_width"
-                android:layout_height="@dimen/invite_content_height">
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_corner_12dp_bg_tran_white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                     android:gravity="center_horizontal">
 
                     <TextView
-                        android:layout_marginTop="52dp"
+                        android:layout_marginTop="40dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="您的邀请码"
@@ -48,8 +48,20 @@
                         android:textColor="@color/invite_share_main"
                         android:textSize="@dimen/sp13"/>
 
+
                     <TextView
-                        android:layout_marginTop="52dp"
+                        android:id="@+id/tv_msg"
+                        android:layout_marginTop="@dimen/dp20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我是链链，前链财经第1位用户\n我在前链等你，不见不散"
+                        android:gravity="center"
+                        android:textColor="@color/invite_share_gray"
+                        android:textSize="@dimen/sp10"/>
+
+
+                    <TextView
+                        android:layout_marginTop="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="扫描下方二维码注册"
@@ -67,13 +79,14 @@
                     <ImageView
                         android:id="@+id/iv_qrcode"
                         android:layout_marginTop="20dp"
+                        android:layout_marginBottom="30dp"
                         android:layout_width="@dimen/invite_img_size"
                         android:layout_height="@dimen/invite_img_size"
                         android:src="@drawable/shape_default_image"/>
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </FrameLayout>
 
         </LinearLayout>
 

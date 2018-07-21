@@ -18,8 +18,9 @@ public class CurrencyAddress extends BaseListBean implements Parcelable{
     public String address;
 
 
-    public CurrencyAddress(){
-
+    public CurrencyAddress(String tag,String address){
+        this.tag = tag;
+        this.address = address;
     }
 
     protected CurrencyAddress(Parcel in) {

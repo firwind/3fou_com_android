@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp62"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:paddingLeft="@dimen/dp16"
     android:paddingRight="@dimen/dp16"
@@ -21,19 +22,21 @@
         android:paddingLeft="@dimen/dp16">
 
         <TextView
+            android:id="@+id/tv_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textSize="@dimen/sp14"
-            android:text="xxxx"
+            tools:text="xxxx"
             android:textColor="@color/black_deep"/>
 
         <TextView
+            android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textSize="@dimen/sp12"
-            android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            tools:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
             android:textColor="@color/black_deep"/>
 
     </LinearLayout>

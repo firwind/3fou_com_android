@@ -1,8 +1,12 @@
 package com.zhiyicx.thinksnsplus.modules.currency.address;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.hyphenate.util.DensityUtil;
 import com.lwy.righttopmenu.MenuItem;
@@ -11,7 +15,9 @@ import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
+import com.zhiyicx.thinksnsplus.widget.dialog.AddCurrencyAddressDialog;
 import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
@@ -20,16 +26,14 @@ import java.util.List;
 /**
  * author: huwenyong
  * date: 2018/7/20 9:55
- * description:
+ * description: 钱包管理
  * version:
  */
 
 public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContract.Presenter,CurrencyAddress>
         implements CurrencyAddressContract.View{
 
-
-    private RightTopMenu mRightTopMenu;
-
+    private AddCurrencyAddressDialog mAddAddressDialog;
 
     public static CurrencyAddressFragment newInstance(boolean isSelect){
 
@@ -45,8 +49,6 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
     protected void initView(View rootView) {
         super.initView(rootView);
         setCenterTextColor(R.color.white);
-
-
 
     }
 
@@ -72,9 +74,7 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
 
     @Override
     protected void setRightClick() {
-        //super.setRightClick();
-        showRightTopMenu();
-
+        showAddCurrencyAddressDialog();
     }
 
     @Override
@@ -89,35 +89,58 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new CommonAdapter<CurrencyAddress>(mActivity,R.layout.item_currency_address,mListDatas) {
+        CommonAdapter<CurrencyAddress> adapter = new CommonAdapter<CurrencyAddress>(mActivity, R.layout.item_currency_address, mListDatas) {
             @Override
             protected void convert(ViewHolder holder, CurrencyAddress currencyAddress, int position) {
-
+                holder.getTextView(R.id.tv_tag).setText(currencyAddress.tag);
+                holder.getTextView(R.id.tv_address).setText(currencyAddress.address);
             }
         };
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                if(getArguments().getBoolean(IntentKey.IS_SELECT,false)){
+                    Intent intent = mActivity.getIntent();
+                    intent.putExtra(IntentKey.RESULT_CURRENCY_ADDRESS,mListDatas.get(position));
+                    mActivity.setResult(Activity.RESULT_OK,intent);
+                    mActivity.finish();
+                }
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
+        return adapter;
     }
 
 
-    /**
-     * 右上角弹窗
-     */
-    private void showRightTopMenu(){
-        if(null == mRightTopMenu){
-            List<MenuItem> list = new ArrayList<>();
-            list.add(new MenuItem(R.mipmap.icon_scan_gray,"扫一扫"));
-            list.add(new MenuItem(R.mipmap.icon_withdraw_gray,"转出记录"));
-            mRightTopMenu = new RightTopMenu.Builder(mActivity)
-                    .dimBackground(true) //背景变暗，默认为true
-                    .needAnimationStyle(true) //显示动画，默认为true
-                    .animationStyle(R.style.RTM_ANIM_STYLE)  //默认为R.style.RTM_ANIM_STYLE
-                    .windowWidth(DensityUtil.dip2px(mActivity,160))
-                    .menuItems(list)
-                    .onMenuItemClickListener(position -> {
-
-                    })
-                    .build();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == mActivity.RESULT_OK && requestCode == IntentKey.REQ_CODE_GET_SCAN_RESULT
+                && null != data){
+            if(null != mAddAddressDialog && mAddAddressDialog.isShowing()){
+                ((EditText)mAddAddressDialog.getView(R.id.et_address)).setText(data.getStringExtra(IntentKey.RESULT_SCAN));
+            }
         }
-        mRightTopMenu.showAsDropDown(mToolbarRight,DensityUtil.dip2px(mActivity,15),0);
+    }
+
+    /**
+     * 添加钱包地址弹窗
+     */
+    private void showAddCurrencyAddressDialog(){
+
+        if(null == mAddAddressDialog){
+            mAddAddressDialog = new AddCurrencyAddressDialog(mActivity,false);
+            mAddAddressDialog.setOnAddressConfirmedListener((address, tag) -> {
+                mListDatas.add(new CurrencyAddress(tag,address));
+                refreshData();
+            });
+        }
+        if(!mAddAddressDialog.isShowing())
+            mAddAddressDialog.showDialog();
     }
 
 }

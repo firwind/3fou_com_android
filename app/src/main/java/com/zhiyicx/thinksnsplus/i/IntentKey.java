@@ -21,6 +21,13 @@ public interface IntentKey {
 
     String IS_SELECT = "is_select";//是否选择
 
-    int REQ_CODE_IS_SELECT = 100;
+    String IS_GET_SCAN_RESULT = "is_get_scan_result";
+
+    String RESULT_SCAN = "result_scan";//
+    String RESULT_CURRENCY_ADDRESS = "result_currency_address";
+
+
+    int REQ_CODE_SELECT_CURRENCY_ADDRESS = 200;
+    int REQ_CODE_GET_SCAN_RESULT = 201;
 
 }

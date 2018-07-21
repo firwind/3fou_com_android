@@ -14,5 +14,6 @@ public class InviteAndQrcode {
     public String user_code;
     public String code_img;
     public String user_url;
+    public String user_msg;
 
 }
