@@ -5,8 +5,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
 
@@ -17,23 +19,38 @@ import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
  * version:
  */
 
-public class AddCurrencyAddressDialog extends HBaseDialog implements TextWatcher {
+public class EditCurrencyAddressDialog extends HBaseDialog implements TextWatcher {
 
     private OnAddressConfirmedListener mListener;
+    private CurrencyAddress mEditAddress = null;
+
+    public void setEditAddress(CurrencyAddress mEditAddress) {
+        this.mEditAddress = mEditAddress;
+    }
+
+    public CurrencyAddress getEditAddress() {
+        return mEditAddress;
+    }
 
     /**
      * 构造函数
      * @param context
      * @param cancelOnTouchOutside
      */
-    public AddCurrencyAddressDialog(Activity context, boolean cancelOnTouchOutside) {
+    public EditCurrencyAddressDialog(Activity context, boolean cancelOnTouchOutside) {
         super(context, R.layout.dialog_add_currency_address, cancelOnTouchOutside);
         setGravity(Gravity.CENTER);
-        initView();
+        //initView();
     }
 
     public void setOnAddressConfirmedListener(OnAddressConfirmedListener mListener) {
         this.mListener = mListener;
+    }
+
+    @Override
+    public void showDialog() {
+        super.showDialog();
+        initView();
     }
 
     private void initView() {
@@ -41,18 +58,28 @@ public class AddCurrencyAddressDialog extends HBaseDialog implements TextWatcher
         ((EditText)getView(R.id.et_address)).addTextChangedListener(this);
         ((EditText)getView(R.id.et_tag)).addTextChangedListener(this);
 
+        ((TextView)getView(R.id.tv_cancel)).setText(null == mEditAddress ? "取消":"删除");
+
         getView(R.id.tv_confirm).setOnClickListener(v->{
             dismissDialog();
             if(null != mListener){
-                mListener.onAddressConfirmed( ((EditText)getView(R.id.et_address)).getText().toString(),
-                        ((EditText)getView(R.id.et_tag)).getText().toString() );
+                String address = ((EditText)getView(R.id.et_address)).getText().toString();
+                String tag = ((EditText)getView(R.id.et_tag)).getText().toString();
+                if(null != mEditAddress){
+                    mListener.onAddressEdit(mEditAddress.id, address, tag);
+                }else {
+                    mListener.onAddressAdd( address,tag );
+                }
             }
         });
 
-        //扫描二维码
-        getView(R.id.iv_scan).setOnClickListener(v-> ScanCodeActivity.startActivityForResult(mContext, IntentKey.REQ_CODE_GET_SCAN_RESULT));
         //取消
-        getView(R.id.tv_cancel).setOnClickListener(v -> dismissDialog());
+        getView(R.id.tv_cancel).setOnClickListener(v -> {
+            dismissDialog();
+            if(null != mListener && null != mEditAddress){
+                mListener.onAddressDeleted(mEditAddress.id);
+            }
+        });
 
     }
 
@@ -72,7 +99,9 @@ public class AddCurrencyAddressDialog extends HBaseDialog implements TextWatcher
 
 
     public interface OnAddressConfirmedListener{
-        void onAddressConfirmed(String address,String tag);
+        void onAddressAdd(String address,String tag);
+        void onAddressEdit(String id,String address,String tag);
+        void onAddressDeleted(String id);
     }
 
 }

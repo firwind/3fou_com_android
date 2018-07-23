@@ -70,6 +70,12 @@ public class ChangePasswordPresenter extends BasePresenter<ChangePasswordContrac
                         throwable.printStackTrace();
                         mRootView.showMessage(mContext.getString(R.string.err_net_not_work));
                     }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        mRootView.dismissSnackBar();
+                    }
                 });
         addSubscrebe(changePasswordSub);
     }

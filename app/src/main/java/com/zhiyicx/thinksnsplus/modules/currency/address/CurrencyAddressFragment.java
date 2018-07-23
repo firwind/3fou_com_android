@@ -6,22 +6,16 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.hyphenate.util.DensityUtil;
-import com.lwy.righttopmenu.MenuItem;
-import com.lwy.righttopmenu.RightTopMenu;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
-import com.zhiyicx.thinksnsplus.widget.dialog.AddCurrencyAddressDialog;
+import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
+import com.zhiyicx.thinksnsplus.widget.dialog.EditCurrencyAddressDialog;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * author: huwenyong
@@ -33,7 +27,7 @@ import java.util.List;
 public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContract.Presenter,CurrencyAddress>
         implements CurrencyAddressContract.View{
 
-    private AddCurrencyAddressDialog mAddAddressDialog;
+    private EditCurrencyAddressDialog mEditAddressDialog;
 
     public static CurrencyAddressFragment newInstance(boolean isSelect){
 
@@ -74,7 +68,7 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
 
     @Override
     protected void setRightClick() {
-        showAddCurrencyAddressDialog();
+        showEditCurrencyAddressDialog(null);
     }
 
     @Override
@@ -94,6 +88,8 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
             protected void convert(ViewHolder holder, CurrencyAddress currencyAddress, int position) {
                 holder.getTextView(R.id.tv_tag).setText(currencyAddress.tag);
                 holder.getTextView(R.id.tv_address).setText(currencyAddress.address);
+
+                holder.getView(R.id.iv_edit).setOnClickListener(v->showEditCurrencyAddressDialog(currencyAddress));
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
@@ -121,8 +117,8 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == mActivity.RESULT_OK && requestCode == IntentKey.REQ_CODE_GET_SCAN_RESULT
                 && null != data){
-            if(null != mAddAddressDialog && mAddAddressDialog.isShowing()){
-                ((EditText)mAddAddressDialog.getView(R.id.et_address)).setText(data.getStringExtra(IntentKey.RESULT_SCAN));
+            if(null != mEditAddressDialog && mEditAddressDialog.isShowing()){
+                ((EditText)mEditAddressDialog.getView(R.id.et_address)).setText(data.getStringExtra(IntentKey.RESULT_SCAN));
             }
         }
     }
@@ -130,17 +126,36 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
     /**
      * 添加钱包地址弹窗
      */
-    private void showAddCurrencyAddressDialog(){
+    private void showEditCurrencyAddressDialog(CurrencyAddress currencyAddress){
 
-        if(null == mAddAddressDialog){
-            mAddAddressDialog = new AddCurrencyAddressDialog(mActivity,false);
-            mAddAddressDialog.setOnAddressConfirmedListener((address, tag) -> {
-                mListDatas.add(new CurrencyAddress(tag,address));
-                refreshData();
+        if(null == mEditAddressDialog){
+            mEditAddressDialog = new EditCurrencyAddressDialog(mActivity,false);
+            mEditAddressDialog.getView(R.id.iv_scan).setOnClickListener(v->
+                    ScanCodeActivity.startActivityForResult(this,IntentKey.REQ_CODE_GET_SCAN_RESULT));
+            mEditAddressDialog.setOnAddressConfirmedListener(new EditCurrencyAddressDialog.OnAddressConfirmedListener() {
+                @Override
+                public void onAddressAdd(String address, String tag) {
+                    mListDatas.add(new CurrencyAddress("1",tag,address));
+                    refreshData();
+                }
+
+                @Override
+                public void onAddressEdit(String id, String address, String tag) {
+                    mEditAddressDialog.getEditAddress().address = address;
+                    mEditAddressDialog.getEditAddress().tag = tag;
+                    refreshData();
+                }
+
+                @Override
+                public void onAddressDeleted(String id) {
+                    mListDatas.remove(mEditAddressDialog.getEditAddress());
+                    refreshData();
+                }
             });
         }
-        if(!mAddAddressDialog.isShowing())
-            mAddAddressDialog.showDialog();
+        mEditAddressDialog.setEditAddress(currencyAddress);
+        if(!mEditAddressDialog.isShowing())
+            mEditAddressDialog.showDialog();
     }
 
 }

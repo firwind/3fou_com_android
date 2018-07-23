@@ -10,6 +10,7 @@ package com.zhiyicx.thinksnsplus.utils;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,4 +40,20 @@ public class StringUtils {
         spanString.setSpan(span, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         return spanString;
     }
+
+    /**
+     * 设置字符串颜色
+     * @param str
+     * @param start
+     * @param end
+     * @param color
+     * @return
+     */
+    public static SpannableString getColorfulString(String str,int start,int end,int color){
+        SpannableString spanString = new SpannableString(str);
+        ForegroundColorSpan span = new ForegroundColorSpan(color);
+        spanString.setSpan(span, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spanString;
+    }
+
 }

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp86"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingLeft="@dimen/dp14"
+    android:paddingRight="@dimen/dp14"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_state"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_width="@dimen/dp28"
+        android:layout_height="@dimen/dp28"
+        android:background="@drawable/shape_circle_stroke_1_half_dp_gray"
+        android:gravity="center"
+        android:text="审"
+        android:textSize="@dimen/sp14"
+        android:textColor="@color/state_currency_verify"/>
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/dp8"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_state_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="等待审核"
+            android:textSize="@dimen/sp16"
+            android:textColor="@color/state_currency_verify"/>
+
+        <TextView
+            android:id="@+id/tv_address_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地址：000000000"
+            android:singleLine="true"
+            android:textSize="@dimen/sp12"/>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地址标签：000000000"
+            android:singleLine="true"
+            android:textSize="@dimen/sp12"/>
+
+        <TextView
+            android:id="@+id/tv_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提币记录"
+            android:textSize="@dimen/sp13"
+            android:textColor="@color/state_currency_record_withdraw"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/dp8"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|right"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp12"
+            android:text="数量：000"/>
+
+        <TextView
+            android:id="@+id/tv_cost_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp12"
+            android:text="实际扣除：000"/>
+
+        <TextView
+            android:id="@+id/tv_service_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp12"
+            android:text="手续费：000"/>
+
+        <TextView
+            android:id="@+id/tv_record_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp12"
+            android:text="2018年7月23日11点20分"
+            android:textColor="@color/state_currency_record_withdraw"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

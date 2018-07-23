@@ -14,17 +14,20 @@ import com.zhiyicx.baseproject.base.BaseListBean;
 
 public class CurrencyAddress extends BaseListBean implements Parcelable{
 
+    public String id;
     public String tag;
     public String address;
 
-
-    public CurrencyAddress(String tag,String address){
+    public CurrencyAddress(String id,String tag,String address){
+        this.id = id;
         this.tag = tag;
         this.address = address;
     }
 
+
     protected CurrencyAddress(Parcel in) {
         super(in);
+        id = in.readString();
         tag = in.readString();
         address = in.readString();
     }
@@ -32,6 +35,7 @@ public class CurrencyAddress extends BaseListBean implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
+        dest.writeString(id);
         dest.writeString(tag);
         dest.writeString(address);
     }

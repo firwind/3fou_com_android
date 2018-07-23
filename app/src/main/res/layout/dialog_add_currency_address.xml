@@ -4,7 +4,7 @@
     android:layout_height="@dimen/dp200"
     android:orientation="vertical"
     android:paddingLeft="@dimen/dp20"
-    android:paddingRight="@dimen/dp32"
+    android:paddingRight="@dimen/dp20"
     android:layout_gravity="center"
     android:background="@color/white">
 
@@ -73,16 +73,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_confirm"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/sp13"
-            android:gravity="center"
-            android:textColor="@color/selector_theme_normal_or_light"
-            android:text="保存"
-            android:enabled="false"/>
 
         <TextView
             android:id="@+id/tv_cancel"
@@ -93,6 +83,18 @@
             android:gravity="center"
             android:textColor="@color/black_deep"
             android:text="取消"/>
+
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/sp13"
+            android:gravity="center"
+            android:textColor="@color/selector_theme_normal_or_light"
+            android:text="保存"
+            android:enabled="false"/>
 
     </LinearLayout>
 

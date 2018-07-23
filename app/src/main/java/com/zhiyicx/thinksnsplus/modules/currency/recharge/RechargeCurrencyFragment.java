@@ -5,10 +5,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity;
+import com.zhiyicx.thinksnsplus.modules.currency.withdraw.WithdrawCurrencyActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * author: huwenyong
@@ -66,4 +70,22 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
     protected int setToolBarBackgroud() {
         return R.color.themeColor;
     }
+
+
+    @OnClick({R.id.bt_copy_address,R.id.ll_account_book,R.id.ll_withdraw})
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.bt_copy_address:
+                DeviceUtils.copyTextToBoard(getContext(),"12345678");
+                showSnackSuccessMessage("复制成功");
+                break;
+            case R.id.ll_account_book:
+                AccountBookActivity.startActivity(mActivity);
+                break;
+            case R.id.ll_withdraw:
+                WithdrawCurrencyActivity.startWithdrawCurrencyActivity(mActivity);
+                break;
+        }
+    }
+
 }
