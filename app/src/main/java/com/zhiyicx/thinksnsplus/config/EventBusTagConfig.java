@@ -248,6 +248,9 @@ public class EventBusTagConfig {
     // 围观答案
     public static final String EVENT_ONLOOK_ANSWER = "event_onlook_answer";
 
+    // 选择币种
+    public static final String EVENT_SELECT_CURRENCY = "event_select_currency";
+
     /**
      * 签到
      */

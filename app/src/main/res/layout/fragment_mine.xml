@@ -1,5 +1,4 @@
-<com.wcy.overscroll.OverScrollLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.wcy.overscroll.OverScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/overscroll"
@@ -10,21 +9,19 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-     >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/spacing_normal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/spacing_normal">
             <!--头像，用户名，简介-->
             <RelativeLayout
                 android:id="@+id/rl_userinfo_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                >
+                android:background="@color/white">
                 <!--头像-->
                 <com.zhiyicx.baseproject.widget.UserAvatarView
                     android:id="@+id/iv_head_icon"
@@ -35,7 +32,7 @@
                     android:layout_marginLeft="@dimen/spacing_normal"
                     android:layout_marginTop="@dimen/spacing_mid"
                     android:src="@mipmap/pic_default_secret"
-                    app:ts_avatare_size="@dimen/headpic_for_user_center"/>
+                    app:ts_avatare_size="@dimen/headpic_for_user_center" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -54,18 +51,18 @@
                         android:maxLines="1"
                         android:textColor="@color/important_for_content"
                         android:textSize="@dimen/size_sub_title"
-                        tools:text="奔跑的蜗牛"/>
+                        tools:text="奔跑的蜗牛" />
                     <!--用户签名-->
                     <TextView
                         android:id="@+id/tv_user_signature"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
+                        android:ellipsize="end"
                         android:maxLines="2"
                         android:textColor="@color/normal_for_assist_text"
-                        android:ellipsize="end"
                         android:textSize="@dimen/size_content_assist"
-                        tools:text="天青色等烟雨，而我在等你，炊烟袅袅升起，晕开了结局"/>
+                        tools:text="天青色等烟雨，而我在等你，炊烟袅袅升起，晕开了结局" />
                 </LinearLayout>
 
                 <ImageView
@@ -75,7 +72,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/spacing_mid"
-                    android:src="@mipmap/ic_arrow_smallgrey"/>
+                    android:src="@mipmap/ic_arrow_smallgrey" />
             </RelativeLayout>
 
             <FrameLayout
@@ -88,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_line"
                     android:layout_marginLeft="@dimen/spacing_normal"
-                    android:layout_marginRight="@dimen/spacing_normal"/>
+                    android:layout_marginRight="@dimen/spacing_normal" />
             </FrameLayout>
             <!--粉丝，关注-->
             <LinearLayout
@@ -113,7 +110,7 @@
                         android:layout_centerHorizontal="true"
                         android:textColor="@color/themeColor"
                         android:textSize="@dimen/size_content_assist"
-                        tools:text="23456"/>
+                        tools:text="23456" />
 
                     <com.zhiyicx.baseproject.widget.BadgeView
                         android:id="@+id/bv_fans_new_count"
@@ -122,7 +119,7 @@
                         android:layout_marginLeft="@dimen/spacing_mid_small_8dp"
                         android:layout_toRightOf="@id/tv_fans_count"
                         android:textSize="@dimen/size_icon_assist"
-                        android:textStyle="normal"/>
+                        android:textStyle="normal" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -132,7 +129,7 @@
                         android:layout_marginTop="@dimen/spacing_small_4dp"
                         android:text="@string/fans"
                         android:textColor="@color/important_for_content"
-                        android:textSize="@dimen/size_content_assist"/>
+                        android:textSize="@dimen/size_content_assist" />
                 </RelativeLayout>
 
                 <ImageView
@@ -140,8 +137,7 @@
                     android:layout_width="@dimen/divider_line"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/spacing_small_3dp"
-                    android:layout_marginTop="@dimen/spacing_small_3dp"
-                    />
+                    android:layout_marginTop="@dimen/spacing_small_3dp" />
                 <!--关注-->
                 <LinearLayout
                     android:id="@+id/ll_follow_container"
@@ -157,7 +153,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/themeColor"
                         android:textSize="@dimen/size_content_assist"
-                        tools:text="12233"/>
+                        tools:text="12233" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -165,15 +161,15 @@
                         android:layout_marginTop="@dimen/spacing_small_4dp"
                         android:text="@string/follow"
                         android:textColor="@color/important_for_content"
-                        android:textSize="@dimen/size_content_assist"/>
+                        android:textSize="@dimen/size_content_assist" />
                 </LinearLayout>
+
                 <ImageView
-                        style="@style/style_divider_veitical_light"
-                        android:layout_width="@dimen/divider_line"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/spacing_small_3dp"
-                        android:layout_marginTop="@dimen/spacing_small_3dp"
-                        />
+                    style="@style/style_divider_veitical_light"
+                    android:layout_width="@dimen/divider_line"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/spacing_small_3dp"
+                    android:layout_marginTop="@dimen/spacing_small_3dp" />
                 <!--好友-->
                 <RelativeLayout
                     android:id="@+id/ll_friends_container"
@@ -189,7 +185,7 @@
                         android:layout_centerHorizontal="true"
                         android:textColor="@color/themeColor"
                         android:textSize="@dimen/size_content_assist"
-                        tools:text="23456"/>
+                        tools:text="23456" />
 
                     <com.zhiyicx.baseproject.widget.BadgeView
                         android:id="@+id/bv_friends_new_count"
@@ -198,17 +194,17 @@
                         android:layout_marginLeft="@dimen/spacing_mid_small_8dp"
                         android:layout_toRightOf="@id/tv_friends_count"
                         android:textSize="@dimen/size_icon_assist"
-                        android:textStyle="normal"/>
+                        android:textStyle="normal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_friends_count"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/spacing_small_4dp"
                         android:text="@string/friends"
-                        android:layout_centerHorizontal="true"
                         android:textColor="@color/important_for_content"
-                        android:textSize="@dimen/size_content_assist"/>
+                        android:textSize="@dimen/size_content_assist" />
 
                 </RelativeLayout>
 
@@ -224,8 +220,8 @@
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/ico_me_homepage"
                 app:leftText="@string/personal_page"
-                app:showLine="true"
-                app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true" />
             <!--认证-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_certification"
@@ -236,69 +232,69 @@
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/ico_me_identification"
                 app:leftText="@string/my_certification"
-                app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+                app:rightImage="@mipmap/ic_arrow_smallgrey" />
 
             <!--我的问答-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
-                    android:id="@+id/bt_my_qa"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/full_button_height"
-                    app:dividerLeftMargin="@dimen/spacing_normal"
-                    android:visibility="visible"
-                    app:dividerRightMargin="@dimen/spacing_normal"
-                    app:leftImage="@mipmap/ico_me_qa"
-                    app:leftText="@string/qa_mine"
-                    app:showLine="true"
-                    app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+                android:id="@+id/bt_my_qa"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/full_button_height"
+                android:visibility="visible"
+                app:dividerLeftMargin="@dimen/spacing_normal"
+                app:dividerRightMargin="@dimen/spacing_normal"
+                app:leftImage="@mipmap/ico_me_qa"
+                app:leftText="@string/qa_mine"
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true" />
 
             <!--我的圈子-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
-                    android:id="@+id/bt_my_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/full_button_height"
-                    app:dividerLeftMargin="@dimen/spacing_normal"
-                    app:dividerRightMargin="@dimen/spacing_normal"
-                    app:leftImage="@mipmap/ico_me_circle"
-                    app:leftText="@string/group_mine"
-                    android:visibility="visible"
-                    app:showLine="true"
-                    app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+                android:id="@+id/bt_my_group"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/full_button_height"
+                android:visibility="visible"
+                app:dividerLeftMargin="@dimen/spacing_normal"
+                app:dividerRightMargin="@dimen/spacing_normal"
+                app:leftImage="@mipmap/ico_me_circle"
+                app:leftText="@string/group_mine"
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true" />
             <!--我的邀请-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_my_invite"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
+                android:visibility="visible"
                 app:dividerLeftMargin="@dimen/spacing_normal"
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/invite_icon"
                 app:leftText="@string/my_invite"
-                android:visibility="visible"
-                app:showLine="false"
-                app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="false" />
             <!--我的好友-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
-                    android:id="@+id/bt_my_friends"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/full_button_height"
-                    app:dividerLeftMargin="@dimen/spacing_normal"
-                    app:dividerRightMargin="@dimen/spacing_normal"
-                    app:leftImage="@mipmap/ico_me_circle"
-                    app:leftText="@string/chat_my_friends"
-                    android:visibility="gone"
-                    app:showLine="false"
-                    app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+                android:id="@+id/bt_my_friends"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/full_button_height"
+                android:visibility="gone"
+                app:dividerLeftMargin="@dimen/spacing_normal"
+                app:dividerRightMargin="@dimen/spacing_normal"
+                app:leftImage="@mipmap/ico_me_circle"
+                app:leftText="@string/chat_my_friends"
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="false" />
             <!--我的钱包-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_wallet"
-                android:layout_marginTop="@dimen/spacing_mid"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
+                android:layout_marginTop="@dimen/spacing_mid"
                 app:dividerLeftMargin="@dimen/spacing_normal"
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/ico_me_wallet"
                 app:leftText="@string/wallet"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="true"/>
+                app:showLine="true" />
             <!--我的现金-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_cash"
@@ -309,7 +305,7 @@
                 app:leftImage="@mipmap/cash_icon"
                 app:leftText="@string/cash"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="true"/>
+                app:showLine="true" />
             <!--我的现金-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_team"
@@ -320,7 +316,7 @@
                 app:leftImage="@mipmap/team_icon"
                 app:leftText="@string/team"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="true"/>
+                app:showLine="true" />
             <!--我的积分-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_mine_integration"
@@ -331,23 +327,22 @@
                 app:leftImage="@mipmap/ico_me_integral"
                 app:leftText="@string/mine_integration"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="true"/>
+                app:showLine="true" />
             <!--收藏-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
-                android:layout_marginTop="@dimen/spacing_mid"
                 android:id="@+id/bt_download"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
+                android:layout_marginTop="@dimen/spacing_mid"
                 android:visibility="visible"
                 app:dividerLeftMargin="@dimen/spacing_normal"
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/downment_icon"
                 app:leftText="@string/download_recommend"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="true"/>
+                app:showLine="true" />
             <!--收藏-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
-
                 android:id="@+id/bt_collect"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
@@ -357,19 +352,19 @@
                 app:leftImage="@mipmap/ico_me_collect"
                 app:leftText="@string/mine_collect"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="true"/>
+                app:showLine="true" />
             <!--购买的音乐-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_music"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
+                android:visibility="gone"
                 app:dividerLeftMargin="@dimen/spacing_normal"
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/ico_me_music"
                 app:leftText="@string/me_music"
-                android:visibility="gone"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="false"/>
+                app:showLine="false" />
 
             <!--意见反馈-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
@@ -377,12 +372,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
                 android:layout_marginTop="@dimen/spacing_mid"
+                android:visibility="gone"
                 app:dividerLeftMargin="@dimen/spacing_normal"
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/ico_me_advance"
                 app:leftText="@string/suggetion"
-                android:visibility="gone"
-                app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+                app:rightImage="@mipmap/ic_arrow_smallgrey" />
 
             <!--草稿箱-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
@@ -394,19 +389,20 @@
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/ico_me_draft"
                 app:leftText="@string/draft_box"
-                app:showLine="true"
-                app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true" />
+
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_my_info"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
+                android:visibility="visible"
                 app:dividerLeftMargin="@dimen/spacing_normal"
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/ico_me_contribute"
-                android:visibility="visible"
                 app:leftText="@string/my_info"
-                app:showLine="true"
-                app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true" />
             <!--设置-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_setting"
@@ -415,7 +411,7 @@
                 app:leftImage="@mipmap/ico_me_setting"
                 app:leftText="@string/setting"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="false"/>
+                app:showLine="false" />
 
         </LinearLayout>
     </ScrollView>

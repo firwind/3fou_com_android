@@ -24,6 +24,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:visibility="gone"
                     style="@style/style_edit_white_container">
 
                     <TextView
@@ -40,7 +41,9 @@
                         android:inputType="textPersonName"/>
                 </LinearLayout>
 
-                <ImageView style="@style/style_divider_horizontal_light"/>
+                <ImageView
+                    android:visibility="gone"
+                    style="@style/style_divider_horizontal_light"/>
 
                 <RelativeLayout style="@style/style_edit_white_container">
 

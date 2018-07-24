@@ -1,9 +1,9 @@
-package com.zhiyicx.thinksnsplus.modules.home.mine.team;
+package com.zhiyicx.thinksnsplus.modules.home.mine.team.team;
 
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppComponent;
 import com.zhiyicx.thinksnsplus.base.InjectComponent;
-import com.zhiyicx.thinksnsplus.modules.home.mine.team.team.MyTeamListPresenterModule;
+import com.zhiyicx.thinksnsplus.modules.home.mine.team.MyTeamActivity;
 
 import dagger.Component;
 
@@ -15,7 +15,7 @@ import dagger.Component;
  * 版  权: 九曲互动
  */
 @FragmentScoped
-@Component(dependencies = AppComponent.class, modules = MyTeamPresenterModule.class)
-public interface MyTeamComponent extends InjectComponent<MyTeamActivity>{
+@Component(dependencies = AppComponent.class, modules = MyTeamListPresenterModule.class)
+public interface MyTeamListComponent extends InjectComponent<MyTeamListFragment>{
 
 }

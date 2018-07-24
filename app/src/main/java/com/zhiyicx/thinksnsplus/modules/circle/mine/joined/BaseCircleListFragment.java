@@ -124,7 +124,6 @@ public class BaseCircleListFragment extends TSListFragment<BaseCircleListContrac
                     .baseCircleListPresenterModule(new BaseCircleListPresenterModule(BaseCircleListFragment.this))
                     .build()
                     .inject(BaseCircleListFragment.this);
-
             subscriber.onCompleted();
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

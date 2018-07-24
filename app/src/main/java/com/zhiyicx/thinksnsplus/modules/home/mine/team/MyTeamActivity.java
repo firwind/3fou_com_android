@@ -9,18 +9,25 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.team;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.modules.home.mine.team.team.MyTeamListFragment;
+import com.zhiyicx.thinksnsplus.modules.home.mine.team.team.MyTeamListPresenter;
+
 
 public class MyTeamActivity extends TSActivity<MyTeamPresenter, MyTeamFragment> {
     @Override
     protected MyTeamFragment getFragment() {
-        return MyTeamFragment.instance(getIntent().getExtras());
+        return MyTeamFragment.newInstance(getIntent().getExtras());
     }
     @Override
     protected void componentInject() {
+//        DaggerMyTeamListComponent.builder()
+//                .appComponent(AppApplication.AppComponentHolder.getAppComponent())
+//                .myTeamListPresenterModule(new MyTeamListPresenterModule(mContanierFragment))
+//                .build()
+//                .inject(this);
         DaggerMyTeamComponent.builder()
                 .appComponent(AppApplication.AppComponentHolder.getAppComponent())
                 .myTeamPresenterModule(new MyTeamPresenterModule(mContanierFragment))
@@ -31,4 +38,5 @@ public class MyTeamActivity extends TSActivity<MyTeamPresenter, MyTeamFragment> 
         Intent intent = new Intent(context,MyTeamActivity.class);
         context.startActivity(intent);
     }
+
 }

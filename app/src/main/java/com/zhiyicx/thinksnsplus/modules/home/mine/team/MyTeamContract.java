@@ -9,18 +9,19 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.team;
 
 import com.zhiyicx.baseproject.base.ITSListPresenter;
 import com.zhiyicx.baseproject.base.ITSListView;
+import com.zhiyicx.common.mvp.i.IBasePresenter;
+import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 
 import java.util.List;
 
 public class MyTeamContract {
-    interface View extends ITSListView<TeamBean.TeamListBean, Presenter> {
+    interface View extends IBaseView<Presenter> {
         void getCurrencyType(List<CurrencyTypeBean> bean);
-        void getTotal(String total,String unit);
     }
 
-    interface Presenter extends ITSListPresenter<TeamBean.TeamListBean> {
+    interface Presenter extends IBasePresenter {
         void requestCurrencyType();
     }
 }

@@ -1,5 +1,7 @@
 package com.zhiyicx.thinksnsplus.modules.home.mine.team;
 
+import com.zhiyicx.thinksnsplus.modules.home.mine.team.team.MyTeamListContract;
+
 import dagger.Module;
 import dagger.Provides;
 

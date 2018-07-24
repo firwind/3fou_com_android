@@ -12,7 +12,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout style="@style/style_edit_white_container">
+        <LinearLayout
+
+            style="@style/style_edit_white_container">
 
             <TextView
                 style="@style/style_small_text"

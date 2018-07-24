@@ -267,18 +267,18 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
                 .compose(mRxPermissions.ensureEach(Manifest.permission.READ_PHONE_STATE))
                 .subscribe(permission -> {
                     String userName = mEtRegistUsername.getText().toString().trim();
-                    if (mPresenter
-                            .getSystemConfigBean().getSite().getReserved_nickname()
-                            .contains(mEtRegistUsername.getText().toString().trim())) {
-                        showMessage(getString(R.string.can_not_use_protected_name));
-                        return;
-                    }
+//                    if (mPresenter
+//                            .getSystemConfigBean().getSite().getReserved_nickname()
+//                            .contains(mEtRegistUsername.getText().toString().trim())) {
+//                        showMessage(getString(R.string.can_not_use_protected_name));
+//                        return;
+//                    }
 
                     // 获取到了权限
                     if (permission.granted) {
                         // 手机号注册
                         if (mCurrentRegisterType == REGISTER_PHONE) {
-                            mPresenter.register(mEtRegistUsername.getText().toString().trim()
+                            mPresenter.register(mEtRegistPhone.getText().toString().trim()
                                     , mEtRegistPhone.getText().toString().trim()
                                     , mEtRegistVertifyCode.getText().toString().trim()
                                     , mEtRegistPassword.getText().toString().trim()
@@ -286,7 +286,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
                             );
                         } else {
                             // 邮箱注册
-                            mPresenter.registerByEmail(mEtRegistUsername.getText().toString().trim()
+                            mPresenter.registerByEmail(mEtRegisterEmail.getText().toString().trim()
                                     , mEtRegisterEmail.getText().toString().trim()
                                     , mEtRegistVertifyCode.getText().toString().trim()
                                     , mEtRegistPassword.getText().toString().trim()

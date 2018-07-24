@@ -3,8 +3,6 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.team.earnings;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppComponent;
 import com.zhiyicx.thinksnsplus.base.InjectComponent;
-import com.zhiyicx.thinksnsplus.modules.home.mine.team.MyTeamActivity;
-import com.zhiyicx.thinksnsplus.modules.home.mine.team.MyTeamPresenterModule;
 
 import dagger.Component;
 

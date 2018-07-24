@@ -1,4 +1,4 @@
-package com.zhiyicx.thinksnsplus.modules.home.mine.team;
+package com.zhiyicx.thinksnsplus.modules.home.mine.team.team;
 /*
  * 文件名:
  * 创建者：zhangl
@@ -18,8 +18,8 @@ import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 
 import java.util.List;
 
-public class MyTeamCurrencyAdapter extends BaseAdapter<CurrencyTypeBean> {
-    public MyTeamCurrencyAdapter(Context con, List<CurrencyTypeBean> data, int layouid) {
+public class MyTeamListCurrencyAdapter extends BaseAdapter<CurrencyTypeBean> {
+    public MyTeamListCurrencyAdapter(Context con, List<CurrencyTypeBean> data, int layouid) {
         super(con, data, layouid);
     }
 

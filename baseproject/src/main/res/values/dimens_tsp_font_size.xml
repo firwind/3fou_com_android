@@ -61,5 +61,7 @@
 
     <!--帖子多找图提示字体大小-->
     <dimen name="size_number_shadow">25sp</dimen>
+    <!--我的团队table选项-->
+    <dimen name="size_number_team">20sp</dimen>
 
 </resources>

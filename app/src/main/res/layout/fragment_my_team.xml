@@ -34,6 +34,17 @@
             android:textColor="@color/black_deep"
             android:textSize="@dimen/sp16" />
     </LinearLayout>
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/mg_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/qa_top_select_height"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/dp10"
+        android:background="@android:color/transparent"/>
+    <View
+        android:layout_marginBottom="@dimen/dp10"
+        android:layout_marginTop="@dimen/margin_10dp"
+        style="@style/style_divider_horizontal"/>
     <LinearLayout
 
         android:orientation="horizontal"
@@ -64,6 +75,11 @@
     <View
         android:layout_marginTop="@dimen/margin_10dp"
         style="@style/style_divider_horizontal"/>
-    <include
-        layout="@layout/fragment_tslist"/>
+    <!--<include-->
+        <!--layout="@layout/fragment_tslist"/>-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

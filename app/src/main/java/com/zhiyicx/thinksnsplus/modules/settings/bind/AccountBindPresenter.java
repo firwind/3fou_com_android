@@ -258,6 +258,7 @@ public class AccountBindPresenter extends BasePresenter<AccountBindContract.View
                         } else {
                             userInfoBean.setEmail(email);
                         }
+
                         mUserInfoBeanGreenDao.insertOrReplace(userInfoBean);
                         mRootView.showSnackSuccessMessage(mContext.getString(R.string.bind_success));
                         Observable.timer(DEFAULT_DELAY_CLOSE_TIME, TimeUnit.MILLISECONDS)
