@@ -1,12 +1,15 @@
 package com.zhiyicx.thinksnsplus.widget.dialog;
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
@@ -58,6 +61,20 @@ public class EditCurrencyAddressDialog extends HBaseDialog implements TextWatche
         ((EditText)getView(R.id.et_address)).addTextChangedListener(this);
         ((EditText)getView(R.id.et_tag)).addTextChangedListener(this);
 
+        if(null != mEditAddress){
+            ((EditText)getView(R.id.et_address)).setText(mEditAddress.address);
+            ((EditText)getView(R.id.et_tag)).setText(mEditAddress.tag);
+        }else {
+            ((EditText)getView(R.id.et_address)).setText("");
+            ((EditText)getView(R.id.et_tag)).setText("");
+        }
+
+        ((EditText)getView(R.id.et_address)).setSelection(((EditText)getView(R.id.et_address)).getText().toString().length());
+        getView(R.id.et_address).setFocusable(true);
+        getView(R.id.et_address).requestFocusFromTouch();
+        getView(R.id.et_address).post(() ->
+                ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).
+                        showSoftInput(getView(R.id.et_address), 0));
         ((TextView)getView(R.id.tv_cancel)).setText(null == mEditAddress ? "取消":"删除");
 
         getView(R.id.tv_confirm).setOnClickListener(v->{
@@ -91,7 +108,6 @@ public class EditCurrencyAddressDialog extends HBaseDialog implements TextWatche
     }
     @Override
     public void afterTextChanged(Editable s) {
-
         String address = ((EditText)getView(R.id.et_address)).getText().toString();
         String tag = ((EditText)getView(R.id.et_tag)).getText().toString();
         getView(R.id.tv_confirm).setEnabled(address.length() != 0 && tag.length() != 0);

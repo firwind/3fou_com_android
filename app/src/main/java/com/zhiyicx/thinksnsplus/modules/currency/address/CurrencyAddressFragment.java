@@ -129,7 +129,7 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
     private void showEditCurrencyAddressDialog(CurrencyAddress currencyAddress){
 
         if(null == mEditAddressDialog){
-            mEditAddressDialog = new EditCurrencyAddressDialog(mActivity,false);
+            mEditAddressDialog = new EditCurrencyAddressDialog(mActivity,true);
             mEditAddressDialog.getView(R.id.iv_scan).setOnClickListener(v->
                     ScanCodeActivity.startActivityForResult(this,IntentKey.REQ_CODE_GET_SCAN_RESULT));
             mEditAddressDialog.setOnAddressConfirmedListener(new EditCurrencyAddressDialog.OnAddressConfirmedListener() {

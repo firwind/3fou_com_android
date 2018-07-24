@@ -142,7 +142,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
                     .needAnimationStyle(true) //显示动画，默认为true
                     .animationStyle(R.style.RTM_ANIM_STYLE)  //默认为R.style.RTM_ANIM_STYLE
                     .windowWidth(DensityUtil.dip2px(mActivity,160))
-                    .windowHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                    /*.windowHeight(ViewGroup.LayoutParams.WRAP_CONTENT)*/
                     .menuItems(list)
                     .onMenuItemClickListener(position -> {
                         if(position == 0){

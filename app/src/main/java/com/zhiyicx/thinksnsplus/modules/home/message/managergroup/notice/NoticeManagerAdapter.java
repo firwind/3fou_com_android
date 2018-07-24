@@ -32,7 +32,7 @@ public class NoticeManagerAdapter extends CommonAdapter<NoticeItemBean>{
         holder.setText(R.id.tv_notice_title, TextUtils.isEmpty(noticeItemBean.getTitle())?"":noticeItemBean.getTitle());
         holder.setText(R.id.tv_notice_content,TextUtils.isEmpty(noticeItemBean.getContent())?"":noticeItemBean.getContent());
         holder.setText(R.id.tv_notice_user_name,TextUtils.isEmpty(noticeItemBean.getAuthor())?"":noticeItemBean.getAuthor());
-        String time = TimeUtils.millis2String(noticeItemBean.getCreated_at());
-        holder.setText(R.id.tv_notice_time, TimeUtils.getTimeFriendlyNormal(time));
+        //String time = TimeUtils.millis2String(noticeItemBean.getCreated_at());
+        holder.setText(R.id.tv_notice_time, TimeUtils.getTimeFriendlyNormal(noticeItemBean.getCreated_at()*1000));
     }
 }
