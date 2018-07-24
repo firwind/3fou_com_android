@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/white"
     android:gravity="center_horizontal">
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp13"
         android:textColor="@color/black_deep"
-        android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+        tools:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
 
     <ImageView
         android:id="@+id/iv_qrcode"
@@ -21,6 +22,7 @@
         android:layout_height="@dimen/dp156" />
 
     <Button
+        android:id="@+id/bt_copy_address"
         android:layout_marginTop="@dimen/dp14"
         android:layout_width="@dimen/dp178"
         android:layout_height="@dimen/dp35"
@@ -30,6 +32,7 @@
         android:background="@drawable/shape_corner_4dp_bg_theme"/>
 
     <LinearLayout
+        android:id="@+id/ll_account_book"
         android:paddingLeft="@dimen/dp25"
         android:paddingRight="@dimen/dp20"
         android:layout_marginTop="@dimen/dp24"
@@ -52,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp10"
+            android:textSize="@dimen/sp12"
             android:text="每笔交易记录都在这里"
             android:textColor="@color/gray_normal"
             android:gravity="center_vertical"
@@ -61,6 +64,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_withdraw"
         android:paddingLeft="@dimen/dp25"
         android:paddingRight="@dimen/dp20"
         android:layout_width="match_parent"
@@ -82,7 +86,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp10"
+            android:textSize="@dimen/sp12"
             android:text="将BCB转到其他地址"
             android:textColor="@color/gray_normal"
             android:gravity="center_vertical"

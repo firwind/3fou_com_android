@@ -26,6 +26,8 @@ public interface IntentKey {
     String RESULT_SCAN = "result_scan";//
     String RESULT_CURRENCY_ADDRESS = "result_currency_address";
 
+    String SEARCH_TAG = "search_tag";
+
 
     int REQ_CODE_SELECT_CURRENCY_ADDRESS = 200;
     int REQ_CODE_GET_SCAN_RESULT = 201;

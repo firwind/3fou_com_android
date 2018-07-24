@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.scan;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -34,13 +35,13 @@ public class ScanCodeActivity extends TSActivity<ScanCodePresenter, ScanCodeFrag
 
     /**
      * 支持activity扫描返回结果
-     * @param mActivity
+     * @param
      * @param requestCode
      */
-    public static void startActivityForResult(Activity mActivity, int requestCode){
-        Intent intent = new Intent(mActivity,ScanCodeActivity.class);
+    public static void startActivityForResult(Fragment mFragment, int requestCode){
+        Intent intent = new Intent(mFragment.getContext(),ScanCodeActivity.class);
         intent.putExtra(IntentKey.IS_GET_SCAN_RESULT,true);
-        mActivity.startActivityForResult(intent,requestCode);
+        mFragment.startActivityForResult(intent,requestCode);
     }
 
 

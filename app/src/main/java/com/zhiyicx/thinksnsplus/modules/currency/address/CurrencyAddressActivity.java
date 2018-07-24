@@ -32,7 +32,7 @@ public class CurrencyAddressActivity extends TSActivity<CurrencyAddressPresenter
     }
 
 
-    public static void startCurrencyAddressActivityForResult(Fragment mFragment, boolean isSelect, int requestCode){
+    public static void startActivityForResult(Fragment mFragment, boolean isSelect, int requestCode){
 
         Intent intent = new Intent(mFragment.getContext(),CurrencyAddressActivity.class);
         intent.putExtra(IntentKey.IS_SELECT,isSelect);

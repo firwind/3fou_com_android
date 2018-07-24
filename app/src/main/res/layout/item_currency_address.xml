@@ -4,13 +4,14 @@
     android:layout_height="@dimen/dp62"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    android:paddingLeft="@dimen/dp16"
-    android:paddingRight="@dimen/dp16"
     android:gravity="center">
 
     <ImageView
-        android:layout_width="@dimen/dp28"
-        android:layout_height="@dimen/dp28"
+        android:id="@+id/iv_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/dp16"
+        android:paddingRight="@dimen/dp16"
         android:src="@mipmap/icon_edit"
         android:scaleType="centerInside"/>
 
@@ -19,7 +20,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dp16">
+        android:paddingRight="@dimen/dp16">
 
         <TextView
             android:id="@+id/tv_tag"

@@ -120,9 +120,9 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     @Override
                     protected void onSuccess(String data) {
                         if (mRootView.getIsAddGroup()) {
+                            EMClient.getInstance().chatManager().deleteConversation(data, true);
                             EventBus.getDefault().post(data, EVENT_IM_DELETE_QUIT);
                             mRootView.closeCurrentActivity();
-                            EMClient.getInstance().chatManager().deleteConversation(data, true);
                         } else {
                             mRootView.goChatActivity();
                         }

@@ -75,13 +75,15 @@ public class RightTopMenu {
     private PopupWindow getPopupWindow() {
         mPopupWindow = new PopupWindow(mActivity);
         mPopupWindow.setContentView(mMenuContainer);
-        if (mWindowHeight > 0)
+        /*if (mWindowHeight > 0)
             mPopupWindow.setHeight(mWindowHeight);
         else if (mMenuItems.size() > 3) {
             mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         } else {
             mPopupWindow.setHeight(DEFAULT_HEIGHT);
-        }
+        }*/
+        mPopupWindow.setHeight(mWindowHeight>0?mWindowHeight:ViewGroup.LayoutParams.WRAP_CONTENT);
+
         mPopupWindow.setWidth(mWindowWidth);
         if (mNeedAnimationStyle) {
             mPopupWindow.setAnimationStyle(mAnimationStyle <= 0 ? DEFAULT_ANIM_STYLE : mAnimationStyle);

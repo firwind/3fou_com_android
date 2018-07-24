@@ -48,4 +48,10 @@
     <color name="light_gray">#F3F3F3</color>
 
     <color name="theme_not_enabled">#F27314</color>
+
+    <color name="state_currency_verify">#3399ff</color>
+    <color name="state_currency_success">#2cdbd6</color>
+    <color name="state_currency_exchange">#e07e65</color>
+    <color name="state_currency_record_recharge">#f36021</color>
+    <color name="state_currency_record_withdraw">#ff9900</color>
 </resources>

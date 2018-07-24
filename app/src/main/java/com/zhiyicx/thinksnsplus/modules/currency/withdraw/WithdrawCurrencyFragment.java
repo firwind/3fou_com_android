@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.modules.currency.withdraw;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -11,9 +12,12 @@ import com.lwy.righttopmenu.MenuItem;
 import com.lwy.righttopmenu.RightTopMenu;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.data.beans.BackgroundRequestTaskBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
+import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.address.CurrencyAddressActivity;
+import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +101,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     public void onClick(View v){
         switch (v.getId()){
             case R.id.iv_address:
-                CurrencyAddressActivity.startCurrencyAddressActivityForResult(this,true, IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS);
+                CurrencyAddressActivity.startActivityForResult(this,true, IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS);
                 break;
         }
     }
@@ -107,10 +111,20 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         super.onActivityResult(requestCode, resultCode, data);
 
         //选择钱包地址返回
-        if(resultCode == mActivity.RESULT_OK && requestCode == IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS
-                && null != data){
-            mEtAddress.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).address );
-            mEtTag.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).tag );
+        if(resultCode == mActivity.RESULT_OK && null != data){
+            switch (requestCode){
+                case IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS:
+
+                    mEtAddress.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).address );
+                    mEtTag.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).tag );
+
+                    break;
+                case IntentKey.REQ_CODE_GET_SCAN_RESULT:
+
+                    mEtAddress.setText( data.getStringExtra(IntentKey.RESULT_SCAN) );
+
+                    break;
+            }
         }
 
     }
@@ -128,9 +142,14 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
                     .needAnimationStyle(true) //显示动画，默认为true
                     .animationStyle(R.style.RTM_ANIM_STYLE)  //默认为R.style.RTM_ANIM_STYLE
                     .windowWidth(DensityUtil.dip2px(mActivity,160))
+                    /*.windowHeight(ViewGroup.LayoutParams.WRAP_CONTENT)*/
                     .menuItems(list)
                     .onMenuItemClickListener(position -> {
-
+                        if(position == 0){
+                            ScanCodeActivity.startActivityForResult(this,IntentKey.REQ_CODE_GET_SCAN_RESULT);
+                        }else {
+                            AccountBookActivity.startActivity(mActivity);
+                        }
                     })
                     .build();
         }
