@@ -123,8 +123,8 @@ public class ConstantConfig {
     /**
      * 正则：用户名，不能以数字开头,不能有emoji
      */
-//    public static final String REGEX_USERNAME = "^[a-zA-Z_\\u4e00-\\u9fa5][a-zA-Z0-9_\\u4e00-\\u9fa5]*$";
-    public static final String REGEX_USERNAME = "^[a-zA-Z_\\u4e00-\\u9fa5][a-zA-Z_\\u4e00-\\u9fa5]*$";
+    public static final String REGEX_USERNAME = "^[a-zA-Z_\\u4e00-\\u9fa5][a-zA-Z0-9_\\u4e00-\\u9fa5]*$";
+//    public static final String REGEX_USERNAME = "^[a-zA-Z_\\u4e00-\\u9fa5][a-zA-Z_\\u4e00-\\u9fa5]*$";
     /**
      * 正则：不能以数字开头
      */

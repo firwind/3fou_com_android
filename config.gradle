@@ -16,8 +16,8 @@ ext {
     applicationId = "com.hudong.wemedia"
     minSdkVersion = 18
     targetSdkVersion = 25
-    versionCode = 38
-    versionName = "2.4.0712"
+    versionCode = 39
+    versionName = "2.4.0725"
     compileSdkVersion = 25
     buildToolsVersion = "26.0.2"
     //Libraries
