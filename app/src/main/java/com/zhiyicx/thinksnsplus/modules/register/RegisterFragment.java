@@ -241,13 +241,13 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
                     }
                 });
 
-        // 密码
-        RxTextView.textChanges(mEtSurePassword)
-                .compose(this.bindToLifecycle())
-                .subscribe(charSequence -> {
-                    mIsAffirmPasswordEdited = !TextUtils.isEmpty(charSequence.toString());
-                    setConfirmEnable();
-                });
+//        // 密码
+//        RxTextView.textChanges(mEtSurePassword)
+//                .compose(this.bindToLifecycle())
+//                .subscribe(charSequence -> {
+//                    mIsAffirmPasswordEdited = !TextUtils.isEmpty(charSequence.toString());
+//                    setConfirmEnable();
+//                });
         // 点击发送验证码
         RxView.clicks(mBtRegistSendVertifyCode)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)   //两秒钟之内只取一个点击事件，防抖操作
@@ -282,10 +282,10 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
 //                        showMessage(getString(R.string.can_not_use_protected_name));
 //                        return;
 //                    }
-                    if (!mEtRegistPassword.getText().toString().equals(mEtSurePassword.getText().toString())) {
-                        showMessage(getString(R.string.password_diffrent));
-                        return;
-                    }
+//                    if (!mEtRegistPassword.getText().toString().equals(mEtSurePassword.getText().toString())) {
+//                        showMessage(getString(R.string.password_diffrent));
+//                        return;
+//                    }
                     // 获取到了权限
                     if (permission.granted) {
                         // 手机号注册
@@ -396,7 +396,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
      */
     private void setConfirmEnable() {
 
-        if (/*isNameEdited &&*/ isCodeEdited && isPassEdited && mIsAffirmPasswordEdited && !isRegisting) {
+        if (/*isNameEdited &&*/ isCodeEdited && isPassEdited && /*mIsAffirmPasswordEdited &&*/ !isRegisting) {
             if ((mCurrentRegisterType == REGISTER_PHONE && isPhoneEdited)
                     || (mCurrentRegisterType == REGISTER_EMAIL && isEmailEdited)) {
                 mBtRegistRegist.setEnabled(true);
@@ -450,13 +450,13 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
         mEtRegistVertifyCode.setText("");
         mEtRegistPassword.setText("");
         mInviteCode.setText("");
-        mEtSurePassword.setText("");
+//        mEtSurePassword.setText("");
         isNameEdited = false;
         isEmailEdited = false;
         isPhoneEdited = false;
         isCodeEdited = false;
         isPassEdited = false;
-        mIsAffirmPasswordEdited = false;
+//        mIsAffirmPasswordEdited = false;
         setConfirmEnable();
     }
 

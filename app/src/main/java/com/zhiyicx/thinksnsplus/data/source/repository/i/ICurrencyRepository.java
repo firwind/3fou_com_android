@@ -9,6 +9,7 @@ package com.zhiyicx.thinksnsplus.data.source.repository.i;
 
 import android.content.Context;
 
+import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
@@ -75,10 +76,20 @@ public interface ICurrencyRepository {
     Observable<String> deleteCurrencyAddress(String address_id);
 
     /**
+     * 获取账本明细
+     * @param offset
+     * @param
+     * @param target_type
+     * @return
+     */
+    Observable<List<AccountBookListBean>> getAccountBookList(Long offset , Integer target_type);
+
+    /**
      * 充币（获取钱包地址）
      * @param currency
      * @return
      */
     Observable<String> rechargeCurrencyAddress(String currency);
+
 
 }

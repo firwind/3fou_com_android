@@ -2,8 +2,10 @@ package com.zhiyicx.thinksnsplus.modules.currency.accountbook;
 
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
+import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
+import com.zhiyicx.thinksnsplus.data.source.repository.CurrencyRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,6 +23,8 @@ import javax.inject.Inject;
 @FragmentScoped
 public class AccountBookChildPresenter extends AppBasePresenter<AccountBookChildContract.View>
         implements AccountBookChildContract.Presenter{
+    @Inject
+    CurrencyRepository mCurrencyRepository;
 
     @Inject
     public AccountBookChildPresenter(AccountBookChildContract.View rootView) {
@@ -29,8 +33,22 @@ public class AccountBookChildPresenter extends AppBasePresenter<AccountBookChild
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
+        mCurrencyRepository.getAccountBookList(maxId,mRootView.getBookTag())
+                .subscribe(new BaseSubscribeForV2<List<AccountBookListBean>>() {
+                    @Override
+                    protected void onSuccess(List<AccountBookListBean> data) {
+                        mRootView.onNetResponseSuccess(data,isLoadMore);
+                    }
+                    protected void onFailure(String message, int code) {
+                        mRootView.showMessage(message);
+                    }
 
-        mRootView.onNetResponseSuccess(falseData(),isLoadMore);
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        mRootView.onResponseError(throwable, isLoadMore);
+                    }
+                });
+//
     }
 
     @Override
@@ -41,50 +59,6 @@ public class AccountBookChildPresenter extends AppBasePresenter<AccountBookChild
     @Override
     public boolean insertOrUpdateData(@NotNull List<AccountBookListBean> data, boolean isLoadMore) {
         return false;
-    }
-
-
-    private List<AccountBookListBean>  falseData(){
-
-        List<AccountBookListBean> list = new ArrayList<>();
-
-        for (int i = 0; i < 4; i++) {
-            AccountBookListBean bean = new AccountBookListBean();
-            //审核中 ，成功
-            bean.setState(i%2);
-            //充币，提币，兑币
-            bean.setOp_type(i%3);
-            //充币/提币 数量
-            bean.setCurrency_num(i*1000);
-            //手续费
-            bean.setCurrency_service_num(i);
-            //时间
-            bean.setTime(System.currentTimeMillis()-i*1000*60);
-            //钱包地址
-            CurrencyAddress address = new CurrencyAddress("11","tag"+i,(i*1000)+"dssssdddddssssssssseeeeeee","BCB");
-            bean.setAddress(address);
-
-            list.add(bean);
-        }
-
-        AccountBookListBean bean = new AccountBookListBean();
-        //审核中 ，成功
-        bean.setState(1);
-        //充币，提币，兑币
-        bean.setOp_type(2);
-        //充币/提币 数量
-        bean.setCurrency_num(1000);
-        //手续费
-        bean.setCurrency_service_num(200);
-        //时间
-        bean.setTime(System.currentTimeMillis());
-        //钱包地址
-        CurrencyAddress address = new CurrencyAddress("22","tag","dssssdddddssssssssseeeeeee","BCB");
-        bean.setAddress(address);
-
-        list.add(bean);
-
-        return list;
     }
 
 }

@@ -166,9 +166,9 @@ public class AccountBindPresenter extends BasePresenter<AccountBindContract.View
         if (checkPasswordLength(password)) {
             return;
         }
-        if (checkVertifyLength(verifyCode)) {
-            return;
-        }
+//        if (checkVertifyLength(verifyCode)) {
+//            return;
+//        }
         mRootView.setSureBtEnabled(false);
         Observable<Object> objectObservable;
         if (isPhone) {

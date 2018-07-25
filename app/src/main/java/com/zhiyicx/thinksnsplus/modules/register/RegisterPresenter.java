@@ -190,13 +190,13 @@ public class RegisterPresenter extends AppBasePresenter<RegisterContract.View>
                     @Override
                     public void onSuccess(AuthBean data) {
                         mRootView.setRegisterBtEnabled(true);
-
                         // 保存登录认证信息
                         mAuthRepository.saveAuthBean(data);
                         mUserInfoBeanGreenDao.insertOrReplace(data.getUser());
                         // IM 登录 需要 token ,所以需要先保存登录信息
                         handleIMLogin();
                         mRootView.goHome();
+
                     }
 
                     @Override
@@ -215,6 +215,7 @@ public class RegisterPresenter extends AppBasePresenter<RegisterContract.View>
         // 代表检测成功
         mRootView.showMessage("");
         addSubscrebe(registerSub);
+
     }
 
     @Override

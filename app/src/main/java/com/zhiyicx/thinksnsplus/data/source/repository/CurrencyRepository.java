@@ -11,6 +11,8 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
@@ -100,6 +102,13 @@ public class CurrencyRepository implements ICurrencyRepository {
     @Override
     public Observable<String> deleteCurrencyAddress(String address_id) {
         return mCurrencyClient.deleteCurrencyAddress(address_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<AccountBookListBean>> getAccountBookList(Long offset, Integer target_type) {
+        return mCurrencyClient.getAccountBookList(offset, TSListFragment.DEFAULT_PAGE_SIZE,target_type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

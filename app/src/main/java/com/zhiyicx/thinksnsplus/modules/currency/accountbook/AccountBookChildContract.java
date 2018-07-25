@@ -14,7 +14,7 @@ import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 public interface AccountBookChildContract {
 
     interface View extends ITSListView<AccountBookListBean,Presenter>{
-
+        int getBookTag();
     }
 
     interface Presenter extends ITSListPresenter<AccountBookListBean>{

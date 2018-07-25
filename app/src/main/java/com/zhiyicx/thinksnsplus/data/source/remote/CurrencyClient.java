@@ -20,6 +20,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
+import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.SystemConversationBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 
@@ -87,5 +88,8 @@ public interface CurrencyClient {
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_MY_TEAM_LIST)
-    Observable<List<TeamBean.TeamListBean>> getTeamList(@Path ("type") String type, @Path("grade") int grade);
+    Observable<List<TeamBean.TeamListBean>> getTeamList(@Query ("type") String type, @Query("grade") int grade);
+
+    @GET(ApiConfig.APP_PATH_CURRENCY_ACCOUNT_BOOK_LIST)
+    Observable<List<AccountBookListBean>> getAccountBookList(@Query("offset") Long max_id, @Query("limit") Integer limit , @Query("target_type") Integer target_type);
 }

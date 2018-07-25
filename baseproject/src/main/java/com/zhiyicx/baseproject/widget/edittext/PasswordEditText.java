@@ -53,8 +53,9 @@ public class PasswordEditText extends EditText {
         /**
          * 默认隐藏密码
          */
-        setInputType(hide);
-        setRightIcon(false);
+//        setInputType(hide);
+        setInputType(show);
+        setRightIcon(true);
     }
 
     /**

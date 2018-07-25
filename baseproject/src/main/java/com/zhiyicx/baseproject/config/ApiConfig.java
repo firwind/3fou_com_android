@@ -41,6 +41,7 @@ public class ApiConfig {
 
     public static final String URL_ABOUT_US = "api/" + API_VERSION_2 + "/aboutus";// 关于我们网站
     public static final String URL_JIPU_SHOP = "http://haoshe.hotime.cn";// 豪舍购物地址
+    public static final String URL_USE_RECOMMEND = APP_DOMAIN+"download/application.html";// 应用推荐
     //public static final String URL_INTEGRATION_SHOP = "api/" + API_VERSION_2 + "/currency/shop";// 积分商城地址
     public static final String URL_INTEGRATION_SHOP = "http://haoshe.hotime.cn";// 积分商城地址
 
@@ -1148,6 +1149,9 @@ public class ApiConfig {
     public static final String APP_PATH_CURRENCY_ADDRESS_MANAGE = "api/" + API_VERSION_2 + "/bcwallet/address_manage";
     //获取币种地址列表
     public static final String APP_PATH_CURRENCY_ADDRESS_LIST = "api/" + API_VERSION_2 + "/bcwallet/address_list";
+    //账本列表
+    public static final String APP_PATH_CURRENCY_ACCOUNT_BOOK_LIST = "api/" + API_VERSION_2 + "/bcwallet/list";
+
     //充币
     public static final String APP_PATH_CURRENCY_RECHARGE = "api/"+API_VERSION_2+"/bcwallet/recharge_wallet";
 

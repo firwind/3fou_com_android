@@ -19,7 +19,11 @@ import java.util.List;
  */
 
 public class AccountBookFragment extends TSViewPagerFragmentV2{
-
+    public static int ACCOUNT_BOOK_ALL = 0;
+    public static int ACCOUNT_BOOK_RECHARGE = 1;
+    public static int ACCOUNT_BOOK_DEPOSIT = 2;
+    public static int ACCOUNT_BOOK_EXCHANGE = 3;
+    public static int ACCOUNT_BOOK_CHECK = 4;
 
     public static AccountBookFragment newInstance(){
         AccountBookFragment fragment = new AccountBookFragment();
@@ -82,11 +86,11 @@ public class AccountBookFragment extends TSViewPagerFragmentV2{
 
     @Override
     protected List<Fragment> initFragments() {
-        return Arrays.asList(AccountBookChildFragment.newInstance("1"),
-                AccountBookChildFragment.newInstance("2"),
-                AccountBookChildFragment.newInstance("3"),
-                AccountBookChildFragment.newInstance("4"),
-                AccountBookChildFragment.newInstance("5"));
+        return Arrays.asList(AccountBookChildFragment.newInstance(ACCOUNT_BOOK_ALL),
+                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_RECHARGE),
+                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_DEPOSIT),
+                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_CHECK),
+                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_EXCHANGE));
     }
 
     @Override

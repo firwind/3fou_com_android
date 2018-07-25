@@ -57,7 +57,7 @@
                             style="@style/style_edit_white_container">
 
                             <TextView
-                                style="@style/style_small_text"
+                                style="@style/style_bind_account_text"
                                 android:text="@string/phone_number" />
 
                             <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
@@ -71,6 +71,7 @@
 
                         <!--邮箱注册-->
                         <LinearLayout
+                            android:visibility="visible"
                             android:id="@+id/ll_register_by_email"
                             style="@style/style_edit_white_container">
 
@@ -163,10 +164,14 @@
 
                 </LinearLayout>
 
-                <ImageView style="@style/style_divider_horizontal_light" />
+                <ImageView
+                    android:visibility="gone"
+                    style="@style/style_divider_horizontal_light" />
 
 
-                <LinearLayout style="@style/style_edit_white_container">
+                <LinearLayout
+                    android:visibility="gone"
+                    style="@style/style_edit_white_container">
 
                     <TextView
                         style="@style/style_bind_account_text"

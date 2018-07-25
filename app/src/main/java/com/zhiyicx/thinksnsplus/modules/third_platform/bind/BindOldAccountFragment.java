@@ -139,13 +139,13 @@ public class BindOldAccountFragment extends TSFragment<BindOldAccountContract.Pr
                     setConfirmEnable();
                 });
 
-        // 密码
-        RxTextView.textChanges(mEtSurePassword)
-                .compose(this.bindToLifecycle())
-                .subscribe(charSequence -> {
-                    mIsAffirmPasswordEdited = !TextUtils.isEmpty(charSequence.toString());
-                    setConfirmEnable();
-                });
+//        // 密码
+//        RxTextView.textChanges(mEtSurePassword)
+//                .compose(this.bindToLifecycle())
+//                .subscribe(charSequence -> {
+//                    mIsAffirmPasswordEdited = !TextUtils.isEmpty(charSequence.toString());
+//                    setConfirmEnable();
+//                });
         // 密码输入框观察
         RxTextView.textChanges(mEtLoginPassword)
                 .compose(this.bindToLifecycle())
@@ -167,10 +167,10 @@ public class BindOldAccountFragment extends TSFragment<BindOldAccountContract.Pr
                 .compose(mRxPermissions.ensure(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE))
                 .subscribe(aBoolean -> {
                     if (aBoolean) {// 获取到了权限
-                        if (!mEtLoginPassword.getText().toString().equals(mEtSurePassword.getText().toString())) {
-                            showErrorTips(getString(R.string.password_diffrent));
-                            return;
-                        }
+//                        if (!mEtLoginPassword.getText().toString().equals(mEtSurePassword.getText().toString())) {
+//                            showErrorTips(getString(R.string.password_diffrent));
+//                            return;
+//                        }
                         if (mThridInfoBean != null) {
                             mPresenter.bindAccount(mThridInfoBean, mEtLoginName.getText().toString(),
                                     mEtLoginPassword.getText().toString(),
@@ -236,7 +236,7 @@ public class BindOldAccountFragment extends TSFragment<BindOldAccountContract.Pr
             mEtInvitationCode.setText("");
             mEtVerifyCode.setText("");
             mEtPhone.setText("");
-            mEtSurePassword.setText("");
+//            mEtSurePassword.setText("");
             mEtCompleteInput.requestFocus();
             DeviceUtils.hideSoftKeyboard(getContext(), mEtLoginPassword);
             goHome();
@@ -291,7 +291,7 @@ public class BindOldAccountFragment extends TSFragment<BindOldAccountContract.Pr
      * 设置登录按钮是否可点击
      */
     private void setConfirmEnable() {
-        if (mNameEdited && mIsPasswordEdited && mIsPhoneEdited && mIsVerifyEdited && mIsAffirmPasswordEdited) {
+        if (mNameEdited && mIsPasswordEdited && mIsPhoneEdited && mIsVerifyEdited /*&& mIsAffirmPasswordEdited*/) {
             mBtLoginLogin.setEnabled(true);
         } else {
             mBtLoginLogin.setEnabled(false);

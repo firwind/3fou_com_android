@@ -3,9 +3,6 @@ package com.zhiyicx.thinksnsplus.modules.currency.accountbook;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
@@ -31,11 +28,11 @@ import javax.inject.Inject;
 
 public class AccountBookChildFragment extends TSListFragment<AccountBookChildContract.Presenter,AccountBookListBean>
         implements AccountBookChildContract.View{
-
-    public static AccountBookChildFragment newInstance(String tag){
+    private int mTag;
+    public static AccountBookChildFragment newInstance(int tag){
         AccountBookChildFragment fragment = new AccountBookChildFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(IntentKey.SEARCH_TAG,tag);
+        bundle.putInt(IntentKey.SEARCH_TAG,tag);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -57,6 +54,14 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
     }
 
     @Override
+    protected void initData() {
+        super.initData();
+        if (getArguments()!=null){
+            mTag = getArguments().getInt(IntentKey.SEARCH_TAG);
+        }
+    }
+
+    @Override
     protected boolean isLayzLoad() {
         return true;
     }
@@ -69,6 +74,11 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
     @Override
     protected boolean setStatusbarGrey() {
         return false;
+    }
+
+    @Override
+    protected boolean isNeedRefreshDataWhenComeIn() {
+        return true;
     }
 
     @Override
@@ -168,5 +178,8 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
     }
 
 
-
+    @Override
+    public int getBookTag() {
+        return mTag;
+    }
 }
