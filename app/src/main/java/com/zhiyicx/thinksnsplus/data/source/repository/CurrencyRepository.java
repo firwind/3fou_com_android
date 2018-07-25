@@ -52,16 +52,9 @@ public class CurrencyRepository implements ICurrencyRepository {
     }
 
     @Override
-    public Observable<TeamBean> getTeamList(Context context) {
-        String teamBeanJson = JsonUtils.getJson("MyTeam", context);
-        TeamBean teamBean = new Gson().fromJson(teamBeanJson, TeamBean.class);
-        return Observable.just(teamBean)
-                .map(new Func1<TeamBean, TeamBean>() {
-                    @Override
-                    public TeamBean call(TeamBean s) {
-                        return s;
-                    }
-                }).subscribeOn(Schedulers.io())
+    public Observable<List<TeamBean.TeamListBean>> getTeamList(String type, int grade) {
+        return mCurrencyClient.getTeamList(type, grade)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

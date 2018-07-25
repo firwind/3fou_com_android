@@ -17,13 +17,14 @@
             style="@style/style_edit_white_container">
 
             <TextView
-                style="@style/style_small_text"
+
+                style="@style/style_bind_account_text"
                 android:text="@string/username" />
 
             <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/et_complete_input"
                 style="@style/style_edit"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:completionThreshold="@integer/login_hint_mix_count"
                 android:hint="@string/username_input_hint"
@@ -54,7 +55,9 @@
             style="@style/style_edit_white_container">
 
             <TextView
+
                 style="@style/style_bind_account_text"
+
                 android:text="@string/phone_number" />
 
             <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
@@ -111,7 +114,7 @@
         <LinearLayout style="@style/style_edit_white_container">
 
             <TextView
-                style="@style/style_small_text"
+                style="@style/style_bind_account_text"
                 android:text="@string/password" />
 
             <com.zhiyicx.baseproject.widget.edittext.PasswordEditText
@@ -152,7 +155,7 @@
             <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
                 android:id="@+id/et_invitation_code"
                 style="@style/style_passward_edit"
-                android:hint="@string/input_invitation_code"
+                android:hint="@string/input_invitation_code_v2"
 
                 android:maxLength="@integer/password_maxlenght" />
 

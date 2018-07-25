@@ -173,6 +173,7 @@ public class RegisterPresenter extends AppBasePresenter<RegisterContract.View>
         if (checkPasswordLength(password)) {
             return;
         }
+
         mRootView.setRegisterBtEnabled(false);
         Subscription registerSub = mUserInfoRepository.registerByPhone(phone, name, vertifyCode, password,invite)
                 .flatMap(authBean -> {
@@ -335,14 +336,14 @@ public class RegisterPresenter extends AppBasePresenter<RegisterContract.View>
             mRootView.showMessage(mContext.getString(R.string.username_toast_hint));
             return true;
         }
-        if (RegexUtils.isUsernameNoNumberStart(name)) {// 数字开头
-            mRootView.showMessage(mContext.getString(R.string.username_toast_not_number_start_hint));
-            return true;
-        }
-        if (!RegexUtils.isUsername(name)) {// 用户名只能包含数字、字母和下划线
-            mRootView.showMessage(mContext.getString(R.string.username_toast_not_symbol_hint));
-            return true;
-        }
+//        if (RegexUtils.isUsernameNoNumberStart(name)) {// 数字开头
+//            mRootView.showMessage(mContext.getString(R.string.username_toast_not_number_start_hint));
+//            return true;
+//        }
+//        if (!RegexUtils.isUsername(name)) {// 用户名只能包含数字、字母和下划线
+//            mRootView.showMessage(mContext.getString(R.string.username_toast_not_symbol_hint));
+//            return true;
+//        }
         return false;
     }
 

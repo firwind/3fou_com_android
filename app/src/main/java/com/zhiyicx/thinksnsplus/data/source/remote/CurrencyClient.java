@@ -16,6 +16,12 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
+import com.zhiyicx.thinksnsplus.data.beans.SystemConversationBean;
+import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
+
+import java.util.List;
+
+
 public interface CurrencyClient {
 
     @GET(ApiConfig.APP_PATH_GET_MY_CURRENCY_LIST)
@@ -35,4 +41,12 @@ public interface CurrencyClient {
 
 
 
+    /**
+     * 获取团队列表
+     * @param type 获取币种
+     * @param grade 推荐人等级
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_MY_TEAM_LIST)
+    Observable<List<TeamBean.TeamListBean>> getTeamList(@Path ("type") String type, @Path("grade") int grade);
 }

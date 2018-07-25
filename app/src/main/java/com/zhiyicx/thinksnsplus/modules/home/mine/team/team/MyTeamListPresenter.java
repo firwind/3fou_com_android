@@ -8,6 +8,7 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.team.team;
  */
 
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
+import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
@@ -37,12 +38,24 @@ public class MyTeamListPresenter extends AppBasePresenter<MyTeamListContract.Vie
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        Subscription subscribe = currencyRepository.getTeamList(mContext)
-                .subscribe(new BaseSubscribeForV2<TeamBean>() {
+        Subscription subscribe = currencyRepository.getTeamList(mRootView.getCurrencyType(),mRootView.getLevel())
+                .subscribe(new BaseSubscribeForV2<List<TeamBean.TeamListBean>>() {
                     @Override
-                    protected void onSuccess(TeamBean data) {
-                        mRootView.getTotal(data.getTotal(),data.getUnit());
-                        mRootView.onNetResponseSuccess(data.getTeamList(), isLoadMore);
+                    protected void onSuccess(List<TeamBean.TeamListBean> data) {
+                        mRootView.onNetResponseSuccess(data, isLoadMore);
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        Throwable throwable = new Throwable(message);
+                        mRootView.onResponseError(throwable, isLoadMore);
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        LogUtils.e(throwable, throwable.getMessage());
+                        mRootView.onResponseError(throwable, isLoadMore);
                     }
                 });
         addSubscrebe(subscribe);

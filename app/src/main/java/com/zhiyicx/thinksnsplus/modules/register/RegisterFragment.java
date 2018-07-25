@@ -68,6 +68,8 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
     DeleteEditText mInviteCode;
     @BindView(R.id.et_regist_password)
     PasswordEditText mEtRegistPassword;
+    @BindView(R.id.et_sure_password)
+    PasswordEditText mEtSurePassword;
     @BindView(R.id.bt_regist_regist)
     LoadingButton mBtRegistRegist;
     @BindView(R.id.tv_error_tip)
@@ -89,6 +91,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
     private boolean isPassEdited;
     private boolean mIsVertifyCodeEnalbe = true;
     private boolean isRegisting = false;
+    private boolean mIsAffirmPasswordEdited;
     private boolean mIsToourist;
 
     private int mCurrentRegisterType = REGISTER_PHONE; // 默认手机注册
@@ -168,18 +171,18 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
     }
 
     private void initListener() {
-        // 用户名观察
-        RxTextView.textChanges(mEtRegistUsername)
-                .compose(this.bindToLifecycle())
-                .subscribe(charSequence -> {
-                    if (StringUtils.isSpecialChar(charSequence.toString())){
-                        showMessage(getString(R.string.edit_user_name_hint));
-                    }else {
-                        showMessage("");
-                    }
-                    isNameEdited = !TextUtils.isEmpty(charSequence.toString())&&charSequence.toString().getBytes().length>4&& !StringUtils.isSpecialChar(charSequence.toString());
-                    setConfirmEnable();
-                });
+//        // 用户名观察
+//        RxTextView.textChanges(mEtRegistUsername)
+//                .compose(this.bindToLifecycle())
+//                .subscribe(charSequence -> {
+//                    if (StringUtils.isSpecialChar(charSequence.toString())){
+//                        showMessage(getString(R.string.edit_user_name_hint));
+//                    }else {
+//                        showMessage("");
+//                    }
+//                    isNameEdited = !TextUtils.isEmpty(charSequence.toString())&&charSequence.toString().getBytes().length>4&& !StringUtils.isSpecialChar(charSequence.toString());
+//                    setConfirmEnable();
+//                });
         // 电话号码观察
         RxTextView.textChanges(mEtRegistPhone)
                 .compose(this.bindToLifecycle())
@@ -238,7 +241,13 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
                     }
                 });
 
-
+        // 密码
+        RxTextView.textChanges(mEtSurePassword)
+                .compose(this.bindToLifecycle())
+                .subscribe(charSequence -> {
+                    mIsAffirmPasswordEdited = !TextUtils.isEmpty(charSequence.toString());
+                    setConfirmEnable();
+                });
         // 点击发送验证码
         RxView.clicks(mBtRegistSendVertifyCode)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)   //两秒钟之内只取一个点击事件，防抖操作
@@ -273,7 +282,10 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
 //                        showMessage(getString(R.string.can_not_use_protected_name));
 //                        return;
 //                    }
-
+                    if (!mEtRegistPassword.getText().toString().equals(mEtSurePassword.getText().toString())) {
+                        showMessage(getString(R.string.password_diffrent));
+                        return;
+                    }
                     // 获取到了权限
                     if (permission.granted) {
                         // 手机号注册
@@ -290,7 +302,7 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
                                     , mEtRegisterEmail.getText().toString().trim()
                                     , mEtRegistVertifyCode.getText().toString().trim()
                                     , mEtRegistPassword.getText().toString().trim()
-                                    ,mInviteCode.getText().toString().trim()
+                                    , mInviteCode.getText().toString().trim()
                             );
                         }
 
@@ -383,8 +395,8 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
      * 设置确定按钮是否可点击
      */
     private void setConfirmEnable() {
-        
-        if (isNameEdited && isCodeEdited && isPassEdited && !isRegisting) {
+
+        if (/*isNameEdited &&*/ isCodeEdited && isPassEdited && mIsAffirmPasswordEdited && !isRegisting) {
             if ((mCurrentRegisterType == REGISTER_PHONE && isPhoneEdited)
                     || (mCurrentRegisterType == REGISTER_EMAIL && isEmailEdited)) {
                 mBtRegistRegist.setEnabled(true);
@@ -438,11 +450,13 @@ public class RegisterFragment extends TSFragment<RegisterContract.Presenter> imp
         mEtRegistVertifyCode.setText("");
         mEtRegistPassword.setText("");
         mInviteCode.setText("");
+        mEtSurePassword.setText("");
         isNameEdited = false;
         isEmailEdited = false;
         isPhoneEdited = false;
         isCodeEdited = false;
         isPassEdited = false;
+        mIsAffirmPasswordEdited = false;
         setConfirmEnable();
     }
 

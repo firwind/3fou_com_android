@@ -27,7 +27,7 @@ public interface ICurrencyRepository {
      * 获取币种
      * @return
      */
-    Observable<TeamBean> getTeamList(Context context);
+    Observable<List<TeamBean.TeamListBean>> getTeamList(String type,int grade);
     /**
      * 获取收益明细
      * @return

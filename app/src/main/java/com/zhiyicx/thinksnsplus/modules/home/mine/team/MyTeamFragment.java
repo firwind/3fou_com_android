@@ -71,7 +71,7 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
     private TypeChoosePopupWindow mTypeChoosePopupWindow;// 类型选择框 付费、置顶
     Unbinder unbinder;
     private CommonAdapter adapter;
-
+    private String mCurrnecyType;
     public static MyTeamFragment newInstance(Bundle bundle) {
         MyTeamFragment fragment = new MyTeamFragment();
         fragment.setArguments(bundle);
@@ -92,6 +92,7 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 CurrencyTypeBean typeBean = (CurrencyTypeBean) adapter.getDatas().get(position);
                 mTeamSpinner.setText(typeBean.getCurrencyName());
+                mCurrnecyType = typeBean.getCurrencyName();
                 EventBus.getDefault().post(typeBean.getId(), EventBusTagConfig.EVENT_SELECT_CURRENCY);
                 mTypeChoosePopupWindow.dismiss();
             }
@@ -205,9 +206,9 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
     protected List<Fragment> initFragments() {
         if (mFragmentList == null) {
             mFragmentList = new ArrayList<>();
-            mFragmentList.add(MyTeamListFragment.instance(0));
-            mFragmentList.add(MyTeamListFragment.instance(1));
-            mFragmentList.add(MyTeamListFragment.instance(2));
+            mFragmentList.add(MyTeamListFragment.instance(0,mCurrnecyType));
+            mFragmentList.add(MyTeamListFragment.instance(1,mCurrnecyType));
+            mFragmentList.add(MyTeamListFragment.instance(2,mCurrnecyType));
         }
         return mFragmentList;
     }

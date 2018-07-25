@@ -30,9 +30,9 @@ public class ApiConfig {
     //    public static final String APP_DOMAIN_DEV = "https://dev.zhibocloud.cn/";// 模拟在线正式服务器
 //    public static final String APP_DOMAIN_TEST = "http://test-plus.zhibocloud.cn/";// 在线测试服务器
     public static final String APP_DOMAIN_TEST = "http://test.faceke.com/";// 在线测试服务器
-//    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
+    //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
     public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
-//    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
+    //    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
 //    public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://192.168.2.152/";// 乔老师本地服务器
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
@@ -67,7 +67,6 @@ public class ApiConfig {
     public static final String APP_PATH_CHANGE_PASSWORD_V2 = "api/" + API_VERSION_2 + "/user/password";// 修改密码
     public static final String APP_PATH_FIND_PASSWORD_V2 = "api/" + API_VERSION_2 + "/user/retrieve-password";// 找回密码
     /**
-     *
      * 注册 RegitstClient
      */
     public static final String APP_PATH_REGISTER = "api/" + API_VERSION_2 + "/users";// 注册
@@ -133,8 +132,8 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_INFO_S_FACE = "api/" + API_VERSION_2 + "/easemob/groups";// 获取群信息,只返回群头像，
     public static final String APP_PATH_GET_GROUP_INFO_OFFICIAL = "api/" + API_VERSION_2 + "/easemob/group/getOfficialGroup";// 获取所有官方群
     public static final String APP_PATH_GET_GROUP_INFO_S_FACE_V2 = "api/" + API_VERSION_2 + "/easemob/group/newGroupList";// 获取用户加入的群组列表
-    public static final String APP_PATH_GET_GROUP_RECOMMEND= "api/" + API_VERSION_2 + "/group/randomquery";// 获取推荐群
-    public static final String APP_PATH_GET_GROUP_SEARCE= "api/" + API_VERSION_2 + "/easemob/group/search";// 搜索群
+    public static final String APP_PATH_GET_GROUP_RECOMMEND = "api/" + API_VERSION_2 + "/group/randomquery";// 获取推荐群
+    public static final String APP_PATH_GET_GROUP_SEARCE = "api/" + API_VERSION_2 + "/easemob/group/search";// 搜索群
     public static final String APP_PATH_GET_GROUP_ADD_MEMBER = "api/" + API_VERSION_2 + "/easemob/group/member";// 修改成员 添加POST 移除delete
     public static final String APP_PATH_GET_GROUP_ADD_NOTICE = "api/" + API_VERSION_2 + "/easemob/group/addnotice";// 发布群公告
     public static final String APP_PATH_GET_GROUP_UPDATE_NOTICE = "api/" + API_VERSION_2 + "/easemob/group/updatenotice";// 更新群公告
@@ -143,20 +142,20 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_ADD_MUTE = "api/" + API_VERSION_2 + "/easemob/group/addmute";// 开启禁言
     public static final String APP_PATH_GET_GROUP_REMOVE_MUTE = "api/" + API_VERSION_2 + "/easemob/group/removemute";// 移除禁言
     public static final String APP_PATH_GET_GROUP_ADD_ROLU = "api/" + API_VERSION_2 + "/easemob/group/addadmin";// 添加群角色
-    public static final String APP_PATH_GET_GROUP_ALBUM = "api/"+API_VERSION_2+"/easemob/group/images/pic";//提交群相册图片
-    public static final String APP_PATH_GET_GROUP_ALBUM_LIST = "api/"+API_VERSION_2+"/easemob/group/images/pic";//获取群相册图片列表
+    public static final String APP_PATH_GET_GROUP_ALBUM = "api/" + API_VERSION_2 + "/easemob/group/images/pic";//提交群相册图片
+    public static final String APP_PATH_GET_GROUP_ALBUM_LIST = "api/" + API_VERSION_2 + "/easemob/group/images/pic";//获取群相册图片列表
     public static final String APP_PATH_GET_GROUP_ADMIN_LIST = "api/" + API_VERSION_2 + "/easemob/group/getadmin";// 获取管理员/讲师/主持人列表
-    public static final String APP_PATH_GET_GROUP_REMOVE_ADMIN= "api/" + API_VERSION_2 + "/easemob/group/removeadmin";// 删除群角色（管理员/讲师/主持人）
-    public static final String APP_PATH_GET_GROUP_SET_STICK= "api/" + API_VERSION_2 + "/easemob/group/addstick";// 设置置顶
-    public static final String APP_PATH_GET_GROUP_CANCEL_STICK= "api/" + API_VERSION_2 + "/easemob/group/delstick";// 取消置顶
-    public static final String APP_PATH_GET_GROUP_GET_STICKS= "api/" + API_VERSION_2 + "/easemob/group/getstick";// 获取置顶ID
-    public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP= "api/" + API_VERSION_2 + "/easemob/group/upgradegroup";// 升级群
-    public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP_CLAUSE= "api/" + API_VERSION_2 + "/easemob/group/getClause";// 群套餐
-    public static final String APP_PATH_GET_GROUP_REPORT_GROUP= "api/" + API_VERSION_2 + "/easemob/group/report";//举报群
-    public static final String APP_PATH_GET_SIMPLE_GROUP_INFO= "api/" + API_VERSION_2 + "/easemob/group/grouplist";//简单获取群信息
-    public static final String APP_PATH_GET_GROUP_INFO_NEW= "api/" + API_VERSION_2 + "/easemob/group/groupinfo";//简单获取群信息
-    public static final String APP_PATH_GET_GROUP_MEMBER_INFO_NEW= "api/" + API_VERSION_2 + "/easemob/group/memberlist";//获取群成员信息
-    public static final String APP_PATH_GET_GROUP_MEMBER_IS_ADD_GROUP= "api/" + API_VERSION_2 + "/easemob/group/isGroupMember";//是否加入该群
+    public static final String APP_PATH_GET_GROUP_REMOVE_ADMIN = "api/" + API_VERSION_2 + "/easemob/group/removeadmin";// 删除群角色（管理员/讲师/主持人）
+    public static final String APP_PATH_GET_GROUP_SET_STICK = "api/" + API_VERSION_2 + "/easemob/group/addstick";// 设置置顶
+    public static final String APP_PATH_GET_GROUP_CANCEL_STICK = "api/" + API_VERSION_2 + "/easemob/group/delstick";// 取消置顶
+    public static final String APP_PATH_GET_GROUP_GET_STICKS = "api/" + API_VERSION_2 + "/easemob/group/getstick";// 获取置顶ID
+    public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP = "api/" + API_VERSION_2 + "/easemob/group/upgradegroup";// 升级群
+    public static final String APP_PATH_GET_GROUP_UPGRADE_GROUP_CLAUSE = "api/" + API_VERSION_2 + "/easemob/group/getClause";// 群套餐
+    public static final String APP_PATH_GET_GROUP_REPORT_GROUP = "api/" + API_VERSION_2 + "/easemob/group/report";//举报群
+    public static final String APP_PATH_GET_SIMPLE_GROUP_INFO = "api/" + API_VERSION_2 + "/easemob/group/grouplist";//简单获取群信息
+    public static final String APP_PATH_GET_GROUP_INFO_NEW = "api/" + API_VERSION_2 + "/easemob/group/groupinfo";//简单获取群信息
+    public static final String APP_PATH_GET_GROUP_MEMBER_INFO_NEW = "api/" + API_VERSION_2 + "/easemob/group/memberlist";//获取群成员信息
+    public static final String APP_PATH_GET_GROUP_MEMBER_IS_ADD_GROUP = "api/" + API_VERSION_2 + "/easemob/group/isGroupMember";//是否加入该群
 
     /**
      * 关注粉丝 FollowFansClient
@@ -1127,22 +1126,28 @@ public class ApiConfig {
 
     public static final String APP_MARKET_DOMAIN = "http://api.jinse.com/";
     ///v4/market/currencyList?version=3.2.0&source=android  获取币种列表
-  ///v3/market/list?currency_type=btc&type=1&currency=CNY&version=3.2.0&source=android  获取单个coin在交易所的列表
+    ///v3/market/list?currency_type=btc&type=1&currency=CNY&version=3.2.0&source=android  获取单个coin在交易所的列表
 
     /**
-     * 币种相关
+     * 行情
      */
     //币种排行
     public static final String APP_PATH_MARKET_CURRENCY_RANK_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency/ranks";
     //k线图数据
     public static final String APP_PATH_GET_CURRENCY_KLINE_DATA = "api/" + API_VERSION_2 + "/jinsecaijing/getklines";
 
+    /**
+     * 我的团队
+     */
+    //获取团队列表
+    public static final String APP_PATH_GET_MY_TEAM_LIST = "api/" + API_VERSION_2 + "/distribut/getReferrerDown";
+
     //钱包首页，币种列表
-    public static final String APP_PATH_GET_MY_CURRENCY_LIST = "api/"+API_VERSION_2+"/bcwallet/index";
+    public static final String APP_PATH_GET_MY_CURRENCY_LIST = "api/" + API_VERSION_2 + "/bcwallet/index";
     //币种地址管理，包括 增加，删除，编辑
     public static final String APP_PATH_CURRENCY_ADDRESS_MANAGE = "api/" + API_VERSION_2 + "/bcwallet/address_manage";
     //获取币种地址列表
-    public static final String APP_PATH_CURRENCY_ADDRESS_LIST = "api/"+API_VERSION_2+"/bcwallet/address_list";
+    public static final String APP_PATH_CURRENCY_ADDRESS_LIST = "api/" + API_VERSION_2 + "/bcwallet/address_list";
 
 
 }

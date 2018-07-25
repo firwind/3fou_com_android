@@ -18,6 +18,8 @@ public class MyTeamListContract {
     interface View extends ITSListView<TeamBean.TeamListBean, Presenter> {
 
         void getTotal(String total,String unit);
+        String getCurrencyType();
+        int getLevel();
     }
 
     interface Presenter extends ITSListPresenter<TeamBean.TeamListBean> {

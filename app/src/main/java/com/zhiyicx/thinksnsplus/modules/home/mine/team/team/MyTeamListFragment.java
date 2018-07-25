@@ -14,18 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.hyphenate.util.DensityUtil;
 import com.zhiyicx.baseproject.base.TSListFragment;
-import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.common.utils.recycleviewdecoration.CustomLinearDecoration;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
-import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
-import com.zhiyicx.thinksnsplus.modules.home.mine.team.MyTeamActivity;
 import com.zhiyicx.thinksnsplus.modules.home.mine.team.earnings.EarningsDetailActivity;
 import com.zhiyicx.thinksnsplus.widget.popwindow.TypeChoosePopupWindow;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -36,6 +31,7 @@ import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
 
 import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -43,6 +39,7 @@ import butterknife.Unbinder;
 public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presenter, TeamBean.TeamListBean>
         implements MyTeamListContract.View {
     public static String LEVEL_STATE = "level";
+    public static String CURRENCY_TYPE = "currencyType";
     @Inject
     MyTeamListPresenter myTeamListPresenter;
     Unbinder unbinder;
@@ -51,11 +48,15 @@ public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presen
     private String mUnit;
     private CommonAdapter adapter;
     private TypeChoosePopupWindow mTypeChoosePopupWindow;// 类型选择框 付费、置顶
+    private int mLevel;
+    private String mCurrencyType;
 
-    public static MyTeamListFragment instance(int level) {
+
+    public static MyTeamListFragment instance(int level, String currencyType) {
         MyTeamListFragment fragment = new MyTeamListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(LEVEL_STATE, level);
+        bundle.putString(CURRENCY_TYPE, currencyType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -63,6 +64,7 @@ public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presen
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
 
     }
 
@@ -94,6 +96,10 @@ public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presen
     @Override
     protected void initData() {
         super.initData();
+        if (getArguments() != null) {
+            mLevel = getArguments().getInt(LEVEL_STATE);
+            mCurrencyType = getArguments().getString(CURRENCY_TYPE);
+        }
         getTeamListData();
     }
 
@@ -141,6 +147,16 @@ public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presen
     }
 
     @Override
+    public String getCurrencyType() {
+        return mCurrencyType;
+    }
+
+    @Override
+    public int getLevel() {
+        return mLevel;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
@@ -171,8 +187,9 @@ public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presen
     protected boolean useEventBus() {
         return true;
     }
+
     @Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_SELECT_CURRENCY)
-    public void getCurrencyId(Long id){
+    public void getCurrencyId(Long id) {
         getTeamListData();
-}
+    }
 }

@@ -94,6 +94,7 @@ public class AccountManagementFragment extends TSFragment<AccountManagementContr
 
     }
 
+
     @Override
     protected void initData() {
         mPresenter.getBindSocialAcounts();
@@ -110,11 +111,11 @@ public class AccountManagementFragment extends TSFragment<AccountManagementContr
                 .compose(this.bindToLifecycle())
                 .subscribe(aVoid -> {
                     if (mCurrentUser != null) {
-                        // 三方绑定,解绑逻辑.是否保留某个主信息无法解绑. [邮箱和手机必须保留一个]
-                        if (!TextUtils.isEmpty(mCurrentUser.getPhone()) && TextUtils.isEmpty(mCurrentUser.getEmail())) {
-                            showSnackErrorMessage(getString(R.string.you_must_bind_email_to_unbind_phone));
-                            return;
-                        }
+//                        // 三方绑定,解绑逻辑.是否保留某个主信息无法解绑. [邮箱和手机必须保留一个] 由于取消邮箱绑定  所以不检测
+//                        if (!TextUtils.isEmpty(mCurrentUser.getPhone()) && TextUtils.isEmpty(mCurrentUser.getEmail())) {
+//                            showSnackErrorMessage(getString(R.string.you_must_bind_email_to_unbind_phone));
+//                            return;
+//                        }
                         // 跳转绑定/解绑手机号
                         Intent intent = new Intent(getActivity(), AccountBindActivity.class);
                         if (!AppApplication.getmCurrentLoginAuth().getUser().isInitial_password()) {

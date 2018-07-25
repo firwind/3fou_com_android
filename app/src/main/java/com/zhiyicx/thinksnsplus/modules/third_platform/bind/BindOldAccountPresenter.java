@@ -206,14 +206,14 @@ public class BindOldAccountPresenter extends AppBasePresenter<BindOldAccountCont
             mRootView.showErrorTips(mContext.getString(R.string.username_toast_hint));
             return true;
         }
-        if (RegexUtils.isUsernameNoNumberStart(name)) {// 数字开头
-            mRootView.showErrorTips(mContext.getString(R.string.username_toast_not_number_start_hint));
-            return true;
-        }
-        if (!RegexUtils.isUsername(name)) {// 用户名只能包含数字、字母和下划线
-            mRootView.showErrorTips(mContext.getString(R.string.username_toast_not_symbol_hint));
-            return true;
-        }
+//        if (RegexUtils.isUsernameNoNumberStart(name)) {// 数字开头
+//            mRootView.showErrorTips(mContext.getString(R.string.username_toast_not_number_start_hint));
+//            return true;
+//        }
+//        if (!RegexUtils.isUsername(name)) {// 用户名只能包含数字、字母和下划线
+//            mRootView.showErrorTips(mContext.getString(R.string.username_toast_not_symbol_hint));
+//            return true;
+//        }
         return false;
     }
 
