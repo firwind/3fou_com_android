@@ -2,7 +2,9 @@ package com.zhiyicx.baseproject.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Message;
 import android.support.annotation.DrawableRes;
@@ -26,6 +28,7 @@ import com.zhiyicx.baseproject.widget.EmptyView;
 import com.zhiyicx.common.BuildConfig;
 import com.zhiyicx.common.utils.FileUtils;
 import com.zhiyicx.common.utils.NetUtils;
+import com.zhiyicx.common.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,6 +146,22 @@ public abstract class TSWebFragment extends TSFragment {
         public void startShowImageActivity(String url) {
             onWebImageClick(url, mImageList);
         }
+    }
+
+    private class JavascriptInterfaceForDownloadFile{
+
+        @android.webkit.JavascriptInterface
+        public void startDownLoadFile(String url){
+            if(!url.startsWith("http")){
+                ToastUtils.showToast(getContext(),"下载地址不正确！");
+                return;
+            }
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");
+            intent.setData(Uri.parse(url));
+            getContext().startActivity(intent);
+        }
+
     }
 
     /**
@@ -327,6 +346,8 @@ public abstract class TSWebFragment extends TSFragment {
         mWebView.addJavascriptInterface(new JavascriptInterfaceForImageClick(context), "imageListener");
         // 获取 html
         mWebView.addJavascriptInterface(new JavaScriptForHandleHtml(), "handleHtml");
+
+        mWebView.addJavascriptInterface(new JavascriptInterfaceForDownloadFile(),"download");
 
         saveData(mWebSettings);
         newWin(mWebSettings);
