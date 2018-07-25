@@ -2,7 +2,9 @@ package com.zhiyicx.thinksnsplus.modules.currency.address;
 
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
+import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
+import com.zhiyicx.thinksnsplus.data.source.repository.CurrencyRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -11,6 +13,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
+
 /**
  * author: huwenyong
  * date: 2018/7/20 10:01
@@ -18,7 +25,11 @@ import javax.inject.Inject;
  * version:
  */
 @FragmentScoped
-public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressContract.View> implements CurrencyAddressContract.Presenter{
+public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressContract.View> implements CurrencyAddressContract.Presenter {
+
+    @Inject
+    CurrencyRepository mCurrencyRepository;
+
     @Inject
     public CurrencyAddressPresenter(CurrencyAddressContract.View rootView) {
         super(rootView);
@@ -26,12 +37,18 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        /*List<CurrencyAddress> list = new ArrayList<>();
-        list.add(new CurrencyAddress());
-        list.add(new CurrencyAddress());
-        list.add(new CurrencyAddress());
-        list.add(new CurrencyAddress());*/
-        mRootView.onNetResponseSuccess(null,isLoadMore);
+        addSubscrebe(mCurrencyRepository.getCurrencyAddressList(mRootView.getCurrency()).subscribe(new BaseSubscribeForV2<String>() {
+            @Override
+            protected void onSuccess(String data) {
+                mRootView.onNetResponseSuccess(null, isLoadMore);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                mRootView.onResponseError(e,isLoadMore);
+            }
+        }));
     }
 
     @Override
@@ -42,5 +59,71 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
     @Override
     public boolean insertOrUpdateData(@NotNull List<CurrencyAddress> data, boolean isLoadMore) {
         return false;
+    }
+
+    @Override
+    public void addCurrencyAddress(String address, String mark) {
+        addSubscrebe(mCurrencyRepository.addCurrencyAddress(mRootView.getCurrency(), address, mark)
+                .doOnSubscribe(() -> {
+                    mRootView.showSnackLoadingMessage("请稍后...");
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<String>() {
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.startRefrsh();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+                }));
+    }
+
+    @Override
+    public void editCurrencyAddress(String address_id, String address, String mark) {
+        addSubscrebe(mCurrencyRepository.editCurrencyAddress(address_id, address, mark)
+                .doOnSubscribe(() -> {
+                    mRootView.showSnackLoadingMessage("请稍后...");
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<String>() {
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.startRefrsh();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+                }));
+    }
+
+    @Override
+    public void deleteCurrencyAddress(String address_id) {
+        addSubscrebe(mCurrencyRepository.deleteCurrencyAddress(address_id)
+                .doOnSubscribe(() -> {
+                    mRootView.showSnackLoadingMessage("请稍后...");
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<String>() {
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.startRefrsh();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+                }));
     }
 }

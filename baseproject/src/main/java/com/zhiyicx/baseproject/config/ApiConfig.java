@@ -29,7 +29,7 @@ public class ApiConfig {
     public static final boolean APP_IS_NEED_SSH_CERTIFICATE = true;// 自定义证书时使用false
     //    public static final String APP_DOMAIN_DEV = "https://dev.zhibocloud.cn/";// 模拟在线正式服务器
 //    public static final String APP_DOMAIN_TEST = "http://test-plus.zhibocloud.cn/";// 在线测试服务器
-    public static final String APP_DOMAIN_TEST = "http://faceke.com/";// 在线测试服务器
+    public static final String APP_DOMAIN_TEST = "http://test.faceke.com/";// 在线测试服务器
 //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
     public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
 //    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
@@ -37,7 +37,7 @@ public class ApiConfig {
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
 
-    public static String APP_DOMAIN = APP_DOMAIN_FORMAL;
+    public static String APP_DOMAIN = /*APP_DOMAIN_FORMAL*/APP_DOMAIN_TEST;
 
     public static final String URL_ABOUT_US = "api/" + API_VERSION_2 + "/aboutus";// 关于我们网站
     public static final String URL_JIPU_SHOP = "http://haoshe.hotime.cn";// 豪舍购物地址
@@ -1129,13 +1129,20 @@ public class ApiConfig {
     ///v4/market/currencyList?version=3.2.0&source=android  获取币种列表
   ///v3/market/list?currency_type=btc&type=1&currency=CNY&version=3.2.0&source=android  获取单个coin在交易所的列表
 
-  /**
-   * 行情
-   */
-   //币种排行
-  public static final String APP_PATH_MARKET_CURRENCY_RANK_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency/ranks";
-  //k线图数据
-  public static final String APP_PATH_GET_CURRENCY_KLINE_DATA = "api/"+API_VERSION_2+"/jinsecaijing/getklines";
+    /**
+     * 币种相关
+     */
+    //币种排行
+    public static final String APP_PATH_MARKET_CURRENCY_RANK_LIST = "api/" + API_VERSION_2 + "/jinsecaijing/currency/ranks";
+    //k线图数据
+    public static final String APP_PATH_GET_CURRENCY_KLINE_DATA = "api/" + API_VERSION_2 + "/jinsecaijing/getklines";
+
+    //钱包首页，币种列表
+    public static final String APP_PATH_GET_MY_CURRENCY_LIST = "api/"+API_VERSION_2+"/bcwallet/index";
+    //币种地址管理，包括 增加，删除，编辑
+    public static final String APP_PATH_CURRENCY_ADDRESS_MANAGE = "api/" + API_VERSION_2 + "/bcwallet/address_manage";
+    //获取币种地址列表
+    public static final String APP_PATH_CURRENCY_ADDRESS_LIST = "api/"+API_VERSION_2+"/bcwallet/address_list";
 
 
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 /**
  * author: huwenyong
@@ -16,7 +17,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 public class RechargeCurrencyActivity extends TSActivity<RechargeCurrencyPresenter,RechargeCurrencyFragment>{
     @Override
     protected RechargeCurrencyFragment getFragment() {
-        return RechargeCurrencyFragment.newInstance();
+        return RechargeCurrencyFragment.newInstance(getIntent().getStringExtra(IntentKey.CURRENCY_IN_MARKET));
     }
 
     @Override
@@ -30,8 +31,9 @@ public class RechargeCurrencyActivity extends TSActivity<RechargeCurrencyPresent
 
 
 
-    public static void startRechargeCurrencyActivity(Context mContext){
+    public static void startRechargeCurrencyActivity(Context mContext,String currency){
         Intent intent = new Intent(mContext,RechargeCurrencyActivity.class);
+        intent.putExtra(IntentKey.CURRENCY_IN_MARKET,currency);
         mContext.startActivity(intent);
     }
 

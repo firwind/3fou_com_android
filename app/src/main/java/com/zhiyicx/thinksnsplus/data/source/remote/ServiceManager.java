@@ -152,6 +152,7 @@ public class ServiceManager {
     public MarketClient getMarketClient() {
         return mMarketClient;
     }
+
     public CurrencyClient getmCurrencyClient() {
         return mCurrencyClient;
     }

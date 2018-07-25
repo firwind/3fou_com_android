@@ -29,10 +29,11 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
 
     private EditCurrencyAddressDialog mEditAddressDialog;
 
-    public static CurrencyAddressFragment newInstance(boolean isSelect){
+    public static CurrencyAddressFragment newInstance(String currency,boolean isSelect){
 
         CurrencyAddressFragment fragment = new CurrencyAddressFragment();
         Bundle bundle = new Bundle();
+        bundle.putString(IntentKey.CURRENCY_IN_MARKET,currency);
         bundle.putBoolean(IntentKey.IS_SELECT,isSelect);
         fragment.setArguments(bundle);
 
@@ -135,21 +136,17 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
             mEditAddressDialog.setOnAddressConfirmedListener(new EditCurrencyAddressDialog.OnAddressConfirmedListener() {
                 @Override
                 public void onAddressAdd(String address, String tag) {
-                    mListDatas.add(new CurrencyAddress("1",tag,address));
-                    refreshData();
+                    mPresenter.addCurrencyAddress(address,tag);
                 }
 
                 @Override
                 public void onAddressEdit(String id, String address, String tag) {
-                    mEditAddressDialog.getEditAddress().address = address;
-                    mEditAddressDialog.getEditAddress().tag = tag;
-                    refreshData();
+                    mPresenter.editCurrencyAddress(id,address,tag);
                 }
 
                 @Override
                 public void onAddressDeleted(String id) {
-                    mListDatas.remove(mEditAddressDialog.getEditAddress());
-                    refreshData();
+                    mPresenter.deleteCurrencyAddress(id);
                 }
             });
         }
@@ -158,4 +155,8 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
             mEditAddressDialog.showDialog();
     }
 
+    @Override
+    public String getCurrency() {
+        return getArguments().getString(IntentKey.CURRENCY_IN_MARKET);
+    }
 }

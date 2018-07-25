@@ -113,8 +113,10 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
                 R.layout.item_currency_balance,mListDatas) {
             @Override
             protected void convert(ViewHolder holder, CurrencyBalanceBean currencyBalanceBean, int position) {
-                holder.getView(R.id.bt_recharge).setOnClickListener(v-> RechargeCurrencyActivity.startRechargeCurrencyActivity(getContext()));
-                holder.getView(R.id.bt_withdraw).setOnClickListener(v-> WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext()));
+                holder.getView(R.id.bt_recharge).setOnClickListener(v->
+                        RechargeCurrencyActivity.startRechargeCurrencyActivity(getContext(),currencyBalanceBean.currency));
+                holder.getView(R.id.bt_withdraw).setOnClickListener(v->
+                        WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext(),currencyBalanceBean.currency));
                 holder.getView(R.id.bt_exchange).setVisibility(position%2==0?View.VISIBLE:View.GONE);
             }
         };

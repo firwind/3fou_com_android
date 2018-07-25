@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.withdraw.WithdrawCurrencyActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
@@ -26,9 +27,10 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
     @BindView(R.id.iv_qrcode)
     ImageView mIvQrcode;
 
-    public static RechargeCurrencyFragment newInstance(){
+    public static RechargeCurrencyFragment newInstance(String currency){
         RechargeCurrencyFragment fragment = new RechargeCurrencyFragment();
         Bundle bundle = new Bundle();
+        bundle.putString(IntentKey.CURRENCY_IN_MARKET,currency);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -83,7 +85,7 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
                 AccountBookActivity.startActivity(mActivity);
                 break;
             case R.id.ll_withdraw:
-                WithdrawCurrencyActivity.startWithdrawCurrencyActivity(mActivity);
+                WithdrawCurrencyActivity.startWithdrawCurrencyActivity(mActivity,getArguments().getString(IntentKey.CURRENCY_IN_MARKET));
                 break;
         }
     }

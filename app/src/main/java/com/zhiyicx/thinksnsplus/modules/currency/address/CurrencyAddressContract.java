@@ -14,11 +14,13 @@ import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 public interface CurrencyAddressContract {
 
     interface View extends ITSListView<CurrencyAddress,Presenter>{
-
+        String getCurrency();
     }
 
     interface Presenter extends ITSListPresenter<CurrencyAddress>{
-
+        void addCurrencyAddress(String address,String mark);
+        void editCurrencyAddress(String address_id,String address,String mark);
+        void deleteCurrencyAddress(String address_id);
     }
 
 }

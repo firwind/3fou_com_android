@@ -26,6 +26,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -69,6 +70,41 @@ public class CurrencyRepository implements ICurrencyRepository {
         String earnings = JsonUtils.getJson("Earnings", context);
         return Observable.just(earnings).map((Func1<String, List<TeamBean.TeamListBean>>) s -> new Gson().fromJson(s, new TypeToken<List<TeamBean.TeamListBean>>() {
         }.getType()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> getMyCurrencyList() {
+        return mCurrencyClient.getMyCurrencyList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> getCurrencyAddressList(String currency) {
+        return mCurrencyClient.getCurrencyAddressList(currency)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> addCurrencyAddress(String currency, String address, String mark) {
+        return mCurrencyClient.addCurrencyAddress(currency,address,mark)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> editCurrencyAddress(String address_id, String address, String mark) {
+        return mCurrencyClient.editCurrencyAddress(address_id,address,mark)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> deleteCurrencyAddress(String address_id) {
+        return mCurrencyClient.deleteCurrencyAddress(address_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

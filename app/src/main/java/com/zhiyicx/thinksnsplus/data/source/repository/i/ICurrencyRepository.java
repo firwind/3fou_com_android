@@ -33,4 +33,43 @@ public interface ICurrencyRepository {
      * @return
      */
     Observable<List<TeamBean.TeamListBean>> getEarningList(Context context,int id);
+
+    /**
+     * 获取首页币种列表
+     * @return
+     */
+    Observable<String> getMyCurrencyList();
+
+    /**
+     * 获取币种地址列表
+     * @param currency
+     * @return
+     */
+    Observable<String> getCurrencyAddressList(String currency);
+
+    /**
+     * 添加币种地址
+     * @param currency
+     * @param address
+     * @param mark
+     * @return
+     */
+    Observable<String> addCurrencyAddress(String currency,String address,String mark);
+
+    /**
+     * 编辑币种地址
+     * @param address_id
+     * @param address
+     * @param mark
+     * @return
+     */
+    Observable<String> editCurrencyAddress(String address_id,String address,String mark);
+
+    /**
+     * 删除币种地址
+     * @param address_id
+     * @return
+     */
+    Observable<String> deleteCurrencyAddress(String address_id);
+
 }

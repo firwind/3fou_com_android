@@ -19,7 +19,8 @@ import com.zhiyicx.thinksnsplus.i.IntentKey;
 public class CurrencyAddressActivity extends TSActivity<CurrencyAddressPresenter,CurrencyAddressFragment>{
     @Override
     protected CurrencyAddressFragment getFragment() {
-        return CurrencyAddressFragment.newInstance(getIntent().getBooleanExtra(IntentKey.IS_SELECT,false));
+        return CurrencyAddressFragment.newInstance(getIntent().getStringExtra(IntentKey.CURRENCY_IN_MARKET),
+                getIntent().getBooleanExtra(IntentKey.IS_SELECT,false));
     }
 
     @Override
@@ -32,10 +33,11 @@ public class CurrencyAddressActivity extends TSActivity<CurrencyAddressPresenter
     }
 
 
-    public static void startActivityForResult(Fragment mFragment, boolean isSelect, int requestCode){
+    public static void startCurrencyAddressActivityForResult(Fragment mFragment,String currency, boolean isSelect, int requestCode){
 
         Intent intent = new Intent(mFragment.getContext(),CurrencyAddressActivity.class);
         intent.putExtra(IntentKey.IS_SELECT,isSelect);
+        intent.putExtra(IntentKey.CURRENCY_IN_MARKET,currency);
         mFragment.startActivityForResult(intent,requestCode);
 
     }

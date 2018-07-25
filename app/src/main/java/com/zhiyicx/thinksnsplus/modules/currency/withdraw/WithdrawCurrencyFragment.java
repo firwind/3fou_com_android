@@ -38,12 +38,15 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     EditText mEtAddress;
     @BindView(R.id.et_tag)
     EditText mEtTag;
+    @BindView(R.id.et_num)
+    EditText mEtNum;
 
     private RightTopMenu mRightTopMenu;
 
-    public static WithdrawCurrencyFragment newInstance(){
+    public static WithdrawCurrencyFragment newInstance(String currency){
         WithdrawCurrencyFragment fragment = new WithdrawCurrencyFragment();
         Bundle bundle = new Bundle();
+        bundle.putString(IntentKey.CURRENCY_IN_MARKET,currency);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -101,7 +104,9 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     public void onClick(View v){
         switch (v.getId()){
             case R.id.iv_address:
-                CurrencyAddressActivity.startActivityForResult(this,true, IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS);
+                CurrencyAddressActivity.startCurrencyAddressActivityForResult(this,
+                        getArguments().getString(IntentKey.CURRENCY_IN_MARKET),true,
+                        IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS);
                 break;
         }
     }
@@ -118,10 +123,16 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
                     mEtAddress.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).address );
                     mEtTag.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).tag );
 
+                    mEtNum.setFocusable(true);
+                    mEtNum.requestFocusFromTouch();
+
                     break;
                 case IntentKey.REQ_CODE_GET_SCAN_RESULT:
 
                     mEtAddress.setText( data.getStringExtra(IntentKey.RESULT_SCAN) );
+
+                    mEtNum.setFocusable(true);
+                    mEtNum.requestFocusFromTouch();
 
                     break;
             }

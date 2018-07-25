@@ -194,6 +194,7 @@ public class ServiceModule {
     MarketClient provideMarketClient(Retrofit retrofit){
         return retrofit.create(MarketClient.class);
     }
+
     @Singleton
     @Provides
     CurrencyClient provideCurrencyClient(Retrofit retrofit){
