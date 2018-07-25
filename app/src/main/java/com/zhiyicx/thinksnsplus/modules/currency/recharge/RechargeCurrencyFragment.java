@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.baseproject.widget.EmptyView;
 import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
@@ -113,6 +114,7 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
     public void setCurrencyAddress(String address) {
 
         if(TextUtils.isEmpty(address)){
+            setLoadViewHolderImag(R.mipmap.img_default_internet);
             showLoadViewLoadError();
         }else {
             closeLoadingView();

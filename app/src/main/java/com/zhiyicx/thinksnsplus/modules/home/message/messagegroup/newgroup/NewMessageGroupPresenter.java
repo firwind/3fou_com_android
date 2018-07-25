@@ -64,6 +64,7 @@ public class NewMessageGroupPresenter extends AppBasePresenter<NewMessageGroupCo
                 .subscribe(new BaseSubscribeForV2<ExpandChatGroupBean>() {
                     @Override
                     protected void onSuccess(ExpandChatGroupBean data) {
+                        mRootView.dismissSnackBar();
                         List<GroupParentBean> list = new ArrayList<>();
                         GroupParentBean bean1 = new GroupParentBean("官方群聊",data.official);
                         GroupParentBean bean2 = new GroupParentBean("热门群聊",data.hot);
