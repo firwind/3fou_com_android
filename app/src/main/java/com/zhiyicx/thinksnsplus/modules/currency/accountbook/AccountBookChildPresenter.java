@@ -61,7 +61,7 @@ public class AccountBookChildPresenter extends AppBasePresenter<AccountBookChild
             //时间
             bean.setTime(System.currentTimeMillis()-i*1000*60);
             //钱包地址
-            CurrencyAddress address = new CurrencyAddress("11","tag"+i,(i*1000)+"dssssdddddssssssssseeeeeee");
+            CurrencyAddress address = new CurrencyAddress("11","tag"+i,(i*1000)+"dssssdddddssssssssseeeeeee","BCB");
             bean.setAddress(address);
 
             list.add(bean);
@@ -79,7 +79,7 @@ public class AccountBookChildPresenter extends AppBasePresenter<AccountBookChild
         //时间
         bean.setTime(System.currentTimeMillis());
         //钱包地址
-        CurrencyAddress address = new CurrencyAddress("22","tag","dssssdddddssssssssseeeeeee");
+        CurrencyAddress address = new CurrencyAddress("22","tag","dssssdddddssssssssseeeeeee","BCB");
         bean.setAddress(address);
 
         list.add(bean);

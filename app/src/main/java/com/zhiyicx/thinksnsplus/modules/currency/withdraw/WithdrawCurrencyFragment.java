@@ -121,7 +121,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
                 case IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS:
 
                     mEtAddress.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).address );
-                    mEtTag.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).tag );
+                    mEtTag.setText( ((CurrencyAddress)data.getParcelableExtra(IntentKey.RESULT_CURRENCY_ADDRESS)).mark );
 
                     mEtNum.setFocusable(true);
                     mEtNum.requestFocusFromTouch();

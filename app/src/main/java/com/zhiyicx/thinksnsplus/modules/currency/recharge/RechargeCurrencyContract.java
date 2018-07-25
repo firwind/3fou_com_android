@@ -13,11 +13,12 @@ import com.zhiyicx.common.mvp.i.IBaseView;
 public interface RechargeCurrencyContract {
 
     interface View extends IBaseView<Presenter>{
-
+        String getCurrency();
+        void setCurrencyAddress(String address);
     }
 
     interface Presenter extends IBasePresenter{
-
+        void requestCurrencyAddress();
     }
 
 }

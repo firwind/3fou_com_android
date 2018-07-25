@@ -1,8 +1,10 @@
 package com.zhiyicx.thinksnsplus.modules.currency.recharge;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.common.utils.DeviceUtils;
@@ -26,6 +28,8 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
 
     @BindView(R.id.iv_qrcode)
     ImageView mIvQrcode;
+    @BindView(R.id.tv_address)
+    TextView mTvAddress;
 
     public static RechargeCurrencyFragment newInstance(String currency){
         RechargeCurrencyFragment fragment = new RechargeCurrencyFragment();
@@ -39,13 +43,11 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
     protected void initView(View rootView) {
 
         setCenterTextColor(R.color.white);
-        mIvQrcode.setImageBitmap(ImageUtils.createQrcodeImage("xxxxxx",
-                getResources().getDimensionPixelSize(R.dimen.dp156),null));
     }
 
     @Override
     protected void initData() {
-
+        mPresenter.requestCurrencyAddress();
     }
 
     @Override
@@ -90,4 +92,33 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
         }
     }
 
+    @Override
+    protected boolean setUseCenterLoading() {
+        return true;
+    }
+
+    @Override
+    protected void setLoadingViewHolderClick() {
+        super.setLoadingViewHolderClick();
+        initData();
+    }
+
+    @Override
+    public String getCurrency() {
+        return getArguments().getString(IntentKey.CURRENCY_IN_MARKET);
+    }
+
+
+    @Override
+    public void setCurrencyAddress(String address) {
+
+        if(TextUtils.isEmpty(address)){
+            showLoadViewLoadError();
+        }else {
+            closeLoadingView();
+            mTvAddress.setText(address);
+            mIvQrcode.setImageBitmap(ImageUtils.createQrcodeImage(address,
+                    getResources().getDimensionPixelSize(R.dimen.dp156),null));
+        }
+    }
 }

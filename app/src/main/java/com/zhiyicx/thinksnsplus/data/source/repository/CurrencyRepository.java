@@ -11,6 +11,8 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 import com.zhiyicx.thinksnsplus.data.source.remote.CurrencyClient;
@@ -68,14 +70,14 @@ public class CurrencyRepository implements ICurrencyRepository {
     }
 
     @Override
-    public Observable<String> getMyCurrencyList() {
+    public Observable<List<CurrencyBalanceBean>> getMyCurrencyList() {
         return mCurrencyClient.getMyCurrencyList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Observable<String> getCurrencyAddressList(String currency) {
+    public Observable<List<CurrencyAddress>> getCurrencyAddressList(String currency) {
         return mCurrencyClient.getCurrencyAddressList(currency)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -98,6 +100,13 @@ public class CurrencyRepository implements ICurrencyRepository {
     @Override
     public Observable<String> deleteCurrencyAddress(String address_id) {
         return mCurrencyClient.deleteCurrencyAddress(address_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> rechargeCurrencyAddress(String currency) {
+        return mCurrencyClient.rechargeCurrency(currency)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -87,7 +87,7 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
         CommonAdapter<CurrencyAddress> adapter = new CommonAdapter<CurrencyAddress>(mActivity, R.layout.item_currency_address, mListDatas) {
             @Override
             protected void convert(ViewHolder holder, CurrencyAddress currencyAddress, int position) {
-                holder.getTextView(R.id.tv_tag).setText(currencyAddress.tag);
+                holder.getTextView(R.id.tv_tag).setText(currencyAddress.mark);
                 holder.getTextView(R.id.tv_address).setText(currencyAddress.address);
 
                 holder.getView(R.id.iv_edit).setOnClickListener(v->showEditCurrencyAddressDialog(currencyAddress));

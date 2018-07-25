@@ -25,13 +25,14 @@
         <EditText
             android:id="@+id/et_address"
             android:paddingLeft="@dimen/dp6"
-            android:paddingRight="@dimen/dp20"
+            android:paddingRight="@dimen/dp30"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
             android:textSize="@dimen/sp13"
             android:hint="钱包地址"
-            android:maxLines="1"
+            android:singleLine="true"
+            android:digits="@string/only_number_or_letter"
             android:textColor="@color/black_deep"
             android:gravity="center_vertical"/>
 
@@ -63,7 +64,7 @@
             android:textSize="@dimen/sp13"
             android:hint="地址标签"
             android:textColor="@color/black_deep"
-            android:maxLines="1"
+            android:singleLine="true"
             android:gravity="center_vertical"/>
 
     </FrameLayout>

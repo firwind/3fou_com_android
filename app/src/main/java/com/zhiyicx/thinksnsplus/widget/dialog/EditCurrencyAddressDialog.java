@@ -63,7 +63,7 @@ public class EditCurrencyAddressDialog extends HBaseDialog implements TextWatche
 
         if(null != mEditAddress){
             ((EditText)getView(R.id.et_address)).setText(mEditAddress.address);
-            ((EditText)getView(R.id.et_tag)).setText(mEditAddress.tag);
+            ((EditText)getView(R.id.et_tag)).setText(mEditAddress.mark);
         }else {
             ((EditText)getView(R.id.et_address)).setText("");
             ((EditText)getView(R.id.et_tag)).setText("");
@@ -78,6 +78,7 @@ public class EditCurrencyAddressDialog extends HBaseDialog implements TextWatche
         ((TextView)getView(R.id.tv_cancel)).setText(null == mEditAddress ? "取消":"删除");
 
         getView(R.id.tv_confirm).setOnClickListener(v->{
+
             dismissDialog();
             if(null != mListener){
                 String address = ((EditText)getView(R.id.et_address)).getText().toString();

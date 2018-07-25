@@ -22,7 +22,7 @@ import rx.Observer;
  * version:
  */
 
-public class MyCurrencyPresenter extends AppBasePresenter<MyCurrencyContract.View> implements MyCurrencyContract.Presenter{
+public class MyCurrencyPresenter extends AppBasePresenter<MyCurrencyContract.View> implements MyCurrencyContract.Presenter {
 
     @Inject
     CurrencyRepository mCurrencyRepository;
@@ -34,12 +34,16 @@ public class MyCurrencyPresenter extends AppBasePresenter<MyCurrencyContract.Vie
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        addSubscrebe(mCurrencyRepository.getMyCurrencyList().subscribe(new BaseSubscribeForV2<String>() {
+        addSubscrebe(mCurrencyRepository.getMyCurrencyList().subscribe(new BaseSubscribeForV2<List<CurrencyBalanceBean>>() {
             @Override
-            protected void onSuccess(String data) {
-                List<CurrencyBalanceBean> list = new ArrayList<>();
-                list.add(new CurrencyBalanceBean("bcb",0,0));
-                mRootView.onNetResponseSuccess(list,isLoadMore);
+            protected void onSuccess(List<CurrencyBalanceBean> list) {
+                mRootView.onNetResponseSuccess(list, isLoadMore);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                mRootView.onResponseError(e, isLoadMore);
             }
 
             @Override

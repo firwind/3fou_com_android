@@ -14,29 +14,31 @@ import com.zhiyicx.baseproject.base.BaseListBean;
 
 public class CurrencyBalanceBean extends BaseListBean implements Parcelable{
 
+    /*"id": 1,
+  "currency": "BCB",
+  "user_id": 70,
+  "balance": "0.0000000000",
+   "created_at": "2018-07-25 14:46:45",
+    "updated_at": "2018-07-25 14:46:45",
+   "chain": 1,
+    "address_id": 0*/
+    public String id;
     public String currency;
-    public double avaliable_num;
-    public double frezz_num;
-
-    public CurrencyBalanceBean(String currency,double avaliable_num,double frezz_num){
-        this.currency = currency;
-        this.avaliable_num = avaliable_num;
-        this.frezz_num = frezz_num;
-    }
+    public String balance;
 
     protected CurrencyBalanceBean(Parcel in) {
         super(in);
+        id = in.readString();
         currency = in.readString();
-        avaliable_num = in.readDouble();
-        frezz_num = in.readDouble();
+        balance = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
+        dest.writeString(id);
         dest.writeString(currency);
-        dest.writeDouble(avaliable_num);
-        dest.writeDouble(frezz_num);
+        dest.writeString(balance);
     }
 
     @Override

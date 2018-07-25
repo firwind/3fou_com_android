@@ -37,18 +37,19 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        addSubscrebe(mCurrencyRepository.getCurrencyAddressList(mRootView.getCurrency()).subscribe(new BaseSubscribeForV2<String>() {
-            @Override
-            protected void onSuccess(String data) {
-                mRootView.onNetResponseSuccess(null, isLoadMore);
-            }
+        addSubscrebe(mCurrencyRepository.getCurrencyAddressList(mRootView.getCurrency()).
+                subscribe(new BaseSubscribeForV2<List<CurrencyAddress>>() {
+                    @Override
+                    protected void onSuccess(List<CurrencyAddress> data) {
+                        mRootView.onNetResponseSuccess(data, isLoadMore);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                mRootView.onResponseError(e,isLoadMore);
-            }
-        }));
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.onResponseError(e, isLoadMore);
+                    }
+                }));
     }
 
     @Override
@@ -67,8 +68,7 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
                 .doOnSubscribe(() -> {
                     mRootView.showSnackLoadingMessage("请稍后...");
                 })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
@@ -79,6 +79,12 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
                     public void onError(Throwable e) {
                         super.onError(e);
                         mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        mRootView.dismissSnackBar();
                     }
                 }));
     }
@@ -89,8 +95,7 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
                 .doOnSubscribe(() -> {
                     mRootView.showSnackLoadingMessage("请稍后...");
                 })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
@@ -101,6 +106,12 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
                     public void onError(Throwable e) {
                         super.onError(e);
                         mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        mRootView.dismissSnackBar();
                     }
                 }));
     }
@@ -108,11 +119,11 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
     @Override
     public void deleteCurrencyAddress(String address_id) {
         addSubscrebe(mCurrencyRepository.deleteCurrencyAddress(address_id)
+                .subscribeOn(Schedulers.io())
                 .doOnSubscribe(() -> {
                     mRootView.showSnackLoadingMessage("请稍后...");
                 })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
@@ -124,6 +135,13 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
                         super.onError(e);
                         mRootView.showSnackErrorMessage(e.getMessage());
                     }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        mRootView.dismissSnackBar();
+                    }
+
                 }));
     }
 }

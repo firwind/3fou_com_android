@@ -9,6 +9,8 @@ package com.zhiyicx.thinksnsplus.data.source.repository.i;
 
 import android.content.Context;
 
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
@@ -38,14 +40,14 @@ public interface ICurrencyRepository {
      * 获取首页币种列表
      * @return
      */
-    Observable<String> getMyCurrencyList();
+    Observable<List<CurrencyBalanceBean>> getMyCurrencyList();
 
     /**
      * 获取币种地址列表
      * @param currency
      * @return
      */
-    Observable<String> getCurrencyAddressList(String currency);
+    Observable<List<CurrencyAddress>> getCurrencyAddressList(String currency);
 
     /**
      * 添加币种地址
@@ -71,5 +73,12 @@ public interface ICurrencyRepository {
      * @return
      */
     Observable<String> deleteCurrencyAddress(String address_id);
+
+    /**
+     * 充币（获取钱包地址）
+     * @param currency
+     * @return
+     */
+    Observable<String> rechargeCurrencyAddress(String currency);
 
 }

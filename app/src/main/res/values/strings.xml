@@ -1213,4 +1213,6 @@
 
     <string name="no_permission_to_operate">您没有权限操作！</string>
 
+    <string name="only_number_or_letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
 </resources>

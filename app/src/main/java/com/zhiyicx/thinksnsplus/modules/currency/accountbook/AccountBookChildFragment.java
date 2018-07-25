@@ -108,7 +108,7 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
                 holder.getTextView(R.id.tv_record_time).setText(format.format(new Date(accountBookListBean.getTime())));
 
                 String address = "地址："+accountBookListBean.getAddress().address;
-                String tag = "地址标签："+accountBookListBean.getAddress().tag;
+                String tag = "地址标签："+accountBookListBean.getAddress().mark;
                 holder.getTextView(R.id.tv_address).setText(StringUtils.getColorfulString(address,3,
                         address.length()-1, Color.BLACK));
                 holder.getTextView(R.id.tv_address_tag).setText(StringUtils.getColorfulString(tag,5,tag.length(),Color.BLACK));

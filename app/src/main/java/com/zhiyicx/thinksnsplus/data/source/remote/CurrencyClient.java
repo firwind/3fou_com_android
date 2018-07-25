@@ -8,6 +8,10 @@ package com.zhiyicx.thinksnsplus.data.source.remote;
  */
 
 import com.zhiyicx.baseproject.config.ApiConfig;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
+
+import java.util.List;
 
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -24,21 +28,56 @@ import java.util.List;
 
 public interface CurrencyClient {
 
+    /**
+     * 获取钱包首页币种列表
+     * @return
+     */
     @GET(ApiConfig.APP_PATH_GET_MY_CURRENCY_LIST)
-    Observable<String> getMyCurrencyList();
+    Observable<List<CurrencyBalanceBean>> getMyCurrencyList();
 
+    /**
+     * 获取币种地址列表
+     * @param currency
+     * @return
+     */
     @GET(ApiConfig.APP_PATH_CURRENCY_ADDRESS_LIST)
-    Observable<String> getCurrencyAddressList(@Query("currency") String currency);
+    Observable<List<CurrencyAddress>> getCurrencyAddressList(@Query("currency") String currency);
 
+    /**
+     * 增加钱包地址
+     * @param currency
+     * @param address
+     * @param mark
+     * @return
+     */
     @POST(ApiConfig.APP_PATH_CURRENCY_ADDRESS_MANAGE)
-    Observable<String> addCurrencyAddress(@Query("address")String address,@Query("currency")String currency,@Query("mark")String mark);
+    Observable<String> addCurrencyAddress(@Query("currency")String currency,@Query("address")String address,@Query("mark")String mark);
 
+    /**
+     * 编辑钱包地址
+     * @param address_id
+     * @param address
+     * @param mark
+     * @return
+     */
     @GET(ApiConfig.APP_PATH_CURRENCY_ADDRESS_MANAGE)
     Observable<String> editCurrencyAddress(@Query("address_id")String address_id,@Query("address")String address,@Query("mark")String mark);
 
+    /**
+     * 删除钱包地址
+     * @param address_id
+     * @return
+     */
     @DELETE(ApiConfig.APP_PATH_CURRENCY_ADDRESS_MANAGE)
     Observable<String> deleteCurrencyAddress(@Query("address_id")String address_id);
 
+    /**
+     * 充币
+     * @param currency
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_CURRENCY_RECHARGE)
+    Observable<String> rechargeCurrency(@Query("currency")String currency);
 
 
     /**

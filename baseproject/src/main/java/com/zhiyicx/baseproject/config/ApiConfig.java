@@ -1148,6 +1148,7 @@ public class ApiConfig {
     public static final String APP_PATH_CURRENCY_ADDRESS_MANAGE = "api/" + API_VERSION_2 + "/bcwallet/address_manage";
     //获取币种地址列表
     public static final String APP_PATH_CURRENCY_ADDRESS_LIST = "api/" + API_VERSION_2 + "/bcwallet/address_list";
-
+    //充币
+    public static final String APP_PATH_CURRENCY_RECHARGE = "api/"+API_VERSION_2+"/bcwallet/recharge_wallet";
 
 }

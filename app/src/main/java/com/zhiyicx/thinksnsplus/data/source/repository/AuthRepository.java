@@ -162,7 +162,7 @@ public class AuthRepository implements IAuthRepository {
         AuthBean authBean = getAuthBean();
         mCommonClient.refreshToken()
                 .subscribeOn(Schedulers.io())
-                .retryWhen(new RetryWithDelay(MAX_RETRY_COUNTS, RETRY_DELAY_TIME))
+                /*.retryWhen(new RetryWithDelay(MAX_RETRY_COUNTS, RETRY_DELAY_TIME))*/
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<AuthBean>() {
                     @Override
