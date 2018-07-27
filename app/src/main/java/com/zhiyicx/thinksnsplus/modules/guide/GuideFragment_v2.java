@@ -30,7 +30,7 @@ import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
 
 public class GuideFragment_v2 extends TSFragment<GuideContract.Presenter> implements
         GuideContract.View,
-        OnBannerListener, ViewPager.OnPageChangeListener, TCountTimer.OnTimeListener {
+        OnBannerListener, /*ViewPager.OnPageChangeListener,*/ TCountTimer.OnTimeListener {
 
     @BindView(R.id.guide_banner)
     Banner mGuideBanner;
@@ -105,7 +105,7 @@ public class GuideFragment_v2 extends TSFragment<GuideContract.Presenter> implem
                         .buildTimeCount(time+1000)
                         .buildCanUseListener(urls.size() <= 1)// 单张图片
                         .buildOnTimeListener(this)
-                        .isNeedDisplayOffset(false)
+                        .isNeedDisplayOffset(true)
                         .buildCanUseOntick(false)
                         .build();
                 mGuideBanner.setBannerStyle(BannerConfig.NOT_INDICATOR);
@@ -115,7 +115,7 @@ public class GuideFragment_v2 extends TSFragment<GuideContract.Presenter> implem
                 mGuideBanner.setViewPagerIsScroll(false);
                 mGuideBanner.setDelayTime(time);
                 mGuideBanner.setOnBannerListener(this);
-                mGuideBanner.setOnPageChangeListener(this);
+                //mGuideBanner.setOnPageChangeListener(this);
             }
         }
     }
@@ -158,7 +158,7 @@ public class GuideFragment_v2 extends TSFragment<GuideContract.Presenter> implem
         mTimer.replease();
     }
 
-    @Override
+    /*@Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
@@ -193,7 +193,7 @@ public class GuideFragment_v2 extends TSFragment<GuideContract.Presenter> implem
     @Override
     public void onPageScrollStateChanged(int state) {
 
-    }
+    }*/
 
     @Override
     public void onTick() {

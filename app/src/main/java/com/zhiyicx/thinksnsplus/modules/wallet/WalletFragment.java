@@ -78,7 +78,7 @@ public class WalletFragment extends TSFragment<WalletContract.Presenter> impleme
 
     @Override
     protected String setCenterTitle() {
-        return getString(R.string.wallet);
+        return getString(R.string.cash);
     }
 
     @Override

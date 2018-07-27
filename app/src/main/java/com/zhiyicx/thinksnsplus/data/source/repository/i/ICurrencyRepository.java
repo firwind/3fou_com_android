@@ -9,6 +9,7 @@ package com.zhiyicx.thinksnsplus.data.source.repository.i;
 
 import android.content.Context;
 
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
@@ -89,7 +90,26 @@ public interface ICurrencyRepository {
      * @param currency
      * @return
      */
-    Observable<String> rechargeCurrencyAddress(String currency);
+    Observable<BaseJson<String>> rechargeCurrencyAddress(String currency);
 
+    /**
+     * 提币
+     * @param currency
+     * @param address
+     * @param mark
+     * @param isSave
+     * @param money
+     * @param remark
+     * @return
+     */
+    Observable<String> withdrawCurrency(String currency, String address, String mark, boolean isSave,
+                                          String money, String remark);
+
+    /**
+     * 获取转账手续费率
+     * @param currency
+     * @return
+     */
+    Observable<String> getWithdrawRate(String currency);
 
 }

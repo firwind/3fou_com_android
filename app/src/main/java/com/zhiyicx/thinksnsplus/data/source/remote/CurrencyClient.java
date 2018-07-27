@@ -8,6 +8,7 @@ package com.zhiyicx.thinksnsplus.data.source.remote;
  */
 
 import com.zhiyicx.baseproject.config.ApiConfig;
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 
@@ -78,7 +79,7 @@ public interface CurrencyClient {
      * @return
      */
     @POST(ApiConfig.APP_PATH_CURRENCY_RECHARGE)
-    Observable<String> rechargeCurrency(@Query("currency")String currency);
+    Observable<BaseJson<String>> rechargeCurrency(@Query("currency")String currency);
 
 
     /**
@@ -90,6 +91,37 @@ public interface CurrencyClient {
     @GET(ApiConfig.APP_PATH_GET_MY_TEAM_LIST)
     Observable<List<TeamBean.TeamListBean>> getTeamList(@Query ("type") String type, @Query("grade") int grade);
 
+    /**
+     * 账本
+     * @param max_id
+     * @param limit
+     * @param target_type
+     * @return
+     */
     @GET(ApiConfig.APP_PATH_CURRENCY_ACCOUNT_BOOK_LIST)
-    Observable<List<AccountBookListBean>> getAccountBookList(@Query("offset") Long max_id, @Query("limit") Integer limit , @Query("target_type") Integer target_type);
+    Observable<List<AccountBookListBean>> getAccountBookList(@Query("offset") Long max_id, @Query("limit") Integer limit ,
+                                                             @Query("target_type") Integer target_type);
+
+    /**
+     * 提币
+     * @param currency
+     * @param address
+     * @param mark
+     * @param isSave
+     * @param remark
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_WITHDRAW_CURRENCY)
+    Observable<String> withdrawCurrency(@Query("currency")String currency,@Query("to_address")String address,
+                                        @Query("mark")String mark,@Query("is_mark")String isSave,
+                                        @Query("money")String money,@Query("remark")String remark);
+
+    /**
+     * 获取提币手续费
+     * @param currency
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_WITHDRAW_RATE)
+    Observable<String> getWithdrawRate(@Query("currency")String currency);
+
 }

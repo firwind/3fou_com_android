@@ -2,14 +2,18 @@ package com.zhiyicx.thinksnsplus.modules.currency.withdraw;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hyphenate.util.DensityUtil;
 import com.lwy.righttopmenu.MenuItem;
 import com.lwy.righttopmenu.RightTopMenu;
+import com.trycatch.mysnackbar.Prompt;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.BackgroundRequestTaskBean;
@@ -32,7 +36,8 @@ import butterknife.OnClick;
  * version:
  */
 
-public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContract.Presenter> implements WithdrawCurrencyContract.View{
+public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContract.Presenter>
+        implements WithdrawCurrencyContract.View{
 
     @BindView(R.id.et_address)
     EditText mEtAddress;
@@ -40,6 +45,12 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     EditText mEtTag;
     @BindView(R.id.et_num)
     EditText mEtNum;
+    @BindView(R.id.cb_save)
+    CheckBox mCbSave;
+    @BindView(R.id.et_remark)
+    EditText mEtRemark;
+    @BindView(R.id.tv_avaliable_balance)
+    TextView mTvAvaliableBalance;
 
     private RightTopMenu mRightTopMenu;
 
@@ -84,6 +95,11 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     }
 
     @Override
+    protected boolean setUseCenterLoading() {
+        return true;
+    }
+
+    @Override
     protected void setRightClick() {
         //super.setRightClick();
         showRightTopMenu();
@@ -100,13 +116,22 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         return R.color.themeColor;
     }
 
-    @OnClick({R.id.iv_address})
+    @OnClick({R.id.iv_address,R.id.bt_confirm})
     public void onClick(View v){
         switch (v.getId()){
             case R.id.iv_address:
                 CurrencyAddressActivity.startCurrencyAddressActivityForResult(this,
                         getArguments().getString(IntentKey.CURRENCY_IN_MARKET),true,
                         IntentKey.REQ_CODE_SELECT_CURRENCY_ADDRESS);
+                break;
+            case R.id.bt_confirm:
+                if(checkData()){
+                    mPresenter.requestWithdrawCurrency(mEtAddress.getText().toString(),
+                            mEtTag.getText().toString(),
+                            mCbSave.isChecked(),
+                            mEtNum.getText().toString(),
+                            mEtRemark.getText().toString());
+                }
                 break;
         }
     }
@@ -167,4 +192,45 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         mRightTopMenu.showAsDropDown(mToolbarRight,DensityUtil.dip2px(mActivity,15),0);
     }
 
+    /**
+     * 本地校验提交数据
+     */
+    private boolean checkData(){
+
+        if(TextUtils.isEmpty(mEtAddress.getText().toString())){
+            showSnackErrorMessage("请输入接收地址！");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(mEtTag.getText().toString()) && mCbSave.isChecked()){
+            showSnackErrorMessage("请填写地址标签！");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(mEtNum.getText().toString())){
+            showSnackErrorMessage("请输入发送数量！");
+            return false;
+        }
+
+        return true;
+
+    }
+
+    @Override
+    public String getCurrency() {
+        return getArguments().getString(IntentKey.CURRENCY_IN_MARKET);
+    }
+
+    @Override
+    protected void snackViewDismissWhenTimeOut(Prompt prompt) {
+        super.snackViewDismissWhenTimeOut(prompt);
+        if(Prompt.SUCCESS == prompt){
+            mActivity.finish();
+        }
+    }
+
+    @Override
+    public void setBalanceAndRate(double balance, double rate) {
+        mTvAvaliableBalance.setText("可用余额："+balance+" "+getCurrency());
+    }
 }

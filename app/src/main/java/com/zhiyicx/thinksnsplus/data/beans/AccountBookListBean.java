@@ -14,39 +14,63 @@ import com.zhiyicx.baseproject.base.BaseListBean;
 
 public class AccountBookListBean extends BaseListBean implements Parcelable{
 
-    public int state;
-    public int op_type;
-    public CurrencyAddress address;
-    public long time;
-    public int currency_num;
-    public int currency_type;
-    public int currency_service_num;
+    public String id;
+    public int type;//1：入账、-1：支出、0：兑换',
+    public int target_type;//1、充值，2、提现，3、兑换，4、转入冻结',
+    public String currency;
+    public String number;//货币数量
+    public String number2;//要兑换的货币数量
+    public String rate;//币种费率,%
+    public String exchange_rate;//兑换比率
+    public int state;//'订单状态，0: 等待，1：审核，2：成功，-1: 失败',
+    public String currency2;
+    public String mark;
+    public String toaddress;
+    public String remark;
+    public String service_charge;
 
-    public AccountBookListBean(){
-
-    }
+    public long created_at;
+    public long updated_at;
 
     protected AccountBookListBean(Parcel in) {
         super(in);
+        id = in.readString();
+        type = in.readInt();
+        target_type = in.readInt();
+        currency = in.readString();
+        number = in.readString();
+        number2 = in.readString();
+        rate = in.readString();
+        exchange_rate = in.readString();
         state = in.readInt();
-        op_type = in.readInt();
-        address = in.readParcelable(CurrencyAddress.class.getClassLoader());
-        time = in.readLong();
-        currency_num = in.readInt();
-        currency_type = in.readInt();
-        currency_service_num = in.readInt();
+        currency2 = in.readString();
+        mark = in.readString();
+        toaddress = in.readString();
+        remark = in.readString();
+        service_charge = in.readString();
+        created_at = in.readLong();
+        updated_at = in.readLong();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
+        dest.writeString(id);
+        dest.writeInt(type);
+        dest.writeInt(target_type);
+        dest.writeString(currency);
+        dest.writeString(number);
+        dest.writeString(number2);
+        dest.writeString(rate);
+        dest.writeString(exchange_rate);
         dest.writeInt(state);
-        dest.writeInt(op_type);
-        dest.writeParcelable(address, flags);
-        dest.writeLong(time);
-        dest.writeInt(currency_num);
-        dest.writeInt(currency_type);
-        dest.writeInt(currency_service_num);
+        dest.writeString(currency2);
+        dest.writeString(mark);
+        dest.writeString(toaddress);
+        dest.writeString(remark);
+        dest.writeString(service_charge);
+        dest.writeLong(created_at);
+        dest.writeLong(updated_at);
     }
 
     @Override
@@ -65,60 +89,4 @@ public class AccountBookListBean extends BaseListBean implements Parcelable{
             return new AccountBookListBean[size];
         }
     };
-
-    public int getState() {
-        return state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
-    }
-
-    public int getOp_type() {
-        return op_type;
-    }
-
-    public void setOp_type(int op_type) {
-        this.op_type = op_type;
-    }
-
-    public CurrencyAddress getAddress() {
-        return address;
-    }
-
-    public void setAddress(CurrencyAddress address) {
-        this.address = address;
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
-
-    public int getCurrency_num() {
-        return currency_num;
-    }
-
-    public void setCurrency_num(int currency_num) {
-        this.currency_num = currency_num;
-    }
-
-    public int getCurrency_type() {
-        return currency_type;
-    }
-
-    public void setCurrency_type(int currency_type) {
-        this.currency_type = currency_type;
-    }
-
-    public int getCurrency_service_num() {
-        return currency_service_num;
-    }
-
-    public void setCurrency_service_num(int currency_service_num) {
-        this.currency_service_num = currency_service_num;
-    }
 }

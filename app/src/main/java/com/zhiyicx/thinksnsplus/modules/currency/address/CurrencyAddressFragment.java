@@ -1,6 +1,8 @@
 package com.zhiyicx.thinksnsplus.modules.currency.address;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -146,7 +148,17 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
 
                 @Override
                 public void onAddressDeleted(String id) {
-                    mPresenter.deleteCurrencyAddress(id);
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle("提示")
+                            .setMessage("是否删除？")
+                            .setPositiveButton("删除", (dialog, which) -> {
+                                mPresenter.deleteCurrencyAddress(id);
+                            })
+                            .setNegativeButton("取消", (dialog, which) -> {
+
+                            })
+                            .create()
+                            .show();
                 }
             });
         }

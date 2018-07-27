@@ -13,11 +13,16 @@ import com.zhiyicx.common.mvp.i.IBaseView;
 public interface WithdrawCurrencyContract {
 
     interface View extends IBaseView<Presenter>{
-
+        String getCurrency();
+        void setBalanceAndRate(double balance,double rate);
     }
 
     interface Presenter extends IBasePresenter{
 
+        void requestCostFeeRate();
+
+        void requestWithdrawCurrency(String address, String mark,
+                              boolean isSave, String money, String remark);
     }
 
 }

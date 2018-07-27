@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.currency.recharge;
 
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.source.repository.CurrencyRepository;
@@ -27,17 +28,18 @@ public class RechargeCurrencyPresenter extends AppBasePresenter<RechargeCurrency
     @Override
     public void requestCurrencyAddress() {
         mCurrencyRepository.rechargeCurrencyAddress(mRootView.getCurrency())
-                .subscribe(new BaseSubscribeForV2<String>() {
+                .subscribe(new BaseSubscribeForV2<BaseJson<String>>() {
                     @Override
-                    protected void onSuccess(String data) {
-                        mRootView.setCurrencyAddress(data);
+                    protected void onSuccess(BaseJson<String> data) {
+                        mRootView.setCurrencyAddress(data.getData());
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
                         mRootView.setCurrencyAddress(null);
                     }
+
                 });
     }
 }

@@ -71,6 +71,7 @@
             android:hint="选填"/>
 
         <CheckBox
+            android:id="@+id/cb_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -113,6 +114,7 @@
             android:inputType="numberDecimal"/>
 
         <TextView
+            android:id="@+id/tv_avaliable_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="可用余额：0BCB"
@@ -157,6 +159,7 @@
         style="@style/style_divider_horizontal"/>
 
     <EditText
+        android:id="@+id/et_remark"
         android:layout_marginTop="@dimen/dp32"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp100"
@@ -168,6 +171,7 @@
         android:background="@color/general_for_line_light"/>
     
     <Button
+        android:id="@+id/bt_confirm"
         android:layout_marginTop="@dimen/dp130"
         android:layout_width="@dimen/dp280"
         android:layout_height="@dimen/dp45"

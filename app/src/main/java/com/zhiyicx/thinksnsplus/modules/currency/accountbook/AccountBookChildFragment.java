@@ -112,23 +112,24 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
             @Override
             protected void convert(ViewHolder holder, AccountBookListBean accountBookListBean, int position) {
 
-                holder.getTextView(R.id.tv_num).setText("数量："+accountBookListBean.getCurrency_num()+"ETH");
-                holder.getTextView(R.id.tv_cost_num).setText("实际扣除："+accountBookListBean.getCurrency_service_num()+"ETH");
-                holder.getTextView(R.id.tv_service_num).setText("手续费："+accountBookListBean.getCurrency_service_num()+"ETH");
-                holder.getTextView(R.id.tv_record_time).setText(format.format(new Date(accountBookListBean.getTime())));
+                holder.getTextView(R.id.tv_num).setText("数量："+accountBookListBean.number+accountBookListBean.currency);
+                holder.getTextView(R.id.tv_cost_num).setText("实际扣除："+accountBookListBean.service_charge+accountBookListBean.currency);
+                holder.getTextView(R.id.tv_service_num).setText("手续费："+accountBookListBean.service_charge+accountBookListBean.currency);
+                holder.getTextView(R.id.tv_record_time).setText(format.format(new Date(accountBookListBean.updated_at*1000)));
 
-                String address = "地址："+accountBookListBean.getAddress().address;
-                String tag = "地址标签："+accountBookListBean.getAddress().mark;
+                String address = "地址："+accountBookListBean.toaddress;
+                String tag = "地址标签："+accountBookListBean.mark;
                 holder.getTextView(R.id.tv_address).setText(StringUtils.getColorfulString(address,3,
                         address.length()-1, Color.BLACK));
                 holder.getTextView(R.id.tv_address_tag).setText(StringUtils.getColorfulString(tag,5,tag.length(),Color.BLACK));
 
-                if(accountBookListBean.getOp_type() == 0){
+                //1：入账、-1：支出、0：兑换',
+                if(accountBookListBean.type == -1){
                     //提币
                     holder.getTextView(R.id.tv_record).setTextColor(withdrawColor);
                     holder.getTextView(R.id.tv_record_time).setTextColor(withdrawColor);
                     holder.getTextView(R.id.tv_record).setText("提币记录");
-                }else if(accountBookListBean.getOp_type() == 1){
+                }else if(accountBookListBean.type == 1){
                     //充币
                     holder.getTextView(R.id.tv_record).setTextColor(rechargeColor);
                     holder.getTextView(R.id.tv_record_time).setTextColor(rechargeColor);
@@ -140,8 +141,9 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
                     holder.getTextView(R.id.tv_record).setText("兑币记录");
                 }
 
+                //0: 等待，1：审核，2：成功，-1: 失败',
                 //审核中
-                if(accountBookListBean.getState() == 0){
+                if(accountBookListBean.state == 0){
                     holder.getTextView(R.id.tv_state).setText("审");
                     holder.getTextView(R.id.tv_state_desc).setText("等待审核");
                     holder.getTextView(R.id.tv_state).setTextColor(verifyColor);
@@ -150,14 +152,14 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
 
 
                     String desc = "未知状态";
-                    switch (accountBookListBean.getOp_type()){
-                        case 0:
+                    switch (accountBookListBean.type){
+                        case -1:
                             desc = "提币成功";
                             break;
                         case 1:
                             desc = "充币成功";
                             break;
-                        case 2:
+                        case 0:
                             desc = "兑币成功";
                             break;
                     }
@@ -166,7 +168,7 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
 
                     holder.getTextView(R.id.tv_state).setTextColor(successColor);
                     holder.getTextView(R.id.tv_state_desc).setTextColor(successColor);
-                    if(accountBookListBean.getOp_type() == 2){
+                    if(accountBookListBean.type == 0){
                         holder.getTextView(R.id.tv_state).setText("兑");
                         holder.getTextView(R.id.tv_state).setTextColor(withdrawColor);
                         holder.getTextView(R.id.tv_state_desc).setTextColor(withdrawColor);

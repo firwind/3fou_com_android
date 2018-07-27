@@ -31,6 +31,8 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
     ImageView mIvQrcode;
     @BindView(R.id.tv_address)
     TextView mTvAddress;
+    @BindView(R.id.tv_withdraw_dec)
+    TextView mTvWithdrawDesc;
 
     public static RechargeCurrencyFragment newInstance(String currency){
         RechargeCurrencyFragment fragment = new RechargeCurrencyFragment();
@@ -44,6 +46,7 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
     protected void initView(View rootView) {
 
         setCenterTextColor(R.color.white);
+        mTvWithdrawDesc.setText("将"+getArguments().getString(IntentKey.CURRENCY_IN_MARKET) + "转到其他地址");
     }
 
     @Override

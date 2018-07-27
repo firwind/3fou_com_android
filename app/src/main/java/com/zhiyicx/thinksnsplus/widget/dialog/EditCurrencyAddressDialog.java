@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.zhiyicx.common.utils.DeviceUtils;
+import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
@@ -78,6 +79,10 @@ public class EditCurrencyAddressDialog extends HBaseDialog implements TextWatche
         ((TextView)getView(R.id.tv_cancel)).setText(null == mEditAddress ? "取消":"删除");
 
         getView(R.id.tv_confirm).setOnClickListener(v->{
+            if(((EditText)getView(R.id.et_address)).getText().toString().length()<20){
+                ToastUtils.showToast(mContext,"请输入长度>=20位的地址");
+                return;
+            }
 
             dismissDialog();
             if(null != mListener){

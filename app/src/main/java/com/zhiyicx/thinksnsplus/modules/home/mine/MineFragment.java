@@ -330,7 +330,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
                 MyFriendsListActivity.startMyFriendsListActivity(getContext(),true);
                 break;
             case R.id.bt_wallet:
-                //我的钱包
+                //数字资产
                 MyCurrencyActivity.startMyCurrencyActivity(getContext());
                 break;
             case R.id.bt_my_invite:

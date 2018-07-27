@@ -10,10 +10,12 @@
     <TextView
         android:id="@+id/tv_address"
         android:layout_marginTop="@dimen/dp36"
+        android:padding="@dimen/dp6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp13"
         android:textColor="@color/black_deep"
+        android:gravity="center"
         tools:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
 
     <ImageView
@@ -83,6 +85,7 @@
             android:drawableLeft="@mipmap/icon_pick_up_currency"/>
 
         <TextView
+            android:id="@+id/tv_withdraw_dec"
             android:layout_marginLeft="@dimen/dp20"
             android:layout_width="0dp"
             android:layout_weight="1"

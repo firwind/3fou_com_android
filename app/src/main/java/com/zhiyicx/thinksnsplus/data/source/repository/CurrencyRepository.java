@@ -12,6 +12,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
@@ -114,8 +115,22 @@ public class CurrencyRepository implements ICurrencyRepository {
     }
 
     @Override
-    public Observable<String> rechargeCurrencyAddress(String currency) {
+    public Observable<BaseJson<String>> rechargeCurrencyAddress(String currency) {
         return mCurrencyClient.rechargeCurrency(currency)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> withdrawCurrency(String currency, String address, String mark, boolean isSave, String money, String remark) {
+        return mCurrencyClient.withdrawCurrency(currency,address,mark,isSave?"1":"0",money,remark)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> getWithdrawRate(String currency) {
+        return mCurrencyClient.getWithdrawRate(currency)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

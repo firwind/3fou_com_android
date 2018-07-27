@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.currency;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.modules.currency.recharge.RechargeCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.withdraw.WithdrawCurrencyActivity;
+import com.zhiyicx.thinksnsplus.utils.ImageUtils;
+import com.zhiyicx.thinksnsplus.widget.dialog.ExchangeCurrencyDialog;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -39,6 +42,7 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
         StatusBarUtils.setStatusBarColor(mActivity,R.color.themeColor);
 
         setCenterTextColor(R.color.white);
+        rootView.setBackgroundColor(Color.WHITE);
 
         View headerView = LayoutInflater.from(getContext()).inflate(R.layout.view_my_currency_header,null);
         headerView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -64,7 +68,7 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
 
     @Override
     protected String setCenterTitle() {
-        return "我的钱包";
+        return "数字资产";
     }
 
     @Override
@@ -114,13 +118,17 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
             @Override
             protected void convert(ViewHolder holder, CurrencyBalanceBean currencyBalanceBean, int position) {
 
+                ImageUtils.loadImageDefault(holder.getImageViwe(R.id.iv_icon),currencyBalanceBean.icon);
                 holder.getTextView(R.id.tv_name).setText(currencyBalanceBean.currency);
                 holder.getTextView(R.id.tv_balance).setText(currencyBalanceBean.balance);
+                holder.getTextView(R.id.tv_frezz).setText(currencyBalanceBean.blocked_balance);
 
                 holder.getView(R.id.bt_recharge).setOnClickListener(v->
                         RechargeCurrencyActivity.startRechargeCurrencyActivity(getContext(),currencyBalanceBean.currency));
                 holder.getView(R.id.bt_withdraw).setOnClickListener(v->
                         WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext(),currencyBalanceBean.currency));
+                holder.getView(R.id.bt_exchange).setOnClickListener(v->new ExchangeCurrencyDialog(mActivity,false).showDialog());
+
                 holder.getView(R.id.bt_exchange).setVisibility( "BCB".equals(currencyBalanceBean.currency)?View.GONE:View.VISIBLE );
             }
         };

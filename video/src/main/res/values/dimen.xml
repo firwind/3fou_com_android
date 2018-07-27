@@ -46,7 +46,9 @@
     <dimen name="dp180">180dp</dimen>
     <dimen name="dp190">190dp</dimen>
     <dimen name="dp200">200dp</dimen>
+    <dimen name="dp260">260dp</dimen>
     <dimen name="dp280">280dp</dimen>
+    <dimen name="dp290">290dp</dimen>
     <dimen name="dp43">43dp</dimen>
 
 

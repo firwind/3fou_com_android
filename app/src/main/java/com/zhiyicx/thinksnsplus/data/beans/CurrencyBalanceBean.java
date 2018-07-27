@@ -25,12 +25,17 @@ public class CurrencyBalanceBean extends BaseListBean implements Parcelable{
     public String id;
     public String currency;
     public String balance;
+    public String blocked_balance;//冻结余额
+    public String icon;//icon
+
 
     protected CurrencyBalanceBean(Parcel in) {
         super(in);
         id = in.readString();
         currency = in.readString();
         balance = in.readString();
+        blocked_balance = in.readString();
+        icon = in.readString();
     }
 
     @Override
@@ -39,6 +44,8 @@ public class CurrencyBalanceBean extends BaseListBean implements Parcelable{
         dest.writeString(id);
         dest.writeString(currency);
         dest.writeString(balance);
+        dest.writeString(blocked_balance);
+        dest.writeString(icon);
     }
 
     @Override
