@@ -26,7 +26,7 @@ public interface ICurrencyRepository {
      * 获取币种
      * @return
      */
-    Observable<List<CurrencyTypeBean>> getCurrencyType(Context context);
+    Observable<List<CurrencyTypeBean>> getCurrencyType();
     /**
      * 获取币种
      * @return

@@ -77,6 +77,13 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
         mMemberList = new ArrayList<>();
         mChatGroupBean = getArguments().getParcelable(BUNDLE_GROUP_MEMBER);
 //        initMemberList();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMemberList.clear();
         mPresenter.getAllUserBean(mChatGroupBean.getId());
     }
 

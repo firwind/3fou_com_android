@@ -253,4 +253,5 @@ dependencies {
     //    compile project(':GlideImageLoader')
     implementation project(':righttopmenu')
     implementation project(':kchartlib')
+    testCompile 'com.jungly:gridPasswordView:0.3'
 }

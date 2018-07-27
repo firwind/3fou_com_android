@@ -125,6 +125,7 @@ public class EditUserTagFragment extends TSFragment<EditUserTagContract.Presente
             case REGISTER:
                 // 注册就进入主页，设置就返回
                 startActivity(new Intent(getActivity(), HomeActivity.class));
+                getActivity().finish();
                 break;
             case USER_EDIT:
                 setresult();

@@ -1142,6 +1142,9 @@ public class ApiConfig {
      */
     //获取团队列表
     public static final String APP_PATH_GET_MY_TEAM_LIST = "api/" + API_VERSION_2 + "/distribut/getReferrerDown";
+    //获取团队币种列表
+    public static final String APP_PATH_GET_TEAM_CURRENCY_LIST = "api/"+API_VERSION_2+"/distribut/getUserMoney";
+
 
     //钱包首页，币种列表
     public static final String APP_PATH_GET_MY_CURRENCY_LIST = "api/" + API_VERSION_2 + "/bcwallet/index";
@@ -1158,4 +1161,6 @@ public class ApiConfig {
     public static final String APP_PATH_WITHDRAW_CURRENCY = "api/"+API_VERSION_2+"/bcwallet/summary";
     //获取提币手续费
     public static final String APP_PATH_GET_WITHDRAW_RATE = "api/"+API_VERSION_2+"";
+
+
 }

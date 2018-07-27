@@ -17,7 +17,7 @@ ext {
     minSdkVersion = 18
     targetSdkVersion = 25
     versionCode = 39
-    versionName = "2.4.0725"
+    versionName = "2. 4.0725"
     compileSdkVersion = 25
     buildToolsVersion = "26.0.2"
     //Libraries
@@ -27,6 +27,7 @@ ext {
     rxJavaVersion = '1.0.14'
     rxAndroidVersion = '1.0.1'
     javaxInjectVersion = '1'
+
     gsonVersion = '2.6'
     retrofitSdkVersion = '2.1.0'
     butterKnifeVersion = '8.4.0'

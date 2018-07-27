@@ -49,12 +49,12 @@
                 app:leftText="@string/account_manager"
                 app:leftTextLeftPadding="@dimen/spacing_mid"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"/>
-            <!--修改密码-->
+            <!--密码管理-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_change_password"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
-                app:leftText="@string/change_password"
+                app:leftText="@string/password_manager"
                 app:leftTextLeftPadding="@dimen/spacing_mid"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"/>
             <!--清理缓存-->

@@ -789,6 +789,16 @@
         <activity
             android:name=".modules.currency.MyCurrencyActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".modules.settings.password.PassWordManagerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.settings.password.pay_password.PayPassWordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.settings.password.pay_password.setting_paypassword.SettingPayPasswordActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".modules.currency.recharge.RechargeCurrencyActivity" />
         <activity android:name=".modules.currency.withdraw.WithdrawCurrencyActivity" />
         <activity android:name=".modules.currency.address.CurrencyAddressActivity" />

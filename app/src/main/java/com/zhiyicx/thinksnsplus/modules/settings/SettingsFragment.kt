@@ -39,6 +39,7 @@ import com.zhiyicx.thinksnsplus.modules.password.changepassword.ChangePasswordAc
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity
 import com.zhiyicx.thinksnsplus.modules.settings.account.AccountManagementActivity
 import com.zhiyicx.thinksnsplus.modules.settings.blacklist.BlackListActivity
+import com.zhiyicx.thinksnsplus.modules.settings.password.PassWordManagerActivity
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil
 import java.util.concurrent.TimeUnit
 
@@ -236,7 +237,7 @@ class SettingsFragment : TSFragment<SettingsContract.Presenter>(), SettingsContr
         RxView.clicks(mBtChangePassword!!)
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)   //两秒钟之内只取一个点击事件，防抖操作
                 .compose(this.bindToLifecycle())
-                .subscribe { startActivity(Intent(activity, ChangePasswordActivity::class.java)) }
+                .subscribe { /*startActivity(Intent(activity, ChangePasswordActivity::class.java))*/ PassWordManagerActivity.startPassWordManagerActivity(context) }
         // 清理缓存
         RxView.clicks(mBtCleanCache!!)
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)   //两秒钟之内只取一个点击事件，防抖操作

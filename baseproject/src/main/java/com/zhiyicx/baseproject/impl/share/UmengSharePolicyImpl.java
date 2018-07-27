@@ -354,7 +354,7 @@ public class UmengSharePolicyImpl implements SharePolicy, OnShareCallbackListene
         mDatas.add(qZone);
         mDatas.add(weChat);
         mDatas.add(weCircle);
-        mDatas.add(weibo);
+//        mDatas.add(weibo);
 
         mRecyclerViewPopupWindow = RecyclerViewPopupWindow.Builder()
                 .isOutsideTouch(true)
@@ -410,14 +410,14 @@ public class UmengSharePolicyImpl implements SharePolicy, OnShareCallbackListene
                                                     installThirdAppTip();
                                                 }
                                                 break;
-                                            case 4:
-//                                                if (UMShareAPI.get(mContext).isInstall((Activity) mContext, SHARE_MEDIA.SINA)) {
-
-                                                    shareWeibo((Activity) mContext, mOnShareCallbackListener);
-//                                                } else {
-//                                                    installThirdAppTip();
-//                                                }
-                                                break;
+//                                            case 4:
+////                                                if (UMShareAPI.get(mContext).isInstall((Activity) mContext, SHARE_MEDIA.SINA)) {
+//
+//                                                    shareWeibo((Activity) mContext, mOnShareCallbackListener);
+////                                                } else {
+////                                                    installThirdAppTip();
+////                                                }
+//                                                break;
                                             default:
                                         }
                                     }

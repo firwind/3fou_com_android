@@ -259,18 +259,7 @@
                 app:leftText="@string/group_mine"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
                 app:showLine="true" />
-            <!--我的邀请-->
-            <com.zhiyicx.baseproject.widget.button.CombinationButton
-                android:id="@+id/bt_my_invite"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/full_button_height"
-                android:visibility="visible"
-                app:dividerLeftMargin="@dimen/spacing_normal"
-                app:dividerRightMargin="@dimen/spacing_normal"
-                app:leftImage="@mipmap/invite_icon"
-                app:leftText="@string/my_invite"
-                app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="false" />
+
             <!--我的好友-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_my_friends"
@@ -306,7 +295,19 @@
                 app:leftText="@string/cash"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
                 app:showLine="true" />
-            <!--我的现金-->
+            <!--我的邀请-->
+            <com.zhiyicx.baseproject.widget.button.CombinationButton
+                android:id="@+id/bt_my_invite"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/full_button_height"
+                android:visibility="visible"
+                app:dividerLeftMargin="@dimen/spacing_normal"
+                app:dividerRightMargin="@dimen/spacing_normal"
+                app:leftImage="@mipmap/invite_icon"
+                app:leftText="@string/my_invite"
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true" />
+            <!--我的团队-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_team"
                 android:layout_width="match_parent"

@@ -35,7 +35,7 @@ public class MyTeamPresenter extends AppBasePresenter<MyTeamContract.View> imple
     @Override
     public void requestCurrencyType() {
 
-        Subscription subscribe = currencyRepository.getCurrencyType(mContext)
+        Subscription subscribe = currencyRepository.getCurrencyType()
                 .subscribe(new BaseSubscribeForV2<List<CurrencyTypeBean>>() {
                     @Override
                     protected void onSuccess(List<CurrencyTypeBean> data) {

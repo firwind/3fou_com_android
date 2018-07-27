@@ -22,6 +22,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.SystemConversationBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 
@@ -99,8 +100,10 @@ public interface CurrencyClient {
      * @return
      */
     @GET(ApiConfig.APP_PATH_CURRENCY_ACCOUNT_BOOK_LIST)
-    Observable<List<AccountBookListBean>> getAccountBookList(@Query("offset") Long max_id, @Query("limit") Integer limit ,
-                                                             @Query("target_type") Integer target_type);
+    Observable<List<AccountBookListBean>> getAccountBookList(@Query("offset") Long max_id, @Query("limit") Integer limit , @Query("target_type") Integer target_type);
+
+    @GET(ApiConfig.APP_PATH_GET_TEAM_CURRENCY_LIST)
+    Observable<List<CurrencyTypeBean>> getTeamCurrencyList();
 
     /**
      * 提币

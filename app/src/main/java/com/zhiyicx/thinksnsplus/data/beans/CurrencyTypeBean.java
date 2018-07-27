@@ -26,6 +26,4 @@ public class CurrencyTypeBean {
     public void setCurrencyName(String currencyName) {
         this.currencyName = currencyName;
     }
-
-
 }

@@ -111,6 +111,11 @@
     <string name="tags_manager">标签管理</string>
     <string name="account_manager">账户管理</string>
     <string name="change_password">修改密码</string>
+    <string name="password_manager">密码管理</string>
+    <string name="password_pay">支付密码</string>
+    <string name="set_password_pay">设置支付密码</string>
+    <string name="change_password_pay">修改支付密码</string>
+    <string name="forget_password_pay">忘记支付密码</string>
     <string name="clean_cache">清理缓存</string>
     <string name="is_sure_clean_cache">缓存大小:%s，确定清理缓存？</string>
     <string name="about_us">关于我们</string>
