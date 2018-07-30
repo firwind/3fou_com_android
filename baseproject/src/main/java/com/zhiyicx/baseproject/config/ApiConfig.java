@@ -1160,7 +1160,5 @@ public class ApiConfig {
     //提币
     public static final String APP_PATH_WITHDRAW_CURRENCY = "api/"+API_VERSION_2+"/bcwallet/summary";
     //获取提币手续费
-    public static final String APP_PATH_GET_WITHDRAW_RATE = "api/"+API_VERSION_2+"";
-
-
+    public static final String APP_PATH_GET_WITHDRAW_RATE = "api/"+API_VERSION_2+"/bcwallet/summary_index";
 }

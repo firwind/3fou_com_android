@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.currency.withdraw;
 
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.data.beans.WithdrawCurrencyBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.CurrencyRepository;
 
 import javax.inject.Inject;
@@ -28,7 +29,19 @@ public class WithdrawCurrencyPresenter extends AppBasePresenter<WithdrawCurrency
 
     @Override
     public void requestCostFeeRate() {
+        mCurrencyRepository.getWithdrawRate(mRootView.getCurrency())
+                .subscribe(new BaseSubscribeForV2<WithdrawCurrencyBean>() {
+                    @Override
+                    protected void onSuccess(WithdrawCurrencyBean data) {
+                        mRootView.setBalanceAndRate(true,data.balance,data.rate);
+                    }
 
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.setBalanceAndRate(false,0,0);
+                    }
+                });
     }
 
     @Override

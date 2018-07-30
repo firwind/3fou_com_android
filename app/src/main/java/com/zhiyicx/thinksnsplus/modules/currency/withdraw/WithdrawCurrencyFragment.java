@@ -2,7 +2,9 @@ package com.zhiyicx.thinksnsplus.modules.currency.withdraw;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -37,7 +39,7 @@ import butterknife.OnClick;
  */
 
 public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContract.Presenter>
-        implements WithdrawCurrencyContract.View{
+        implements WithdrawCurrencyContract.View, TextWatcher {
 
     @BindView(R.id.et_address)
     EditText mEtAddress;
@@ -51,8 +53,14 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     EditText mEtRemark;
     @BindView(R.id.tv_avaliable_balance)
     TextView mTvAvaliableBalance;
+    @BindView(R.id.tv_transfer)
+    TextView mTvTransfer;
+    @BindView(R.id.tv_rate)
+    TextView mTvRate;
 
     private RightTopMenu mRightTopMenu;
+    private double mTransferRate = 0;//转账手续费率
+    private double mAvaliableBalance = 0;//可用余额
 
     public static WithdrawCurrencyFragment newInstance(String currency){
         WithdrawCurrencyFragment fragment = new WithdrawCurrencyFragment();
@@ -66,11 +74,12 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     @Override
     protected void initView(View rootView) {
         setCenterTextColor(R.color.white);
+        mEtNum.addTextChangedListener(this);
     }
 
     @Override
     protected void initData() {
-
+        mPresenter.requestCostFeeRate();
     }
 
     @Override
@@ -78,6 +87,11 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         return R.layout.fragment_withdraw_currency;
     }
 
+    @Override
+    protected void setLoadingViewHolderClick() {
+        super.setLoadingViewHolderClick();
+        initData();
+    }
 
     @Override
     protected boolean setStatusbarGrey() {
@@ -222,6 +236,21 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     }
 
     @Override
+    public void setBalanceAndRate(boolean isSuccess, double balance, double rate) {
+        if(isSuccess){
+            closeLoadingView();
+            mTvAvaliableBalance.setText("可用余额："+balance+" "+getCurrency());
+            mTvRate.setText("转账手续费（"+rate+"%）");
+
+            this.mTransferRate = rate;
+            this.mAvaliableBalance = balance;
+        }else {
+            setLoadViewHolderImag(R.mipmap.img_default_internet);
+            showLoadViewLoadError();
+        }
+    }
+
+    @Override
     protected void snackViewDismissWhenTimeOut(Prompt prompt) {
         super.snackViewDismissWhenTimeOut(prompt);
         if(Prompt.SUCCESS == prompt){
@@ -230,7 +259,26 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     }
 
     @Override
-    public void setBalanceAndRate(double balance, double rate) {
-        mTvAvaliableBalance.setText("可用余额："+balance+" "+getCurrency());
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+    @Override
+    public void afterTextChanged(Editable s) {
+        double edit = 0;
+        try {
+            edit = Double.parseDouble(mEtNum.getText().toString());
+        }catch (Exception e){
+            //
+        }
+        if(edit > mAvaliableBalance){
+            mEtNum.setText(String.valueOf(mAvaliableBalance));
+            mEtNum.setSelection(mEtNum.getText().toString().length());
+        }else {
+            mTvTransfer.setText(String.valueOf(mAvaliableBalance*(1-mTransferRate)));
+        }
+
+
     }
 }

@@ -8,11 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.common.utils.StatusBarUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
+import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.recharge.RechargeCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.withdraw.WithdrawCurrencyActivity;
+import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.widget.dialog.ExchangeCurrencyDialog;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -47,6 +50,8 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
         View headerView = LayoutInflater.from(getContext()).inflate(R.layout.view_my_currency_header,null);
         headerView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mHeaderAndFooterWrapper.addHeaderView(headerView);
+        headerView.findViewById(R.id.tv_software).setOnClickListener(v->
+                CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_USE_RECOMMEND));
     }
 
     @Override
@@ -123,11 +128,14 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
                 holder.getTextView(R.id.tv_balance).setText(currencyBalanceBean.balance);
                 holder.getTextView(R.id.tv_frezz).setText(currencyBalanceBean.blocked_balance);
 
+                holder.getView(R.id.tv_detail).setOnClickListener(v->
+                        AccountBookActivity.startActivity(mActivity));
                 holder.getView(R.id.bt_recharge).setOnClickListener(v->
                         RechargeCurrencyActivity.startRechargeCurrencyActivity(getContext(),currencyBalanceBean.currency));
                 holder.getView(R.id.bt_withdraw).setOnClickListener(v->
                         WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext(),currencyBalanceBean.currency));
-                holder.getView(R.id.bt_exchange).setOnClickListener(v->new ExchangeCurrencyDialog(mActivity,false).showDialog());
+                holder.getView(R.id.bt_exchange).setOnClickListener(v->
+                        new ExchangeCurrencyDialog(mActivity,false).showDialog());
 
                 holder.getView(R.id.bt_exchange).setVisibility( "BCB".equals(currencyBalanceBean.currency)?View.GONE:View.VISIBLE );
             }

@@ -16,6 +16,7 @@ import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.data.beans.WithdrawCurrencyBean;
 
 import java.util.List;
 
@@ -110,6 +111,6 @@ public interface ICurrencyRepository {
      * @param currency
      * @return
      */
-    Observable<String> getWithdrawRate(String currency);
+    Observable<WithdrawCurrencyBean> getWithdrawRate(String currency);
 
 }

@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.modules.currency.accountbook;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
@@ -98,10 +99,16 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
     }
 
     @Override
+    public int getBookTag() {
+        return mTag;
+    }
+
+    @Override
     protected RecyclerView.Adapter getAdapter() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日HH点mm分");
         int verifyColor = getResources().getColor(R.color.state_currency_verify);
         int successColor = getResources().getColor(R.color.state_currency_success);
+        int failColor = getResources().getColor(R.color.state_currency_fail);
 
         int rechargeColor = getResources().getColor(R.color.state_currency_record_recharge);
         int withdrawColor = getResources().getColor(R.color.state_currency_record_withdraw);
@@ -115,12 +122,12 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
                 holder.getTextView(R.id.tv_num).setText("数量："+accountBookListBean.number+accountBookListBean.currency);
                 holder.getTextView(R.id.tv_cost_num).setText("实际扣除："+accountBookListBean.service_charge+accountBookListBean.currency);
                 holder.getTextView(R.id.tv_service_num).setText("手续费："+accountBookListBean.service_charge+accountBookListBean.currency);
-                holder.getTextView(R.id.tv_record_time).setText(format.format(new Date(accountBookListBean.updated_at*1000)));
+                holder.getTextView(R.id.tv_record_time).setText(format.format(new Date(accountBookListBean.updated_time*1000)));
 
-                String address = "地址："+accountBookListBean.toaddress;
-                String tag = "地址标签："+accountBookListBean.mark;
+                String address = "地址："+ (TextUtils.isEmpty(accountBookListBean.toaddress)?"":accountBookListBean.toaddress);
+                String tag = "地址标签："+(TextUtils.isEmpty(accountBookListBean.mark)?"":accountBookListBean.mark );
                 holder.getTextView(R.id.tv_address).setText(StringUtils.getColorfulString(address,3,
-                        address.length()-1, Color.BLACK));
+                        address.length(), Color.BLACK));
                 holder.getTextView(R.id.tv_address_tag).setText(StringUtils.getColorfulString(tag,5,tag.length(),Color.BLACK));
 
                 //1：入账、-1：支出、0：兑换',
@@ -142,15 +149,37 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
                 }
 
                 //0: 等待，1：审核，2：成功，-1: 失败',
-                //审核中
-                if(accountBookListBean.state == 0){
+                if(accountBookListBean.state == -1){
+
+                    holder.getTextView(R.id.tv_state).setText("败");
+                    holder.getTextView(R.id.tv_state_desc).setText("失败");
+
+                    holder.getTextView(R.id.tv_state).setTextColor(failColor);
+                    holder.getTextView(R.id.tv_state_desc).setTextColor(failColor);
+
+                    holder.getTextView(R.id.tv_num).setTextColor(failColor);
+                    holder.getTextView(R.id.tv_cost_num).setTextColor(failColor);
+                    holder.getTextView(R.id.tv_service_num).setTextColor(failColor);
+                    holder.getTextView(R.id.tv_record_time).setTextColor(failColor);
+                    holder.getTextView(R.id.tv_address).setTextColor(failColor);
+                    holder.getTextView(R.id.tv_address_tag).setTextColor(failColor);
+                    holder.getTextView(R.id.tv_record).setTextColor(failColor);
+                    holder.getTextView(R.id.tv_record_time).setTextColor(failColor);
+
+
+                } else if(accountBookListBean.state == 0){
+
+                    holder.getTextView(R.id.tv_state).setText("等");
+                    holder.getTextView(R.id.tv_state_desc).setText("正在等待");
+                    holder.getTextView(R.id.tv_state).setTextColor(verifyColor);
+                    holder.getTextView(R.id.tv_state_desc).setTextColor(verifyColor);
+
+                } else if(accountBookListBean.state == 1){
                     holder.getTextView(R.id.tv_state).setText("审");
                     holder.getTextView(R.id.tv_state_desc).setText("等待审核");
                     holder.getTextView(R.id.tv_state).setTextColor(verifyColor);
                     holder.getTextView(R.id.tv_state_desc).setTextColor(verifyColor);
-                }else {//操作成功
-
-
+                }else if(accountBookListBean.state == 2){//操作成功
                     String desc = "未知状态";
                     switch (accountBookListBean.type){
                         case -1:
@@ -179,9 +208,4 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
         return mAdapter;
     }
 
-
-    @Override
-    public int getBookTag() {
-        return mTag;
-    }
 }

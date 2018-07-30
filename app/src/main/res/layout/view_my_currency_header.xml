@@ -5,6 +5,7 @@
     android:background="@color/themeColor">
 
     <TextView
+        android:id="@+id/tv_software"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="应用推荐"

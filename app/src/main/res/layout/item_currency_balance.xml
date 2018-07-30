@@ -27,6 +27,7 @@
             android:textColor="@color/black_deep"/>
 
         <TextView
+            android:id="@+id/tv_detail"
             android:paddingLeft="@dimen/dp12"
             android:paddingRight="@dimen/dp12"
             android:layout_gravity="right"

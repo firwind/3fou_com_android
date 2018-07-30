@@ -18,6 +18,7 @@ import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
+import com.zhiyicx.thinksnsplus.data.beans.WithdrawCurrencyBean;
 import com.zhiyicx.thinksnsplus.data.source.remote.CurrencyClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.EasemobClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.FollowFansClient;
@@ -132,7 +133,7 @@ public class CurrencyRepository implements ICurrencyRepository {
     }
 
     @Override
-    public Observable<String> getWithdrawRate(String currency) {
+    public Observable<WithdrawCurrencyBean> getWithdrawRate(String currency) {
         return mCurrencyClient.getWithdrawRate(currency)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

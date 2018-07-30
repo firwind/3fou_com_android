@@ -29,8 +29,8 @@ public class AccountBookListBean extends BaseListBean implements Parcelable{
     public String remark;
     public String service_charge;
 
-    public long created_at;
-    public long updated_at;
+    public long created_time;
+    public long updated_time;
 
     protected AccountBookListBean(Parcel in) {
         super(in);
@@ -48,8 +48,8 @@ public class AccountBookListBean extends BaseListBean implements Parcelable{
         toaddress = in.readString();
         remark = in.readString();
         service_charge = in.readString();
-        created_at = in.readLong();
-        updated_at = in.readLong();
+        created_time = in.readLong();
+        updated_time = in.readLong();
     }
 
     @Override
@@ -69,8 +69,8 @@ public class AccountBookListBean extends BaseListBean implements Parcelable{
         dest.writeString(toaddress);
         dest.writeString(remark);
         dest.writeString(service_charge);
-        dest.writeLong(created_at);
-        dest.writeLong(updated_at);
+        dest.writeLong(created_time);
+        dest.writeLong(updated_time);
     }
 
     @Override

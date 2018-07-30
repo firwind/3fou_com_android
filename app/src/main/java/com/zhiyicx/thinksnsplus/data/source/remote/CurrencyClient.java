@@ -25,6 +25,7 @@ import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.SystemConversationBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
+import com.zhiyicx.thinksnsplus.data.beans.WithdrawCurrencyBean;
 
 import java.util.List;
 
@@ -124,7 +125,7 @@ public interface CurrencyClient {
      * @param currency
      * @return
      */
-    @GET(ApiConfig.APP_PATH_GET_WITHDRAW_RATE)
-    Observable<String> getWithdrawRate(@Query("currency")String currency);
+    @POST(ApiConfig.APP_PATH_GET_WITHDRAW_RATE)
+    Observable<WithdrawCurrencyBean> getWithdrawRate(@Query("currency")String currency);
 
 }

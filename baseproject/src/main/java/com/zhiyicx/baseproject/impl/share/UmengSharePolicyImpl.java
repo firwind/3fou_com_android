@@ -46,7 +46,7 @@ import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
  * @Contact master.jungle68@gmail.com
  */
 public class UmengSharePolicyImpl implements SharePolicy, OnShareCallbackListener {
-    private static final int SHARE_COLUMS = 5;// item 列数
+    private static final int SHARE_COLUMS = /*5*/4;// item 列数,去掉微博
 
     /**
      * 友盟初始化
