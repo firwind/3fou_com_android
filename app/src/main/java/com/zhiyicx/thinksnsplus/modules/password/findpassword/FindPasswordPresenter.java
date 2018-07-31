@@ -74,53 +74,55 @@ public class FindPasswordPresenter extends BasePresenter<FindPasswordContract.Vi
     @Override
     public void findPassword(String phone, String vertifyCode, String newPassword) {
 
-        if (checkPhone(phone)) {
+        if (checkPhone(phone) || checkVertifyLength(vertifyCode) ||
+                (mRootView.isLoginPwdType() && checkPasswordLength(newPassword)) ) {
             return;
         }
-        if (checkVertifyLength(vertifyCode)) {
+        if ( !mRootView.isLoginPwdType() && newPassword.length() != 6  ) {
+            mRootView.showMessage("请输入6位数字密码！");
             return;
         }
-        if (checkPasswordLength(newPassword)) {
-            return;
-        }
-        mRootView.setSureBtEnabled(false);
-        Subscription findPasswordSub = mPasswordRepository.findPasswordV2(phone, vertifyCode, newPassword)
-                .subscribe(new BaseSubscribeForV2<CacheBean>() {
-                    @Override
-                    protected void onSuccess(CacheBean data) {
-                        mRootView.finsh();
-                        mRootView.setSureBtEnabled(true);
-                    }
-
-                    @Override
-                    protected void onFailure(String message, int code) {
-                        mRootView.showMessage(message);
-                        mRootView.setSureBtEnabled(true);
-                    }
-
-                    @Override
-                    protected void onException(Throwable throwable) {
-                        throwable.printStackTrace();
-                        mRootView.showMessage(mContext.getString(R.string.err_net_not_work));
-                        mRootView.setSureBtEnabled(true);
-                    }
-                });
         // 代表检测成功
         mRootView.showMessage("");
+        mRootView.setSureBtEnabled(false);
+        BaseSubscribeForV2 subscribeForV2 = new BaseSubscribeForV2<Object>() {
+            @Override
+            protected void onSuccess(Object data) {
+                mRootView.finsh();
+                mRootView.setSureBtEnabled(true);
+            }
+
+            @Override
+            protected void onFailure(String message, int code) {
+                mRootView.showMessage(message);
+                mRootView.setSureBtEnabled(true);
+            }
+
+            @Override
+            protected void onException(Throwable throwable) {
+                throwable.printStackTrace();
+                mRootView.showMessage(mContext.getString(R.string.err_net_not_work));
+                mRootView.setSureBtEnabled(true);
+            }
+        };
+        Subscription findPasswordSub = mRootView.isLoginPwdType() ?
+                mPasswordRepository.findPasswordV2(phone, vertifyCode, newPassword).subscribe(subscribeForV2) :
+                mPasswordRepository.findPayPassword(phone,vertifyCode,newPassword).subscribe(subscribeForV2);
         addSubscrebe(findPasswordSub);
     }
 
     @Override
     public void findPasswordByEmail(String email, String vertifyCode, String newPassword) {
-        if (checkEmail(email)) {
+        if (checkEmail(email) || checkVertifyLength(vertifyCode) ||
+                (mRootView.isLoginPwdType() && checkPasswordLength(newPassword))) {
             return;
         }
-        if (checkVertifyLength(vertifyCode)) {
+        if ( !mRootView.isLoginPwdType() && newPassword.length() != 6  ) {
+            mRootView.showMessage("请输入6位数字密码！");
             return;
         }
-        if (checkPasswordLength(newPassword)) {
-            return;
-        }
+        // 代表检测成功
+        mRootView.showMessage("");
         mRootView.setSureBtEnabled(false);
         Subscription findPasswordSub = mPasswordRepository.findPasswordByEmail(email, vertifyCode, newPassword)
                 .subscribe(new BaseSubscribeForV2<CacheBean>() {
@@ -144,8 +146,6 @@ public class FindPasswordPresenter extends BasePresenter<FindPasswordContract.Vi
                         mRootView.setSureBtEnabled(true);
                     }
                 });
-        // 代表检测成功
-        mRootView.showMessage("");
         addSubscrebe(findPasswordSub);
     }
 

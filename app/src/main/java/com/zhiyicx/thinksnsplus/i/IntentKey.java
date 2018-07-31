@@ -28,6 +28,11 @@ public interface IntentKey {
 
     String SEARCH_TAG = "search_tag";
 
+    String PASSWORD_TYPE = "password_type";
+
+    int TYPE_PASSWORD_LOGIN = 0;
+    int TYPE_PASSWORD_PAY = 1;
+
 
     int REQ_CODE_SELECT_CURRENCY_ADDRESS = 200;
     int REQ_CODE_GET_SCAN_RESULT = 201;

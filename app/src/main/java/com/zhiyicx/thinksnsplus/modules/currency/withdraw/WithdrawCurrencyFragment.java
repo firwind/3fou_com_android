@@ -25,6 +25,7 @@ import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity
 import com.zhiyicx.thinksnsplus.modules.currency.address.CurrencyAddressActivity;
 import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -272,11 +273,19 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         }catch (Exception e){
             //
         }
+
+        if(edit == 0){
+            mTvTransfer.setText("--");
+        }
+
         if(edit > mAvaliableBalance){
             mEtNum.setText(String.valueOf(mAvaliableBalance));
             mEtNum.setSelection(mEtNum.getText().toString().length());
         }else {
-            mTvTransfer.setText(String.valueOf(mAvaliableBalance*(1-mTransferRate)));
+            BigDecimal cur = new BigDecimal(edit);
+            BigDecimal result = cur.multiply(new BigDecimal(1-mTransferRate*0.01))
+                    .setScale(10,BigDecimal.ROUND_UP);//保留10位小数，直接进位
+            mTvTransfer.setText(result.toString());
         }
 
 

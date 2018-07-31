@@ -169,14 +169,14 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
 
                 } else if(accountBookListBean.state == 0){
 
-                    holder.getTextView(R.id.tv_state).setText("等");
-                    holder.getTextView(R.id.tv_state_desc).setText("正在等待");
+                    holder.getTextView(R.id.tv_state).setText("审");
+                    holder.getTextView(R.id.tv_state_desc).setText("等待审核");
                     holder.getTextView(R.id.tv_state).setTextColor(verifyColor);
                     holder.getTextView(R.id.tv_state_desc).setTextColor(verifyColor);
 
                 } else if(accountBookListBean.state == 1){
                     holder.getTextView(R.id.tv_state).setText("审");
-                    holder.getTextView(R.id.tv_state_desc).setText("等待审核");
+                    holder.getTextView(R.id.tv_state_desc).setText("正在审核");
                     holder.getTextView(R.id.tv_state).setTextColor(verifyColor);
                     holder.getTextView(R.id.tv_state_desc).setTextColor(verifyColor);
                 }else if(accountBookListBean.state == 2){//操作成功

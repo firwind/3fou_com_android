@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.ApiConfig;
@@ -21,6 +22,8 @@ import com.zhiyicx.thinksnsplus.widget.dialog.ExchangeCurrencyDialog;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import butterknife.BindView;
+
 /**
  * author: huwenyong
  * date: 2018/7/17 15:58
@@ -30,6 +33,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presenter,CurrencyBalanceBean> implements MyCurrencyContract.View{
 
+    private TextView mTvYearRate;
 
     public static MyCurrencyFragment newInstance(){
         Bundle bundle = new Bundle();
@@ -52,6 +56,7 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
         mHeaderAndFooterWrapper.addHeaderView(headerView);
         headerView.findViewById(R.id.tv_software).setOnClickListener(v->
                 CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_USE_RECOMMEND));
+        mTvYearRate = (TextView) headerView.findViewById(R.id.tv_year_rate);
     }
 
     @Override
@@ -122,6 +127,10 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
                 R.layout.item_currency_balance,mListDatas) {
             @Override
             protected void convert(ViewHolder holder, CurrencyBalanceBean currencyBalanceBean, int position) {
+
+                if(1 == position){
+                    mTvYearRate.setText("+ "+currencyBalanceBean.year_rate+"%");
+                }
 
                 ImageUtils.loadImageDefault(holder.getImageViwe(R.id.iv_icon),currencyBalanceBean.icon);
                 holder.getTextView(R.id.tv_name).setText(currencyBalanceBean.currency);

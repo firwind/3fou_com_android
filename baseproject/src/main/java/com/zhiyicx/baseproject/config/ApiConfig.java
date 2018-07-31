@@ -67,6 +67,8 @@ public class ApiConfig {
      */
     public static final String APP_PATH_CHANGE_PASSWORD_V2 = "api/" + API_VERSION_2 + "/user/password";// 修改密码
     public static final String APP_PATH_FIND_PASSWORD_V2 = "api/" + API_VERSION_2 + "/user/retrieve-password";// 找回密码
+    public static final String APP_PATH_SET_OR_UPDATE_PAY_PASSWORD = "api/"+API_VERSION_2+"/user/setPayPassword";//设置或更改支付密码
+    public static final String APP_PATH_FIND_PAY_PASSWORD = "api/"+API_VERSION_2+"/user/resetPayPassword";//找回支付密码
     /**
      * 注册 RegitstClient
      */

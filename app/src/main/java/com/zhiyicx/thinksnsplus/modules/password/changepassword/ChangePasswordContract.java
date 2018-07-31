@@ -23,6 +23,8 @@ public interface ChangePasswordContract {
          * 关闭
          */
         void changePwdSuccess();
+
+        boolean isLoginPwdType();
     }
     interface Presenter extends IBasePresenter {
 
@@ -30,6 +32,7 @@ public interface ChangePasswordContract {
 
         void logOut();
 
+        boolean getPayPasswordIsSetted();
     }
 
 }

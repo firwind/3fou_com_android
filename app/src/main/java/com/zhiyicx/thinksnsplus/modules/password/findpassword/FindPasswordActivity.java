@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
-import com.zhiyicx.thinksnsplus.modules.settings.password.pay_password.setting_paypassword.SettingPayPasswordActivity;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 /**
  * @Describe 找回密码
@@ -29,11 +29,12 @@ public class FindPasswordActivity extends TSActivity<FindPasswordPresenter, Find
 
     @Override
     protected FindPasswordFragment getFragment() {
-        return FindPasswordFragment.newInstance();
+        return FindPasswordFragment.newInstance(getIntent().getIntExtra(IntentKey.PASSWORD_TYPE,IntentKey.TYPE_PASSWORD_LOGIN));
     }
 
     public static void startSettingPayPasswordActivity(Context context){
         Intent intent = new Intent(context,FindPasswordActivity.class);
+        intent.putExtra(IntentKey.PASSWORD_TYPE,IntentKey.TYPE_PASSWORD_PAY);
         context.startActivity(intent);
     }
 

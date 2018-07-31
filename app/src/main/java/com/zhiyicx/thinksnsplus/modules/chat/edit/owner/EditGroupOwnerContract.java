@@ -43,13 +43,6 @@ public interface EditGroupOwnerContract {
         boolean checkNewOwner(UserInfoBean userInfoBean);
 
         /**
-         *
-         * @param key 搜索
-         * @return
-         */
-        List<UserInfoBean> getSearchResult(String key);
-
-        /**
          * 更新群内容
          * @param chatGroupBean  新的内容
          */

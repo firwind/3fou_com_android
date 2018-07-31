@@ -3,6 +3,8 @@ package com.zhiyicx.thinksnsplus.modules.password.findpassword;
 import android.graphics.drawable.Animatable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import com.zhiyicx.baseproject.widget.edittext.DeleteEditText;
 import com.zhiyicx.baseproject.widget.edittext.PasswordEditText;
 import com.zhiyicx.common.utils.RegexUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 import java.util.concurrent.TimeUnit;
 
@@ -75,8 +78,12 @@ public class FindPasswordFragment extends TSFragment<FindPasswordContract.Presen
 
     private int mCurrentType = FIND_BY_PHONE;
 
-    public static FindPasswordFragment newInstance() {
-        return new FindPasswordFragment();
+    public static FindPasswordFragment newInstance(int passwordType) {
+        FindPasswordFragment fragment = new FindPasswordFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(IntentKey.PASSWORD_TYPE,passwordType);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -91,7 +98,7 @@ public class FindPasswordFragment extends TSFragment<FindPasswordContract.Presen
 
     @Override
     protected String setRightTitle() {
-        return getString(R.string.find_password_by_email);
+        return isLoginPwdType()?getString(R.string.find_password_by_email):"";
     }
 
     @Override
@@ -106,6 +113,14 @@ public class FindPasswordFragment extends TSFragment<FindPasswordContract.Presen
 
     @Override
     protected void initView(View rootView) {
+
+        if(!isLoginPwdType()){
+            InputFilter[] filter = new InputFilter[]{new InputFilter.LengthFilter(6)};
+            mEtPassword.setInputType(InputType.TYPE_CLASS_NUMBER);
+            mEtPassword.setFilters(filter);
+            mEtPassword.setHint("输入6位纯数字密码");
+        }
+
         setTitleRightByType();
         mVertifyAnimationDrawable = (Animatable) mIvVertifyLoading.getDrawable();
         // 电话号码观察
@@ -239,6 +254,12 @@ public class FindPasswordFragment extends TSFragment<FindPasswordContract.Presen
     public void setSureBtEnabled(boolean isEnable) {
         mBtSure.handleAnimation(!isEnable);
         isSureLoading = !isEnable;
+    }
+
+    @Override
+    public boolean isLoginPwdType() {
+        return getArguments().getInt(IntentKey.PASSWORD_TYPE,IntentKey.TYPE_PASSWORD_LOGIN)
+                == IntentKey.TYPE_PASSWORD_LOGIN;
     }
 
     @Override

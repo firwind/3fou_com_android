@@ -64,7 +64,8 @@ public class EditGroupOwnerFragment extends TSListFragment<EditGroupOwnerContrac
         setLoadMorNodataTipText(getString(R.string.no_more_group_member));
         RxTextView.textChanges(mEditSearchFriends)
                 .subscribe(charSequence -> {
-                    mPresenter.getSearchResult(charSequence.toString().trim());
+                    //mPresenter.getSearchResult(charSequence.toString().trim());
+                    startRefreshNoAnimIfEmpty();
                 });
     }
 
@@ -163,7 +164,7 @@ public class EditGroupOwnerFragment extends TSListFragment<EditGroupOwnerContrac
         /*EventBus.getDefault().post(mChatGroupBean, EventBusTagConfig.EVENT_IM_GROUP_DATA_CHANGED);
         EventBus.getDefault().post(mNewOwner, EventBusTagConfig.EVENT_IM_GROUP_CHANGE_OWNER);*/
         EventBus.getDefault().post(true,EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
-        TSEMessageUtils.deleteMessage(mChatGroupBean.getId(), TSEMConstants.TS_ATTR_GROUP_CRATE);
+        //TSEMessageUtils.deleteMessage(mChatGroupBean.getId(), TSEMConstants.TS_ATTR_GROUP_CRATE);
         getActivity().finish();
     }
 

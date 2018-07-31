@@ -47,6 +47,8 @@ public interface FindPasswordContract {
          * @param isEnable
          */
         void setSureBtEnabled(boolean isEnable);
+
+        boolean isLoginPwdType();//找回登录密码/支付密码
     }
 
     interface Presenter extends IBasePresenter {

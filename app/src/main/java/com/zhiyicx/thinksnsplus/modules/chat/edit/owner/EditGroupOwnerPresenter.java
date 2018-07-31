@@ -12,6 +12,7 @@ import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
+import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.EditGroupOwnerRepository;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,10 +23,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Catherine on 2018/1/22.
@@ -37,6 +40,11 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
 
     @Inject
     EditGroupOwnerRepository mRepository;
+    @Inject
+    ChatInfoRepository mChatInfoRepository;
+
+    private Subscription mSearchSubscription;
+    private List<UserInfoBean> mUserList;
 
     @Inject
     public EditGroupOwnerPresenter(EditGroupOwnerContract.View rootView) {
@@ -45,12 +53,61 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        // 搜索时的刷新，只处理本地数据
-        if (!TextUtils.isEmpty(mRootView.getsearchKeyWord())) {
-            mRootView.hideRefreshState(isLoadMore);
-            return;
+
+        if (null == mUserList) {
+            mChatInfoRepository.getUserInfoInfo(mRootView.getGroupData().getId(), "")
+                    .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
+                        @Override
+                        protected void onSuccess(List<UserInfoBean> data) {
+                            int selfPosition = -1;
+                            long userId = AppApplication.getMyUserIdWithdefault();
+                            for (int i = 0; i < data.size(); i++) {
+                                if (data.get(i).getUser_id() == userId)
+                                    selfPosition = i;
+                                data.get(i).setIsSelected(0);
+                            }
+                            data.remove(selfPosition);
+                            mRootView.onNetResponseSuccess(data, false);
+
+                            mUserList = data;
+                        }
+
+                        @Override
+                        protected void onException(Throwable throwable) {
+                            super.onException(throwable);
+                            mRootView.onResponseError(throwable, false);
+                        }
+                    });
+        } else {
+            if (null != mSearchSubscription && !mSearchSubscription.isUnsubscribed()) {
+                mSearchSubscription.unsubscribe();
+            }
+            mSearchSubscription = Observable.just(mUserList)
+                    .subscribeOn(Schedulers.io())
+                    .map(userInfoBeans -> {
+                        List<UserInfoBean> result = new ArrayList<>();
+                        for (UserInfoBean user : userInfoBeans
+                                ) {
+                            if (user.getName().contains(mRootView.getsearchKeyWord()))
+                                result.add(user);
+                        }
+                        return result;
+                    }).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
+                        @Override
+                        protected void onSuccess(List<UserInfoBean> data) {
+                            mRootView.onNetResponseSuccess(data, false);
+                        }
+
+                        @Override
+                        protected void onException(Throwable throwable) {
+                            super.onException(throwable);
+                            mRootView.onResponseError(throwable, false);
+                        }
+                    });
+            addSubscrebe(mSearchSubscription);
         }
-        getResult("");
+
     }
 
     @Override
@@ -68,17 +125,12 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
         return userInfoBean != null && !userInfoBean.getUser_id().equals(AppApplication.getMyUserIdWithdefault());
     }
 
-    @Override
-    public List<UserInfoBean> getSearchResult(String key) {
-        getResult(key);
-        return null;
-    }
 
     @Override
     public void updateGroup(ChatGroupBean chatGroupBean) {
         Subscription subscription = mRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription(), 1,
                 DEFAULT_MAX_GRUOP_NUMBER, chatGroupBean.isMembersonly(),
-                0, chatGroupBean.getGroup_face(), false, chatGroupBean.getOwner() + "",chatGroupBean.getGroup_level())
+                0, chatGroupBean.getGroup_face(), false, chatGroupBean.getOwner() + "", chatGroupBean.getGroup_level())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.modifing)))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {
@@ -105,7 +157,7 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
         addSubscrebe(subscription);
     }
 
-    private void getResult(String key) {
+    /*private void getResult(String key) {
         ChatGroupBean groupBean = mRootView.getGroupData();
         if (groupBean == null) {
             return;
@@ -141,5 +193,5 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
                     }
                 });
 
-    }
+    }*/
 }

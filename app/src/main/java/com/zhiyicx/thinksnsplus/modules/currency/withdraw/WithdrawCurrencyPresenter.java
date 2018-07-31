@@ -62,12 +62,6 @@ public class WithdrawCurrencyPresenter extends AppBasePresenter<WithdrawCurrency
                         super.onFailure(message, code);
                         mRootView.showSnackErrorMessage(message);
                     }
-
-                    @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                        mRootView.dismissSnackBar();
-                    }
                 });
     }
 }

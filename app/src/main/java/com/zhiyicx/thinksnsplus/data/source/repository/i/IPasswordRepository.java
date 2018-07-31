@@ -42,4 +42,28 @@ public interface IPasswordRepository extends IVertifyCodeRepository {
      */
     Observable<Object> changePasswordV2(String oldPassword, String newPassword);
 
+    /**
+     * 设置支付密码
+     * @param password
+     * @return
+     */
+    Observable<String> setPayPassword(String password);
+
+    /**
+     * 更新支付密码
+     * @param old_password
+     * @param password
+     * @return
+     */
+    Observable<String> updatePayPassword(String old_password,String password);
+
+    /**
+     * 找回支付密码
+     * @param phone
+     * @param code
+     * @param password
+     * @return
+     */
+    Observable<String> findPayPassword(String phone,String code,String password);
+
 }

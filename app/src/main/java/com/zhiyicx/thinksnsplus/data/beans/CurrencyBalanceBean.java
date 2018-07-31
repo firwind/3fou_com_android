@@ -27,6 +27,7 @@ public class CurrencyBalanceBean extends BaseListBean implements Parcelable{
     public String balance;
     public String blocked_balance;//冻结余额
     public String icon;//icon
+    public String year_rate;//年利率
 
 
     protected CurrencyBalanceBean(Parcel in) {
@@ -36,6 +37,7 @@ public class CurrencyBalanceBean extends BaseListBean implements Parcelable{
         balance = in.readString();
         blocked_balance = in.readString();
         icon = in.readString();
+        year_rate = in.readString();
     }
 
     @Override
@@ -46,6 +48,7 @@ public class CurrencyBalanceBean extends BaseListBean implements Parcelable{
         dest.writeString(balance);
         dest.writeString(blocked_balance);
         dest.writeString(icon);
+        dest.writeString(year_rate);
     }
 
     @Override

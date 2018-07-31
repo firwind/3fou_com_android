@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -54,5 +55,26 @@ public class PasswordRepository extends VertifyCodeRepository implements IPasswo
 
         return mPasswordClient.changePasswordV2(data)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> setPayPassword(String password) {
+        return mPasswordClient.setOrUpdatePayPwd("1",password,null)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> updatePayPassword(String old_password, String password) {
+        return mPasswordClient.setOrUpdatePayPwd("2",password,old_password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> findPayPassword(String phone, String code, String password) {
+        return mPasswordClient.findPayPassword(phone,code,password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

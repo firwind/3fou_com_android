@@ -96,6 +96,16 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     @Transient
     private int member_mute;
 
+    private boolean pay_password;//是否已经设置支付密码
+
+    public boolean isPay_password() {
+        return pay_password;
+    }
+
+    public void setPay_password(boolean pay_password) {
+        this.pay_password = pay_password;
+    }
+
     public int getIsstick() {
         return isstick;
     }
@@ -757,10 +767,10 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     }
 
 
-    @Generated(hash = 1504955543)
-    public UserInfoBean(Long user_id, String name, String phone, String email, String intro, int sex, String location, boolean following,
-            boolean follower, String created_at, String updated_at, String deleted_at, String avatar, String localAvatar, String cover,
-            IntegrationBean currency, UserInfoExtraBean extra, VerifiedBean verified, List<UserTagBean> tags, String im_pwd_hash,
+    @Generated(hash = 2103686142)
+    public UserInfoBean(Long user_id, String name, String phone, String email, String intro, int sex, String location, boolean pay_password,
+            boolean following, boolean follower, String created_at, String updated_at, String deleted_at, String avatar, String localAvatar,
+            String cover, IntegrationBean currency, UserInfoExtraBean extra, VerifiedBean verified, List<UserTagBean> tags, String im_pwd_hash,
             int friends_count, boolean initial_password, boolean has_deleted, boolean blacked) {
         this.user_id = user_id;
         this.name = name;
@@ -769,6 +779,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.intro = intro;
         this.sex = sex;
         this.location = location;
+        this.pay_password = pay_password;
         this.following = following;
         this.follower = follower;
         this.created_at = created_at;
@@ -830,6 +841,10 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         dest.writeByte(this.initial_password ? (byte) 1 : (byte) 0);
         dest.writeByte(this.has_deleted ? (byte) 1 : (byte) 0);
         dest.writeByte(this.blacked ? (byte) 1 : (byte) 0);
+    }
+
+    public boolean getPay_password() {
+        return this.pay_password;
     }
 
     protected UserInfoBean(Parcel in) {

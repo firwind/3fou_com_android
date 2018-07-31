@@ -21,8 +21,6 @@ import butterknife.Unbinder;
 
 public class PassWordManagerFragment extends TSFragment {
 
-    Unbinder unbinder;
-
     public static PassWordManagerFragment newInstance() {
         PassWordManagerFragment fragment = new PassWordManagerFragment();
         return fragment;
@@ -56,20 +54,6 @@ public class PassWordManagerFragment extends TSFragment {
     @Override
     protected int getBodyLayoutId() {
         return R.layout.fragment_password_manager;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     @OnClick({R.id.bt_change_password, R.id.bt_pay_password})
