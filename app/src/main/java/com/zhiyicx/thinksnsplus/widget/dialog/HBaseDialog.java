@@ -9,6 +9,7 @@ import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -92,6 +93,24 @@ public class HBaseDialog {
             mViews.put(viewId, view);
         }
         return (T) view;
+    }
+
+    public TextView getTextView(int viewId){
+        View view = mViews.get(viewId);
+        if (view == null) {
+            view = dialog.findViewById(viewId);
+            mViews.put(viewId, view);
+        }
+        return (TextView) view;
+    }
+
+    public EditText getEditText(int viewId){
+        View view = mViews.get(viewId);
+        if (view == null) {
+            view = dialog.findViewById(viewId);
+            mViews.put(viewId, view);
+        }
+        return (EditText) view;
     }
 
     /**

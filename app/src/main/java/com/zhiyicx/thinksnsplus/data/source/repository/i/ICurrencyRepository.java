@@ -14,6 +14,7 @@ import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
+import com.zhiyicx.thinksnsplus.data.beans.ExchangeCurrencyRate;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.beans.WithdrawCurrencyBean;
@@ -112,5 +113,24 @@ public interface ICurrencyRepository {
      * @return
      */
     Observable<WithdrawCurrencyBean> getWithdrawRate(String currency);
+
+    /**
+     * 获取兑换比例
+     * @param currency
+     * @param currency2
+     * @return
+     */
+    Observable<ExchangeCurrencyRate> getExchangeRate(String currency,String currency2);
+
+    /**
+     * 兑换币
+     * @param currency
+     * @param currency2
+     * @param num
+     * @param verifyCode
+     * @param password
+     * @return
+     */
+    Observable<String> exchangeCurrency(String currency,String currency2,String num,String phone,String verifyCode,String password);
 
 }

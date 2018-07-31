@@ -17,6 +17,7 @@ import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
+import com.zhiyicx.thinksnsplus.data.beans.ExchangeCurrencyRate;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 import com.zhiyicx.thinksnsplus.data.beans.WithdrawCurrencyBean;
 import com.zhiyicx.thinksnsplus.data.source.remote.CurrencyClient;
@@ -135,6 +136,20 @@ public class CurrencyRepository implements ICurrencyRepository {
     @Override
     public Observable<WithdrawCurrencyBean> getWithdrawRate(String currency) {
         return mCurrencyClient.getWithdrawRate(currency)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<ExchangeCurrencyRate> getExchangeRate(String currency, String currency2) {
+        return mCurrencyClient.getExchangeRate(currency,currency2)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> exchangeCurrency(String currency, String currency2, String num,String phone, String verifyCode, String password) {
+        return mCurrencyClient.exchangeCurrency(currency,currency2,num,phone,verifyCode,password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -1163,4 +1163,8 @@ public class ApiConfig {
     public static final String APP_PATH_WITHDRAW_CURRENCY = "api/"+API_VERSION_2+"/bcwallet/summary";
     //获取提币手续费
     public static final String APP_PATH_GET_WITHDRAW_RATE = "api/"+API_VERSION_2+"/bcwallet/summary_index";
+    //获取兑换比例
+    public static final String APP_PATH_GET_EXCHANGE_RATE = "api/"+API_VERSION_2+"/bcwallet/exchange_index";
+    //兑换币
+    public static final String APP_PATH_EXCHANGE_CURRENCY = "api/"+API_VERSION_2+"/bcwallet/exchange";
 }

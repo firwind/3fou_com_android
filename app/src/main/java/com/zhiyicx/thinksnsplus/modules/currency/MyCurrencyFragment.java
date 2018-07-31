@@ -1,7 +1,10 @@
 package com.zhiyicx.thinksnsplus.modules.currency;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +16,17 @@ import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.common.utils.StatusBarUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
+import com.zhiyicx.thinksnsplus.data.beans.ExchangeCurrencyRate;
 import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.recharge.RechargeCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.withdraw.WithdrawCurrencyActivity;
+import com.zhiyicx.thinksnsplus.modules.password.changepassword.ChangePasswordActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
+import com.zhiyicx.thinksnsplus.modules.settings.password.pay_password.PayPassWordActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
-import com.zhiyicx.thinksnsplus.widget.dialog.ExchangeCurrencyDialog;
+import com.zhiyicx.thinksnsplus.modules.currency.exchange.ExchangeCurrencyDialog;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
-
-import butterknife.BindView;
 
 /**
  * author: huwenyong
@@ -34,6 +38,7 @@ import butterknife.BindView;
 public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presenter,CurrencyBalanceBean> implements MyCurrencyContract.View{
 
     private TextView mTvYearRate;
+    private ExchangeCurrencyDialog mExchangeCurrencyDialog;
 
     public static MyCurrencyFragment newInstance(){
         Bundle bundle = new Bundle();
@@ -143,8 +148,19 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
                         RechargeCurrencyActivity.startRechargeCurrencyActivity(getContext(),currencyBalanceBean.currency));
                 holder.getView(R.id.bt_withdraw).setOnClickListener(v->
                         WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext(),currencyBalanceBean.currency));
-                holder.getView(R.id.bt_exchange).setOnClickListener(v->
-                        new ExchangeCurrencyDialog(mActivity,false).showDialog());
+                holder.getView(R.id.bt_exchange).setOnClickListener(v -> {
+                    if(mPresenter.getPayPasswordIsSetted()){
+                        showSnackLoadingMessage("请稍后...");
+                        mPresenter.requestExchangeRate(currencyBalanceBean.currency, "BCB");
+                    }else {
+                        new AlertDialog.Builder(mContext)
+                                .setTitle("提示")
+                                .setMessage("请先设置支付密码！")
+                                .setPositiveButton("去设置", (dialog, which) -> startActivity(new Intent(mActivity, PayPassWordActivity.class)))
+                                .create()
+                                .show();
+                    }
+                });
 
                 holder.getView(R.id.bt_exchange).setVisibility( "BCB".equals(currencyBalanceBean.currency)?View.GONE:View.VISIBLE );
             }
@@ -152,5 +168,52 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
         return mAdapter;
     }
 
+    /**
+     * 兑换币弹窗
+     */
+    private void showExchangeCurrencyDialog(ExchangeCurrencyRate rate){
 
+        if(null == mExchangeCurrencyDialog){
+            mExchangeCurrencyDialog = new ExchangeCurrencyDialog(mActivity,false);
+            mExchangeCurrencyDialog.setOnExchangeCurrencyListener(new ExchangeCurrencyDialog.OnExchangeCurrencyListener() {
+                @Override
+                public void sendVerifyCode() {
+                    mPresenter.requestSendVerifyCode();
+                }
+
+                @Override
+                public void commitExchangeCurrency(String currency,String currency2,String num,String verifyCode,String password) {
+                    mPresenter.requestExchangeCurrency(currency,currency2,num,verifyCode,password);
+                }
+            });
+        }
+        mExchangeCurrencyDialog.setExchangeCurrencyRate(rate);
+        mExchangeCurrencyDialog.showDialog();
+
+    }
+
+    @Override
+    public void setExchangeRate(String currency, String currency2, ExchangeCurrencyRate rate) {
+
+        if(null != rate){
+            dismissSnackBar();
+            rate.setCurrency(currency);
+            rate.setCurrency_exchange(currency2);
+            showExchangeCurrencyDialog(rate);
+        }else {
+            showSnackErrorMessage("获取兑换比例失败！");
+        }
+    }
+
+    @Override
+    public void sendVerifyCodeSuccess() {
+        if(null != mExchangeCurrencyDialog && mExchangeCurrencyDialog.isShowing()){
+            mExchangeCurrencyDialog.setSendVerifyCodeSuccess();
+        }
+    }
+
+    @Override
+    public void exchangeCurrencySuccess() {
+        startRefreshNoAnimIfEmpty();
+    }
 }

@@ -23,6 +23,7 @@ import rx.Observable;
 
 import com.zhiyicx.thinksnsplus.data.beans.AccountBookListBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
+import com.zhiyicx.thinksnsplus.data.beans.ExchangeCurrencyRate;
 import com.zhiyicx.thinksnsplus.data.beans.SystemConversationBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 import com.zhiyicx.thinksnsplus.data.beans.WithdrawCurrencyBean;
@@ -127,5 +128,29 @@ public interface CurrencyClient {
      */
     @POST(ApiConfig.APP_PATH_GET_WITHDRAW_RATE)
     Observable<WithdrawCurrencyBean> getWithdrawRate(@Query("currency")String currency);
+
+    /**
+     * 获取兑换比例
+     * @param currency
+     * @param currency2
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_GET_EXCHANGE_RATE)
+    Observable<ExchangeCurrencyRate> getExchangeRate(@Query("currency")String currency, @Query("currency2")String currency2);
+
+    /**
+     * 兑换
+     * @param currency
+     * @param currency2
+     * @param number
+     * @param phone
+     * @param verify_code
+     * @param password
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_EXCHANGE_CURRENCY)
+    Observable<String> exchangeCurrency(@Query("currency")String currency,@Query("currency2")String currency2,
+                                        @Query("number2")String number,@Query("phone")String phone,
+                                        @Query("verifiable_code")String verify_code,@Query("pay_password")String password);
 
 }
