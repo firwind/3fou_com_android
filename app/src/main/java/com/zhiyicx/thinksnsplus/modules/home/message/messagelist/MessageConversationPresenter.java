@@ -44,6 +44,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
@@ -265,7 +266,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
      *
      * @param isLoadMore 是否加载更多
      */
-    private synchronized void getAllConversationV2(boolean isLoadMore) {
+    private void getAllConversationV2(boolean isLoadMore) {
         // 已连接才去获取
         if (EMClient.getInstance().isLoggedInBefore() && EMClient.getInstance().isConnected()) {
 
@@ -568,6 +569,29 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
         Subscription subscribe = Observable.just(list)
                 .subscribeOn(Schedulers.io())
+                .flatMap(emMessages -> {
+                    //这里获取聊天信息的用户信息
+                    List<Object> userIds = new ArrayList<>();
+                    for (EMMessage msg : emMessages) {
+                        Long userId = null;
+                        try {
+                            userId = Long.parseLong(msg.getFrom());
+                        } catch (NumberFormatException ignore) {
+                        }
+                        if (userId != null) {
+                            UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getSingleDataFromCache(userId);
+                            if (userInfoBean == null) {
+                                userIds.add(userId);
+                            }
+                        }
+                    }
+                    if (userIds.isEmpty()) {
+                        return Observable.just(emMessages);
+                    } else {
+                        return mUserInfoRepository.getUserInfo(userIds)
+                                .flatMap(userInfoBeans -> Observable.just(emMessages));
+                    }
+                })
                 .flatMap(messageList -> {
 
                     List<EMMessage> notExitInViewList = new ArrayList<>();
@@ -626,81 +650,10 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                                 composeList.add(itemBeanV2);
                             }
                         }
-
-
                     }
 
-
-                    /*LogUtils.d("Cathy", "MessagePresenter onMessageReceived -----");
-                    int size = mRootView.getListDatas().size();
-                    // 对话是否存在
-                    // 用来装新的会话item
-                    List<MessageItemBeanV2> messageItemBeanV2List = new ArrayList<>();
-
-                    for (EMMessage emMessage : messageList) {
-
-                        // 删除本地群信息后会更新
-                        boolean isGroupChange = TSEMConstants.TS_ATTR_GROUP_CHANGE.equals(emMessage.ext().get("type"));
-                        if (isGroupChange) {
-                            mRepository.deleteLocalChatGoup(emMessage.conversationId());
-                        }
-
-                        // 用收到的聊天的item的会话id去本地取出会话
-                        EMConversation conversationNew = EMClient.getInstance().chatManager().getConversation(emMessage.conversationId());
-                        if (conversationNew != null && size != 0) {
-                            // 会话已经存在
-                            for (int i = 0; i < size; i++) {
-                                // 检测列表中是否已经存在了
-                                EMConversation conversationOld = mRootView.getListDatas().get(i).getConversation();
-                                if (conversationOld.conversationId().equals(conversationNew.conversationId())) {
-                                    // 直接替换会话
-                                    // 之前在这里也许重复创建了会话 ，fix by tym on 2018-5-4 15:47:24
-                                    MessageItemBeanV2 itemBeanV2 = mRootView.getListDatas().get(i);
-                                    itemBeanV2.setConversation(conversationNew);
-                                    messageItemBeanV2List.add(itemBeanV2);
-                                    break;
-                                } else if (i == size - 1) {
-                                    // 循环到最后一条，仍然没有会话，那则证明是需要新增一条到会话列表
-                                    LogUtils.d("msg::" + "newMsg");
-
-                                    // 之前在这里也许重复创建了会话 ，fix by tym on 2018-5-7 14:40:39
-                                    EMConversation.EMConversationType type = EMConversation.EMConversationType.Chat;
-                                    if (emMessage.getChatType() == EMMessage.ChatType.Chat) {
-                                        type = EMConversation.EMConversationType.Chat;
-                                    } else if (emMessage.getChatType() == EMMessage.ChatType.GroupChat) {
-                                        type = EMConversation.EMConversationType.GroupChat;
-                                    }
-                                    EMConversation conversation =
-                                            EMClient.getInstance().chatManager().getConversation(emMessage.conversationId(), type, true);
-                                    conversation.insertMessage(emMessage);
-
-                                    MessageItemBeanV2 itemBeanV2 = new MessageItemBeanV2();
-                                    itemBeanV2.setConversation(conversationNew);
-                                    itemBeanV2.setEmKey(conversationNew.conversationId());
-                                    messageItemBeanV2List.add(itemBeanV2);
-                                }
-                            }
-                        } else {
-                            // 居然不存在 exm？？？
-                            // 那还能怎么办呢，当然新来一条的，不过这种情况目前没有遇到过的样子呢(*╹▽╹*)
-                            // 之前在这里也许重复创建了会话 ，fix by tym on 2018-5-2 20:24:06
-                            EMConversation.EMConversationType type = EMConversation.EMConversationType.Chat;
-                            if (emMessage.getChatType() == EMMessage.ChatType.Chat) {
-                                type = EMConversation.EMConversationType.Chat;
-                            } else if (emMessage.getChatType() == EMMessage.ChatType.GroupChat) {
-                                type = EMConversation.EMConversationType.GroupChat;
-                            }
-                            EMConversation conversation =
-                                    EMClient.getInstance().chatManager().getConversation(emMessage.conversationId(), type, true);
-                            conversation.insertMessage(emMessage);
-                            MessageItemBeanV2 itemBeanV2 = new MessageItemBeanV2();
-                            itemBeanV2.setConversation(conversation);
-                            itemBeanV2.setEmKey(emMessage.conversationId());
-                            messageItemBeanV2List.add(itemBeanV2);
-                        }
-                    }*/
                     return mRepository.completeEmConversation(composeList/*messageItemBeanV2List*/)
-                            .map(list12 -> list12);
+                            /*.map(list12 -> list12)*/;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
