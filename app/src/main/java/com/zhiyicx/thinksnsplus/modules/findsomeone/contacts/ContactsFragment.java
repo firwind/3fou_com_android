@@ -23,9 +23,13 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ContactsBean;
 import com.zhiyicx.thinksnsplus.data.beans.ContactsContainerBean;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
+import com.zhiyicx.thinksnsplus.modules.eventbus.StickyContactEvent;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupListFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupPresenter;
 
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 import org.w3c.dom.Text;
 
 import java.io.Serializable;
@@ -62,8 +66,6 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
 
     private ArrayList<ContactsContainerBean> mBundleData;
 
-    private String mTitle;
-
     /**
      * 仅用于构造
      */
@@ -84,14 +86,15 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
      * 5000多个通讯录数据
      * Caused by: android.os.TransactionTooLargeException: data parcel size 2317736 bytes
      *
-     * #todo 换一种方式去传递数据
      */
-    public static void startToEditTagActivity(Context context, String title, ArrayList<ContactsContainerBean> listData) {
+    public static void startToEditTagActivity(Context context, List<ContactsContainerBean> listData) {
+        //发送粘性事件
+        if(null != listData)
+            EventBus.getDefault().postSticky(new StickyContactEvent(listData));
 
         Intent intent = new Intent(context, ContactsActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString(BUNDLE_TITLE, title);
-        bundle.putSerializable(BUNDLE_DATA, listData);
+        bundle.putBoolean(IntentKey.IS_SELECT,null!=listData);
         intent.putExtras(bundle);
         if (context instanceof Activity) {
             ((Activity) context).startActivityForResult(intent, 100);
@@ -119,7 +122,7 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
 
     @Override
     protected boolean showToolBarDivider() {
-        return false;
+        return true;
     }
 
     @Override
@@ -142,24 +145,19 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
         return null == getParentFragment();
     }
 
-    //设置状态栏为0
-    /*@Override
-    protected int getstatusbarAndToolbarHeight() {
-        if (setUseSatusbar()) {
-            return 0;
-        }
-        return super.getstatusbarAndToolbarHeight();
-    }*/
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mBundleData = (ArrayList<ContactsContainerBean>) getArguments().getSerializable(BUNDLE_DATA);
-            mTitle = getArguments().getString(BUNDLE_TITLE);
-        }
-        if (TextUtils.isEmpty(mTitle)) {
-            mTitle = getString(R.string.contacts);
+    protected boolean useEventBusSticky() {
+        return true;
+    }
+
+    //粘性事件接收
+    @Subscriber
+    public void onStickyContactEvent(StickyContactEvent event){
+        if(null == getParentFragment()){
+            EventBus.getDefault().removeStickyEvent(StickyContactEvent.class);
+            this.mListData.addAll(event.getList());
+            mTagClassAdapter.notifyAllSectionsDataSetChanged();
+            hideLoading();
         }
     }
 
@@ -196,14 +194,6 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
     @Override
     protected void initData() {
 
-
-        if (mBundleData == null) {
-            mPresenter.getContacts();
-        } else {
-            mListData.addAll(mBundleData);
-            mTagClassAdapter.notifyAllSectionsDataSetChanged();
-            hideLoading();
-        }
         PackageManager packageManager = getActivity().getPackageManager();
         boolean permission = (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission("android.Manifest.permission.READ_CONTACTS", "packageName"));
         boolean permission1 = (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission("android.Manifest.permission.SEND_SMS", "packageName"));
@@ -213,6 +203,15 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
                     .subscribe(aBoolean -> {
                         if (aBoolean) {
 //                            ContactsFragment.startToEditTagActivity(getActivity(), null, null);
+
+                            if (!getArguments().getBoolean(IntentKey.IS_SELECT,false)) {
+                                mPresenter.getContacts();
+                            } /*else {
+                                mListData.addAll(mBundleData);
+                                mTagClassAdapter.notifyAllSectionsDataSetChanged();
+                                hideLoading();
+                            }*/
+
                         } else {
                             showSnackErrorMessage(getString(R.string.contacts_permission_tip));
                         }
@@ -279,7 +278,7 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
                 break;
             }
         }
-        startToEditTagActivity(getActivity(), mListData.get(categoryPosition).getTitle(), data);
+        startToEditTagActivity(getActivity(),  data);
     }
 
     @Override

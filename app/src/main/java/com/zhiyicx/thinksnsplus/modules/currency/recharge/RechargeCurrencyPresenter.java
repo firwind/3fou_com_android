@@ -40,6 +40,11 @@ public class RechargeCurrencyPresenter extends AppBasePresenter<RechargeCurrency
                         mRootView.setCurrencyAddress(null);
                     }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.setCurrencyAddress(null);
+                    }
                 });
     }
 }

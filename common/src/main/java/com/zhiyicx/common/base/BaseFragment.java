@@ -61,10 +61,11 @@ public abstract class BaseFragment<P extends IBasePresenter> extends RxFragment 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // 如果要使用 eventbus 请将此方法返回 true
-        if (useEventBus()){
-            // 注册到事件主线
+        // 注册到事件主线
+        if (useEventBus())
             EventBus.getDefault().register(this);
-        }
+        if(useEventBusSticky())
+            EventBus.getDefault().registerSticky(this);
         initData();
     }
 
@@ -100,8 +101,7 @@ public abstract class BaseFragment<P extends IBasePresenter> extends RxFragment 
             mPresenter.onDestroy();
         }
         // 如果要使用 eventbus 请将此方法返回 true
-        if (useEventBus())
-        {
+        if (useEventBus() || useEventBusSticky()) {
             EventBus.getDefault().unregister(this);
         }
     }
@@ -120,6 +120,12 @@ public abstract class BaseFragment<P extends IBasePresenter> extends RxFragment 
     protected boolean useEventBus() {
         return false;
     }
+
+    /**
+     * 是否使用eventbusSticky
+     * @return
+     */
+    protected boolean useEventBusSticky(){return false;}
 
     /**
      * 此方法是让外部调用使 fragment 做一些操作的,比如说外部的 activity 想让 fragment 对象执行一些方法,

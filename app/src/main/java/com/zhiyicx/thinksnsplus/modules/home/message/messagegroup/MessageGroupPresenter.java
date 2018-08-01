@@ -90,7 +90,7 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
-                        mRootView.showStickyMessage(mContext.getString(R.string.chat_unconnected));
+                        mRootView.showStickyMessage(throwable.getMessage());
                         mRootView.onResponseError(throwable, false);
                     }
                 });
@@ -174,7 +174,7 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
 
-                        mRootView.showStickyMessage(mContext.getString(R.string.chat_unconnected));
+                        mRootView.showStickyMessage(throwable.getMessage());
                         mRootView.onResponseError(throwable, false);
                     }
                 });

@@ -84,7 +84,7 @@ public class NewMessageGroupPresenter extends AppBasePresenter<NewMessageGroupCo
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
-                        mRootView.showStickyMessage(mContext.getString(R.string.chat_unconnected));
+                        mRootView.showStickyMessage(throwable.getMessage());
                         mRootView.onResponseError(throwable, false);
                     }
                 });
@@ -149,7 +149,7 @@ public class NewMessageGroupPresenter extends AppBasePresenter<NewMessageGroupCo
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
 
-                        mRootView.showStickyMessage(mContext.getString(R.string.chat_unconnected));
+                        mRootView.showStickyMessage(throwable.getMessage());
                         mRootView.onResponseError(throwable, false);
                     }
                 });

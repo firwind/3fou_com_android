@@ -265,7 +265,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
      *
      * @param isLoadMore 是否加载更多
      */
-    private void getAllConversationV2(boolean isLoadMore) {
+    private synchronized void getAllConversationV2(boolean isLoadMore) {
         // 已连接才去获取
         if (EMClient.getInstance().isLoggedInBefore() && EMClient.getInstance().isConnected()) {
 
@@ -300,7 +300,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                 @Override
                 protected void onException(Throwable throwable) {
                     super.onException(throwable);
-                    mRootView.showStickyMessage(/*throwable.getMessage()*/mContext.getString(R.string.chat_unconnected));
+                    mRootView.showStickyMessage(throwable.getMessage());
                     mRootView.onResponseError(throwable, false);
                 }
             };

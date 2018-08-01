@@ -67,9 +67,10 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
         mTvYearRate = (TextView) headerView.findViewById(R.id.tv_year_rate);
     }
 
+
     @Override
-    protected void initData() {
-        super.initData();
+    public void onResume() {
+        super.onResume();
 
         mPresenter.requestNetData(0L,false);
     }

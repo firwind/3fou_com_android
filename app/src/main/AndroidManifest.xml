@@ -796,11 +796,16 @@
         <activity
             android:name=".modules.settings.password.pay_password.PayPassWordActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".modules.currency.recharge.RechargeCurrencyActivity" />
-        <activity android:name=".modules.currency.withdraw.WithdrawCurrencyActivity" />
-        <activity android:name=".modules.currency.address.CurrencyAddressActivity" />
-        <activity android:name=".modules.currency.accountbook.AccountBookActivity" />
-        <activity android:name=".modules.currency.interest.CurrencyInterestActivity" />
+        <activity android:name=".modules.currency.recharge.RechargeCurrencyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".modules.currency.withdraw.WithdrawCurrencyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".modules.currency.address.CurrencyAddressActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".modules.currency.accountbook.AccountBookActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".modules.currency.interest.CurrencyInterestActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">
