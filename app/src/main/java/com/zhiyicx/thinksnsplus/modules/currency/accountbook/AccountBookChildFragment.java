@@ -29,7 +29,7 @@ import javax.inject.Inject;
 
 public class AccountBookChildFragment extends TSListFragment<AccountBookChildContract.Presenter,AccountBookListBean>
         implements AccountBookChildContract.View{
-    private int mTag;
+
     public static AccountBookChildFragment newInstance(int tag){
         AccountBookChildFragment fragment = new AccountBookChildFragment();
         Bundle bundle = new Bundle();
@@ -52,14 +52,6 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
 
 
         super.initView(rootView);
-    }
-
-    @Override
-    protected void initData() {
-        super.initData();
-        if (getArguments()!=null){
-            mTag = getArguments().getInt(IntentKey.SEARCH_TAG);
-        }
     }
 
     @Override
@@ -100,7 +92,7 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
 
     @Override
     public int getBookTag() {
-        return mTag;
+        return getArguments().getInt(IntentKey.SEARCH_TAG);
     }
 
     @Override
@@ -109,6 +101,7 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
         int verifyColor = getResources().getColor(R.color.state_currency_verify);
         int successColor = getResources().getColor(R.color.state_currency_success);
         int failColor = getResources().getColor(R.color.state_currency_fail);
+        int grayColor = getResources().getColor(R.color.gray_normal);
 
         int rechargeColor = getResources().getColor(R.color.state_currency_record_recharge);
         int withdrawColor = getResources().getColor(R.color.state_currency_record_withdraw);
@@ -118,6 +111,9 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
                 R.layout.item_account_book_list,mListDatas) {
             @Override
             protected void convert(ViewHolder holder, AccountBookListBean accountBookListBean, int position) {
+
+                holder.getTextView(R.id.tv_cost_num).setVisibility(View.VISIBLE);
+                holder.getTextView(R.id.tv_num).setTextColor(grayColor);
 
                 holder.getTextView(R.id.tv_num).setText("数量："+accountBookListBean.number+accountBookListBean.currency);
                 holder.getTextView(R.id.tv_cost_num).setText("实际扣除："+accountBookListBean.service_charge+accountBookListBean.currency);
@@ -146,6 +142,14 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
                     holder.getTextView(R.id.tv_record).setTextColor(exchangeColor);
                     holder.getTextView(R.id.tv_record_time).setTextColor(exchangeColor);
                     holder.getTextView(R.id.tv_record).setText("兑币记录");
+
+                    holder.getTextView(R.id.tv_cost_num).setVisibility(View.INVISIBLE);
+                    holder.getTextView(R.id.tv_num).setTextColor(exchangeColor);
+                    holder.getTextView(R.id.tv_num).setText(accountBookListBean.currency+" to "+accountBookListBean.currency2);
+                    holder.getTextView(R.id.tv_service_num).setText("实际扣除："+accountBookListBean.service_charge+accountBookListBean.currency);
+
+                    holder.getTextView(R.id.tv_address).setText("兑换数量："+accountBookListBean.number2+accountBookListBean.currency2);
+                    holder.getTextView(R.id.tv_address_tag).setText("兑换比例："+accountBookListBean.exchange_rate);
                 }
 
                 //0: 等待，1：审核，2：成功，-1: 失败',
@@ -199,8 +203,8 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
                     holder.getTextView(R.id.tv_state_desc).setTextColor(successColor);
                     if(accountBookListBean.type == 0){
                         holder.getTextView(R.id.tv_state).setText("兑");
-                        holder.getTextView(R.id.tv_state).setTextColor(withdrawColor);
-                        holder.getTextView(R.id.tv_state_desc).setTextColor(withdrawColor);
+                        holder.getTextView(R.id.tv_state).setTextColor(exchangeColor);
+                        holder.getTextView(R.id.tv_state_desc).setTextColor(exchangeColor);
                     }
                 }
             }

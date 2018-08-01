@@ -276,6 +276,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
 
         if(edit == 0){
             mTvTransfer.setText("--");
+            return;
         }
 
         if(edit > mAvaliableBalance){

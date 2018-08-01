@@ -35,7 +35,8 @@
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textSize="@dimen/sp12"
             tools:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
             android:textColor="@color/black_deep"/>

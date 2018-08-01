@@ -40,7 +40,8 @@
             android:layout_height="wrap_content"
             android:text="地址：000000000"
             android:singleLine="true"
-            android:textSize="@dimen/sp12"/>
+            android:textSize="@dimen/sp12"
+            android:textColor="@color/gray_normal"/>
 
         <TextView
             android:id="@+id/tv_address"
@@ -48,7 +49,8 @@
             android:layout_height="wrap_content"
             android:text="地址标签：000000000"
             android:singleLine="true"
-            android:textSize="@dimen/sp12"/>
+            android:textSize="@dimen/sp12"
+            android:textColor="@color/gray_normal"/>
 
         <TextView
             android:id="@+id/tv_record"
@@ -72,21 +74,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp12"
-            android:text="数量：000"/>
+            android:text="数量：000"
+            android:textColor="@color/gray_normal"/>
 
         <TextView
             android:id="@+id/tv_cost_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp12"
-            android:text="实际扣除：000"/>
+            android:text="实际扣除：000"
+            android:textColor="@color/gray_normal"/>
 
         <TextView
             android:id="@+id/tv_service_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp12"
-            android:text="手续费：000"/>
+            android:text="手续费：000"
+            android:textColor="@color/gray_normal"/>
 
         <TextView
             android:id="@+id/tv_record_time"

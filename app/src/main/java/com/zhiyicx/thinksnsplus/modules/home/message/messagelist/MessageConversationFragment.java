@@ -394,7 +394,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mPresenter == null) {
+                if (mPresenter == null || mListDatas.size() == 0) {
                     return;
                 }
                 // 显示搜索结果

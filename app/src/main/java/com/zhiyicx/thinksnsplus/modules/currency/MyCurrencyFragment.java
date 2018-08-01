@@ -18,6 +18,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.ExchangeCurrencyRate;
 import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity;
+import com.zhiyicx.thinksnsplus.modules.currency.interest.CurrencyInterestActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.recharge.RechargeCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.withdraw.WithdrawCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.password.changepassword.ChangePasswordActivity;
@@ -61,6 +62,8 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
         mHeaderAndFooterWrapper.addHeaderView(headerView);
         headerView.findViewById(R.id.tv_software).setOnClickListener(v->
                 CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_USE_RECOMMEND));
+        headerView.findViewById(R.id.bt_join).setOnClickListener(v->
+                startActivity(new Intent(mActivity, CurrencyInterestActivity.class)));
         mTvYearRate = (TextView) headerView.findViewById(R.id.tv_year_rate);
     }
 
@@ -149,6 +152,12 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
                 holder.getView(R.id.bt_withdraw).setOnClickListener(v->
                         WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext(),currencyBalanceBean.currency));
                 holder.getView(R.id.bt_exchange).setOnClickListener(v -> {
+
+                    if(Double.parseDouble(currencyBalanceBean.balance) == 0 ){
+                        showSnackWarningMessage("您的可用余额不足！");
+                        return;
+                    }
+
                     if(mPresenter.getPayPasswordIsSetted()){
                         showSnackLoadingMessage("请稍后...");
                         mPresenter.requestExchangeRate(currencyBalanceBean.currency, "BCB");

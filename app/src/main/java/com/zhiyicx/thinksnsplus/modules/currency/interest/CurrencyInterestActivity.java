@@ -1,5 +1,8 @@
 package com.zhiyicx.thinksnsplus.modules.currency.interest;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 
@@ -25,4 +28,5 @@ public class CurrencyInterestActivity extends TSActivity<CurrencyInterestPresent
                 .build()
                 .inject(this);
     }
+
 }

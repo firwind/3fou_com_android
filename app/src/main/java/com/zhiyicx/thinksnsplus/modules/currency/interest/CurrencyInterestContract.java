@@ -2,7 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.currency.interest;
 
 import com.zhiyicx.baseproject.base.ITSListPresenter;
 import com.zhiyicx.baseproject.base.ITSListView;
-import com.zhiyicx.thinksnsplus.data.beans.CurrencyInterest;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 
 /**
  * author: huwenyong
@@ -13,11 +13,11 @@ import com.zhiyicx.thinksnsplus.data.beans.CurrencyInterest;
 
 public interface CurrencyInterestContract {
 
-    interface View extends ITSListView<CurrencyInterest,Presenter>{
+    interface View extends ITSListView<CurrencyBalanceBean,Presenter>{
 
     }
 
-    interface Presenter extends ITSListPresenter<CurrencyInterest>{
+    interface Presenter extends ITSListPresenter<CurrencyBalanceBean>{
 
     }
 

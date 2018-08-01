@@ -6,7 +6,8 @@ import android.view.View;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.thinksnsplus.R;
-import com.zhiyicx.thinksnsplus.data.beans.CurrencyInterest;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
+import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -17,7 +18,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
  * version:
  */
 
-public class CurrencyInterestFragment extends TSListFragment<CurrencyInterestContract.Presenter,CurrencyInterest>
+public class CurrencyInterestFragment extends TSListFragment<CurrencyInterestContract.Presenter,CurrencyBalanceBean>
         implements CurrencyInterestContract.View{
 
     public static CurrencyInterestFragment newInstance(){
@@ -31,6 +32,11 @@ public class CurrencyInterestFragment extends TSListFragment<CurrencyInterestCon
     protected void initView(View rootView) {
         super.initView(rootView);
         setCenterTextColor(R.color.white);
+    }
+
+    @Override
+    protected int getBodyLayoutId() {
+        return R.layout.fragment_currency_interest_list;
     }
 
     @Override
@@ -61,11 +67,15 @@ public class CurrencyInterestFragment extends TSListFragment<CurrencyInterestCon
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        CommonAdapter<CurrencyInterest> mAdapter = new CommonAdapter<CurrencyInterest>(mActivity,
+        CommonAdapter<CurrencyBalanceBean> mAdapter = new CommonAdapter<CurrencyBalanceBean>(mActivity,
                 R.layout.item_currency_interest,mListDatas) {
             @Override
-            protected void convert(ViewHolder holder, CurrencyInterest currencyInterest, int position) {
-
+            protected void convert(ViewHolder holder, CurrencyBalanceBean currencyInterest, int position) {
+                holder.setText(R.id.tv_rank,String.valueOf(position+1));
+                ImageUtils.loadImageDefault(holder.getImageViwe(R.id.iv_currency_icon),currencyInterest.icon);
+                holder.setText(R.id.tv_currency_name,currencyInterest.currency);
+                holder.setText(R.id.tv_chg,currencyInterest.year_rate+"%");
+                holder.getView(R.id.tv_chg).setSelected(true);
             }
         };
         return mAdapter;
