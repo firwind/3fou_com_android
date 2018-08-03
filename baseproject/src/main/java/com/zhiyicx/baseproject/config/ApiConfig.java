@@ -44,6 +44,7 @@ public class ApiConfig {
     public static final String URL_USE_RECOMMEND = APP_DOMAIN+"download/application.html";// 应用推荐
     //public static final String URL_INTEGRATION_SHOP = "api/" + API_VERSION_2 + "/currency/shop";// 积分商城地址
     public static final String URL_INTEGRATION_SHOP = "http://haoshe.hotime.cn";// 积分商城地址
+    public static final String URL_CURRENCY_INTEREST = APP_DOMAIN+"";//
 
     // 图片地址 V2
     public static final String IMAGE_PATH_V2_ORIGIN = "api/" + API_VERSION_2 + "/files/%s";

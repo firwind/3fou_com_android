@@ -349,6 +349,8 @@ public abstract class TSWebFragment extends TSFragment {
 
         mWebView.addJavascriptInterface(new JavascriptInterfaceForDownloadFile(),"download");
 
+        addExtraJavaScriptInterface(mWebView);
+
         saveData(mWebSettings);
         newWin(mWebSettings);
         mWebView.setWebChromeClient(mWebChromeClient);
@@ -364,6 +366,14 @@ public abstract class TSWebFragment extends TSFragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && BuildConfig.DEBUG) {  // chorme 调试
             WebView.setWebContentsDebuggingEnabled(true);
         }
+    }
+
+    /**
+     * 暴露额外的增加javascript接口方法
+     * @param mWebView
+     */
+    protected void addExtraJavaScriptInterface(WebView mWebView){
+
     }
 
     /***

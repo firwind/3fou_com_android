@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyExchangeBean;
 import com.zhiyicx.thinksnsplus.data.beans.ExchangeCurrencyRate;
 import com.zhiyicx.thinksnsplus.modules.password.findpassword.FindPasswordActivity;
 import com.zhiyicx.thinksnsplus.widget.dialog.HBaseDialog;
@@ -29,7 +30,7 @@ public class ExchangeCurrencyDialog extends HBaseDialog implements TextWatcher {
     private BigDecimal maxExchangeNum;
     private BigDecimal mRate1;
     private BigDecimal mRate2;
-    private ExchangeCurrencyRate mExchangeCurrencyRate;
+    private CurrencyExchangeBean mExchangeCurrencyRate;
 
     private OnExchangeCurrencyListener mListener;
 
@@ -37,7 +38,7 @@ public class ExchangeCurrencyDialog extends HBaseDialog implements TextWatcher {
         this.mListener = mListener;
     }
 
-    public void setExchangeCurrencyRate(ExchangeCurrencyRate mExchangeCurrencyRate) {
+    public void setExchangeCurrencyRate(CurrencyExchangeBean mExchangeCurrencyRate) {
         this.mExchangeCurrencyRate = mExchangeCurrencyRate;
     }
 
@@ -70,18 +71,17 @@ public class ExchangeCurrencyDialog extends HBaseDialog implements TextWatcher {
         if(null == mExchangeCurrencyRate)
             return;
         //最多可兑换量
-        String rate = mExchangeCurrencyRate.getExchange_rate();
-        mRate1 = new BigDecimal(rate.substring(0,rate.indexOf(":")));
-        mRate2 = new BigDecimal(rate.substring(rate.indexOf(":")+1,rate.length()));
+        mRate1 = new BigDecimal(mExchangeCurrencyRate.getNumber());
+        mRate2 = new BigDecimal(mExchangeCurrencyRate.getNumber2());
         maxExchangeNum = new BigDecimal(mExchangeCurrencyRate.getBalance())
                 .divide(mRate1,10,BigDecimal.ROUND_UP)
                 .multiply(mRate2).setScale(10,BigDecimal.ROUND_UP);//保留10位小数，直接进位
 
         getTextView(R.id.tv_avaliable_balance_desc).setText(mExchangeCurrencyRate.getCurrency()+"可用量");
         getTextView(R.id.tv_avaliable_balance).setText(String.valueOf(mExchangeCurrencyRate.getBalance()));
-        getTextView(R.id.tv_exchange_rate).setText(mExchangeCurrencyRate.getExchange_rate());
-        getTextView(R.id.tv_num_desc).setText("本次兑换"+mExchangeCurrencyRate.getCurrency_exchange()+"量");
-        getTextView(R.id.tv_cost_num_desc).setText(String.format("本次兑换%s消耗%s量",mExchangeCurrencyRate.getCurrency_exchange(),
+        getTextView(R.id.tv_exchange_rate).setText(mExchangeCurrencyRate.getNumber()+":"+mExchangeCurrencyRate.getNumber2());
+        getTextView(R.id.tv_num_desc).setText("本次兑换"+mExchangeCurrencyRate.getCurrency2()+"量");
+        getTextView(R.id.tv_cost_num_desc).setText(String.format("本次兑换%s消耗%s量",mExchangeCurrencyRate.getCurrency2(),
                 mExchangeCurrencyRate.getCurrency()));
 
         getEditText(R.id.et_num).addTextChangedListener(this);
@@ -114,7 +114,7 @@ public class ExchangeCurrencyDialog extends HBaseDialog implements TextWatcher {
             }
             if(null != mListener){
                 dismissDialog();
-                mListener.commitExchangeCurrency(mExchangeCurrencyRate.getCurrency(),mExchangeCurrencyRate.getCurrency_exchange(),
+                mListener.commitExchangeCurrency(mExchangeCurrencyRate.getCurrency(),mExchangeCurrencyRate.getCurrency2(),
                         num,verifyCode,password);
             }
         });

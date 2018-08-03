@@ -480,12 +480,6 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         String chatGroupId = "";
         for (EMMessage message : messages) {
 
-            //屏蔽掉不是该群的对话
-            if(!message.conversationId().equals(toChatUsername)){
-                continue;
-            }
-
-
             String username = null;
             // group message
             if (message.getChatType() == EMMessage.ChatType.GroupChat || message.getChatType() == EMMessage.ChatType.ChatRoom) {
@@ -516,20 +510,23 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                 }
             }
 
-            if (isUserExit || isUserJoin) {
-                // 只有群聊中才会有 成员 加入or退出的消息
-                mPresenter.updateChatGroupMemberCount(message.conversationId(), 1, isUserJoin);
-                setCenterText(mPresenter.getGroupName(message.conversationId()));
-            }
-            if (groupNotice){
-                ToastUtils.showLongToast("收到公告");
-            }
             // if the message is for current conversation
             if (username.equals(toChatUsername) || message.getTo().equals(toChatUsername)
                     || message.conversationId().equals(toChatUsername)) {
+
                 messageList.refreshSelectLast();
                 EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
                 conversation.markMessageAsRead(message.getMsgId());
+
+                if (isUserExit || isUserJoin) {
+                    // 只有群聊中才会有 成员 加入or退出的消息
+                    mPresenter.updateChatGroupMemberCount(message.conversationId(), 1, isUserJoin);
+                    setCenterText(mPresenter.getGroupName(message.conversationId()));
+                }
+                if (groupNotice){
+                    ToastUtils.showLongToast("收到公告");
+                }
+
             } else {
                 if ("admin".equals(message.getFrom())) {
                     continue;

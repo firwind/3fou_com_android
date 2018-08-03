@@ -569,48 +569,16 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
         Subscription subscribe = Observable.just(list)
                 .subscribeOn(Schedulers.io())
-                .flatMap(emMessages -> {
-                    //这里获取聊天信息的用户信息
-                    List<Object> userIds = new ArrayList<>();
-                    for (EMMessage msg : emMessages) {
-                        Long userId = null;
-                        try {
-                            userId = Long.parseLong(msg.getFrom());
-                        } catch (NumberFormatException ignore) {
-                        }
-                        if (userId != null) {
-                            UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getSingleDataFromCache(userId);
-                            if (userInfoBean == null) {
-                                userIds.add(userId);
-                            }
-                        }
-                    }
-                    if (userIds.isEmpty()) {
-                        return Observable.just(emMessages);
-                    } else {
-                        return mUserInfoRepository.getUserInfo(userIds)
-                                .flatMap(userInfoBeans -> Observable.just(emMessages));
-                    }
-                })
                 .flatMap(messageList -> {
+
+                    List<MessageItemBeanV2> exitInViewList = mRootView.getListDatas();
 
                     List<EMMessage> notExitInViewList = new ArrayList<>();
                     notExitInViewList.addAll(messageList);
 
-                    for (MessageItemBeanV2 itemBean:
-                            mRootView.getListDatas()) {
+                    for (MessageItemBeanV2 itemBean: exitInViewList) {
 
-                        for (EMMessage message:
-                             messageList) {
-
-                            // 删除本地群信息后会更新，
-                            //这里会有异常，如下：
-                            //在群详情更新群信息后，返回聊天界面，title是【该用户已删除】，
-                            // 原因是这里会收到信息，删除了本地的ChatGoupBean
-                            /*boolean isGroupChange = TSEMConstants.TS_ATTR_GROUP_CHANGE.equals(message.ext().get("type"));
-                            if (isGroupChange) {
-                                mRepository.deleteLocalChatGoup(message.conversationId());
-                            }*/
+                        for (EMMessage message: messageList) {
 
                             if(itemBean.getEmKey().equals(message.conversationId())){
                                 //直接替换会话
@@ -626,7 +594,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                             break;
 
                     }
-
 
                     List<MessageItemBeanV2> composeList = new ArrayList<>();
                     //则重组会话
@@ -651,22 +618,14 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                             }
                         }
                     }
-
-                    return mRepository.completeEmConversation(composeList/*messageItemBeanV2List*/)
-                            /*.map(list12 -> list12)*/;
+                    composeList.addAll(exitInViewList);
+                    return mRepository.completeEmConversation(composeList);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
                     @Override
                     protected void onSuccess(List<MessageItemBeanV2> data) {
-                        /*for (MessageItemBeanV2 messageItemBeanV2 : data) {
-                            // 移除原来的
-                            if (mRootView.getListDatas().indexOf(messageItemBeanV2) != -1) {
-                                mRootView.getListDatas().remove(messageItemBeanV2);
-                            }
-                        }*/
-
-                        //如果本地没有消息的会话，
+                        mRootView.getListDatas().clear();
                         mRootView.getListDatas().addAll(data);
                         //根据时间和置顶再次排序
                         Collections.sort(mRootView.getListDatas(), new MessageTimeAndStickSort());

@@ -18,7 +18,7 @@ public interface CurrencyInterestContract {
     }
 
     interface Presenter extends ITSListPresenter<CurrencyBalanceBean>{
-
+        String getCurrentToken();
     }
 
 }

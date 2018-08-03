@@ -79,10 +79,20 @@
                     <ImageView
                         android:id="@+id/iv_qrcode"
                         android:layout_marginTop="20dp"
-                        android:layout_marginBottom="30dp"
                         android:layout_width="@dimen/invite_img_size"
                         android:layout_height="@dimen/invite_img_size"
                         android:src="@drawable/shape_default_image"/>
+
+                    <TextView
+                        android:id="@+id/tv_reward1"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="更有1000糖果等你来拿"
+                        android:gravity="center"
+                        android:textColor="@color/black_deep"
+                        android:textSize="@dimen/sp10"/>
 
                 </LinearLayout>
 
@@ -90,13 +100,30 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_share"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/invite_share_height"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:background="@color/white">
 
-        </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:id="@+id/tv_reward2"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="邀请好友一起挖矿 即可获得100糖果"
+                android:layout_gravity="center"
+                android:textColor="@color/black_deep"
+                android:textSize="@dimen/sp10"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_share"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/invite_share_height">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
 
 
     </LinearLayout>

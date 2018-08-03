@@ -16,6 +16,7 @@ import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.common.utils.StatusBarUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyExchangeBean;
 import com.zhiyicx.thinksnsplus.data.beans.ExchangeCurrencyRate;
 import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.interest.CurrencyInterestActivity;
@@ -152,36 +153,55 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
                         RechargeCurrencyActivity.startRechargeCurrencyActivity(getContext(),currencyBalanceBean.currency));
                 holder.getView(R.id.bt_withdraw).setOnClickListener(v->
                         WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext(),currencyBalanceBean.currency));
-                holder.getView(R.id.bt_exchange).setOnClickListener(v -> {
+                holder.getView(R.id.bt_exchange).setOnClickListener(getExchangeClickListener(currencyBalanceBean));
 
-                    if(Double.parseDouble(currencyBalanceBean.balance) == 0 ){
-                        showSnackWarningMessage("您的可用余额不足！");
-                        return;
-                    }
-
-                    if(mPresenter.getPayPasswordIsSetted()){
-                        showSnackLoadingMessage("请稍后...");
-                        mPresenter.requestExchangeRate(currencyBalanceBean.currency, "BCB");
-                    }else {
-                        new AlertDialog.Builder(mContext)
-                                .setTitle("提示")
-                                .setMessage("请先设置支付密码！")
-                                .setPositiveButton("去设置", (dialog, which) -> startActivity(new Intent(mActivity, PayPassWordActivity.class)))
-                                .create()
-                                .show();
-                    }
-                });
-
-                holder.getView(R.id.bt_exchange).setVisibility( "BCB".equals(currencyBalanceBean.currency)?View.GONE:View.VISIBLE );
+                holder.getView(R.id.bt_exchange).setVisibility(
+                        null == currencyBalanceBean.exchange || currencyBalanceBean.exchange.size() == 0 ?
+                                View.GONE:View.VISIBLE );
             }
         };
         return mAdapter;
     }
 
+    private View.OnClickListener getExchangeClickListener(CurrencyBalanceBean currencyBalanceBean){
+        return v -> {
+            if(Double.parseDouble(currencyBalanceBean.balance) == 0 ){
+                showSnackWarningMessage("您的可用余额不足！");
+                return;
+            }
+
+            if(mPresenter.getPayPasswordIsSetted()){
+                if(currencyBalanceBean.exchange.size() > 1){
+                    String[] arr = new String[currencyBalanceBean.exchange.size()];
+                    for (int i = 0; i < currencyBalanceBean.exchange.size(); i++) {
+                        arr[i] = currencyBalanceBean.exchange.get(i).getCurrency2();
+                    }
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle("选择兑换币种")
+                            .setItems(arr, (dialog, which) -> {
+                                showExchangeCurrencyDialog(currencyBalanceBean.exchange.get(which));
+                            })
+                            .create()
+                            .show();
+                }else {
+                    showExchangeCurrencyDialog(currencyBalanceBean.exchange.get(0));
+                }
+
+            }else {
+                new AlertDialog.Builder(mActivity)
+                        .setTitle("提示")
+                        .setMessage("请先设置支付密码！")
+                        .setPositiveButton("去设置", (dialog, which) -> startActivity(new Intent(mActivity, PayPassWordActivity.class)))
+                        .create()
+                        .show();
+            }
+        };
+    }
+
     /**
      * 兑换币弹窗
      */
-    private void showExchangeCurrencyDialog(ExchangeCurrencyRate rate){
+    private void showExchangeCurrencyDialog(CurrencyExchangeBean rate){
 
         if(null == mExchangeCurrencyDialog){
             mExchangeCurrencyDialog = new ExchangeCurrencyDialog(mActivity,false);
@@ -209,7 +229,7 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
             dismissSnackBar();
             rate.setCurrency(currency);
             rate.setCurrency_exchange(currency2);
-            showExchangeCurrencyDialog(rate);
+            //showExchangeCurrencyDialog(rate);
         }else {
             showSnackErrorMessage("获取兑换比例失败！");
         }

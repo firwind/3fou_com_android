@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.zhiyicx.baseproject.base.BaseListBean;
 
+import java.util.List;
+
 /**
  * author: huwenyong
  * date: 2018/7/17 16:09
@@ -28,7 +30,7 @@ public class CurrencyBalanceBean extends BaseListBean implements Parcelable{
     public String blocked_balance;//冻结余额
     public String icon;//icon
     public String year_rate;//年利率
-
+    public List<CurrencyExchangeBean> exchange;
 
     protected CurrencyBalanceBean(Parcel in) {
         super(in);
@@ -38,6 +40,7 @@ public class CurrencyBalanceBean extends BaseListBean implements Parcelable{
         blocked_balance = in.readString();
         icon = in.readString();
         year_rate = in.readString();
+        exchange = in.createTypedArrayList(CurrencyExchangeBean.CREATOR);
     }
 
     @Override
@@ -49,6 +52,7 @@ public class CurrencyBalanceBean extends BaseListBean implements Parcelable{
         dest.writeString(blocked_balance);
         dest.writeString(icon);
         dest.writeString(year_rate);
+        dest.writeTypedList(exchange);
     }
 
     @Override

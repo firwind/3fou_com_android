@@ -5,11 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
+import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * author: huwenyong
@@ -41,6 +48,11 @@ public class CurrencyInterestFragment extends TSListFragment<CurrencyInterestCon
 
     @Override
     protected boolean isLayzLoad() {
+        return true;
+    }
+
+    @Override
+    protected boolean setUseCenterLoading() {
         return true;
     }
 
@@ -78,6 +90,21 @@ public class CurrencyInterestFragment extends TSListFragment<CurrencyInterestCon
                 holder.getView(R.id.tv_chg).setSelected(true);
             }
         };
+        mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                /*CurrencyInterestWebActivity.startCurrencyWebActivity(mActivity, ApiConfig.URL_CURRENCY_INTEREST,
+                        mListDatas.get(position).currency);*/
+                CustomWEBActivity.startToWEBActivity(mActivity,
+                        String.format(ApiConfig.URL_CURRENCY_INTEREST+"?form=app&token=%s&currency=%s",
+                                mPresenter.getCurrentToken(),mListDatas.get(position).currency));
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
         return mAdapter;
     }
 }

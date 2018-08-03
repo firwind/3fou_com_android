@@ -62,6 +62,10 @@ public class InviteShareFragment extends TSFragment<InviteShareContract.Presente
     RecyclerView mRvShare;
     @BindView(R.id.tv_msg)
     TextView mTvMsg;
+    @BindView(R.id.tv_reward1)
+    TextView mTvReward1;
+    @BindView(R.id.tv_reward2)
+    TextView mTvReward2;
 
     public static InviteShareFragment newInstance(){
         InviteShareFragment fragment = new InviteShareFragment();
@@ -132,21 +136,8 @@ public class InviteShareFragment extends TSFragment<InviteShareContract.Presente
     public void setInviteAndQrCode(InviteAndQrcode inviteAndQrCode) {
         mTvInviteCode.setText(inviteAndQrCode.user_code);
         mTvMsg.setText(inviteAndQrCode.user_msg);
-        /*int qrcodeSize = getResources().getDimensionPixelSize(R.dimen.dp40);
-        SimpleTarget<Bitmap> simpleTarget = new SimpleTarget<Bitmap>(qrcodeSize,qrcodeSize) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                mIvQrcode.setImageBitmap(ImageUtils.createQrcodeImage(inviteAndQrCode.user_url,
-                        getResources().getDimensionPixelSize(R.dimen.invite_img_size),
-                        resource));
-            }
-
-        };*/
-
-        /*if(null == mPresenter.getUserAvatar())
-            simpleTarget.onResourceReady(BitmapFactory.decodeResource(getResources(),R.mipmap.icon),null);
-        else
-            Glide.with(mActivity).load(inviteAndQrCode.user_url).asBitmap().into(simpleTarget);*/
+        mTvReward1.setText(inviteAndQrCode.reward_msg1);
+        mTvReward2.setText(inviteAndQrCode.reward_msg2);
         Bitmap bitmap;
         try {
             bitmap = null == mPresenter.getUserAvatar() ? BitmapFactory.decodeResource(getResources(),R.mipmap.icon)

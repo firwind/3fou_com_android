@@ -4,6 +4,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyExchangeBean;
 import com.zhiyicx.thinksnsplus.data.beans.ExchangeCurrencyRate;
 import com.zhiyicx.thinksnsplus.data.source.remote.CurrencyClient;
 import com.zhiyicx.thinksnsplus.data.source.repository.CurrencyRepository;
@@ -42,6 +43,22 @@ public class MyCurrencyPresenter extends AppBasePresenter<MyCurrencyContract.Vie
         addSubscrebe(mCurrencyRepository.getMyCurrencyList().subscribe(new BaseSubscribeForV2<List<CurrencyBalanceBean>>() {
             @Override
             protected void onSuccess(List<CurrencyBalanceBean> list) {
+
+                for (CurrencyBalanceBean currency:list
+                     ) {
+                    if(null != currency.exchange && currency.exchange.size() > 0){
+                        for (CurrencyExchangeBean exchange:currency.exchange
+                             ) {
+                            exchange.setCurrency(currency.currency);
+                            try {
+                                exchange.setBalance(Double.parseDouble(currency.balance));
+                            }catch (Exception e){
+                                exchange.setBalance(0);
+                            }
+                        }
+                    }
+                }
+
                 mRootView.onNetResponseSuccess(list, isLoadMore);
             }
 

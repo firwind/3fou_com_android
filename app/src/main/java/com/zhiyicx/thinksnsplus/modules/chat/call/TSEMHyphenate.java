@@ -1098,7 +1098,7 @@ public class TSEMHyphenate {
 
     private ChatUserInfoBean getChatUser(UserInfoBean userInfoBean) {
         if (userInfoBean == null) {
-            return new ChatUserInfoBean(AppApplication.getContext().getString(R.string.user_had_deleted));
+            return new ChatUserInfoBean("..."/*AppApplication.getContext().getString(R.string.user_had_deleted)*/);
         }
         ChatUserInfoBean chatUserInfoBean = new ChatUserInfoBean();
         chatUserInfoBean.setUser_id(userInfoBean.getUser_id());

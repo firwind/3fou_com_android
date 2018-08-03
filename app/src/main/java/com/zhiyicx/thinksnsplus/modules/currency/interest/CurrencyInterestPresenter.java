@@ -47,6 +47,11 @@ public class CurrencyInterestPresenter extends AppBasePresenter<CurrencyInterest
     }
 
     @Override
+    public String getCurrentToken(){
+        return mAuthRepository.getAuthBean().getToken();
+    }
+
+    @Override
     public void requestCacheData(Long maxId, boolean isLoadMore) {
 
     }
