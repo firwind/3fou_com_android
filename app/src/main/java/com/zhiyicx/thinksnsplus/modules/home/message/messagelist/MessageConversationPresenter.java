@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
@@ -75,8 +76,11 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
      * 是否是第一次连接 im
      */
     private boolean mIsFristConnectedIm = true;
-    private Subscription mAllConversaiotnSub;
     private Subscription mSearchSub;
+    private Subscription mCacheConversatonSub;//缓存会话请求
+    private Subscription mStickConversationSub;//置顶请求
+
+    private List<StickBean> mStickList = new ArrayList<>();//当前缓存的置顶信息
 
 
     @Inject
@@ -275,79 +279,21 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                 return;
             }
 
-            if (mAllConversaiotnSub != null && !mAllConversaiotnSub.isUnsubscribed()) {
-                mAllConversaiotnSub.unsubscribe();
-            }
+            if(mCacheConversatonSub!=null && mCacheConversatonSub.isUnsubscribed())
+                mCacheConversatonSub.unsubscribe();
 
-            rx.Subscriber<List<MessageItemBeanV2>> msgSubscriber = new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
-                @Override
-                protected void onSuccess(List<MessageItemBeanV2> data) {
-                    if (mCopyConversationList == null) {
-                        mCopyConversationList = new ArrayList<>();
-                    }
-                    mCopyConversationList = data;
-                    mRootView.onNetResponseSuccess(data, isLoadMore);
-                    mRootView.hideStickyMessage();
-                    checkBottomMessageTip();
-                }
-
-                @Override
-                protected void onFailure(String message, int code) {
-                    super.onFailure(message, code);
-                    mRootView.showStickyMessage(message);
-                    mRootView.onResponseError(null, false);
-                }
-
-                @Override
-                protected void onException(Throwable throwable) {
-                    super.onException(throwable);
-                    mRootView.showStickyMessage(throwable.getMessage());
-                    mRootView.onResponseError(throwable, false);
-                }
-            };
-
-            mAllConversaiotnSub = Observable.zip(mRepository.getConversationList((int) AppApplication.getMyUserIdWithdefault()),
-                    mChatInfoRepository.refreshSticks(String.valueOf(AppApplication.getMyUserIdWithdefault())),
-                    new Func2<List<MessageItemBeanV2>, List<StickBean>, List<MessageItemBeanV2>>() {
+            mCacheConversatonSub = mRepository.getConversationList((int) AppApplication.getMyUserIdWithdefault())
+                    .observeOn(Schedulers.io())
+                    .map(new Func1<List<MessageItemBeanV2>, List<MessageItemBeanV2>>() {
                         @Override
-                        public List<MessageItemBeanV2> call(List<MessageItemBeanV2> messageItemBeanV2s, List<StickBean> stickBeans) {
-
-                            List<String> topIds = new ArrayList<>();
-                            for (int i = 0; i < stickBeans.size(); i++) {
-                                if(null != stickBeans.get(i).getChatGroupBean()){
-                                    topIds.add(String.valueOf(stickBeans.get(i).getChatGroupBean().id));
-                                }else if(null != stickBeans.get(i).getUserInfoBean()){
-                                    topIds.add(String.valueOf(stickBeans.get(i).getUserInfoBean().id));
-                                }
-                                //topIds.add(stickBeans.get(i).getmStickId());
-                            }
-
-                            for (int i = 0; i < messageItemBeanV2s.size(); i++) {
-                                try {
-                                    if (topIds.indexOf(messageItemBeanV2s.get(i).getEmKey()) != -1) {
-                                        messageItemBeanV2s.get(i).setIsStick(1);
-                                        topIds.remove(messageItemBeanV2s.get(i).getEmKey());
-                                    } else {
-                                        messageItemBeanV2s.get(i).setIsStick(0);
-                                    }
-                                } catch (Exception e) {
-                                    messageItemBeanV2s.get(i).setIsStick(0);
-                                    continue;
-                                }
-                            }
-
-                            //完善未匹配到的置顶消息填充到 消息List
-                            if(topIds.size() > 0)
-                                fillStickBeanInMessage(messageItemBeanV2s,topIds,stickBeans);
-
-                            //根据置顶和消息时间进行排序
-                            Collections.sort(messageItemBeanV2s,new MessageTimeAndStickSort());
-
-                            return messageItemBeanV2s;
+                        public List<MessageItemBeanV2> call(List<MessageItemBeanV2> messageItemBeanV2s) {
+                            return mStickList.size() == 0?messageItemBeanV2s:handleStickAndCacheConversation(mStickList,messageItemBeanV2s);
                         }
-                    }).observeOn(AndroidSchedulers.mainThread()).subscribe(msgSubscriber);
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(getConversationSubscriber(isLoadMore,true));
+            addSubscrebe(mCacheConversatonSub);
 
-            addSubscrebe(mAllConversaiotnSub);
         } else {
             if (!mIsFristConnectedIm) {
                 mRootView.showStickyMessage(mContext.getString(R.string.chat_unconnected));
@@ -358,6 +304,126 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
             // 尝试重新登录，在homepresenter接收
             mAuthRepository.loginIM();
         }
+    }
+
+    private rx.Subscriber<List<MessageItemBeanV2>> getConversationSubscriber(boolean isLoadMore,boolean isRequestStick){
+
+        return  new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
+            @Override
+            protected void onSuccess(List<MessageItemBeanV2> data) {
+                if (mCopyConversationList == null) {
+                    mCopyConversationList = new ArrayList<>();
+                }
+                mCopyConversationList = data;
+                mRootView.onNetResponseSuccess(data, isLoadMore);
+                mRootView.hideStickyMessage();
+                checkBottomMessageTip();
+
+                if(isRequestStick){
+                    requestStickConversation(isLoadMore);
+                }
+
+            }
+
+            @Override
+            protected void onFailure(String message, int code) {
+                super.onFailure(message, code);
+                mRootView.showStickyMessage(message);
+                mRootView.onResponseError(null, false);
+            }
+
+            @Override
+            protected void onException(Throwable throwable) {
+                super.onException(throwable);
+                mRootView.showStickyMessage(throwable.getMessage());
+                mRootView.onResponseError(throwable, false);
+            }
+        };
+
+    }
+
+    /**
+     * 请求置顶会话
+     * @param isLoadMore
+     */
+    private void requestStickConversation(boolean isLoadMore){
+
+        if(mStickConversationSub != null && mStickConversationSub.isUnsubscribed())
+            mStickConversationSub.unsubscribe();
+        mStickConversationSub = mChatInfoRepository.refreshSticks(String.valueOf(AppApplication.getMyUserIdWithdefault()))
+                .observeOn(Schedulers.io())
+                .map(new Func1<List<StickBean>, List<MessageItemBeanV2>>() {
+                    @Override
+                    public List<MessageItemBeanV2> call(List<StickBean> stickBeans) {
+                        Gson gson = new Gson();
+                        if(!gson.toJson(mStickList).equals(gson.toJson(stickBeans))){
+                            mStickList = stickBeans;
+                            List<MessageItemBeanV2> list = new ArrayList<>();
+                            list.addAll(mRootView.getListDatas());
+                            return handleStickAndCacheConversation(stickBeans,list);
+                        }else {
+                            return null;
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
+                    @Override
+                    protected void onSuccess(List<MessageItemBeanV2> data) {
+                        if(null != data){
+                            if (mCopyConversationList == null) {
+                                mCopyConversationList = new ArrayList<>();
+                            }
+                            mCopyConversationList = data;
+                            mRootView.onNetResponseSuccess(data, isLoadMore);
+                            mRootView.hideStickyMessage();
+                            checkBottomMessageTip();
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 处理置顶和缓存会话
+     * @param stickList
+     * @param cacheConversationList
+     * @return
+     */
+    private List<MessageItemBeanV2> handleStickAndCacheConversation(List<StickBean> stickList,List<MessageItemBeanV2> cacheConversationList){
+
+        List<String> topIds = new ArrayList<>();
+        for (int i = 0; i < stickList.size(); i++) {
+            if(null != stickList.get(i).getChatGroupBean()){
+                topIds.add(String.valueOf(stickList.get(i).getChatGroupBean().id));
+            }else if(null != stickList.get(i).getUserInfoBean()){
+                topIds.add(String.valueOf(stickList.get(i).getUserInfoBean().id));
+            }
+        }
+
+        for (int i = 0; i < cacheConversationList.size(); i++) {
+            try {
+                if (topIds.indexOf(cacheConversationList.get(i).getEmKey()) != -1) {
+                    cacheConversationList.get(i).setIsStick(1);
+                    topIds.remove(cacheConversationList.get(i).getEmKey());
+                } else {
+                    cacheConversationList.get(i).setIsStick(0);
+                }
+            } catch (Exception e) {
+                cacheConversationList.get(i).setIsStick(0);
+                continue;
+            }
+        }
+
+        //完善未匹配到的置顶消息填充到 消息List
+        if(topIds.size() > 0)
+            fillStickBeanInMessage(cacheConversationList,topIds,stickList);
+
+        //根据置顶和消息时间进行排序
+        Collections.sort(cacheConversationList,new MessageTimeAndStickSort());
+
+        return cacheConversationList;
+
     }
 
 

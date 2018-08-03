@@ -190,4 +190,39 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
     public boolean updateChatGroupMemberCount(String id, int count, boolean add) {
         return mChatGroupBeanGreenDao.updateChatGroupMemberCount(id, count, add);
     }
+
+    @Override
+    public void handleNotRoamingMessageList(List<EMMessage> messages) {
+        Observable.just(messages)
+                .subscribeOn(Schedulers.io())
+                .flatMap(emMessages -> {
+                    List<Object> userIds = new ArrayList<>();
+                    for (EMMessage msg : emMessages) {
+                        Long userId = null;
+                        try {
+                            userId = Long.parseLong(msg.getFrom());
+                        } catch (NumberFormatException ignore) {
+                        }
+                        if (userId != null) {
+                            UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getSingleDataFromCache(userId);
+                            if (userInfoBean == null) {
+                                userIds.add(userId);
+                            }
+                        }
+                    }
+                    if (userIds.isEmpty()) {
+                        return Observable.just(emMessages);
+                    } else {
+                        return mUserInfoRepository.getUserInfo(userIds)
+                                .flatMap(userInfoBeans -> Observable.just(emMessages));
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<List<EMMessage>>() {
+                    @Override
+                    protected void onSuccess(List<EMMessage> data) {
+                        mRootView.handleNotRoamingMessageWithUserInfo();
+                    }
+                });
+    }
 }

@@ -250,6 +250,20 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     }
 
     @Override
+    public void handleNotRoamingMessageWithUserInfo() {
+        if(isMessageListInited)
+            messageList.refresh();
+
+    }
+
+    @Override
+    protected void handleNotRoamingMessageList(List<EMMessage> list) {
+        super.handleNotRoamingMessageList(list);
+        mPresenter.handleNotRoamingMessageList(list);
+    }
+
+
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -514,7 +528,10 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             if (username.equals(toChatUsername) || message.getTo().equals(toChatUsername)
                     || message.conversationId().equals(toChatUsername)) {
 
-                messageList.refreshSelectLast();
+                if(messageList.canScrollVertically(1))
+                    messageList.refresh();
+                else
+                    messageList.refreshSelectLast();
                 EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
                 conversation.markMessageAsRead(message.getMsgId());
 

@@ -35,6 +35,8 @@ public interface ChatContract {
         void updateUserInfoForRefreshList(UserInfoBean data,TSEMRefreshEvent event);
 
         void updateCenterText(UserInfoBean userInfoBean);
+
+        void handleNotRoamingMessageWithUserInfo();
     }
 
     interface Presenter extends IBasePresenter {
@@ -59,5 +61,9 @@ public interface ChatContract {
 
         String getGroupName(String id);
         boolean updateChatGroupMemberCount(String id,int count,boolean add);
+
+        //找出未获取到用户信息的消息
+        void handleNotRoamingMessageList(List<EMMessage> messages);
+
     }
 }

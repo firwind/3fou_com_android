@@ -121,7 +121,7 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
     protected int[] itemdrawables = {R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
             R.drawable.ease_chat_location_selector};
     protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_LOCATION};
-    private boolean isMessageListInited;
+    protected boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
     /**
      * 是否是漫游消息
@@ -304,6 +304,7 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
                 }
                 conversation.loadMoreMsgFromDB(msgId, pagesize - msgCount);
             }
+            handleNotRoamingMessageList(conversation.getAllMessages());
         } else {
             fetchQueue.execute(() -> {
                 try {
@@ -324,6 +325,14 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
                 }
             });
         }
+    }
+
+    /**
+     * 向外扩展 会话初始化时，处理消息列表
+     * @param list
+     */
+    protected void handleNotRoamingMessageList(List<EMMessage> list){
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -408,10 +417,14 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
             }
 
             isloading = false;
+
+            handleNotRoamingMessageList(messages);
+
         } else {
             ToastUtils.showToast(getString(R.string.no_more_messages));
         }
         swipeRefreshLayout.setRefreshing(false);
+
     }
 
     private void loadMoreRoamingMessages() {

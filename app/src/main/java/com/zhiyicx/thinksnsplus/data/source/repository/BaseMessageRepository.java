@@ -28,9 +28,11 @@ import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.remote.EasemobClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.ServiceManager;
 import com.zhiyicx.thinksnsplus.data.beans.ExpandChatGroupBean;
+import com.zhiyicx.thinksnsplus.utils.MessageTimeAndStickSort;
 import com.zhiyicx.thinksnsplus.utils.TSImHelperUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -155,6 +157,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                     // 数据大于一个才排序
                                     Collections.sort(list1, new EmTimeSortClass());
                                 }*/
+                                Collections.sort(list1,new MessageTimeAndStickSort());
                                 return /*tmps*/list1;
                             });
                 });
@@ -192,32 +195,46 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                         } else if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.GroupChat) {
                             // 群聊
                             String chatGroupId = itemBeanV2.getConversation().conversationId();
-                            List<Object> curList = new ArrayList<>();
-                            for (EMMessage message:itemBeanV2.getConversation().getAllMessages()
-                                 ) {
 
+                            //拿到群聊信息最后一条记录，看发消息的人本地数据库有没有
+                            EMMessage message = itemBeanV2.getConversation().getLastMessage();
+
+                            //如果是 admin ,消息会是：xxx修改了群信息，xxx进入了聊天群之类的通知
+                            if (null != message && "admin".equals(message.getFrom()) && null != message.ext()) {
+                                boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
+                                boolean isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext( ).get("type"));
+                                //这个userId格式可能不合法，例如邀请多个人聊天，这里的userId 会是  [3,4,5]
+                                //这里只拿单个的用户信息
                                 Long userId = null;
                                 try {
-                                    if(null != message && "admin".equals(message.getFrom()) && null != message.ext()){
-                                        boolean isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
-                                        //这个userId格式可能不合法，例如邀请多个人聊天，这里的userId 会是  [3,4,5]
-                                        if(isUserJoin)
-                                            userId = Long.parseLong((String) message.ext().get("uid"));
-                                    }else {
-                                        userId = Long.parseLong(message.getFrom());
+                                    userId = Long.parseLong((String) message.ext().get("uid"));
+                                } catch (Exception e) {
+                                    //
+                                }
+                                if (null != userId && isUserJoin) {
+                                    UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getSingleDataFromCache(userId);
+                                    if (userInfoBean == null) {
+                                        users.add(userId);
                                     }
-                                }catch (Exception e){
-
                                 }
-                                curList.add(userId);
-                            }
-                            ConvertUtils.removeDuplicate(curList);
-                            for (Object o:curList) {
-                                if (null != o && mUserInfoBeanGreenDao.getSingleDataFromCache(Long.parseLong(String.valueOf(o))) == null) {
-                                    users.add(o);
+                                /*这里重复创建了会话 fix by huwenyong on 2018/06/29
+
+                                if (groupIds.indexOf(chatGroupId) == -1 && (isUserJoin || isUserExit)) {
+                                    groupIds.append(chatGroupId);
+                                    groupIds.append(",");
+                                }*/
+
+                            } else {
+                                Long userId = null;
+                                try {
+                                    userId = Long.parseLong(message.getFrom());
+                                } catch (Exception e) {
+                                    //
+                                }
+                                if (null != userId && mUserInfoBeanGreenDao.getSingleDataFromCache(userId) == null) {
+                                    users.add(itemBeanV2.getConversation().getLastMessage().getFrom());
                                 }
                             }
-
                             ChatGroupBean chatGroupBean = mChatGroupBeanGreenDao.getChatGroupBeanById(chatGroupId);
                             if (chatGroupBean == null) {
                                 // 之前在这里也许重复创建了会话 ，fix by tym on 2018-5-4 16:09:22
@@ -231,7 +248,6 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                 itemBeanV2.setConversation(EMClient.getInstance().chatManager().getConversation(chatGroupBean.getId()));
                                 itemBeanV2.setChatGroupBean(chatGroupBean);
                             }
-
                         } else {
                             // TODO: 2018/2/3   chatRoom 等
                         }
