@@ -26,7 +26,7 @@ interface IntegrationRechargeContract {
 
         fun useInputMonye(): Boolean
         /**
-         * 更新积分配置信息
+         * 更新糖果配置信息
          */
         fun updateIntegrationConfig(isGetSuccess: Boolean, data: IntegrationConfigBean?)
 

@@ -84,7 +84,8 @@ public abstract class EaseChatRowPresenter implements EaseChatRow.EaseChatRowAct
 
             @Override
             public void onError(int code, String error) {
-                Log.i("EaseChatRowPresenter", "onError: " + code + ", error: " + error);
+                Log.i("EaseChatRowPresenter", "onError: " + code + ", err" +
+                        "or: " + error);
                 getChatRow().updateView(message);
             }
 

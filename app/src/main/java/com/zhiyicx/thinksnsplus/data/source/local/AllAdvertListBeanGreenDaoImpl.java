@@ -162,7 +162,7 @@ public class AllAdvertListBeanGreenDaoImpl extends CommonCacheImpl<AllAdverListB
     }
 
     /**
-     * @return 积分页广告
+     * @return 糖果页广告
      */
     public AllAdverListBean getIntegrationAdvert() {
 

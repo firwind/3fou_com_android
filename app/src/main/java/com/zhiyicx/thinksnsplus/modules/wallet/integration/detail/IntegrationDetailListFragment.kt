@@ -65,7 +65,7 @@ class IntegrationDetailListFragment : TSListFragment<IntegrationDetailContract.P
     override var mChooseType: String? = null
 
     /**
-     * 积分配置
+     * 糖果配置
      */
     private var mIntegrationConfigBean: IntegrationConfigBean? = null
 
@@ -171,7 +171,7 @@ class IntegrationDetailListFragment : TSListFragment<IntegrationDetailContract.P
             mTvRule.text = getString(R.string.integration_rule_format, mGoldName)
             mTvRule.visibility = View.VISIBLE
             /**
-             * 积分规则
+             * 糖果规则
              */
             RxView.clicks(mTvRule)
                     .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)

@@ -13,8 +13,8 @@ public class RechargeSuccessV2Bean extends BaseListBean {
     /**
      * id : 11
      * owner_id : 1
-     * title : 积分充值
-     * body : 充值积分：200积分
+     * title : 糖果充值
+     * body : 充值糖果：200糖果
      * type : 1
      * target_type : recharge
      * target_id : 0
@@ -29,10 +29,10 @@ public class RechargeSuccessV2Bean extends BaseListBean {
      * title	string	记录标题
      * body	string	记录信息
      * type	int	增减类型 1 - 收入、 -1 - 支出
-     * target_type	string	操作类型 目前有： default - 默认操作、commodity - 购买积分商品、user - 用户到用户流程（如采纳、付费置顶等）、task - 积分任务、recharge - 充值、cash - 积分提取
+     * target_type	string	操作类型 目前有： default - 默认操作、commodity - 购买糖果商品、user - 用户到用户流程（如采纳、付费置顶等）、task - 糖果任务、recharge - 充值、cash - 糖果提取
      * target_id	string	当操作类型为user时，为用户id、当操作类型为recharge且充值完成时，为ping++订单号
-     * currency	int	后台预设积分类型id，当前需求中暂无该需求，默认为1，类型为积分
-     * amount	int	积分额
+     * currency	int	后台预设糖果类型id，当前需求中暂无该需求，默认为1，类型为糖果
+     * amount	int	糖果额
      * state	int	订单状态 0 - 等待、1 - 完成、-1 - 失败
      */
 

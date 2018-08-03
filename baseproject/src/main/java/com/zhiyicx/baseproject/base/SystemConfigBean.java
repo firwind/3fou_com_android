@@ -82,7 +82,7 @@ public class SystemConfigBean implements Serializable {
     @SerializedName("wallet:recharge")
     private OpenConfig walletRecharge;
     @SerializedName("wallet:transform")
-    private OpenConfig walletTransform; // 余额转积分
+    private OpenConfig walletTransform; // 余额转糖果
     @SerializedName("currency:cash")
     private OpenConfig currencyCash;
     @SerializedName("currency:recharge")

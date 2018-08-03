@@ -38,7 +38,7 @@ public interface ICurrencyRepository {
      * 获取收益明细
      * @return
      */
-    Observable<List<TeamBean.TeamListBean>> getEarningList(Context context,int id);
+    Observable<List<TeamBean.TeamListBean>> getEarningList(int id,String currency);
 
     /**
      * 获取首页币种列表

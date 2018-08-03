@@ -77,7 +77,7 @@ public class DynamicCommentTopPresenter extends AppBasePresenter<DynamicCommentT
     }
 
     /**
-     * @return 积分余额
+     * @return 糖果余额
      */
     @Override
     public long getBalance() {

@@ -37,13 +37,13 @@ public class ApiConfig {
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
 
-    public static String APP_DOMAIN = APP_DOMAIN_FORMAL/*APP_DOMAIN_TEST*/;
+    public static String APP_DOMAIN = /*APP_DOMAIN_FORMAL*/APP_DOMAIN_TEST;
 
     public static final String URL_ABOUT_US = "api/" + API_VERSION_2 + "/aboutus";// 关于我们网站
     public static final String URL_JIPU_SHOP = "http://haoshe.hotime.cn";// 豪舍购物地址
     public static final String URL_USE_RECOMMEND = APP_DOMAIN+"download/application.html";// 应用推荐
-    //public static final String URL_INTEGRATION_SHOP = "api/" + API_VERSION_2 + "/currency/shop";// 积分商城地址
-    public static final String URL_INTEGRATION_SHOP = "http://haoshe.hotime.cn";// 积分商城地址
+    //public static final String URL_INTEGRATION_SHOP = "api/" + API_VERSION_2 + "/currency/shop";// 糖果商城地址
+    public static final String URL_INTEGRATION_SHOP = "http://haoshe.hotime.cn";// 糖果商城地址
     public static final String URL_CURRENCY_INTEREST = APP_DOMAIN+"";//
 
     // 图片地址 V2
@@ -246,7 +246,7 @@ public class ApiConfig {
     public static final String APP_PATH_DYNAMIC_REWARDS_USER_LIST = "/api/" + API_VERSION_2 + "/feeds/{feed_id}/rewards";
     // 举报动态
     public static final String APP_PATH_DYNAMIC_REPORT = "/api/" + API_VERSION_2 + "/feeds/{feed_id}/reports";
-    // 获取动态置顶平均积分
+    // 获取动态置顶平均糖果
     public static final String APP_PATH_DYNAMIC_TOP_AVERAGE_NUM = "/api/" + API_VERSION_2 + "/feeds/average";
 
     /**
@@ -951,6 +951,8 @@ public class ApiConfig {
     public static final String APP_PATH_GET_NON_MEMBER_VERTIFYCODE = "api/" + API_VERSION_2 + "/verifycodes/register";
     // 获取会员短信验证码，使用场景如登陆、找回密码，其他用户行为验证等。
     public static final String APP_PATH_GET_MEMBER_VERTIFYCODE = "api/" + API_VERSION_2 + "/verifycodes";
+    //获取会员短信验证码,使用绑定手机等，后台做手机校验，如果改手机号存在，则会返回状态吗，提示用户是否继续绑定。
+    public static final String APP_PATH_GET_MEMBER_VERTIFYCODE_V2 = "api/" + API_VERSION_2 + "/verifycodes/checkPhone";
     public static final String APP_PATH_GET_APP_VERSION = "api/" + API_VERSION_2 + "/plus-appversion";
 
     /**
@@ -1069,7 +1071,7 @@ public class ApiConfig {
     // 凭据回执
     public static final String APP_PAHT_WALLET_RECHARGE_SUCCESS_CALLBACK = "api/" + API_VERSION_2 + "/wallet/charges/{charge}?mode=retrieve";
     public static final String APP_PAHT_WALLET_RECHARGE_SUCCESS_CALLBACK_FORMAT = "api/" + API_VERSION_2 + "/wallet/charges/%s?mode=retrieve";
-    //    钱包余额转积分
+    //    钱包余额转糖果
     public static final String APP_PAHT_WALLET_BALANCE_TO_INTEGRATION = "api/" + API_VERSION_2 + "/plus-pay/transform";
 
     // 支付宝充值
@@ -1079,13 +1081,13 @@ public class ApiConfig {
 
     // 余额充值验证
     public static final String APP_PAHT_WALLET_VERIFY_V2 = "api/" + API_VERSION_2 + "/walletRecharge/checkOrders";
-    // 积分充值验证
+    // 糖果充值验证
     public static final String APP_PAHT_INTEGRATION_VERIFY_V2 = "api/" + API_VERSION_2 + "/currencyRecharge/checkOrders";
 
     /**
-     * 积分
+     * 糖果
      */
-    // 积分配置信息
+    // 糖果配置信息
     public static final String APP_PAHT_INTEGRATION_CONFIG = "api/" + API_VERSION_2 + "/currency";
     public static final String APP_PAHT_INTEGRATION_RECHARGE = "api/" + API_VERSION_2 + "/currency/recharge";
     public static final String APP_PAHT_INTEGRATION_RECHARGE_SUCCESS = "api/" + API_VERSION_2 + "/currency/orders/{order}";
@@ -1093,9 +1095,9 @@ public class ApiConfig {
     // 凭据回执
     public static final String APP_PAHT_INTEGRATION_RECHARGE_SUCCESS_CALLBACK = "api/" + API_VERSION_2 + "/currency/webhooks";
     public static final String APP_PAHT_INTEGRATION_RECHARGE_SUCCESS_CALLBACK_FORMAT = "api/" + API_VERSION_2 + "/wallet/charges/%s?mode=retrieve";
-    // 积分流水
+    // 糖果流水
     public static final String APP_PAHT_INTEGRATION_ORDERS = "api/" + API_VERSION_2 + "/currency/orders";
-    // 积分提取 POST /api/v2/currency/cash
+    // 糖果提取 POST /api/v2/currency/cash
     public static final String APP_PAHT_INTEGRATION_WITHDRAWALS = "api/" + API_VERSION_2 + "/currency/cash";
 
 
@@ -1145,6 +1147,8 @@ public class ApiConfig {
      */
     //获取团队列表
     public static final String APP_PATH_GET_MY_TEAM_LIST = "api/" + API_VERSION_2 + "/distribut/getReferrerDown";
+    //获取团队明细
+    public static final String APP_PATH_GET_DETAIL_LOG = "api/" + API_VERSION_2 + "/distribut/getDetailLog";
     //获取团队币种列表
     public static final String APP_PATH_GET_TEAM_CURRENCY_LIST = "api/"+API_VERSION_2+"/distribut/getUserMoney";
 

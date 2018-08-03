@@ -42,23 +42,23 @@ public class CompleteAccountPresenter extends AppBasePresenter<CompleteAccountCo
     }
 
     @Override
-    public void checkName(ThridInfoBean thridInfoBean, String name) {
+    public void checkName(ThridInfoBean thridInfoBean, String name,String code) {
         if (checkUsername(name)) {
             return;
         }
-        check(thridInfoBean, name);
+        check(thridInfoBean, name,code);
     }
 
     @Override
-    public void thridRegister(ThridInfoBean thridInfoBean, String name) {
+    public void thridRegister(ThridInfoBean thridInfoBean,String name, String code) {
         if (checkUsername(name)) {
             return;
         }
-        register(thridInfoBean, name, true);
+        register(thridInfoBean, name, true,code);
     }
 
-    private void check(final ThridInfoBean thridInfoBean, final String name) {
-        Subscription subscribe = mUserInfoRepository.checkUserOrRegisterUser(thridInfoBean.getProvider(), thridInfoBean.getAccess_token(), name, true)
+    private void check(final ThridInfoBean thridInfoBean, final String name,String code) {
+        Subscription subscribe = mUserInfoRepository.checkUserOrRegisterUser(thridInfoBean.getProvider(), thridInfoBean.getAccess_token(), name, true,code)
                 .subscribe(new BaseSubscribeForV2<AuthBean>() {
                     @Override
                     protected void onSuccess(AuthBean data) {
@@ -79,14 +79,14 @@ public class CompleteAccountPresenter extends AppBasePresenter<CompleteAccountCo
         addSubscrebe(subscribe);
     }
 
-    private void register(final ThridInfoBean thridInfoBean, final String name, boolean isCheck) {
+    private void register(final ThridInfoBean thridInfoBean, final String name, boolean isCheck,String code) {
         Subscription subscribe = mUserInfoRepository.checkUserOrRegisterUser(thridInfoBean.getProvider(), thridInfoBean.getAccess_token(), name,
-                isCheck)
+                isCheck,code)
                 .subscribe(new BaseSubscribeForV2<AuthBean>() {
                     @Override
                     protected void onSuccess(AuthBean data) {
                         if (isCheck) {
-                            register(thridInfoBean, name, false);
+                            register(thridInfoBean, name, false,code);
                         } else { // register success
                             mAuthRepository.saveAuthBean(data);// 保存登录认证信息
                             mUserInfoBeanGreenDao.insertOrReplace(data.getUser());

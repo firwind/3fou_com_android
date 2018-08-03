@@ -178,19 +178,19 @@ class MineIntegrationFragment : TSFragment<MineIntegrationContract.Presenter>(),
                 .subscribe {
                     mPresenter.checkIntegrationConfig(MineIntegrationPresenter.TAG_DETAIL, true)
                 }
-        // 充值积分
+        // 充值糖果
         RxView.clicks(mBtReCharge)
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())
                 .subscribe {
                     mPresenter.checkIntegrationConfig(MineIntegrationPresenter.TAG_RECHARGE, true)
                 }
-        // 提取积分
+        // 提取糖果
         RxView.clicks(mBtWithdraw)
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())
                 .subscribe { mPresenter.checkIntegrationConfig(MineIntegrationPresenter.TAG_WITHDRAW, true) }     // 提现
-        // 积分商城
+        // 糖果商城
         RxView.clicks(mBtIntegrationShop)
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())
@@ -202,7 +202,7 @@ class MineIntegrationFragment : TSFragment<MineIntegrationContract.Presenter>(),
                     }
                     CustomWEBActivity.startToWEBActivity(mActivity, headers, ApiConfig.APP_DOMAIN + ApiConfig.URL_INTEGRATION_SHOP, getString(R.string.integration_shop_foramt, mGoldName))
                 }
-        // 积分规则
+        // 糖果规则
         RxView.clicks(mTvReChargeAndWithdrawRule)
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())

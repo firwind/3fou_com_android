@@ -47,7 +47,7 @@ public interface StickTopContract {
         StickTopAverageBean getStickTopAverageBean();
 
         /**
-         * 当前积分余额
+         * 当前糖果余额
          *
          * @return
          */

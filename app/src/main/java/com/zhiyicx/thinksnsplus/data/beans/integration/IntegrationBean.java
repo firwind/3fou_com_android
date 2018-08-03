@@ -3,7 +3,7 @@ package com.zhiyicx.thinksnsplus.data.beans.integration;
 import java.io.Serializable;
 
 /**
- * @Describe 积分  doc {https://slimkit.github.io/docs/api-v2-users.html}
+ * @Describe 糖果  doc {https://slimkit.github.io/docs/api-v2-users.html}
  * @Author zl
  * @Date 2018/1/22
  * @Contact master.jungle68@gmail.com

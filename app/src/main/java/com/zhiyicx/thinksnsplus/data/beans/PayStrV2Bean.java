@@ -9,11 +9,11 @@ package com.zhiyicx.thinksnsplus.data.beans;
 public class PayStrV2Bean {
 
     /**
-     * order : {"id":1,"owner_id":1,"target_type":"recharge_ping_p_p","target_id":1,"title":"充值","body":"积分充值","type":-1,"amount":500,"state":0,
+     * order : {"id":1,"owner_id":1,"target_type":"recharge_ping_p_p","target_id":1,"title":"充值","body":"糖果充值","type":-1,"amount":500,"state":0,
      * "created_at":"2018-01-04 07:29:57","updated_at":"2018-01-04 07:29:57"}
      * pingpp_order : {"id":"ch_08anD0a9yjPCLyvbTODqXrnT","object":"charge","created":1496819712,"livemode":false,"paid":false,"refunded":false,
      * "app":"app_5anXP4ezfXvL8m5e","channel":"applepay_upacp","order_no":"C0000000000000000008","client_ip":"127.0.0.1","amount":500,
-     * "amount_settle":500,"currency":"cny","subject":"余额充值","body":"积分余额充值","extra":{},"time_paid":null,"time_expire":1496906112,
+     * "amount_settle":500,"currency":"cny","subject":"余额充值","body":"糖果余额充值","extra":{},"time_paid":null,"time_expire":1496906112,
      * "time_settle":null,"transaction_no":null,"refunds":{"object":"list","url":"/v1/charges/ch_08anD0a9yjPCLyvbTODqXrnT/refunds",
      * "has_more":false,"data":[]},"amount_refunded":0,"failure_code":null,"failure_msg":null,"metadata":{},"credential":{"object":"credential",
      * "applepay_upacp":{"tn":"201706071515122891443","mode":"00","merchant_id":"Your app merchant id"}},"description":null}
@@ -45,7 +45,7 @@ public class PayStrV2Bean {
          * target_type : recharge_ping_p_p
          * target_id : 1
          * title : 充值
-         * body : 积分充值
+         * body : 糖果充值
          * type : -1
          * amount : 500
          * state : 0

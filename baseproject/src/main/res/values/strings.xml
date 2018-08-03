@@ -33,6 +33,7 @@
     <string name="email_address">邮箱</string>
     <string name="login_account">账号</string>
     <string name="invitation_code">邀请码</string>
+
     <string name="invitation_code_hint">*可填</string>
     <string name="send_vertify_code">获取验证码</string>
     <string name="forget_password">忘记密码</string>

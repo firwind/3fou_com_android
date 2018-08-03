@@ -118,9 +118,9 @@ public class AccountManagementFragment extends TSFragment<AccountManagementContr
 //                        }
                         // 跳转绑定/解绑手机号
                         Intent intent = new Intent(getActivity(), AccountBindActivity.class);
-                        if (!AppApplication.getmCurrentLoginAuth().getUser().isInitial_password()) {
-                            intent.setClass(getActivity(), InitPasswordActivity.class);
-                        }
+//                        if (!AppApplication.getmCurrentLoginAuth().getUser().isInitial_password()) {
+//                            intent.setClass(getActivity(), InitPasswordActivity.class);
+//                        }
                         Bundle bundle = new Bundle();
                         bundle.putInt(BUNDLE_BIND_TYPE, DEAL_TYPE_PHONE);
                         bundle.putBoolean(BUNDLE_BIND_STATE, !TextUtils.isEmpty(mCurrentUser.getPhone()));

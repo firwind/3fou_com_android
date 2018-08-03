@@ -117,7 +117,7 @@ public class SystemConfig {
             "        },\n" +
             "        \"currency_name\":{\n" +
             "            \"id\":1,\n" +
-            "            \"name\":\"积分\",\n" +
+            "            \"name\":\"糖果\",\n" +
             "            \"unit\":\"\",\n" +
             "            \"enable\":1\n" +
             "        }\n" +

@@ -69,10 +69,8 @@ public class CurrencyRepository implements ICurrencyRepository {
     }
 
     @Override
-    public Observable<List<TeamBean.TeamListBean>> getEarningList(Context context, int id) {
-        String earnings = JsonUtils.getJson("Earnings", context);
-        return Observable.just(earnings).map((Func1<String, List<TeamBean.TeamListBean>>) s -> new Gson().fromJson(s, new TypeToken<List<TeamBean.TeamListBean>>() {
-        }.getType()))
+    public Observable<List<TeamBean.TeamListBean>> getEarningList(int id,String currency) {
+        return mCurrencyClient.getDetailLog(id,currency)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

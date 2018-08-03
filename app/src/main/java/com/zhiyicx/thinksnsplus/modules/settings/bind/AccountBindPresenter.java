@@ -76,14 +76,13 @@ public class AccountBindPresenter extends BasePresenter<AccountBindContract.View
      * @param isBind true, 解绑
      */
     @Override
-    public void getVertifyCode(String phone, boolean isBind) {
+    public void getVertifyCode(String phone, boolean isBind,int status) {
         if (checkPhone(phone)) {
             return;
         }
         mRootView.setVerifyCodeBtEnabled(false);
         mRootView.setVerifyCodeLoading(true);
-        Subscription getVertifySub = (isBind ? mVertifyCodeRepository.getMemberVertifyCode(phone) : mVertifyCodeRepository.getNonMemberVertifyCode
-                (phone))
+        Subscription getVertifySub = (isBind ? mVertifyCodeRepository.getMemberVertifyCode(phone) :mVertifyCodeRepository.getNonMemberVertifyCode(phone)) /*mVertifyCodeRepository.getMemberVertifyCodeV2(phone,status))*/
                 .subscribe(new BaseSubscribeForV2<Object>() {
                     @Override
                     protected void onSuccess(Object data) {
@@ -94,6 +93,10 @@ public class AccountBindPresenter extends BasePresenter<AccountBindContract.View
 
                     @Override
                     protected void onFailure(String message, int code) {
+//                        if (code == 500){
+//                            mRootView.hintBindPhone(message);
+//                            return;
+//                        }
                         mRootView.showMessage(message);
                         mRootView.setVerifyCodeBtEnabled(true);
                         mRootView.setVerifyCodeLoading(false);

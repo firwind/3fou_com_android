@@ -100,9 +100,9 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
         super.initView(rootView);
         mSearchView.setVisibility(View.VISIBLE);
         userInfoBean = AppApplication.getmCurrentLoginAuth().getUser();
-        if (TextUtils.isEmpty(userInfoBean.getPhone())){
-            showBindPopupWindow();
-        }
+//        if (TextUtils.isEmpty(userInfoBean.getPhone())){
+//            showBindPopupWindow();
+//        }
     }
     /**
      * 提示绑定手机号

@@ -41,6 +41,12 @@ public class MyTeamPresenter extends AppBasePresenter<MyTeamContract.View> imple
                     protected void onSuccess(List<CurrencyTypeBean> data) {
 //                        mRootView.getCurrencyType(data);
                         mRootView.getCurrencyType(data);
+                        for (int i = 0 ; i<data.size() ;i++){
+                            if (i == 0){
+
+                                mRootView.getInitData(data.get(i).getCurrency(),data.get(i).getMoney().get(0));
+                            }
+                        }
                     }
                 });
 

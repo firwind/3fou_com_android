@@ -47,6 +47,7 @@ public class ChooseBindFragment extends TSFragment<ChooseBindContract.Presenter>
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     protected void initView(View rootView) {
         rootView.postDelayed(this::initPopWindow, 500);

@@ -25,11 +25,13 @@ public interface AccountBindContract {
         void unBindPhoneOrEmailSuccess(boolean isPhone);
 
         void BindPhoneOrEmailSuccess(boolean isPhone);
+
+        void hintBindPhone(String str);
     }
 
     interface Presenter extends IBasePresenter {
 
-        void getVertifyCode(String trim, boolean isBind);
+        void getVertifyCode(String trim, boolean isBind,int status);
 
         void getVerifyCodeByEmail(String trim, boolean isBind);
 

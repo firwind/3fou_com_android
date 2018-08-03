@@ -166,7 +166,7 @@ class IntegrationRechargeFragment : TSFragment<IntegrationRechargeContract.Prese
 
     private fun updateData() {
         initListener()
-        // 元对应的积分比例，服务器返回的是以分为单位的比例
+        // 元对应的糖果比例，服务器返回的是以分为单位的比例
         setDynamicRatio(mBaseRatioNum);
         if (mIntegrationConfigBean != null && !TextUtils.isEmpty(mIntegrationConfigBean!!.rechargeoptions)) {
             val datas = ArrayList<ChooseDataBean>()

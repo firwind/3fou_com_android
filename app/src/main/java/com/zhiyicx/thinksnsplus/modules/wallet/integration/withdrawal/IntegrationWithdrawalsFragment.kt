@@ -110,7 +110,7 @@ class IntegrationWithdrawalsFragment : TSFragment<IntegrationWithdrawalsContract
         }
         mEtInput.hint = getString(R.string.et_input_withdrawals_integration_tip_format, mIntegrationConfigBean!!.cashmin, mGoldName)
         initListener()
-        // 元对应的积分比例，服务器返回的是以分为单位的比例
+        // 元对应的糖果比例，服务器返回的是以分为单位的比例
         setDynamicRatio(mBaseRatioNum)
         mTvRechargeRule.text = resources.getString(R.string.integration_withdrawals_rule_format, mGoldName)
         mTvInputTip1.text = getString(R.string.input_withdrawals_integration_format, mGoldName)
@@ -132,7 +132,7 @@ class IntegrationWithdrawalsFragment : TSFragment<IntegrationWithdrawalsContract
     }
 
     private fun initListener() {
-        // 积分规则
+        // 糖果规则
         RxView.clicks(mTvRechargeRule)
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())

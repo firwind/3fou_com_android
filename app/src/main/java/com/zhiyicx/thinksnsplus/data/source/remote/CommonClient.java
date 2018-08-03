@@ -45,6 +45,7 @@ import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_All_ADVERT_I
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_BOOTSTRAPERS_INFO;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_CHECK_NOTE;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_MEMBER_VERTIFYCODE;
+import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_MEMBER_VERTIFYCODE_V2;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_NON_MEMBER_VERTIFYCODE;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_SINGLE_ADVERT_INFO;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_SYSTEM_CONVERSATIONS;
@@ -91,6 +92,17 @@ public interface CommonClient {
     @FormUrlEncoded
     @POST(APP_PATH_GET_MEMBER_VERTIFYCODE)
     Observable<Object> getMemberVertifyCode(@Field("phone") String phone, @Field("email") String email);
+
+    /**
+     * 获取会员验证码 ：使用绑定手机等，后台做手机校验，如果改手机号存在，则会返回状态吗，提示用户是否继续绑定。
+     *
+     * @param phone 需要被发送验证码的手机号 Required without email, Send the verification code in sms mode.
+     * @param sure_status 1 （默认）第一次正常校验，2.放行直接发验证码
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(APP_PATH_GET_MEMBER_VERTIFYCODE_V2)
+    Observable<Object> getMemberVertifyCodeV2(@Field("phone") String phone, @Field("email") String email,@Field("sure_status") int sure_status);
 
     /**
      * 获取非会员验证码 ：用于发送不存在于系统中的用户短信，使用场景如注册等。

@@ -33,6 +33,13 @@ public class VertifyCodeRepository implements IVertifyCodeRepository {
     }
 
     @Override
+    public Observable<Object> getMemberVertifyCodeV2(String phone, int sure_status) {
+        return mCommonClient.getMemberVertifyCodeV2(phone, null,sure_status)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
     public Observable<Object> getMemberVerifyCodeByEmail(String email) {
         return mCommonClient.getMemberVertifyCode(null, email)
                 .subscribeOn(Schedulers.io())

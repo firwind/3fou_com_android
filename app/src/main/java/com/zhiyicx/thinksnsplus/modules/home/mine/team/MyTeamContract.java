@@ -19,6 +19,7 @@ import java.util.List;
 public class MyTeamContract {
     interface View extends IBaseView<Presenter> {
         void getCurrencyType(List<CurrencyTypeBean> bean);
+        void getInitData(String currency,String money);
     }
 
     interface Presenter extends IBasePresenter {

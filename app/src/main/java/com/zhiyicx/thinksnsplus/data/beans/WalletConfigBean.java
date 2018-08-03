@@ -31,7 +31,7 @@ public class WalletConfigBean implements Serializable, Parcelable {
     /**
      * labels : [550,2000,9900]
      * ratio : 200
-     * rule : 我是积分规则纯文本.
+     * rule : 我是糖果规则纯文本.
      * case_min_amount : 1, // 真实金额分单位，用户最低提现金额。
      * alipay : {"open":false}
      * apple : {"open":false}

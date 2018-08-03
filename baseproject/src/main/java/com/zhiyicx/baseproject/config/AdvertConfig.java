@@ -73,7 +73,7 @@ public class AdvertConfig {
      */
     public static final String APP_GROUP_DETAIL_ADVERT = "group:single";
     /**
-     * 积分页广告
+     * 糖果页广告
      */
     public static final String APP_WALLET_INTEGRATION_ADVERT = "currency";
 

@@ -18,7 +18,9 @@ import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.widget.button.LoadingButton;
 import com.zhiyicx.baseproject.widget.edittext.DeleteEditText;
 import com.zhiyicx.baseproject.widget.edittext.PasswordEditText;
+import com.zhiyicx.baseproject.widget.popwindow.CenterAlertPopWindow;
 import com.zhiyicx.common.utils.RegexUtils;
+import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.login.LoginActivity;
@@ -90,7 +92,7 @@ public class AccountBindFragment extends TSFragment<AccountBindContract.Presente
     private Animatable mVerifyAnimationDrawable;
     private boolean isSureLoading;
     private UserInfoBean mUserInfoBean;
-
+    private CenterAlertPopWindow mBindPop;
     public AccountBindFragment instance(Bundle bundle) {
         AccountBindFragment fragment = new AccountBindFragment();
         fragment.setArguments(bundle);
@@ -130,6 +132,7 @@ public class AccountBindFragment extends TSFragment<AccountBindContract.Presente
             mLlContainerPassword.setVisibility(View.GONE);
             mLlContainerSurePassword.setVisibility(View.GONE);
             mIsNeedSetPasswordWithBindAccount = false;
+
 //            if (mUserInfoBean.getPhone() == null && mUserInfoBean.getEmail() == null) { // 需要设置密码
             if (mCurrentType == DEAL_TYPE_PHONE) { // 需要设置密码
                 mIsNeedSetPasswordWithBindAccount = true;
@@ -202,6 +205,41 @@ public class AccountBindFragment extends TSFragment<AccountBindContract.Presente
     public void BindPhoneOrEmailSuccess(boolean isPhone) {
         startActivity(new Intent(getContext(),LoginActivity.class));
         getActivity().finish();
+    }
+
+    @Override
+    public void hintBindPhone(String str) {
+        if (mBindPop != null) {
+            mBindPop.show();
+            return;
+        }
+        mBindPop = CenterAlertPopWindow.builder()
+                .titleStr(getString(R.string.tips))
+                .desStr(str)
+                .itemRight(getString(R.string.continue_binding))
+                .itemRightColor(R.color.themeColor)
+                .isOutsideTouch(true)
+                .isFocus(true)
+                .animationStyle(R.style.style_actionPopupAnimation)
+                .backgroundAlpha(CustomPopupWindow.POPUPWINDOW_ALPHA)
+                .with(getActivity())
+                .buildCenterPopWindowItem1ClickListener(new CenterAlertPopWindow.CenterPopWindowItemClickListener() {
+                    @Override
+                    public void onRightClicked() {
+//                        goBindPhone();
+                        mPresenter.getVertifyCode(mEtPhone.getText().toString().trim(), mIsBind,2);
+                        mBindPop.hide();
+                    }
+
+                    @Override
+                    public void onLeftClicked() {
+                        mBindPop.hide();
+                        mEtPhone.setText("");
+                    }
+                })
+                .parentView(getView())
+                .build();
+        mBindPop.show();
     }
 
     @Override
@@ -299,7 +337,7 @@ public class AccountBindFragment extends TSFragment<AccountBindContract.Presente
                 .compose(this.bindToLifecycle())
                 .subscribe(aVoid -> {
                     if (mCurrentType == DEAL_TYPE_PHONE) {
-                        mPresenter.getVertifyCode(mEtPhone.getText().toString().trim(), mIsBind);
+                        mPresenter.getVertifyCode(mEtPhone.getText().toString().trim(), mIsBind,1);
                     } else {
                         mPresenter.getVerifyCodeByEmail(mEtEmail.getText().toString().trim(), mIsBind);
                     }

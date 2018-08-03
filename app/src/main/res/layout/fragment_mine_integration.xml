@@ -71,7 +71,7 @@
             app:leftTextLeftPadding="@dimen/spacing_mid"
             app:rightImage="@mipmap/ic_arrow_smallgrey"
             app:showLine="false"/>
-        <!--积分商城-->
+        <!--糖果商城-->
         <com.zhiyicx.baseproject.widget.button.CombinationButton
             android:id="@+id/bt_integration_shop"
             android:layout_width="match_parent"

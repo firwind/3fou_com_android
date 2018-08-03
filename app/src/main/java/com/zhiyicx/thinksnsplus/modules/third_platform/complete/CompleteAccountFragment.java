@@ -13,6 +13,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.widget.button.LoadingButton;
+import com.zhiyicx.baseproject.widget.edittext.DeleteEditText;
 import com.zhiyicx.common.config.ConstantConfig;
 import com.zhiyicx.common.utils.ActivityHandler;
 import com.zhiyicx.imsdk.utils.common.DeviceUtils;
@@ -41,6 +42,8 @@ public class CompleteAccountFragment extends TSFragment<CompleteAccountContract.
 
     @BindView(R.id.et_login_phone)
     EditText mEtLoginPhone;
+    @BindView(R.id.et_invite_code)
+    DeleteEditText mEtCode;
     @BindView(R.id.tv_error_tip)
     TextView mTvErrorTip;
     @BindView(R.id.tv_app_rule)
@@ -90,7 +93,7 @@ public class CompleteAccountFragment extends TSFragment<CompleteAccountContract.
                         .permission.READ_PHONE_STATE))
                 .subscribe(aBoolean -> {
                     if (aBoolean) {// 获取到了权限
-                        mPresenter.thridRegister(mThridInfoBean, mEtLoginPhone.getText().toString());
+                        mPresenter.thridRegister(mThridInfoBean, mEtLoginPhone.getText().toString(),mEtCode.getText().toString());
                     } else {// 拒绝权限，但是可以再次请求
                         showErrorTips(getString(R.string.permisson_refused));
                     }
@@ -121,7 +124,7 @@ public class CompleteAccountFragment extends TSFragment<CompleteAccountContract.
     protected void initData() {
         mEtLoginPhone.setText(mThridInfoBean.getName());
         mEtLoginPhone.setSelection(mThridInfoBean.getName().length());
-        mPresenter.checkName(mThridInfoBean, mThridInfoBean.getName());
+        mPresenter.checkName(mThridInfoBean, mThridInfoBean.getName(),mEtCode.getText().toString());
         mBtLoginLogin.setEnabled(false);
     }
 

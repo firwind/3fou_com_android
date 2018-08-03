@@ -31,8 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="我的总资产：0BCB"
+            android:paddingRight="@dimen/margin_10dp"
             android:textColor="@color/black_deep"
-            android:textSize="@dimen/sp16" />
+            android:textSize="@dimen/sp14" />
     </LinearLayout>
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/mg_indicator"

@@ -843,8 +843,8 @@ public class UserInfoRepository implements IUserInfoRepository {
      * @return
      */
     @Override
-    public Observable<AuthBean> checkUserOrRegisterUser(String provider, String access_token, String name, Boolean check) {
-        return mUserInfoClient.checkUserOrRegisterUser(provider, new ThridInfoBean(provider, access_token, name, check))
+    public Observable<AuthBean> checkUserOrRegisterUser(String provider, String access_token, String name, Boolean check,String user_code) {
+        return mUserInfoClient.checkUserOrRegisterUser(provider, new ThridInfoBean(provider, access_token, name, check,user_code))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

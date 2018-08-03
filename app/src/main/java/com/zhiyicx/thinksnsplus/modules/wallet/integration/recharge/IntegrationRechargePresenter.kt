@@ -254,7 +254,7 @@ constructor(rootView: IntegrationRechargeContract.View) : AppBasePresenter<Integ
     }
 
     /**
-     * 更新积分配置
+     * 更新糖果配置
      */
     override fun getIntegrationConfigBean() {
         mRootView.handleLoading(true)

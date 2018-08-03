@@ -192,10 +192,10 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
     public void shareInfo(Bitmap bitmap) {
         ((UmengSharePolicyImpl) mSharePolicy).setOnShareCallbackListener(this);
         ShareContent shareContent = new ShareContent();
-        shareContent.setTitle(mContext.getString(R.string.app_name_info, mContext.getString(R.string.app_name)));
+        shareContent.setTitle(mRootView.getCurrentInfo().getTitle());
         shareContent.setUrl(TSShareUtils.convert2ShareUrl(String.format(APP_PATH_INFO_DETAILS_FORMAT,
                 mRootView.getCurrentInfo().getId())));
-        shareContent.setContent(mRootView.getCurrentInfo().getTitle());
+        shareContent.setContent(mRootView.getCurrentInfo().getContent());
 
         if (bitmap == null) {
             shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon)));
@@ -209,6 +209,7 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
                     , mContext.getResources().getDimensionPixelOffset(R.dimen.headpic_for_user_home)
                     , mContext.getResources().getDimensionPixelOffset(R.dimen.headpic_for_user_home)
                     , ImageZipConfig.IMAGE_70_ZIP));
+
         }
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());

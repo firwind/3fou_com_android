@@ -25,8 +25,8 @@ public interface CompleteAccountContract {
 
     interface Presenter extends IBaseTouristPresenter{
 
-        void checkName(ThridInfoBean thridInfoBean,String name);
+        void checkName(ThridInfoBean thridInfoBean,String name,String code);
 
-        void thridRegister(ThridInfoBean thridInfoBean, String name);
+        void thridRegister(ThridInfoBean thridInfoBean,String name,String user_code);
     }
 }

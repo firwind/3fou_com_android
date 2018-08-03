@@ -163,7 +163,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     @SerializedName("new_wallet")
     private WalletBean wallet;
     /**
-     * 积分
+     * 糖果
      */
     @Convert(converter = IntegrationBeanConverter.class, columnType = String.class)
     private IntegrationBean currency;
@@ -464,7 +464,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     }
 
     /**
-     * @return 格式化后的用户积分
+     * @return 格式化后的用户糖果
      */
     public long getFormatCurrencyNum() {
 

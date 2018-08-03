@@ -14,6 +14,7 @@ import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 public class EarningsDetailContract {
     interface View extends ITSListView<TeamBean.TeamListBean,Presenter>{
         int getEarningId();
+        String getCurrency();
     }
     interface Presenter extends ITSListPresenter<TeamBean.TeamListBean> {
 

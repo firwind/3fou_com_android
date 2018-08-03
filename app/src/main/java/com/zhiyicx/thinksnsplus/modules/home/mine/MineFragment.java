@@ -262,7 +262,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
                 startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
             /*
-              我的积分 
+              我的糖果
              */
             case R.id.bt_mine_integration:
                 startActivity(new Intent(mActivity, MineIntegrationActivity.class));

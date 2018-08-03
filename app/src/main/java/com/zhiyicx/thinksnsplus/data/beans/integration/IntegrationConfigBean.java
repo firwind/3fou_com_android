@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 /**
- * @Describe 积分配置信息 doc @see{https://slimkit.github.io/plus-docs/v2/core/currency}
+ * @Describe 糖果配置信息 doc @see{https://slimkit.github.io/plus-docs/v2/core/currency}
  * @Author zl
  * @Date 2018/1/22
  * @Contact master.jungle68@gmail.com
@@ -18,11 +18,11 @@ public class IntegrationConfigBean implements Serializable {
 
     private static final long serialVersionUID = -1293476228114357406L;
     /**
-     * recharge-ratio	int	兑换比例，人民币一分钱可兑换的积分数量
+     * recharge-ratio	int	兑换比例，人民币一分钱可兑换的糖果数量
      * recharge-options	string	充值选项，人民币分单位
      * recharge-max	int	单笔最高充值额度
      * recharge-min	int	单笔最小充值额度
-     * rule	string	积分规则
+     * rule	string	糖果规则
      * cash-min
      * cash-max
      */

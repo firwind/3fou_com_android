@@ -93,6 +93,14 @@ public interface CurrencyClient {
      */
     @GET(ApiConfig.APP_PATH_GET_MY_TEAM_LIST)
     Observable<List<TeamBean.TeamListBean>> getTeamList(@Query ("type") String type, @Query("grade") int grade);
+    /**
+     * 获取团队收益明细
+     * @param pid 获取id
+     * @param currency 币种
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_DETAIL_LOG)
+    Observable<List<TeamBean.TeamListBean>> getDetailLog(@Query ("pid") int pid, @Query("currency") String currency);
 
     /**
      * 账本
@@ -103,6 +111,7 @@ public interface CurrencyClient {
      */
     @GET(ApiConfig.APP_PATH_CURRENCY_ACCOUNT_BOOK_LIST)
     Observable<List<AccountBookListBean>> getAccountBookList(@Query("page") Integer page, @Query("limit") Integer limit , @Query("target_type") Integer target_type);
+
 
     @GET(ApiConfig.APP_PATH_GET_TEAM_CURRENCY_LIST)
     Observable<List<CurrencyTypeBean>> getTeamCurrencyList();

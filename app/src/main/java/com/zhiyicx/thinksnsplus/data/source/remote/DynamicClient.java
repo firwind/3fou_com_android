@@ -124,7 +124,7 @@ public interface DynamicClient {
      * 置顶动态 V2
      *
      * @param feed_id 动态的唯一 id
-     * @param amount  必须，置顶总价格，积分。
+     * @param amount  必须，置顶总价格，糖果。
      * @param day     必须，置顶天数。
      * @return
      */

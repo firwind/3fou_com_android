@@ -16,6 +16,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 
 public class EarningsDetailActivity extends TSActivity<EarningsDetailPresenter, EarningsDetailFragment> {
     public static String MEMBER_ID = "memberId";
+    public static String CURRENCY = "currency";
     @Override
     protected EarningsDetailFragment getFragment() {
         return EarningsDetailFragment.newInstance(getIntent().getExtras());
@@ -29,10 +30,11 @@ public class EarningsDetailActivity extends TSActivity<EarningsDetailPresenter, 
                 .build().inject(this);
     }
 
-    public static void startEarningsDetailActivity(Context context,int id){
+    public static void startEarningsDetailActivity(Context context,int id,String currency){
         Intent intent = new Intent(context,EarningsDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(MEMBER_ID,id);
+        bundle.putString(CURRENCY,currency);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }

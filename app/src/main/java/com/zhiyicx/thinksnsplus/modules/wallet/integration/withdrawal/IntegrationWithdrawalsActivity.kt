@@ -5,7 +5,7 @@ import com.zhiyicx.baseproject.base.TSActivity
 import com.zhiyicx.thinksnsplus.base.AppApplication
 
 /**
- * @Describe 积分充值
+ * @Describe 糖果充值
  * @Author zl
  * @Date 2018/1/18
  * @Contact master.jungle68@gmail.com

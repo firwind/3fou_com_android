@@ -331,7 +331,7 @@ public interface QAClient {
      * 设置悬赏 ,在没有采纳和邀请且未设置悬赏金额时，问题作者重新设置问题的悬赏
      *
      * @param question_id
-     * @param amount      悬赏金额，积分
+     * @param amount      悬赏金额，糖果
      * @return
      */
     @PATCH(ApiConfig.APP_PATH_UPDATE_QUESTION_REWARD)

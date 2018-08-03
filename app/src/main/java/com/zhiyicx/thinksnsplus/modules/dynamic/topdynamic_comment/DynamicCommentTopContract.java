@@ -32,7 +32,7 @@ public interface DynamicCommentTopContract {
 
     interface Presenter extends IBaseTouristPresenter {
         /**
-         * @return 积分余额
+         * @return 糖果余额
          */
         long getBalance();
         void topDynamicComment(long feed_id,long comment_id, double amount, int day);

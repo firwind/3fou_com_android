@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.common.utils.TimeUtils;
 import com.zhiyicx.common.utils.recycleviewdecoration.CustomLinearDecoration;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.TeamBean;
 import com.zhiyicx.thinksnsplus.modules.home.mine.team.earnings.EarningsDetailActivity;
 import com.zhiyicx.thinksnsplus.widget.popwindow.TypeChoosePopupWindow;
@@ -64,8 +66,6 @@ public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presen
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-
     }
 
     @Override
@@ -108,16 +108,16 @@ public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presen
         CommonAdapter commonAdapter = new CommonAdapter<TeamBean.TeamListBean>(getContext(), R.layout.item_team, mListDatas) {
             @Override
             protected void convert(ViewHolder holder, TeamBean.TeamListBean teamBean, int position) {
-                holder.setText(R.id.tv_team_username, teamBean.getUserName());
-                holder.setText(R.id.tv_earnings_num, teamBean.getEarnings() + mUnit);
-                holder.setText(R.id.tv_time, teamBean.getTime());
+                holder.setText(R.id.tv_team_username, teamBean.getName());
+                holder.setText(R.id.tv_earnings_num, teamBean.getTotals().get(0).getTotal() + mCurrencyType);
+                holder.setText(R.id.tv_time, TimeUtils.millis2String(teamBean.getTime()));
             }
         };
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 TeamBean.TeamListBean bean = (TeamBean.TeamListBean) commonAdapter.getDatas().get(position);
-                EarningsDetailActivity.startEarningsDetailActivity(getContext(), bean.getId());
+                EarningsDetailActivity.startEarningsDetailActivity(getContext(), bean.getId(),mCurrencyType);
             }
 
             @Override
@@ -189,7 +189,8 @@ public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presen
     }
 
     @Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_SELECT_CURRENCY)
-    public void getCurrencyId(Long id) {
+    public void getCurrencyId(CurrencyTypeBean typeBean) {
+        mCurrencyType = typeBean.getCurrency();
         getTeamListData();
     }
 }

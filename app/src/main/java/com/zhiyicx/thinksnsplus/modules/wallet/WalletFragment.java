@@ -157,7 +157,7 @@ public class WalletFragment extends TSFragment<WalletContract.Presenter> impleme
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())
                 .subscribe(aVoid -> mPresenter.checkWalletConfig(WalletPresenter.TAG_WITHDRAW, true));
-        // 积分充值
+        // 糖果充值
         RxView.clicks(btMineIntegration)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())

@@ -67,7 +67,7 @@
                 app:leftImage="@mipmap/ico_wallet_drawmoney"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
                 app:showLine="false"/>
-            <!--我的积分-->
+            <!--我的糖果-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_mine_integration"
                 android:layout_width="match_parent"

@@ -37,16 +37,11 @@ public class EarningsDetailPresenter extends AppBasePresenter<EarningsDetailCont
     }
 
     private void getEarningList(Long maxId, boolean isLoadMore) {
-        Subscription subscribe = currencyRepository.getEarningList(mContext, mRootView.getEarningId())
+        Subscription subscribe = currencyRepository.getEarningList(mRootView.getEarningId(),mRootView.getCurrency())
                 .subscribe(new BaseSubscribeForV2<List<TeamBean.TeamListBean>>() {
                     @Override
                     protected void onSuccess(List<TeamBean.TeamListBean> data) {
-                        TeamBean.TeamListBean bean = new TeamBean.TeamListBean();
-                        bean.setUserName("用户名");
-                        bean.setTime("开始时间");
-                        bean.setEndTime("结束时间");
-                        bean.setEarnings("收益");
-                        data.add(0,bean);
+
                         mRootView.onNetResponseSuccess(data, isLoadMore);
                     }
                 });

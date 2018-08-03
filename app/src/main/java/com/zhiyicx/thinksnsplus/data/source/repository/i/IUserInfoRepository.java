@@ -346,9 +346,10 @@ public interface IUserInfoRepository {
      * @param access_token 获取的 Provider Access Token。
      * @param name         用户名。
      * @param check        如果是 null 、 false 或 0 则不会进入检查，如果 存在任何转为 bool 为 真 的值，则表示检查注册信息。
+     * @param user_code    邀请码
      * @return
      */
-    Observable<AuthBean> checkUserOrRegisterUser(String provider, String access_token, String name, Boolean check);
+    Observable<AuthBean> checkUserOrRegisterUser(String provider, String access_token, String name, Boolean check,String user_code);
 
     /**
      * 已登录账号绑定

@@ -608,7 +608,7 @@
         <activity android:name=".modules.information.publish.detail.EditeInfoDetailActivity" />
         <activity android:name=".modules.q_a.publish.detail.EditeQuestionDetailActivity" />
         <activity android:name=".modules.q_a.answer.EditeAnswerDetailActivity" />
-        <!--我的积分-->
+        <!--我的糖果-->
         <activity
             android:name=".modules.wallet.integration.mine.MineIntegrationActivity"
             android:screenOrientation="portrait" />
@@ -616,20 +616,20 @@
         <activity
             android:name=".modules.develop.TSDevelopActivity"
             android:screenOrientation="portrait" />
-        <!--积分充值-->
+        <!--糖果充值-->
         <activity
             android:name=".modules.wallet.integration.recharge.IntegrationRechargeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <!--积分详情-->
+        <!--糖果详情-->
         <activity
             android:name=".modules.wallet.integration.detail.IntegrationDetailActivity"
             android:screenOrientation="portrait" />
-        <!--积分充值提现记录-->
+        <!--糖果充值提现记录-->
         <activity
             android:name=".modules.wallet.integration.detail.recharge_withdrawal.IntegrationRWDetailActivity"
             android:screenOrientation="portrait" />
-        <!--积分提取-->
+        <!--糖果提取-->
         <activity
             android:name=".modules.wallet.integration.withdrawal.IntegrationWithdrawalsActivity"
             android:screenOrientation="portrait" />

@@ -8,7 +8,7 @@ import com.zhiyicx.thinksnsplus.modules.wallet.integration.mine.MineIntegrationP
 import com.zhiyicx.thinksnsplus.modules.wallet.integration.mine.MineIntegrationPresenterModule
 
 /**
- * @Describe 积分充值
+ * @Describe 糖果充值
  * @Author zl
  * @Date 2018/1/18
  * @Contact master.jungle68@gmail.com

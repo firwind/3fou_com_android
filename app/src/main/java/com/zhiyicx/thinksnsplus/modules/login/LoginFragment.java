@@ -37,6 +37,7 @@ import com.zhiyicx.thinksnsplus.modules.password.findpassword.FindPasswordActivi
 import com.zhiyicx.thinksnsplus.modules.register.RegisterActivity;
 import com.zhiyicx.thinksnsplus.modules.third_platform.bind.BindOldAccountActivity;
 import com.zhiyicx.thinksnsplus.modules.third_platform.choose_bind.ChooseBindActivity;
+import com.zhiyicx.thinksnsplus.modules.third_platform.complete.CompleteAccountActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -490,16 +491,16 @@ public class LoginFragment extends TSFragment<LoginContract.Presenter> implement
      */
     @Override
     public void registerByThrid(String provider, String access_token) {
-//        Intent intent = new Intent(getActivity(), ChooseBindActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putParcelable(BUNDLE_THIRD_INFO, new ThridInfoBean(provider, access_token, mThridName));
-//        intent.putExtras(bundle);
-//        startActivity(intent);
-        Intent intent = new Intent(getActivity(), BindOldAccountActivity.class);
+        Intent intent = new Intent(getActivity(), CompleteAccountActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_THIRD_INFO, new ThridInfoBean(provider, access_token, mThridName));
         intent.putExtras(bundle);
         startActivity(intent);
+//        Intent intent = new Intent(getActivity(), BindOldAccountActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable(BUNDLE_THIRD_INFO, new ThridInfoBean(provider, access_token, mThridName));
+//        intent.putExtras(bundle);
+//        startActivity(intent);
     }
 
     @Override

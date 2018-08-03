@@ -16,17 +16,34 @@ public class ThridInfoBean implements Parcelable {
     private String name;
     private boolean check;
 
+
+    private String user_code;//邀请码
+
     public ThridInfoBean(String provider, String accessToken, String name, boolean check) {
         this.provider = provider;
         this.access_token = accessToken;
         this.name = name;
         this.check = check;
     }
+    public ThridInfoBean(String provider, String accessToken, String name, boolean check,String user_code) {
+        this.provider = provider;
+        this.access_token = accessToken;
+        this.name = name;
+        this.check = check;
+        this.user_code = user_code;
+    }
 
     public ThridInfoBean(String provider, String accessToken, String name) {
         this.provider = provider;
         this.access_token = accessToken;
         this.name = name;
+    }
+    public String getUser_code() {
+        return user_code;
+    }
+
+    public void setUser_code(String user_code) {
+        this.user_code = user_code;
     }
 
     public boolean isCheck() {

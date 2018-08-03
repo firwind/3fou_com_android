@@ -92,7 +92,7 @@ public abstract class AppBasePresenter<V extends IBaseView> extends BasePresente
     }
 
     /**
-     * 积分检查处理
+     * 糖果检查处理
      *
      * @param amount
      * @return

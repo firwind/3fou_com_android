@@ -68,7 +68,7 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
     MagicIndicator mMgIndicator;
     @BindView(R.id.vp_fragment)
     ViewPager mVpFragment;
-    private TypeChoosePopupWindow mTypeChoosePopupWindow;// 类型选择框 付费、置顶
+    private TypeChoosePopupWindow mTypeChoosePopupWindow;
     Unbinder unbinder;
     private CommonAdapter adapter;
     private String mCurrnecyType;
@@ -80,21 +80,23 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
 
     @Override
     public void getCurrencyType(List<CurrencyTypeBean> bean) {
-        mTeamSpinner.setText(getString(R.string.select_currency_hint));
+        EventBus.getDefault().post(bean.get(0), EventBusTagConfig.EVENT_SELECT_CURRENCY);
         adapter = new CommonAdapter<CurrencyTypeBean>(getContext(), R.layout.item_currency, bean) {
             @Override
             protected void convert(ViewHolder holder, CurrencyTypeBean bean, int position) {
-                holder.setText(R.id.tv_currency_name, bean.getCurrencyName());
+
+                holder.setText(R.id.tv_currency_name, bean.getCurrency());
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 CurrencyTypeBean typeBean = (CurrencyTypeBean) adapter.getDatas().get(position);
-                mTeamSpinner.setText(typeBean.getCurrencyName());
-                mCurrnecyType = typeBean.getCurrencyName();
-                EventBus.getDefault().post(typeBean.getId(), EventBusTagConfig.EVENT_SELECT_CURRENCY);
+                mTeamSpinner.setText(typeBean.getCurrency());
+                mCurrnecyType = typeBean.getCurrency();
+                EventBus.getDefault().post(typeBean, EventBusTagConfig.EVENT_SELECT_CURRENCY);
                 mTypeChoosePopupWindow.dismiss();
+                mMyTotal.setText("我的总资产"+typeBean.getMoney().get(0)+typeBean.getCurrency());
             }
 
             @Override
@@ -105,12 +107,20 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
         initPop();
     }
 
+    @Override
+    public void getInitData(String currency, String money) {
+        mTeamSpinner.setText(currency);
+        mCurrnecyType  = currency;
+//        mMyTotal.setText("我的总资产"+money+currency);
+
+    }
+
     public void initPop() {
         mTypeChoosePopupWindow = TypeChoosePopupWindow.Builder()
                 .with(mActivity)
                 .adapter(adapter)
                 .asVertical()
-                .width(mTeamSpinner.getLayoutParams().width + DensityUtil.dip2px(mActivity, 30))
+                .width(mTeamSpinner.getLayoutParams().width + DensityUtil.dip2px(mActivity, 10))
                 .alpha(1.0f)
                 .parentView(mTeamSpinner)
                 .build();
@@ -139,7 +149,7 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        mMyTotal.setText("我的总资产" + 100 + "BCB");
+
     }
 
     @Override
@@ -158,6 +168,7 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
         tsViewPagerAdapter = new TSViewPagerAdapter(getChildFragmentManager());
         tsViewPagerAdapter.bindData(initFragments());
         mVpFragment.setAdapter(tsViewPagerAdapter);
+
     }
     @NonNull
     private CommonNavigatorAdapter getCommonNavigatorAdapter(final List<String> mStringList) {
@@ -206,9 +217,9 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
     protected List<Fragment> initFragments() {
         if (mFragmentList == null) {
             mFragmentList = new ArrayList<>();
-            mFragmentList.add(MyTeamListFragment.instance(0,mCurrnecyType));
             mFragmentList.add(MyTeamListFragment.instance(1,mCurrnecyType));
             mFragmentList.add(MyTeamListFragment.instance(2,mCurrnecyType));
+            mFragmentList.add(MyTeamListFragment.instance(3,mCurrnecyType));
         }
         return mFragmentList;
     }

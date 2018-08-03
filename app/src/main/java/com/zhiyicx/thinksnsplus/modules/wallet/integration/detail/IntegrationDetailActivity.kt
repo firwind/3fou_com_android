@@ -4,7 +4,7 @@ import com.zhiyicx.baseproject.base.TSActivity
 import com.zhiyicx.thinksnsplus.data.beans.integration.IntegrationConfigBean
 
 /**
- * @Describe 积分详情
+ * @Describe 糖果详情
  * @Author zl
  * @Date 2018/1/23
  * @Contact master.jungle68@gmail.com

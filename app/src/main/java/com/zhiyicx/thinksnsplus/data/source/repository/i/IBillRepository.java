@@ -124,7 +124,7 @@ public interface IBillRepository {
     Observable<BaseJsonV2<String>> wxPayVerify(String memo, String result, String resultStatus);
 
     /**
-     * 钱包余额转积分
+     * 钱包余额转糖果
      *
      * @param amount 转账金额，分单位
      * @return
@@ -132,19 +132,19 @@ public interface IBillRepository {
     Observable<BaseJsonV2> balance2Integration(long amount);
 
 
-    /*******************************************  积分  *********************************************/
+    /*******************************************  糖果  *********************************************/
     /**
-     * @return 积分配置信息
+     * @return 糖果配置信息
      */
     Observable<IntegrationConfigBean> getIntegrationConfig();
 
 
     /**
-     * 获取积分充值信息
+     * 获取糖果充值信息
      */
     /**
      * @param type   充值方式 （见「启动信息接口」或者「钱包信息」）
-     * @param amount 用户充值金额，单位为真实货币「分」单位，充值完成后会根据积分兑换比例增加相应数量的积分
+     * @param amount 用户充值金额，单位为真实货币「分」单位，充值完成后会根据糖果兑换比例增加相应数量的糖果
      * @param extra  object,array 拓展信息字段，见 支付渠道-extra-参数说明
      * @return
      */
@@ -165,16 +165,16 @@ public interface IBillRepository {
      * @param after  翻页数据id
      * @param action 筛选类型 recharge - 充值记录 cash - 提现记录 默认为全部
      * @param type   筛选类型 1 - 收入 -1 - 支出 默认为全部
-     * @return 积分流水
+     * @return 糖果流水
      */
     Observable<List<RechargeSuccessV2Bean>> integrationOrdersSuccess(Integer limit, int after, String
             action, Integer type);
 
 
     /**
-     * 发起积分提现
+     * 发起糖果提现
      *
-     * @param amount 提取积分，发起该操作后会根据积分兑换比例取人民币分单位整数后扣减相应积分
+     * @param amount 提取糖果，发起该操作后会根据糖果兑换比例取人民币分单位整数后扣减相应糖果
      * @return
      */
     Observable<BaseJsonV2> integrationWithdrawals(Integer amount);
