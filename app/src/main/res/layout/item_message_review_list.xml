@@ -127,7 +127,7 @@
         android:textColor="@color/money_gold_light"
         android:visibility="invisible"
         android:textSize="@dimen/size_icon_assist"
-        tools:text="30000积分 / 5天"/>
+        tools:text="30000糖果 / 5天"/>
     <TextView
         android:id="@+id/tv_review"
         android:layout_marginTop="@dimen/spacing_mid_offset"

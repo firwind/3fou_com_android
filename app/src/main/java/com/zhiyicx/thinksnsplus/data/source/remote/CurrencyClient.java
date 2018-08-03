@@ -96,13 +96,13 @@ public interface CurrencyClient {
 
     /**
      * 账本
-     * @param max_id
+     * @param page
      * @param limit
      * @param target_type
      * @return
      */
     @GET(ApiConfig.APP_PATH_CURRENCY_ACCOUNT_BOOK_LIST)
-    Observable<List<AccountBookListBean>> getAccountBookList(@Query("offset") Long max_id, @Query("limit") Integer limit , @Query("target_type") Integer target_type);
+    Observable<List<AccountBookListBean>> getAccountBookList(@Query("page") Integer page, @Query("limit") Integer limit , @Query("target_type") Integer target_type);
 
     @GET(ApiConfig.APP_PATH_GET_TEAM_CURRENCY_LIST)
     Observable<List<CurrencyTypeBean>> getTeamCurrencyList();

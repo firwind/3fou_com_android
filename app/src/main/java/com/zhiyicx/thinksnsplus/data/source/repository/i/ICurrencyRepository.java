@@ -80,12 +80,12 @@ public interface ICurrencyRepository {
 
     /**
      * 获取账本明细
-     * @param offset
+     * @param page
      * @param
      * @param target_type
      * @return
      */
-    Observable<List<AccountBookListBean>> getAccountBookList(Long offset , Integer target_type);
+    Observable<List<AccountBookListBean>> getAccountBookList(Integer page , Integer target_type);
 
     /**
      * 充币（获取钱包地址）

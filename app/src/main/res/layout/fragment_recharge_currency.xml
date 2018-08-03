@@ -7,32 +7,56 @@
     android:background="@color/white"
     android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/tv_address"
-        android:layout_marginTop="@dimen/dp36"
-        android:padding="@dimen/dp6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/sp13"
-        android:textColor="@color/black_deep"
-        android:gravity="center"
-        tools:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/iv_qrcode"
-        android:layout_marginTop="@dimen/dp14"
-        android:layout_width="@dimen/dp156"
-        android:layout_height="@dimen/dp156" />
+        <LinearLayout
+            android:id="@+id/ll_wallet"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/bt_copy_address"
-        android:layout_marginTop="@dimen/dp14"
-        android:layout_width="@dimen/dp178"
-        android:layout_height="@dimen/dp35"
-        android:textSize="@dimen/sp14"
-        android:textColor="@color/white"
-        android:text="复制钱包地址"
-        android:background="@drawable/shape_corner_4dp_bg_theme"/>
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_marginTop="@dimen/dp36"
+                android:padding="@dimen/dp6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp13"
+                android:textColor="@color/black_deep"
+                android:gravity="center"
+                tools:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+
+            <ImageView
+                android:id="@+id/iv_qrcode"
+                android:layout_marginTop="@dimen/dp14"
+                android:layout_width="@dimen/dp156"
+                android:layout_height="@dimen/dp156" />
+
+            <Button
+                android:id="@+id/bt_copy_address"
+                android:layout_marginTop="@dimen/dp14"
+                android:layout_width="@dimen/dp178"
+                android:layout_height="@dimen/dp35"
+                android:textSize="@dimen/sp14"
+                android:textColor="@color/white"
+                android:text="复制钱包地址"
+                android:background="@drawable/shape_corner_4dp_bg_theme"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_create_wallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="钱包地址创建中..."
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/ll_account_book"

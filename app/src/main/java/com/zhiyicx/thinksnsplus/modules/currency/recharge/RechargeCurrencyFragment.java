@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhiyicx.baseproject.base.TSFragment;
@@ -33,6 +34,12 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
     TextView mTvAddress;
     @BindView(R.id.tv_withdraw_dec)
     TextView mTvWithdrawDesc;
+    @BindView(R.id.ll_wallet)
+    LinearLayout mLlWallet;
+    @BindView(R.id.tv_create_wallet)
+    TextView mTvCreateWallet;
+
+    private String address;
 
     public static RechargeCurrencyFragment newInstance(String currency){
         RechargeCurrencyFragment fragment = new RechargeCurrencyFragment();
@@ -84,7 +91,7 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
     public void onClick(View v){
         switch (v.getId()){
             case R.id.bt_copy_address:
-                DeviceUtils.copyTextToBoard(getContext(),"12345678");
+                DeviceUtils.copyTextToBoard(getContext(),address);
                 showSnackSuccessMessage("复制成功");
                 break;
             case R.id.ll_account_book:
@@ -116,11 +123,16 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
     @Override
     public void setCurrencyAddress(String address) {
 
+        closeLoadingView();
+
         if(TextUtils.isEmpty(address)){
-            setLoadViewHolderImag(R.mipmap.img_default_internet);
-            showLoadViewLoadError();
+
+            //已展示钱包地址创建中
+
         }else {
-            closeLoadingView();
+            mTvCreateWallet.setVisibility(View.GONE);
+            mLlWallet.setVisibility(View.VISIBLE);
+            this.address = address;
             mTvAddress.setText(address);
             mIvQrcode.setImageBitmap(ImageUtils.createQrcodeImage(address,
                     getResources().getDimensionPixelSize(R.dimen.dp156),null));

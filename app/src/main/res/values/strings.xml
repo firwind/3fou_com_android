@@ -943,7 +943,7 @@
     <string name="domain_dev">开发服</string>
     <string name="domain_swith">服务器切换</string>
     <string name="no_new_version">当前已经是最新版</string>
-    <string name="defualt_golde_name">积分</string>
+    <string name="defualt_golde_name">糖果</string>
     <string name="today_with_split">今,天</string>
     <string name="yestorday_with_split">昨,天</string>
     <string name="can_not_use_protected_name">不能使用站点预留昵称</string>
@@ -994,35 +994,35 @@
     <string name="chat_disconnected">聊天服务器断开</string>
 
     <!--积分-->
-    <string name="mine_integration">我的积分</string>
-    <string name="recharge_integration">充值积分</string>
-    <string name="current_integration">当前积分</string>
-    <string name="withdraw_integration">提取积分</string>
-    <string name="integration_withdrawals">积分提取</string>
-    <string name="integration_shop">积分商城</string>
-    <string name="integration_rule">积分规则</string>
-    <string name="integration_recharge">积分充值</string>
+    <string name="mine_integration">我的糖果</string>
+    <string name="recharge_integration">充值糖果</string>
+    <string name="current_integration">当前糖果</string>
+    <string name="withdraw_integration">提取糖果</string>
+    <string name="integration_withdrawals">糖果提取</string>
+    <string name="integration_shop">糖果商城</string>
+    <string name="integration_rule">糖果规则</string>
+    <string name="integration_recharge">糖果充值</string>
     <string name="recharge_record">充值记录</string>
     <string name="recharge_ratio">充值比率</string>
     <string name="user_reharge_integration_rule">用户充值协议</string>
-    <string name="integration_config_info_get_loading_tip">积分配置信息获取中&#8230;</string>
+    <string name="integration_config_info_get_loading_tip">糖果配置信息获取中&#8230;</string>
     <string name="integration_ratio_formart">%1$d元=%2$d%3$s</string>
-    <string name="integration_detail">积分明细</string>
-    <string name="integration_to_wallet">积分兑换余额</string>
+    <string name="integration_detail">糖果明细</string>
+    <string name="integration_to_wallet">糖果兑换余额</string>
     <string name="withdrawals_record">提取记录</string>
-    <string name="input_withdrawals_integration">输入需提取的积分</string>
+    <string name="input_withdrawals_integration">输入需提取的糖果</string>
     <string name="input_withdrawals_integration_format">输入需提取的%s</string>
-    <string name="input_withdrawals_integration_tip">提取积分须提交官方审核，审核反馈请关注系统消息！</string>
+    <string name="input_withdrawals_integration_tip">提取糖果须提交官方审核，审核反馈请关注系统消息！</string>
     <string name="input_withdrawals_integration_tip_format">提取%s须提交官方审核，审核反馈请关注系统消息！</string>
-    <string name="et_input_withdrawals_integration_tip">请至少提取100积分</string>
+    <string name="et_input_withdrawals_integration_tip">请至少提取100糖果</string>
     <string name="et_input_withdrawals_integration_tip_format">请至少提取%1$d%2$s</string>
-    <string name="integration_withdrawals_rule">积分提取规则</string>
+    <string name="integration_withdrawals_rule">糖果提取规则</string>
     <string name="integration_2_money_ratio_formart">%1$d%2$s=%3$.2f元</string>
-    <string name="integration_withdrawals_report_success">积分提取请求已提交，待审核！</string>
+    <string name="integration_withdrawals_report_success">糖果提取请求已提交，待审核！</string>
     <string name="please_more_than_min_recharge_formart">最少充值%.2f元</string>
     <string name="please_less_min_recharge_formart">最多充值%.2f元</string>
-    <string name="please_more_than_min_withdrawals_formart">最低每次提取%d积分</string>
-    <string name="please_less_max_withdrawals_formart">单笔最高积分为%d</string>
+    <string name="please_more_than_min_withdrawals_formart">最低每次提取%d糖果</string>
+    <string name="please_less_max_withdrawals_formart">单笔最高糖果为%d</string>
     <string name="current_money_not_enouph">当前余额不足！</string>
     <string name="my_integration_name">我的%s</string>
     <string name="integration_recharge_format">%s充值</string>
@@ -1181,7 +1181,7 @@
     <string name="add_to_black_list">加入黑名单</string>
     <string name="add_black_list_success">操作成功</string>
     <string name="remove_black_list_success">操作成功</string>
-    <string name="integartion_not_enough">积分不足</string>
+    <string name="integartion_not_enough">糖果不足</string>
     <string name="unbind_sure_tip_format">您已绑定%s，是否解除绑定？</string>
     <string name="sure_unbind">解除绑定</string>
     <string name="reserved">保留</string>

@@ -52,11 +52,6 @@ public class CurrencyInterestFragment extends TSListFragment<CurrencyInterestCon
     }
 
     @Override
-    protected boolean setUseCenterLoading() {
-        return true;
-    }
-
-    @Override
     protected boolean setStatusbarGrey() {
         return false;
     }

@@ -44,7 +44,7 @@
                 android:paddingLeft="@dimen/spacing_mid"
                 android:textColor="@color/white"
                 android:textSize="@dimen/check_in_total_money"
-                tools:text="100积分=1元"
+                tools:text="100糖果=1元"
                 />
         </LinearLayout>
 
