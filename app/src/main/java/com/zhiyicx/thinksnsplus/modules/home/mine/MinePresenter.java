@@ -131,7 +131,19 @@ public class MinePresenter extends AppBasePresenter<MineContract.View> implement
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
-                        mRootView.receivedRedPacket();
+                        mRootView.receivedRedPacket(true);
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.receivedRedPacket(false);
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.receivedRedPacket(false);
                     }
                 });
     }

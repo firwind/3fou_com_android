@@ -414,10 +414,13 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
     }
 
     @Override
-    public void receivedRedPacket() {
+    public void receivedRedPacket(boolean isSuccess) {
         if(mIntegralRedPacketDialog.isShowing())
             mIntegralRedPacketDialog.dismissDialog();
-        mActivity.startActivity(new Intent(mActivity,NewMineIntegrationActivity.class));
+        if(isSuccess)
+            mActivity.startActivity(new Intent(mActivity,NewMineIntegrationActivity.class));
+        else
+            ToastUtils.showToast(mActivity,"领取失败！");
     }
 
 

@@ -59,7 +59,7 @@ public interface MineContract {
         /**
          * 领取糖果
          */
-        void receivedRedPacket();
+        void receivedRedPacket(boolean isSuccess);
 
     }
 
