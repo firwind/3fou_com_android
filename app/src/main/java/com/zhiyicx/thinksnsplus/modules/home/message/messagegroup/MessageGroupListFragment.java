@@ -15,7 +15,9 @@ import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMConnectionEvent;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.baseproject.impl.imageloader.glide.transformation.GlideCircleTransform;
+import com.zhiyicx.baseproject.widget.popwindow.CenterAlertPopWindow;
 import com.zhiyicx.common.utils.log.LogUtils;
+import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
@@ -222,6 +224,39 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
         ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
 //            mActivity.finish();
+    }
+    private CenterAlertPopWindow mGroupFailingPop;
+    @Override
+    public void addGroupFailing(String msg) {
+        if (mGroupFailingPop != null) {
+            mGroupFailingPop.show();
+            return;
+        }
+        mGroupFailingPop = CenterAlertPopWindow.builder()
+                .titleStr(getString(R.string.tips))
+                .desStr(msg)
+                .itemRight(getString(R.string.affirm))
+                .itemRightColor(R.color.themeColor)
+                .isOutsideTouch(true)
+                .isFocus(true)
+                .animationStyle(R.style.style_actionPopupAnimation)
+                .backgroundAlpha(CustomPopupWindow.POPUPWINDOW_ALPHA)
+                .with(getActivity())
+                .buildCenterPopWindowItem1ClickListener(new CenterAlertPopWindow.CenterPopWindowItemClickListener() {
+                    @Override
+                    public void onRightClicked() {
+//                        goBindPhone();
+                        mGroupFailingPop.hide();
+                    }
+
+                    @Override
+                    public void onLeftClicked() {
+                        mGroupFailingPop.hide();
+                    }
+                })
+                .parentView(getView())
+                .build();
+        mGroupFailingPop.show();
     }
 
     @Override

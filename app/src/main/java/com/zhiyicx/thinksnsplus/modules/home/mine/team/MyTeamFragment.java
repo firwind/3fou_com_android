@@ -24,7 +24,9 @@ import android.widget.TextView;
 import com.hyphenate.util.DensityUtil;
 import com.jakewharton.rxbinding.view.RxView;
 import com.zhiyicx.baseproject.base.TSViewPagerAdapter;
+import com.zhiyicx.baseproject.base.TSViewPagerAdapterV2;
 import com.zhiyicx.baseproject.base.TSViewPagerFragment;
+import com.zhiyicx.baseproject.base.TSViewPagerFragmentV2;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyTypeBean;
@@ -58,8 +60,8 @@ import butterknife.Unbinder;
 
 import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
 
-public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter> implements MyTeamContract.View {
-    private static final int DEFAULT_OFFSET_PAGE = 1;
+public class MyTeamFragment extends TSViewPagerFragmentV2<MyTeamContract.Presenter> implements MyTeamContract.View {
+    private static final int DEFAULT_OFFSET_PAGE = 3;
     @BindView(R.id.sp_team_spinner)
     TextView mTeamSpinner;
     @BindView(R.id.tv_my_total)
@@ -96,7 +98,7 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
                 mCurrnecyType = typeBean.getCurrency();
                 EventBus.getDefault().post(typeBean, EventBusTagConfig.EVENT_SELECT_CURRENCY);
                 mTypeChoosePopupWindow.dismiss();
-                mMyTotal.setText("我的总资产"+typeBean.getMoney().get(0)+typeBean.getCurrency());
+                mMyTotal.setText("我的总资产"+typeBean.getMoney()+typeBean.getCurrency());
             }
 
             @Override
@@ -111,8 +113,7 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
     public void getInitData(String currency, String money) {
         mTeamSpinner.setText(currency);
         mCurrnecyType  = currency;
-//        mMyTotal.setText("我的总资产"+money+currency);
-
+        mMyTotal.setText("我的总资产"+money+currency);
     }
 
     public void initPop() {
@@ -165,7 +166,7 @@ public class MyTeamFragment extends TSViewPagerFragment<MyTeamContract.Presenter
         initMagicIndicator();
         mVpFragment = (ViewPager) rootView.findViewById(R.id.vp_fragment);
         mVpFragment.setOffscreenPageLimit(DEFAULT_OFFSET_PAGE);
-        tsViewPagerAdapter = new TSViewPagerAdapter(getChildFragmentManager());
+        tsViewPagerAdapter = new TSViewPagerAdapterV2(getChildFragmentManager());
         tsViewPagerAdapter.bindData(initFragments());
         mVpFragment.setAdapter(tsViewPagerAdapter);
 

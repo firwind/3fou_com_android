@@ -165,7 +165,10 @@ public class MessageGroupPresenter extends AppBasePresenter<MessageGroupContract
                     @Override
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);
-
+                        if (code == 430){//加入群失败
+                            mRootView.addGroupFailing(message);
+                            return;
+                        }
                         mRootView.showStickyMessage(message);
                         mRootView.onResponseError(null, false);
                     }

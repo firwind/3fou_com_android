@@ -127,6 +127,7 @@ public class CompleteAccountPresenter extends AppBasePresenter<CompleteAccountCo
             return true;
         }
         if (!RegexUtils.isUsername(name)) {// 用户名只能包含数字、字母和下划线
+
             mRootView.showErrorTips(mContext.getString(R.string.username_toast_not_symbol_hint));
             return true;
         }

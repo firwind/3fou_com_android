@@ -20,6 +20,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Subscription;
+import rx.functions.Func1;
 
 @FragmentScoped
 public class MyTeamPresenter extends AppBasePresenter<MyTeamContract.View> implements MyTeamContract.Presenter {
@@ -36,17 +37,20 @@ public class MyTeamPresenter extends AppBasePresenter<MyTeamContract.View> imple
     public void requestCurrencyType() {
 
         Subscription subscribe = currencyRepository.getCurrencyType()
-                .subscribe(new BaseSubscribeForV2<List<CurrencyTypeBean>>() {
+                .map(currencyTypeBeans -> {
+                    CurrencyTypeBean bean = new CurrencyTypeBean();
+                    bean.setCurrencyTypeBeans(currencyTypeBeans);
+                    bean.setMoney(currencyTypeBeans.get(0).getMoney());
+                    bean.setCurrency(currencyTypeBeans.get(0).getCurrency());
+                    return bean;
+                })
+                .subscribe(new BaseSubscribeForV2<CurrencyTypeBean>() {
                     @Override
-                    protected void onSuccess(List<CurrencyTypeBean> data) {
+                    protected void onSuccess(CurrencyTypeBean data) {
 //                        mRootView.getCurrencyType(data);
-                        mRootView.getCurrencyType(data);
-                        for (int i = 0 ; i<data.size() ;i++){
-                            if (i == 0){
+                        mRootView.getCurrencyType(data.getCurrencyTypeBeans());
+                        mRootView.getInitData(data.getCurrency(),data.getMoney());
 
-                                mRootView.getInitData(data.get(i).getCurrency(),data.get(i).getMoney().get(0));
-                            }
-                        }
                     }
                 });
 

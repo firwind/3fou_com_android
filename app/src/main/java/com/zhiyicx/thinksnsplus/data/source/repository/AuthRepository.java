@@ -219,7 +219,14 @@ public class AuthRepository implements IAuthRepository {
         }
         BackgroundTaskManager.getInstance(mContext).closeBackgroundTask();// 关闭后台任务
         new JpushAlias(mContext, "").setAlias(); // 注销极光
-        MessageDao.getInstance(mContext).delDataBase();// 清空聊天信息、对话
+
+//        Observable.create(subscriber -> {
+//            MessageDao.getInstance(mContext).delDataBase();// 清空聊天信息、对话
+//            subscriber.onCompleted();
+//        }).subscribeOn(Schedulers.io())
+//                .subscribe(o -> {
+//                }, Throwable::printStackTrace);
+
         TSEMHyphenate.getInstance().signOut(null);
         mDynamicBeanGreenDao.clearTable();
         mAnswerDraftBeanGreenDaoImpl.clearTable();

@@ -33,8 +33,17 @@ public class CurrencyTypeBean {
     private int sort;
     private Object created_at;
     private Object updated_at;
-    private List<String> money;
+    private String money;
 
+    public List<CurrencyTypeBean> getCurrencyTypeBeans() {
+        return currencyTypeBeans;
+    }
+
+    public void setCurrencyTypeBeans(List<CurrencyTypeBean> currencyTypeBeans) {
+        this.currencyTypeBeans = currencyTypeBeans;
+    }
+
+    private List<CurrencyTypeBean> currencyTypeBeans;
     public int getId() {
         return id;
     }
@@ -107,11 +116,11 @@ public class CurrencyTypeBean {
         this.updated_at = updated_at;
     }
 
-    public List<String> getMoney() {
+    public String getMoney() {
         return money;
     }
 
-    public void setMoney(List<String> money) {
+    public void setMoney(String money) {
         this.money = money;
     }
 }

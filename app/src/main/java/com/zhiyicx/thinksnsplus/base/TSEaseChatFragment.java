@@ -320,6 +320,7 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
                         conversation.loadMoreMsgFromDB(msgId, pagesize - msgCount);
                     }
                     messageList.refreshSelectLast();
+//                    messageList.refresh();
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
@@ -515,6 +516,7 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
     protected void resumeRefreshMessageList() {
         if (isMessageListInited) {
             messageList.refreshSelectLast();
+//            messageList.refresh();
         }
     }
 
@@ -798,6 +800,7 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
         //refresh ui
         if (isMessageListInited) {
             messageList.refreshSelectLast();
+//            messageList.refresh();
         }
     }
 

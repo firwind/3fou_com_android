@@ -1198,6 +1198,7 @@
     <string name="integration_pinned_pay_format">%1$d%2$s / %3$d天</string>
     <string name="top_every_day_pay">每天支付</string>
     <string name="sure_top">确认置顶</string>
+    <string name="affirm">确认</string>
 
 
     <string name="tv_add_friends">添加好友</string>

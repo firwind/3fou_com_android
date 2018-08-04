@@ -85,6 +85,7 @@ public class EaseChatMessageList extends RelativeLayout {
         listView.setAdapter(messageAdapter);
 
         refreshSelectLast();
+//        refresh();
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -95,7 +96,6 @@ public class EaseChatMessageList extends RelativeLayout {
                     //开始加载图片
                     Glide.with(getContext()).resumeRequests();
                 }
-
             }
 
             @Override
@@ -124,6 +124,7 @@ public class EaseChatMessageList extends RelativeLayout {
     public void refresh() {
         if (messageAdapter != null) {
             messageAdapter.refresh();
+
         }
     }
 
