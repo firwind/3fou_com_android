@@ -1,6 +1,8 @@
 package com.zhiyicx.thinksnsplus.data.source.remote;
 
+import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.common.base.BaseJsonV2;
+import com.zhiyicx.thinksnsplus.data.beans.IntegrationRuleBean;
 import com.zhiyicx.thinksnsplus.data.beans.PayStrV2Bean;
 import com.zhiyicx.thinksnsplus.data.beans.RechargeSuccessBean;
 import com.zhiyicx.thinksnsplus.data.beans.RechargeSuccessV2Bean;
@@ -255,5 +257,11 @@ public interface WalletClient {
     @POST(APP_PAHT_INTEGRATION_WITHDRAWALS)
     Observable<BaseJsonV2> integrationWithdrawals(@Field("amount") Integer amount);
 
+    /**
+     * 获取糖果规则
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_INTEGRATION_RULES)
+    Observable<List<IntegrationRuleBean>> getIntegrationRules();
 
 }

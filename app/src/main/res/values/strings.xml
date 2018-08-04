@@ -1027,7 +1027,8 @@
     <string name="current_money_not_enouph">当前余额不足！</string>
     <string name="my_integration_name">我的%s</string>
     <string name="integration_recharge_format">%s充值</string>
-    <string name="current_integraiton_format">当前%s</string>
+    <string name="current_integraiton_format">已获得%s</string>
+    <string name="current_day_integration_format">今日获得%s</string>
     <string name="recharge_integration_foramt">充值%s</string>
     <string name="withdraw_integration_foramt">提取%s</string>
     <string name="integration_shop_foramt">%s商城</string>

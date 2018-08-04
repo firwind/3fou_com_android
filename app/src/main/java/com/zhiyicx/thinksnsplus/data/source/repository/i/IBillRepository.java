@@ -1,6 +1,7 @@
 package com.zhiyicx.thinksnsplus.data.source.repository.i;
 
 import com.zhiyicx.common.base.BaseJsonV2;
+import com.zhiyicx.thinksnsplus.data.beans.IntegrationRuleBean;
 import com.zhiyicx.thinksnsplus.data.beans.PayStrV2Bean;
 import com.zhiyicx.thinksnsplus.data.beans.RechargeSuccessBean;
 import com.zhiyicx.thinksnsplus.data.beans.RechargeSuccessV2Bean;
@@ -179,5 +180,10 @@ public interface IBillRepository {
      */
     Observable<BaseJsonV2> integrationWithdrawals(Integer amount);
 
+    /**
+     * 获取糖果规则
+     * @return
+     */
+    Observable<List<IntegrationRuleBean>> getIntegrationRules();
 
 }

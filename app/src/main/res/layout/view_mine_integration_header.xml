@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp115"
+        android:background="@color/themeColor"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_mine_money_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp24"
+                android:textStyle="bold"
+                tools:text="@string/default_mongy" />
+
+            <TextView
+                android:id="@+id/tv_account_unit_day"
+                android:layout_marginTop="@dimen/dp12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今日获得糖果"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp12" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_mine_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp24"
+                android:textStyle="bold"
+                tools:text="@string/default_mongy" />
+
+            <TextView
+                android:id="@+id/tv_account_unit"
+                android:layout_marginTop="@dimen/dp12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已获得糖果"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp12" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_dig_day"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp30"
+        android:background="@color/themeColor"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="@dimen/sp12"
+        android:text="已挖矿0天，继续努力"/>
+    
+    <!--充值-->
+    <com.zhiyicx.baseproject.widget.button.CombinationButton
+        android:id="@+id/bt_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/full_button_height"
+        app:dividerLeftMargin="@dimen/spacing_normal"
+        app:dividerRightMargin="@dimen/spacing_normal"
+        app:leftImage="@mipmap/ico_integral_recharge"
+        app:leftText="@string/recharge_integration"
+        app:leftTextLeftPadding="@dimen/spacing_mid"
+        app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+    <!--提现-->
+    <com.zhiyicx.baseproject.widget.button.CombinationButton
+        android:id="@+id/bt_withdraw"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/full_button_height"
+        app:leftImage="@mipmap/ico_integral_extract"
+        app:leftText="@string/withdraw_integration"
+        app:leftTextLeftPadding="@dimen/spacing_mid"
+        app:rightImage="@mipmap/ic_arrow_smallgrey"
+        app:showLine="false"/>
+    <!--积分商城-->
+    <com.zhiyicx.baseproject.widget.button.CombinationButton
+        android:id="@+id/bt_integration_shop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/full_button_height"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:visibility="gone"
+        app:leftImage="@mipmap/ico_integral_mall"
+        app:leftText="@string/integration_shop"
+        app:leftTextLeftPadding="@dimen/spacing_mid"
+        android:layout_marginBottom="@dimen/spacing_small"
+        app:rightImage="@mipmap/ic_arrow_smallgrey"
+        app:showLine="false"/>
+
+
+    <include
+        layout="@layout/advert_details" />
+
+    <TextView
+        android:id="@+id/tv_dig_head"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp54"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp12"
+        android:text="如何挖矿获得前链糖果"
+        android:gravity="center_vertical"
+        android:textColor="@color/black_deep"/>
+
+</LinearLayout>

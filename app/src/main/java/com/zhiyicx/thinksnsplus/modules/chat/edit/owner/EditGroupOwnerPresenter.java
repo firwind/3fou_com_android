@@ -88,7 +88,8 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
                         List<UserInfoBean> result = new ArrayList<>();
                         for (UserInfoBean user : userInfoBeans
                                 ) {
-                            if (user.getName().contains(mRootView.getsearchKeyWord()))
+                            if (null != user.getName() &&
+                                    user.getName().contains(mRootView.getsearchKeyWord()))
                                 result.add(user);
                         }
                         return result;

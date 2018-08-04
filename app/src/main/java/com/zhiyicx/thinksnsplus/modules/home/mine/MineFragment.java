@@ -42,6 +42,7 @@ import com.zhiyicx.thinksnsplus.modules.settings.SettingsActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhiyicx.thinksnsplus.modules.wallet.WalletActivity;
 import com.zhiyicx.thinksnsplus.modules.wallet.integration.mine.MineIntegrationActivity;
+import com.zhiyicx.thinksnsplus.modules.wallet.integration.mine.newIntegration.NewMineIntegrationActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.widget.CertificationTypePopupWindow;
 
@@ -78,16 +79,19 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
     TextView mTvFollowCount;
     @BindView(R.id.tv_friends_count)
     TextView mTvFriendsCount;
-    @BindView(R.id.bt_cash)
-    CombinationButton mBtCash;
-    @BindView(R.id.bt_mine_integration)
-    CombinationButton btMineIntegration;
     @BindView(R.id.bt_certification)
     CombinationButton mBtCertification;
     @BindView(R.id.bv_fans_new_count)
     BadgeView mVvFansNewCount;
     @BindView(R.id.bv_friends_new_count)
     BadgeView mBvFriendsNewCount;
+
+    @BindView(R.id.tv_integration)
+    TextView mTvIntegration;
+    @BindView(R.id.tv_wallet_count)
+    TextView mTvWalletCount;
+    @BindView(R.id.tv_integration_count)
+    TextView mTvIntegrationCount;
 
     /**
      * 选择认证人类型的弹窗
@@ -205,9 +209,9 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
     }
 
     @OnClick({R.id.rl_userinfo_container, R.id.ll_fans_container, R.id.ll_follow_container, R.id.bt_my_info,
-            R.id.bt_personal_page, R.id.bt_collect, R.id.bt_cash, R.id.bt_mine_integration, R.id.bt_music,
+            R.id.bt_personal_page, R.id.bt_collect, R.id.ll_wallet_container/*bt_cash*/, R.id./*bt_mine_integration*/ll_integration_container, R.id.bt_music,
             R.id.bt_draft_box, R.id.bt_setting, R.id.bt_certification, R.id.bt_my_qa, R.id.bt_my_group,
-            R.id.ll_friends_container,R.id.bt_wallet,R.id.bt_team,R.id.bt_my_invite,R.id.bt_download})
+            R.id.ll_friends_container,R.id.ll_digital_wallet_container/*bt_wallet*/,R.id.bt_team,R.id.bt_my_invite,R.id.bt_download})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_userinfo_container:
@@ -258,14 +262,14 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
             /*
               我的现金
              */
-            case R.id.bt_cash:
+            case R.id./*bt_cash*/ll_wallet_container:
                 startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
             /*
               我的糖果
              */
-            case R.id.bt_mine_integration:
-                startActivity(new Intent(mActivity, MineIntegrationActivity.class));
+            case R.id./*bt_mine_integration*/ll_integration_container:
+                startActivity(new Intent(mActivity, NewMineIntegrationActivity/*MineIntegrationActivity*/.class));
                 break;
             /*
               我的音乐
@@ -329,9 +333,10 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
 //                startActivity(new Intent(mActivity, MyFriendsListActivity.class));
                 MyFriendsListActivity.startMyFriendsListActivity(getContext(),true);
                 break;
-            case R.id.bt_wallet:
+            case R.id./*bt_wallet*/ll_digital_wallet_container:
                 //数字资产
-                MyCurrencyActivity.startMyCurrencyActivity(getContext());
+                //MyCurrencyActivity.startMyCurrencyActivity(getContext());
+                ToastUtils.showToast(mActivity,"该功能暂未开放~");
                 break;
             case R.id.bt_my_invite:
                 startActivity(InviteShareActivity.newIntent(mActivity));
@@ -346,7 +351,8 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
 
     @Override
     public void setUserInfo(UserInfoBean userInfoBean) {
-        btMineIntegration.setLeftText(getString(R.string.my_integration_name, mPresenter.getGoldName()));
+        //btMineIntegration.setLeftText(getString(R.string.my_integration_name, mPresenter.getGoldName()));
+        mTvIntegration.setText(mPresenter.getGoldName());
         if (userInfoBean == null) {
             return;
         }
@@ -380,9 +386,12 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
         if (userInfoBean.getWallet() != null) {
             myMoney = userInfoBean.getWallet().getBalance();
         }
-        mBtCash.setRightText(getString(R.string.money_format_with_unit, PayConfig.realCurrencyFen2Yuan(myMoney)
+        /*mBtCash.setRightText(getString(R.string.money_format_with_unit, PayConfig.realCurrencyFen2Yuan(myMoney)
                 , ""));
-        btMineIntegration.setRightText(String.valueOf(userInfoBean.getFormatCurrencyNum()));
+        btMineIntegration.setRightText(String.valueOf(userInfoBean.getFormatCurrencyNum()));*/
+        mTvWalletCount.setText(getString(R.string.money_format_with_unit, PayConfig.realCurrencyFen2Yuan(myMoney), ""));
+        mTvIntegrationCount.setText(String.valueOf(userInfoBean.getFormatCurrencyNum()));
+
         this.mUserInfoBean = userInfoBean;
         // 设置好友数
         String friendsCount = String.valueOf(userInfoBean.getFriends_count());

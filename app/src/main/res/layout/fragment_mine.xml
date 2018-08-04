@@ -87,126 +87,247 @@
                     android:layout_marginLeft="@dimen/spacing_normal"
                     android:layout_marginRight="@dimen/spacing_normal" />
             </FrameLayout>
-            <!--粉丝，关注-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/spacing_normal"
-                android:paddingTop="@dimen/spacing_normal">
-                <!--粉丝-->
-                <RelativeLayout
-                    android:id="@+id/ll_fans_container"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <!--粉丝数量-->
-                    <TextView
-                        android:id="@+id/tv_fans_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:textColor="@color/themeColor"
-                        android:textSize="@dimen/size_content_assist"
-                        tools:text="23456" />
+                android:orientation="vertical">
 
-                    <com.zhiyicx.baseproject.widget.BadgeView
-                        android:id="@+id/bv_fans_new_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/spacing_mid_small_8dp"
-                        android:layout_toRightOf="@id/tv_fans_count"
-                        android:textSize="@dimen/size_icon_assist"
-                        android:textStyle="normal" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_fans_count"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/spacing_small_4dp"
-                        android:text="@string/fans"
-                        android:textColor="@color/important_for_content"
-                        android:textSize="@dimen/size_content_assist" />
-                </RelativeLayout>
-
-                <ImageView
-                    style="@style/style_divider_veitical_light"
-                    android:layout_width="@dimen/divider_line"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/spacing_small_3dp"
-                    android:layout_marginTop="@dimen/spacing_small_3dp" />
-                <!--关注-->
+                <!--粉丝，关注-->
                 <LinearLayout
-                    android:id="@+id/ll_follow_container"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <!--关注数量-->
-                    <TextView
-                        android:id="@+id/tv_follow_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/themeColor"
-                        android:textSize="@dimen/size_content_assist"
-                        tools:text="12233" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/spacing_normal"
+                    android:paddingTop="@dimen/spacing_normal">
+                    <!--粉丝-->
+                    <RelativeLayout
+                        android:id="@+id/ll_fans_container"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <!--粉丝数量-->
+                        <TextView
+                            android:id="@+id/tv_fans_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/themeColor"
+                            android:textSize="@dimen/size_content_assist"
+                            tools:text="23456"
+                            android:textStyle="bold"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small_4dp"
-                        android:text="@string/follow"
-                        android:textColor="@color/important_for_content"
-                        android:textSize="@dimen/size_content_assist" />
+                        <com.zhiyicx.baseproject.widget.BadgeView
+                            android:id="@+id/bv_fans_new_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_mid_small_8dp"
+                            android:layout_toRightOf="@id/tv_fans_count"
+                            android:textSize="@dimen/size_icon_assist"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_fans_count"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/spacing_small_4dp"
+                            android:text="@string/fans"
+                            android:textColor="@color/important_for_content"
+                            android:textSize="@dimen/size_content_assist" />
+                    </RelativeLayout>
+
+                    <ImageView
+                        style="@style/style_divider_veitical_light"
+                        android:layout_width="@dimen/divider_line"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/spacing_small_3dp"
+                        android:layout_marginTop="@dimen/spacing_small_3dp" />
+                    <!--关注-->
+                    <LinearLayout
+                        android:id="@+id/ll_follow_container"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <!--关注数量-->
+                        <TextView
+                            android:id="@+id/tv_follow_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/themeColor"
+                            android:textSize="@dimen/size_content_assist"
+                            tools:text="12233"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_small_4dp"
+                            android:text="@string/follow"
+                            android:textColor="@color/important_for_content"
+                            android:textSize="@dimen/size_content_assist" />
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/style_divider_veitical_light"
+                        android:layout_width="@dimen/divider_line"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/spacing_small_3dp"
+                        android:layout_marginTop="@dimen/spacing_small_3dp" />
+                    <!--好友-->
+                    <RelativeLayout
+                        android:id="@+id/ll_friends_container"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <!--粉丝数量-->
+                        <TextView
+                            android:id="@+id/tv_friends_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/themeColor"
+                            android:textSize="@dimen/size_content_assist"
+                            tools:text="23456"
+                            android:textStyle="bold" />
+
+                        <com.zhiyicx.baseproject.widget.BadgeView
+                            android:id="@+id/bv_friends_new_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_mid_small_8dp"
+                            android:layout_toRightOf="@id/tv_friends_count"
+                            android:textSize="@dimen/size_icon_assist"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_friends_count"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/spacing_small_4dp"
+                            android:text="@string/friends"
+                            android:textColor="@color/important_for_content"
+                            android:textSize="@dimen/size_content_assist" />
+
+                    </RelativeLayout>
+
                 </LinearLayout>
 
-                <ImageView
-                    style="@style/style_divider_veitical_light"
-                    android:layout_width="@dimen/divider_line"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/spacing_small_3dp"
-                    android:layout_marginTop="@dimen/spacing_small_3dp" />
-                <!--好友-->
-                <RelativeLayout
-                    android:id="@+id/ll_friends_container"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <!--粉丝数量-->
-                    <TextView
-                        android:id="@+id/tv_friends_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:textColor="@color/themeColor"
-                        android:textSize="@dimen/size_content_assist"
-                        tools:text="23456" />
+                <!--糖果，钱包，数字资产-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/spacing_normal"
+                    android:paddingTop="@dimen/spacing_normal">
+                    <!--粉丝-->
+                    <RelativeLayout
+                        android:id="@+id/ll_integration_container"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <!--糖果数量-->
+                        <TextView
+                            android:id="@+id/tv_integration_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/themeColor"
+                            android:textSize="@dimen/size_content_assist"
+                            tools:text="23456"
+                            android:textStyle="bold" />
 
-                    <com.zhiyicx.baseproject.widget.BadgeView
-                        android:id="@+id/bv_friends_new_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/spacing_mid_small_8dp"
-                        android:layout_toRightOf="@id/tv_friends_count"
-                        android:textSize="@dimen/size_icon_assist"
-                        android:textStyle="normal" />
+                        <TextView
+                            android:id="@+id/tv_integration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_integration_count"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/spacing_small_4dp"
+                            android:text="糖果"
+                            android:textColor="@color/important_for_content"
+                            android:textSize="@dimen/size_content_assist" />
+                    </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_friends_count"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/spacing_small_4dp"
-                        android:text="@string/friends"
-                        android:textColor="@color/important_for_content"
-                        android:textSize="@dimen/size_content_assist" />
+                    <ImageView
+                        style="@style/style_divider_veitical_light"
+                        android:layout_width="@dimen/divider_line"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/spacing_small_3dp"
+                        android:layout_marginTop="@dimen/spacing_small_3dp" />
+                    <!--关注-->
+                    <LinearLayout
+                        android:id="@+id/ll_wallet_container"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <!--关注数量-->
+                        <TextView
+                            android:id="@+id/tv_wallet_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/themeColor"
+                            android:textSize="@dimen/size_content_assist"
+                            tools:text="12233"
+                            android:textStyle="bold" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_small_4dp"
+                            android:text="钱包"
+                            android:textColor="@color/important_for_content"
+                            android:textSize="@dimen/size_content_assist" />
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/style_divider_veitical_light"
+                        android:layout_width="@dimen/divider_line"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/spacing_small_3dp"
+                        android:layout_marginTop="@dimen/spacing_small_3dp" />
+                    <!--数字资产-->
+                    <RelativeLayout
+                        android:id="@+id/ll_digital_wallet_container"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <!--数字资产数量-->
+                        <TextView
+                            android:id="@+id/tv_digital_wallet_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/themeColor"
+                            android:textSize="@dimen/size_content_assist"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:text="0.00"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_digital_wallet_count"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/spacing_small_4dp"
+                            android:text="数字资产"
+                            android:textColor="@color/important_for_content"
+                            android:textSize="@dimen/size_content_assist" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -273,7 +394,7 @@
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
                 app:showLine="false" />
             <!--我的钱包-->
-            <com.zhiyicx.baseproject.widget.button.CombinationButton
+            <!--<com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_wallet"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
@@ -283,9 +404,9 @@
                 app:leftImage="@mipmap/ico_me_wallet"
                 app:leftText="@string/wallet"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="true" />
+                app:showLine="true" />-->
             <!--我的现金-->
-            <com.zhiyicx.baseproject.widget.button.CombinationButton
+            <!--<com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_cash"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
@@ -294,13 +415,14 @@
                 app:leftImage="@mipmap/cash_icon"
                 app:leftText="@string/cash"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="true" />
+                app:showLine="true" />-->
             <!--我的邀请-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_my_invite"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
                 android:visibility="visible"
+                android:layout_marginTop="@dimen/spacing_mid"
                 app:dividerLeftMargin="@dimen/spacing_normal"
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/invite_icon"
@@ -318,8 +440,8 @@
                 app:leftText="@string/team"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
                 app:showLine="true" />
-            <!--我的糖果-->
-            <com.zhiyicx.baseproject.widget.button.CombinationButton
+            <!--我的积分-->
+            <!--<com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_mine_integration"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
@@ -328,7 +450,7 @@
                 app:leftImage="@mipmap/ico_me_integral"
                 app:leftText="@string/mine_integration"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
-                app:showLine="true" />
+                app:showLine="true" />-->
             <!--收藏-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_download"

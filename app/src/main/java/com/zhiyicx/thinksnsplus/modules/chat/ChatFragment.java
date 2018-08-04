@@ -528,10 +528,14 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             if (username.equals(toChatUsername) || message.getTo().equals(toChatUsername)
                     || message.conversationId().equals(toChatUsername)) {
 
-                if(messageList.canScrollVertically(1))
+                //当最后一个item不可见时，不滑动到底部
+                if(messageList.getListView().getLastVisiblePosition()
+                        != messageList.getChildCount()-1){
                     messageList.refresh();
-                else
+                }else {
                     messageList.refreshSelectLast();
+                }
+
                 EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
                 conversation.markMessageAsRead(message.getMsgId());
 

@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -195,33 +196,37 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
     public void handleNotRoamingMessageList(List<EMMessage> messages) {
         Observable.just(messages)
                 .subscribeOn(Schedulers.io())
-                .flatMap(emMessages -> {
-                    List<Object> userIds = new ArrayList<>();
-                    for (EMMessage msg : emMessages) {
-                        Long userId = null;
-                        try {
-                            userId = Long.parseLong(msg.getFrom());
-                        } catch (NumberFormatException ignore) {
-                        }
-                        if (userId != null) {
-                            UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getSingleDataFromCache(userId);
-                            if (userInfoBean == null) {
-                                userIds.add(userId);
+                .flatMap(new Func1<List<EMMessage>, Observable<List<Object>>>() {
+                    @Override
+                    public Observable<List<Object>> call(List<EMMessage> emMessages) {
+                        List<Object> userIds = new ArrayList<>();
+                        for (EMMessage msg : emMessages) {
+                            Long userId = null;
+                            try {
+                                userId = Long.parseLong(msg.getFrom());
+                            } catch (NumberFormatException ignore) {
+                            }
+                            if (userId != null) {
+                                UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getSingleDataFromCache(userId);
+                                if (userInfoBean == null) {
+                                    userIds.add(userId);
+                                }
                             }
                         }
-                    }
-                    if (userIds.isEmpty()) {
-                        return Observable.just(emMessages);
-                    } else {
-                        return mUserInfoRepository.getUserInfo(userIds)
-                                .flatMap(userInfoBeans -> Observable.just(emMessages));
+                        if (userIds.isEmpty()) {
+                            return Observable.just(null);
+                        } else {
+                            return mUserInfoRepository.getUserInfo(userIds)
+                                    .flatMap(userInfoBeans -> Observable.just(userIds));
+                        }
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscribeForV2<List<EMMessage>>() {
+                .subscribe(new BaseSubscribeForV2<List<Object>>() {
                     @Override
-                    protected void onSuccess(List<EMMessage> data) {
-                        mRootView.handleNotRoamingMessageWithUserInfo();
+                    protected void onSuccess(List<Object> data) {
+                        if(null != data)
+                            mRootView.handleNotRoamingMessageWithUserInfo();
                     }
                 });
     }
