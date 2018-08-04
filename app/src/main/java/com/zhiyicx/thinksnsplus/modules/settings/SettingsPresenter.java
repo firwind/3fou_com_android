@@ -90,6 +90,7 @@ public class SettingsPresenter extends BasePresenter<SettingsContract.View> impl
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Object>() {
                     @Override
                     public void onCompleted() {

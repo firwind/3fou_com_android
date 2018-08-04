@@ -43,6 +43,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -283,6 +284,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                 mCacheConversatonSub.unsubscribe();
 
             mCacheConversatonSub = mRepository.getConversationList((int) AppApplication.getMyUserIdWithdefault())
+                    .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .map(new Func1<List<MessageItemBeanV2>, List<MessageItemBeanV2>>() {
                         @Override

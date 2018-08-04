@@ -308,8 +308,8 @@ class SettingsFragment : TSFragment<SettingsContract.Presenter>(), SettingsContr
                 .backgroundAlpha(POPUPWINDOW_ALPHA)
                 .with(activity)
                 .item2ClickListener {
-                    mPresenter.loginOut()
                     mLoginoutPopupWindow!!.hide()
+                    mPresenter.loginOut()
                 }
                 .bottomClickListener { mLoginoutPopupWindow!!.hide() }.build()
     }
