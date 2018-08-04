@@ -337,8 +337,8 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
                 break;
             case R.id./*bt_wallet*/ll_digital_wallet_container:
                 //数字资产
-                MyCurrencyActivity.startMyCurrencyActivity(getContext());
-                //ToastUtils.showToast(mActivity,"该功能暂未开放~");
+                //MyCurrencyActivity.startMyCurrencyActivity(getContext());
+                ToastUtils.showToast(mActivity,"该功能暂未开放~");
                 break;
             case R.id.bt_my_invite:
                 startActivity(InviteShareActivity.newIntent(mActivity));

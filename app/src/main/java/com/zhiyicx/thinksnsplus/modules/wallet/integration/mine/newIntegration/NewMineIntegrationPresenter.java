@@ -101,7 +101,7 @@ public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegra
                     }
                 });
 
-        Subscription userInfoSub=mUserInfoRepository.getLocalUserInfoBeforeNet(AppApplication.getMyUserIdWithdefault())
+        Subscription userInfoSub=mUserInfoRepository.getCurrentLoginUserInfo()
                 .doAfterTerminate(() -> {
                     mRootView.handleLoading(false);
                     mIsUsreInfoRequseted=true;
