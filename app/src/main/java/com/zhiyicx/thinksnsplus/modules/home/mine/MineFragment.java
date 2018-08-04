@@ -135,7 +135,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
 
     @Override
     protected void initData() {
-
+        reLoadUserInfo(true);
     }
 
     @Override

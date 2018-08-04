@@ -132,6 +132,11 @@ public class RechargePresenter extends AppBasePresenter<RechargeContract.View> i
     }
 
     @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
+    @Override
     public void rechargeSuccess(String charge) {
         Subscription subscribe = mBillRepository.rechargeSuccess(charge).subscribe(new BaseSubscribeForV2<RechargeSuccessBean>() {
             @Override

@@ -10,6 +10,8 @@ import com.zhiyicx.baseproject.base.TSWebFragment;
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.baseproject.widget.photoview.log.Logger;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
+import com.zhiyicx.thinksnsplus.modules.photopicker.PhotoAlbumListActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +72,7 @@ public class CustomWEBFragment extends TSWebFragment {
 
     @Override
     protected void onWebImageClick(String clickUrl, List<String> images) {
-
+        //GalleryActivity.
     }
 
     @Override

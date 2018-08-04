@@ -117,7 +117,7 @@ public class NoticeDetailsFragment extends TSFragment<NoticeDetailsContract.Pres
             mNoticeDetailsTitle.setText(TextUtils.isEmpty(mNoticeBean.getTitle()) ? "" : mNoticeBean.getTitle());
             mNoticeDetailsUserName.setText(TextUtils.isEmpty(mNoticeBean.getAuthor()) ? "" : mNoticeBean.getAuthor());
             mNoticeDetailsContent.setText(TextUtils.isEmpty(mNoticeBean.getContent()) ? "" : mNoticeBean.getContent());
-            mNoticeDetailsTime.setText(TimeUtils.getTimeFriendlyNormal(mNoticeBean.getCreated_at()));
+            mNoticeDetailsTime.setText(TimeUtils.getTimeFriendlyNormal(mNoticeBean.getCreated_at()*1000));
         }
         if (isGroupOwner) {
             mToolbarRight.setText(setRightTitle());

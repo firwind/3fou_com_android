@@ -9,9 +9,6 @@ import com.zhiyicx.rxerrorhandler.functions.RetryWithInterceptDelay
 import com.zhiyicx.thinksnsplus.R
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2
-import com.zhiyicx.thinksnsplus.data.beans.PayStrV2Bean
-import com.zhiyicx.thinksnsplus.data.beans.RechargeSuccessV2Bean
-import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean
 import com.zhiyicx.thinksnsplus.data.beans.integration.IntegrationConfigBean
 import com.zhiyicx.thinksnsplus.data.source.repository.BillRepository
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository
@@ -22,9 +19,11 @@ import rx.Subscription
 
 import com.zhiyicx.rxerrorhandler.functions.RetryWithInterceptDelay.RETRY_INTERVAL_TIME
 import com.zhiyicx.rxerrorhandler.functions.RetryWithInterceptDelay.RETRY_MAX_COUNT
-import com.zhiyicx.thinksnsplus.data.beans.WXPayInfo
+import com.zhiyicx.thinksnsplus.config.EventBusTagConfig
+import com.zhiyicx.thinksnsplus.data.beans.*
 import com.zhiyicx.tspay.TSPayClient
 import com.zhiyicx.tspay.TSPayClient.CHANNEL_BALANCE
+import org.simple.eventbus.Subscriber
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 
@@ -140,6 +139,23 @@ constructor(rootView: IntegrationRechargeContract.View) : AppBasePresenter<Integ
                 })
     }
 
+
+    override fun useEventBus(): Boolean {
+        return true
+    }
+
+    @Subscriber(tag = EventBusTagConfig.EVENT_WX_PAY_RESULT)
+    fun wxPayResult(wxPayResult: WXPayResult) {
+        if (wxPayResult.code == 0) {
+            // 0 ,微信交易成功
+            mRootView.showSnackSuccessMessage(mContext.getString(R.string.recharge_success))
+        } else if (wxPayResult.code == -2) {
+            // -2 ,取消交易
+            mRootView.showSnackSuccessMessage(mContext.getString(R.string.recharge_cancle))
+        } else {
+            mRootView.dismissSnackBar()
+        }
+    }
 
     @Inject
     lateinit
