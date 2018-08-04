@@ -49,15 +49,9 @@ public class CurrencyRepository implements ICurrencyRepository {
 
     @Override
     public Observable<List<CurrencyTypeBean>> getCurrencyType() {
-//        String currencyJson = JsonUtils.getJson("currencyType", context);
-//
-//        return Observable.just(currencyJson).map((Func1<String, List<CurrencyTypeBean>>) s -> new Gson().fromJson(s, new TypeToken<List<CurrencyTypeBean>>() {
-//        }.getType()))
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread());
         return mCurrencyClient.getTeamCurrencyList()
                 .subscribeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread());
 
     }
 
