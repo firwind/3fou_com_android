@@ -186,4 +186,16 @@ public interface IBillRepository {
      */
     Observable<List<IntegrationRuleBean>> getIntegrationRules();
 
+    /**
+     * 获取糖果红包数量
+     * @return
+     */
+    Observable<BaseJsonV2<String>> getIntegrationRedPacketNum();
+
+    /**
+     * 领取糖果红包
+     * @return
+     */
+    Observable<String> receiveIntegrationRedPacket();
+
 }

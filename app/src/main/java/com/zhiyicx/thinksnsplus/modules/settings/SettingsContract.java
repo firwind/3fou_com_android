@@ -28,6 +28,8 @@ public interface SettingsContract {
         void setCacheDirSize(String size);
 
         void getAppNewVersionSuccess(List<AppVersionBean> data);
+
+        void logOutOk();
     }
 
     interface Presenter extends IBasePresenter {
@@ -46,7 +48,7 @@ public interface SettingsContract {
          *
          * @return true 退出成功，false 退出失败
          */
-        boolean loginOut();
+        void loginOut();
 
         /**
          * 检查是否有更新

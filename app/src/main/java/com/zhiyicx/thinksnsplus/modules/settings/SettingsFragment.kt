@@ -308,15 +308,16 @@ class SettingsFragment : TSFragment<SettingsContract.Presenter>(), SettingsContr
                 .backgroundAlpha(POPUPWINDOW_ALPHA)
                 .with(activity)
                 .item2ClickListener {
-                    if (mPresenter.loginOut()) {
-                        NotificationUtil.cancelAllNotification(context)
-                        startActivity(Intent(activity, LoginActivity::class.java))
-                    }
+                    mPresenter.loginOut()
                     mLoginoutPopupWindow!!.hide()
                 }
                 .bottomClickListener { mLoginoutPopupWindow!!.hide() }.build()
+    }
 
 
+    override fun logOutOk() {
+        NotificationUtil.cancelAllNotification(context)
+        startActivity(Intent(activity, LoginActivity::class.java))
     }
 
     companion object {

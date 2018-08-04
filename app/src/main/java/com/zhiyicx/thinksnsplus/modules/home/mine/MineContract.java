@@ -51,6 +51,16 @@ public interface MineContract {
          */
         void updateCertification(UserCertificationInfo info);
 
+        /**
+         * 设置糖果数量
+         */
+        void setIntegralNum(String str);
+
+        /**
+         * 领取糖果
+         */
+        void receivedRedPacket();
+
     }
 
     interface Presenter extends IBaseTouristPresenter {
@@ -73,6 +83,16 @@ public interface MineContract {
          * 更新最新消息
          */
         void updateUserNewMessage();
+
+        /**
+         * 请求红包数量
+         */
+        void requestIntegralRedPacketNum();
+
+        /**
+         * 请求领取红包
+         */
+        void requestReceiveIntegralRedPacket();
     }
 
 }

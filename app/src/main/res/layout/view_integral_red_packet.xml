@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp306"
+    android:layout_height="@dimen/dp395"
+    android:layout_gravity="center"
+    android:background="@mipmap/bg_red_packet">
+
+    <LinearLayout
+        android:layout_marginTop="82dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="前链"
+            android:textColor="@color/red_packet_text_color"
+            android:textSize="@dimen/sp15"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="给您发了一个红包"
+            android:textColor="@color/red_packet_text_color"
+            android:textSize="@dimen/sp15"/>
+
+        <TextView
+            android:id="@+id/tv_red_packet_num"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1000新手糖果红包"
+            android:textSize="@dimen/sp24"
+            android:textColor="@color/red_packet_text_color"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_open"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_open_coin"
+        android:layout_marginBottom="92dp"/>
+
+</FrameLayout>

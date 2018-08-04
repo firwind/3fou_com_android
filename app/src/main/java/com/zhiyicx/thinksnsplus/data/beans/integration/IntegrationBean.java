@@ -24,6 +24,8 @@ public class IntegrationBean implements Serializable {
     private long sum;
     private String created_at;
     private String updated_at;
+    private boolean is_sweet;
+    private int today_total;
 
     public int getOwner_id() {
         return owner_id;
@@ -65,6 +67,22 @@ public class IntegrationBean implements Serializable {
         this.updated_at = updated_at;
     }
 
+    public boolean isIs_sweet() {
+        return is_sweet;
+    }
+
+    public void setIs_sweet(boolean is_sweet) {
+        this.is_sweet = is_sweet;
+    }
+
+    public int getToday_total() {
+        return today_total;
+    }
+
+    public void setToday_total(int today_total) {
+        this.today_total = today_total;
+    }
+
     @Override
     public String toString() {
         return "IntegrationBean{" +
@@ -73,6 +91,8 @@ public class IntegrationBean implements Serializable {
                 ", sum=" + sum +
                 ", created_at='" + created_at + '\'' +
                 ", updated_at='" + updated_at + '\'' +
+                ", is_sweet=" + is_sweet +
+                ", today_total=" + today_total +
                 '}';
     }
 }

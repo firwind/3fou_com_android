@@ -144,4 +144,9 @@
     <dimen name="invite_img_size">130dp</dimen>
     <dimen name="invite_share_height">116dp</dimen>
 
+    <dimen name="sp15">15sp</dimen>
+    <dimen name="sp35">35sp</dimen>
+    <dimen name="dp306">306dp</dimen>
+    <dimen name="dp395">395dp</dimen>
+
 </resources>

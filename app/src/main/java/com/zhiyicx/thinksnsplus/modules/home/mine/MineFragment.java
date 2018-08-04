@@ -41,10 +41,10 @@ import com.zhiyicx.thinksnsplus.modules.q_a.mine.container.MyQuestionActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.SettingsActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhiyicx.thinksnsplus.modules.wallet.WalletActivity;
-import com.zhiyicx.thinksnsplus.modules.wallet.integration.mine.MineIntegrationActivity;
 import com.zhiyicx.thinksnsplus.modules.wallet.integration.mine.newIntegration.NewMineIntegrationActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.widget.CertificationTypePopupWindow;
+import com.zhiyicx.thinksnsplus.modules.wallet.red_packet.IntegralRedPacketDialog;
 
 import javax.inject.Inject;
 
@@ -103,6 +103,8 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
 
     private UserInfoBean mUserInfoBean;
     private UserCertificationInfo mUserCertificationInfo;
+
+    private IntegralRedPacketDialog mIntegralRedPacketDialog;
 
     public static MineFragment  newInstance() {
         MineFragment fragment = new MineFragment();
@@ -335,8 +337,8 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
                 break;
             case R.id./*bt_wallet*/ll_digital_wallet_container:
                 //数字资产
-                //MyCurrencyActivity.startMyCurrencyActivity(getContext());
-                ToastUtils.showToast(mActivity,"该功能暂未开放~");
+                MyCurrencyActivity.startMyCurrencyActivity(getContext());
+                //ToastUtils.showToast(mActivity,"该功能暂未开放~");
                 break;
             case R.id.bt_my_invite:
                 startActivity(InviteShareActivity.newIntent(mActivity));
@@ -396,7 +398,28 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
         // 设置好友数
         String friendsCount = String.valueOf(userInfoBean.getFriends_count());
         mTvFriendsCount.setText(friendsCount);
+
+        if(null != this.mUserInfoBean.getCurrency() &&
+                !this.mUserInfoBean.getCurrency().isIs_sweet() &&
+                null == mIntegralRedPacketDialog){
+            mPresenter.requestIntegralRedPacketNum();
+        }
     }
+
+    @Override
+    public void setIntegralNum(String str) {
+        mIntegralRedPacketDialog = new IntegralRedPacketDialog(mActivity,true,str);
+        mIntegralRedPacketDialog.setReceiveIntegralRedPacketListener(() -> mPresenter.requestReceiveIntegralRedPacket());
+        mIntegralRedPacketDialog.showDialog();
+    }
+
+    @Override
+    public void receivedRedPacket() {
+        if(mIntegralRedPacketDialog.isShowing())
+            mIntegralRedPacketDialog.dismissDialog();
+        mActivity.startActivity(new Intent(mActivity,NewMineIntegrationActivity.class));
+    }
+
 
     @Override
     public void setNewFollowTip(int count) {
@@ -434,6 +457,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
             mCertificationWindow.dismiss();
         }
     }
+
 
     private void initCertificationTypePop() {
         if (mCertificationWindow == null) {

@@ -15,8 +15,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.observables.AsyncOnSubscribe;
 import rx.schedulers.Schedulers;
 
 /**
@@ -76,10 +81,33 @@ public class SettingsPresenter extends BasePresenter<SettingsContract.View> impl
     }
 
     @Override
-    public boolean loginOut() {
-        mIAuthRepository.clearAuthBean();
-        mIAuthRepository.clearThridAuth();
-        return true;
+    public void loginOut() {
+        Observable.create(subscriber -> {
+            mIAuthRepository.clearAuthBean();
+            mIAuthRepository.clearThridAuth();
+            subscriber.onCompleted();
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
+                .subscribe(new Subscriber<Object>() {
+                    @Override
+                    public void onCompleted() {
+                        mRootView.closeLoadingView();
+                        mRootView.logOutOk();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //e.printStackTrace();
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+
+                    }
+                });
     }
 
     @Override

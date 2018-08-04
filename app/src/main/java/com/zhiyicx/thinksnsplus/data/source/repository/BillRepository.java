@@ -25,6 +25,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -295,9 +296,35 @@ public class BillRepository implements IBillRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 获取糖果规则
+     * @return
+     */
     @Override
     public Observable<List<IntegrationRuleBean>> getIntegrationRules() {
         return mWalletClient.getIntegrationRules()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取糖果红包数量
+     * @return
+     */
+    @Override
+    public Observable<BaseJsonV2<String>> getIntegrationRedPacketNum() {
+        return mWalletClient.getIntegrationRedPacketNum()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 领取糖果红包
+     * @return
+     */
+    @Override
+    public Observable<String> receiveIntegrationRedPacket() {
+        return mWalletClient.receiveIntegrationRedPacket()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

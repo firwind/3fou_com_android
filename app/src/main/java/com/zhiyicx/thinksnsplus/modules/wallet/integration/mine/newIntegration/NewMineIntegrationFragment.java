@@ -357,7 +357,7 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
     @Override
     public void updateBalance(IntegrationBean balance) {
         mTvMineMoney.setText(String.valueOf(balance == null ? 0 : balance.getSum()));
-        mTvMineMondyDay.setText(String.valueOf(balance == null ? 0 : balance.getSum()));
+        mTvMineMondyDay.setText(String.valueOf(balance == null ? 0 : balance.getToday_total()));
         int day = 0;
         if(null != balance){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

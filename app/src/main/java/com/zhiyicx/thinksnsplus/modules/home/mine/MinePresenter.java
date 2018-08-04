@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.zhiyicx.baseproject.base.SystemConfigBean;
+import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.mvp.BasePresenter;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -21,6 +22,7 @@ import com.zhiyicx.thinksnsplus.data.source.local.FlushMessageBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.UserCertificationInfoGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.WalletBeanGreenDaoImpl;
+import com.zhiyicx.thinksnsplus.data.source.repository.BillRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.SystemRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
 
@@ -56,6 +58,9 @@ public class MinePresenter extends AppBasePresenter<MineContract.View> implement
     private Subscription mCertificationSub;
     private Subscription mUserinfoSub;
     private Subscription mNewMessageSub;
+
+    @Inject
+    BillRepository mBillRepository;
 
     @Inject
     public MinePresenter(MineContract.View rootView,FlushMessageBeanGreenDaoImpl flushMessageBeanGreenDao,
@@ -107,6 +112,28 @@ public class MinePresenter extends AppBasePresenter<MineContract.View> implement
                     }
                 });
         addSubscrebe(mNewMessageSub);
+    }
+
+    @Override
+    public void requestIntegralRedPacketNum() {
+        mBillRepository.getIntegrationRedPacketNum()
+                .subscribe(new BaseSubscribeForV2<BaseJsonV2<String>>() {
+                    @Override
+                    protected void onSuccess(BaseJsonV2<String> data) {
+                        mRootView.setIntegralNum(data.getData());
+                    }
+                });
+    }
+
+    @Override
+    public void requestReceiveIntegralRedPacket() {
+        mBillRepository.receiveIntegrationRedPacket()
+                .subscribe(new BaseSubscribeForV2<String>() {
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.receivedRedPacket();
+                    }
+                });
     }
 
     /**

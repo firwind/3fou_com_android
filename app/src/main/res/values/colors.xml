@@ -55,4 +55,6 @@
     <color name="state_currency_exchange">#e07e65</color>
     <color name="state_currency_record_recharge">#f36021</color>
     <color name="state_currency_record_withdraw">#ff9900</color>
+
+    <color name="red_packet_text_color">#ffebd5</color>
 </resources>
