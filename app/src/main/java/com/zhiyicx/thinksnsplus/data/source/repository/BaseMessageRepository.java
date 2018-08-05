@@ -40,6 +40,7 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -177,6 +178,7 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                 .flatMap(list1 -> {
                     // 保存数据库没有的用户 id
                     List<Object> users = new ArrayList<>();
+                    List<String> destroyedGroups = new ArrayList<>();
                     // 数据库里面没有的群信息
                     final StringBuilder groupIds = new StringBuilder();
                     for (MessageItemBeanV2 itemBeanV2 : list1) {
@@ -195,6 +197,8 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                         } else if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.GroupChat) {
 
                             if(null == EMClient.getInstance().groupManager().getGroup(itemBeanV2.getConversation().conversationId())){
+                                destroyedGroups.add(itemBeanV2.getConversation().conversationId());
+                                EMClient.getInstance().chatManager().deleteConversation(itemBeanV2.getConversation().conversationId(),true);
                                 continue;
                             }
 
@@ -258,6 +262,21 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                         }
                     }
                     return Observable.just(users)
+                            .flatMap(objects -> {
+                                //过滤已经删除掉的群
+                                if(destroyedGroups.size() != 0){
+                                    List<MessageItemBeanV2> destroyed = new ArrayList<>();
+                                    for (String emKey:destroyedGroups) {
+                                        for (MessageItemBeanV2 message:list1) {
+                                            if(emKey.equals(message.getEmKey()))
+                                                destroyed.add(message);
+                                        }
+                                    }
+                                    list1.removeAll(destroyed);
+                                }
+
+                                return Observable.just(list1);
+                            })
                             .flatMap(objects -> {
                                 if (users.isEmpty()) {
                                     return Observable.just(list1);
