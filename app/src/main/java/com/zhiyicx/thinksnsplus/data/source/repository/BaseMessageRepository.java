@@ -193,6 +193,11 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                 }
                             }
                         } else if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.GroupChat) {
+
+                            if(null == EMClient.getInstance().groupManager().getGroup(itemBeanV2.getConversation().conversationId())){
+                                continue;
+                            }
+
                             // 群聊
                             String chatGroupId = itemBeanV2.getConversation().conversationId();
 

@@ -137,10 +137,14 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                 setUserInfoClick(holder.getView(R.id.tv_name), messageItemBean);
                 setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
 
-                int resId = ImageUtils.getGroupSignResId(chatGroupBean.getGroup_level());
-                holder.getImageViwe(R.id.iv_group_sign).setVisibility(0 == resId ? View.INVISIBLE : View.VISIBLE);
-                if(0 != resId)
-                    holder.getImageViwe(R.id.iv_group_sign).setImageDrawable(mContext.getResources().getDrawable(resId));
+                if(null != chatGroupBean){
+                    int resId = ImageUtils.getGroupSignResId(chatGroupBean.getGroup_level());
+                    holder.getImageViwe(R.id.iv_group_sign).setVisibility(0 == resId ? View.INVISIBLE : View.VISIBLE);
+                    if(0 != resId)
+                        holder.getImageViwe(R.id.iv_group_sign).setImageDrawable(mContext.getResources().getDrawable(resId));
+                }else {
+                    holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
+                }
                 break;
             default:
                 holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
