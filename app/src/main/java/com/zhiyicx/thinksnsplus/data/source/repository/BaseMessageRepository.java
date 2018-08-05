@@ -196,11 +196,11 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                             }
                         } else if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.GroupChat) {
 
-                            if(null == EMClient.getInstance().groupManager().getGroup(itemBeanV2.getConversation().conversationId())){
-                                destroyedGroups.add(itemBeanV2.getConversation().conversationId());
-                                EMClient.getInstance().chatManager().deleteConversation(itemBeanV2.getConversation().conversationId(),true);
-                                continue;
-                            }
+//                            if(null == EMClient.getInstance().groupManager().getGroup(itemBeanV2.getConversation().conversationId())){
+//                                destroyedGroups.add(itemBeanV2.getConversation().conversationId());
+//                                EMClient.getInstance().chatManager().deleteConversation(itemBeanV2.getConversation().conversationId(),true);
+//                                continue;
+//                            }
 
                             // 群聊
                             String chatGroupId = itemBeanV2.getConversation().conversationId();
@@ -262,21 +262,21 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                         }
                     }
                     return Observable.just(users)
-                            .flatMap(objects -> {
-                                //过滤已经删除掉的群
-                                if(destroyedGroups.size() != 0){
-                                    List<MessageItemBeanV2> destroyed = new ArrayList<>();
-                                    for (String emKey:destroyedGroups) {
-                                        for (MessageItemBeanV2 message:list1) {
-                                            if(emKey.equals(message.getEmKey()))
-                                                destroyed.add(message);
-                                        }
-                                    }
-                                    list1.removeAll(destroyed);
-                                }
-
-                                return Observable.just(list1);
-                            })
+//                            .flatMap(objects -> {
+//                                //过滤已经删除掉的群
+//                                if(destroyedGroups.size() != 0){
+//                                    List<MessageItemBeanV2> destroyed = new ArrayList<>();
+//                                    for (String emKey:destroyedGroups) {
+//                                        for (MessageItemBeanV2 message:list1) {
+//                                            if(emKey.equals(message.getEmKey()))
+//                                                destroyed.add(message);
+//                                        }
+//                                    }
+//                                    list1.removeAll(destroyed);
+//                                }
+//
+//                                return Observable.just(list1);
+//                            })
                             .flatMap(objects -> {
                                 if (users.isEmpty()) {
                                     return Observable.just(list1);
@@ -328,6 +328,8 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                                             return list1;
                                         });
                             }).flatMap(messages -> {
+                                groupIds.append("12343455678805");
+
                                 if (TextUtils.isEmpty(groupIds.toString())) {
                                     //todo:此处去重 感觉没有必要，暂时干掉这段代码
                                     /*String lastConversationId = "";

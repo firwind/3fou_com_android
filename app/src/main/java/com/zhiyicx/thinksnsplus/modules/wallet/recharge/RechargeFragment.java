@@ -176,6 +176,7 @@ public class RechargeFragment extends TSFragment<RechargeContract.Presenter> imp
 
     @Override
     public void configSureBtn(boolean enable) {
+
         mBtTop.setEnabled(enable);
     }
 
