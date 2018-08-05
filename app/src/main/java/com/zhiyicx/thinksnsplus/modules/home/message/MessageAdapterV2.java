@@ -128,9 +128,12 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                         .placeholder(R.mipmap.ico_ts_assistant)
                         .transform(new GlideCircleTransform(mContext))
                         .into(userAvatarView.getIvAvatar());
-                // 群名称
-                String groupName = mContext.getString(R.string.chat_group_name_default, chatGroupBean == null ? group.getGroupName
-                        () : chatGroupBean.getName(), chatGroupBean == null ? group.getMemberCount() : chatGroupBean.getAffiliations_count());
+                String groupName = "该群已解散";
+                if(null != group){
+                    // 群名称
+                    groupName = mContext.getString(R.string.chat_group_name_default, chatGroupBean == null ? group.getGroupName
+                            () : chatGroupBean.getName(), chatGroupBean == null ? group.getMemberCount() : chatGroupBean.getAffiliations_count());
+                }
                 // + "(" + chatGroupBean.getAffiliations_count() + ")";
                 holder.setText(R.id.tv_name, groupName);
 //                swipeLayout.setSwipeEnabled(true);
