@@ -160,6 +160,7 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_INFO_NEW = "api/" + API_VERSION_2 + "/easemob/group/groupinfo";//简单获取群信息
     public static final String APP_PATH_GET_GROUP_MEMBER_INFO_NEW = "api/" + API_VERSION_2 + "/easemob/group/memberlist";//获取群成员信息
     public static final String APP_PATH_GET_GROUP_MEMBER_IS_ADD_GROUP = "api/" + API_VERSION_2 + "/easemob/group/isGroupMember";//是否加入该群
+    public static final String APP_PATH_GET_TALKING_STATE = "api/"+API_VERSION_2+"/easemob/group/checkTalkingState";//检查说话权限
 
     /**
      * 关注粉丝 FollowFansClient
