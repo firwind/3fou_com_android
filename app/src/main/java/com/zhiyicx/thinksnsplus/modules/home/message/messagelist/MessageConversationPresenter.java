@@ -636,6 +636,11 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
         }
         List<EMMessage> list = messagesEvent.getMessages();
 
+        if(mRootView.getListDatas().size() == 0){
+            getAllConversationV2(false);
+            return;
+        }
+
         Subscription subscribe = Observable.just(list)
                 .subscribeOn(Schedulers.io())
                 .flatMap(messageList -> {
