@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.chat;
 
 import com.hyphenate.chat.EMMessage;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMRefreshEvent;
+import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
@@ -193,6 +194,17 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
     }
 
     @Override
+    public void getCurrentTalkingState(String groupId) {
+        addSubscrebe(mRepository.getTalkingState(groupId)
+                .subscribe(new BaseSubscribeForV2<BaseJsonV2<Boolean>>() {
+                    @Override
+                    protected void onSuccess(BaseJsonV2<Boolean> data) {
+                        mRootView.setTalkingState(data.getData());
+                    }
+                }));
+    }
+
+    @Override
     public void handleNotRoamingMessageList(List<EMMessage> messages) {
         Observable.just(messages)
                 .subscribeOn(Schedulers.io())
@@ -230,4 +242,5 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
                     }
                 });
     }
+
 }

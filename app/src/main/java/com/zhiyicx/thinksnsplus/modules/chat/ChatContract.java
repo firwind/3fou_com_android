@@ -37,6 +37,8 @@ public interface ChatContract {
         void updateCenterText(UserInfoBean userInfoBean);
 
         void handleNotRoamingMessageWithUserInfo();
+
+        void setTalkingState(boolean isTalking);
     }
 
     interface Presenter extends IBasePresenter {
@@ -64,6 +66,9 @@ public interface ChatContract {
 
         //找出未获取到用户信息的消息
         void handleNotRoamingMessageList(List<EMMessage> messages);
+
+        //获取当前用户信息的
+        void getCurrentTalkingState(String groupId);
 
     }
 }

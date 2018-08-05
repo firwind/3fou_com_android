@@ -60,7 +60,6 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
     }
 
     private void init(final Context context, AttributeSet attrs) {
-        Context context1 = context;
         LayoutInflater.from(context).inflate(getBodyLayoutId(), this);
         editText = (EditText) findViewById(R.id.et_sendmessage);
         buttonSetModeKeyboard = findViewById(R.id.btn_set_mode_keyboard);
@@ -320,6 +319,16 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
     @Override
     public EditText getEditText() {
         return editText;
+    }
+
+    /**
+     * 设置禁言状态
+     */
+    public void setNoTalkingState(){
+        mOpenMute.setVisibility(VISIBLE);
+        edittext_layout.setVisibility(GONE);
+        buttonSetModeVoice.setEnabled(false);//设置说话不能点击
+        buttonMore.setEnabled(false);//+号不能点击
     }
 
 }

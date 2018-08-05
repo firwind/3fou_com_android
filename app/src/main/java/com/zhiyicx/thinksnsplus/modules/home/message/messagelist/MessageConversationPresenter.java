@@ -330,7 +330,8 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
             @Override
             protected void onFailure(String message, int code) {
                 super.onFailure(message, code);
-                mRootView.showStickyMessage(message);
+                if(code != 433)
+                    mRootView.showStickyMessage(message);
                 mRootView.onResponseError(null, false);
             }
 

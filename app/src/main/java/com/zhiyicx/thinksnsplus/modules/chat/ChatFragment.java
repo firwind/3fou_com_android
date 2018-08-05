@@ -29,6 +29,7 @@ import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.bean.ChatUserInfoBean;
 import com.hyphenate.easeui.widget.EaseChatPrimaryMenu;
+import com.hyphenate.easeui.widget.EaseChatPrimaryMenuBase;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.easeui.widget.presenter.EaseChatRowPresenter;
@@ -178,6 +179,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     @Override
     protected void initEMView(View rootView) {
         super.initEMView(rootView);
+
+        mPresenter.getCurrentTalkingState(toChatUsername);
+
         // 适配手机无法显示输入焦点
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
             AndroidBug5497Workaround.assistActivity(mActivity);
@@ -210,13 +214,12 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
     @Override
     public void onOpenMuteClick(EaseChatRow.TipMsgType tipMsgType, String str) {
-
-        if (tipMsgType == OPEN_MUTE) {
+        /*if (tipMsgType == OPEN_MUTE) {
             View view = inputMenu.setPrimaryMenuView();
             EaseChatPrimaryMenu menu = (EaseChatPrimaryMenu) view.findViewById(R.id.primary_menu);
             RelativeLayout mute = menu.getmOpenMute();
             mute.setVisibility(View.VISIBLE);
-        }
+        }*/
     }
 
     @Override
@@ -254,6 +257,16 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         if(isMessageListInited)
             messageList.refresh();
 
+    }
+
+    /**
+     * 设置禁言状态
+     * @param isTalking
+     */
+    @Override
+    public void setTalkingState(boolean isTalking) {
+        if(!isTalking)
+            ((EaseChatPrimaryMenu)inputMenu.getPrimaryMenu()).setNoTalkingState();
     }
 
     @Override
@@ -663,13 +676,12 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
         @Override
         public EaseChatRowPresenter getCustomChatRow(EMMessage message, int position, BaseAdapter adapter, ChatUserInfoBean userInfoBean) {
+            EaseChatRowPresenter presenter;
             if (message.getType() == EMMessage.Type.TXT) {
-                EaseChatRowPresenter presenter;
                 // voice call or video call
                 if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_VOICE_CALL, false) ||
                         message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_VIDEO_CALL, false)) {
                     presenter = new TSChatCallPresneter();
-                    return presenter;
                 } else {
                     boolean admin;
                     boolean isGroupChange = TSEMConstants.TS_ATTR_GROUP_CHANGE.equals(message.ext().get("type"))
@@ -684,19 +696,29 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                         presenter = new TSChatTextPresenter();
                     }
                 }
-                return presenter;
             } else if (message.getType() == EMMessage.Type.IMAGE) {
-                return new TSChatPicturePresenter();
+                presenter = new TSChatPicturePresenter();
             } else if (message.getType() == EMMessage.Type.VOICE) {
-                return new TSChatVoicePresenter();
+                presenter = new TSChatVoicePresenter();
             } else if (message.getType() == EMMessage.Type.LOCATION) {
-                return new TSChatLocationPresenter();
+                presenter = new TSChatLocationPresenter();
             } else if (message.getType() == EMMessage.Type.VIDEO) {
-                return new TSChatVideoPresenter();
+                presenter = new TSChatVideoPresenter();
             } else if (message.getType() == EMMessage.Type.FILE) {
-                return new TSChatFilePresenter();
-            }
-            return null;
+                presenter = new TSChatFilePresenter();
+            }else
+                presenter = null;
+
+            if(null != presenter)
+                presenter.setMessageSendErrorCallback((code, msg) -> {
+                mActivity.runOnUiThread(() -> {
+                    if(code == 215){//禁言
+                        setTalkingState(false);
+                    }
+                    ToastUtils.showToast(mActivity,msg);
+                });
+                });
+            return presenter;
         }
 
     }

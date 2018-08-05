@@ -351,4 +351,12 @@ public interface EasemobClient {
     @GET(ApiConfig.APP_PATH_GET_GROUP_MEMBER_IS_ADD_GROUP)
     Observable<ChatGroupBean> getChickIsAddGroup(@Query("im_group_id") String ids);
 
+    /**
+     * 获取群说话权限
+     * @param groupId
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_TALKING_STATE)
+    Observable<BaseJsonV2<Boolean>> getTalkingState(@Query("im_group_id")String groupId);
+
 }

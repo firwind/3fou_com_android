@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.data.source.repository;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
@@ -21,6 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -129,6 +131,13 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
     @Override
     public Observable<String> reportGroup(String userId, String groupId, String reason, String tel) {
         return mEasemobClient.reportGroup(userId, groupId, reason, tel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseJsonV2<Boolean>> getTalkingState(String groupId) {
+        return mEasemobClient.getTalkingState(groupId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.chat.info;
 
+import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
@@ -162,6 +163,7 @@ public interface ChatInfoContract {
         Observable<List<UserInfoBean>> getUserInfoInfo(String group_id,String searchKey);
         //提交举报群
         Observable<String> reportGroup(String userId, String groupId, String reason, String tel);
-
+        //获取群说话权限
+        Observable<BaseJsonV2<Boolean>> getTalkingState(String groupId);
     }
 }

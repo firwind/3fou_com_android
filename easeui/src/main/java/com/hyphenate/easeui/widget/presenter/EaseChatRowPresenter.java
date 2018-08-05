@@ -27,6 +27,12 @@ public abstract class EaseChatRowPresenter implements EaseChatRow.EaseChatRowAct
     private EMMessage message;
     private int position;
 
+    private OnMessageSendErrorCallback messageSendErrorCallback;
+
+    public void setMessageSendErrorCallback(OnMessageSendErrorCallback messageSendErrorCallback) {
+        this.messageSendErrorCallback = messageSendErrorCallback;
+    }
+
     @Override
     public void onResendClick(final EMMessage message) {
         message.setStatus(EMMessage.Status.CREATE);
@@ -87,8 +93,8 @@ public abstract class EaseChatRowPresenter implements EaseChatRow.EaseChatRowAct
                 Log.i("EaseChatRowPresenter", "onError: " + code + ", err" +
                         "or: " + error);
                 getChatRow().updateView(message);
-
-
+                if(null != messageSendErrorCallback)
+                    messageSendErrorCallback.onMessageSendError(code,error);
             }
 
             @Override
@@ -141,4 +147,9 @@ public abstract class EaseChatRowPresenter implements EaseChatRow.EaseChatRowAct
             handleReceiveMessage(message);
         }
     }
+
+    public interface OnMessageSendErrorCallback{
+        void onMessageSendError(int code,String msg);
+    }
+
 }
