@@ -292,12 +292,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 if (mChatMembers.get(position).getUser_id() == -1L) {
                     // 添加
-//                    SelectFriendsActivity.startSelectFriendActivity(mActivity, mChatGroupBean, false);
-                    Intent intentAllMember1 = new Intent(getContext(), GroupMemberListActivity.class);
-                    Bundle bundleAllMember1 = new Bundle();
-                    bundleAllMember1.putParcelable(BUNDLE_GROUP_MEMBER, mChatGroupBean);
-                    intentAllMember1.putExtras(bundleAllMember1);
-                    startActivity(intentAllMember1);
+                    SelectFriendsActivity.startSelectFriendActivity(mActivity, mChatGroupBean, false);
                 } else if (mChatMembers.get(position).getUser_id() == -2L) {
                     // 移除
                     SelectFriendsActivity.startSelectFriendActivity(mActivity, mChatGroupBean, true);

@@ -57,6 +57,19 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     }
 
     @Override
+    public Observable<List<UserInfoBean>> getUserFriendsListInGroup(long maxId, String keyword, String groupId) {
+        return mClient.getUserFriendsListInGroup(maxId, TSListFragment.DEFAULT_PAGE_SIZE, keyword,groupId)
+                .observeOn(Schedulers.io())
+                .map(userInfoBeen -> {
+                    // 保存用户信息
+                    mUserInfoBeanGreenDao.insertOrReplace(userInfoBeen);
+                    return userInfoBeen;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
     public Observable<ChatGroupBean> createGroup(String groupName, String groupIntro, boolean isPublic,
                                                  int maxUser, boolean isMemberOnly, boolean isAllowInvites,
                                                  long owner, String members) {

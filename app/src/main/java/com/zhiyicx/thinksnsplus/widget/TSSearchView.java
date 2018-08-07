@@ -152,6 +152,7 @@ public class TSSearchView extends AppCompatEditText implements View.OnKeyListene
     public void afterTextChanged(Editable arg0) {
         if (this.length() < 1) {
             drawableDel = null;
+//            setFocusable(false);
         } else {
             drawableDel = ContextCompat.getDrawable(getContext(), R.mipmap.login_inputbox_clean);
         }

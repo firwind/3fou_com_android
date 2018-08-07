@@ -10,6 +10,7 @@ import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.GroupMemberListRepository;
 
+import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
@@ -36,57 +37,43 @@ public class GroupMemberListPresenter extends AppBasePresenter< GroupMemberListC
         super(rootView);
     }
 
+
     @Override
-    public boolean isOwner() {
-        return mRootView.getGroupData().getOwner() == AppApplication.getMyUserIdWithdefault();
+    protected boolean useEventBus() {
+        return true;
     }
 
     @Override
-    public void getAllUserBean(String groupId) {
-        mChatInfoRepository.getUserInfoInfo(groupId,"")
+    public void requestNetData(Long maxId, boolean isLoadMore) {
+        mChatInfoRepository.getGroupMemberInfo(mRootView.getGroupData().getId(),"",maxId)
                 .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
 
                     @Override
                     protected void onSuccess(List<UserInfoBean> data) {
-                        mRootView.getUserInfos(data);
+                        mRootView.onNetResponseSuccess(data,isLoadMore);
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.onResponseError(null,isLoadMore);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.onResponseError(e,isLoadMore);
                     }
                 });
     }
 
-    /*@Subscriber(tag = EVENT_IM_GROUP_REMOVE_MEMBER)
-    public void onGroupMemberRemoved(Bundle bundle){
-        List<UserInfoBean> removedList = bundle.getParcelableArrayList(EVENT_IM_GROUP_REMOVE_MEMBER);
-        if (removedList == null) {
-            return;
-        }
-        ChatGroupBean chatGroupBean = mRootView.getGroupData();
-        List<UserInfoBean> originalList = new ArrayList<>();
-        originalList.addAll(chatGroupBean.getAffiliations());
-        for (int i = 0; i < removedList.size(); i++) {
-            for (UserInfoBean userInfoBean : chatGroupBean.getAffiliations()){
-                if (removedList.get(i).getUser_id().equals(userInfoBean.getUser_id())){
-                    originalList.remove(userInfoBean);
-                    break;
-                }
-            }
-        }
-        chatGroupBean.setAffiliations(originalList);
-        mRootView.updateGroup(chatGroupBean);
+    @Override
+    public void requestCacheData(Long maxId, boolean isLoadMore) {
+
     }
 
-    @Subscriber(tag = EVENT_IM_GROUP_ADD_MEMBER)
-    public void onGroupMemberAdded(Bundle bundle){
-        List<UserInfoBean> addedList = bundle.getParcelableArrayList(EVENT_IM_GROUP_ADD_MEMBER);
-        if (addedList == null) {
-            return;
-        }
-        ChatGroupBean chatGroupBean = mRootView.getGroupData();
-        chatGroupBean.getAffiliations().addAll(addedList);
-        mRootView.updateGroup(chatGroupBean);
-    }*/
-
     @Override
-    protected boolean useEventBus() {
+    public boolean insertOrUpdateData(@NotNull List<UserInfoBean> data, boolean isLoadMore) {
         return true;
     }
 }

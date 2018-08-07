@@ -10,15 +10,20 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.common.utils.recycleviewdecoration.GridDecoration;
 import com.zhiyicx.common.utils.recycleviewdecoration.TGridDecoration;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.adapter.ChatMemberAdapter;
 import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
+import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,17 +42,15 @@ import static com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsFragment
  * @contact email:648129313@qq.com
  */
 
-public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.Presenter> implements GroupMemberListContract.View {
+public class GroupMemberListFragment extends TSListFragment<GroupMemberListContract.Presenter,UserInfoBean> implements GroupMemberListContract.View {
 
     public static final String BUNDLE_GROUP_MEMBER = "bundle_group_member";
     public static final int DEFAULT_COLUMS = 5;
-
+/*
     @BindView(R.id.rv_member_list)
-    RecyclerView mRvMemberList;
+    RecyclerView mRvMemberList;*/
 
     private ChatGroupBean mChatGroupBean;
-    private List<UserInfoBean> mMemberList;
-    private ChatMemberAdapter mAdapter;
 
     public GroupMemberListFragment instance(Bundle bundle) {
         GroupMemberListFragment fragment = new GroupMemberListFragment();
@@ -57,9 +60,18 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
 
     @Override
     protected void initView(View rootView) {
-        GridLayoutManager manager = new GridLayoutManager(getContext(), DEFAULT_COLUMS);
-        mRvMemberList.setLayoutManager(manager);
-        mRvMemberList.addItemDecoration(new GridDecoration(10, getResources().getDimensionPixelOffset(R.dimen.spacing_large)));
+        mChatGroupBean = getArguments().getParcelable(BUNDLE_GROUP_MEMBER);
+        super.initView(rootView);
+    }
+
+    @Override
+    protected RecyclerView.LayoutManager getLayoutManager() {
+        return new GridLayoutManager(getContext(), DEFAULT_COLUMS);
+    }
+
+    @Override
+    protected RecyclerView.ItemDecoration getItemDecoration() {
+        return new GridDecoration(10, getResources().getDimensionPixelOffset(R.dimen.spacing_large));
     }
 
     @Override
@@ -73,49 +85,23 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
     }
 
     @Override
-    protected void initData() {
-        mMemberList = new ArrayList<>();
-        mChatGroupBean = getArguments().getParcelable(BUNDLE_GROUP_MEMBER);
-//        initMemberList();
-
+    protected boolean isLayzLoad() {
+        return true;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mMemberList.clear();
-        mPresenter.getAllUserBean(mChatGroupBean.getId());
+    public void onNetResponseSuccess(@NotNull List<UserInfoBean> data, boolean isLoadMore) {
+        //initAddOrDeleteBtn();
+        super.onNetResponseSuccess(data, isLoadMore);
     }
 
     @Override
-    protected int getBodyLayoutId() {
-        return R.layout.fragment_group_member_list;
-    }
-
-    @Override
-    public ChatGroupBean getGroupData() {
-        return mChatGroupBean;
-    }
-
-    @Override
-    public void updateGroup(ChatGroupBean chatGroupBean) {
-        mMemberList.clear();
-        mMemberList.addAll(chatGroupBean.getAffiliations());
-        initMemberList();
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void getUserInfos(List<UserInfoBean> data) {
-        mChatGroupBean.setAffiliations(data);
-        initMemberList();
-        mMemberList.addAll(data);
-
-        mAdapter = new ChatMemberAdapter(getContext(), mMemberList, mChatGroupBean.getOwner(), true);
+    protected RecyclerView.Adapter getAdapter() {
+        CommonAdapter mAdapter = new ChatMemberAdapter(getContext(), mListDatas, mChatGroupBean.getOwner(), true);
         mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                if (mMemberList.get(position).getUser_id() == -1L) {
+                if (mListDatas.get(position).getUser_id() == -1L) {
                     // 添加
                     Intent intent = new Intent(getContext(), SelectFriendsActivity.class);
                     Bundle bundle = new Bundle();
@@ -123,7 +109,7 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
                     bundle.putBoolean(BUNDLE_GROUP_IS_DELETE, false);
                     intent.putExtras(bundle);
                     startActivity(intent);
-                } else if (mMemberList.get(position).getUser_id() == -2L) {
+                } else if (mListDatas.get(position).getUser_id() == -2L) {
                     // 移除
                     Intent intent = new Intent(getContext(), SelectFriendsActivity.class);
                     Bundle bundle = new Bundle();
@@ -132,7 +118,7 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
-                    PersonalCenterFragment.startToPersonalCenter(getContext(), mMemberList.get(position));
+                    PersonalCenterFragment.startToPersonalCenter(getContext(), mListDatas.get(position));
                 }
             }
 
@@ -141,24 +127,30 @@ public class GroupMemberListFragment extends TSFragment<GroupMemberListContract.
                 return false;
             }
         });
-//        View view=new View(getContext());
-//        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getResources().getDimensionPixelOffset(com
-//                .hyphenate.easeui.R.dimen.chat_bottom_footer_height)));
-        mRvMemberList.setAdapter(mAdapter);
+        return mAdapter;
     }
 
-    private void initMemberList() {
-//        mMemberList.clear();
-        // 添加按钮，都可以拉人
+   /* @Override
+    protected int getBodyLayoutId() {
+        return R.layout.fragment_group_member_list;
+    }*/
+
+    @Override
+    public ChatGroupBean getGroupData() {
+        return mChatGroupBean;
+    }
+
+
+    private void initAddOrDeleteBtn() {
         UserInfoBean chatUserInfoBean = new UserInfoBean();
         chatUserInfoBean.setUser_id(-1L);
-        mMemberList.add(chatUserInfoBean);
-        if (mPresenter.isOwner()) {
+        mListDatas.add(chatUserInfoBean);
+        if (getGroupData().getOwner() == AppApplication.getMyUserIdWithdefault()) {
             // 删除按钮，仅群主
             UserInfoBean chatUserInfoBean1 = new UserInfoBean();
             chatUserInfoBean1.setUser_id(-2L);
-            mMemberList.add(chatUserInfoBean1);
+            mListDatas.add(chatUserInfoBean1);
         }
-//        mMemberList.addAll(mChatGroupBean.getAffiliations());
     }
+
 }

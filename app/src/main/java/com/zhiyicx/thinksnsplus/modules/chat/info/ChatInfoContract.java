@@ -160,7 +160,7 @@ public interface ChatInfoContract {
         //新的获取群信息的接口
         Observable<ChatGroupNewBean> getNewGroupInfoV2(String group_id);
         //获取群成员接口
-        Observable<List<UserInfoBean>> getUserInfoInfo(String group_id,String searchKey);
+        Observable<List<UserInfoBean>> getGroupMemberInfo(String group_id,String searchKey,Long maxId);
         //提交举报群
         Observable<String> reportGroup(String userId, String groupId, String reason, String tel);
         //获取群说话权限

@@ -68,10 +68,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
     @Inject
     ChatInfoRepository mChatInfoRepository;
-    /**
-     * 复制的所有原数据
-     */
-    private List<MessageItemBeanV2> mCopyConversationList;
 
     /**
      * 是否是第一次连接 im
@@ -142,7 +138,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                         Collections.sort(mRootView.getListDatas(),new MessageTimeAndStickSort());
                         mRootView.refreshData();
 
-                        mRootView.setSticksSuccess(message.getEmKey());//置顶成功
                     }
 
                     @Override
@@ -207,47 +202,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
         return chatUserInfoBeans;
     }
 
-    @Override
-    public void searchList(String key) {
-        if (mSearchSub != null && !mSearchSub.isUnsubscribed()) {
-            mSearchSub.unsubscribe();
-        }
-        if (TextUtils.isEmpty(key)) {
-            mRootView.onNetResponseSuccess(mCopyConversationList, false);
-            return;
-        }
-
-        mSearchSub = Observable.just(key)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .map(s -> {
-                    List<MessageItemBeanV2> newList = new ArrayList<>();
-                    for (MessageItemBeanV2 itemBeanV2 : mCopyConversationList) {
-                        String name = "";
-                        if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.Chat) {
-                            if (itemBeanV2.getUserInfo() != null) {
-                                name = itemBeanV2.getUserInfo().getName();
-                            }
-                        } else {
-                            EMGroup group = EMClient.getInstance().groupManager().getGroup(itemBeanV2.getEmKey());
-                            if (group != null) {
-                                name = group.getGroupName();
-                            }
-                        }
-                        if (name.toLowerCase().contains(s.toLowerCase())) {
-                            newList.add(itemBeanV2);
-                        }
-                    }
-                    if (newList.size() > 1) {
-                        // 数据大于一个才排序
-                        Collections.sort(newList, new EmTimeSortClass());
-                    }
-                    return newList;
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(list -> mRootView.onNetResponseSuccess(list, false));
-        addSubscrebe(mSearchSub);
-    }
 
     private ChatUserInfoBean getChatUser(UserInfoBean userInfoBean) {
         ChatUserInfoBean chatUserInfoBean = new ChatUserInfoBean();
@@ -274,11 +228,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
     private void getAllConversationV2(boolean isLoadMore) {
         // 已连接才去获取
         if (EMClient.getInstance().isLoggedInBefore() && EMClient.getInstance().isConnected()) {
-
-            if (!TextUtils.isEmpty(mRootView.getsearchKeyWord())) {
-                mRootView.hideRefreshState(isLoadMore);
-                return;
-            }
 
             if(mCacheConversatonSub!=null && mCacheConversatonSub.isUnsubscribed())
                 mCacheConversatonSub.unsubscribe();
@@ -313,10 +262,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
         return  new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
             @Override
             protected void onSuccess(List<MessageItemBeanV2> data) {
-                if (mCopyConversationList == null) {
-                    mCopyConversationList = new ArrayList<>();
-                }
-                mCopyConversationList = data;
                 mRootView.onNetResponseSuccess(data, isLoadMore);
                 mRootView.hideStickyMessage();
                 checkBottomMessageTip();
@@ -374,10 +319,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                     @Override
                     protected void onSuccess(List<MessageItemBeanV2> data) {
                         if(null != data){
-                            if (mCopyConversationList == null) {
-                                mCopyConversationList = new ArrayList<>();
-                            }
-                            mCopyConversationList = data;
                             mRootView.onNetResponseSuccess(data, isLoadMore);
                             mRootView.hideStickyMessage();
                             checkBottomMessageTip();
@@ -585,10 +526,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
             }
             if (!messageItemBeanList.isEmpty()) {
                 mRootView.getListDatas().addAll(messageItemBeanList);
-                if (mCopyConversationList == null) {
-                    mCopyConversationList = new ArrayList<>();
-                }
-                mCopyConversationList = mRootView.getListDatas();
             }
         }
         mRootView.refreshData();

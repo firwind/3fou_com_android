@@ -337,11 +337,12 @@ public interface EasemobClient {
     Observable<ChatGroupNewBean> getNewGroupInfoV2(@Query("im_group_id") String ids);
     /**
      * 获取群成员
-     * @param ids
+     * @param id
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_MEMBER_INFO_NEW)
-    Observable<List<UserInfoBean>> getGroupUserInfoInfo(@Query("im_group_id") String ids);
+    Observable<List<UserInfoBean>> getGroupMemberInfo(@Query("im_group_id") String id,@Query("username")String username,
+                                                      @Query("last_user_id")Long maxId,@Query("limit")Integer limit);
 
     /**
      * 是否加入群

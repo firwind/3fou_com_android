@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.data.source.repository;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -148,8 +149,8 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
     }
 
     @Override
-    public Observable<List<UserInfoBean>> getUserInfoInfo(String group_id, String searchKey) {
-        return mEasemobClient.getGroupUserInfoInfo(group_id)
+    public Observable<List<UserInfoBean>> getGroupMemberInfo(String group_id, String searchKey,Long maxId) {
+        return mEasemobClient.getGroupMemberInfo(group_id,searchKey,maxId, 50)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

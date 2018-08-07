@@ -26,6 +26,15 @@ public interface IBaseFriendsRepository {
     Observable<List<UserInfoBean>> getUserFriendsList(long maxId, String keyword);
 
     /**
+     * 获取用户好友列表(带有是否在群里的信息)
+     *
+     * @param maxId   offset
+     * @param keyword 搜索用的关键字
+     * @return Observable
+     */
+    Observable<List<UserInfoBean>> getUserFriendsListInGroup(long maxId, String keyword,String groupId);
+
+    /**
      * 创建群组会话
      * groupName 	// 群组名称（必填）
      * groupIntro 		// 群组简介（必填）

@@ -43,9 +43,6 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
     @Inject
     ChatInfoRepository mChatInfoRepository;
 
-    private Subscription mSearchSubscription;
-    private List<UserInfoBean> mUserList;
-
     @Inject
     public EditGroupOwnerPresenter(EditGroupOwnerContract.View rootView) {
         super(rootView);
@@ -54,60 +51,29 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
 
-        if (null == mUserList) {
-            mChatInfoRepository.getUserInfoInfo(mRootView.getGroupData().getId(), "")
-                    .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
-                        @Override
-                        protected void onSuccess(List<UserInfoBean> data) {
-                            int selfPosition = -1;
-                            long userId = AppApplication.getMyUserIdWithdefault();
-                            for (int i = 0; i < data.size(); i++) {
-                                if (data.get(i).getUser_id() == userId)
-                                    selfPosition = i;
-                                data.get(i).setIsSelected(0);
-                            }
+        addSubscrebe(mChatInfoRepository.getGroupMemberInfo(mRootView.getGroupData().getId(), mRootView.getsearchKeyWord(),maxId)
+                .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
+                    @Override
+                    protected void onSuccess(List<UserInfoBean> data) {
+                        int selfPosition = -1;
+                        long userId = AppApplication.getMyUserIdWithdefault();
+                        for (int i = 0; i < data.size(); i++) {
+                            if (data.get(i).getUser_id() == userId)
+                                selfPosition = i;
+                            data.get(i).setIsSelected(0);
+                        }
+                        if(-1 != selfPosition)
                             data.remove(selfPosition);
-                            mRootView.onNetResponseSuccess(data, false);
+                        mRootView.onNetResponseSuccess(data, isLoadMore);
 
-                            mUserList = data;
-                        }
+                    }
 
-                        @Override
-                        protected void onException(Throwable throwable) {
-                            super.onException(throwable);
-                            mRootView.onResponseError(throwable, false);
-                        }
-                    });
-        } else {
-            if (null != mSearchSubscription && !mSearchSubscription.isUnsubscribed()) {
-                mSearchSubscription.unsubscribe();
-            }
-            mSearchSubscription = Observable.just(mUserList)
-                    .subscribeOn(Schedulers.io())
-                    .map(userInfoBeans -> {
-                        List<UserInfoBean> result = new ArrayList<>();
-                        for (UserInfoBean user : userInfoBeans
-                                ) {
-                            if (null != user.getName() &&
-                                    user.getName().contains(mRootView.getsearchKeyWord()))
-                                result.add(user);
-                        }
-                        return result;
-                    }).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
-                        @Override
-                        protected void onSuccess(List<UserInfoBean> data) {
-                            mRootView.onNetResponseSuccess(data, false);
-                        }
-
-                        @Override
-                        protected void onException(Throwable throwable) {
-                            super.onException(throwable);
-                            mRootView.onResponseError(throwable, false);
-                        }
-                    });
-            addSubscrebe(mSearchSubscription);
-        }
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.onResponseError(throwable, isLoadMore);
+                    }
+                }));
 
     }
 

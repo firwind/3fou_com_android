@@ -32,6 +32,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
 public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract.View> implements JurisdictionContract.Presenter {
     @Inject
@@ -45,53 +46,42 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
         String keyWord = mRootView.getSearchKeyWord();
-        if (keyWord != null) {
-            getLocalUser(keyWord);
-        }
-    }
 
-    @Override
-    public void requestCacheData(Long maxId, boolean isLoadMore) {
+        mRepository.getGroupMemberInfo(mRootView.getGroupData().getId(),keyWord,maxId)
+                .map(userInfoBeans -> {
 
-        //getLocalUser("");
-    }
+                    //移除管理员和自己
+                    int position = -1;
+                    for (int i = 0; i < userInfoBeans.size(); i++) {
+                        userInfoBeans.get(i).setIsSelected(0);
+                        if (userInfoBeans.get(i).getUser_id().equals(AppApplication.getMyUserIdWithdefault())) {
+                            position = i;
+                        }else if (userInfoBeans.get(i).getAdmin_type() != 0){
+                            userInfoBeans.get(i).setIsSelected(-1);
+                        }
+                    }
+                    if (position != -1) {
+                        userInfoBeans.remove(position);
+                    }
 
-    private void getLocalUser(String key) {
-        mRepository.getUserInfoInfo(mRootView.getGroupData().getId(),key)
+                    // 有key表示是搜素，没有就是全部 直接获取就好了
+                    if (TextUtils.isEmpty(keyWord)) {
+                        return userInfoBeans;
+                    } else {
+                        List<UserInfoBean> searchResult = new ArrayList<>();
+                        for (UserInfoBean userInfoBean : userInfoBeans) {
+                            if (!TextUtils.isEmpty(userInfoBean.getName()) && userInfoBean.getName().contains(keyWord)) {
+                                searchResult.add(userInfoBean);
+                            }
+                        }
+                        return searchResult;
+                    }
+
+                })
                 .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
                     @Override
                     protected void onSuccess(List<UserInfoBean> data) {
-                        // 移除自己和管理员/讲师/主持人
-                        Observable.just(data)
-                                .map(list1 -> {
-                                    int position = -1;
-                                    for (int i = 0; i < list1.size(); i++) {
-                                        list1.get(i).setIsSelected(0);
-                                        if (list1.get(i).getUser_id().equals(AppApplication.getMyUserIdWithdefault())) {
-                                            position = i;
-                                        }else if (list1.get(i).getAdmin_type() != 0){
-                                            list1.get(i).setIsSelected(-1);
-                                        }
-                                    }
-                                    if (position != -1) {
-                                        list1.remove(position);
-                                    }
-                                    return list1;
-                                })
-                                .subscribe(list12 -> {
-                                    // 有key表示是搜素，没有就是全部 直接获取就好了
-                                    if (TextUtils.isEmpty(key)) {
-                                        mRootView.onNetResponseSuccess(list12, false);
-                                    } else {
-                                        List<UserInfoBean> searchResult = new ArrayList<>();
-                                        for (UserInfoBean userInfoBean : mRootView.getGroupData().getAffiliations()) {
-                                            if (!TextUtils.isEmpty(userInfoBean.getName()) && userInfoBean.getName().toLowerCase().contains(key.toLowerCase())) {
-                                                searchResult.add(userInfoBean);
-                                            }
-                                        }
-                                        mRootView.onNetResponseSuccess(searchResult, false);
-                                    }
-                                });
+                        mRootView.onNetResponseSuccess(data,isLoadMore);
                     }
                     @Override
                     protected void onException(Throwable throwable) {
@@ -105,12 +95,17 @@ public class JurisdictionPresenter extends AppBasePresenter<JurisdictionContract
                         mRootView.showSnackErrorMessage(e.getMessage());
                     }
                 });
-
     }
 
     @Override
+    public void requestCacheData(Long maxId, boolean isLoadMore) {
+
+    }
+
+
+    @Override
     public boolean insertOrUpdateData(@NotNull List<UserInfoBean> data, boolean isLoadMore) {
-        return false;
+        return true;
     }
 
     @Override

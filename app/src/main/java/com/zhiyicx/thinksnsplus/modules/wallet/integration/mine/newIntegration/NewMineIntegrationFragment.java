@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -158,6 +159,7 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
         super.initView(rootView);
 
         View view = LayoutInflater.from(mActivity).inflate(R.layout.view_mine_integration_header,null);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mHeaderAndFooterWrapper.addHeaderView(view);
         mTvUnit = (TextView) view.findViewById(R.id.tv_account_unit);
         mTvMineMoney = (TextView) view.findViewById(R.id.tv_mine_money);

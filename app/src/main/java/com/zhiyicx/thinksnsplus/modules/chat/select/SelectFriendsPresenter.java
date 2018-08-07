@@ -75,15 +75,16 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
         if (mSearchSub != null && !mSearchSub.isUnsubscribed()) {
             mSearchSub.unsubscribe();
         }
-        // 删除用户不需要获取网络数据
+        //添加用户
         if (!mRootView.getIsDeleteMember()) {
-            mSearchSub = mRepository.getUserFriendsList(maxId, keyWord)
+            mSearchSub = mRepository.getUserFriendsListInGroup(maxId, keyWord,
+                    null == mRootView.getGroupData()?null:mRootView.getGroupData().getId())
                     .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
                         @Override
                         protected void onSuccess(List<UserInfoBean> data) {
                             if (!data.isEmpty()) {
                                 for (UserInfoBean userInfoBean : data) {
-                                    userInfoBean.setIsSelected(0);
+                                    userInfoBean.setIsSelected(userInfoBean.isIn_group()?-1:0);
                                 }
                             }
                             mRootView.onNetResponseSuccess(data, isLoadMore);
@@ -103,8 +104,8 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
                     });
             addSubscrebe(mSearchSub);
         } else {
-            //getLocalUser(keyWord);
-            mSearchSub = mChatInfoRepository.getUserInfoInfo(mRootView.getGroupData().getId(),keyWord)
+            //删除用户
+            mSearchSub = mChatInfoRepository.getGroupMemberInfo(mRootView.getGroupData().getId(),keyWord,maxId)
                     .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
                         @Override
                         protected void onSuccess(List<UserInfoBean> data) {
@@ -116,13 +117,13 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
                                 data.get(i).setIsSelected(0);
                             }
                             data.remove(selfPosition);
-                            mRootView.onNetResponseSuccess(data,false);
+                            mRootView.onNetResponseSuccess(data,isLoadMore);
                         }
 
                         @Override
                         protected void onException(Throwable throwable) {
                             super.onException(throwable);
-                            mRootView.onResponseError(throwable, false);
+                            mRootView.onResponseError(throwable, isLoadMore);
                         }
                     });
         }
@@ -308,50 +309,4 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
         return list;
     }
 
-    /**
-     * 如果是删除用户 那么则不需要获取网络数据
-     */
-    private void getLocalUser(String key) {
-        if (mRootView.getGroupData() == null) {
-            return;
-        }
-//        List<UserInfoBean> list = mRootView.getGroupData().getAffiliations();
-        mChatInfoRepository.getUserInfoInfo(mRootView.getGroupData().getId(), key)//从服务器获取该群的用户数据
-                .flatMap(userInfoBeans -> {
-                    return // 移除自己
-                            Observable.just(userInfoBeans)
-                                    .map(list1 -> {
-                                        int position = -1;
-                                        for (int i = 0; i < list1.size(); i++) {
-                                            list1.get(i).setIsSelected(0);
-                                            if (list1.get(i).getUser_id().equals(AppApplication.getMyUserIdWithdefault())) {
-                                                position = i;
-                                            }
-                                        }
-                                        if (position != -1) {
-                                            list1.remove(position);
-                                        }
-                                        return list1;
-                                    });
-                })
-                .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
-                    @Override
-                    protected void onSuccess(List<UserInfoBean> data) {
-                        // 有key表示是搜素，没有就是全部 直接获取就好了
-                        if (TextUtils.isEmpty(key)) {
-                            mRootView.onNetResponseSuccess(data, false);
-                        } else {
-                            List<UserInfoBean> searchResult = new ArrayList<>();
-                            for (UserInfoBean userInfoBean : mRootView.getGroupData().getAffiliations()) {
-                                if (!TextUtils.isEmpty(userInfoBean.getName()) && userInfoBean.getName().toLowerCase().contains(key.toLowerCase())) {
-                                    searchResult.add(userInfoBean);
-                                }
-                            }
-                            mRootView.onNetResponseSuccess(searchResult, false);
-                        }
-
-                    }
-                });
-
-    }
 }

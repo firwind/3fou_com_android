@@ -371,14 +371,14 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
                 }
             }
             // 如果是添加群成员 那么要把已经有的成员处理为不可点击
-            if (!mIsDeleteMember && mChatGroupBean != null && mChatGroupBean.getAffiliations().size() > 0) {
+            /*if (!mIsDeleteMember && mChatGroupBean != null && mChatGroupBean.getAffiliations().size() > 0) {
                 for (int i = 0; i < mChatGroupBean.getAffiliations().size(); i++) {
                     if (userInfoBean.getUser_id().equals(mChatGroupBean.getAffiliations().get(i).getUser_id())) {
                         userInfoBean.setIsSelected(-1);
                         break;
                     }
                 }
-            }
+            }*/
         }
     }
 

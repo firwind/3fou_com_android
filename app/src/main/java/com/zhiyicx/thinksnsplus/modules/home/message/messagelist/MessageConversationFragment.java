@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
@@ -39,6 +41,7 @@ import com.zhiyicx.thinksnsplus.modules.home.message.MessageAdapterV2;
 import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity;
+import com.zhiyicx.thinksnsplus.utils.MessageTimeAndStickSort;
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
 
@@ -47,6 +50,8 @@ import org.json.JSONObject;
 import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -80,6 +85,9 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     private UserInfoBean userInfoBean;
     //private NotificationUtil mNotificationUtil;
     private CenterAlertPopWindow mBindPop;
+
+    private List<MessageItemBeanV2> mCacheList = new ArrayList<>();
+
     @Override
     protected boolean useEventBus() {
         return true;
@@ -234,11 +242,6 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
 
     }
 
-    @Override
-    public void onNetResponseSuccess(@NotNull List<MessageItemBeanV2> data, boolean isLoadMore) {
-        super.onNetResponseSuccess(data, isLoadMore);
-        hideStickyMessage();
-    }
 
     @Override
     protected boolean showNoMoreData() {
@@ -386,57 +389,63 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     }
 
     private void initListener() {
-        mSearchView.setOnSearchClickListener(new TSSearchView.OnSearchClickListener() {
+        mSearchView.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onSearchClick(View view) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (mPresenter == null || mListDatas.size() == 0) {
                     return;
                 }
-                // 显示搜索结果
-                mPresenter.searchList(s.toString().trim());
+                filterSearchStr(s.toString().trim());
             }
         });
     }
 
-    /**
-     * @return 输入框的内容
-     */
     @Override
-    public String getsearchKeyWord() {
-        return mSearchView.getText().toString().trim();
+    public void onNetResponseSuccess(@NotNull List<MessageItemBeanV2> data, boolean isLoadMore) {
+        super.onNetResponseSuccess(data, isLoadMore);
+        if(null != data){
+            mCacheList.clear();
+            mCacheList.addAll(data);
+        }
     }
 
     /**
-     * 设置置顶成功回调
+     * 本地搜索会话
+     * @param str
      */
-    @Override
-    public void setSticksSuccess(String stick_id) {
-        //已在P层进行本地更新，不再重新请求服务器
-        //refreshConversationInfo();
+    private void filterSearchStr(String str){
+
+        if(str.length() == 0){
+            mListDatas.clear();
+            mListDatas.addAll(mCacheList);
+            refreshData();
+            return;
+        }
+
+        String name = "";
+        mListDatas.clear();
+        for (MessageItemBeanV2 itemBeanV2:mCacheList) {
+            if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.Chat) {
+                if (itemBeanV2.getUserInfo() != null) {
+                    name = itemBeanV2.getUserInfo().getName();
+                }
+            } else if(itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.GroupChat){
+                if(null != itemBeanV2.getChatGroupBean())
+                    name = itemBeanV2.getChatGroupBean().getName();
+            }
+            if (name.contains(str))
+                mListDatas.add(itemBeanV2);
+        }
+        Collections.sort(mListDatas,new MessageTimeAndStickSort());
+        refreshData();
     }
-
-    /**
-     * 获取置顶id列表
-     *
-     * @param data
-     */
-    /*@Override
-    public void getSticksList(List<StickBean> data) {
-        refreshConversationInfo();
-    }*/
-
-    /**
-     * 获取置顶ID失败，继续执行获取会话列表
-     */
-    /*@Override
-    public void getSticksFailure() {
-        refreshConversationInfo();
-    }*/
 
     /**
      * 解绑前的提示选择弹框

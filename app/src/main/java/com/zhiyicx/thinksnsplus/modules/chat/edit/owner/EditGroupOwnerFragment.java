@@ -76,7 +76,7 @@ public class EditGroupOwnerFragment extends TSListFragment<EditGroupOwnerContrac
 
     @Override
     protected boolean isLoadingMoreEnable() {
-        return false;
+        return true;
     }
 
     @OnClick({R.id.tv_cancel})

@@ -26,24 +26,6 @@ public interface MessageConversationContract {
      */
     interface View extends ITSListView<MessageItemBeanV2, Presenter> {
         BaseFragment getCurrentFragment();
-
-        /**
-         * @return 输入框的内容
-         */
-        String getsearchKeyWord();
-
-        void setSticksSuccess(String stick_id);
-
-        /**
-         * 获取置顶id
-         * @param data
-         */
-        //void getSticksList(List<StickBean> data);
-
-        /**
-         * 获取置顶ID失败
-         */
-        //void getSticksFailure();
     }
 
     /**
@@ -87,8 +69,6 @@ public interface MessageConversationContract {
          * @return List<ChatUserInfoBean>
          */
         List<ChatUserInfoBean> getChatUserList(int position);
-
-        void searchList(String key);
 
         void deleteGroup(String id);
 

@@ -191,6 +191,13 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     @Transient
     private int isSelected;
 
+    @Transient
+    private boolean in_group;//是否在群组中
+
+    public boolean isIn_group() {
+        return in_group;
+    }
+
     private boolean initial_password = true; // 在登陆信息中返回，用来判断是否需要设置密码，给个默认值true，false才需要设置
 
     private boolean has_deleted; // 标记用户是否被删除了，默认没有被删除

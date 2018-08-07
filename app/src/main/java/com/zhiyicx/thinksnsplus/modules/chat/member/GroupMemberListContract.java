@@ -1,5 +1,7 @@
 package com.zhiyicx.thinksnsplus.modules.chat.member;
 
+import com.zhiyicx.baseproject.base.ITSListPresenter;
+import com.zhiyicx.baseproject.base.ITSListView;
 import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
@@ -15,15 +17,11 @@ import java.util.List;
  */
 
 public interface GroupMemberListContract {
-    interface View extends IBaseView<Presenter> {
+    interface View extends ITSListView<UserInfoBean,Presenter> {
         ChatGroupBean getGroupData();
-        void updateGroup(ChatGroupBean chatGroupBean);
-        void getUserInfos(List<UserInfoBean> data);
     }
 
-    interface Presenter extends IBasePresenter {
-        boolean isOwner();
-        void getAllUserBean(String groupId);
+    interface Presenter extends ITSListPresenter<UserInfoBean> {
     }
 
     interface Repository {
