@@ -109,7 +109,7 @@ public class MyTeamListFragment extends TSListFragment<MyTeamListContract.Presen
             @Override
             protected void convert(ViewHolder holder, TeamBean.TeamListBean teamBean, int position) {
                 holder.setText(R.id.tv_team_username, teamBean.getName());
-                holder.setText(R.id.tv_earnings_num, teamBean.getTotals().get(0).getTotal() + mCurrencyType);
+                holder.setText(R.id.tv_earnings_num, teamBean.getTotals() + mCurrencyType);
                 holder.setText(R.id.tv_time, TimeUtils.millis2String(teamBean.getTime()));
             }
         };

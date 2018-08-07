@@ -80,8 +80,16 @@ public class TeamBean extends BaseListBean{
 
         private String balance;
         private ExtraBean extra;
-        private int time;
-        private List<TotalsBean> totals;
+        private long time;
+        private String totals;
+
+        public String getTotals() {
+            return totals;
+        }
+
+        public void setTotals(String totals) {
+            this.totals = totals;
+        }
 
         public int getId() {
             return id;
@@ -131,21 +139,15 @@ public class TeamBean extends BaseListBean{
             this.extra = extra;
         }
 
-        public int getTime() {
-            return time;
+        public long getTime() {
+            return time*1000;
         }
 
         public void setTime(int time) {
             this.time = time;
         }
 
-        public List<TotalsBean> getTotals() {
-            return totals;
-        }
 
-        public void setTotals(List<TotalsBean> totals) {
-            this.totals = totals;
-        }
 
         public static class ExtraBean implements Parcelable{
             /**
@@ -346,8 +348,8 @@ public class TeamBean extends BaseListBean{
             dest.writeString(this.verified);
             dest.writeString(this.balance);
             dest.writeParcelable(this.extra, flags);
-            dest.writeInt(this.time);
-            dest.writeList(this.totals);
+            dest.writeLong(this.time);
+            dest.writeString(this.totals);
         }
 
         protected TeamListBean(Parcel in) {
@@ -360,8 +362,7 @@ public class TeamBean extends BaseListBean{
             this.balance = in.readString();
             this.extra = in.readParcelable(ExtraBean.class.getClassLoader());
             this.time = in.readInt();
-            this.totals = new ArrayList<TotalsBean>();
-            in.readList(this.totals, TotalsBean.class.getClassLoader());
+            this.totals = in.readString();
         }
 
         public static final Creator<TeamListBean> CREATOR = new Creator<TeamListBean>() {

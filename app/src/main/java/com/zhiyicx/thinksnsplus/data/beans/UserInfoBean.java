@@ -269,6 +269,9 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
 
     public String getName() {
         if (TextUtils.isEmpty(deleted_at)) {
+            if (TextUtils.isEmpty(name)){
+                name = "";
+            }
             return name;
         } else {
             // 该用户已被删除
