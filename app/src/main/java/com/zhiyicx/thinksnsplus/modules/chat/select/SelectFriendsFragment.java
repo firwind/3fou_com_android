@@ -279,6 +279,7 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
             mListDatas.addAll(position, newList);
             mAdapter.notifyDataSetChanged();
         }
+        mEditSearchFriends.setText("");
         checkData();
     }
 

@@ -68,7 +68,8 @@ public class AddGroupPresenter extends AppBasePresenter<AddGroupContract.View>
                     @Override
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);
-                        mRootView.showStickyMessage(message);
+//                        mRootView.showStickyMessage(message);
+
                     }
 
                     @Override
