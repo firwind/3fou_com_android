@@ -130,7 +130,7 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                         .into(userAvatarView.getIvAvatar());
 
                 //群名称
-                String groupName = "该群已解散";
+                String groupName = "[群聊]";
                 if(null != group){
                     groupName = mContext.getString(R.string.chat_group_name_default,
                             group.getGroupName(),group.getMemberCount());

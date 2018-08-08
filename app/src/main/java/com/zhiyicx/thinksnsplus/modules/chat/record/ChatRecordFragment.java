@@ -75,7 +75,7 @@ public class ChatRecordFragment extends TSListFragment<ChatRecordContract.Presen
                     return;
                 }
                 // 显示搜索结果
-                onRefresh(null);
+                mPresenter.requestNetData(0L,false);
             }
         });
     }
@@ -83,12 +83,12 @@ public class ChatRecordFragment extends TSListFragment<ChatRecordContract.Presen
     @Override
     protected void initData() {
         super.initData();
-        onRefresh(null);
+        //onRefresh(null);
     }
 
     @Override
     protected boolean isLoadingMoreEnable() {
-        return false;
+        return true;
     }
 
     @Override
@@ -127,9 +127,13 @@ public class ChatRecordFragment extends TSListFragment<ChatRecordContract.Presen
                 String searchText = getSearchText();
                 String content = ((EMTextMessageBody)chatRecord.getEmMessage().getBody()).getMessage();
                 int index = content.indexOf(searchText);
-                SpannableString spannableString = new SpannableString(content);
-                spannableString.setSpan(colorSpan,index,index+searchText.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                holder.getTextView(R.id.tv_content).setText(spannableString);
+                if(-1 != index){
+                    SpannableString spannableString = new SpannableString(content);
+                    spannableString.setSpan(colorSpan,index,index+searchText.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    holder.getTextView(R.id.tv_content).setText(spannableString);
+                }else {
+                    holder.getTextView(R.id.tv_content).setText(content);
+                }
             }
         };
         return mAdapter;

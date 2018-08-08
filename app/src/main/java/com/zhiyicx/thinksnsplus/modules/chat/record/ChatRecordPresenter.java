@@ -4,8 +4,13 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.exceptions.HyphenateException;
+import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.common.config.ConstantConfig;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
@@ -24,6 +29,7 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Observer;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -45,7 +51,7 @@ public class ChatRecordPresenter extends AppBasePresenter<ChatRecordContract.Vie
 
     private Subscription searchSubscribe;
 
-    private List<EMMessage> messageList = null;
+    private final int PAGE_SIZE = 20;
 
     @Inject
     public ChatRecordPresenter(ChatRecordContract.View rootView) {
@@ -55,22 +61,91 @@ public class ChatRecordPresenter extends AppBasePresenter<ChatRecordContract.Vie
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
 
-        if(null != searchSubscribe && !searchSubscribe.isUnsubscribed()){
+        EMConversation conversation = EMClient.getInstance()
+                .chatManager().getConversation(mRootView.getConversationId());
+
+        if (null != searchSubscribe && !searchSubscribe.isUnsubscribed()) {
             searchSubscribe.unsubscribe();
         }
 
-        searchSubscribe = loadChatRecord().subscribe(new BaseSubscribeForV2<List<ChatRecord>>() {
-            @Override
-            protected void onSuccess(List<ChatRecord> data) {
-                mRootView.onNetResponseSuccess(data, isLoadMore);
-            }
+        if(TextUtils.isEmpty(mRootView.getSearchText()) ){
+            mRootView.onNetResponseSuccess(null,false);
+            return;
+        }
+        searchSubscribe = Observable.create((Observable.OnSubscribe<List<EMMessage>>) subscriber -> {
 
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                mRootView.onResponseError(e, isLoadMore);
-            }
-        });
+            List<EMMessage> searchedList = new ArrayList<>();
+            long timestamp = mRootView.getListDatas().size() == 0 ? -1 :
+                    mRootView.getListDatas().get(mRootView.getListDatas().size()-1).getEmMessage().getMsgTime();
+            searchedList.addAll(conversation.searchMsgFromDB(mRootView.getSearchText(),
+                    timestamp, PAGE_SIZE,null, EMConversation.EMSearchDirection.UP));
+
+            subscriber.onNext(searchedList);
+            subscriber.onCompleted();
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(emMessages -> {
+                    List<ChatRecord> chatRecordList = new ArrayList<>();
+                    List<Object> notExitUsers = new ArrayList<>();
+                    for (EMMessage message : emMessages) {
+                        ChatRecord record = new ChatRecord();
+                        record.setEmMessage(message);
+                        try {
+                            Long userId = Long.parseLong(message.getFrom());
+                            UserInfoBean userInfoBean = mUserInfoBeanGreenDao.getSingleDataFromCache(userId);
+                            if (null != userInfoBean)
+                                record.setUserInfo(userInfoBean);
+                            else
+                                notExitUsers.add(userId);
+                        } catch (Exception e) {
+                            continue;
+                        }
+                        chatRecordList.add(record);
+                    }
+
+                    if (notExitUsers.size() == 0) {
+                        return Observable.just(chatRecordList);
+                    } else
+                        return mUserInfoRepository.getUserInfo(notExitUsers)
+                                .flatMap(userInfoBeans -> {
+                                    //提高性能，使用SparseArray
+                                    SparseArray<UserInfoBean> userInfoBeanSparseArray = new SparseArray<>();
+                                    for (UserInfoBean userInfoBean : userInfoBeans) {
+                                        userInfoBeanSparseArray.put(userInfoBean.getUser_id().intValue(), userInfoBean);
+                                    }
+                                    for (ChatRecord record : chatRecordList) {
+                                        if (null == record.getUserInfo()) {
+                                            try {
+                                                record.setUserInfo(
+                                                        userInfoBeanSparseArray.get(Integer.parseInt(record.getEmMessage().getFrom())));
+                                            } catch (Exception e) {
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                    return Observable.just(chatRecordList);
+                                });
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<List<ChatRecord>>() {
+                    @Override
+                    protected void onSuccess(List<ChatRecord> data) {
+                        mRootView.onNetResponseSuccess(data, isLoadMore);
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.onResponseError(null, isLoadMore);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.onResponseError(e, isLoadMore);
+                    }
+                });
+        addSubscrebe(searchSubscribe);
     }
 
     /**
@@ -91,124 +166,5 @@ public class ChatRecordPresenter extends AppBasePresenter<ChatRecordContract.Vie
     public boolean insertOrUpdateData(@NotNull List<ChatRecord> data, boolean isLoadMore) {
         return false;
     }
-
-    /**
-     * 加载聊天记录
-     *
-     * @return
-     */
-    private rx.Observable<List<ChatRecord>> loadChatRecord() {
-
-        return Observable.create(new Observable.OnSubscribe<List<EMMessage>>() {
-            @Override
-            public void call(Subscriber<? super List<EMMessage>> subscriber) {
-                if (null == messageList){
-                    messageList = new ArrayList<>();
-
-                    List<EMMessage> originalList = EMClient.getInstance().chatManager()
-                            .getConversation(mRootView.getConversationId()).getAllMessages();
-                    //只匹配文本
-                    for (EMMessage message:
-                         originalList) {
-                        if(EMMessage.Type.TXT == message.getType()){
-                            messageList.add(message);
-                        }
-                    }
-                    //反转，按照时间倒序
-                    Collections.reverse(messageList);
-                }
-
-
-                List<EMMessage> searchedList = new ArrayList<>();
-
-                for (int i = 0; i < messageList.size(); i++) {
-                    //只匹配文本
-                    if (TextUtils.isEmpty(mRootView.getSearchText()) ||
-                            (((EMTextMessageBody) messageList.get(i).getBody()).getMessage()).contains(mRootView.getSearchText())) {
-                        searchedList.add(messageList.get(i));
-                    }
-                }
-
-                subscriber.onNext(searchedList);
-                subscriber.onCompleted();
-            }
-        }).flatMap(new Func1<List<EMMessage>, Observable<List<ChatRecord>>>() {
-            @Override
-            public Observable<List<ChatRecord>> call(List<EMMessage> emMessages) {
-                //本地数据库没有用户信息的 Message
-                /*List<EMMessage> usersNotInDbMessage = new ArrayList<>();
-                //本地数据库没有用户信息的id
-                List<String> usersNotInDbId = new ArrayList<>();
-                //本地数据库有用户信息的记录
-                List<ChatRecord> chatRecords = new ArrayList<>();
-
-                //筛选出没有用户信息的，并将有用户信息的聊天记录存在 chatRecords 中
-                for (int i = 0; i < emMessages.size(); i++) {
-                    String id = emMessages.get(i).getFrom();
-                    UserInfoBean userInfo = mUserInfoBeanGreenDao.getUserInfoById(id);
-                    if(null == userInfo){
-                        usersNotInDbMessage.add(emMessages.get(i));
-                        //如果list中没有该用户id就去查找
-                        if(usersNotInDbId.indexOf(id) == -1)
-                            usersNotInDbId.add(id);
-                    }else {
-                        ChatRecord chatRecord = new ChatRecord();
-                        chatRecord.setEmMessage(emMessages.get(i));
-                        chatRecord.setUserInfo(userInfo);
-                        chatRecords.add(chatRecord);
-                    }
-                }*/
-
-                //去重，得到没有重复的id
-                List<String> noRepeatIds = new ArrayList<>();
-                //线程安全
-                StringBuffer userIds = new StringBuffer();
-                for (int i = 0; i < emMessages.size(); i++) {
-                    //去掉群聊信息中的admin
-                    if (!"admin".equals(emMessages.get(i).getFrom()) &&
-                            -1 == noRepeatIds.indexOf(emMessages.get(i).getFrom())) {
-
-                        noRepeatIds.add(emMessages.get(i).getFrom());
-
-                        userIds.append(emMessages.get(i).getFrom());
-                        userIds.append(ConstantConfig.SPLIT_SMBOL);
-                    }
-                }
-                //删除最后一个分隔符
-                if (userIds.length() > 1) {
-                    userIds.deleteCharAt(userIds.length() - 1);
-                }
-
-                return mUserInfoRepository.getUserInfoWithOutLocalByIds(userIds.toString())
-                        .map(new Func1<List<UserInfoBean>, List<ChatRecord>>() {
-                            @Override
-                            public List<ChatRecord> call(List<UserInfoBean> userInfoBeans) {
-
-                                List<ChatRecord> chatRecords = new ArrayList<>();
-                                //提高性能，使用SparseArray
-                                SparseArray<UserInfoBean> userInfoBeanSparseArray = new SparseArray<>();
-                                for (UserInfoBean userInfoBean : userInfoBeans) {
-                                    userInfoBeanSparseArray.put(userInfoBean.getUser_id().intValue(), userInfoBean);
-                                }
-                                for (int i = 0; i < emMessages.size(); i++) {
-                                    ChatRecord chatRecord = new ChatRecord();
-                                    chatRecord.setEmMessage(emMessages.get(i));
-                                    try {
-                                        chatRecord.setUserInfo(userInfoBeanSparseArray.get(
-                                                ((Long) Long.parseLong(emMessages.get(i).getFrom())).intValue()));
-                                    } catch (Exception e) {
-                                        continue;
-                                    }
-                                    chatRecords.add(chatRecord);
-                                }
-
-                                return chatRecords;
-                            }
-                        });
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-
-    }
-
 
 }

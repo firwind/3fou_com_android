@@ -64,8 +64,7 @@ public class EditGroupOwnerFragment extends TSListFragment<EditGroupOwnerContrac
         setLoadMorNodataTipText(getString(R.string.no_more_group_member));
         RxTextView.textChanges(mEditSearchFriends)
                 .subscribe(charSequence -> {
-                    //mPresenter.getSearchResult(charSequence.toString().trim());
-                    startRefreshNoAnimIfEmpty();
+                    mPresenter.requestNetData(0L,false);
                 });
     }
 

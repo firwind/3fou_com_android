@@ -389,19 +389,14 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     }
 
     private void initListener() {
-        mSearchView.addTextChangedListener(new TextWatcher() {
+        mSearchView.setOnSearchClickListener(new TSSearchView.OnSearchClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onSearchClick(View view) {
 
             }
+
             @Override
-            public void afterTextChanged(Editable s) {
-                if (mPresenter == null || mListDatas.size() == 0) {
-                    return;
-                }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 filterSearchStr(s.toString().trim());
             }
         });
