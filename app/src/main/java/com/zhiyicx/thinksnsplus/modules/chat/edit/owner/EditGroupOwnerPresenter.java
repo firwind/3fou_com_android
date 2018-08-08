@@ -43,6 +43,8 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
     @Inject
     ChatInfoRepository mChatInfoRepository;
 
+    private Subscription mSearchSubscription;
+
     @Inject
     public EditGroupOwnerPresenter(EditGroupOwnerContract.View rootView) {
         super(rootView);
@@ -51,7 +53,9 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
 
-        addSubscrebe(mChatInfoRepository.getGroupMemberInfo(mRootView.getGroupData().getId(), mRootView.getsearchKeyWord(),maxId)
+        if(null != mSearchSubscription && !mSearchSubscription.isUnsubscribed())
+            mSearchSubscription.unsubscribe();
+        mSearchSubscription = mChatInfoRepository.getGroupMemberInfo(mRootView.getGroupData().getId(), mRootView.getsearchKeyWord(),maxId)
                 .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
                     @Override
                     protected void onSuccess(List<UserInfoBean> data) {
@@ -65,7 +69,6 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
                         if(-1 != selfPosition)
                             data.remove(selfPosition);
                         mRootView.onNetResponseSuccess(data, isLoadMore);
-
                     }
 
                     @Override
@@ -73,7 +76,9 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
                         super.onException(throwable);
                         mRootView.onResponseError(throwable, isLoadMore);
                     }
-                }));
+                });
+
+        addSubscrebe(mSearchSubscription);
 
     }
 
