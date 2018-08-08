@@ -180,8 +180,6 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     protected void initEMView(View rootView) {
         super.initEMView(rootView);
 
-        mPresenter.getCurrentTalkingState(toChatUsername);
-
         // 适配手机无法显示输入焦点
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
             AndroidBug5497Workaround.assistActivity(mActivity);
@@ -234,6 +232,8 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             setCenterText(mPresenter.getUserName(toChatUsername));
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
             setCenterText(mPresenter.getGroupName(toChatUsername));
+            //获取禁言状态
+            mPresenter.getCurrentTalkingState(toChatUsername);
         }
         if (chatType != EaseConstant.CHATTYPE_CHATROOM) {
             onConversationInit();

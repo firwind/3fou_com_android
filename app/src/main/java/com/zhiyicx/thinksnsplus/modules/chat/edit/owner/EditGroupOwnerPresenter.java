@@ -121,9 +121,9 @@ public class EditGroupOwnerPresenter extends AppBasePresenter<EditGroupOwnerCont
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
                 });
         addSubscrebe(subscription);
