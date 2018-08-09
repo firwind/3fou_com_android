@@ -105,62 +105,7 @@ public class AddressBookFragment extends TSViewPagerFragment {
         mTsvToolbar.setRightClickListener(this, () -> {//点击“+”号
 //            Intent intent = new Intent(getContext(), SelectFriendsActivity.class);
 //            startActivity(intent);
-            List<MenuItem> menuItems = new ArrayList<>();
-            menuItems.add(new MenuItem(R.mipmap.icon_add_friends, getString(R.string.tv_add_friends)));
-            menuItems.add(new MenuItem(R.mipmap.icon_add_group_chat, getString(R.string.tv_add_group_chat)));
-            menuItems.add(new MenuItem(R.mipmap.icon_create_group_chat, getString(R.string.tv_create_group_chat)));
-            menuItems.add(new MenuItem(R.mipmap.icon_scan, getString(R.string.my_qr_code_title)));
-            menuItems.add(new MenuItem(R.mipmap.icon_share_to, getString(R.string.tv_invite_Share)));
-            if (mRightTopMenu == null) {
-                mRightTopMenu = new RightTopMenu.Builder(getActivity())
-                        .dimBackground(true)           //背景变暗，默认为true
-                        .needAnimationStyle(true)   //显示动画，默认为true
-                        .animationStyle(R.style.RTM_ANIM_STYLE)  //默认为R.style.RTM_ANIM_STYLE
-                        .menuItems(menuItems)
-                        .windowWidth(DensityUtil.dip2px(mActivity,160))
-                        .onMenuItemClickListener(new RightTopMenu.OnMenuItemClickListener() {
-                            @Override
-                            public void onMenuItemClick(int position) {
-                                switch (position){
-                                    case 0://添加好友
-                                        Intent itFollow = new Intent(getActivity(), FindSomeOneContainerActivity.class);
-                                        Bundle bundleFollow = new Bundle();
-                                        itFollow.putExtras(bundleFollow);
-                                        startActivity(itFollow);
-                                        break;
-                                    case 1://加入群聊
-                                        AddGroupActivity.startAddGroupActivity(getContext());
-                                        break;
-                                    case 2:
-                                        Intent intent = new Intent(getContext(), SelectFriendsActivity.class);
-                                        Bundle bundle = new Bundle();
-                                        intent.putExtras(bundle);
-                                        startActivity(intent);
-                                        break;
-                                    case 3:
-                                        mRxPermissions
-                                                .requestEach(Manifest.permission.CAMERA)
-                                                .subscribe(permission -> {
-                                                    if (permission.granted) {
-                                                        // 权限被允许
-                                                        startActivity(new Intent(getContext(), ScanCodeActivity.class));
-                                                    } else if (permission.shouldShowRequestPermissionRationale) {
-                                                        // 权限没有被彻底禁止
-                                                    } else {
-                                                        // 权限被彻底禁止
-                                                        showSnackWarningMessage(getString(R.string.camera_permission_tip));
-                                                    }
-                                                });
-                                        break;
-                                    case 4:
-                                        //ToastUtils.showLongToast("该功能正在开发");
-                                        startActivity(InviteShareActivity.newIntent(mActivity));
-                                        break;
-                                }
-                            }
-                        }).build();
-            }
-            mRightTopMenu.showAsDropDown(mTsvToolbar.getRightTextView(),DensityUtil.dip2px(mActivity,15),0);
+            showRightTopMenu();
         });
     }
 
@@ -198,4 +143,68 @@ public class AddressBookFragment extends TSViewPagerFragment {
     protected void initData() {
 
     }
+
+    private void showRightTopMenu(){
+
+        if (mRightTopMenu == null) {
+
+            List<MenuItem> menuItems = new ArrayList<>();
+            menuItems.add(new MenuItem(R.mipmap.icon_add_friends, getString(R.string.tv_add_friends)));
+            menuItems.add(new MenuItem(R.mipmap.icon_add_group_chat, getString(R.string.tv_add_group_chat)));
+            menuItems.add(new MenuItem(R.mipmap.icon_create_group_chat, getString(R.string.tv_create_group_chat)));
+            menuItems.add(new MenuItem(R.mipmap.icon_scan, getString(R.string.my_qr_code_title)));
+            menuItems.add(new MenuItem(R.mipmap.icon_share_to, getString(R.string.tv_invite_Share)));
+
+            mRightTopMenu = new RightTopMenu.Builder(getActivity())
+                    .dimBackground(true)           //背景变暗，默认为true
+                    .needAnimationStyle(true)   //显示动画，默认为true
+                    .animationStyle(R.style.RTM_ANIM_STYLE)  //默认为R.style.RTM_ANIM_STYLE
+                    .menuItems(menuItems)
+                    .windowWidth(DensityUtil.dip2px(mActivity,160))
+                    .onMenuItemClickListener(new RightTopMenu.OnMenuItemClickListener() {
+                        @Override
+                        public void onMenuItemClick(int position) {
+                            switch (position){
+                                case 0://添加好友
+                                    Intent itFollow = new Intent(getActivity(), FindSomeOneContainerActivity.class);
+                                    Bundle bundleFollow = new Bundle();
+                                    itFollow.putExtras(bundleFollow);
+                                    startActivity(itFollow);
+                                    break;
+                                case 1://加入群聊
+                                    AddGroupActivity.startAddGroupActivity(getContext());
+                                    break;
+                                case 2:
+                                    Intent intent = new Intent(getContext(), SelectFriendsActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                    break;
+                                case 3:
+                                    mRxPermissions
+                                            .requestEach(Manifest.permission.CAMERA)
+                                            .subscribe(permission -> {
+                                                if (permission.granted) {
+                                                    // 权限被允许
+                                                    startActivity(new Intent(getContext(), ScanCodeActivity.class));
+                                                } else if (permission.shouldShowRequestPermissionRationale) {
+                                                    // 权限没有被彻底禁止
+                                                } else {
+                                                    // 权限被彻底禁止
+                                                    showSnackWarningMessage(getString(R.string.camera_permission_tip));
+                                                }
+                                            });
+                                    break;
+                                case 4:
+                                    //ToastUtils.showLongToast("该功能正在开发");
+                                    startActivity(InviteShareActivity.newIntent(mActivity));
+                                    break;
+                            }
+                        }
+                    }).build();
+        }
+        mRightTopMenu.showAsDropDown(mTsvToolbar.getRightTextView(),DensityUtil.dip2px(mActivity,15),0);
+
+    }
+
 }

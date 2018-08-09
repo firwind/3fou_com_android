@@ -481,7 +481,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                     Fragment containerFragment = mRootView.getCurrentFragment().getParentFragment();
                     if (containerFragment != null && containerFragment instanceof MessageContainerFragment) {
                         //环信消息
-                        ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(isShowMessageTip, 1);
+                        ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(isShowMessageTip, 2);
                     }
                 }, Throwable::printStackTrace);
         addSubscrebe(subscribe);

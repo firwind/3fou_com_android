@@ -34,6 +34,7 @@ import com.zhiyicx.thinksnsplus.modules.chat.select.addgroup.AddGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.findsomeone.contianer.FindSomeOneContainerActivity;
 import com.zhiyicx.thinksnsplus.modules.home.common.invite.InviteShareActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.MessageFragment;
+import com.zhiyicx.thinksnsplus.modules.home.message.homepage.MessageHomePageFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupListFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagelist.MessageConversationFragment;
@@ -105,7 +106,7 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
 
     @Override
     protected List<String> initTitles() {
-        return Arrays.asList(getString(R.string.official_group),getString(R.string.chat),getString(R.string.notification));
+        return Arrays.asList("首页",getString(R.string.official_group),getString(R.string.chat),getString(R.string.notification));
     }
 
     @Override
@@ -114,6 +115,7 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
             mFragmentList = new ArrayList<>();
             /*EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
             conversationListFragment.setConversationListItemClickListener(this);*/
+            mFragmentList.add(new MessageHomePageFragment());
             mFragmentList.add(MessageGroupListFragment.newInstance());
             mFragmentList.add(new MessageConversationFragment());
             mFragmentList.add(MessageFragment.newInstance());
@@ -207,12 +209,15 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
         mTsvToolbar.initTabView(mVpFragment, initTitles(), commonNavigatorAdapter);
         mTsvToolbar.setLeftImg(0);
 
-        mVpFragment.setCurrentItem(1);
-
     }
 
     public int getCurrentItem() {
         return mVpFragment.getCurrentItem();
+    }
+
+    public void setCurrentItem(int position){
+        if(position < mFragmentList.size())
+            mVpFragment.setCurrentItem(position);
     }
 
     @Override
@@ -237,18 +242,18 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
      * @param position 位置 0-消息 1=通知
      */
     public void setNewMessageNoticeState(boolean isShow, int position) {
-        if (position != 1 && position != 2) {
+        if (position != 2 && position != 3) {
             return;
         }
         switch (position) {
-            case 1:
+            case 2:
                 if (isShow == mIsMessageTipShow) {
 //                    return;
                 } else {
                     mIsMessageTipShow = isShow;
                 }
                 break;
-            case 2:
+            case 3:
                 if (isShow == mIsNotificationTipShow) {
 //                    return;
                 } else {
@@ -341,8 +346,4 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
         }
     }
 
-    /*@Override
-    public void onListItemClicked(EMConversation conversation) {
-
-    }*/
 }

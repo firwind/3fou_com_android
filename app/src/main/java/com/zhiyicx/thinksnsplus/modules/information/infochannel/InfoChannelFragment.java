@@ -331,7 +331,7 @@ public class InfoChannelFragment extends TSFragment<InfoChannelConstract.Present
         mSubscribeAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                if (isEditor && position != 0) {
+                if (isEditor && position != 0 && position != -1) {
                     InfoTypeCatesBean bean = mMyCatesBeen.get(position);
                     mSubscribeAdapter.removeItem(position);
                     mUnSubscribeAdapter.addItem(new InfoTypeCatesBean(bean.getId(),

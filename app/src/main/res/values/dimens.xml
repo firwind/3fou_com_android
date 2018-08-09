@@ -144,8 +144,20 @@
     <dimen name="invite_img_size">130dp</dimen>
     <dimen name="invite_share_height">116dp</dimen>
 
+    <dimen name="sp11">11sp</dimen>
     <dimen name="sp15">15sp</dimen>
     <dimen name="sp35">35sp</dimen>
+
+
+    <dimen name="dp77">77dp</dimen>
+    <dimen name="dp90">90dp</dimen>
+    <dimen name="dp92">92dp</dimen>
+    <dimen name="dp120">120dp</dimen>
+    <dimen name="dp134">134dp</dimen>
+    <dimen name="dp142">142dp</dimen>
+    <dimen name="dp146">146dp</dimen>
+    <dimen name="dp154">154dp</dimen>
+    <dimen name="dp300">300dp</dimen>
     <dimen name="dp306">306dp</dimen>
     <dimen name="dp395">395dp</dimen>
 

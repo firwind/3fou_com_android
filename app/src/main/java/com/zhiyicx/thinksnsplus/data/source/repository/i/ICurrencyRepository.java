@@ -85,7 +85,7 @@ public interface ICurrencyRepository {
      * @param target_type
      * @return
      */
-    Observable<List<AccountBookListBean>> getAccountBookList(Integer page , Integer target_type);
+    Observable<List<AccountBookListBean>> getAccountBookList(Integer page , Integer target_type,String currency);
 
     /**
      * 充币（获取钱包地址）

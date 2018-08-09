@@ -29,7 +29,7 @@ public class ApiConfig {
     public static final boolean APP_IS_NEED_SSH_CERTIFICATE = true;// 自定义证书时使用false
     //    public static final String APP_DOMAIN_DEV = "https://dev.zhibocloud.cn/";// 模拟在线正式服务器
 //    public static final String APP_DOMAIN_TEST = "http://test-plus.zhibocloud.cn/";// 在线测试服务器
-    public static final String APP_DOMAIN_TEST = "http://test.faceke.com/";// 在线测试服务器
+    public static final String APP_DOMAIN_TEST = "http://112.74.168.35/"/*http://test.faceke.com/"*/;// 在线测试服务器
     //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
     public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
     //    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
@@ -37,7 +37,7 @@ public class ApiConfig {
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
 
-    public static String APP_DOMAIN = APP_DOMAIN_FORMAL/*APP_DOMAIN_TEST*/;
+    public static String APP_DOMAIN = /*APP_DOMAIN_FORMAL*/APP_DOMAIN_TEST;
 
     public static final String URL_ABOUT_US = "api/" + API_VERSION_2 + "/aboutus";// 关于我们网站
     public static final String URL_JIPU_SHOP = "http://haoshe.hotime.cn";// 豪舍购物地址
@@ -57,6 +57,11 @@ public class ApiConfig {
     public static final String FILE_PATH = "api/" + API_VERSION_2 + "/files/%s";
 
     /*******************************************  接口 Path  *********************************************/
+
+    /**
+     * 首页
+     */
+    public static final String APP_PATH_HOME_INDEX = "api/"+API_VERSION_2+"/index";
 
     /**
      * 登录 Login

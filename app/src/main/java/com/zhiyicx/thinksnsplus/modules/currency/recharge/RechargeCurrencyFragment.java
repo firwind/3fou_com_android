@@ -95,7 +95,7 @@ public class RechargeCurrencyFragment extends TSFragment<RechargeCurrencyContrac
                 showSnackSuccessMessage("复制成功");
                 break;
             case R.id.ll_account_book:
-                AccountBookActivity.startActivity(mActivity);
+                AccountBookActivity.startAccountBookActivity(mActivity,getCurrency());
                 break;
             case R.id.ll_withdraw:
                 WithdrawCurrencyActivity.startWithdrawCurrencyActivity(mActivity,getArguments().getString(IntentKey.CURRENCY_IN_MARKET));

@@ -105,8 +105,8 @@ public class CurrencyRepository implements ICurrencyRepository {
     }
 
     @Override
-    public Observable<List<AccountBookListBean>> getAccountBookList(Integer page, Integer target_type) {
-        return mCurrencyClient.getAccountBookList(page, TSListFragment.DEFAULT_PAGE_SIZE,target_type)
+    public Observable<List<AccountBookListBean>> getAccountBookList(Integer page, Integer target_type,String currency) {
+        return mCurrencyClient.getAccountBookList(page, TSListFragment.DEFAULT_PAGE_SIZE,target_type,currency)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

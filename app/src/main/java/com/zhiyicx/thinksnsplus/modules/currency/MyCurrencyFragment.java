@@ -148,7 +148,7 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
                 holder.getTextView(R.id.tv_frezz).setText(currencyBalanceBean.blocked_balance);
 
                 holder.getView(R.id.tv_detail).setOnClickListener(v->
-                        AccountBookActivity.startActivity(mActivity));
+                        AccountBookActivity.startAccountBookActivity(mActivity,currencyBalanceBean.currency));
                 holder.getView(R.id.bt_recharge).setOnClickListener(v->
                         RechargeCurrencyActivity.startRechargeCurrencyActivity(getContext(),currencyBalanceBean.currency));
                 holder.getView(R.id.bt_withdraw).setOnClickListener(v->

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dp134"
+    android:layout_height="@dimen/dp92"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@mipmap/icon_home_market_bg">
+
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp11"
+        android:text="BTC/Huobi"/>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_marginTop="@dimen/dp6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/market_red"
+        android:text="¥ 0"
+        android:textSize="@dimen/sp15"/>
+
+    <TextView
+        android:id="@+id/tv_degree"
+        android:layout_marginTop="@dimen/dp6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp11"
+        android:text="+12%"
+        android:textColor="@color/market_red"/>
+
+
+</LinearLayout>

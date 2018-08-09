@@ -44,5 +44,9 @@ public class SharePreferenceTagConfig {
      */
     public static final String SHAREPREFERENCE_TAG_PHOTO_VIEW_INTNET_CACHE = "photo_view_intnet_cache";
 
+    /**
+     * 首页缓存
+     */
+    public static final String SHAREPREFERENCE_TAG_HOME_INDEX_CACHE = "home_index_cache";
 
 }

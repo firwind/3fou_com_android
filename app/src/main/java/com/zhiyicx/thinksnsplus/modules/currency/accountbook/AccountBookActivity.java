@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.zhiyicx.baseproject.base.TSActivity;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 /**
  * author: huwenyong
@@ -16,7 +17,7 @@ import com.zhiyicx.baseproject.base.TSActivity;
 public class AccountBookActivity extends TSActivity{
     @Override
     protected Fragment getFragment() {
-        return AccountBookFragment.newInstance();
+        return AccountBookFragment.newInstance(getIntent().getStringExtra(IntentKey.CURRENCY_IN_MARKET));
     }
 
     @Override
@@ -24,8 +25,10 @@ public class AccountBookActivity extends TSActivity{
 
     }
 
-    public static void startActivity(Context mContext){
-        mContext.startActivity(new Intent(mContext,AccountBookActivity.class));
+    public static void startAccountBookActivity(Context mContext,String currency){
+        Intent intent = new Intent(mContext,AccountBookActivity.class);
+        intent.putExtra(IntentKey.CURRENCY_IN_MARKET,currency);
+        mContext.startActivity(intent);
     }
 
 }

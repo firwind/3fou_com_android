@@ -66,6 +66,9 @@ currency_symbol	"￥"*/
     public String last;
     public String currency_symbol;
 
+    public MarketCurrencyBean(){
+
+    }
 
     protected MarketCurrencyBean(Parcel in) {
         super(in);

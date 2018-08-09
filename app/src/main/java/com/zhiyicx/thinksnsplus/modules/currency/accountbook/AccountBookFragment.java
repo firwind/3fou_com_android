@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.zhiyicx.baseproject.base.TSViewPagerFragmentV2;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,11 +24,12 @@ public class AccountBookFragment extends TSViewPagerFragmentV2{
     public static int ACCOUNT_BOOK_RECHARGE = 1;
     public static int ACCOUNT_BOOK_DEPOSIT = 2;
     public static int ACCOUNT_BOOK_EXCHANGE = 3;
-    public static int ACCOUNT_BOOK_CHECK = 4;
+    public static int ACCOUNT_BOOK_CHECK = 100;
 
-    public static AccountBookFragment newInstance(){
+    public static AccountBookFragment newInstance(String currency){
         AccountBookFragment fragment = new AccountBookFragment();
         Bundle bundle = new Bundle();
+        bundle.putString(IntentKey.CURRENCY_IN_MARKET,currency);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -86,15 +88,22 @@ public class AccountBookFragment extends TSViewPagerFragmentV2{
 
     @Override
     protected List<Fragment> initFragments() {
-        return Arrays.asList(AccountBookChildFragment.newInstance(ACCOUNT_BOOK_ALL),
-                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_RECHARGE),
-                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_DEPOSIT),
-                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_CHECK),
-                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_EXCHANGE));
+        return Arrays.asList(AccountBookChildFragment.newInstance(ACCOUNT_BOOK_ALL,getCurrency()),
+                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_RECHARGE,getCurrency()),
+                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_DEPOSIT,getCurrency()),
+                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_CHECK,getCurrency()),
+                AccountBookChildFragment.newInstance(ACCOUNT_BOOK_EXCHANGE,getCurrency()));
     }
 
     @Override
     protected void initData() {
 
     }
+
+    private String getCurrency(){
+
+        return getArguments().getString(IntentKey.CURRENCY_IN_MARKET);
+
+    }
+
 }

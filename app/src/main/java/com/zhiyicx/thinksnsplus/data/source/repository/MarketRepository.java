@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.data.source.repository;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyRankBean;
 import com.zhiyicx.thinksnsplus.data.beans.MarketCurrencyBean;
+import com.zhiyicx.thinksnsplus.data.source.local.HomeMessageIndexBean;
 import com.zhiyicx.thinksnsplus.data.source.remote.MarketClient;
 import com.zhiyicx.thinksnsplus.data.source.remote.ServiceManager;
 import com.zhiyicx.thinksnsplus.data.source.repository.i.IMarketRepository;
@@ -58,6 +59,13 @@ public class MarketRepository implements IMarketRepository{
     @Override
     public Observable<List<KLineEntity>> getCurrencyKLineData(String ticker, String period) {
         return mMarketClient.getCurrencyKLineData(ticker,period)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<HomeMessageIndexBean> getHomeMessageIndexData() {
+        return mMarketClient.getHomeMessageIndex()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

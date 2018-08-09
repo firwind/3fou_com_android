@@ -33,7 +33,7 @@ public class AccountBookChildPresenter extends AppBasePresenter<AccountBookChild
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        mCurrencyRepository.getAccountBookList(mRootView.getPage(),mRootView.getBookTag())
+        mCurrencyRepository.getAccountBookList(mRootView.getPage(),mRootView.getBookTag(),mRootView.getCurrency())
                 .subscribe(new BaseSubscribeForV2<List<AccountBookListBean>>() {
                     @Override
                     protected void onSuccess(List<AccountBookListBean> data) {

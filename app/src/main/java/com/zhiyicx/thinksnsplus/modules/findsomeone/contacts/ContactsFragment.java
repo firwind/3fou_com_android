@@ -170,7 +170,6 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
                 .contactsPresenterModule(new ContactsPresenterModule(this))
                 .build()
                 .inject(this);
-        updateChooseTip();
         initRvTagClass();
         initListener();
 
@@ -187,46 +186,67 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
         closeLoadingView();
     }
 
-    private void updateChooseTip() {
-    }
-
 
     @Override
-    protected void initData() {
+    public void onResume() {
+        super.onResume();
+        layzLoad();
+    }
 
-        PackageManager packageManager = getActivity().getPackageManager();
-        boolean permission = (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission("android.Manifest.permission.READ_CONTACTS", "packageName"));
-        boolean permission1 = (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission("android.Manifest.permission.SEND_SMS", "packageName"));
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        layzLoad();
+    }
 
-        if (!permission) {
-            mRxPermissions.request(android.Manifest.permission.READ_CONTACTS)
-                    .subscribe(aBoolean -> {
-                        if (aBoolean) {
+    private boolean isFirst = true;
+    /**
+     * 数据懒加载
+     */
+    private void layzLoad() {
+        if (getUserVisibleHint() && isFirst) {
+            isFirst = false;
+
+            PackageManager packageManager = getActivity().getPackageManager();
+            boolean permission = (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission("android.Manifest.permission.READ_CONTACTS", "packageName"));
+            boolean permission1 = (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission("android.Manifest.permission.SEND_SMS", "packageName"));
+
+            if (!permission) {
+                mRxPermissions.request(android.Manifest.permission.READ_CONTACTS)
+                        .subscribe(aBoolean -> {
+                            if (aBoolean) {
 //                            ContactsFragment.startToEditTagActivity(getActivity(), null, null);
 
-                            if (!getArguments().getBoolean(IntentKey.IS_SELECT,false)) {
-                                mPresenter.getContacts();
-                            } /*else {
+                                if (!getArguments().getBoolean(IntentKey.IS_SELECT,false)) {
+                                    mPresenter.getContacts();
+                                } /*else {
                                 mListData.addAll(mBundleData);
                                 mTagClassAdapter.notifyAllSectionsDataSetChanged();
                                 hideLoading();
                             }*/
 
-                        } else {
-                            showSnackErrorMessage(getString(R.string.contacts_permission_tip));
-                        }
-                    });
-        }
-        if (!permission1) {
-            mRxPermissions.request(android.Manifest.permission.SEND_SMS)
-                    .subscribe(aBoolean -> {
-                        if (aBoolean) {
+                            } else {
+                                closeLoadingView();
+                                showSnackErrorMessage(getString(R.string.contacts_permission_tip));
+                            }
+                        });
+            }
+            if (!permission1) {
+                mRxPermissions.request(android.Manifest.permission.SEND_SMS)
+                        .subscribe(aBoolean -> {
+                            if (aBoolean) {
 //                            ContactsFragment.startToEditTagActivity(getActivity(), null, null);
-                        } else {
-                            showSnackErrorMessage(getString(R.string.SMS_permission_tip));
-                        }
-                    });
+                            } else {
+                                showSnackErrorMessage(getString(R.string.SMS_permission_tip));
+                            }
+                        });
+            }
         }
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     @Override

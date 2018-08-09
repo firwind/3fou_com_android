@@ -199,7 +199,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
                         if(position == 0){
                             ScanCodeActivity.startActivityForResult(this,IntentKey.REQ_CODE_GET_SCAN_RESULT);
                         }else {
-                            AccountBookActivity.startActivity(mActivity);
+                            AccountBookActivity.startAccountBookActivity(mActivity,getCurrency());
                         }
                     })
                     .build();

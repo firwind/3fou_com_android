@@ -92,7 +92,7 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
         return false;
     }
 
-    @Override
+    /*@Override
     protected boolean setUseSatusbar() {
         return true;
     }
@@ -103,8 +103,7 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
             return 0;
         }
         return super.getstatusbarAndToolbarHeight();
-    }
-
+    }*/
 
     @Override
     protected String setCenterTitle() {

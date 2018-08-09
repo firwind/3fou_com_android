@@ -30,10 +30,11 @@ import javax.inject.Inject;
 public class AccountBookChildFragment extends TSListFragment<AccountBookChildContract.Presenter,AccountBookListBean>
         implements AccountBookChildContract.View{
 
-    public static AccountBookChildFragment newInstance(int tag){
+    public static AccountBookChildFragment newInstance(int tag,String currency){
         AccountBookChildFragment fragment = new AccountBookChildFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(IntentKey.SEARCH_TAG,tag);
+        bundle.putString(IntentKey.CURRENCY_IN_MARKET,currency);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -93,6 +94,11 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
     @Override
     public int getBookTag() {
         return getArguments().getInt(IntentKey.SEARCH_TAG);
+    }
+
+    @Override
+    public String getCurrency() {
+        return getArguments().getString(IntentKey.CURRENCY_IN_MARKET);
     }
 
     @Override

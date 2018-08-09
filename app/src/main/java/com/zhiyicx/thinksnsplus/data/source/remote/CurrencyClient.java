@@ -110,7 +110,8 @@ public interface CurrencyClient {
      * @return
      */
     @GET(ApiConfig.APP_PATH_CURRENCY_ACCOUNT_BOOK_LIST)
-    Observable<List<AccountBookListBean>> getAccountBookList(@Query("page") Integer page, @Query("limit") Integer limit , @Query("target_type") Integer target_type);
+    Observable<List<AccountBookListBean>> getAccountBookList(@Query("page") Integer page, @Query("limit") Integer limit ,
+                                                             @Query("target_type") Integer target_type,@Query("currency")String currency);
 
 
     @GET(ApiConfig.APP_PATH_GET_TEAM_CURRENCY_LIST)

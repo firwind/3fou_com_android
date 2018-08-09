@@ -7,6 +7,8 @@ import android.view.View;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.data.beans.AuthBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
@@ -16,6 +18,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -90,8 +93,13 @@ public class CurrencyInterestFragment extends TSListFragment<CurrencyInterestCon
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 /*CurrencyInterestWebActivity.startCurrencyWebActivity(mActivity, ApiConfig.URL_CURRENCY_INTEREST,
                         mListDatas.get(position).currency);*/
-                CustomWEBActivity.startToWEBActivity(mActivity,
-                        String.format(ApiConfig.URL_CURRENCY_INTEREST+"?form=app&token=%s&currency=%s",
+                HashMap<String, String> headers = new HashMap();
+                AuthBean authBean = AppApplication.getmCurrentLoginAuth();
+                if (authBean != null) {
+                    headers.put("Authorization", authBean.getToken());
+                }
+                CustomWEBActivity.startToWEBActivity(mActivity,headers,
+                        String.format(ApiConfig.URL_CURRENCY_INTEREST+"?from=app&token=%s&currency=%s",
                                 mPresenter.getCurrentToken(),mListDatas.get(position).currency));
             }
 

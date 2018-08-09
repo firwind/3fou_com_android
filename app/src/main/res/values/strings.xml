@@ -1215,7 +1215,7 @@
     <string name="search_group_name">搜索群名称</string>
     <string name="no_result_group">该群不存在</string>
 
-    <string name="official_group">官方群聊</string>
+    <string name="official_group">企业群</string>
     <string name="search_chat_record">查找聊天记录</string>
 
     <string name="rank_market">排行</string>

@@ -15,6 +15,7 @@ public interface AccountBookChildContract {
 
     interface View extends ITSListView<AccountBookListBean,Presenter>{
         int getBookTag();
+        String getCurrency();
     }
 
     interface Presenter extends ITSListPresenter<AccountBookListBean>{

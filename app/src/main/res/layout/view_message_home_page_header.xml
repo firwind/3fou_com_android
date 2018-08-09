@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <FrameLayout
+        android:id="@+id/fl_banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp300">
+
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp142"
+            app:indicator_width="0dp"
+            app:indicator_height="0dp"/>
+
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="126dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp154"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="6dp"
+            android:descendantFocusability="blocksDescendants">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_menus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </android.support.v7.widget.CardView>
+
+    </FrameLayout>
+
+    <View
+        style="@style/style_divider_horizontal"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp120"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:descendantFocusability="blocksDescendants"
+        android:background="@drawable/shape_gradient_orange">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_market"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+    <View
+        style="@style/style_divider_horizontal"/>
+
+    <FrameLayout
+        android:id="@+id/fl_currency"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp142"
+        android:background="@mipmap/icon_home_coin_interest"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_software"
+            android:layout_marginLeft="@dimen/dp30"
+            android:paddingTop="@dimen/dp16"
+            android:paddingBottom="@dimen/dp16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="应用推荐"
+            android:textSize="@dimen/sp13"
+            android:textColor="@color/black_deep"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="持币生息"
+                android:textColor="@color/black_deep"
+                android:textSize="@dimen/sp13"/>
+
+            <TextView
+                android:id="@+id/tv_year_rate"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ 12%"
+                android:textSize="@dimen/sp30"
+                android:textColor="@color/black_deep"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/dp6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年化收益率"
+                android:textColor="@color/black_deep"
+                android:textSize="@dimen/sp9"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <View
+        style="@style/style_divider_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp43">
+
+        <View
+            android:layout_width="@dimen/dp2"
+            android:layout_height="@dimen/dp14"
+            android:layout_marginLeft="@dimen/dp18"
+            android:layout_gravity="center_vertical"
+            android:background="#F73278"/>
+
+        <com.zhiyicx.baseproject.widget.button.CombinationButton
+            android:id="@+id/bt_check_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:leftText="资讯"
+            app:rightText="查看更多"
+            app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
