@@ -503,7 +503,7 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
         mTvHome.setTextColor(position == PAGE_HOME ? checkedColor : unckeckedColor);
         mIvFind.setImageResource(position == PAGE_FIND ? R.mipmap.common_ico_bottom_discover_high : R.mipmap.common_ico_bottom_discover_normal);
         mTvFind.setTextColor(position == PAGE_FIND ? checkedColor : unckeckedColor);
-        mIvMessage.setImageResource(position == PAGE_MESSAGE ? R.mipmap.common_ico_bottom_message_high : R.mipmap.common_ico_bottom_message_normal);
+        mIvMessage.setImageResource(position == PAGE_MESSAGE ? R.mipmap.common_ico_bottom_home_page_high : R.mipmap.common_ico_bottom_home_page_normal);
         mTvMessage.setTextColor(position == PAGE_MESSAGE ? checkedColor : unckeckedColor);
         mIvMine.setImageResource(position == PAGE_MINE ? R.mipmap.common_ico_bottom_me_high : R.mipmap.common_ico_bottom_me_normal);
         mTvMine.setTextColor(position == PAGE_MINE ? checkedColor : unckeckedColor);

@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/icon_for_home_bottom_text_margin"
-                    android:text="@string/message"
+                    android:text="首页"
                     android:textColor="@color/home_bottom_navigate_text_normal"
                     android:textSize="@dimen/size_note_assist" />
             </LinearLayout>
