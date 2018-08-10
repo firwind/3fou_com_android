@@ -21,22 +21,18 @@ import com.zhiyicx.thinksnsplus.data.beans.InfoTypeCatesBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserCertificationInfo;
 import com.zhiyicx.thinksnsplus.modules.certification.detail.CertificationDetailActivity;
 import com.zhiyicx.thinksnsplus.modules.certification.input.CertificationInputActivity;
-import com.zhiyicx.thinksnsplus.modules.dynamic.list.DynamicPresenter;
 import com.zhiyicx.thinksnsplus.modules.home.HomeActivity;
-import com.zhiyicx.thinksnsplus.modules.home.find.FindFragment;
 import com.zhiyicx.thinksnsplus.modules.information.infochannel.ChannelActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
+import com.zhiyicx.thinksnsplus.modules.information.infomain.flash.FlashListFragment;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.list.InfoListFragment;
 import com.zhiyicx.thinksnsplus.modules.information.infosearch.SearchActivity;
 import com.zhiyicx.thinksnsplus.modules.information.publish.detail.EditeInfoDetailActivity;
 
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -168,6 +164,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
                     && publishInfoConfig.hasPay())) {
                 mPayAlertPopWindow.show();
             } else {
+
                 startActivity(new Intent(getActivity(), EditeInfoDetailActivity.class));
             }
         } else {
@@ -247,14 +244,18 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
     @Override
     public void setInfoType(InfoTypeBean infoType) {
         mInfoTypeBean = infoType;
-        mInfoTypeBean.getMy_cates().add(0, new InfoTypeCatesBean(-1L, getString(R.string
-                .info_recommend), true));
+//        mInfoTypeBean.getMy_cates().add(0, new InfoTypeCatesBean(-1L, getString(R.string
+//                .flash), true));
         for (InfoTypeCatesBean myCatesBean : infoType.getMy_cates()) {
-            if (mInfoTypeBean.getMy_cates().indexOf(myCatesBean) != 0
+            if (mInfoTypeBean.getMy_cates().indexOf(myCatesBean) != -1
                     && !mTitle.contains(myCatesBean.getName())) {
                 LogUtils.d(myCatesBean.getName());
                 mTitle.add(myCatesBean.getName());
-                mFragmentList.add(InfoListFragment.newInstance(myCatesBean.getId() + ""));
+                if (mInfoTypeBean.getMy_cates().indexOf(myCatesBean) == 0){
+                    mFragmentList.add(FlashListFragment.newInstance(myCatesBean.getId() + ""));
+                }else {
+                    mFragmentList.add(InfoListFragment.newInstance(myCatesBean.getId() + ""));
+                }
             }
         }
         mTsvToolbar.notifyDataSetChanged(mTitle);
@@ -349,7 +350,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
     protected List<String> initTitles() {
         if (mTitle == null) {
             mTitle = new ArrayList<>();
-            mTitle.add(getString(R.string.info_recommend));
+//            mTitle.add(getString(R.string.flash));
         }
         return mTitle;
     }
@@ -359,7 +360,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
 
         if (mFragmentList == null) {
             mFragmentList = new ArrayList<>();
-            mFragmentList.add(InfoListFragment.newInstance(RECOMMEND_INFO));
+//            mFragmentList.add(InfoListFragment.newInstance(RECOMMEND_INFO));
         }
         return mFragmentList;
     }

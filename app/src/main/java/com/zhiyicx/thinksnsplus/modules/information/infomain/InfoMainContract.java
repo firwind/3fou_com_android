@@ -5,6 +5,7 @@ import com.zhiyicx.baseproject.base.IBaseTouristPresenter;
 import com.zhiyicx.baseproject.base.ITSListPresenter;
 import com.zhiyicx.baseproject.base.ITSListView;
 import com.zhiyicx.common.mvp.i.IBaseView;
+import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
 import com.zhiyicx.thinksnsplus.data.beans.InfoTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.RealAdvertListBean;
 import com.zhiyicx.baseproject.base.SystemConfigBean;
@@ -52,5 +53,20 @@ public interface InfoMainContract {
         List<RealAdvertListBean> getBannerAdvert();
         List<RealAdvertListBean> getListAdvert();
     }
+    /**
+     * 内层内容列表
+     */
+    interface FlashListView extends ITSListView<BaseListBean,FlashListPresenter> {
+        String getInfoType();
+        int isRecommend();
+        void commitResult(InfoListDataBean bean);
+    }
 
+    interface FlashListPresenter extends ITSListPresenter<BaseListBean> {
+
+        List<RealAdvertListBean> getListAdvert();
+        void commitBull(InfoListDataBean bean);
+
+        void commitBearNews(InfoListDataBean bean);
+    }
 }

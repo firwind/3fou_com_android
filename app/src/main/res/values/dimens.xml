@@ -142,7 +142,9 @@
     <dimen name="invite_content_width">300dp</dimen>
     <dimen name="invite_content_height">400dp</dimen>
     <dimen name="invite_img_size">130dp</dimen>
+    <dimen name="invite_img_size_v2">96dp</dimen>
     <dimen name="invite_share_height">116dp</dimen>
+    <dimen name="invite_share_height_v2">94dp</dimen>
 
     <dimen name="sp11">11sp</dimen>
     <dimen name="sp15">15sp</dimen>

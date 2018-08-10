@@ -96,6 +96,42 @@ public class BaseInfoRepository implements IBaseInfoRepository {
     }
 
     @Override
+    public Observable<List<InfoListDataBean>> getFlashListV2(String cate_id, String key, long max_id, long page, int isRecommend) {
+        switch (cate_id) {
+            case ApiConfig.INFO_TYPE_COLLECTIONS:
+                return getCollectionListV2(max_id);
+            default:
+        }
+
+        if (!TextUtils.isEmpty(key)) {
+            return mInfoMainClient.getflashListV2(cate_id, max_id, TSListFragment.DEFAULT_PAGE_SIZE, page, key, 0);
+        } else if (max_id == 0 && isRecommend != 1) {
+            // 只有下拉才获取置顶,推荐这个栏目页不要置顶资讯
+            return mInfoMainClient.getInfoTopList(cate_id)
+                    .observeOn(Schedulers.io())
+                    .flatMap((Func1<List<InfoListDataBean>, Observable<List<InfoListDataBean>>>) infoListDataBeenTopList -> {
+                        if (infoListDataBeenTopList != null) {
+                            for (InfoListDataBean infoListDataBean : infoListDataBeenTopList) {
+                                infoListDataBean.setIsTop(true);
+                            }
+                        }
+                        return mInfoMainClient.getflashListV2(cate_id, max_id, TSListFragment.DEFAULT_PAGE_SIZE, page, "",
+                                isRecommend)
+                                .map(infoListDataBeenList -> {
+                                    if (infoListDataBeenTopList != null) {
+                                        infoListDataBeenList.addAll(0, infoListDataBeenTopList);
+                                    }
+                                    return infoListDataBeenList;
+                                });
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    ;
+        } else {
+            return mInfoMainClient.getflashListV2(cate_id, max_id, TSListFragment.DEFAULT_PAGE_SIZE, page, "", isRecommend);
+        }
+    }
+
+    @Override
     public Observable<List<InfoListDataBean>> getCollectionListV2(long max_id) {
         return mInfoMainClient.getInfoCollectListV2(max_id, TSListFragment.DEFAULT_PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
@@ -341,7 +377,34 @@ public class BaseInfoRepository implements IBaseInfoRepository {
         return mInfoMainClient.deleteInfo(category, news_id);
     }
 
+    @Override
+    public Observable<String> commitBull(String newsId) {
 
+        return mInfoMainClient.commitBull(newsId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> deteleBull(String newsId) {
+        return mInfoMainClient.deleteBull(newsId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> commitBearNews(String newsId) {
+        return mInfoMainClient.commitBearNews(newsId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> deteleBearNews(String newsId) {
+        return mInfoMainClient.deleteBearNews(newsId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
 
 }

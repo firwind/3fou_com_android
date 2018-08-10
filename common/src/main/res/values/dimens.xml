@@ -18,6 +18,7 @@
     <!-- 选项文字大小 需要配合 bools.xml 的 pickerview_customTextSize 为 true 才有效果-->
     <dimen name="pickerview_textsize">15sp</dimen>
     <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
     <dimen name="item_hegiht">40dp</dimen>
     <!-- 此值为true pickerview_textsize才会有效果-->
     <bool name="pickerview_customTextSize">true</bool>

@@ -29,7 +29,7 @@ public class ApiConfig {
     public static final boolean APP_IS_NEED_SSH_CERTIFICATE = true;// 自定义证书时使用false
     //    public static final String APP_DOMAIN_DEV = "https://dev.zhibocloud.cn/";// 模拟在线正式服务器
 //    public static final String APP_DOMAIN_TEST = "http://test-plus.zhibocloud.cn/";// 在线测试服务器
-    public static final String APP_DOMAIN_TEST = "http://112.74.168.35/"/*http://test.faceke.com/"*/;// 在线测试服务器
+    public static final String APP_DOMAIN_TEST = "http://112.74.168.35/";// 在线测试服务器
     //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
     public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
     //    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
@@ -1042,10 +1042,13 @@ public class ApiConfig {
     // 资讯分类列表
     public static final String APP_PATH_INFO_TYPE_V2 = "api/" + API_VERSION_2 + "/news/cates";
     public static final String APP_PATH_INFO_LIST_V2 = "api/" + API_VERSION_2 + "/news";// 资讯列表
+    public static final String APP_PATH_FLASH_LIST_V2 = "api/" + API_VERSION_2 + "/news/indexNew";// 快讯列表
     public static final String APP_PATH_INFO_TOP_LIST = "api/" + API_VERSION_2 + "/news/categories/pinneds";// 获取置顶资讯
     public static final String APP_PATH_INFO_DETAIL = "api/" + API_VERSION_2 + "/news/{news}";// 详情
     public static final String APP_PATH_INFO_DETAIL_RELATION = "api/" + API_VERSION_2 + "/news/{news}/correlations";// 相关资讯
     public static final String APP_PATH_INFO_DIG_V2 = "api/" + API_VERSION_2 + "/news/{news}/likes";// 点赞
+    public static final String APP_PATH_FLASH_BEAR_NEWS_DIG = "api/" + API_VERSION_2 + "/news/{news}/likong";// 利空
+    public static final String APP_PATH_FLASH_BULL_DIG = "api/" + API_VERSION_2 + "/news/{news}/lihao";// 利好
     public static final String APP_PATH_INFO_DIG_V2_S = "api/" + API_VERSION_2 + "/news/%s/likes";// 点赞
     public static final String APP_PATH_INFO_DIG_LIST = "api/" + API_VERSION_2 + "/news/{news}/likes";// 点赞列表
     public static final String APP_PATH_INFO_COLLECTION = "api/" + API_VERSION_2 + "/news/{news}/collections";// 收藏
@@ -1184,4 +1187,6 @@ public class ApiConfig {
     public static final String APP_PATH_GET_EXCHANGE_RATE = "api/"+API_VERSION_2+"/bcwallet/exchange_index";
     //兑换币
     public static final String APP_PATH_EXCHANGE_CURRENCY = "api/"+API_VERSION_2+"/bcwallet/exchange";
+    //下载地址
+    public static final String APP_DOWNLOAD = APP_DOMAIN+"h5/download";
 }

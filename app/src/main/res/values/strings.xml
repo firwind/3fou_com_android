@@ -185,6 +185,8 @@
     <string name="info_list_count">%1$s\t·\t%2$s浏览\t·\t%3$s</string>
     <string name="info_publish_original">原创</string>
     <string name="info_top">顶</string>
+    <string name="bull">利好</string>
+    <string name="bear_news">利空</string>
     <string name="info_publish_hint">提示</string>
     <string name="info_publish_hint_certification">只有认证过的用户才可以投稿，是否去认证?</string>
     <string name="info_publish_go_to_certification">去认证</string>
@@ -1221,6 +1223,8 @@
     <string name="rank_market">排行</string>
 
     <string name="no_permission_to_operate">您没有权限操作！</string>
+    <string name="share_source">分享自前链财经APP</string>
+    <string name="flash_hint">打造你专属人脉</string>
 
     <string name="only_number_or_letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 

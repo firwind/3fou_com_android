@@ -47,4 +47,8 @@
     <color name="info_top">#49b691</color>
     <color name="text_color">#808080</color>
     <color name="text_title">#323232</color>
+
+    <color name="bull_title">#f42048</color>
+    <!--利空-->
+    <color name="text_fall">#219300</color>
 </resources>

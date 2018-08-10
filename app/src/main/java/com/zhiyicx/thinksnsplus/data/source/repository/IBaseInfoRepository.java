@@ -25,6 +25,10 @@ public interface IBaseInfoRepository {
     Observable<List<InfoListDataBean>> getInfoListV2(String cate_id, String key, long max_id,
                                                      long page, int isRecommend);
 
+    // 快讯搜索也用这个接口
+    Observable<List<InfoListDataBean>> getFlashListV2(String cate_id, String key, long max_id,
+                                                     long page, int isRecommend);
+
     Observable<List<InfoListDataBean>> getCollectionListV2(long max_id);
 
     Observable<List<InfoListDataBean>> getMyInfoList(String type,long max_id);
@@ -57,6 +61,10 @@ public interface IBaseInfoRepository {
 
     Observable<BaseJsonV2<Object>> deleteInfo(String category, String news_id);
 
+    Observable<String> commitBull(String newsId);
+    Observable<String> deteleBull(String newsId);
 
+    Observable<String> commitBearNews(String newsId);
+    Observable<String> deteleBearNews(String newsId);
 
 }

@@ -30,6 +30,9 @@ import rx.Observable;
 
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_DYNAMIC_REPORT;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_DYNAMIC_TOP_AVERAGE_NUM;
+import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_FLASH_BEAR_NEWS_DIG;
+import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_FLASH_BULL_DIG;
+import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_FLASH_LIST_V2;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_GET_MY_INFO;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_COLLECTION_LIST;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_DELETE;
@@ -74,6 +77,20 @@ public interface InfoMainClient {
                                                      @Query("recommend") int isRecommend);
 
     /**
+     * 获取快讯列表
+     *
+     * @param key         搜索用的关键字
+     * @param isRecommend 是否是推荐 1-推荐
+     */
+    @GET(APP_PATH_FLASH_LIST_V2)
+    Observable<List<InfoListDataBean>> getflashListV2(@Query("cate_id") String cate_id,
+                                                      @Query("after") Long max_id,
+                                                      @Query("limit") Integer limit,
+                                                      @Query("page") Long page,
+                                                      @Query("key") String key,
+                                                      @Query("recommend") int isRecommend);
+
+    /**
      * 获取置顶的资讯列表
      */
     @GET(APP_PATH_INFO_TOP_LIST)
@@ -86,6 +103,36 @@ public interface InfoMainClient {
      */
     @GET(APP_PATH_INFO_DETAIL)
     Observable<InfoListDataBean> getInfoDetail(@Path("news") String news_id);
+
+    /**
+     * 添加快讯利空
+     *
+     * @param news_id 快讯id
+     */
+    @POST(APP_PATH_FLASH_BEAR_NEWS_DIG)
+    Observable<String> commitBearNews(@Path("news") String news_id);
+    /**
+     * 取消快讯利空
+     *
+     * @param news_id 快讯id
+     */
+    @DELETE(APP_PATH_FLASH_BEAR_NEWS_DIG)
+    Observable<String> deleteBearNews(@Path("news") String news_id);
+
+    /**
+     * 添加快讯利好
+     *
+     * @param news_id 快讯id
+     */
+    @POST(APP_PATH_FLASH_BULL_DIG)
+    Observable<String> commitBull(@Path("news") String news_id);
+    /**
+     * 取消快讯利好
+     *
+     * @param news_id 快讯id
+     */
+    @DELETE(APP_PATH_FLASH_BULL_DIG)
+    Observable<String> deleteBull(@Path("news") String news_id);
 
     @GET(APP_PATH_INFO_DIG_LIST)
     Observable<List<InfoDigListBean>> getInfoDigList(@Path("news") String news_id,
@@ -146,6 +193,7 @@ public interface InfoMainClient {
      */
     @GET(APP_PATH_INFO_TOP_AVERAGE_NUM)
     Observable<StickTopAverageBean> getInfoAndCommentTopAverageNum();
+
     /**
      * 置顶资讯评论
      *

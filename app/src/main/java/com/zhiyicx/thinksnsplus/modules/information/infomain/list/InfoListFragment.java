@@ -167,7 +167,6 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
                     .infoListPresenterModule(new InfoListPresenterModule(InfoListFragment.this))
                     .build()
                     .inject(InfoListFragment.this);
-
             subscriber.onCompleted();
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

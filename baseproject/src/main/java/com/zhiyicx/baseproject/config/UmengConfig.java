@@ -16,7 +16,7 @@ public class UmengConfig {
     /**
      * 微信
      */
-    public static String WEIXIN_APPID = "wx454b3be13415cf51";
+    public static String WEIXIN_APPID = "wx454b3be13415cf51";// wx793b6ff96c75f932
     public static String WEIXIN_SECRETKEY = "804aca49400452b19e615781e610b97a";
     /**
      * 新浪
