@@ -141,16 +141,17 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                     }
 
                     @Override
-                    protected void onException(Throwable throwable) {
-                        super.onException(throwable);
-                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage("网络错误！");
                     }
+
                 });
         addSubscrebe(subscription);
     }

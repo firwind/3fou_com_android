@@ -970,7 +970,7 @@ public class ConvertUtils {
         if (view == null) {
             return null;
         }
-        Bitmap ret = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap ret = Bitmap.createBitmap(view.getWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(ret);
         Drawable bgDrawable = view.getBackground();
         if (bgDrawable != null) {

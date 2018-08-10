@@ -209,7 +209,7 @@ public class ScanCodeFragment extends TSFragment<ScanCodeContract.Presenter> imp
                 if(null != data){
                     switch (data.getType()){
                         case 1://加入群
-                            ChatInfoActivity.startChatInfoActivity(getActivity(),true,
+                            ChatInfoActivity.startChatInfoActivity(getActivity(),false,
                                     data.getData(), EaseConstant.CHATTYPE_GROUP);
                             cancleVibrate();
                             getActivity().finish();

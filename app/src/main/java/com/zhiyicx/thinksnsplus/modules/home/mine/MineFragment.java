@@ -92,6 +92,8 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
     TextView mTvWalletCount;
     @BindView(R.id.tv_integration_count)
     TextView mTvIntegrationCount;
+    @BindView(R.id.tv_digital_wallet_count)
+    TextView mTvDigitalWalletCount;
 
     /**
      * 选择认证人类型的弹窗
@@ -398,6 +400,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
         // 设置好友数
         String friendsCount = String.valueOf(userInfoBean.getFriends_count());
         mTvFriendsCount.setText(friendsCount);
+
 
         if(null != this.mUserInfoBean.getCurrency() &&
                 !this.mUserInfoBean.getCurrency().isIs_sweet() &&

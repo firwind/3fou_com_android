@@ -294,7 +294,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
             mEtNum.setText(String.valueOf(mAvaliableBalance));
             mEtNum.setSelection(mEtNum.getText().toString().length());
         }else {
-            mTvTransfer.setText(String.valueOf(edit-mTransferRate) );
+            mTvTransfer.setText(String.format("%.10d",edit-mTransferRate) );
         }
 
 
