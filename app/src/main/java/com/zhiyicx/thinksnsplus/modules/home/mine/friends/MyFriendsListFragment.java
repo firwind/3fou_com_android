@@ -96,9 +96,14 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
     }
 
     @Override
+    protected boolean isLayzLoad() {
+        return true;
+    }
+
+    /*@Override
     protected Long getMaxId(@NotNull List<UserInfoBean> data) {
         return (long) mListDatas.size();
-    }
+    }*/
 
     @OnClick({R.id.tv_toolbar_left, R.id.tv_toolbar_right, R.id.tv_toolbar_center})
     public void onClick(View view) {

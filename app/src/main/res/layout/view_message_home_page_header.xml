@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:text="应用推荐"
             android:textSize="@dimen/sp13"
-            android:textColor="@color/black_deep"/>
+            android:textColor="@color/home_currency_color"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="持币生息"
-                android:textColor="@color/black_deep"
+                android:textColor="@color/home_currency_color"
                 android:textSize="@dimen/sp13"/>
 
             <TextView
@@ -104,14 +104,14 @@
                 android:layout_height="wrap_content"
                 android:text="+ 12%"
                 android:textSize="@dimen/sp30"
-                android:textColor="@color/black_deep"/>
+                android:textColor="@color/home_currency_color"/>
 
             <TextView
                 android:layout_marginTop="@dimen/dp6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="年化收益率"
-                android:textColor="@color/black_deep"
+                android:textColor="@color/home_currency_color"
                 android:textSize="@dimen/sp9"/>
 
         </LinearLayout>

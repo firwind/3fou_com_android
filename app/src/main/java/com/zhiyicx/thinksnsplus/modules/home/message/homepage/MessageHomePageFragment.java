@@ -9,13 +9,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.listener.OnBannerListener;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.baseproject.config.TouristConfig;
@@ -27,8 +24,9 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
 import com.zhiyicx.thinksnsplus.data.beans.MarketCurrencyBean;
+import com.zhiyicx.thinksnsplus.data.beans.MenuItem;
 import com.zhiyicx.thinksnsplus.data.beans.RealAdvertListBean;
-import com.zhiyicx.thinksnsplus.data.source.local.HomeMessageIndexBean;
+import com.zhiyicx.thinksnsplus.data.beans.HomeMessageIndexBean;
 import com.zhiyicx.thinksnsplus.modules.circle.mine.container.MyCircleContainerActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.MyCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.interest.CurrencyInterestActivity;
@@ -327,7 +325,8 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
             startActivity(new Intent(getActivity(), MainActivity.class));
         }));
         list.add(new MenuItem(R.mipmap.icon_home_menu_shop, "商城", v -> {
-            CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_JIPU_SHOP);
+            /*CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_JIPU_SHOP);*/
+            ToastUtils.showToast(mActivity,"暂未开放~");
         }));
         list.add(new MenuItem(R.mipmap.icon_home_menu_question, "问答", v -> {
             Intent intent = new Intent(getActivity(), QA_Activity.class);

@@ -57,4 +57,5 @@
     <color name="state_currency_record_withdraw">#ff9900</color>
 
     <color name="red_packet_text_color">#ffebd5</color>
+    <color name="home_currency_color">#db323232</color>
 </resources>

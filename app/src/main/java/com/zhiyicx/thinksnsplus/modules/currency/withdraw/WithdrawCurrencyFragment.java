@@ -60,7 +60,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     TextView mTvRate;
 
     private RightTopMenu mRightTopMenu;
-    private double mTransferRate = 0;//转账手续费率
+    private double mTransferRate = 0;//转账手续费
     private double mAvaliableBalance = 0;//可用余额
 
     public static WithdrawCurrencyFragment newInstance(String currency){
@@ -227,6 +227,17 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
             return false;
         }
 
+        try {
+            Double num = Double.parseDouble(mEtNum.getText().toString());
+            if(num <= mTransferRate){
+                showSnackErrorMessage("输入的金额必须大于手续费！");
+                return false;
+            }
+        }catch (Exception e){
+            showSnackErrorMessage("请填写正确的信息！");
+            return false;
+        }
+
         return true;
 
     }
@@ -241,7 +252,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         if(isSuccess){
             closeLoadingView();
             mTvAvaliableBalance.setText("可用余额："+balance+" "+getCurrency());
-            mTvRate.setText("转账手续费（"+rate+"%）");
+            mTvRate.setText("转账手续费（"+rate+getCurrency()+"）");
 
             this.mTransferRate = rate;
             this.mAvaliableBalance = balance;
@@ -283,10 +294,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
             mEtNum.setText(String.valueOf(mAvaliableBalance));
             mEtNum.setSelection(mEtNum.getText().toString().length());
         }else {
-            BigDecimal cur = new BigDecimal(edit);
-            BigDecimal result = cur.multiply(new BigDecimal(1-mTransferRate*0.01))
-                    .setScale(10,BigDecimal.ROUND_UP);//保留10位小数，直接进位
-            mTvTransfer.setText(result.toString());
+            mTvTransfer.setText(String.valueOf(edit-mTransferRate) );
         }
 
 

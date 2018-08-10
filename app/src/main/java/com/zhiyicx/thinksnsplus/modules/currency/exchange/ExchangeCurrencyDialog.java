@@ -70,6 +70,10 @@ public class ExchangeCurrencyDialog extends HBaseDialog implements TextWatcher {
 
         if(null == mExchangeCurrencyRate)
             return;
+
+        getView(R.id.tv_send_verify_code).setVisibility(View.VISIBLE);
+        getView(R.id.et_verify_code).setVisibility(View.GONE);
+
         //最多可兑换量
         mRate1 = new BigDecimal(mExchangeCurrencyRate.getNumber());
         mRate2 = new BigDecimal(mExchangeCurrencyRate.getNumber2());

@@ -41,6 +41,7 @@ import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.adapter.ChatMemberAdapter;
+import com.zhiyicx.thinksnsplus.modules.chat.card.ChatGroupCardActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.edit.owner.EditGroupOwnerActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.item.ChatConfig;
@@ -166,6 +167,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     TextView mTvGroupCardName;
     @BindView(R.id.ll_group_manager)
     LinearLayout llGroupManager;
+    @BindView(R.id.tv_group_qrcode)
+    TextView mTvGroupQrcode;
 //    @BindView(R.id.vw_set_admin)
 //    View vwSetAdmin;
 //    @BindView(R.id.vw_jurisdiction)
@@ -230,6 +233,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             mLlManager.setVisibility(View.GONE);
             mTvDeleteGroup.setVisibility(View.GONE);
             llGroupManager.setVisibility(View.GONE);
+            mTvGroupQrcode.setVisibility(View.GONE);
             isShowEmptyView(false, true);
             setGroupData();
             setCenterText(getString(R.string.chat_info_title_single));
@@ -327,7 +331,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     @OnClick({R.id.iv_add_user, R.id.tv_to_all_members, R.id.ll_manager, R.id.tv_clear_message, R.id.tv_delete_group,
             R.id.ll_group_portrait, R.id.ll_group_name, R.id.iv_user_portrait, R.id.ll_announcement, R.id.ll_photo,
-            R.id.ll_card, R.id.tv_find_message, R.id.tv_set_admin, R.id.ll_banned_post, R.id.tv_jurisdiction, R.id.tv_upgrade})
+            R.id.ll_card, R.id.tv_find_message, R.id.tv_set_admin, R.id.ll_banned_post, R.id.tv_jurisdiction,
+            R.id.tv_upgrade,R.id.tv_group_qrcode})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add_user:
@@ -435,6 +440,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                         ReportGroupActivity.startReportGroupActivity(getContext(), mChatGroupBean.getId());
                     }
                 }
+                break;
+            case R.id.tv_group_qrcode:
+                ChatGroupCardActivity.startChatGroupCardActivity(getContext(),mChatGroupBean);
                 break;
             default:
         }

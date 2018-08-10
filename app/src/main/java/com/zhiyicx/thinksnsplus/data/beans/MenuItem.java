@@ -1,4 +1,4 @@
-package com.zhiyicx.thinksnsplus.modules.home.message.homepage;
+package com.zhiyicx.thinksnsplus.data.beans;
 
 import android.view.View;
 

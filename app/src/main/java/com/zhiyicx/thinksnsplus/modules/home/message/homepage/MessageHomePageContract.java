@@ -1,10 +1,9 @@
 package com.zhiyicx.thinksnsplus.modules.home.message.homepage;
 
-import com.zhiyicx.baseproject.base.BaseListBean;
 import com.zhiyicx.baseproject.base.ITSListPresenter;
 import com.zhiyicx.baseproject.base.ITSListView;
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
-import com.zhiyicx.thinksnsplus.data.source.local.HomeMessageIndexBean;
+import com.zhiyicx.thinksnsplus.data.beans.HomeMessageIndexBean;
 
 /**
  * author: huwenyong

@@ -1,4 +1,4 @@
-package com.zhiyicx.thinksnsplus.data.source.local;
+package com.zhiyicx.thinksnsplus.data.beans;
 
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
 import com.zhiyicx.thinksnsplus.data.beans.MarketCurrencyBean;

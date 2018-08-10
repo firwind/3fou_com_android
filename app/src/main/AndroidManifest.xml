@@ -808,6 +808,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".modules.wallet.integration.mine.newIntegration.NewMineIntegrationActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".modules.chat.card.ChatGroupCardActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">

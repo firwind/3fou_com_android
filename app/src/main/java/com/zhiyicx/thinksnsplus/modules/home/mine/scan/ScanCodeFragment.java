@@ -18,6 +18,8 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.hyphenate.easeui.EaseConstant;
 import com.tbruyelle.rxpermissions.Permission;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
@@ -25,8 +27,10 @@ import com.zhiyicx.baseproject.widget.popwindow.PermissionPopupWindow;
 import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.data.beans.QrCodeData;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
+import com.zhiyicx.thinksnsplus.modules.chat.info.ChatInfoActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 
 import butterknife.BindView;
@@ -198,6 +202,24 @@ public class ScanCodeFragment extends TSFragment<ScanCodeContract.Presenter> imp
             getActivity().finish();
 
         }else {
+
+            try {
+                Gson gson = new Gson();
+                QrCodeData data = gson.fromJson(result,QrCodeData.class);
+                if(null != data){
+                    switch (data.getType()){
+                        case 1://加入群
+                            ChatInfoActivity.startChatInfoActivity(getActivity(),true,
+                                    data.getData(), EaseConstant.CHATTYPE_GROUP);
+                            cancleVibrate();
+                            getActivity().finish();
+                            return;
+                    }
+                }
+            }catch (Exception e){
+
+            }
+
             // 扫描到结果后直接跳转到个人中心  成功的结果应该是uid=xxx 所以直接取等号后面的内容
             // 至于为什么是uid=xxx ios定的 我也不知道
             try {

@@ -118,17 +118,22 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
     }
 
     @Override
+    protected boolean isLayzLoad() {
+        return true;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        if (mPresenter != null) {
+        /*if (mPresenter != null) {
             if (mListDatas.isEmpty()) {
                 mRefreshlayout.autoRefresh(0);
             } else {
                 mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
             }
             //mPresenter.refreshConversationReadMessage();该请求已在MessageFragment中实现
-        }
+        }*/
         if (getUserVisibleHint() && !TextUtils.isEmpty(mSearchView.getText())) {
             mSearchView.setText("");
         }

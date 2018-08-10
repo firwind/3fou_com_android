@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_chat_group_card">
+
+    <LinearLayout
+        android:layout_width="@dimen/dp318"
+        android:layout_height="@dimen/dp424"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@mipmap/bg_chat_group_card_qrcode">
+
+        <LinearLayout
+            android:padding="@dimen/dp20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/iv_group_avatar"
+                android:layout_width="@dimen/dp64"
+                android:layout_height="@dimen/dp64" />
+
+            <TextView
+                android:id="@+id/tv_group_name"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="群聊名称"
+                android:textSize="@dimen/sp14"
+                android:textColor="@color/black_deep"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_qrcode"
+            android:layout_width="@dimen/dp224"
+            android:layout_height="@dimen/dp224"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/dp22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫 描 二 维 码 加 入 群 聊"
+            android:textSize="@dimen/sp17"/>
+
+    </LinearLayout>
+
+</FrameLayout>

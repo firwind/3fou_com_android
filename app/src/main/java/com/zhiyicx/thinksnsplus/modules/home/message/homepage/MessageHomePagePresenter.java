@@ -8,7 +8,7 @@ import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.config.SharePreferenceTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
 import com.zhiyicx.thinksnsplus.data.source.local.AllAdvertListBeanGreenDaoImpl;
-import com.zhiyicx.thinksnsplus.data.source.local.HomeMessageIndexBean;
+import com.zhiyicx.thinksnsplus.data.beans.HomeMessageIndexBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.MarketRepository;
 
 import org.jetbrains.annotations.NotNull;
@@ -16,8 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.functions.Func1;
 
 /**
  * author: huwenyong

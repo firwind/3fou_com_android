@@ -39,7 +39,7 @@ public class IntegralRedPacketDialog extends HBaseDialog{
      */
     public IntegralRedPacketDialog(Activity context, boolean cancelOnTouchOutside,String num) {
         super(context, R.layout.view_integral_red_packet, cancelOnTouchOutside);
-        setGravity(Gravity.CENTER);
+        setGravity(Gravity.TOP);
         getTextView(R.id.tv_red_packet_num)
                 .setText(StringUtils.setStringFontSize(num+"新手糖果红包",0,num.length(), DensityUtil.dip2px(mContext,35)));
         getDialog().setOnDismissListener(dialog -> {

@@ -4,7 +4,7 @@ import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyRankBean;
 import com.zhiyicx.thinksnsplus.data.beans.MarketCurrencyBean;
-import com.zhiyicx.thinksnsplus.data.source.local.HomeMessageIndexBean;
+import com.zhiyicx.thinksnsplus.data.beans.HomeMessageIndexBean;
 import com.zhiyicx.thinksnsplus.utils.kline.KLineEntity;
 
 import java.util.List;
