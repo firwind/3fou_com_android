@@ -285,7 +285,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
             //
         }
 
-        if(edit == 0){
+        if(edit-mTransferRate<=0){
             mTvTransfer.setText("--");
             return;
         }
@@ -294,7 +294,8 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
             mEtNum.setText(String.valueOf(mAvaliableBalance));
             mEtNum.setSelection(mEtNum.getText().toString().length());
         }else {
-            mTvTransfer.setText(String.format("%.10d",edit-mTransferRate) );
+            mTvTransfer.setText(new BigDecimal(edit).subtract(new BigDecimal(mTransferRate))
+                    .setScale(10,BigDecimal.ROUND_DOWN).toString() );
         }
 
 

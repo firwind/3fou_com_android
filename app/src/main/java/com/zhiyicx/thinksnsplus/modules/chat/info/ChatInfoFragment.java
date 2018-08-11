@@ -80,6 +80,7 @@ import rx.schedulers.Schedulers;
 
 import static com.hyphenate.easeui.EaseConstant.CHATTYPE_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_BANNED_POST;
+import static com.hyphenate.easeui.EaseConstant.EXTRA_CHAT_TYPE;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_ADD_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO;
@@ -202,10 +203,14 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     private ChatMemberAdapter mChatMemberAdapter;
     private List<UserInfoBean> mChatMembers = new ArrayList<>();
     private UserInfoBean user;
-    private boolean mIsAddGroup = true;//默认是已加入群组
 
-    public ChatInfoFragment instance(Bundle bundle) {
+    private boolean mIsInGroup = false;//是否在群组中
+
+    public static ChatInfoFragment newInstance(String chatId,int chatType) {
         ChatInfoFragment fragment = new ChatInfoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(EXTRA_TO_USER_ID, chatId);
+        bundle.putInt(EXTRA_CHAT_TYPE, chatType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -224,8 +229,12 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 .photoSeletorImplModule(new PhotoSeletorImplModule(this, this, PhotoSelectorImpl
                         .SHAPE_SQUARE))
                 .build().photoSelectorImpl();
+
         mChatType = getArguments().getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         mChatId = getArguments().getString(EXTRA_TO_USER_ID);
+
+        //初始化成员列表
+        initMemberAdapter();
 
         if (mChatType == EaseConstant.CHATTYPE_SINGLE) {
             // 屏蔽群聊的布局
@@ -239,25 +248,44 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             setCenterText(getString(R.string.chat_info_title_single));
             // 单聊没有屏蔽消息
             mRlBlockMessage.setVisibility(View.GONE);
-//            mScStickMessage.setVisibility(View.GONE);
         } else {
-            mPresenter.getGroupChatInfo(mChatId);
+
             mEmptyView.setNeedTextTip(false);
             mEmptyView.setNeedClickLoadState(false);
-            mEmptyView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showLoadingView();
-                    mPresenter.getGroupChatInfo(mChatId);
-                }
+            mEmptyView.setOnClickListener(v -> {
+                showLoadingView();
+                initData();
             });
             // 屏蔽单聊的布局
             mLlSingle.setVisibility(View.GONE);
-            mIsAddGroup = getArguments().getBoolean(EXTRA_IS_ADD_GROUP);
-            getIsAddGroup();
         }
 
-        initPhotoPopupWindow();
+    }
+
+
+    @Override
+    protected void initData() {
+        if(mChatType == CHATTYPE_GROUP){
+            mPresenter.getGroupChatInfo(mChatId);
+            mPresenter.getIsInGroup();
+        }
+        //获取置顶列表匹配
+        mPresenter.getConversationStickList(mChatId);
+    }
+
+    @Override
+    protected String setCenterTitle() {
+        return getString(R.string.chat_info_title);
+    }
+
+    @Override
+    protected int getBodyLayoutId() {
+        return R.layout.fragment_chat_info;
+    }
+
+    @Override
+    public void closeCurrentActivity() {
+        mActivity.finish();
     }
 
     /**
@@ -282,8 +310,10 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         }
     }
 
-    @Override
-    protected void initData() {
+    /**
+     * 初始化成员列表
+     */
+    private void initMemberAdapter(){
         // 成员列表
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 5);
         mRvMemberList.setLayoutManager(manager);
@@ -310,23 +340,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 return false;
             }
         });
-        //获取置顶列表匹配
-        mPresenter.getConversationStickList(mChatId);
-    }
 
-    @Override
-    protected String setCenterTitle() {
-        return getString(R.string.chat_info_title);
-    }
-
-    @Override
-    protected int getBodyLayoutId() {
-        return R.layout.fragment_chat_info;
-    }
-
-    @Override
-    public void closeCurrentActivity() {
-        mActivity.finish();
     }
 
     @OnClick({R.id.iv_add_user, R.id.tv_to_all_members, R.id.ll_manager, R.id.tv_clear_message, R.id.tv_delete_group,
@@ -378,13 +392,13 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                  非本群用户：加入群聊
                  */
             case R.id.tv_delete_group:
-                initDeletePopupWindow(mPresenter.isGroupOwner() ? getString(R.string.chat_delete) : mIsAddGroup ? getString(R.string.chat_quit) : getString(R.string.tv_add_group_chat)
-                        , mPresenter.isGroupOwner() ? getString(R.string.chat_delete_group_alert) : mIsAddGroup ? getString(R.string.chat_quit_group_alert) : getString(R.string.chat_quit_group_add));
+                initDeletePopupWindow(mPresenter.isGroupOwner() ? getString(R.string.chat_delete) : mIsInGroup ? getString(R.string.chat_quit) : getString(R.string.tv_add_group_chat)
+                        , mPresenter.isGroupOwner() ? getString(R.string.chat_delete_group_alert) : mIsInGroup ? getString(R.string.chat_quit_group_alert) : getString(R.string.chat_quit_group_add));
                 break;
             case R.id.ll_group_portrait:
                 // 修改群头像
                 if (mChatType == CHATTYPE_GROUP && mPresenter.isGroupOwner()) {
-                    mPhotoPopupWindow.show();
+                    showPhotoPupupWindow();
                 }
                 break;
             case R.id.ll_group_name:
@@ -469,32 +483,33 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     }
 
     /**
-     * 初始化图片选择弹框
+     * show选择图片弹窗
      */
-    private void initPhotoPopupWindow() {
-        if (mPhotoPopupWindow != null) {
-            return;
+    private void showPhotoPupupWindow(){
+        if(null == mPhotoPopupWindow){
+            mPhotoPopupWindow = ActionPopupWindow.builder()
+                    .item1Str(mActivity.getString(R.string.choose_from_photo))
+                    .item2Str(mActivity.getString(R.string.choose_from_camera))
+                    .bottomStr(mActivity.getString(R.string.cancel))
+                    .isOutsideTouch(true)
+                    .isFocus(true)
+                    .backgroundAlpha(0.8f)
+                    .with(mActivity)
+                    .item1ClickListener(() -> {
+                        // 选择相册，单张
+                        mPhotoSelector.getPhotoListFromSelector(1, null);
+                        mPhotoPopupWindow.hide();
+                    })
+                    .item2ClickListener(() -> {
+                        // 选择相机，拍照
+                        mPhotoSelector.getPhotoFromCamera(null);
+                        mPhotoPopupWindow.hide();
+                    })
+                    .bottomClickListener(() -> mPhotoPopupWindow.hide()).build();
         }
-        mPhotoPopupWindow = ActionPopupWindow.builder()
-                .item1Str(mActivity.getString(R.string.choose_from_photo))
-                .item2Str(mActivity.getString(R.string.choose_from_camera))
-                .bottomStr(mActivity.getString(R.string.cancel))
-                .isOutsideTouch(true)
-                .isFocus(true)
-                .backgroundAlpha(0.8f)
-                .with(mActivity)
-                .item1ClickListener(() -> {
-                    // 选择相册，单张
-                    mPhotoSelector.getPhotoListFromSelector(1, null);
-                    mPhotoPopupWindow.hide();
-                })
-                .item2ClickListener(() -> {
-                    // 选择相机，拍照
-                    mPhotoSelector.getPhotoFromCamera(null);
-                    mPhotoPopupWindow.hide();
-                })
-                .bottomClickListener(() -> mPhotoPopupWindow.hide()).build();
+        mPhotoPopupWindow.show();
     }
+
 
     @Override
     protected boolean useEventBus() {
@@ -509,6 +524,26 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @Override
     public String getChatId() {
         return mChatId;
+    }
+
+    @Override
+    public void setIsInGroup(boolean isInGroup) {
+        this.mIsInGroup = isInGroup;
+        if (mIsInGroup) {
+            EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
+            // 屏蔽按钮
+            if (group != null)
+                mScBlockMessage.setChecked(group.isMsgBlocked());
+
+            mTvDeleteGroup.setText(getString(mPresenter.isGroupOwner()?R.string.chat_delete_group:
+                    R.string.chat_quit_group));
+
+        }else {
+            mLlSetStick.setVisibility(View.GONE);
+            mTvClearMessage.setVisibility(View.GONE);
+            mTvDeleteGroup.setText(getString(R.string.tv_add_group_chat));
+            mRlBlockMessage.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -574,8 +609,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     }
 
     @Override
-    public boolean getIsAddGroup() {
-        return mIsAddGroup;
+    public boolean getIsInGroup() {
+        return mIsInGroup;
     }
 
     @Override
@@ -892,7 +927,6 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mLlManager.setVisibility(View.GONE);
                 mRlBlockMessage.setVisibility(View.VISIBLE);
                 mTvGroupHeader.setText(R.string.chat_group_portrait);
-                mTvDeleteGroup.setText(getString(R.string.chat_quit_group));
                 mScBlockMessage.setEnabled(true);
                 mIvGropIconArrow.setVisibility(View.GONE);
                 mIvGropNameArrow.setVisibility(View.GONE);
@@ -910,30 +944,15 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 vwUpgrade.setVisibility(View.GONE);
                 vwSetStick.setVisibility(View.GONE);*/
 
-                if (!mIsAddGroup) {
-                    mLlSetStick.setVisibility(View.GONE);
-                    mTvClearMessage.setVisibility(View.GONE);
-                    mTvDeleteGroup.setText(getString(R.string.tv_add_group_chat));
-                    mRlBlockMessage.setVisibility(View.GONE);
-                }
-
             } else {
                 // 群主无法屏蔽消息
                 mTvGroupHeader.setText(R.string.chat_set_group_portrait);
-                mTvDeleteGroup.setText(getString(R.string.chat_delete_group));
                 mRlBlockMessage.setVisibility(View.GONE);
                 mScBlockMessage.setEnabled(false);
                 mIvGropIconArrow.setVisibility(View.VISIBLE);
                 mIvGropNameArrow.setVisibility(View.VISIBLE);
             }
-            if (mIsAddGroup) {
-                // 群聊的信息展示
-                EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
-                // 屏蔽按钮
-                if (group != null)
-                    mScBlockMessage.setChecked(group.isMsgBlocked());
 
-            }
             // 群名称
             String groupName = mChatGroupBean.getName();
             // + "(" + mChatGroupBean.getAffiliations_count() + ")";

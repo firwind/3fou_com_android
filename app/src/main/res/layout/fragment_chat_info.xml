@@ -574,7 +574,7 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:background="@color/white"
                 android:gravity="center"
-                android:text="@string/chat_delete_group"
+                android:text="@string/chat_quit_group"
                 android:textColor="@color/important_for_note"
                 android:textSize="@dimen/size_content" />
         </LinearLayout>

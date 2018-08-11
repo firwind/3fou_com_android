@@ -71,8 +71,8 @@ public class MessageHomePagePresenter extends AppBasePresenter<MessageHomePageCo
     public void requestCacheData(Long maxId, boolean isLoadMore) {
         HomeMessageIndexBean indexBean = SharePreferenceUtils.getObject( ((Fragment)mRootView).getContext(),
                 SharePreferenceTagConfig.SHAREPREFERENCE_TAG_HOME_INDEX_CACHE);
+        mRootView.onCacheResponseSuccess(null == indexBean?null:indexBean.getNews(),isLoadMore);
         if(null != indexBean){
-            mRootView.onCacheResponseSuccess(indexBean.getNews(),isLoadMore);
             mRootView.setHeaderData(indexBean);
         }
     }

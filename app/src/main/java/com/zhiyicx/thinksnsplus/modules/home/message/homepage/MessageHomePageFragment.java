@@ -121,11 +121,6 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
     }
 
     @Override
-    protected boolean isLayzLoad() {
-        return true;
-    }
-
-    @Override
     protected boolean isNeedRefreshAnimation() {
         return false;
     }

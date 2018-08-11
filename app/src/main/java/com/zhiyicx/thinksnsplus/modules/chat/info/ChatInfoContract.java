@@ -29,6 +29,8 @@ public interface ChatInfoContract {
     interface View extends IBaseView<Presenter> {
         String getChatId();
 
+        void setIsInGroup(boolean isInGroup);
+
         void updateGroup(ChatGroupBean chatGroupBean);
 
         void getGroupInfoSuccess(ChatGroupNewBean chatGroupBean);
@@ -52,7 +54,7 @@ public interface ChatInfoContract {
 
         void setBannedPostSuccess();
 
-        boolean getIsAddGroup();
+        boolean getIsInGroup();
 
         void goChatActivity();
 
@@ -61,6 +63,8 @@ public interface ChatInfoContract {
 
     interface Presenter extends IBasePresenter {
         boolean isGroupOwner();
+
+        void getIsInGroup();
 
         void updateGroup(ChatGroupBean chatGroupBean, boolean isEditGroupFace);
 

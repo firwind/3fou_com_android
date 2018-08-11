@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.modules.chat.info;
 import android.os.Bundle;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.exceptions.HyphenateException;
@@ -33,6 +34,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -72,6 +74,40 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
     }
 
     @Override
+    public void getIsInGroup() {
+        Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(rx.Subscriber<? super Boolean> subscriber) {
+                List<EMGroup> groupList = null;
+                try {
+                    groupList = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+                } catch (HyphenateException e) {
+                    //e.printStackTrace();
+                }
+                boolean isInGroup = false;
+                if(null != groupList && groupList.size() > 0 ){
+                    for (EMGroup group:groupList) {
+                        if(group.getGroupId().equals(mRootView.getGroupBean().getId())){
+                            isInGroup = true;
+                            break;
+                        }
+                    }
+                }
+                subscriber.onNext(isInGroup);
+                subscriber.onCompleted();
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<Boolean>() {
+                    @Override
+                    protected void onSuccess(Boolean data) {
+                        mRootView.setIsInGroup(data);
+                    }
+                });
+    }
+
+    @Override
     public void destoryOrLeaveGroup(String chatId) {
         Observable.just(chatId)
                 .subscribeOn(Schedulers.io())
@@ -86,25 +122,13 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                                     }
                                 });
                     } else {
-                        if (mRootView.getIsAddGroup()) {
+                        if (mRootView.getIsInGroup()) {
                             // 退群
-                                /*try {
-                                    EMClient.getInstance().groupManager().leaveGroup(id);
-                                } catch (HyphenateException e) {
-                                    e.printStackTrace();
-                                }*/
-                            //EMClient.getInstance().chatManager().deleteConversation(id, true);
-
                             return mRepository.removeGroupMember(mRootView.getGroupBean().getId(),
                                     String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()),
                                     mRootView.getGroupBean().getGroup_level()).flatMap(o -> Observable.just(id));
                         } else {
                             // 加群
-                                /*try {
-                                    EMClient.getInstance().groupManager().joinGroup(id);//需异步处理
-                                } catch (HyphenateException e) {
-                                    e.printStackTrace();
-                                }*/
                             return mRepository.addGroupMember(mRootView.getGroupBean().getId(),
                                     String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id())
                                     , mRootView.getGroupBean().getGroup_level())
@@ -119,7 +143,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
-                        if (mRootView.getIsAddGroup()) {
+                        if (mRootView.getIsInGroup()) {
                             EMClient.getInstance().chatManager().deleteConversation(data, true);
                             EventBus.getDefault().post(data, EVENT_IM_DELETE_QUIT);
                             mRootView.closeCurrentActivity();

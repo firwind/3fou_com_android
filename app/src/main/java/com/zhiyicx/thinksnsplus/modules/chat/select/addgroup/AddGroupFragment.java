@@ -184,7 +184,7 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
             ChatActivity.startChatActivity(mActivity, conversation.conversationId(), CHATTYPE_GROUP);
 //            mActivity.finish();
         } else {//
-            ChatInfoActivity.startChatInfoActivity(getContext(), isExist, id, CHATTYPE_GROUP);
+            ChatInfoActivity.startChatInfoActivity(getContext(), id, CHATTYPE_GROUP);
 
         }
     }

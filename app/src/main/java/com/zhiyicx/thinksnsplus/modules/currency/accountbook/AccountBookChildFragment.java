@@ -122,8 +122,8 @@ public class AccountBookChildFragment extends TSListFragment<AccountBookChildCon
                 holder.getTextView(R.id.tv_num).setTextColor(grayColor);
 
                 holder.getTextView(R.id.tv_num).setText("数量："+accountBookListBean.number+accountBookListBean.currency);
-                holder.getTextView(R.id.tv_cost_num).setText("实际扣除："+accountBookListBean.service_charge+accountBookListBean.currency);
-                holder.getTextView(R.id.tv_service_num).setText("手续费："+accountBookListBean.service_charge+accountBookListBean.currency);
+                holder.getTextView(R.id.tv_cost_num).setText("实际扣除："+accountBookListBean.number+accountBookListBean.currency);
+                holder.getTextView(R.id.tv_service_num).setText("手续费："+accountBookListBean.fee+accountBookListBean.currency);
                 holder.getTextView(R.id.tv_record_time).setText(format.format(new Date(accountBookListBean.updated_time*1000)));
 
                 String address = "地址："+ (TextUtils.isEmpty(accountBookListBean.toaddress)?"":accountBookListBean.toaddress);

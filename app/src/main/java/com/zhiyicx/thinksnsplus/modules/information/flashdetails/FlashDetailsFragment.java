@@ -156,8 +156,12 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
             tvInfoContent.setText(infoListDataBean.getContent());
             int sun = infoListDataBean.getDigg_count() + infoListDataBean.getUndigg_count();
 
-            float fBull = infoListDataBean.getUndigg_count() / sun;
-            float fFall = infoListDataBean.getDigg_count() / sun;
+            float fBull = 0;
+            float fFall = 0;
+            if(sun != 0){
+                fBull = infoListDataBean.getUndigg_count() / sun;
+                fFall = infoListDataBean.getDigg_count() / sun;
+            }
             mBull.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) DeviceUtils.dpToPixel(getContext(), 2), fBull));
             mFall.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) DeviceUtils.dpToPixel(getContext(), 2), fFall));
         }

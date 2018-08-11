@@ -8,6 +8,7 @@ import com.github.tamir7.contacts.Contact;
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 
+import static com.hyphenate.easeui.EaseConstant.CHATTYPE_SINGLE;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_CHAT_TYPE;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_ADD_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
@@ -23,7 +24,8 @@ public class ChatInfoActivity extends TSActivity<ChatInfoPresenter, ChatInfoFrag
 
     @Override
     protected ChatInfoFragment getFragment() {
-        return new ChatInfoFragment().instance(getIntent().getExtras());
+        return ChatInfoFragment.newInstance(getIntent().getStringExtra(EXTRA_TO_USER_ID),
+                getIntent().getIntExtra(EXTRA_CHAT_TYPE,CHATTYPE_SINGLE));
     }
 
     @Override
@@ -35,13 +37,10 @@ public class ChatInfoActivity extends TSActivity<ChatInfoPresenter, ChatInfoFrag
                 .inject(this);
     }
 
-    public static void startChatInfoActivity(Context context,boolean isAddGroup,String groupId,int chatType){
+    public static void startChatInfoActivity(Context context,String groupId,int chatType){
         Intent intent = new Intent(context, ChatInfoActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_TO_USER_ID, groupId);
-        bundle.putInt(EXTRA_CHAT_TYPE, chatType);
-        bundle.putBoolean(EXTRA_IS_ADD_GROUP,isAddGroup);
-        intent.putExtras(bundle);
+        intent.putExtra(EXTRA_TO_USER_ID, groupId);
+        intent.putExtra(EXTRA_CHAT_TYPE, chatType);
         context.startActivity(intent);
     }
 }
