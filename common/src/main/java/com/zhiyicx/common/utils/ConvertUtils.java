@@ -15,6 +15,7 @@ import android.support.annotation.FloatRange;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -967,10 +968,21 @@ public class ConvertUtils {
      * @return bitmap
      */
     public static Bitmap view2Bitmap(View view) {
+        Bitmap ret = null;
         if (view == null) {
             return null;
         }
-        Bitmap ret = Bitmap.createBitmap(view.getWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        int h = 0;
+        if (view instanceof ScrollView) {
+            // 获取scrollview实际高度
+            for (int i = 0; i < ((ScrollView) view).getChildCount(); i++) {
+                h += ((ScrollView) view).getChildAt(i).getHeight();
+                ret = Bitmap.createBitmap(view.getWidth(), h, Bitmap.Config.RGB_565);
+            }
+        } else {
+            ret = Bitmap.createBitmap(view.getWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        }
         Canvas canvas = new Canvas(ret);
         Drawable bgDrawable = view.getBackground();
         if (bgDrawable != null) {
@@ -1067,8 +1079,8 @@ public class ConvertUtils {
         return new Gson().toJson(obj);
     }
 
-    public static <T> T string2Object(String str,Class<T> clazz){
-        return new Gson().fromJson(str,clazz);
+    public static <T> T string2Object(String str, Class<T> clazz) {
+        return new Gson().fromJson(str, clazz);
     }
 
     /**

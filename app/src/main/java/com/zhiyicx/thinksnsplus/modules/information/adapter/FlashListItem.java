@@ -53,6 +53,7 @@ public abstract class FlashListItem implements ItemViewDelegate<BaseListBean> {
                         final int position, int itemCounts) {
         final InfoListDataBean realData = (InfoListDataBean) baseListBean;
         final TextView title = holder.getView(R.id.item_info_title);
+        final TextView mTvContent = holder.getView(R.id.item_info_content);
         final TextView mTRise = holder.getView(R.id.tv_top_flag);
         final ImageView mIRise = holder.getView(R.id.iv_top_flag);
         final TextView mTFall = holder.getView(R.id.tv_bear_news);
@@ -92,7 +93,7 @@ public abstract class FlashListItem implements ItemViewDelegate<BaseListBean> {
 
         RxView.clicks(share)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
-                .subscribe(aVoid -> itemClick(position, share, title, realData));
+                .subscribe(aVoid -> itemClick(position, share, title,mTvContent, realData));
         RxView.clicks(mLRise)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
                 .subscribe(aVoid ->
@@ -129,7 +130,7 @@ public abstract class FlashListItem implements ItemViewDelegate<BaseListBean> {
 
     }
 
-    public abstract void itemClick(int position, TextView textView, TextView title,
+    public abstract void itemClick(int position, TextView textView,TextView content, TextView title,
                                    InfoListDataBean realData);
 
     public abstract void bullClick(int position,InfoListDataBean realData);

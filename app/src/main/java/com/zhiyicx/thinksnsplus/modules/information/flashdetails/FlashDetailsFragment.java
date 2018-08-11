@@ -39,6 +39,8 @@ import com.zhiyicx.thinksnsplus.widget.NoDefaultPadingTextView;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -80,7 +82,6 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
         return fragment;
     }
 
-
     @Override
     protected void initView(View rootView) {
         StatusBarUtils.statusBarDarkMode(mActivity);
@@ -92,13 +93,8 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
                     | WindowManager.LayoutParams.FLAG_FULLSCREEN);
             mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             rootView.setFitsSystemWindows(false);
-
         }
-
-
         initShare();
-
-
     }
 
 
@@ -148,26 +144,31 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
     protected void initData() {
         if (getArguments() != null) {
             infoListDataBean = (InfoListDataBean) getArguments().getSerializable(BUNDLE_INFO);
-            tvBull.setText(getString(R.string.bull)+infoListDataBean.getDigg_count());
-            tvBearNews.setText(getString(R.string.bear_news)+infoListDataBean.getUndigg_count());
-            tvTime.setText( TimeUtils.getTimeFriendlyNormal(infoListDataBean
+            tvBull.setText(getString(R.string.bull) + infoListDataBean.getDigg_count());
+            tvBearNews.setText(getString(R.string.bear_news) + infoListDataBean.getUndigg_count());
+            tvTime.setText(TimeUtils.getTimeFriendlyNormal(infoListDataBean
                     .getCreated_at()));
             tvInfoTitle.setText(infoListDataBean.getTitle());
             tvInfoContent.setText(infoListDataBean.getContent());
-            int sun = infoListDataBean.getDigg_count() + infoListDataBean.getUndigg_count();
-
-            float fBull = 0;
-            float fFall = 0;
-            if(sun != 0){
-                fBull = infoListDataBean.getUndigg_count() / sun;
-                fFall = infoListDataBean.getDigg_count() / sun;
-            }
-            mBull.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) DeviceUtils.dpToPixel(getContext(), 2), fBull));
-            mFall.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) DeviceUtils.dpToPixel(getContext(), 2), fFall));
+            initLine();
         }
 
         closeLoadingView();
 
+    }
+
+    /**
+     * 初始化利空和利好比例直线
+     */
+    private void initLine() {
+        int sun = infoListDataBean.getDigg_count() + infoListDataBean.getUndigg_count();
+        DecimalFormat df = new DecimalFormat("0.00");//格式化小数
+        String numBull = df.format((float) infoListDataBean.getUndigg_count() / sun);//返回的是String类型
+        String numFall = df.format((float) infoListDataBean.getDigg_count() / sun);//返回的是String类型
+        float fBull = infoListDataBean.getUndigg_count() == 0 ? 1 : Float.valueOf(numBull) * 100;
+        float fFall = infoListDataBean.getDigg_count() == 0 ? 1 : Float.valueOf(numFall) * 100;
+        mBull.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) DeviceUtils.dpToPixel(getContext(), 2), fBull));
+        mFall.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) DeviceUtils.dpToPixel(getContext(), 2), fFall));
     }
 
     @Override
@@ -200,7 +201,6 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
     public void setInviteAndQrCode(InviteAndQrcode inviteAndQrCode) {
 
     }
-
 
     private static class ShareBean {
         int image;

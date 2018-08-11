@@ -111,12 +111,14 @@ public class FlashListFragment extends TSListFragment<InfoMainContract.FlashList
         adapter = new MultiItemTypeAdapter(getActivity(), mListDatas);
         adapter.addItemViewDelegate(new FlashListItem(false,getContext()) {
             @Override
-            public void itemClick(int position, TextView textView, TextView title, InfoListDataBean realData) {
+            public void itemClick(int position, TextView textView,TextView content, TextView title, InfoListDataBean realData) {
                 if (TouristConfig.INFO_DETAIL_CAN_LOOK || !mPresenter.handleTouristControl()) {
                     if (!AppApplication.sOverRead.contains(realData.getId())) {
                         AppApplication.sOverRead.add(realData.getId().intValue());
                     }
                     title.setTextColor(getResources()
+                            .getColor(R.color.normal_for_assist_text));
+                    content.setTextColor(getResources()
                             .getColor(R.color.normal_for_assist_text));
                     FlashDetailsActivity.startActivity(getContext(),realData);
                 }

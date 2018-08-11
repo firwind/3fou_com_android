@@ -162,7 +162,6 @@ public class UpLoadFile {
                     String mimeType = FileUtils.getMimeTypeByFile(file);
                     RequestBody imageBody = null;
 
-
                     if(isZip){
 
                         BitmapFactory.Options onlyGetSizeOptions = new BitmapFactory.Options();
