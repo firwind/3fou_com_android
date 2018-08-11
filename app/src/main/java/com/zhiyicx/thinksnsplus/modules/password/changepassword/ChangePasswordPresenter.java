@@ -64,7 +64,15 @@ public class ChangePasswordPresenter extends AppBasePresenter<ChangePasswordCont
             }
             @Override
             protected void onFailure(String message, int code) {
+                mRootView.dismissSnackBar();
                 mRootView.showMessage(message);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                mRootView.dismissSnackBar();
+                mRootView.showMessage("网络异常！");
             }
         };
 

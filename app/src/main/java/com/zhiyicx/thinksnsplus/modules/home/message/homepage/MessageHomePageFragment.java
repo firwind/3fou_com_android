@@ -199,7 +199,7 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
         mBtNews = (CombinationButton) head.findViewById(R.id.bt_check_news);
         mBtNews.setRightText("查看更多");
         mBtNews.setOnClickListener(v -> {
-            ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).setPagerSelection(2);
+            ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).goToNewsPage(false);
         });
 
     }
@@ -330,11 +330,10 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
             startActivity(intent);
         }));
         list.add(new MenuItem(R.mipmap.icon_home_menu_flash, "7x24快讯", v -> {
-            // TODO: 2018/8/9  这里需要跳转到7*24快讯
-            ToastUtils.showToast(mActivity,"暂未开放~");
+            ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).goToNewsPage(true);
         }));
         list.add(new MenuItem(R.mipmap.icon_home_menu_news, "资讯", v -> {
-            mBtNews.callOnClick();
+            ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).goToNewsPage(false);
         }));
         list.add(new MenuItem(R.mipmap.icon_home_menu_market, "行情", v -> {
             MarketActivity.startMarketActivity(mActivity);

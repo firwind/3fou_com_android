@@ -37,6 +37,7 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -87,7 +88,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                 boolean isInGroup = false;
                 if(null != groupList && groupList.size() > 0 ){
                     for (EMGroup group:groupList) {
-                        if(group.getGroupId().equals(mRootView.getGroupBean().getId())){
+                        if(group.getGroupId().equals(mRootView.getChatId())){
                             isInGroup = true;
                             break;
                         }
@@ -110,7 +111,8 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
     @Override
     public void destoryOrLeaveGroup(String chatId) {
         Observable.just(chatId)
-                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .flatMap(id -> {
                     if (isGroupOwner()) {
                         // 解散群组
@@ -139,10 +141,13 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     //return Observable.just(id);
 
                 })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
+                        mRootView.dismissSnackBar();
+
                         if (mRootView.getIsInGroup()) {
                             EMClient.getInstance().chatManager().deleteConversation(data, true);
                             EventBus.getDefault().post(data, EVENT_IM_DELETE_QUIT);
@@ -263,7 +268,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
-                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                        mRootView.showSnackErrorMessage(mContext.getResources().getString(R.string.err_net_not_work));
                     }
 
                     @Override

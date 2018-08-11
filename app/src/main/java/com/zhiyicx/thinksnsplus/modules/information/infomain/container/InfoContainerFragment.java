@@ -143,8 +143,8 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
                 .build()
                 .inject(this);
         super.initView(rootView);
+
         mPresenter.getInfoType();
-        initPopWindow();
     }
 
     public static InfoContainerFragment newInstance() {
@@ -162,13 +162,13 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
         if (userCertificationInfo.getStatus() == UserCertificationInfo.CertifyStatusEnum.PASS.value || !publishInfoConfig.hasVerified()) {
             if (mPresenter.isNeedPayTip() && (publishInfoConfig != null
                     && publishInfoConfig.hasPay())) {
-                mPayAlertPopWindow.show();
+                showPayWindow();
             } else {
 
                 startActivity(new Intent(getActivity(), EditeInfoDetailActivity.class));
             }
         } else {
-            mCertificationAlertPopWindow.show();
+            showCertificationWindow();
         }
     }
 
@@ -268,7 +268,76 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
         mPresenter = infoContainerPresenter;
     }
 
-    private void initPopWindow() {
+
+    @Override
+    protected List<String> initTitles() {
+        if (mTitle == null) {
+            mTitle = new ArrayList<>();
+//            mTitle.add(getString(R.string.flash));
+        }
+        return mTitle;
+    }
+
+    @Override
+    protected List<Fragment> initFragments() {
+
+        if (mFragmentList == null) {
+            mFragmentList = new ArrayList<>();
+//            mFragmentList.add(InfoListFragment.newInstance(RECOMMEND_INFO));
+        }
+        return mFragmentList;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getActivity(), HomeActivity.class));
+    }
+
+    /**
+     * 切换方法，暴露给外部调用
+     * @param index
+     */
+    public void setCurrentItem(int index){
+        if(!isAdded())
+            return;
+        if(index >= mFragmentList.size())
+            index = 0;
+        if(mFragmentList.size() != 0)
+            mVpFragment.setCurrentItem(index,false);
+
+    }
+
+    /**
+     * 支付弹窗
+     */
+    private void showPayWindow(){
+        if (mPayAlertPopWindow == null) {
+            mPayAlertPopWindow = ActionPopupWindow.builder()
+                    .item1Str(getString(R.string.info_publish_hint))
+                    .item6Str(getString(R.string.info_publish_go_to_next))
+                    .desStr(getString(R.string.info_publish_hint_pay, mPresenter.getSystemConfigBean().getNewsPayContribute(), mPresenter.getGoldName()))
+                    .bottomStr(getString(R.string.cancel))
+                    .isOutsideTouch(true)
+                    .isFocus(true)
+                    .backgroundAlpha(CustomPopupWindow.POPUPWINDOW_ALPHA)
+                    .with(getActivity())
+                    .bottomClickListener(() -> mPayAlertPopWindow.hide())
+                    .item6ClickListener(() -> {
+                        mPayAlertPopWindow.hide();
+                        mPresenter.savePayTip(false);
+                        startActivity(new Intent(getActivity(), EditeInfoDetailActivity.class));
+                    })
+                    .build();
+        }
+
+        mPayAlertPopWindow.show();
+    }
+
+    /**
+     * 认证弹窗
+     */
+    private void showCertificationWindow(){
         if (mCertificationAlertPopWindow == null) {
             mCertificationAlertPopWindow = ActionPopupWindow.builder()
                     .item1Str(getString(R.string.info_publish_hint))
@@ -326,48 +395,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
                     })
                     .build();
         }
-        if (mPayAlertPopWindow == null) {
-            mPayAlertPopWindow = ActionPopupWindow.builder()
-                    .item1Str(getString(R.string.info_publish_hint))
-                    .item6Str(getString(R.string.info_publish_go_to_next))
-                    .desStr(getString(R.string.info_publish_hint_pay, mPresenter.getSystemConfigBean().getNewsPayContribute(), mPresenter.getGoldName()))
-                    .bottomStr(getString(R.string.cancel))
-                    .isOutsideTouch(true)
-                    .isFocus(true)
-                    .backgroundAlpha(CustomPopupWindow.POPUPWINDOW_ALPHA)
-                    .with(getActivity())
-                    .bottomClickListener(() -> mPayAlertPopWindow.hide())
-                    .item6ClickListener(() -> {
-                        mPayAlertPopWindow.hide();
-                        mPresenter.savePayTip(false);
-                        startActivity(new Intent(getActivity(), EditeInfoDetailActivity.class));
-                    })
-                    .build();
-        }
+        mCertificationAlertPopWindow.show();
     }
 
-    @Override
-    protected List<String> initTitles() {
-        if (mTitle == null) {
-            mTitle = new ArrayList<>();
-//            mTitle.add(getString(R.string.flash));
-        }
-        return mTitle;
-    }
-
-    @Override
-    protected List<Fragment> initFragments() {
-
-        if (mFragmentList == null) {
-            mFragmentList = new ArrayList<>();
-//            mFragmentList.add(InfoListFragment.newInstance(RECOMMEND_INFO));
-        }
-        return mFragmentList;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(getActivity(), HomeActivity.class));
-    }
 }

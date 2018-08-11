@@ -57,6 +57,11 @@ public class AccountBookFragment extends TSViewPagerFragmentV2{
     }
 
     @Override
+    protected int getOffsetPage() {
+        return 5;
+    }
+
+    @Override
     protected boolean showToolbar() {
         return true;
     }

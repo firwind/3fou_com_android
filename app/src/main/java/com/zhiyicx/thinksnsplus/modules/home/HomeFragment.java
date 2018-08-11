@@ -437,6 +437,14 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
     }
 
     /**
+     * 跳转资讯页
+     */
+    public void goToNewsPage(boolean isFastNews){
+        mVpHome.setCurrentItem(2);
+        ((InfoContainerFragment)mFragmentList.get(2)).setCurrentItem(isFastNews?0:1);
+    }
+
+    /**
      * 设置监听
      */
     private void initListener() {

@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.home.message.homepage;
 
 import android.support.v4.app.Fragment;
 
+import com.google.gson.Gson;
 import com.zhiyicx.common.utils.SharePreferenceUtils;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
@@ -31,6 +32,8 @@ public class MessageHomePagePresenter extends AppBasePresenter<MessageHomePageCo
     @Inject
     AllAdvertListBeanGreenDaoImpl mAllAdvertListBeanGreenDao;
 
+    private Gson gson = new Gson();
+
     @Inject
     public MessageHomePagePresenter(MessageHomePageContract.View rootView) {
         super(rootView);
@@ -42,8 +45,8 @@ public class MessageHomePagePresenter extends AppBasePresenter<MessageHomePageCo
                 .map(homeMessageIndexBean -> {
                     homeMessageIndexBean.setBanners(mAllAdvertListBeanGreenDao.getInfoBannerAdvert().getMRealAdvertListBeen());
                     //将首页数据缓存到本地
-                    SharePreferenceUtils.saveObject( ((Fragment)mRootView).getContext(),
-                            SharePreferenceTagConfig.SHAREPREFERENCE_TAG_HOME_INDEX_CACHE,homeMessageIndexBean);
+                    SharePreferenceUtils.saveString( ((Fragment)mRootView).getContext(),
+                            SharePreferenceTagConfig.SHAREPREFERENCE_TAG_HOME_INDEX_CACHE,gson.toJson(homeMessageIndexBean) );
                     return homeMessageIndexBean;
                 })
                 .subscribe(new BaseSubscribeForV2<HomeMessageIndexBean>() {
@@ -69,8 +72,13 @@ public class MessageHomePagePresenter extends AppBasePresenter<MessageHomePageCo
 
     @Override
     public void requestCacheData(Long maxId, boolean isLoadMore) {
-        HomeMessageIndexBean indexBean = SharePreferenceUtils.getObject( ((Fragment)mRootView).getContext(),
-                SharePreferenceTagConfig.SHAREPREFERENCE_TAG_HOME_INDEX_CACHE);
+        HomeMessageIndexBean indexBean = null;
+        try {
+            indexBean = gson.fromJson(SharePreferenceUtils.getString( ((Fragment)mRootView).getContext(),
+                    SharePreferenceTagConfig.SHAREPREFERENCE_TAG_HOME_INDEX_CACHE),HomeMessageIndexBean.class);
+        }catch (Exception e){
+
+        }
         mRootView.onCacheResponseSuccess(null == indexBean?null:indexBean.getNews(),isLoadMore);
         if(null != indexBean){
             mRootView.setHeaderData(indexBean);

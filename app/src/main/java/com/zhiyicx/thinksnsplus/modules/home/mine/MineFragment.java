@@ -18,6 +18,7 @@ import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.data.beans.BCWalletBean;
 import com.zhiyicx.thinksnsplus.data.beans.SendCertificationBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserCertificationInfo;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
@@ -401,6 +402,10 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
         String friendsCount = String.valueOf(userInfoBean.getFriends_count());
         mTvFriendsCount.setText(friendsCount);
 
+        String balance = "0.00";
+        if(null != mUserInfoBean.getBcwallet() && !TextUtils.isEmpty(mUserInfoBean.getBcwallet().getBalance()))
+            balance = mUserInfoBean.getBcwallet().getBalance();
+        mTvDigitalWalletCount.setText("¥ " + balance);
 
         if(null != this.mUserInfoBean.getCurrency() &&
                 !this.mUserInfoBean.getCurrency().isIs_sweet() &&

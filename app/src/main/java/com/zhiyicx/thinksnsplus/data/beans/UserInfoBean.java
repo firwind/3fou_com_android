@@ -162,6 +162,8 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     @Transient
     @SerializedName("new_wallet")
     private WalletBean wallet;
+    @Transient
+    private BCWalletBean bcwallet;
     /**
      * 糖果
      */
@@ -234,6 +236,14 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
 
     public void setInitial_password(boolean initial_password) {
         this.initial_password = initial_password;
+    }
+
+    public BCWalletBean getBcwallet() {
+        return bcwallet;
+    }
+
+    public void setBcwallet(BCWalletBean bcwallet) {
+        this.bcwallet = bcwallet;
     }
 
     public List<UserTagBean> getTags() {

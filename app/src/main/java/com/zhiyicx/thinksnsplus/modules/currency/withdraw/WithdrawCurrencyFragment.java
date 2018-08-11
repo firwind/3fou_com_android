@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.modules.currency.withdraw;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.address.CurrencyAddressActivity;
 import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
+import com.zhiyicx.thinksnsplus.utils.NumberScaleFilter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -75,6 +77,8 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     @Override
     protected void initView(View rootView) {
         setCenterTextColor(R.color.white);
+        InputFilter[] filters = new InputFilter[]{new NumberScaleFilter(10)};
+        mEtNum.setFilters(filters);
         mEtNum.addTextChangedListener(this);
     }
 
