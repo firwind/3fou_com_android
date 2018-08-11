@@ -266,8 +266,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @Override
     protected void initData() {
         if(mChatType == CHATTYPE_GROUP){
-            mPresenter.getGroupChatInfo(mChatId);
             mPresenter.getIsInGroup();
+            mPresenter.getGroupChatInfo(mChatId);
         }
         //获取置顶列表匹配
         mPresenter.getConversationStickList(mChatId);

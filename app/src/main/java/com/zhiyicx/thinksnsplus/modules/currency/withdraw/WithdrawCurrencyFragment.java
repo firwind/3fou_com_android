@@ -295,7 +295,10 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
             mEtNum.setSelection(mEtNum.getText().toString().length());
         }else {
             mTvTransfer.setText(new BigDecimal(edit).subtract(new BigDecimal(mTransferRate))
-                    .setScale(10,BigDecimal.ROUND_DOWN).toString() );
+                    .setScale(10,BigDecimal.ROUND_HALF_EVEN).toString() );
+            //ROUND_HALF_EVEN 银行家舍入法，4舍6入，5分两种情况，如果前一位为奇数，则进1，否则，舍去。
+            // 在重复进行一系列计算时，此舍入模式可以将累加错误减到最小。
+
         }
 
 

@@ -78,8 +78,8 @@ public class ExchangeCurrencyDialog extends HBaseDialog implements TextWatcher {
         mRate1 = new BigDecimal(mExchangeCurrencyRate.getNumber());
         mRate2 = new BigDecimal(mExchangeCurrencyRate.getNumber2());
         maxExchangeNum = new BigDecimal(mExchangeCurrencyRate.getBalance())
-                .divide(mRate1,10,BigDecimal.ROUND_UP)
-                .multiply(mRate2).setScale(10,BigDecimal.ROUND_UP);//保留10位小数，直接进位
+                .divide(mRate1,10,BigDecimal.ROUND_HALF_EVEN)//银行家舍入法
+                .multiply(mRate2).setScale(10,BigDecimal.ROUND_HALF_EVEN);//银行家舍入法
 
         getTextView(R.id.tv_avaliable_balance_desc).setText(mExchangeCurrencyRate.getCurrency()+"可用量");
         getTextView(R.id.tv_avaliable_balance).setText(String.valueOf(mExchangeCurrencyRate.getBalance()));
@@ -149,8 +149,8 @@ public class ExchangeCurrencyDialog extends HBaseDialog implements TextWatcher {
     }
 
     private BigDecimal calExchangeCost(double exchange_currency){
-        return new BigDecimal(exchange_currency).multiply(mRate1).divide(mRate2,10,BigDecimal.ROUND_UP)
-                .setScale(10,BigDecimal.ROUND_UP);//保留10位小数，直接进位
+        return new BigDecimal(exchange_currency).multiply(mRate1).divide(mRate2,10,BigDecimal.ROUND_HALF_EVEN)
+                .setScale(10,BigDecimal.ROUND_HALF_EVEN);//保留10位小数，银行家舍入法
     }
 
     public interface OnExchangeCurrencyListener{
