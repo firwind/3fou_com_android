@@ -159,10 +159,12 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     private String localAvatar;
     @SerializedName(value = "cover", alternate = {"bg"})
     private String cover;// 封面
-    @Transient
+    /*@Transient*/
+    @Convert(converter = WalletBeanConverter.class,columnType = String.class)
     @SerializedName("new_wallet")
     private WalletBean wallet;
-    @Transient
+    /*@Transient*/
+    @Convert(converter = BCWalletBeanConverter.class,columnType = String.class)
     private BCWalletBean bcwallet;
     /**
      * 糖果
@@ -757,6 +759,20 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
 
     }
 
+    /**
+     * walletbean 转 String 形式存入数据库
+     */
+    public static class WalletBeanConverter extends BaseConvert<WalletBean> {
+
+    }
+
+    /**
+     * BCWalletBean 转STring形式存入数据库
+     */
+    public static class BCWalletBeanConverter extends BaseConvert<BCWalletBean>{
+
+    }
+
     @Override
     public Long getMaxId() {
         return user_id;
@@ -787,11 +803,11 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     }
 
 
-    @Generated(hash = 2103686142)
+    @Generated(hash = 2108607899)
     public UserInfoBean(Long user_id, String name, String phone, String email, String intro, int sex, String location, boolean pay_password,
             boolean following, boolean follower, String created_at, String updated_at, String deleted_at, String avatar, String localAvatar,
-            String cover, IntegrationBean currency, UserInfoExtraBean extra, VerifiedBean verified, List<UserTagBean> tags, String im_pwd_hash,
-            int friends_count, boolean initial_password, boolean has_deleted, boolean blacked) {
+            String cover, WalletBean wallet, BCWalletBean bcwallet, IntegrationBean currency, UserInfoExtraBean extra, VerifiedBean verified,
+            List<UserTagBean> tags, String im_pwd_hash, int friends_count, boolean initial_password, boolean has_deleted, boolean blacked) {
         this.user_id = user_id;
         this.name = name;
         this.phone = phone;
@@ -808,6 +824,8 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.avatar = avatar;
         this.localAvatar = localAvatar;
         this.cover = cover;
+        this.wallet = wallet;
+        this.bcwallet = bcwallet;
         this.currency = currency;
         this.extra = extra;
         this.verified = verified;
