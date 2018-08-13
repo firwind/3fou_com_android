@@ -16,6 +16,19 @@
         android:paddingTop="@dimen/dp10"
         android:paddingBottom="@dimen/dp10"/>
 
+    <TextView
+        android:id="@+id/tv_interest_details"
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="明细"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp13"
+        android:paddingLeft="@dimen/dp20"
+        android:paddingRight="@dimen/dp20"
+        android:paddingTop="@dimen/dp10"
+        android:paddingBottom="@dimen/dp10"/>
+
     <LinearLayout
         android:layout_marginTop="28dp"
         android:layout_width="match_parent"

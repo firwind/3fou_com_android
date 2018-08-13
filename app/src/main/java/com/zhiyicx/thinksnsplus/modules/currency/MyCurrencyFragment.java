@@ -15,6 +15,8 @@ import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.common.utils.StatusBarUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.data.beans.AuthBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyExchangeBean;
 import com.zhiyicx.thinksnsplus.data.beans.ExchangeCurrencyRate;
@@ -29,6 +31,8 @@ import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.modules.currency.exchange.ExchangeCurrencyDialog;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+
+import java.util.HashMap;
 
 /**
  * author: huwenyong
@@ -66,6 +70,18 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
         headerView.findViewById(R.id.bt_join).setOnClickListener(v->
                 startActivity(new Intent(mActivity, CurrencyInterestActivity.class)));
         mTvYearRate = (TextView) headerView.findViewById(R.id.tv_year_rate);
+
+        //明细
+        headerView.findViewById(R.id.tv_interest_details).setOnClickListener(v -> {
+            HashMap<String, String> headers = new HashMap();
+            AuthBean authBean = AppApplication.getmCurrentLoginAuth();
+            if (authBean != null) {
+                headers.put("Authorization", authBean.getToken());
+            }
+            CustomWEBActivity.startToWEBActivity(mActivity,headers,
+                    String.format(ApiConfig.URL_CURRENCY_INTEREST_RECORD+"?from=app&token=%s",
+                            authBean.getToken()));
+        });
     }
 
 

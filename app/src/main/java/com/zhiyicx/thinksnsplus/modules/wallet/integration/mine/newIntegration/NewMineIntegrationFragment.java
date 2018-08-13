@@ -232,8 +232,11 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
                 holder.getTextView(R.id.tv_rule_desc).setText(integrationRuleBean.getDec());
                 holder.getTextView(R.id.tv_rule_desc).setVisibility(integrationRuleBean.isExpand()? View.VISIBLE:View.GONE);
                 holder.getView(R.id.iv_expand).setRotation(integrationRuleBean.isExpand()?180:0);
-                holder.getTextView(R.id.tv_invite).setText(!TextUtils.isEmpty(integrationRuleBean.getStr()) &&
-                        integrationRuleBean.getStr().contains("register")?"立即邀请":"暂未开放");
+
+                holder.getTextView(R.id.tv_invite).setVisibility(!TextUtils.isEmpty(integrationRuleBean.getStr()) &&
+                        integrationRuleBean.getStr().contains("register")?View.VISIBLE:View.INVISIBLE);
+                /*holder.getTextView(R.id.tv_invite).setText(!TextUtils.isEmpty(integrationRuleBean.getStr()) &&
+                        integrationRuleBean.getStr().contains("register")?"立即邀请":"暂未开放");*/
                 holder.getView(R.id.ll_parent).setOnClickListener(v -> {
                     integrationRuleBean.setExpand(!integrationRuleBean.isExpand());
                     NewMineIntegrationFragment.this.refreshData();
