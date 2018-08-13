@@ -118,16 +118,17 @@ public class SettingAdminPresenter extends AppBasePresenter<SettingAdminContract
                     }
 
                     @Override
-                    protected void onException(Throwable throwable) {
-                        super.onException(throwable);
-                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
+
                 });
 
         addSubscrebe(subscription);
@@ -161,16 +162,17 @@ public class SettingAdminPresenter extends AppBasePresenter<SettingAdminContract
                     }
 
                     @Override
-                    protected void onException(Throwable throwable) {
-                        super.onException(throwable);
-                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
+
                 });
         addSubscrebe(subscription);
     }

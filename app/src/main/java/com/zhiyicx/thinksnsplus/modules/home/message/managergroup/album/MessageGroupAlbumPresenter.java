@@ -4,6 +4,7 @@ import com.zhiyicx.baseproject.impl.photoselector.ImageBean;
 import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
+import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
@@ -123,9 +124,15 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
             }
 
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                mRootView.showSnackErrorMessage(e.getMessage());
+            protected void onFailure(String message, int code) {
+                super.onFailure(message, code);
+                mRootView.showSnackErrorMessage(message);
+            }
+
+            @Override
+            protected void onException(Throwable throwable) {
+                super.onException(throwable);
+                mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
             }
 
             @Override
@@ -147,9 +154,15 @@ public class MessageGroupAlbumPresenter extends AppBasePresenter<MessageGroupAlb
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
 
                 }));

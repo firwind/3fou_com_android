@@ -29,7 +29,8 @@
             android:gravity="bottom"
             android:textColorHint="@color/gray_normal"
             android:textColor="@color/black_deep"
-            android:hint="请输入..."/>
+            android:hint="请输入..."
+            android:digits="@string/only_number_or_letter"/>
         
         <ImageView
             android:id="@+id/iv_address"

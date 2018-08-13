@@ -159,13 +159,13 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
                     @Override
                     protected void onException(Throwable throwable) {
-                        mRootView.showSnackErrorMessage(mContext.getString(R.string.bill_doing_fialed));
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(mContext.getString(R.string.bill_doing_fialed));
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
                 });
     }
@@ -213,16 +213,17 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     }
 
                     @Override
-                    protected void onException(Throwable throwable) {
-                        super.onException(throwable);
-                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
+
                 });
         addSubscrebe(subscription);
     }
@@ -241,14 +242,15 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
-                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
+
                 });
         addSubscrebe(subscription);
     }
@@ -272,10 +274,11 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
+
                 });
         addSubscrebe(subscription);
     }
@@ -304,14 +307,15 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
-                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
+
                 });
         addSubscrebe(subscription);
     }
@@ -399,7 +403,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
-                        mRootView.showSnackErrorMessage(throwable.getMessage());
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
 
                     @Override
