@@ -54,7 +54,7 @@ public class WithdrawCurrencyPresenter extends AppBasePresenter<WithdrawCurrency
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
-                        mRootView.showSnackSuccessMessage("提币成功！");
+                        mRootView.showSnackSuccessMessage("已提交审核！");
                     }
 
                     @Override
