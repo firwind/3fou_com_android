@@ -27,6 +27,7 @@ import com.zhiyicx.thinksnsplus.data.beans.MarketCurrencyBean;
 import com.zhiyicx.thinksnsplus.data.beans.MenuItem;
 import com.zhiyicx.thinksnsplus.data.beans.RealAdvertListBean;
 import com.zhiyicx.thinksnsplus.data.beans.HomeMessageIndexBean;
+import com.zhiyicx.thinksnsplus.modules.circle.main.CircleMainActivity;
 import com.zhiyicx.thinksnsplus.modules.circle.mine.container.MyCircleContainerActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.MyCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.interest.CurrencyInterestActivity;
@@ -314,7 +315,7 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
             ((MessageContainerFragment)getParentFragment()).setCurrentItem(1);
         }));
         list.add(new MenuItem(R.mipmap.icon_home_menu_community, "社区", v -> {
-            startActivity(new Intent(mActivity, MyCircleContainerActivity.class));
+            startActivity(new Intent(getActivity(), CircleMainActivity.class));
         }));
         list.add(new MenuItem(R.mipmap.icon_home_menu_friend_circle, "朋友圈", v -> {
             startActivity(new Intent(getActivity(), MainActivity.class));
