@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.currency.withdraw;
 
+import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.WithdrawCurrencyBean;
@@ -61,6 +62,12 @@ public class WithdrawCurrencyPresenter extends AppBasePresenter<WithdrawCurrency
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);
                         mRootView.showSnackErrorMessage(message);
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
                 });
     }
