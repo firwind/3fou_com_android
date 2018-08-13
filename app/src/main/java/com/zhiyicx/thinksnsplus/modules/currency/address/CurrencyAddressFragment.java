@@ -80,6 +80,11 @@ public class CurrencyAddressFragment extends TSListFragment<CurrencyAddressContr
     }
 
     @Override
+    protected boolean isLoadingMoreEnable() {
+        return false;
+    }
+
+    @Override
     protected int setToolBarBackgroud() {
         return R.color.themeColor;
     }

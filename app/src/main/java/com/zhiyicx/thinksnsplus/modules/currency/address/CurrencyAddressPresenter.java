@@ -1,6 +1,7 @@
 package com.zhiyicx.thinksnsplus.modules.currency.address;
 
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
+import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyAddress;
@@ -72,20 +73,22 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
+                        mRootView.dismissSnackBar();
                         mRootView.startRefrsh();
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
 
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                        mRootView.dismissSnackBar();
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
+
                 }));
     }
 
@@ -99,20 +102,22 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
+                        mRootView.dismissSnackBar();
                         mRootView.startRefrsh();
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
 
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                        mRootView.dismissSnackBar();
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
+
                 }));
     }
 
@@ -127,19 +132,20 @@ public class CurrencyAddressPresenter extends AppBasePresenter<CurrencyAddressCo
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {
+                        mRootView.dismissSnackBar();
                         mRootView.startRefrsh();
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
                     }
 
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                        mRootView.dismissSnackBar();
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
 
                 }));
