@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -74,7 +75,8 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
     NoDefaultPadingTextView tvInfoTitle;
     @BindView(R.id.tv_info_content)
     NoDefaultPadingTextView tvInfoContent;
-    Unbinder unbinder;
+    @BindView(R.id.iv_back)
+    ImageView mIvBack;
 
     public static FlashDetailsFragment newInstance(Bundle bundle) {
         FlashDetailsFragment fragment = new FlashDetailsFragment();
@@ -95,6 +97,12 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
             rootView.setFitsSystemWindows(false);
         }
         initShare();
+
+        int statusBarHeight = com.zhiyicx.common.utils.DeviceUtils.getStatuBarHeight(mActivity);
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mIvBack.getLayoutParams();
+        params.topMargin = statusBarHeight;
+        mIvBack.setLayoutParams(params);
+        mIvBack.setOnClickListener(v -> getActivity().onBackPressed());
     }
 
 
