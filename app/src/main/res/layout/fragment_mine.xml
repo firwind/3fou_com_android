@@ -368,7 +368,7 @@
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
                 app:showLine="true" />
 
-            <!--我的圈子-->
+            <!--我的社区-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/bt_my_group"
                 android:layout_width="match_parent"

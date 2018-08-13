@@ -36,7 +36,7 @@ import static com.zhiyicx.thinksnsplus.modules.certification.input.Certification
  * @author Jliuer
  * @Date 2017/11/14/11:28
  * @Email Jliuer@aliyun.com
- * @Description 圈子首页
+ * @Description 社区首页
  */
 public class CircleMainFragment extends TSListFragment<CircleMainContract.Presenter, CircleInfo>
         implements CircleMainContract.View, BaseCircleItem.CircleItemItemEvent {

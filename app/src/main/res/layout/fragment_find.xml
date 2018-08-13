@@ -35,7 +35,7 @@
                 app:leftImage="@mipmap/discover_friend_ram"
                 app:leftText="@string/friend_ram"
                 app:rightImage="@mipmap/ic_arrow_smallgrey" />
-            <!--圈子-->
+            <!--社区-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
                 android:id="@+id/find_chanel"
                 android:layout_width="match_parent"

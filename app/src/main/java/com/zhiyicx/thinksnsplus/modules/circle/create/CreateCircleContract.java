@@ -17,7 +17,7 @@ public interface CreateCircleContract {
         void setCircleInfo(CircleInfo data);
 
         /**
-         * 用于圈子协议
+         * 用于社区协议
          */
         void setCircleRule(String rule);
     }

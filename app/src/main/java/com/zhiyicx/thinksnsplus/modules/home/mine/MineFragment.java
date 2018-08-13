@@ -330,7 +330,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
                 startActivity(new Intent(mActivity, MyQuestionActivity.class));
                 break;
             case R.id.bt_my_group:
-                // 我的圈子
+                // 我的社区
                 startActivity(new Intent(mActivity, MyCircleContainerActivity.class));
                 break;
             case R.id.ll_friends_container:

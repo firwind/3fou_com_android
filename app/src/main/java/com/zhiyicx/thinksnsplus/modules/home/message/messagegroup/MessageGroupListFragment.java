@@ -22,6 +22,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
+import com.zhiyicx.thinksnsplus.modules.chat.info.ChatInfoActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.holder.GroupItemAdapter;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.holder.SecondaryListAdapter;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
@@ -42,6 +43,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.hyphenate.easeui.EaseConstant.CHATTYPE_GROUP;
 
 /**
  * @Author Jliuer
@@ -207,6 +210,7 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
                 public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                     ChatGroupBean groupBean = mListDatas.get(position);
                     mPresenter.checkGroupExist(groupBean);
+
                 }
 
                 @Override
@@ -220,10 +224,16 @@ public class MessageGroupListFragment extends TSListFragment<MessageGroupContrac
 
     @Override
     public void checkGroupExist(String id) {
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
-        ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
-//            mActivity.finish();
+
+            EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
+            ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
     }
+
+    @Override
+    public void gotoChatInfoActivity(String id) {
+        ChatInfoActivity.startChatInfoActivity(getContext(), id, CHATTYPE_GROUP);
+    }
+
     private CenterAlertPopWindow mGroupFailingPop;
     @Override
     public void addGroupFailing(String msg) {

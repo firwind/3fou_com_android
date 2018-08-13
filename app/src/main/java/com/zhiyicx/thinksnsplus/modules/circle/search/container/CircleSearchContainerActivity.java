@@ -10,7 +10,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.modules.q_a.search.list.IHistoryCententClickListener;
 
 /**
- * @Describe 圈子搜索容器
+ * @Describe 社区搜索容器
  * @Author zl
  * @Date 2017/12/7
  * @Contact master.jungle68@gmail.com

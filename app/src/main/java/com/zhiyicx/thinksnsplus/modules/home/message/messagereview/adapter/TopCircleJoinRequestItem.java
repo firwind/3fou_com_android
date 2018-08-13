@@ -39,7 +39,7 @@ import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
  * @Author Jliuer
  * @Date 2017/12/13/9:59
  * @Email Jliuer@aliyun.com
- * @Description 圈子加入的审核
+ * @Description 社区加入的审核
  */
 public class TopCircleJoinRequestItem extends BaseTopItem implements BaseTopItem.TopReviewEvetnInterface {
 

@@ -28,16 +28,16 @@ public class CircleInfo extends BaseListBean implements Serializable {
     private static final long serialVersionUID = 4393338023102640914L;
     /**
      * 名称	类型	说明
-     id	integer	圈子唯一id
-     name	string	圈子名称
+     id	integer	社区唯一id
+     name	string	社区名称
      user_id	integer	所属用户id
-     category_id	integer	圈子所属分类id
-     location	string	圈子位置
+     category_id	integer	社区所属分类id
+     location	string	社区位置
      longitude	string	经度
      latitude	string	纬度
      geo_hash	string	geoHash
      allow_feed	integer	是否允许同步动态，0 不允许 1允许
-     mode	string	圈子类型:public: 公开，private：私有，paid：付费的
+     mode	string	社区类型:public: 公开，private：私有，paid：付费的
      permissions	string	发帖权限:member,administrator,founder 所有，administrator,founder 管理员和圈主，administrator圈主
      money	string	如果 mode 为 paid 用于标示收费金额
      summary	string	简介
@@ -65,7 +65,7 @@ public class CircleInfo extends BaseListBean implements Serializable {
      * allow_feed : 0
      * mode : public
      * money : 0
-     * summary : 第二个圈子
+     * summary : 第二个社区
      * notice :
      * users_count : 0
      * posts_count : 0

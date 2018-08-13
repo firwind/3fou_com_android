@@ -390,7 +390,7 @@ public class CircleDetailPresenter extends AppBasePresenter<CircleDetailContract
     }
 
     /**
-     * 分享圈子
+     * 分享社区
      *
      * @param circleinfo
      * @param shareBitMap

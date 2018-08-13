@@ -101,9 +101,9 @@ public class ReportRepository implements IReportRepository {
     }
 
     /**
-     * 举报圈子
+     * 举报社区
      *
-     * @param groupId 圈子 id
+     * @param groupId 社区 id
      * @param reason  举报原因
      * @return
      */
@@ -115,7 +115,7 @@ public class ReportRepository implements IReportRepository {
     }
 
     /**
-     * 举报圈子帖子
+     * 举报社区帖子
      *
      * @param postId 帖子 id
      * @param reason 举报原因
@@ -129,7 +129,7 @@ public class ReportRepository implements IReportRepository {
     }
 
     /**
-     * 圈子评论举报
+     * 社区评论举报
      *
      * @param commentId 评论 id
      * @param reason    举报原因

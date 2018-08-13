@@ -11,7 +11,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * @Describe 圈子搜索
+ * @Describe 社区搜索
  * @Author zl
  * @Date 2017/4/11
  * @Contact master.jungle68@gmail.com
@@ -78,7 +78,7 @@ public class CircleSearchBeanGreenDaoImpl extends CommonCacheImpl<CircleSearchHi
     }
 
     /**
-     * @return 全部圈子搜索历史
+     * @return 全部社区搜索历史
      */
     public List<CircleSearchHistoryBean> getCircleSearchHistory() {
         CircleSearchHistoryBeanDao circleSearchHistoryBeanDao = getRDaoSession().getCircleSearchHistoryBeanDao();
@@ -89,7 +89,7 @@ public class CircleSearchBeanGreenDaoImpl extends CommonCacheImpl<CircleSearchHi
     }
 
     /**
-     * @return 全部圈子帖子搜索历史
+     * @return 全部社区帖子搜索历史
      */
     public List<CircleSearchHistoryBean> getCirclePostSearchHistory() {
         CircleSearchHistoryBeanDao circleSearchHistoryBeanDao = getRDaoSession().getCircleSearchHistoryBeanDao();

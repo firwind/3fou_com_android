@@ -47,7 +47,7 @@ public class PostDraftBean extends BaseDraftBean implements Parcelable, Serializ
     private boolean hasSynToDynamic;
 
     /**
-     * 圈子id
+     * 社区id
      */
     private Long id;
 

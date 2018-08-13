@@ -115,7 +115,7 @@ public class CircleListItem extends BaseCircleItem {
                 .format();
         circleMemberCount.setText(followString);
 
-        // 界面标记---我加入的圈子，不需要加入操作
+        // 界面标记---我加入的社区，不需要加入操作
         if (mIsMineJoined) {
             TextView tvRole = holder.getView(R.id.tv_role);
             if (circleInfo.getJoined() != null && CircleInfo.CircleRole.FOUNDER.value.equals

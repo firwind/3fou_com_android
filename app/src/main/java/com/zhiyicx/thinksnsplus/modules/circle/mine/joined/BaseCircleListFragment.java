@@ -27,7 +27,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * @Describe 圈子类别基类
+ * @Describe 社区类别基类
  * @Author zl
  * @Date 2017/12/6
  * @Contact master.jungle68@gmail.com

@@ -54,7 +54,7 @@ public abstract class BaseMarkdownActivity<P extends MarkdownPresenter,F extends
      * 圈内发帖
      *
      * @param context
-     * @param circleInfo 圈子信息
+     * @param circleInfo 社区信息
      */
     public static void startActivityForPublishPostInCircle(Context context, CircleInfo circleInfo) {
         Intent intent = new Intent(context, PublishPostActivity.class);

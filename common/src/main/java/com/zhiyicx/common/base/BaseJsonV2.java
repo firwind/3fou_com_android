@@ -20,10 +20,10 @@ public class BaseJsonV2<T> {
      * 数据类型
      * answer         --  问题回答
      * comment        --  评论
-     * count          --  圈子总数
-     * post           --  圈子帖子
-     * group          --  圈子信息
-     * protocol       --  圈子协议
+     * count          --  社区总数
+     * post           --  社区帖子
+     * group          --  社区信息
+     * protocol       --  社区协议
      */
     @SerializedName(value = "data",alternate = {"answer","comment","count","post","group","protocol"})
     private T data;

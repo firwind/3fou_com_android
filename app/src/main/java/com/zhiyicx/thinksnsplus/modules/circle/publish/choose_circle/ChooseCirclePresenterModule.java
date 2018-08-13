@@ -4,7 +4,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * @Describe 我的圈子列表
+ * @Describe 我的社区列表
  * @Author zl
  * @Date 2017/12/6
  * @Contact master.jungle68@gmail.com

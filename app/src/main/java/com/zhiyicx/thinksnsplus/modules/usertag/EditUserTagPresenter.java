@@ -65,7 +65,7 @@ public class EditUserTagPresenter extends BasePresenter<EditUserTagContract.View
                             if (category.getTags() != null) {
 
                                 mUserTagBeanGreenDao.saveMultiData(category.getTags());
-                                // 资讯投稿 or 创建圈子的标签
+                                // 资讯投稿 or 创建社区的标签
                                 if (mRootView.getCurrentFrom() == TagFrom.INFO_PUBLISH || mRootView.getCurrentFrom() == TagFrom.CREATE_CIRCLE) {
                                     for (UserTagBean tag : category.getTags()) {
                                         if (mRootView.getChoosedTags().contains(tag)) {
@@ -83,7 +83,7 @@ public class EditUserTagPresenter extends BasePresenter<EditUserTagContract.View
                         mUserTagBeanGreenDao.saveMultiData(userTags);
                     }
                     mRootView.updateMineTagsFromNet(userTags);
-                    // 资讯投稿 or 创建圈子的标签
+                    // 资讯投稿 or 创建社区的标签
                     if (mRootView.getCurrentFrom() == TagFrom.INFO_PUBLISH || mRootView.getCurrentFrom() == TagFrom.CREATE_CIRCLE) {
                         return categorys;
                     }

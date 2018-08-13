@@ -95,7 +95,7 @@ public interface CircleDetailContract {
         void handleViewCount(Long id, int position);
 
         /**
-         * 加入/退出圈子
+         * 加入/退出社区
          * @param circleInfo
          */
         void dealCircleJoinOrExit(CircleInfo circleInfo);

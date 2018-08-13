@@ -373,14 +373,14 @@ public class BackgroundTaskHandler {
                 break;
 
             /*
-              发送圈子动态 V2 api
+              发送社区动态 V2 api
              */
             case SEND_GROUP_DYNAMIC_COMMENT:
                 sendGroupComment(backgroundRequestTaskBean);
                 break;
 
                 /*
-              发送圈子动态 V3 api 2017年12月4日17:56:50
+              发送社区动态 V3 api 2017年12月4日17:56:50
              */
             case SEND_CIRCLE_POST_COMMENT:
                 sendCircleComment(backgroundRequestTaskBean);

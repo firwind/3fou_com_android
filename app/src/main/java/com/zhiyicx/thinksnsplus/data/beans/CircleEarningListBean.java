@@ -16,7 +16,7 @@ public class CircleEarningListBean extends BaseListBean {
     /**
      * id : 2
      * group_id : 10
-     * subject : "仨仨仨仨仨 "加入圈子
+     * subject : "仨仨仨仨仨 "加入社区
      * type : 1
      * amount : 77
      * user_id : 701

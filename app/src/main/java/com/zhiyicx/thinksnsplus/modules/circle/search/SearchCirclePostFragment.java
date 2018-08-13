@@ -318,7 +318,7 @@ public class SearchCirclePostFragment extends BaseCircleDetailFragment implement
 
     @OnClick(R.id.bt_do)
     public void onViewClicked() {
-        // 创建圈子帖子
+        // 创建社区帖子
         BaseMarkdownActivity.startActivityForPublishPostOutCircle(mActivity);
     }
 }

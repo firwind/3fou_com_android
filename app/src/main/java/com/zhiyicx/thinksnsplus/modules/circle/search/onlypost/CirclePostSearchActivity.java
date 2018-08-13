@@ -13,7 +13,7 @@ import com.zhiyicx.thinksnsplus.modules.circle.search.SearchCirclePostFragment;
 import com.zhiyicx.thinksnsplus.modules.circle.search.container.CircleSearchContainerPresenter;
 
 /**
- * @Describe 圈子搜索容器
+ * @Describe 社区搜索容器
  * @Author zl
  * @Date 2017/12/7
  * @Contact master.jungle68@gmail.com
@@ -33,7 +33,7 @@ public class CirclePostSearchActivity extends TSActivity<CircleSearchContainerPr
 
     /**
      * @param context not application context
-     * @param circleInfo 圈子的信息
+     * @param circleInfo 社区的信息
      */
     public static void startCircelPostSearchActivity(Context context, CircleInfo circleInfo) {
 

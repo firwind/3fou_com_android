@@ -145,25 +145,25 @@ public class CircleDetailFragment extends TSListFragment<CircleDetailContract.Pr
     public static final String CIRCLE_ID = "circle_id";
 
     /**
-     * 加入圈子
+     * 加入社区
      */
     @BindView(R.id.tv_circle_subscrib)
     CheckBox mTvCircleSubscrib;
 
     /**
-     * 退出圈子
+     * 退出社区
      */
     @BindView(R.id.tv_exit_circle)
     TextView mTvExitCircle;
 
     /**
-     * 圈子收益
+     * 社区收益
      */
     @BindView(R.id.ll_earnings_container)
     CombinationButton mLlEarningsContainer;
 
     /**
-     * 举报圈子
+     * 举报社区
      */
     @BindView(R.id.bt_report_circle)
     CombinationButton mBtReportCircle;
@@ -1395,7 +1395,7 @@ public class CircleDetailFragment extends TSListFragment<CircleDetailContract.Pr
                 }
                 break;
                 /*
-                 * 举报圈子
+                 * 举报社区
                  */
             case R.id.bt_report_circle:
                 if (mPresenter.handleTouristControl()) {

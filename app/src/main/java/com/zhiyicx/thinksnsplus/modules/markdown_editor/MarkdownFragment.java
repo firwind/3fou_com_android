@@ -149,7 +149,7 @@ public class MarkdownFragment<Draft extends BaseDraftBean, P extends MarkdownCon
     }
 
     /**
-     * 圈外发表帖子 选择圈子的回掉
+     * 圈外发表帖子 选择社区的回掉
      *
      * @param circleInfo
      */
@@ -164,7 +164,7 @@ public class MarkdownFragment<Draft extends BaseDraftBean, P extends MarkdownCon
     }
 
     /**
-     * 圈子底部操作栏show or hide
+     * 社区底部操作栏show or hide
      *
      * @param visible
      */
@@ -264,7 +264,7 @@ public class MarkdownFragment<Draft extends BaseDraftBean, P extends MarkdownCon
     }
 
     /**
-     * 点击 来自 xxx ，可以跳转到相应圈子
+     * 点击 来自 xxx ，可以跳转到相应社区
      *
      * @return
      */

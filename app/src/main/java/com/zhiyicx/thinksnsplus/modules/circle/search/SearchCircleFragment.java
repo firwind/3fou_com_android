@@ -279,7 +279,7 @@ public class SearchCircleFragment extends BaseCircleListFragment implements ISea
 
     @OnClick(R.id.bt_do)
     public void onViewClicked() {
-        // 创建圈子
+        // 创建社区
         startActivity(new Intent(getActivity(), CreateCircleActivity.class));
     }
 }

@@ -62,14 +62,14 @@ public class AdvertConfig {
     public static final String APP_INFO_DETAILS_ADVERT = "news:single";
 
 
-    /*-------------------------圈子---------------------------------------------------------------------------*/
+    /*-------------------------社区---------------------------------------------------------------------------*/
     /**
-     * 圈子首页顶部广告 type  image
+     * 社区首页顶部广告 type  image
      */
     public static final String APP_GROUP_TOP_ADVERT = "group:index:top";
 
     /**
-     * 圈子详情广告 type  image
+     * 社区详情广告 type  image
      */
     public static final String APP_GROUP_DETAIL_ADVERT = "group:single";
     /**

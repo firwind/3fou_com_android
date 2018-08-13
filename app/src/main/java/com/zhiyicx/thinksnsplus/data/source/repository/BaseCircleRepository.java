@@ -53,7 +53,7 @@ import rx.schedulers.Schedulers;
  * @author Jliuer
  * @Date 2017/11/21/15:36
  * @Email Jliuer@aliyun.com
- * @Description 圈子请求仓库管理
+ * @Description 社区请求仓库管理
  */
 public class BaseCircleRepository implements IBaseCircleRepository {
 
@@ -152,8 +152,8 @@ public class BaseCircleRepository implements IBaseCircleRepository {
      *
      * @param limit       默认 15 ，数据返回条数 默认为15
      * @param offet       默认 0 ，数据偏移量，传递之前通过接口获取的总数。
-     * @param keyword     用于搜索圈子，按圈名搜索
-     * @param category_id 圈子分类id
+     * @param keyword     用于搜索社区，按圈名搜索
+     * @param category_id 社区分类id
      * @return
      */
 
@@ -334,8 +334,8 @@ public class BaseCircleRepository implements IBaseCircleRepository {
     /**
      * @param limit    默认 15 ，数据返回条数 默认为15
      * @param offset   默认 0 ，数据偏移量，传递之前通过接口获取的总数。
-     * @param keyword  搜索关键词，模糊匹配圈子名称
-     * @param group_id 获取某个圈子下面的全部帖子
+     * @param keyword  搜索关键词，模糊匹配社区名称
+     * @param group_id 获取某个社区下面的全部帖子
      * @return 获取全部帖子
      */
     @Override
@@ -578,7 +578,7 @@ public class BaseCircleRepository implements IBaseCircleRepository {
     }
 
     /**
-     * 转让圈子
+     * 转让社区
      *
      * @param circleId
      * @param userId

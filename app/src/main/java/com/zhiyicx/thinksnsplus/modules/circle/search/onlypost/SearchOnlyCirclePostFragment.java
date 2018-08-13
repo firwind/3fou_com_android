@@ -96,7 +96,7 @@ public class SearchOnlyCirclePostFragment extends SearchCirclePostFragment {
                     BaseMarkdownActivity.startActivityForPublishPostOutCircle(mActivity);
 
                 }
-                // 创建圈子帖子
+                // 创建社区帖子
                 break;
             default:
         }

@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 /**
  * @author Catherine
- * @describe 圈子
+ * @describe 社区
  * @date 2017/7/17
  * @contact email:648129313@qq.com
  */
@@ -88,7 +88,7 @@ public class GroupInfoBeanGreenDaoImpl extends CommonCacheImpl<GroupInfoBean> {
     }
 
     /**
-     * 获取用户加入的圈子
+     * 获取用户加入的社区
      */
     public List<GroupInfoBean> getUserJoinedGroup() {
         List<GroupInfoBean> list = null;

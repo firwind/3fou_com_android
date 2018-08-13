@@ -34,7 +34,7 @@ public interface IBaseCircleRepository {
     Observable<List<CircleTypeBean>> getCategroiesList(Integer limit, int offet);
 
     /**
-     * 创建圈子
+     * 创建社区
      *
      * @param createCircleBean
      * @return
@@ -42,14 +42,14 @@ public interface IBaseCircleRepository {
     Observable<BaseJsonV2<CircleInfo>> createCircle(CreateCircleBean createCircleBean);
 
     /**
-     * 获取圈子协议
+     * 获取社区协议
      *
      * @return
      */
     Observable<BaseJsonV2<String>> getCircleRule();
 
     /**
-     * 修改圈子信息
+     * 修改社区信息
      *
      * @param createCircleBean
      * @return
@@ -75,8 +75,8 @@ public interface IBaseCircleRepository {
      *
      * @param limit    默认 15 ，数据返回条数 默认为15
      * @param offset   默认 0 ，数据偏移量，传递之前通过接口获取的总数。
-     * @param keyword  搜索关键词，模糊匹配圈子名称
-     * @param group_id 获取某个圈子下面的全部帖子
+     * @param keyword  搜索关键词，模糊匹配社区名称
+     * @param group_id 获取某个社区下面的全部帖子
      * @return
      */
     @GET(APP_PATH_GET_ALL_POSTLIST)
@@ -92,7 +92,7 @@ public interface IBaseCircleRepository {
     Observable<List<CirclePostListBean>> getUserCollectPostList(Integer limit, Integer offset);
 
     /**
-     * 获取我加入的圈子
+     * 获取我加入的社区
      *
      * @param limit
      * @param offet
@@ -102,19 +102,19 @@ public interface IBaseCircleRepository {
     Observable<List<CircleInfo>> getMyJoinedCircle(Integer limit, int offet, String type);
 
     /**
-     * 获取全部圈子
+     * 获取全部社区
      *
      * @param limit       默认 15 ，数据返回条数 默认为15
      * @param offet       默认 0 ，数据偏移量，传递之前通过接口获取的总数。
-     * @param keyword     用于搜索圈子，按圈名搜索
-     * @param category_id 圈子分类id
+     * @param keyword     用于搜索社区，按圈名搜索
+     * @param category_id 社区分类id
      * @return
      */
     Observable<List<CircleInfo>> getAllCircle(Integer limit, Integer offet, String keyword
             , Integer category_id);
 
     /**
-     * 设置圈子权限
+     * 设置社区权限
      *
      * @return
      */
@@ -141,14 +141,14 @@ public interface IBaseCircleRepository {
     Observable<List<PostDigListBean>> getPostDigList(long postId, Integer limit, long offet);
 
     /**
-     * 将某个成员踢出圈子
+     * 将某个成员踢出社区
      *
      * @return
      */
     Observable<BaseJsonV2<Object>> cancleCircleMember(long circleId, long memberId);
 
     /**
-     * 指定/撤销圈子管理员职位
+     * 指定/撤销社区管理员职位
      *
      * @param circleId
      * @param memberId
@@ -159,7 +159,7 @@ public interface IBaseCircleRepository {
     Observable<BaseJsonV2<Object>> cancleCircleManager(long circleId, long memberId);
 
     /**
-     * 加入/移除圈子黑名单
+     * 加入/移除社区黑名单
      *
      * @param circleId
      * @param memberId
@@ -172,9 +172,9 @@ public interface IBaseCircleRepository {
     Observable<CircleInfo> getCircleInfo(long circleId);
 
     /**
-     * 圈子收入记录
+     * 社区收入记录
      *
-     * @param circleId 圈子id
+     * @param circleId 社区id
      * @param start    秒级时间戳，起始筛选时间
      * @param end      秒级时间戳，结束筛选时间
      * @param after    默认 0 ，翻页标识。
@@ -185,9 +185,9 @@ public interface IBaseCircleRepository {
     Observable<List<CircleEarningListBean>> getCircleEarningList(Long circleId, Long start, Long end, Long after, Integer limit, String type);
 
     /**
-     * 圈子举报列表
+     * 社区举报列表
      *
-     * @param groupId 圈子id
+     * @param groupId 社区id
      * @param after
      * @param limit
      * @param start   秒级时间戳，起始筛选时间
@@ -227,7 +227,7 @@ public interface IBaseCircleRepository {
     Observable<CircleMembers> attornCircle(long circleId, long userId);
 
     /**
-     * 圈子成员角色统计
+     * 社区成员角色统计
      * @param circleId
      * @return
      */
@@ -242,7 +242,7 @@ public interface IBaseCircleRepository {
     Observable<CircleCommentZip> getPostCommentList(long postId, Long maxId);
 
     /**
-     * 获取推荐的圈子
+     * 获取推荐的社区
      *
      * @param limit 默认 20 ，数据返回条数 默认为20
      * @param offet 默认 0 ，数据偏移量，传递之前通过接口获取的总数。

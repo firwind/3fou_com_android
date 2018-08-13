@@ -29,7 +29,7 @@ import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
  * @Author Jliuer
  * @Date 2017/12/18/10:03
  * @Email Jliuer@aliyun.com
- * @Description 转让圈子
+ * @Description 转让社区
  */
 public class AttornCircleFragment extends MemberListFragment implements MembersContract.View {
 

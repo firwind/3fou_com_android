@@ -13,14 +13,14 @@ import java.util.List;
  * @Author Jliuer
  * @Date 2017/07/18/14:19
  * @Email Jliuer@aliyun.com
- * @Description 圈子发布动态的数据类
+ * @Description 社区发布动态的数据类
  */
 public class GroupSendDynamicDataBean implements Serializable, Parcelable {
 
     private static final long serialVersionUID = 1234L;
     /**
-     * title : 圈子动态标题
-     * content : 圈子动态内容
+     * title : 社区动态标题
+     * content : 社区动态内容
      * images : [{"id":1},{"id":2}]
      */
     private long group_post_mark;

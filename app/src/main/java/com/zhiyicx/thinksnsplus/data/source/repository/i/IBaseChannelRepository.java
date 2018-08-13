@@ -26,16 +26,16 @@ public interface IBaseChannelRepository extends IDynamicReppsitory {
      */
     Observable<BaseJsonV2<Object>> handleSubscribGroupByFragment(GroupInfoBean channelSubscripBean);
     /**
-     * 获取圈子的动态列表
+     * 获取社区的动态列表
      */
     Observable<List<GroupDynamicListBean>> getDynamicListFromGroup(long group_id, long max_id);
     /**
-     * 获取圈子我收藏的动态列表
+     * 获取社区我收藏的动态列表
      */
     Observable<List<GroupDynamicListBean>> getMyCollectGroupDynamicList(long group_id, long max_id);
 
     /**
-     * 获取圈子列表
+     * 获取社区列表
      *
      * @param type 0-全部 1-加入的
      */
@@ -52,14 +52,14 @@ public interface IBaseChannelRepository extends IDynamicReppsitory {
     Observable<BaseJsonV2<Object>> sendGroupDynamic(GroupSendDynamicDataBean dynamicDetailBean);
 
     /**
-     * 获取圈子动态的评论列表
+     * 获取社区动态的评论列表
      */
     Observable<List<GroupDynamicCommentListBean>> getGroupDynamicCommentList(long group_id, long dynamic_id, long max_id);
 
     /**
-     * 获取圈子动态详情
+     * 获取社区动态详情
      *
-     * @param group_id   圈子id
+     * @param group_id   社区id
      * @param dynamic_id 动态id
      */
     Observable<GroupDynamicListBean> getGroupDynamicDetail(long group_id, long dynamic_id);
@@ -67,12 +67,12 @@ public interface IBaseChannelRepository extends IDynamicReppsitory {
     Observable<List<DynamicDigListBean>> getGroupDynamicDigList(long group_id, long dynamic_id, long max_id);
 
     /**
-     * 圈子动态点赞
+     * 社区动态点赞
      */
     void handleLike(boolean isLiked, long group_id, long dynamic_id);
 
     /**
-     * 圈子动态收藏
+     * 社区动态收藏
      */
     void handleCollect(boolean isCollected, long group_id, long dynamic_id);
 
@@ -80,12 +80,12 @@ public interface IBaseChannelRepository extends IDynamicReppsitory {
 
 
     /**
-     * 获取全部圈子列表
+     * 获取全部社区列表
      */
     Observable<List<GroupInfoBean>> getAllGroupList(long max_id);
 
     /**
-     * 获取用户加入的圈子
+     * 获取用户加入的社区
      */
     Observable<List<GroupInfoBean>> getUserJoinedGroupList(long max_id);
 }

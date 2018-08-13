@@ -27,7 +27,7 @@ public enum BackgroundTaskRequestMethodConfig {
     SEND_CERTIFICATION(16), // 发布认证申请
     SEND_ANSWER_COMMENT(17),// 评论问题答案
     SEND_QUESTION_COMMENT(18),// 评论问题
-    SEND_CIRCLE_POST_COMMENT(19),// 圈子-帖子-评论
+    SEND_CIRCLE_POST_COMMENT(19),// 社区-帖子-评论
     GET_CHAT_GROUP_INFO(20);// 获取群聊信息
 
 

@@ -61,16 +61,16 @@ public interface IReportRepository {
 
 
     /**
-     * 举报圈子
+     * 举报社区
      *
-     * @param groupId 圈子 id
+     * @param groupId 社区 id
      * @param reason  举报原因
      * @return
      */
     Observable<ReportResultBean> reportCircle(String groupId, String reason);
 
     /**
-     * 举报圈子中的帖子
+     * 举报社区中的帖子
      *
      * @param postId 帖子 id
      * @param reason 举报原因
@@ -79,7 +79,7 @@ public interface IReportRepository {
     Observable<ReportResultBean> reportCirclePost(String postId, String reason);
 
     /**
-     * 举报圈子中的评论
+     * 举报社区中的评论
      *
      * @param commentId 评论 id
      * @param reason    举报原因

@@ -925,6 +925,7 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
         if(null == mPhotoSelector){
             mPhotoSelector = new PhotoSelectorImpl(new PhotoSelectorImpl.IPhotoBackListener() {
                 @Override
+
                 public void getPhotoSuccess(List<ImageBean> photoList) {
                     try {
                         for (int i = 0; i < photoList.size(); i++) {

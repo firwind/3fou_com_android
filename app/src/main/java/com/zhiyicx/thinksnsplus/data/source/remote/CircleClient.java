@@ -90,12 +90,12 @@ import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_UNDO_TOP_POST;
  * @Author Jliuer
  * @Date 2017/11/21/15:39
  * @Email Jliuer@aliyun.com
- * @Description 新的圈子相关接口
+ * @Description 新的社区相关接口
  */
 public interface CircleClient {
 
     /**
-     * 我加入的圈子接口
+     * 我加入的社区接口
      * 默认: join, join 我加入 audit 待审核, allow_post 可以发帖的, random 随机
      */
     enum MineCircleType {
@@ -117,15 +117,15 @@ public interface CircleClient {
      * @author Jliuer
      * @Date 17/11/27 17:07
      * @Email Jliuer@aliyun.com
-     * @Description 获取圈子分类
+     * @Description 获取社区分类
      */
     @GET(APP_PATH_GET_CIRCLE_CATEGROIES)
     Observable<List<CircleTypeBean>> getCategroiesList(@Query("limit") Integer limit, @Query("offset") int offset);
 
     /**
-     * 获取圈子列表
+     * 获取社区列表
      *
-     * @param categoryId 圈子类别id
+     * @param categoryId 社区类别id
      * @param limit
      * @param offset
      * @return
@@ -134,7 +134,7 @@ public interface CircleClient {
     Observable<List<CircleInfo>> getCircleList(@Path("category_id") long categoryId, @Query("limit") Integer limit, @Query("offset") int offset);
 
     /**
-     * 获取推荐的圈子
+     * 获取推荐的社区
      *
      * @param limit  默认 20 ，数据返回条数 默认为20
      * @param offset 默认 0 ，数据偏移量，传递之前通过接口获取的总数。
@@ -145,7 +145,7 @@ public interface CircleClient {
     Observable<List<CircleInfo>> getRecommendCircle(@Query("limit") Integer limit, @Query("offset") int offset, @Query("type") String type);
 
     /**
-     * 获取已经加入的圈子
+     * 获取已经加入的社区
      *
      * @param limit  默认 20 ，数据返回条数 默认为20
      * @param offset 默认 0 ，数据偏移量，传递之前通过接口获取的总数。
@@ -156,12 +156,12 @@ public interface CircleClient {
     Observable<List<CircleInfo>> getMyJoinedCircle(@Query("limit") Integer limit, @Query("offset") Integer offset, @Query("type") String type);
 
     /**
-     * 获取全部圈子
+     * 获取全部社区
      *
      * @param limit       默认 15 ，数据返回条数 默认为15
      * @param offset      默认 0 ，数据偏移量，传递之前通过接口获取的总数。
-     * @param keyword     用于搜索圈子，按圈名搜索
-     * @param category_id 圈子分类id
+     * @param keyword     用于搜索社区，按圈名搜索
+     * @param category_id 社区分类id
      * @return
      */
     @GET(APP_PATH_GET_ALL_CIRCLE)
@@ -170,7 +170,7 @@ public interface CircleClient {
             , @Query("category_id") Integer category_id);
 
     /**
-     * 获取附近圈子
+     * 获取附近社区
      *
      * @param limit
      * @param offset
@@ -183,7 +183,7 @@ public interface CircleClient {
                                                 @Query("longitude") String longitude, @Query("latitude") String latitude);
 
     /**
-     * 获取圈子数量
+     * 获取社区数量
      *
      * @return
      */
@@ -191,7 +191,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<Integer>> getCircleCount();
 
     /**
-     * 加入圈子
+     * 加入社区
      *
      * @param circleId
      * @return
@@ -200,7 +200,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<Object>> joinCircle(@Path("circle_id") long circleId);
 
     /**
-     * 退出圈子
+     * 退出社区
      *
      * @return
      */
@@ -208,7 +208,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<Object>> exitCircle(@Path("circle_id") long circleId);
 
     /**
-     * 将某个成员踢出圈子
+     * 将某个成员踢出社区
      *
      * @return
      */
@@ -216,7 +216,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<Object>> cancleCircleMember(@Path("circle_id") long circleId, @Path("member_id") long memberId);
 
     /**
-     * 指定/撤销圈子管理员职位
+     * 指定/撤销社区管理员职位
      *
      * @param circleId
      * @param memberId
@@ -229,7 +229,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<Object>> cancleCircleManager(@Path("circle_id") long circleId, @Path("member_id") long memberId);
 
     /**
-     * 加入/移除圈子黑名单
+     * 加入/移除社区黑名单
      *
      * @param circleId
      * @param memberId
@@ -242,7 +242,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<Object>> cancleCircleBlackList(@Path("circle_id") long circleId, @Path("member_id") long memberId);
 
     /**
-     * 设置圈子权限
+     * 设置社区权限
      *
      * @return
      */
@@ -251,7 +251,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<Object>> setCirclePermissions(@Path("circle_id") long circleId, @Field("permissions[]") List<String> permissions);
 
     /**
-     * 获取圈子详情
+     * 获取社区详情
      *
      * @param circleId
      * @return
@@ -260,7 +260,7 @@ public interface CircleClient {
     Observable<CircleInfo> getCircleInfo(@Path("circle_id") long circleId);
 
     /**
-     * 获取圈子下帖子列表
+     * 获取社区下帖子列表
      *
      * @param circleId
      * @param offset
@@ -287,8 +287,8 @@ public interface CircleClient {
      *
      * @param limit    默认 15 ，数据返回条数 默认为15
      * @param offset   默认 0 ，数据偏移量，传递之前通过接口获取的总数。
-     * @param keyword  搜索关键词，模糊匹配圈子名称
-     * @param group_id 获取某个圈子下面的全部帖子
+     * @param keyword  搜索关键词，模糊匹配社区名称
+     * @param group_id 获取某个社区下面的全部帖子
      * @return
      */
     @GET(APP_PATH_GET_ALL_POSTLIST)
@@ -310,7 +310,7 @@ public interface CircleClient {
             , @Query("offset") Integer offset);
 
     /**
-     * 圈子成员角色统计
+     * 社区成员角色统计
      * @param circleId
      * @return
      */
@@ -333,7 +333,7 @@ public interface CircleClient {
                                                         @Query("name") String name);
 
     /**
-     * 转让圈子
+     * 转让社区
      *
      * @param circleId
      * @param userId
@@ -345,10 +345,10 @@ public interface CircleClient {
 
 
     /**
-     * 创建圈子
+     * 创建社区
      *
-     * @param categoryId 圈子类别id
-     * @return 就是返回一个圈子
+     * @param categoryId 社区类别id
+     * @return 就是返回一个社区
      */
     @POST(APP_PATH_CREATE_CIRCLE)
     @Multipart
@@ -356,7 +356,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<CircleInfo>> createCircle(@Path("category_id") long categoryId, @Part List<MultipartBody.Part> params);
 
     /**
-     * 获取圈子协议
+     * 获取社区协议
      *
      * @return
      */
@@ -364,7 +364,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<String>> getCircleRule();
 
     /**
-     * 修改圈子信息
+     * 修改社区信息
      *
      * @param circleId
      * @param params
@@ -378,7 +378,7 @@ public interface CircleClient {
     /**
      * 发帖
      *
-     * @param circleId 圈子id
+     * @param circleId 社区id
      * @param body
      * @return
      */
@@ -408,9 +408,9 @@ public interface CircleClient {
     Observable<CircleCommentZip> getPostComments(@Path("post_id") long postId, @Query("limit") Integer limit, @Query("after") int after);
 
     /**
-     * 圈子收入记录
+     * 社区收入记录
      *
-     * @param circleId 圈子id
+     * @param circleId 社区id
      * @param start    秒级时间戳，起始筛选时间
      * @param end      秒级时间戳，结束筛选时间
      * @param after    默认 0 ，翻页标识。
@@ -448,7 +448,7 @@ public interface CircleClient {
     Observable<BaseJsonV2<Integer>> stickTopPost(@Path("post_id") Long parent_id, @Field("amount") Long amount, @Field("day") Integer day);
 
     /**
-     * 圈子、帖子、评论置顶平均金额
+     * 社区、帖子、评论置顶平均金额
      * @return
      */
     @GET(ApiConfig.APP_PATH_TOP_POST_AVERAGE_NUM)
@@ -552,7 +552,7 @@ public interface CircleClient {
     Observable<BaseJsonV2> refusePostTop(@Path("post_id") Long commentId);
 
     /**
-     * 审核圈子加入请求
+     * 审核社区加入请求
      *
      * @return
      */
@@ -579,7 +579,7 @@ public interface CircleClient {
             Integer limit, @Query("group") Long circleId);
 
     /**
-     * 圈子待审核成员列表
+     * 社区待审核成员列表
      *
      * @return
      */
@@ -591,9 +591,9 @@ public interface CircleClient {
     /*******************************************  举报  *********************************************/
 
     /**
-     * 举报圈子
+     * 举报社区
      *
-     * @param groupId 圈子 id
+     * @param groupId 社区 id
      * @param reason  举报原因
      * @return
      */
@@ -602,7 +602,7 @@ public interface CircleClient {
     Observable<ReportResultBean> reportCircle(@Path("group_id") String groupId, @Field("reason") String reason);
 
     /**
-     * 举报圈子中的帖子
+     * 举报社区中的帖子
      *
      * @param postId 帖子 id
      * @param reason 举报原因
@@ -624,9 +624,9 @@ public interface CircleClient {
     Observable<ReportResultBean> reportComment(@Path("comment_id") String commentId, @Field("content") String reason);
 
     /**
-     * 圈子举报列表
+     * 社区举报列表
      *
-     * @param groupId 圈子id
+     * @param groupId 社区id
      * @param after
      * @param limit   * @param start    秒级时间戳，起始筛选时间
      * @param end     秒级时间戳，结束筛选时间

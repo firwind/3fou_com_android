@@ -123,7 +123,7 @@ public class MemberListFragment extends TSListFragment<MembersContract.Presenter
     }
 
     /**
-     * 是否是转让圈子界面
+     * 是否是转让社区界面
      *
      * @return
      */

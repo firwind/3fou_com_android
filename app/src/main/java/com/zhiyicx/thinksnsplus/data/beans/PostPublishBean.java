@@ -8,7 +8,7 @@ import java.util.List;
  * @author Jliuer
  * @Date 2017/11/29/15:36
  * @Email Jliuer@aliyun.com
- * @Description 圈子发帖数据类
+ * @Description 社区发帖数据类
  */
 public class PostPublishBean {
 

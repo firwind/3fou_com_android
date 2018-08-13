@@ -88,7 +88,7 @@ public class LoginPresenter extends AppBasePresenter<LoginContract.View> impleme
                         mWalletBeanGreenDao.insertOrReplace(data.getUser().getWallet());
                     }
 
-//                    mBaseCircleRepository.saveCircleType(); // 保存圈子分组信息
+//                    mBaseCircleRepository.saveCircleType(); // 保存社区分组信息
                     mAccountBeanGreenDao.insertOrReplaceByName(mRootView.getAccountBean());
                     return true;
                 })

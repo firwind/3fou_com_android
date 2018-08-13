@@ -12,6 +12,7 @@
         android:layout_gravity="center" />
 
     <android.support.v4.widget.NestedScrollView
+        android:layout_marginBottom="@dimen/chat_info_header_view_width"
         android:id="@+id/ll_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -565,18 +566,20 @@
                 android:textColor="@color/important_for_content"
                 android:textSize="@dimen/size_content" />
 
-            <!--解散群组-->
-            <TextView
-                android:id="@+id/tv_delete_group"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/chat_info_header_view_width"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="@string/chat_quit_group"
-                android:textColor="@color/important_for_note"
-                android:textSize="@dimen/size_content" />
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    <!--解散群组-->
+    <TextView
+        android:layout_gravity="bottom"
+        android:id="@+id/tv_delete_group"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/chat_info_header_view_width"
+
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="@string/chat_quit_group"
+        android:textColor="@color/important_for_note"
+        android:textSize="@dimen/size_content" />
 </FrameLayout>

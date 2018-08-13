@@ -170,6 +170,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     LinearLayout llGroupManager;
     @BindView(R.id.tv_group_qrcode)
     TextView mTvGroupQrcode;
+    @BindView(R.id.tv_find_message)
+    TextView mTvFindMessage;
 //    @BindView(R.id.vw_set_admin)
 //    View vwSetAdmin;
 //    @BindView(R.id.vw_jurisdiction)
@@ -543,6 +545,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             mTvClearMessage.setVisibility(View.GONE);
             mTvDeleteGroup.setText(getString(R.string.tv_add_group_chat));
             mRlBlockMessage.setVisibility(View.GONE);
+            mTvJurisdiction.setVisibility(View.GONE);
+            mTvFindMessage.setVisibility(View.GONE);
         }
     }
 

@@ -156,7 +156,7 @@ public class BaseCircleDetailFragment extends TSListFragment<CircleDetailContrac
     }
 
     /**
-     * 点击 来自 xxx ，可以跳转到相应圈子
+     * 点击 来自 xxx ，可以跳转到相应社区
      *
      * @return
      */

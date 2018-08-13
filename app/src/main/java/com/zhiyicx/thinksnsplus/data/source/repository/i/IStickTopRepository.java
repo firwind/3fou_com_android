@@ -51,7 +51,7 @@ public interface IStickTopRepository {
     Observable<StickTopAverageBean> getInfoAndCommentTopAverageNum();
 
     /**
-     * 圈子、帖子、评论置顶平均金额
+     * 社区、帖子、评论置顶平均金额
      * @return
      */
     Observable<StickTopAverageBean> getCircleAndCommentTopAverageNum();

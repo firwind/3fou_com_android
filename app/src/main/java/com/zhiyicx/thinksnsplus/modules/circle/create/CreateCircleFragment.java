@@ -155,7 +155,7 @@ public class CreateCircleFragment extends TSFragment<CreateCircleContract.Presen
     boolean isManager;
 
     /**
-     * 圈子必须输入的字段数监听
+     * 社区必须输入的字段数监听
      */
     private int emptyFlag;
 

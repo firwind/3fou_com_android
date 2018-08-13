@@ -35,7 +35,7 @@ import butterknife.BindView;
 import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
 
 /**
- * @Describe 我的圈子
+ * @Describe 我的社区
  * @Author zl
  * @Date 2017/11/14
  * @Contact master.jungle68@gmail.com

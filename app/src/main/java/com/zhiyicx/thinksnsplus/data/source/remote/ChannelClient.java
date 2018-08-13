@@ -42,7 +42,7 @@ public interface ChannelClient {
                                                                    @Query("limit") Integer limit, @Query("after") long max_id);
 
     /**
-     * 获取所有圈子列表的接口
+     * 获取所有社区列表的接口
      *
      * @param limit  限制条数
      * @param max_id max_id
@@ -52,7 +52,7 @@ public interface ChannelClient {
     Observable<List<GroupInfoBean>> getAllGroupList(@Query("limit") Integer limit, @Query("after") long max_id);
 
     /**
-     * 获取用户加入的圈子列表
+     * 获取用户加入的社区列表
      *
      * @param limit  限制条数
      * @param max_id max_id
@@ -62,35 +62,35 @@ public interface ChannelClient {
     Observable<List<GroupInfoBean>> getUserJoinedGroupList(@Query("limit") Integer limit, @Query("after") long max_id);
 
     /**
-     * 加入圈子
+     * 加入社区
      *
-     * @param groupId 圈子id
+     * @param groupId 社区id
      * @return
      */
     @POST(ApiConfig.APP_PATH_JOIN_GROUP)
     Observable<BaseJsonV2<Object>> joinGroup(@Path("group") long groupId);
 
     /**
-     * 退出圈子
+     * 退出社区
      *
-     * @param groupId 圈子id
+     * @param groupId 社区id
      */
     @DELETE(ApiConfig.APP_PATH_JOIN_GROUP)
     Observable<BaseJsonV2<Object>> quitGroup(@Path("group") long groupId);
 
     /**
-     * 圈子详情
+     * 社区详情
      *
-     * @param group_id 圈子id
+     * @param group_id 社区id
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_DETAIL)
     Observable<GroupInfoBean> getGroupDetail(@Path("group") long group_id);
 
     /**
-     * 获取圈子动态详情
+     * 获取社区动态详情
      *
-     * @param group_id   圈子id
+     * @param group_id   社区id
      * @param dynamic_id 动态id
      * @return
      */
@@ -98,10 +98,10 @@ public interface ChannelClient {
     Observable<GroupDynamicListBean> getGroupDynamicDetail(@Path("group") long group_id, @Path("post") long dynamic_id);
 
     /**
-     * 获取圈子动态的评论列表
+     * 获取社区动态的评论列表
      *
      *
-     * @param group_id 圈子id
+     * @param group_id 社区id
      * @param dynamic_id 动态id
      * @param limit
      * @param max_id
@@ -114,7 +114,7 @@ public interface ChannelClient {
                                                                              @Query("after") long max_id);
 
     /**
-     * 获取我收藏的圈子动态
+     * 获取我收藏的社区动态
      * @param limit
      * @param max_id
      * @return
@@ -175,7 +175,7 @@ public interface ChannelClient {
                                                     @Query("after") long max_id);
 
     /**
-     * 发布动态 v2 接口--圈子
+     * 发布动态 v2 接口--社区
      * @param group
      * @param body
      * @return
@@ -185,9 +185,9 @@ public interface ChannelClient {
     Observable<BaseJsonV2<Object>> sendGroupDynamic(@Path("group") int group, @Body RequestBody body);
 
     /**
-     * 删除动态 v2 接口--圈子
+     * 删除动态 v2 接口--社区
      *
-     * @param groupId    圈子id
+     * @param groupId    社区id
      * @param dynamic_id 动态id
      */
     @DELETE(ApiConfig.APP_PATH_DELETE_GROUP_DYNAMIC)

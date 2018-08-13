@@ -584,7 +584,7 @@ public class SendDynamicFragment extends TSFragment<SendDynamicContract.Presente
 
     @Override
     protected void setRightClick() {
-        // 圈子
+        // 社区
         if (isFromGroup) {
             mPresenter.sendGroupDynamic(packageGroupDynamicData());
         } else {

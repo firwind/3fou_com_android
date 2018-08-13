@@ -205,6 +205,7 @@ class HomePresenter extends AppBasePresenter<HomeContract.View> implements HomeC
                     }
 
                     @Override
+
                     protected void onFailure(String message, int code) {
                         mRootView.showSnackErrorMessage(message);
                     }

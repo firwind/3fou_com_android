@@ -64,7 +64,7 @@
         app:showLine="true"
         />
 
-    <!--举报圈子-->
+    <!--举报社区-->
     <com.zhiyicx.baseproject.widget.button.CombinationButton
         android:id="@+id/bt_report_circle"
         android:layout_width="match_parent"
@@ -80,7 +80,7 @@
         app:showLine="true"
         />
 
-    <!--圈子收益-->
+    <!--社区收益-->
     <com.zhiyicx.baseproject.widget.button.CombinationButton
         android:id="@+id/ll_earnings_container"
         android:layout_width="match_parent"

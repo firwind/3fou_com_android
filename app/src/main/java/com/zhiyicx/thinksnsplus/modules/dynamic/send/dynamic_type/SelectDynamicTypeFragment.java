@@ -94,7 +94,7 @@ public class SelectDynamicTypeFragment extends TSFragment<SelectDynamicTypeContr
     LinearLayout mSelectDynamicParent;
     private PhotoSelectorImpl mPhotoSelector;
 
-    private int mType = SendDynamicDataBean.NORMAL_DYNAMIC; // 动态还是圈子动态
+    private int mType = SendDynamicDataBean.NORMAL_DYNAMIC; // 动态还是社区动态
 
     private ActionPopupWindow mCertificationAlertPopWindow; // 提示需要认证的
     private ActionPopupWindow mPayAlertPopWindow; // 提示需要付钱的

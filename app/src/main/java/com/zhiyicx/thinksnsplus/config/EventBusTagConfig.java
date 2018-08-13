@@ -40,12 +40,12 @@ public class EventBusTagConfig {
     public static final String EVENT_COLLECT_DYNAMIC = "event_collect_dynamic";
 
     /**
-     * 收藏圈子动态
+     * 收藏社区动态
      */
     public static final String EVENT_COLLECT_GROUP_DYNAMIC = "event_collect_group_dynamic";
 
     /**
-     * 点赞圈子动态
+     * 点赞社区动态
      */
     public static final String EVENT_DIG_GROUP_DYNAMIC = "event_dig_group_dynamic";
 
@@ -54,12 +54,12 @@ public class EventBusTagConfig {
      */
     public static final String EVENT_UPDATE_DYNAMIC = "event_update_dynamic";
     /**
-     * 更新圈子动态列表
+     * 更新社区动态列表
      */
     public static final String EVENT_UPDATE_GROUP_DYNAMIC = "event_update_group_dynamic";
 
     /**
-     * 更新圈子收藏
+     * 更新社区收藏
      */
     public static final String EVENT_UPDATE_GROUP_COLLECTION = "event_update_group_collection";
 
@@ -69,12 +69,12 @@ public class EventBusTagConfig {
     public static final String DYNAMIC_LIST_DELETE_UPDATE = "dynamic_list_delete_update";
 
     /**
-     * 圈子更新帖子
+     * 社区更新帖子
      */
     public static final String EVENT_UPDATE_CIRCLE_POST = "event_update_circle_post";
 
     /**
-     * 圈子更新
+     * 社区更新
      */
     public static final String EVENT_UPDATE_CIRCLE = "event_update_circle";
 
@@ -94,7 +94,7 @@ public class EventBusTagConfig {
     public static final String EVENT_SEND_COMMENT_TO_DYNAMIC_LIST = "event_send_dynamic_comment_to_List";
 
     /**
-     * 圈子的动态发送评论
+     * 社区的动态发送评论
      */
     public static final String EVENT_SEND_COMMENT_TO_GROUOP_DYNAMIC = "event_send_comment_to_grouop_dynamic";
 
@@ -112,7 +112,7 @@ public class EventBusTagConfig {
     // 频道进行订阅或者取消订阅
     public static final String EVENT_CHANNEL_SUBSCRIB = "event_channel_subscrib";
 
-    // 加入/退出圈子
+    // 加入/退出社区
     public static final String EVENT_GROUP_JOIN = "event_group_join";
 
     /**

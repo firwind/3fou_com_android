@@ -23,7 +23,7 @@ import org.greenrobot.greendao.DaoException;
 
 /**
  * @author Catherine
- * @describe 圈子bean
+ * @describe 社区bean
  * @date 2017/7/17
  * @contact email:648129313@qq.com
  */
@@ -43,9 +43,9 @@ public class GroupInfoBean extends BaseListBean implements Serializable {
     private String intro;
     private int is_member;
     @Convert(converter = DataConverter.class, columnType = String.class)
-    private GroupCoverBean avatar; // 圈子头像
+    private GroupCoverBean avatar; // 社区头像
     @Convert(converter = DataConverter.class, columnType = String.class)
-    private GroupCoverBean cover; // 圈子背景图
+    private GroupCoverBean cover; // 社区背景图
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "group_id")})
     private List<GroupManagerBean> managers;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "group_id")})

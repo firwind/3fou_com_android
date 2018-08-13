@@ -136,7 +136,7 @@ public class FindFragment extends TSFragment {
                 }
                 break;
                 /*
-                  圈子
+                  社区
                  */
             case R.id.find_chanel:
                 if (TouristConfig.CHENNEL_LIST_CAN_LOOK || !mAuthRepository.isTourist()) {

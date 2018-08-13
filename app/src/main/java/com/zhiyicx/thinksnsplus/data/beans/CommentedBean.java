@@ -103,7 +103,7 @@ public class CommentedBean extends BaseListBean implements Serializable {
 
     private boolean hasVideo;
 
-    private long source_id; // 所属资源的父 id; 圈子动态的评论，那source_id == post_id
+    private long source_id; // 所属资源的父 id; 社区动态的评论，那source_id == post_id
     /**
      * Used to resolve relations
      */

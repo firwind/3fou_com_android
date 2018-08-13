@@ -17,7 +17,7 @@ import java.io.Serializable;
 
 /**
  * @author Catherine
- * @describe 圈子的管理者 多个
+ * @describe 社区的管理者 多个
  * @date 2017/7/17
  * @contact email:648129313@qq.com
  */
@@ -29,7 +29,7 @@ public class GroupManagerBean extends BaseListBean implements Serializable {
 
     @Id(autoincrement = true)
     private Long _id;
-    private long group_id; // 圈子id
+    private long group_id; // 社区id
     private long user_id;
     @ToOne(joinProperty = "user_id")
     private UserInfoBean userInfoBean;
