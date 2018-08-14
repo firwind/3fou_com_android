@@ -70,13 +70,14 @@ import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_INTEGRATIO
 public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegrationContract.Presenter, IntegrationRuleBean>
         implements NewMineIntegrationContract.View {
 
-    TextView mTvUnit;
+    TextView mTvAvaliableIntegration;
+    TextView mTvRedUnit;
 
-    TextView mTvUnitDay;
+    TextView mTvFrezzIntegration;
+    TextView mTvIceUnit;
 
-    TextView mTvMineMoney;
-
-    TextView mTvMineMondyDay;
+    TextView mTvTodayIntegration;
+    TextView mTvDayUnit;
 
     TextView mTvDigDay;
 
@@ -161,16 +162,19 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
         View view = LayoutInflater.from(mActivity).inflate(R.layout.view_mine_integration_header,null);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mHeaderAndFooterWrapper.addHeaderView(view);
-        mTvUnit = (TextView) view.findViewById(R.id.tv_account_unit);
-        mTvMineMoney = (TextView) view.findViewById(R.id.tv_mine_money);
         mBtReCharge = (CombinationButton) view.findViewById(R.id.bt_recharge);
         mBtWithdraw = (CombinationButton) view.findViewById(R.id.bt_withdraw);
         mBtIntegrationShop = (CombinationButton) view.findViewById(R.id.bt_integration_shop);
         //mTvReChargeAndWithdrawRule = (TextView) view.findViewById(R.id.tv_recharge_and_withdraw_rule);
         mTvDigHead = (TextView) view.findViewById(R.id.tv_dig_head);
-        mTvUnitDay = (TextView) view.findViewById(R.id.tv_account_unit_day);
-        mTvMineMondyDay = (TextView) view.findViewById(R.id.tv_mine_money_day);
         mTvDigDay = (TextView) view.findViewById(R.id.tv_dig_day);
+
+        mTvFrezzIntegration = (TextView) view.findViewById(R.id.tv_frezz_integration);
+        mTvIceUnit = (TextView) view.findViewById(R.id.tv_ice_unit);
+        mTvAvaliableIntegration = (TextView) view.findViewById(R.id.tv_avaliable_integration);
+        mTvRedUnit = (TextView) view.findViewById(R.id.tv_red_unit);
+        mTvTodayIntegration = (TextView) view.findViewById(R.id.tv_today_integration);
+        mTvDayUnit = (TextView) view.findViewById(R.id.tv_day_unit);
 
         mIvRefresh = (ImageView) mRootView.findViewById(R.id.iv_refresh);
         mToolbar.setBackgroundResource(R.color.themeColor);
@@ -178,8 +182,10 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
         mGoldName = mPresenter.getGoldName();
         mTvToolbarCenter.setText(getString(R.string.my_integration_name, mGoldName));
         mTvToolbarRight.setText(getString(R.string.detail));
-        mTvUnit.setText(getString(R.string.current_integraiton_format, mGoldName));
-        mTvUnitDay.setText(getString(R.string.current_day_integration_format, mGoldName));
+        mTvDayUnit.setText(getString(R.string.current_day_integration_format, mGoldName));
+        mTvIceUnit.setText("冰"+mGoldName);
+        mTvRedUnit.setText("红"+mGoldName);
+
         mTvToolbarLeft.setCompoundDrawables(UIUtils.getCompoundDrawables(mActivity, R.mipmap.topbar_back_white),
                 null, null, null);
         initListener();
@@ -361,8 +367,9 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
 
     @Override
     public void updateBalance(IntegrationBean balance) {
-        mTvMineMoney.setText(String.valueOf(balance == null ? 0 : balance.getSum()));
-        mTvMineMondyDay.setText(String.valueOf(balance == null ? 0 : balance.getToday_total()));
+        mTvFrezzIntegration.setText(String.valueOf(balance == null ? 0 : balance.getSum()));
+        mTvTodayIntegration.setText(String.valueOf(balance == null ? 0 : balance.getToday_total()));
+        mTvAvaliableIntegration.setText(String.valueOf(balance==null?0:balance.getRed_candy()));
         int day = 0;
         if(null != balance){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -66,12 +66,12 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
     @Override
     public boolean isGroupOwner() {
-        ChatGroupBean chatGroupBean = mRootView.getGroupBean();
-        if (chatGroupBean == null) {
-            return false;
+        if (null == mRootView.getGroupBean()) {
+            EMGroup group = EMClient.getInstance().groupManager().getGroup(mRootView.getChatId());
+            return group.getOwner().equals(String.valueOf(AppApplication.getMyUserIdWithdefault()));
+        }else {
+            return mRootView.getGroupBean().getOwner() == AppApplication.getMyUserIdWithdefault();
         }
-        String owner = String.valueOf(chatGroupBean.getOwner());
-        return owner.equals(String.valueOf(AppApplication.getMyUserIdWithdefault()));
     }
 
     @Override
@@ -114,15 +114,11 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .flatMap(id -> {
+                    //群主
                     if (isGroupOwner()) {
                         // 解散群组
                         return mRepository.deleteGroup(id)
-                                .map(new Func1<String, String>() {
-                                    @Override
-                                    public String call(String s) {
-                                        return id;
-                                    }
-                                });
+                                .map(s -> id);
                     } else {
                         if (mRootView.getIsInGroup()) {
                             // 退群
@@ -138,7 +134,6 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                         }
 
                     }
-                    //return Observable.just(id);
 
                 })
                 .subscribeOn(Schedulers.io())

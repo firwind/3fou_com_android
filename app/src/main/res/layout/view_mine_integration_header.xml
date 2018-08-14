@@ -13,6 +13,7 @@
         android:orientation="horizontal"
         android:gravity="center">
 
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -21,7 +22,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/tv_mine_money_day"
+                android:id="@+id/tv_frezz_integration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -32,11 +33,11 @@
                 tools:text="@string/default_mongy" />
 
             <TextView
-                android:id="@+id/tv_account_unit_day"
+                android:id="@+id/tv_ice_unit"
                 android:layout_marginTop="@dimen/dp12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="今日获得糖果"
+                android:text="冰糖果"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp12" />
 
@@ -50,7 +51,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/tv_mine_money"
+                android:id="@+id/tv_avaliable_integration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -61,11 +62,40 @@
                 tools:text="@string/default_mongy" />
 
             <TextView
-                android:id="@+id/tv_account_unit"
+                android:id="@+id/tv_red_unit"
                 android:layout_marginTop="@dimen/dp12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已获得糖果"
+                android:text="红糖果"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp12" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_today_integration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp24"
+                android:textStyle="bold"
+                tools:text="@string/default_mongy" />
+
+            <TextView
+                android:id="@+id/tv_day_unit"
+                android:layout_marginTop="@dimen/dp12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今日获得糖果"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp12" />
 

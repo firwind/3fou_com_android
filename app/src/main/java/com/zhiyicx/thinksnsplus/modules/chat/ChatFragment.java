@@ -297,21 +297,6 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         //setUpView();
     }
 
-    /**
-     * 上层过来的
-     *
-     * @param bundle
-     */
-    public void onNewIntent(Bundle bundle) {
-        fragmentArgs = bundle;
-
-        chatType = fragmentArgs.getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-        // userId you are chat with or group id
-        toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
-        getArguments().putInt(EaseConstant.EXTRA_CHAT_TYPE, chatType);
-        getArguments().putString(EaseConstant.EXTRA_USER_ID, toChatUsername);
-    }
-
     @Override
     protected void setLeftClick() {
         onBackPressed();

@@ -22,10 +22,28 @@ public class IntegrationBean implements Serializable {
     private int owner_id;
     private int type;
     private long sum;
+    private long red_candy;
+    private long candy_total;
     private String created_at;
     private String updated_at;
     private boolean is_sweet;
     private int today_total;
+
+    public long getRed_candy() {
+        return red_candy;
+    }
+
+    public void setRed_candy(long red_candy) {
+        this.red_candy = red_candy;
+    }
+
+    public long getCandy_total() {
+        return candy_total;
+    }
+
+    public void setCandy_total(long candy_total) {
+        this.candy_total = candy_total;
+    }
 
     public int getOwner_id() {
         return owner_id;
@@ -93,6 +111,8 @@ public class IntegrationBean implements Serializable {
                 ", updated_at='" + updated_at + '\'' +
                 ", is_sweet=" + is_sweet +
                 ", today_total=" + today_total +
+                ", candy_total=" + candy_total +
+                ", red_candy=" + red_candy +
                 '}';
     }
 }

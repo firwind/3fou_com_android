@@ -139,7 +139,6 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
     ImageView mIvInformation;
     @BindView(R.id.tv_information)
     TextView mTvInformation;
-    Unbinder unbinder;
 
     private PhotoSelectorImpl mPhotoSelector;
 
@@ -640,17 +639,11 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
+    /**
+     * 暴露给外部的签到
+     */
+    public void getCheckInInfo(){
+        mPresenter.getCheckInInfo();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 }

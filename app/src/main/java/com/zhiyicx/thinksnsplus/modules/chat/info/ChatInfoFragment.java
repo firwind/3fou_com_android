@@ -531,14 +531,16 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @Override
     public void setIsInGroup(boolean isInGroup) {
         this.mIsInGroup = isInGroup;
+        mRlBlockMessage.setVisibility(isInGroup?View.VISIBLE:View.GONE);
         if (mIsInGroup) {
             EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
             // 屏蔽按钮
-            if (group != null)
+            if (group != null){
                 mScBlockMessage.setChecked(group.isMsgBlocked());
-
-            mTvDeleteGroup.setText(getString(mPresenter.isGroupOwner()?R.string.chat_delete_group:
-                    R.string.chat_quit_group));
+                mTvDeleteGroup.setText(getString(
+                        group.getOwner().equals(String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()) )?
+                                R.string.chat_delete_group: R.string.chat_quit_group));
+            }
 
         }else {
             mLlSetStick.setVisibility(View.GONE);

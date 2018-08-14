@@ -490,7 +490,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
      */
     public long getFormatCurrencyNum() {
 
-        return currency == null ? 0 : currency.getSum();
+        return currency == null ? 0 : currency.getCandy_total();
     }
 
     public IntegrationBean getCurrency() {

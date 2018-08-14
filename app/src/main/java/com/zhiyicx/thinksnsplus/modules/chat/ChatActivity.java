@@ -23,7 +23,14 @@ public class ChatActivity extends TSActivity<ChatPresenter, ChatFragment> {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        mContanierFragment.onNewIntent(intent.getExtras());
+        String toUserName = getIntent().getStringExtra(EaseConstant.EXTRA_USER_ID);
+        if(toUserName.equals(intent.getStringExtra(EaseConstant.EXTRA_USER_ID)) ){
+            super.onNewIntent(intent);
+        }else {
+            finish();
+            startActivity(intent);
+        }
+        //mContanierFragment.onNewIntent(intent.getExtras());
     }
 
     @Override

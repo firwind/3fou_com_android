@@ -46,7 +46,7 @@ public class ApiConfig {
     //public static final String URL_INTEGRATION_SHOP = "api/" + API_VERSION_2 + "/currency/shop";// 糖果商城地址
     public static final String URL_INTEGRATION_SHOP = "http://haoshe.hotime.cn";// 糖果商城地址
     public static final String URL_CURRENCY_INTEREST = APP_DOMAIN+"h5/interest";//持币生息
-    public static final String URL_CURRENCY_INTEREST_RECORD = APP_DOMAIN+"interest/log";
+    public static final String URL_CURRENCY_INTEREST_RECORD = APP_DOMAIN+"h5/interest/log";
 
     // 图片地址 V2
     public static final String IMAGE_PATH_V2_ORIGIN = "api/" + API_VERSION_2 + "/files/%s";

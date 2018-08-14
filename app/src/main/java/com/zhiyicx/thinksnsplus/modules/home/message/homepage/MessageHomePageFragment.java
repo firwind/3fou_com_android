@@ -342,8 +342,9 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
         list.add(new MenuItem(R.mipmap.icon_home_menu_wallet, "资产", v -> {
             MyCurrencyActivity.startMyCurrencyActivity(getContext());
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_rank, "排行榜", v -> {
-            startActivity(new Intent(getActivity(), RankIndexActivity.class));
+        list.add(new MenuItem(R.mipmap.icon_home_menu_rank, "签到", v -> {
+            /*startActivity(new Intent(getActivity(), RankIndexActivity.class));*/
+            ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).getCheckInInfo();
         }));
         return list;
     }
