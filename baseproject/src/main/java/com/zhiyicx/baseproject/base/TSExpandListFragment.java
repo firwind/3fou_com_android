@@ -607,14 +607,14 @@ public abstract class TSExpandListFragment<P extends ITSListPresenter<T>, T exte
     public void refreshData() {
         setEmptyViewVisiable(mListDatas.isEmpty());
         if(null != mAdapter){
-            //mAdapter.notifyDataSetInvalidated();
             /*mAdapter.notifyDataSetChanged();*/
-            for (int i = 0; i < mListDatas.size(); i++) {
+            mAdapter.notifyDataSetChanged();
+            /*for (int i = 0; i < mListDatas.size(); i++) {
                 if(mLvList.isGroupExpanded(i)){
                     mLvList.collapseGroup(i);
                     mLvList.expandGroup(i);
                 }
-            }
+            }*/
 
         }
     }
