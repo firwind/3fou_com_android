@@ -9,7 +9,7 @@ package com.zhiyicx.thinksnsplus.data.beans;
 
 public class WithdrawCurrencyBean {
 
-    public double rate;
-    public double balance;
+    public String rate;
+    public String balance;
 
 }

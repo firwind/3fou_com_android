@@ -253,14 +253,20 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     }
 
     @Override
-    public void setBalanceAndRate(boolean isSuccess, double balance, double rate) {
+    public void setBalanceAndRate(boolean isSuccess, String balance, String rate) {
         if(isSuccess){
             closeLoadingView();
             mTvAvaliableBalance.setText("可用余额："+balance+" "+getCurrency());
-            mTvRate.setText("转账手续费（"+ String.valueOf(rate)+getCurrency()+"）");
+            mTvRate.setText("转账手续费（"+ rate+getCurrency()+"）");
+            try {
+                this.mTransferRate = Double.parseDouble(rate);
+            }catch (Exception e){
+            }
+            try {
+                this.mAvaliableBalance = Double.parseDouble(balance);
+            }catch (Exception e){
 
-            this.mTransferRate = rate;
-            this.mAvaliableBalance = balance;
+            }
         }else {
             setLoadViewHolderImag(R.mipmap.img_default_internet);
             showLoadViewLoadError();

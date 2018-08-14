@@ -40,7 +40,7 @@ public class WithdrawCurrencyPresenter extends AppBasePresenter<WithdrawCurrency
                     @Override
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);
-                        mRootView.setBalanceAndRate(false,0,0);
+                        mRootView.setBalanceAndRate(false,"0","0");
                     }
                 });
     }

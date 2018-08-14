@@ -14,7 +14,7 @@ public interface WithdrawCurrencyContract {
 
     interface View extends IBaseView<Presenter>{
         String getCurrency();
-        void setBalanceAndRate(boolean isSuccess,double balance,double rate);
+        void setBalanceAndRate(boolean isSuccess,String balance,String rate);
     }
 
     interface Presenter extends IBasePresenter{

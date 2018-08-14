@@ -35,22 +35,24 @@
             android:textColor="@color/state_currency_verify"/>
 
         <TextView
-            android:id="@+id/tv_address_tag"
+            android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="地址：000000000"
             android:singleLine="true"
+            android:ellipsize="middle"
             android:textSize="@dimen/sp12"
             android:textColor="@color/gray_normal"/>
 
         <TextView
-            android:id="@+id/tv_address"
+            android:id="@+id/tv_address_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="地址标签：000000000"
             android:singleLine="true"
             android:textSize="@dimen/sp12"
             android:textColor="@color/gray_normal"/>
+
 
         <TextView
             android:id="@+id/tv_record"
