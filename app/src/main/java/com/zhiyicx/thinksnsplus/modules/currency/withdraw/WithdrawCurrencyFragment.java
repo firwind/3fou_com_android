@@ -28,6 +28,7 @@ import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
 import com.zhiyicx.thinksnsplus.utils.NumberScaleFilter;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     @Override
     protected void initView(View rootView) {
         setCenterTextColor(R.color.white);
-        InputFilter[] filters = new InputFilter[]{new NumberScaleFilter(10)};
+        InputFilter[] filters = new InputFilter[]{new NumberScaleFilter(4)};
         mEtNum.setFilters(filters);
         mEtNum.addTextChangedListener(this);
     }
@@ -256,7 +257,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         if(isSuccess){
             closeLoadingView();
             mTvAvaliableBalance.setText("可用余额："+balance+" "+getCurrency());
-            mTvRate.setText("转账手续费（"+rate+getCurrency()+"）");
+            mTvRate.setText("转账手续费（"+ String.valueOf(rate)+getCurrency()+"）");
 
             this.mTransferRate = rate;
             this.mAvaliableBalance = balance;
@@ -299,7 +300,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
             mEtNum.setSelection(mEtNum.getText().toString().length());
         }else {
             mTvTransfer.setText(new BigDecimal(edit).subtract(new BigDecimal(mTransferRate))
-                    .setScale(10,BigDecimal.ROUND_HALF_EVEN).toString() );
+                    .setScale(4,BigDecimal.ROUND_HALF_EVEN).toString() );
             //ROUND_HALF_EVEN 银行家舍入法，4舍6入，5分两种情况，如果前一位为奇数，则进1，否则，舍去。
             // 在重复进行一系列计算时，此舍入模式可以将累加错误减到最小。
 

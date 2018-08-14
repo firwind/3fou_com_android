@@ -45,6 +45,7 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
 
     private TextView mTvYearRate;
     private ExchangeCurrencyDialog mExchangeCurrencyDialog;
+    private AlertDialog mSetPayPwdDialog = null;
 
     public static MyCurrencyFragment newInstance(){
         Bundle bundle = new Bundle();
@@ -67,8 +68,13 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
         mHeaderAndFooterWrapper.addHeaderView(headerView);
         headerView.findViewById(R.id.tv_software).setOnClickListener(v->
                 CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_USE_RECOMMEND));
-        headerView.findViewById(R.id.bt_join).setOnClickListener(v->
-                startActivity(new Intent(mActivity, CurrencyInterestActivity.class)));
+        headerView.findViewById(R.id.bt_join).setOnClickListener(v -> {
+            if (mPresenter.getPayPasswordIsSetted()) {
+                startActivity(new Intent(mActivity, CurrencyInterestActivity.class));
+            } else {
+                showSetPayPwdDialog();
+            }
+        });
         mTvYearRate = (TextView) headerView.findViewById(R.id.tv_year_rate);
 
         //明细
@@ -204,12 +210,7 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
                 }
 
             }else {
-                new AlertDialog.Builder(mActivity)
-                        .setTitle("提示")
-                        .setMessage("请先设置支付密码！")
-                        .setPositiveButton("去设置", (dialog, which) -> startActivity(new Intent(mActivity, PayPassWordActivity.class)))
-                        .create()
-                        .show();
+                showSetPayPwdDialog();
             }
         };
     }
@@ -262,4 +263,19 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
     public void exchangeCurrencySuccess() {
         startRefreshNoAnimIfEmpty();
     }
+
+    /**
+     * 设置支付密码弹窗
+     */
+    private void showSetPayPwdDialog(){
+        if(null == mSetPayPwdDialog){
+            mSetPayPwdDialog = new AlertDialog.Builder(mActivity)
+                    .setTitle("提示")
+                    .setMessage("请先设置支付密码！")
+                    .setPositiveButton("去设置", (dialog, which) -> startActivity(new Intent(mActivity, PayPassWordActivity.class)))
+                    .create();
+        }
+        mSetPayPwdDialog.show();
+    }
+
 }
