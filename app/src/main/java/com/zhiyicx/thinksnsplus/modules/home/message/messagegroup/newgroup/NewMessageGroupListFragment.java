@@ -6,10 +6,12 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.EaseConstant;
 import com.zhiyicx.baseproject.base.TSExpandListFragment;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMConnectionEvent;
+import com.zhiyicx.baseproject.em.manager.eventbus.TSEMessageEvent;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
@@ -17,6 +19,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupParentBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
+import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
 
 import org.jetbrains.annotations.NotNull;
@@ -169,7 +172,7 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
         return mSearchView.getText().toString().trim();
     }
 
-    @Subscriber(mode = ThreadMode.MAIN)
+    /*@Subscriber(mode = ThreadMode.MAIN)
     public void onTSEMConnectionEventBus(TSEMConnectionEvent event) {
         LogUtils.d("onTSEMConnectionEventBus");
         switch (event.getType()) {
@@ -183,6 +186,18 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
                 break;
             case TSEMConstants.TS_CONNECTION_DISCONNECTED:
                 showStickyMessage(getString(R.string.chat_unconnected));
+                break;
+            default:
+        }
+    }*/
+
+    @Subscriber(mode = ThreadMode.MAIN)
+    public void onTSEMessageEventEventBus(TSEMessageEvent event) {
+        EMCmdMessageBody body = (EMCmdMessageBody) event.getMessage().getBody();
+        switch (body.action()) {
+            case TSEMConstants.TS_ATTR_GROUP_DISBAND:
+            case TSEMConstants.TS_ATTR_GROUP_LAYOFF:
+                getGroupListData();
                 break;
             default:
         }

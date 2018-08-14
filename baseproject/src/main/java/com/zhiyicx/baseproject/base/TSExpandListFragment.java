@@ -288,7 +288,8 @@ public abstract class TSExpandListFragment<P extends ITSListPresenter<T>, T exte
         mLvList.setDrawingCacheEnabled(true);
         mLvList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         //设置动画
-        mLvList.setAdapter(getAdapter());
+        mAdapter = getAdapter();
+        mLvList.setAdapter(mAdapter);
         mRefreshlayout.setEnableAutoLoadmore(false);
         mRefreshlayout.setEnableRefresh(isRefreshEnable());
         mRefreshlayout.setEnableLoadmore(isLoadingMoreEnable());
@@ -606,12 +607,15 @@ public abstract class TSExpandListFragment<P extends ITSListPresenter<T>, T exte
     public void refreshData() {
         setEmptyViewVisiable(mListDatas.isEmpty());
         if(null != mAdapter){
-            /*mLvList.setAdapter(mAdapter);*/
-            mAdapter.notifyDataSetChanged();
+            //mAdapter.notifyDataSetInvalidated();
+            /*mAdapter.notifyDataSetChanged();*/
             for (int i = 0; i < mListDatas.size(); i++) {
-                mLvList.expandGroup(i,false);
-                mLvList.collapseGroup(i);
+                if(mLvList.isGroupExpanded(i)){
+                    mLvList.collapseGroup(i);
+                    mLvList.expandGroup(i);
+                }
             }
+
         }
     }
 
