@@ -437,14 +437,14 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     }
 
     @Override
-    public Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(String groupName) {
-        if (null != groupName && groupName.length() > 0) {
-            return mClient.getSearchGroupInfo(groupName)
+    public Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(String groupName,long page) {
+//        if (null != groupName && groupName.length() > 0) {
+//            return mClient.getSearchGroupInfo(groupName)
+//                    .subscribeOn(Schedulers.io());
+//        } else {
+            return mClient.getSearchGroupInfoFace(groupName,TSListFragment.DEFAULT_PAGE_SIZE,page)
                     .subscribeOn(Schedulers.io());
-        } else {
-            return mClient.getSearchGroupInfoFace()
-                    .subscribeOn(Schedulers.io());
-        }
+//        }
     }
 
     @Override

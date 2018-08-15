@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wcy.overscroll.OverScrollLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.wcy.overscroll.OverScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!--黑名单-->
-    <com.zhiyicx.baseproject.widget.button.CombinationButton
-        android:id="@+id/bt_blacklis"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/full_button_height"
-        app:leftText="@string/ts_blacklist"
-        app:leftTextLeftPadding="@dimen/spacing_mid"
-        app:rightImage="@mipmap/ic_arrow_smallgrey"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.zhiyicx.baseproject.widget.button.CombinationButton
+            android:id="@+id/bt_allow_anyone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/full_button_height"
+            app:leftText="@string/allow_anyone_add"
+            app:leftTextLeftPadding="@dimen/spacing_mid"
+            />
+
+        <com.zhiyicx.baseproject.widget.button.CombinationButton
+            android:id="@+id/bt_need_verify"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/full_button_height"
+            app:leftText="@string/need_verify_add"
+            app:leftTextLeftPadding="@dimen/spacing_mid"
+           />
+
+        <com.zhiyicx.baseproject.widget.button.CombinationButton
+            android:id="@+id/bt_refuse_anyone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/full_button_height"
+            app:leftText="@string/refuse_anyone_add"
+            app:leftTextLeftPadding="@dimen/spacing_mid" />
+    </LinearLayout>
 </com.wcy.overscroll.OverScrollLayout>

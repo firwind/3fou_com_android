@@ -40,6 +40,7 @@ import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity
 import com.zhiyicx.thinksnsplus.modules.settings.account.AccountManagementActivity
 import com.zhiyicx.thinksnsplus.modules.settings.blacklist.BlackListActivity
 import com.zhiyicx.thinksnsplus.modules.settings.password.PassWordManagerActivity
+import com.zhiyicx.thinksnsplus.modules.settings.privacy.SettingPricacyActivity
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil
 import java.util.concurrent.TimeUnit
 
@@ -54,6 +55,10 @@ class SettingsFragment : TSFragment<SettingsContract.Presenter>(), SettingsContr
     @BindView(R.id.bt_blacklis)
     @JvmField
     var mBtBlackList: CombinationButton? = null
+    @BindView(R.id.bt_change_privacy)
+    @JvmField
+    var mBtPrivacy: CombinationButton? = null
+
     @BindView(R.id.bt_login_out)
     @JvmField
     var mBtLoginOut: CombinationButton? = null
@@ -203,8 +208,15 @@ class SettingsFragment : TSFragment<SettingsContract.Presenter>(), SettingsContr
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())
                 .subscribe {
-
                     startActivity(Intent(activity, BlackListActivity::class.java))
+                }
+
+        // 隐私设置
+        RxView.clicks(mBtPrivacy!!)
+                .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
+                .compose(this.bindToLifecycle())
+                .subscribe {
+                    startActivity(Intent(activity, SettingPricacyActivity::class.java))
                 }
         // 意见反馈
         RxView.clicks(mBtFeedBack!!)

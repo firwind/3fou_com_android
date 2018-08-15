@@ -107,7 +107,7 @@ public interface EasemobClient {
      * @param
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_RECOMMEND)
-    Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace();
+    Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(@Query("name") String name,@Query("per_page") Integer per_page,@Query("page") long page);
 
     /**
      * 搜索群

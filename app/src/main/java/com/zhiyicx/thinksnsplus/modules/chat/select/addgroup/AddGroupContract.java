@@ -23,6 +23,6 @@ public interface AddGroupContract {
     interface Presenter extends ITSListPresenter<ChatGroupServerBean>{
        void checkIsAddGroup(String id, EMGroup data);
         void checkGroupExist(String id);
-        void setSearchGroup(String str);
+
     }
 }

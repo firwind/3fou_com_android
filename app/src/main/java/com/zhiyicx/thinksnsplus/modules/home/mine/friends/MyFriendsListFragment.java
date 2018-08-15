@@ -83,7 +83,7 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
     }
     @Override
     protected String setCenterTitle() {
-        return getString(R.string.tv_add_friends);
+        return getString(R.string.tv_my_friends);
     }
     @Override
     protected boolean showToolBarDivider() {

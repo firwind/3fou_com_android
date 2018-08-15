@@ -38,7 +38,7 @@ public class ApiConfig {
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
 
-    public static String APP_DOMAIN = APP_DOMAIN_FORMAL/*APP_DOMAIN_TEST*/;
+    public static String APP_DOMAIN = /*APP_DOMAIN_FORMAL*/APP_DOMAIN_TEST;
 
     public static final String URL_ABOUT_US = "api/" + API_VERSION_2 + "/aboutus";// 关于我们网站
     public static final String URL_JIPU_SHOP = "http://haoshe.hotime.cn";// 豪舍购物地址
