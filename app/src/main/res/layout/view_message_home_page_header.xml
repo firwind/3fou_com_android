@@ -9,7 +9,8 @@
     <FrameLayout
         android:id="@+id/fl_banner"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp300">
+        android:layout_height="@dimen/dp280"
+        android:descendantFocusability="blocksDescendants">
 
         <com.youth.banner.Banner
             android:id="@+id/banner"
@@ -18,37 +19,46 @@
             app:indicator_width="0dp"
             app:indicator_height="0dp"/>
 
-        <android.support.v7.widget.CardView
-            android:layout_marginTop="126dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_menus"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp154"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="6dp"
-            android:descendantFocusability="blocksDescendants">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_menus"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-
-            </android.support.v7.widget.RecyclerView>
-
-
-        </android.support.v7.widget.CardView>
+            android:layout_marginTop="126dp"
+            android:background="@mipmap/bg_home_menu"/>
 
     </FrameLayout>
 
-    <View
-        style="@style/style_divider_horizontal"/>
+    <FrameLayout
+        android:layout_marginLeft="@dimen/dp2"
+        android:layout_marginRight="@dimen/dp2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp35"
+        android:background="@mipmap/bg_home_flash_news">
+
+        <com.zhiyicx.thinksnsplus.widget.VerticalTextSwitcher
+            android:id="@+id/text_switcher"
+            android:layout_marginLeft="@dimen/dp74"
+            android:layout_marginRight="@dimen/dp54"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_flash_news_more"
+            android:layout_width="@dimen/dp54"
+            android:layout_height="match_parent"
+            android:text="更多"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:textSize="@dimen/sp10"/>
+
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp120"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="@dimen/dp98"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:descendantFocusability="blocksDescendants"
         android:background="@mipmap/bg_home_market">
 
@@ -60,13 +70,10 @@
 
     </FrameLayout>
 
-    <View
-        style="@style/style_divider_horizontal"/>
-
     <FrameLayout
         android:id="@+id/fl_currency"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp142"
         android:background="@mipmap/icon_home_coin_interest"

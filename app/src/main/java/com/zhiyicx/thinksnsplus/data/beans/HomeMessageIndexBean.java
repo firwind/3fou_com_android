@@ -16,10 +16,19 @@ import java.util.List;
 public class HomeMessageIndexBean {
 
     private String year_rate;
-    private List<MarketCurrencyBean> jinsecaijing;
+    private List<CurrencyRankBean> jinsecaijing;
     private List<InfoListDataBean> news;
+    private List<InfoListDataBean> flash;
 
     private List<RealAdvertListBean> banners;
+
+    public List<InfoListDataBean> getFlash() {
+        return flash;
+    }
+
+    public void setFlash(List<InfoListDataBean> flash) {
+        this.flash = flash;
+    }
 
     public String getYear_rate() {
         return year_rate;
@@ -29,11 +38,11 @@ public class HomeMessageIndexBean {
         this.year_rate = year_rate;
     }
 
-    public List<MarketCurrencyBean> getJinsecaijing() {
+    public List<CurrencyRankBean> getJinsecaijing() {
         return jinsecaijing;
     }
 
-    public void setJinsecaijing(List<MarketCurrencyBean> jinsecaijing) {
+    public void setJinsecaijing(List<CurrencyRankBean> jinsecaijing) {
         this.jinsecaijing = jinsecaijing;
     }
 

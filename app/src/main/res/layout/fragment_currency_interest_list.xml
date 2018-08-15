@@ -10,7 +10,6 @@
         android:layout_height="@dimen/dp43">
 
         <TextView
-            android:id="@+id/tv1"
             android:paddingLeft="@dimen/dp40"
             android:layout_weight="1.5"
             android:layout_width="0dp"
@@ -21,12 +20,27 @@
 
 
         <TextView
-            android:id="@+id/tv2"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="转化率"
+            android:textSize="@dimen/sp14"/>
+
+        <TextView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="充币"
+            android:textSize="@dimen/sp14"/>
+
+        <TextView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="提币"
             android:textSize="@dimen/sp14"/>
 
     </LinearLayout>

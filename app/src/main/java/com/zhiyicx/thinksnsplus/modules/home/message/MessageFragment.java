@@ -27,7 +27,7 @@ import com.zhiyicx.thinksnsplus.modules.home.message.messagecomment.MessageComme
 import com.zhiyicx.thinksnsplus.modules.home.message.messagelike.MessageLikeActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagereview.MessageReviewActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagereview.MessageReviewFragment;
-import com.zhiyicx.thinksnsplus.modules.home.message.notifacationlist.NotificationActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.notifacationlist.NotificationListActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
 
@@ -355,7 +355,7 @@ public class MessageFragment extends TSListFragment<MessageContract.Presenter, M
      * 前往系统消息了列表
      */
     private void toSystemPage() {
-        startActivity(new Intent(getContext(), NotificationActivity.class));
+        startActivity(new Intent(getContext(), NotificationListActivity.class));
     }
 
     /**

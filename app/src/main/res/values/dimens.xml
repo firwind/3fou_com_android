@@ -155,9 +155,11 @@
     <dimen name="dp22">22dp</dimen>
     <dimen name="dp44">44dp</dimen>
     <dimen name="dp64">64dp</dimen>
+    <dimen name="dp74">74dp</dimen>
     <dimen name="dp77">77dp</dimen>
     <dimen name="dp90">90dp</dimen>
     <dimen name="dp92">92dp</dimen>
+    <dimen name="dp98">98dp</dimen>
     <dimen name="dp120">120dp</dimen>
     <dimen name="dp134">134dp</dimen>
     <dimen name="dp142">142dp</dimen>

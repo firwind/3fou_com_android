@@ -10,6 +10,8 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.AuthBean;
 import com.zhiyicx.thinksnsplus.data.beans.CurrencyBalanceBean;
+import com.zhiyicx.thinksnsplus.modules.currency.recharge.RechargeCurrencyActivity;
+import com.zhiyicx.thinksnsplus.modules.currency.withdraw.WithdrawCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -86,6 +88,11 @@ public class CurrencyInterestFragment extends TSListFragment<CurrencyInterestCon
                 holder.setText(R.id.tv_currency_name,currencyInterest.currency);
                 holder.setText(R.id.tv_chg,currencyInterest.year_rate+"%");
                 holder.getView(R.id.tv_chg).setSelected(true);
+
+                holder.getView(R.id.iv_recharge).setOnClickListener(v ->
+                        RechargeCurrencyActivity.startRechargeCurrencyActivity(getContext(),currencyInterest.currency));
+                holder.getView(R.id.iv_withdraw).setOnClickListener(v ->
+                        WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext(),currencyInterest.currency));
             }
         };
         mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {

@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.youth.banner.Banner;
 import com.zhiyicx.baseproject.base.TSListFragment;
@@ -22,29 +24,35 @@ import com.zhiyicx.common.utils.FileUtils;
 import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.data.beans.CurrencyRankBean;
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
 import com.zhiyicx.thinksnsplus.data.beans.MarketCurrencyBean;
 import com.zhiyicx.thinksnsplus.data.beans.MenuItem;
 import com.zhiyicx.thinksnsplus.data.beans.RealAdvertListBean;
 import com.zhiyicx.thinksnsplus.data.beans.HomeMessageIndexBean;
+import com.zhiyicx.thinksnsplus.modules.chat.select.addgroup.AddGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.circle.main.CircleMainActivity;
 import com.zhiyicx.thinksnsplus.modules.circle.mine.container.MyCircleContainerActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.MyCurrencyActivity;
 import com.zhiyicx.thinksnsplus.modules.currency.interest.CurrencyInterestActivity;
 import com.zhiyicx.thinksnsplus.modules.home.HomeActivity;
 import com.zhiyicx.thinksnsplus.modules.home.HomeFragment;
+import com.zhiyicx.thinksnsplus.modules.home.common.invite.InviteShareActivity;
 import com.zhiyicx.thinksnsplus.modules.home.find.market.MarketActivity;
 import com.zhiyicx.thinksnsplus.modules.home.find.market.details.CurrencyKLineActivity;
 import com.zhiyicx.thinksnsplus.modules.home.main.MainActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.information.adapter.InfoBannerHeader;
 import com.zhiyicx.thinksnsplus.modules.information.adapter.InfoListItem;
+import com.zhiyicx.thinksnsplus.modules.information.flashdetails.FlashDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.container.InfoContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.q_a.QA_Activity;
 import com.zhiyicx.thinksnsplus.modules.rank.main.container.RankIndexActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
+import com.zhiyicx.thinksnsplus.modules.wallet.integration.mine.newIntegration.NewMineIntegrationActivity;
 import com.zhiyicx.thinksnsplus.utils.BannerImageLoaderUtil;
+import com.zhiyicx.thinksnsplus.widget.VerticalTextSwitcher;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -52,6 +60,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -77,6 +86,8 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
     private Banner mBanner;
     private TextView mTvYearRate;
     private CombinationButton mBtNews;
+    private VerticalTextSwitcher mTextSwitcher;
+    private TextView mTvFlashNewsMore;
 
     @Override
     protected boolean isLoadingMoreEnable() {
@@ -142,6 +153,17 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
         //持币生息
         mTvYearRate.setText("+ "+data.getYear_rate()+"%");
         //资讯上边刷新
+
+        if(null != data && null != data.getFlash() && data.getFlash().size()>0){
+            //快讯
+            List<String> list = new ArrayList<>();
+            for (InfoListDataBean info:data.getFlash()) {
+                list.add(info.getTitle());
+            }
+            mTextSwitcher.setupData(list);
+            mTextSwitcher.setOnClickListener(v ->
+                    FlashDetailsActivity.startActivity(mActivity,data.getFlash().get(mTextSwitcher.getCurPosition())));
+        }
     }
 
     @Override
@@ -203,6 +225,13 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
             ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).goToNewsPage(false);
         });
 
+        //快讯
+        mTextSwitcher = (VerticalTextSwitcher) head.findViewById(R.id.text_switcher);
+        mTvFlashNewsMore = (TextView) head.findViewById(R.id.tv_flash_news_more);
+        mTvFlashNewsMore.setOnClickListener(v -> {
+            ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).goToNewsPage(true);
+        });
+
     }
 
     /**
@@ -236,34 +265,26 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
      * @return
      */
     private CommonAdapter getMarketAdapter(){
-        CommonAdapter mAdapter = new CommonAdapter<MarketCurrencyBean>(mActivity,R.layout.item_home_market,new ArrayList<>()) {
+        CommonAdapter mAdapter = new CommonAdapter<CurrencyRankBean>(mActivity,R.layout.item_home_market,new ArrayList<>()) {
 
             @Override
-            protected void convert(ViewHolder holder, MarketCurrencyBean marketCurrencyBean, int position) {
-                holder.getTextView(R.id.tv_currency).setText(marketCurrencyBean.currency_name+"/"+marketCurrencyBean.exchange_name);
-                double degree = 0;
-                try {
-                    degree = Double.parseDouble(marketCurrencyBean.degree);
-                } catch (Exception e) {
+            protected void convert(ViewHolder holder, CurrencyRankBean marketCurrencyBean, int position) {
 
-                }
-                holder.setText(R.id.tv_degree, (degree > 0 ? "+" : "") + marketCurrencyBean.degree + "%");
+                holder.getView(R.id.ll_parent).setBackgroundResource(position%2==0?R.mipmap.bg_home_market_1:R.mipmap.bg_home_market_2);
+
+                holder.getTextView(R.id.tv_currency).setText(marketCurrencyBean.currency);
+                holder.setText(R.id.tv_degree, (marketCurrencyBean.change > 0 ? "+" : "") + marketCurrencyBean.change + "%");
                 holder.getTextView(R.id.tv_degree).setTextColor(getResources()
-                        .getColor(degree > 0 ? R.color.market_red : R.color.market_green));
-                holder.setText(R.id.tv_price,"¥ "+marketCurrencyBean.last_cny);
+                        .getColor(marketCurrencyBean.change > 0 ? R.color.market_red : R.color.market_green));
+                holder.setText(R.id.tv_price,"¥ "+marketCurrencyBean.price);
                 holder.getTextView(R.id.tv_price).setTextColor(getResources()
-                        .getColor(degree > 0 ? R.color.market_red : R.color.market_green));
+                        .getColor(marketCurrencyBean.change > 0 ? R.color.market_red : R.color.market_green));
             }
         };
         mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                if(!TextUtils.isEmpty(((MarketCurrencyBean)mAdapter.getDatas().get(position)).ticker)){
-                    //跳转k线图
-                    CurrencyKLineActivity.startActivity(mActivity, (MarketCurrencyBean) mAdapter.getDatas().get(position));
-                }else {
-                    ToastUtils.showToast("行情信息正在赶来的路上~");
-                }
+                MarketActivity.startMarketActivity(mActivity);
             }
 
             @Override
@@ -311,38 +332,38 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
      */
     private List<MenuItem> getMenuItems(){
         List<MenuItem> list = new ArrayList<>();
-        list.add(new MenuItem(R.mipmap.icon_home_menu_offical_group, "企业群", v -> {
-            ((MessageContainerFragment)getParentFragment()).setCurrentItem(1);
+        list.add(new MenuItem(R.mipmap.icon_home_menu1, "群聊", v -> {
+            AddGroupActivity.startAddGroupActivity(getContext());
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_community, "社区", v -> {
+        list.add(new MenuItem(R.mipmap.icon_home_menu2, "社区", v -> {
             startActivity(new Intent(getActivity(), CircleMainActivity.class));
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_friend_circle, "朋友圈", v -> {
+        list.add(new MenuItem(R.mipmap.icon_home_menu3, "朋友圈", v -> {
             startActivity(new Intent(getActivity(), MainActivity.class));
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_shop, "商城", v -> {
+        list.add(new MenuItem(R.mipmap.icon_home_menu4, "商城", v -> {
             /*CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_JIPU_SHOP);*/
             ToastUtils.showToast(mActivity,"暂未开放~");
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_question, "问答", v -> {
+        list.add(new MenuItem(R.mipmap.icon_home_menu5, "问答", v -> {
             Intent intent = new Intent(getActivity(), QA_Activity.class);
             Bundle bundle = new Bundle();
             intent.putExtras(bundle);
             startActivity(intent);
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_flash, "7x24快讯", v -> {
-            ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).goToNewsPage(true);
+        list.add(new MenuItem(R.mipmap.icon_home_menu6, "邀请好友", v -> {
+            startActivity(InviteShareActivity.newIntent(mActivity));
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_news, "资讯", v -> {
-            ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).goToNewsPage(false);
+        list.add(new MenuItem(R.mipmap.icon_home_menu7, "糖果", v -> {
+            startActivity(new Intent(mActivity,NewMineIntegrationActivity.class));
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_market, "行情", v -> {
+        list.add(new MenuItem(R.mipmap.icon_home_menu8, "行情", v -> {
             MarketActivity.startMarketActivity(mActivity);
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_wallet, "资产", v -> {
+        list.add(new MenuItem(R.mipmap.icon_home_menu9, "资产", v -> {
             MyCurrencyActivity.startMyCurrencyActivity(getContext());
         }));
-        list.add(new MenuItem(R.mipmap.icon_home_menu_rank, "签到", v -> {
+        list.add(new MenuItem(R.mipmap.icon_home_menu10, "签到", v -> {
             /*startActivity(new Intent(getActivity(), RankIndexActivity.class));*/
             ((HomeFragment)((HomeActivity)mActivity).getContanierFragment()).getCheckInInfo();
         }));

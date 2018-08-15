@@ -636,7 +636,7 @@
 
         <!--系统通知页面-->
         <activity
-            android:name=".modules.home.message.notifacationlist.NotificationActivity"
+            android:name=".modules.home.message.notifacationlist.NotificationListActivity"
             android:screenOrientation="portrait" />
         <!--环信的聊天页面-->
         <activity
