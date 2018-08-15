@@ -377,7 +377,7 @@ public class HomeFragment extends TSFragment<HomeContract.Presenter> implements 
         //如果当前主界面不是会话界面,则需要通知
         if (mVpHome.getCurrentItem() == msgItem) {
             MessageContainerFragment messageContainerFragment = (MessageContainerFragment) mFragmentList.get(msgItem);
-            return messageContainerFragment != null && messageContainerFragment.getCurrentItem() != 1;
+            return messageContainerFragment != null && messageContainerFragment.getCurrentItem() != 2;
         } else {
             return true;
         }
