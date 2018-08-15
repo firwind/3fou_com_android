@@ -4,65 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+
+        <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
+            android:id="@+id/et_search_group"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="@dimen/dp50"
+            android:background="@color/white"
+            android:drawableLeft="@mipmap/search_icon_search"
+            android:drawablePadding="@dimen/dp10"
+            android:hint="@string/search_group_name"
+            android:paddingLeft="@dimen/dp20"
+            android:paddingRight="@dimen/dp20"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/dp14" />
 
+        <View style="@style/style_divider_horizontal" />
 
-            <View
-                style="@style/style_divider_horizontal"
-                android:layout_marginTop="@dimen/dp20" />
+        <include layout="@layout/fragment_tslist" />
+    </LinearLayout>
 
-            <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
-                android:id="@+id/et_search_group"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:background="@color/white"
-                android:drawableLeft="@mipmap/search_icon_search"
-                android:drawablePadding="@dimen/dp10"
-                android:hint="@string/search_group_name"
-                android:paddingLeft="@dimen/dp20"
-                android:paddingRight="@dimen/dp20"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/dp14" />
-
-            <View style="@style/style_divider_horizontal" />
-
-            <TextView
-                android:id="@+id/tv_no_search_result"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp100"
-                android:gravity="center"
-                android:text="@string/no_result_group"
-                android:textColor="@color/default_shadow_color"
-                android:textSize="@dimen/margin_16"
-                android:visibility="gone" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_search_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-
-            <TextView
-                android:layout_width="match_parent"
-
-                android:layout_height="@dimen/dp35"
-                android:layout_marginLeft="@dimen/dp10"
-                android:layout_marginTop="@dimen/dp10"
-                android:gravity="center_vertical"
-                android:text="@string/recommend_group"
-                android:textColor="@color/colorAccent" />
-
-            <View style="@style/style_divider_horizontal" />
-
-            <include layout="@layout/fragment_tslist" />
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

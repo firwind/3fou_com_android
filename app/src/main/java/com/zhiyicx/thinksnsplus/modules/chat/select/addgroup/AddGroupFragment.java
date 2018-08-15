@@ -10,6 +10,7 @@ package com.zhiyicx.thinksnsplus.modules.chat.select.addgroup;
  * 版  权：互动科技
  */
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -50,11 +52,6 @@ import static com.hyphenate.easeui.EaseConstant.CHATTYPE_GROUP;
 
 public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter, ChatGroupServerBean> implements AddGroupContract.View {
 
-    @BindView(R.id.tv_no_search_result)
-    TextView mNoSearchResult;
-    @BindView(R.id.rv_search_group)
-    RecyclerView mSearchRecyclerView;
-    Unbinder unbinder;
     @BindView(R.id.et_search_group)
     DeleteEditText mSearchGroup;
     private boolean mIsSearch = false;
@@ -72,7 +69,7 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
 
     @Override
     protected String setCenterTitle() {
-        return getString(R.string.tv_add_group_chat);
+        return getString(R.string.tv_recommend_group_chat);
     }
 
     @Override
@@ -88,48 +85,13 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
 
     @Override
     public void onNetResponseSuccess(@NotNull List<ChatGroupServerBean> data, boolean isLoadMore) {
-        CommonAdapter adapter = null;
-        if (mIsSearch) {
 
-            adapter = new CommonAdapter<ChatGroupServerBean>(getActivity(), R.layout.item_group_list, data) {
-                @Override
-                protected void convert(ViewHolder holder, ChatGroupServerBean chatGroupBean, int position) {
-                    holder.setText(R.id.tv_group_name, chatGroupBean.getName());
-                    Glide.with(mContext)
-                            .load(TextUtils.isEmpty(chatGroupBean.getGroup_face()) ? R.mipmap.ico_ts_assistant : chatGroupBean
-                                    .getGroup_face())
-                            .error(R.mipmap.ico_ts_assistant)
-                            .placeholder(R.mipmap.ico_ts_assistant)
-                            .transform(new GlideCircleTransform(mContext))
-                            .into(holder.getImageViwe(R.id.uv_group_head));
+        super.onNetResponseSuccess(data, isLoadMore);
+    }
 
-                }
-            };
-            adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                    ChatGroupServerBean groupBean = data.get(position);
-                    mPresenter.checkGroupExist(groupBean.getId());
-                }
-
-                @Override
-                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                    return false;
-                }
-            });
-            mSearchRecyclerView.setAdapter(adapter);
-            if (data.size() == 0) {
-                mSearchRecyclerView.setVisibility(View.GONE);
-                mNoSearchResult.setVisibility(View.VISIBLE);
-            } else {
-                mSearchRecyclerView.setVisibility(View.VISIBLE);
-                mNoSearchResult.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
-            }
-        } else {
-            super.onNetResponseSuccess(data, isLoadMore);
-        }
-
+    @Override
+    protected boolean isNeedRefreshDataWhenComeIn() {
+        return true;
     }
 
     @Override
@@ -138,16 +100,12 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
         getGroupListData();
     }
 
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        //设置Item的间隔
-        mSearchRecyclerView.addItemDecoration(getItemDecoration());
-        mSearchRecyclerView.setHasFixedSize(false);
-        mSearchRecyclerView.setLayoutManager(mLayoutManager);
+        InputMethodManager imm = (InputMethodManager) getContext(). getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         mSearchGroup.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -156,7 +114,8 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mPresenter.setSearchGroup(mSearchGroup.getText().toString().trim());
+//                mPresenter.setSearchGroup(mSearchGroup.getText().toString().trim());
+                getGroupListData();
                 if (mSearchGroup.getText().toString().trim().length() > 0)
                     mIsSearch = true;
                 else
@@ -202,7 +161,6 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
                         .placeholder(R.mipmap.ico_ts_assistant)
                         .transform(new GlideCircleTransform(mContext))
                         .into(holder.getImageViwe(R.id.uv_group_head));
-
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
@@ -221,27 +179,13 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
         return adapter;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     /**
      * 获取群列表
      */
     private void getGroupListData() {
         if (mPresenter != null) {
 //            mRefreshlayout.autoRefresh(0);
-            mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID,false);
+            mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
         }
     }
 }

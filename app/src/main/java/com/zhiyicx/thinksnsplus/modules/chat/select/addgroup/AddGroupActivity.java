@@ -9,8 +9,11 @@ package com.zhiyicx.thinksnsplus.modules.chat.select.addgroup;
  * 修改时间：
  * 版  权：互动科技
  */
+
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -18,7 +21,7 @@ import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupPr
 
 import javax.inject.Inject;
 
-public class AddGroupActivity extends TSActivity<AddGroupPresenter, AddGroupFragment>{
+public class AddGroupActivity extends TSActivity<AddGroupPresenter, AddGroupFragment> {
     @Override
     protected AddGroupFragment getFragment() {
         return AddGroupFragment.instance(getIntent().getExtras());
@@ -32,8 +35,13 @@ public class AddGroupActivity extends TSActivity<AddGroupPresenter, AddGroupFrag
                 .build().inject(this);
     }
 
-    public static void startAddGroupActivity(Context context){
-        Intent intent = new Intent(context,AddGroupActivity.class);
+    public static void startAddGroupActivity(Context context) {
+        Intent intent = new Intent(context, AddGroupActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 }

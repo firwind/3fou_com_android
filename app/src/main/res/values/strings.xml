@@ -1205,7 +1205,9 @@
 
 
     <string name="tv_add_friends">添加好友</string>
+    <string name="tv_my_friends">我的好友</string>
     <string name="tv_add_group_chat">加入群聊</string>
+    <string name="tv_recommend_group_chat">群组推荐</string>
     <string name="tv_create_group_chat">创建群聊</string>
     <string name="tv_invite_Share">邀请分享</string>
 
@@ -1226,6 +1228,11 @@
     <string name="no_permission_to_operate">您没有权限操作！</string>
     <string name="share_source">分享自前链财经APP</string>
     <string name="flash_hint">打造你专属人脉</string>
+
+    <string name="add_friends_setting">添加好友设置</string>
+    <string name="allow_anyone_add">允许任何人</string>
+    <string name="need_verify_add">需要验证消息</string>
+    <string name="refuse_anyone_add">拒绝任何人加我</string>
 
     <string name="only_number_or_letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 

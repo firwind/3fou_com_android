@@ -43,7 +43,6 @@ public class AddGroupPresenter extends AppBasePresenter<AddGroupContract.View>
 
     @Inject
     BaseMessageRepository mBaseMessageRepository;
-    private String mScarchText;
     private Subscription mGroupExistSubscription;
 
     @Inject
@@ -53,23 +52,18 @@ public class AddGroupPresenter extends AppBasePresenter<AddGroupContract.View>
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-
-        refreshGroup("");
-    }
-    private void refreshGroup(String searchStr){
-        Subscription subscribe = mBaseMessageRepository.getSearchGroupInfoFace(searchStr)
+        Subscription subscribe = mBaseMessageRepository.getSearchGroupInfoFace(mRootView.getsearchKeyWord(),mRootView.getPage())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<List<ChatGroupServerBean>>() {
                     @Override
                     protected void onSuccess(List<ChatGroupServerBean> data) {
-                        mRootView.onNetResponseSuccess(data, false);
+                        mRootView.onNetResponseSuccess(data, isLoadMore);
                     }
 
                     @Override
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);
 //                        mRootView.showStickyMessage(message);
-
                     }
 
                     @Override
@@ -80,6 +74,7 @@ public class AddGroupPresenter extends AppBasePresenter<AddGroupContract.View>
                 });
         addSubscrebe(subscribe);
     }
+
     @Override
     public void requestCacheData(Long maxId, boolean isLoadMore) {
 
@@ -166,10 +161,5 @@ public class AddGroupPresenter extends AppBasePresenter<AddGroupContract.View>
 
         addSubscrebe(mGroupExistSubscription);
 
-    }
-
-    @Override
-    public void setSearchGroup(String str) {
-        refreshGroup(str);
     }
 }

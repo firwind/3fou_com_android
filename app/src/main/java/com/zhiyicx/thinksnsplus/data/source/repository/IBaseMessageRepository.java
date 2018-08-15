@@ -68,7 +68,7 @@ public interface IBaseMessageRepository {
      * @param ids 群 id , 以 ， 分割
      * @return
      */
-    Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(String ids);
+    Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(String ids,long page);
 
     /**
      * 完善用户信息 ，在 聊天详情界面
