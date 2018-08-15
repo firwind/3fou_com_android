@@ -609,12 +609,7 @@ public abstract class TSExpandListFragment<P extends ITSListPresenter<T>, T exte
         if(null != mAdapter){
             /*mAdapter.notifyDataSetChanged();*/
             mAdapter.notifyDataSetChanged();
-            /*for (int i = 0; i < mListDatas.size(); i++) {
-                if(mLvList.isGroupExpanded(i)){
-                    mLvList.collapseGroup(i);
-                    mLvList.expandGroup(i);
-                }
-            }*/
+            /*for (int i = 0; i < mlistdatas.size(); i++) { if(mlvlist.isgroupexpanded(i)){ mlvlist.collapsegroup(i); mlvlist.expandgroup(i); } }*/
 
         }
     }

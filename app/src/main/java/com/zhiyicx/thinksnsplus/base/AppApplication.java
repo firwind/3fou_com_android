@@ -156,6 +156,7 @@ public class AppApplication extends TSApplication {
      */
     private void initIm() {
         TSEMHyphenate.getInstance().initHyphenate(this);
+
     }
 
     /**

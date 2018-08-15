@@ -813,6 +813,8 @@
 
         <activity android:name=".modules.information.flashdetails.FlashDetailsActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".modules.settings.privacy.SettingPricacyActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">

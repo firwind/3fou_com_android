@@ -15,7 +15,7 @@ import com.zhiyicx.baseproject.base.BaseListBean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamBean extends BaseListBean{
+public class TeamBean extends BaseListBean {
 
     /**
      * total : 100
@@ -51,7 +51,7 @@ public class TeamBean extends BaseListBean{
         this.teamList = teamList;
     }
 
-    public static class TeamListBean extends BaseListBean implements Parcelable{
+    public static class TeamListBean extends BaseListBean implements Parcelable {
 
         /**
          * id : 82
@@ -69,6 +69,16 @@ public class TeamBean extends BaseListBean{
         private String avatar;
         private String bg;
         private String verified;
+
+        public Long getCreated_at() {
+            return created_at * 1000;
+        }
+
+        public void setCreated_at(Long created_at) {
+            this.created_at = created_at;
+        }
+
+        private Long created_at;
 
         public String getBalance() {
             return balance;
@@ -140,7 +150,7 @@ public class TeamBean extends BaseListBean{
         }
 
         public long getTime() {
-            return time*1000;
+            return time * 1000;
         }
 
         public void setTime(int time) {
@@ -148,8 +158,7 @@ public class TeamBean extends BaseListBean{
         }
 
 
-
-        public static class ExtraBean implements Parcelable{
+        public static class ExtraBean implements Parcelable {
             /**
              * user_id : 82
              * likes_count : 0

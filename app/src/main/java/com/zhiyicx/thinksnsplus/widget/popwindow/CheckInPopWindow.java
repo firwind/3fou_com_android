@@ -44,13 +44,11 @@ import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
 public class CheckInPopWindow extends PopupWindow {
     protected View mContentView;
     protected View mParentView;
-
     protected TextView mTvTotalCheckIn;
     protected TextView mTvTotoalGold;
     protected TextView mTvCheckInGetGold;
     protected TextView mTvCheckIn;
     protected RecyclerView mRvUserCheckInList;
-
     protected boolean isWrap = true;
     protected float mAlpha = CustomPopupWindow.POPUPWINDOW_ALPHA;
     protected Drawable mBackgroundDrawable = new ColorDrawable(0x00000000);// 默认为透明

@@ -31,14 +31,14 @@ public class ApiConfig {
 //    public static final String APP_DOMAIN_TEST = "http://test-plus.zhibocloud.cn/";// 在线测试服务器
     public static final String APP_DOMAIN_TEST = "http://112.74.168.35/";// 在线测试服务器
     //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
-    public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
-//    public static final String APP_DOMAIN_FORMAL = "http://www.mybcbnet.com/";// 正式服务器
+//    public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
+    public static final String APP_DOMAIN_FORMAL = "http://www.mybcbnet.com/";// 正式服务器
     //    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
 //    public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://192.168.2.152/";// 乔老师本地服务器
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
 
-    public static String APP_DOMAIN = /*APP_DOMAIN_FORMAL*/APP_DOMAIN_TEST;
+    public static String APP_DOMAIN = APP_DOMAIN_FORMAL/*APP_DOMAIN_TEST*/;
 
     public static final String URL_ABOUT_US = "api/" + API_VERSION_2 + "/aboutus";// 关于我们网站
     public static final String URL_JIPU_SHOP = "http://haoshe.hotime.cn";// 豪舍购物地址
@@ -1178,10 +1178,9 @@ public class ApiConfig {
     public static final String APP_PATH_CURRENCY_ADDRESS_LIST = "api/" + API_VERSION_2 + "/bcwallet/address_list";
     //账本列表
     public static final String APP_PATH_CURRENCY_ACCOUNT_BOOK_LIST = "api/" + API_VERSION_2 + "/bcwallet/list";
-
     //充币
     public static final String APP_PATH_CURRENCY_RECHARGE = "api/"+API_VERSION_2+"/bcwallet/recharge_wallet";
-    //提币
+    //6
     public static final String APP_PATH_WITHDRAW_CURRENCY = "api/"+API_VERSION_2+"/bcwallet/summary";
     //获取提币手续费
     public static final String APP_PATH_GET_WITHDRAW_RATE = "api/"+API_VERSION_2+"/bcwallet/summary_index";
@@ -1191,5 +1190,5 @@ public class ApiConfig {
 
     public static final String APP_PATH_EXCHANGE_CURRENCY = "api/"+API_VERSION_2+"/bcwallet/exchange";
     //下载地址
-    public static final String APP_DOWNLOAD = APP_DOMAIN+"h5/download";
+    public static final String APP_DOWNLOAD = APP_DOMAIN+"api/v2/share/appDownload";
 }

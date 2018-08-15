@@ -203,12 +203,14 @@ class SettingsFragment : TSFragment<SettingsContract.Presenter>(), SettingsContr
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())
                 .subscribe {
+
                     startActivity(Intent(activity, BlackListActivity::class.java))
                 }
         // 意见反馈
         RxView.clicks(mBtFeedBack!!)
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())
+
                 .subscribe {
                     // 意见反馈跳转 ts+ 小助手 2018-3-12 11:47:12 by tym
                     val tsHlepers = mPresenter.imHelper

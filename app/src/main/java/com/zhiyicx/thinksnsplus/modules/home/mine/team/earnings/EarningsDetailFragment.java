@@ -37,7 +37,7 @@ public class EarningsDetailFragment extends TSListFragment<EarningsDetailContrac
             @Override
             protected void convert(ViewHolder holder, TeamBean.TeamListBean teamListBean, int position) {
                 holder.setText(R.id.tv_earning_username,teamListBean.getName());
-                holder.setText(R.id.tv_begin_time, TimeUtils.millis2String(teamListBean.getTime()));
+                holder.setText(R.id.tv_begin_time, TimeUtils.millis2String(teamListBean.getCreated_at()));
 //                holder.setText(R.id.tv_end_time,teamListBean.getEndTime());
                 holder.setText(R.id.tv_earnings_num, teamListBean.getBalance());
             }

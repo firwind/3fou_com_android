@@ -104,10 +104,11 @@ public abstract class InfoListItem implements ItemViewDelegate<BaseListBean> {
             }
         } else {
             imageView.setVisibility(View.VISIBLE);
+            String url = ImageUtils.imagePathConvertV2(realData.getImage().getId(), imageView
+                            .getWidth(), imageView.getHeight(),
+                    ImageZipConfig.IMAGE_80_ZIP);
             Glide.with(BaseApplication.getContext())
-                    .load(ImageUtils.imagePathConvertV2(realData.getImage().getId(), imageView
-                                    .getWidth(), imageView.getHeight(),
-                            ImageZipConfig.IMAGE_80_ZIP))
+                    .load(url)
                     .placeholder(R.drawable.shape_default_image)
                     .error(R.drawable.shape_default_image)
                     .override(w, h)
