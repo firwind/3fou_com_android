@@ -94,10 +94,10 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
         return false;
     }
 
-    /*@Override
-    protected boolean setUseCenterLoading() {
+    @Override
+    protected boolean isNeedRefreshDataWhenComeIn() {
         return true;
-    }*/
+    }
 
     @Override
     protected boolean showToolbar() {
@@ -129,18 +129,12 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
     @Override
     protected void initData() {
         super.initData();
-        //mPresenter.requestNetData(0L,false);
+        mPresenter.requestNetData(0L,false);
     }
 
     @Override
     protected boolean isNeedRefreshAnimation() {
         return false;
-    }
-
-    @Override
-    public void onNetResponseSuccess(@NotNull List<InfoListDataBean> data, boolean isLoadMore) {
-        super.onNetResponseSuccess(data, isLoadMore);
-        //closeLoadingView();
     }
 
 
