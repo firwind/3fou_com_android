@@ -95,7 +95,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     private String area;        // 区
     @Transient
     private int member_mute;
-
+    private int friends_set;
     private boolean pay_password;//是否已经设置支付密码
 
     public boolean isPay_password() {
@@ -166,6 +166,15 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     /*@Transient*/
     @Convert(converter = BCWalletBeanConverter.class,columnType = String.class)
     private BCWalletBean bcwallet;
+
+    public int getFriends_set() {
+        return friends_set;
+    }
+
+    public void setFriends_set(int friends_set) {
+        this.friends_set = friends_set;
+    }
+
     /**
      * 糖果
      */
@@ -803,11 +812,12 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     }
 
 
-    @Generated(hash = 2108607899)
-    public UserInfoBean(Long user_id, String name, String phone, String email, String intro, int sex, String location, boolean pay_password,
-            boolean following, boolean follower, String created_at, String updated_at, String deleted_at, String avatar, String localAvatar,
-            String cover, WalletBean wallet, BCWalletBean bcwallet, IntegrationBean currency, UserInfoExtraBean extra, VerifiedBean verified,
-            List<UserTagBean> tags, String im_pwd_hash, int friends_count, boolean initial_password, boolean has_deleted, boolean blacked) {
+    @Generated(hash = 379684811)
+    public UserInfoBean(Long user_id, String name, String phone, String email, String intro, int sex, String location, int friends_set,
+            boolean pay_password, boolean following, boolean follower, String created_at, String updated_at, String deleted_at, String avatar,
+            String localAvatar, String cover, WalletBean wallet, BCWalletBean bcwallet, IntegrationBean currency, UserInfoExtraBean extra,
+            VerifiedBean verified, List<UserTagBean> tags, String im_pwd_hash, int friends_count, boolean initial_password, boolean has_deleted,
+            boolean blacked) {
         this.user_id = user_id;
         this.name = name;
         this.phone = phone;
@@ -815,6 +825,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.intro = intro;
         this.sex = sex;
         this.location = location;
+        this.friends_set = friends_set;
         this.pay_password = pay_password;
         this.following = following;
         this.follower = follower;
@@ -837,6 +848,10 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.blacked = blacked;
     }
 
+    public boolean getPay_password() {
+        return this.pay_password;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -857,6 +872,8 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         dest.writeString(this.city);
         dest.writeString(this.area);
         dest.writeInt(this.member_mute);
+        dest.writeInt(this.friends_set);
+        dest.writeByte(this.pay_password ? (byte) 1 : (byte) 0);
         dest.writeInt(this.isstick);
         dest.writeInt(this.is_owner);
         dest.writeInt(this.admin_type);
@@ -869,6 +886,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         dest.writeString(this.localAvatar);
         dest.writeString(this.cover);
         dest.writeParcelable(this.wallet, flags);
+        dest.writeParcelable(this.bcwallet, flags);
         dest.writeSerializable(this.currency);
         dest.writeParcelable(this.extra, flags);
         dest.writeParcelable(this.verified, flags);
@@ -876,13 +894,10 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         dest.writeString(this.im_pwd_hash);
         dest.writeInt(this.friends_count);
         dest.writeInt(this.isSelected);
+        dest.writeByte(this.in_group ? (byte) 1 : (byte) 0);
         dest.writeByte(this.initial_password ? (byte) 1 : (byte) 0);
         dest.writeByte(this.has_deleted ? (byte) 1 : (byte) 0);
         dest.writeByte(this.blacked ? (byte) 1 : (byte) 0);
-    }
-
-    public boolean getPay_password() {
-        return this.pay_password;
     }
 
     protected UserInfoBean(Parcel in) {
@@ -899,6 +914,8 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.city = in.readString();
         this.area = in.readString();
         this.member_mute = in.readInt();
+        this.friends_set = in.readInt();
+        this.pay_password = in.readByte() != 0;
         this.isstick = in.readInt();
         this.is_owner = in.readInt();
         this.admin_type = in.readInt();
@@ -911,6 +928,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.localAvatar = in.readString();
         this.cover = in.readString();
         this.wallet = in.readParcelable(WalletBean.class.getClassLoader());
+        this.bcwallet = in.readParcelable(BCWalletBean.class.getClassLoader());
         this.currency = (IntegrationBean) in.readSerializable();
         this.extra = in.readParcelable(UserInfoExtraBean.class.getClassLoader());
         this.verified = in.readParcelable(VerifiedBean.class.getClassLoader());
@@ -918,6 +936,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.im_pwd_hash = in.readString();
         this.friends_count = in.readInt();
         this.isSelected = in.readInt();
+        this.in_group = in.readByte() != 0;
         this.initial_password = in.readByte() != 0;
         this.has_deleted = in.readByte() != 0;
         this.blacked = in.readByte() != 0;

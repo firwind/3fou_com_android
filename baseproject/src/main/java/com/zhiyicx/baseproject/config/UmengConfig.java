@@ -16,12 +16,13 @@ public class UmengConfig {
     /**
      * 微信
      */
-    public static String WEIXIN_APPID = "wx454b3be13415cf51";// wx793b6ff96c75f932
-    public static String WEIXIN_SECRETKEY = "804aca49400452b19e615781e610b97a";
+    public static String WEIXIN_APPID = "wx454b3be13415cf51";// wx793b6ff96c75f932  wx454b3be13415cf51
+    public static String WEIXIN_SECRETKEY = "804aca49400452b19e615781e610b97a";//804aca49400452b19e615781e610b97a   e58b3432c24ad7841e4d0b06b49c9d18
     /**
      * 新浪
      */
     public static String SINA_APPID = "3184838355";
     public static String SINA_SECRETKEY = "517d233fbe6249e90f61bcadb932513b";
+
     public static String SINA_RESULT_RUL = "http://faceke.com/";
 }

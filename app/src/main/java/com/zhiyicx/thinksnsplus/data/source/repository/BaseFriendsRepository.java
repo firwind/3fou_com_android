@@ -125,5 +125,12 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<String> settingAddFriends(int state) {
+        return mEasemobClient.setAddFriendState(state)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }

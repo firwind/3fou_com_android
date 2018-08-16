@@ -13,10 +13,10 @@ import com.zhiyicx.common.mvp.i.IBaseView;
 
 public interface SettingPricacyContract {
     interface View extends IBaseView<Presenter>{
-
+        void settingSuccess(int state);
     }
 
     interface Presenter extends IBasePresenter{
-        void settingAddFriendWay();
+        void settingAddFriendWay(int setState);
     }
 }

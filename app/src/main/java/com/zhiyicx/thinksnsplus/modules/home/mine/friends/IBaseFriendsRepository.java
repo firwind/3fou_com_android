@@ -76,4 +76,14 @@ public interface IBaseFriendsRepository {
      * @return
      */
     Observable<String> deleteGroup(String group_id);
+
+    /**
+     * 设置加好友方式
+     * @param state  设置，0为允许，1验证，2不允许
+     * @return
+     */
+    Observable<String> settingAddFriends(int state);
+
+
+
 }

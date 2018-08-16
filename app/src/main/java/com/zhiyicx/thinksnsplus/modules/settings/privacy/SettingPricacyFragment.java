@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.widget.button.CombinationButton;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +34,7 @@ public class SettingPricacyFragment extends TSFragment<SettingPricacyContract.Pr
     CombinationButton mRefuseAnyone;
 
     CombinationButton[] combinationButtons = new CombinationButton[3];
-    Unbinder unbinder;
+    private int mSetState;
 
     public static SettingPricacyFragment getInstance(Bundle bundle) {
         SettingPricacyFragment fragment = new SettingPricacyFragment();
@@ -46,13 +48,15 @@ public class SettingPricacyFragment extends TSFragment<SettingPricacyContract.Pr
         combinationButtons[0] = mAllowAnyone;
         combinationButtons[1] = mNeedVerify;
         combinationButtons[2] = mRefuseAnyone;
-        selectorItem(0);
+        mSetState = AppApplication.getmCurrentLoginAuth().getUser().getFriends_set();
+        combinationButtons[mSetState].setRightImage(R.mipmap.pricacy_icon);
     }
 
     private void selectorItem(int p) {
+
         for (int i = 0; i < combinationButtons.length; i++) {
             if (i == p) {
-                combinationButtons[p].setRightImage(R.mipmap.pricacy_icon);
+                mPresenter.settingAddFriendWay(p);
             } else {
                 combinationButtons[i].setRightImage(0);
             }
@@ -93,5 +97,11 @@ public class SettingPricacyFragment extends TSFragment<SettingPricacyContract.Pr
                 selectorItem(2);
                 break;
         }
+    }
+
+    @Override
+    public void settingSuccess(int state) {
+
+        combinationButtons[state].setRightImage(R.mipmap.pricacy_icon);
     }
 }

@@ -360,4 +360,13 @@ public interface EasemobClient {
     @GET(ApiConfig.APP_PATH_GET_TALKING_STATE)
     Observable<BaseJsonV2<Boolean>> getTalkingState(@Query("im_group_id")String groupId);
 
+
+    /**
+     * 设置加好友方式
+     * @param state 设置，0为允许，1验证，2不允许
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_SET_ADD_FRIEND)
+    Observable<String> setAddFriendState(@Query("friends_set") int state);
+
 }
