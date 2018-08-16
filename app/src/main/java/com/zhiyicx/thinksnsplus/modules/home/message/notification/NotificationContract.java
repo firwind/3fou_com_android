@@ -1,5 +1,7 @@
 package com.zhiyicx.thinksnsplus.modules.home.message.notification;
 
+import android.support.v4.app.Fragment;
+
 import com.zhiyicx.baseproject.base.ITSListPresenter;
 import com.zhiyicx.baseproject.base.ITSListView;
 import com.zhiyicx.thinksnsplus.data.beans.NotificationBean;
@@ -15,11 +17,12 @@ import com.zhiyicx.thinksnsplus.data.beans.UnReadNotificaitonBean;
 public interface NotificationContract {
 
     interface View extends ITSListView<NotificationBean,Presenter>{
-
+        Fragment getCurrentFragment();
     }
 
     interface Presenter extends ITSListPresenter<NotificationBean>{
 
+        UnReadNotificaitonBean getUnreadNotiBean();
     }
 
 }

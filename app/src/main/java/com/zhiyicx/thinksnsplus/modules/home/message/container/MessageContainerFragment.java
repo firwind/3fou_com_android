@@ -38,6 +38,7 @@ import com.zhiyicx.thinksnsplus.modules.home.message.homepage.MessageHomePageFra
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.MessageGroupListFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagelist.MessageConversationFragment;
+import com.zhiyicx.thinksnsplus.modules.home.message.notification.NotificationFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
@@ -118,7 +119,7 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
             mFragmentList.add(new MessageHomePageFragment());
             mFragmentList.add(MessageGroupListFragment.newInstance());
             mFragmentList.add(new MessageConversationFragment());
-            mFragmentList.add(MessageFragment.newInstance());
+            mFragmentList.add(/*MessageFragment.newInstance()*/NotificationFragment.newInstance());
         }
 
         return mFragmentList;

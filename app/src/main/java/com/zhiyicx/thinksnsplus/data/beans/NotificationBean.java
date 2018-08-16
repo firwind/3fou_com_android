@@ -18,13 +18,7 @@ public class NotificationBean extends BaseListBean implements Parcelable{
     private String notification;
     private int unreadCount;
     private long time;
-
-    public NotificationBean(String title, String notification, int unreadCount, long time) {
-        this.title = title;
-        this.notification = notification;
-        this.unreadCount = unreadCount;
-        this.time = time;
-    }
+    private int headResId;
 
     public NotificationBean(){
 
@@ -36,6 +30,7 @@ public class NotificationBean extends BaseListBean implements Parcelable{
         notification = in.readString();
         unreadCount = in.readInt();
         time = in.readLong();
+        headResId = in.readInt();
     }
 
     @Override
@@ -45,6 +40,7 @@ public class NotificationBean extends BaseListBean implements Parcelable{
         dest.writeString(notification);
         dest.writeInt(unreadCount);
         dest.writeLong(time);
+        dest.writeInt(headResId);
     }
 
     @Override
@@ -94,5 +90,13 @@ public class NotificationBean extends BaseListBean implements Parcelable{
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public int getHeadResId() {
+        return headResId;
+    }
+
+    public void setHeadResId(int headResId) {
+        this.headResId = headResId;
     }
 }
