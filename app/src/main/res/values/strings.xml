@@ -1233,6 +1233,8 @@
     <string name="allow_anyone_add">允许任何人</string>
     <string name="need_verify_add">需要验证消息</string>
     <string name="refuse_anyone_add">拒绝任何人加我</string>
+    <string name="write_verify_info">填写验证信息</string>
+
 
     <string name="only_number_or_letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 

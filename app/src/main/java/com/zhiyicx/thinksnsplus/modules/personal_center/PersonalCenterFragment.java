@@ -54,6 +54,7 @@ import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.dynamic.detail.DynamicDetailActivity;
 import com.zhiyicx.thinksnsplus.modules.dynamic.list.adapter.DynamicListBaseItem;
 import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendsActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.adapter.PersonalCenterDynamicListForZeroImage;
 import com.zhiyicx.thinksnsplus.modules.personal_center.adapter.PersonalCenterDynamicListItemForEightImage;
 import com.zhiyicx.thinksnsplus.modules.personal_center.adapter.PersonalCenterDynamicListItemForFiveImage;
@@ -307,8 +308,10 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         // 添加聊天点击事件
         RxView.clicks(mLlChatContainer)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
-                .subscribe(aVoid -> ChatActivity.startChatActivity(mActivity, String.valueOf(mUserInfoBean.getUser_id()),
-                        EaseConstant.CHATTYPE_SINGLE));
+                .subscribe(aVoid ->
+//                        ChatActivity.startChatActivity(mActivity, String.valueOf(mUserInfoBean.getUser_id()), EaseConstant.CHATTYPE_SINGLE)
+                        VerifyFriendsActivity.startVerifyFriendsActivity(mActivity,String.valueOf(mUserInfoBean.getUser_id()))
+                );
         RxView.clicks(mVShadow)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
                 .subscribe(aVoid -> hideCommentView());
