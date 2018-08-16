@@ -20,7 +20,7 @@ import java.util.List;
 public class NotificationListAdapter extends CommonAdapter<TSPNotificationBean>{
 
     public NotificationListAdapter(Context context, List<TSPNotificationBean> datas) {
-        super(context, R.layout.item_notification, datas);
+        super(context, R.layout.item_notification_list, datas);
     }
 
     @Override
