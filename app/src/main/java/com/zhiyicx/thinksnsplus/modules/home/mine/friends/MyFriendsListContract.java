@@ -21,11 +21,12 @@ import rx.Observable;
 public interface MyFriendsListContract {
 
     interface View extends ITSListView<UserInfoBean, Presenter> {
-
+        void deleteFriendOk(int index,UserInfoBean userInfoBean);
     }
 
     interface Presenter extends ITSListPresenter<UserInfoBean> {
         List<ChatUserInfoBean> getChatUserList(UserInfoBean userInfoBean);
+        void deleteFriend(int index,UserInfoBean userInfoBean);
     }
 
 }

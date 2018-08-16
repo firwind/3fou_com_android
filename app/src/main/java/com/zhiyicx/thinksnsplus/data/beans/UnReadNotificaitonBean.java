@@ -12,9 +12,26 @@ public class UnReadNotificaitonBean {
     private CountBean counts;
     private List<UnreadCountBean> comments;
     private List<UnreadCountBean> likes;
+    private List<UnreadCountBean> groupChecks;
+    private List<UnreadCountBean> friendChecks;
     private UnhandlePinnedBean pinneds;
     private TSPNotificationBean system;
 
+    public List<UnreadCountBean> getGroupChecks() {
+        return groupChecks;
+    }
+
+    public void setGroupChecks(List<UnreadCountBean> groupChecks) {
+        this.groupChecks = groupChecks;
+    }
+
+    public List<UnreadCountBean> getFriendChecks() {
+        return friendChecks;
+    }
+
+    public void setFriendChecks(List<UnreadCountBean> friendChecks) {
+        this.friendChecks = friendChecks;
+    }
 
     public CountBean getCounts() {
         return counts;

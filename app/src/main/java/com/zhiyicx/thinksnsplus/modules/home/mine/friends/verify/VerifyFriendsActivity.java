@@ -12,13 +12,14 @@ import android.content.Intent;
 
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 
 public class VerifyFriendsActivity extends TSActivity<VerifyFriendsPresenter,VerifyFriendsFragment>{
-    public static final String FRIENDS_ID = "friend_id";
+
     @Override
     protected VerifyFriendsFragment getFragment() {
-        return VerifyFriendsFragment.getInstance(getIntent().getExtras());
+        return VerifyFriendsFragment.getInstance(getIntent().getStringExtra(IntentKey.USER_ID));
     }
 
     @Override
@@ -30,9 +31,9 @@ public class VerifyFriendsActivity extends TSActivity<VerifyFriendsPresenter,Ver
                 .inject(this);
     }
 
-    public static void startVerifyFriendsActivity(Context context,String friendsId){
+    public static void startVerifyFriendsActivity(Context context,String userId){
         Intent intent = new Intent(context,VerifyFriendsActivity.class);
-        intent.putExtra(FRIENDS_ID,friendsId);
+        intent.putExtra(IntentKey.USER_ID,userId);
         context.startActivity(intent);
     }
 }

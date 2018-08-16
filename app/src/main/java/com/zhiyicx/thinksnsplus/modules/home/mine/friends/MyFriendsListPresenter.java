@@ -4,6 +4,7 @@ import com.hyphenate.easeui.bean.ChatUserInfoBean;
 import com.hyphenate.easeui.bean.ChatVerifiedBean;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.utils.log.LogUtils;
+import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
@@ -21,6 +22,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 
 /**
  * @author Catherine
@@ -94,6 +97,32 @@ public class MyFriendsListPresenter extends AppBasePresenter<MyFriendsListContra
         list.add(getChatUser(mUserInfoBeanGreenDao.getSingleDataFromCache(AppApplication.getMyUserIdWithdefault())));
         list.add(getChatUser(userInfoBean));
         return list;
+    }
+
+    @Override
+    public void deleteFriend(int index, UserInfoBean userInfoBean) {
+        mBaseFriendsRepository.deleteFriend(String.valueOf(userInfoBean.getUser_id()))
+                .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<String>() {
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.dismissSnackBar();
+                        mRootView.deleteFriendOk(index,userInfoBean);
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
+                    }
+                });
     }
 
     private ChatUserInfoBean getChatUser(UserInfoBean userInfoBean) {

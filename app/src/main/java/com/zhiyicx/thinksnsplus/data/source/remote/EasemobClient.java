@@ -5,6 +5,7 @@ import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
+import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
@@ -18,6 +19,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -368,5 +370,30 @@ public interface EasemobClient {
      */
     @POST(ApiConfig.APP_PATH_SET_ADD_FRIEND)
     Observable<String> setAddFriendState(@Query("friends_set") int state);
+
+
+
+    /**
+     * 添加好友
+     * @param user_id
+     * @return
+     */
+    @PUT(ApiConfig.APP_PATH_ADD_FRIEND)
+    Observable<String> addFriend(@Query("friend_user_id")String user_id,@Query("information")String information);
+
+    /**
+     * 删除好友
+     * @param user_id
+     * @return
+     */
+    @DELETE(ApiConfig.APP_PATH_DELETE_FRIEND)
+    Observable<String> deleteFriend(@Query("friend_user_id")String user_id);
+
+    /**
+     * 获取好友审核列表
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_FRIEND_REVIEW_LIST)
+    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(@Query("limit")int limit, @Query("offset")Long offset);
 
 }

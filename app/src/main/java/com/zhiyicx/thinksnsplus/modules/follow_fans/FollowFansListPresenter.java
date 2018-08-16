@@ -1,7 +1,10 @@
 package com.zhiyicx.thinksnsplus.modules.follow_fans;
 
+import android.support.v4.app.Fragment;
+
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.utils.log.LogUtils;
+import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
@@ -12,7 +15,9 @@ import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.FlushMessageBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.FollowFansBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
+import com.zhiyicx.thinksnsplus.data.source.repository.BaseFriendsRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendsActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.EventBus;
@@ -43,6 +48,8 @@ public class FollowFansListPresenter extends AppBasePresenter<
     UserInfoRepository mUserInfoRepository;
     @Inject
     FlushMessageBeanGreenDaoImpl mFlushMessageBeanGreenDao;
+    @Inject
+    BaseFriendsRepository mBaseFriendsRepository;
 
     private int mPageType;
     private long mUserId;
@@ -146,6 +153,35 @@ public class FollowFansListPresenter extends AppBasePresenter<
                     @Override
                     protected void onSuccess(Object data) {
                         EventBus.getDefault().post(new UserFollowerCountBean(), EventBusTagConfig.EVENT_IM_SET_MINE_FANS_TIP_VISABLE);
+                    }
+                });
+    }
+
+    @Override
+    public void addFriend(int index, UserInfoBean userInfoBean) {
+        mBaseFriendsRepository.addFriend(String.valueOf(userInfoBean.getUser_id()),null)
+                .subscribe(new BaseSubscribeForV2<String>() {
+                    @Override
+                    protected void onSuccess(String data) {
+                        userInfoBean.setIs_my_friend(true);
+                        mRootView.upDateFollowFansState();
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        if(code == 501){//需要验证
+                            VerifyFriendsActivity.startVerifyFriendsActivity( ((Fragment)mRootView).getContext(),
+                                    String.valueOf(userInfoBean.getUser_id()) );
+                        }else{
+                            mRootView.showSnackErrorMessage(message);
+                        }
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
                 });
     }

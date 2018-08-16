@@ -2,21 +2,18 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.friends;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
-import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
-import com.zhiyicx.thinksnsplus.modules.dynamic.list.DynamicFragment;
-import com.zhiyicx.thinksnsplus.modules.findsomeone.contianer.FindSomeOneContainerActivity;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.search.SearchFriendsActivity;
-import com.zhiyicx.thinksnsplus.modules.information.infomain.container.InfoContainerPresenter;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import org.jetbrains.annotations.NotNull;
-import org.simple.eventbus.Subscriber;
 
 import java.util.List;
 
@@ -37,10 +34,6 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
         implements MyFriendsListContract.View {
     private boolean isShowToolBar = false;
 
-    @Override
-    protected RecyclerView.Adapter getAdapter() {
-        return new MyFriendsListAdapter(getContext(), mListDatas, mPresenter);
-    }
 
     /**
      * 仅用于构造
@@ -67,6 +60,7 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
                 .build()
                 .inject(this);
         super.initView(rootView);
+
     }
 
     @Override
@@ -81,10 +75,12 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
         }
         return isShowToolBar;
     }
+
     @Override
     protected String setCenterTitle() {
         return getString(R.string.tv_my_friends);
     }
+
     @Override
     protected boolean showToolBarDivider() {
         return isShowToolBar;
@@ -100,26 +96,40 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
         return true;
     }
 
-    /*@Override
+
+    @Override
+    protected RecyclerView.Adapter getAdapter() {
+        MyFriendsListAdapter mAdapter = new MyFriendsListAdapter(getContext(), mListDatas, mPresenter);
+        mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                new AlertDialog.Builder(mActivity)
+                        .setTitle("提示")
+                        .setMessage("确认删除？")
+                        .setPositiveButton("删除",
+                                (dialog, which) -> mPresenter.deleteFriend(position,mListDatas.get(position)))
+                        .create()
+                        .show();
+                return true;
+            }
+        });
+        return mAdapter;
+    }
+
+    @Override
     protected Long getMaxId(@NotNull List<UserInfoBean> data) {
         return (long) mListDatas.size();
-    }*/
+    }
 
-    @OnClick({R.id.tv_toolbar_left, R.id.tv_toolbar_right, R.id.tv_toolbar_center})
+    @OnClick({R.id.search_bar})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_toolbar_left:
-                // 退出当前页面
-                getActivity().finish();
-                break;
-            case R.id.tv_toolbar_right:
-                // 进入找人页面
-                Intent itFollow = new Intent(getActivity(), FindSomeOneContainerActivity.class);
-                Bundle bundleFollow = new Bundle();
-                itFollow.putExtras(bundleFollow);
-                startActivity(itFollow);
-                break;
-            case R.id.tv_toolbar_center:
+            case R.id.search_bar:
                 // 进入搜索页面
                 startActivity(new Intent(getActivity(), SearchFriendsActivity.class));
                 break;
@@ -130,6 +140,13 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
     @Override
     protected boolean useEventBus() {
         return true;
+    }
+
+    @Override
+    public void deleteFriendOk(int index, UserInfoBean userInfoBean) {
+        mListDatas.remove(userInfoBean);
+        mHeaderAndFooterWrapper.notifyItemRemoved(index);
+        refreshData();
     }
 
     /*@Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK)

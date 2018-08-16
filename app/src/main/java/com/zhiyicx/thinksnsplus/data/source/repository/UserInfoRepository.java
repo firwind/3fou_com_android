@@ -66,6 +66,7 @@ import javax.inject.Inject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.functions.FuncN;
@@ -1058,4 +1059,5 @@ public class UserInfoRepository implements IUserInfoRepository {
     public Observable<InviteAndQrcode> getInviteCode() {
         return mUserInfoClient.getUserInviteCode();
     }
+
 }

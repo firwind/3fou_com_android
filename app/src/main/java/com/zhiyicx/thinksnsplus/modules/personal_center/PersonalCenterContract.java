@@ -92,6 +92,11 @@ public interface PersonalCenterContract {
          * @param b true,被加入黑名单
          */
         void updateUserBlackStatus(boolean b);
+
+        /**
+         * 添加好友成功
+         */
+        void addFriendSuccess();
     }
 
     interface Presenter extends DynamicContract.Presenter {
@@ -149,5 +154,12 @@ public interface PersonalCenterContract {
          * @param userInfoBean
          */
         void addToBlackList(UserInfoBean userInfoBean);
+
+        /**
+         * 添加好友
+         * @param userInfoBean
+         */
+        void addFriend(UserInfoBean userInfoBean);
+
     }
 }

@@ -45,8 +45,10 @@ import com.zhiyicx.thinksnsplus.data.source.local.DynamicToolBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.FollowFansBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.SendDynamicDataBeanV2GreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseDynamicRepository;
+import com.zhiyicx.thinksnsplus.data.source.repository.BaseFriendsRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UpLoadRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendsActivity;
 import com.zhiyicx.thinksnsplus.service.backgroundtask.BackgroundTaskManager;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.utils.TSShareUtils;
@@ -64,6 +66,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -92,6 +95,8 @@ public class PersonalCenterPresenter extends AppBasePresenter<PersonalCenterCont
     UpLoadRepository mIUploadRepository;
     @Inject
     UserInfoRepository mUserInfoRepository;
+    @Inject
+    BaseFriendsRepository mBaseFriendsRepository;
 
     @Inject
     DynamicToolBeanGreenDaoImpl mDynamicToolBeanGreenDao;
@@ -868,6 +873,34 @@ public class PersonalCenterPresenter extends AppBasePresenter<PersonalCenterCont
                 });
         addSubscrebe(subscribe);
 
+    }
+
+    @Override
+    public void addFriend(UserInfoBean userInfoBean) {
+        mBaseFriendsRepository.addFriend(String.valueOf(userInfoBean.getUser_id()),null)
+                .subscribe(new BaseSubscribeForV2<String>() {
+                    @Override
+                    protected void onSuccess(String data) {
+                        mRootView.addFriendSuccess();
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        if(code == 501){//需要验证
+                            VerifyFriendsActivity.startVerifyFriendsActivity( ((Fragment)mRootView).getContext(),
+                                    String.valueOf(userInfoBean.getUser_id()) );
+                        }else{
+                            mRootView.showSnackErrorMessage(message);
+                        }
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
+                    }
+                });
     }
 
     /**

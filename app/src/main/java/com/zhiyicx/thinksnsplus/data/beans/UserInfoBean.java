@@ -147,6 +147,8 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     }
 
 
+    @Transient
+    private boolean is_my_friend;
     /**
      * 基于这条消息的用户是否关注了我
      */
@@ -528,6 +530,13 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.name = name;
     }
 
+    public boolean isIs_my_friend() {
+        return is_my_friend;
+    }
+
+    public void setIs_my_friend(boolean is_my_friend) {
+        this.is_my_friend = is_my_friend;
+    }
 
     /**
      * {

@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.follow_fans;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -158,4 +159,5 @@ public class FollowFansListFragment extends TSListFragment<FollowFansListContrac
     protected Long getMaxId(@NotNull List<UserInfoBean> data) {
         return (long) mListDatas.size();
     }
+
 }

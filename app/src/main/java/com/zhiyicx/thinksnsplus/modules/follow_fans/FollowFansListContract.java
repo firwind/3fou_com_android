@@ -59,6 +59,11 @@ public interface FollowFansListContract {
          * 清除新 fans 数量
          */
         void cleanNewFans();
+
+        /**
+         * 加好友
+         */
+        void addFriend(int index, UserInfoBean userInfoBean);
     }
 
 }

@@ -11,6 +11,7 @@ package com.zhiyicx.thinksnsplus.i;
 
 public interface IntentKey {
 
+    String USER_ID = "user_id";
     String GROUP_ID = "group_id";
     String GROUP_INFO = "group_info";
     String IS_TOURIST_LOGIN = "is_tourist_login";//游客登陆
@@ -21,6 +22,7 @@ public interface IntentKey {
 
     String IS_SELECT = "is_select";//是否选择
 
+
     String IS_GET_SCAN_RESULT = "is_get_scan_result";
 
     String RESULT_SCAN = "result_scan";//
@@ -30,9 +32,13 @@ public interface IntentKey {
 
     String PASSWORD_TYPE = "password_type";
 
+    String NOTIFICATION_REVIEW_TYPE = "notification_review_type";
+
     int TYPE_PASSWORD_LOGIN = 0;
     int TYPE_PASSWORD_PAY = 1;
 
+    int NOTIFICATION_REVIEW_FRIEND = 0;
+    int NOTIFICATION_REVIEW_GROUP = 1;
 
     int REQ_CODE_SELECT_CURRENCY_ADDRESS = 200;
     int REQ_CODE_GET_SCAN_RESULT = 201;

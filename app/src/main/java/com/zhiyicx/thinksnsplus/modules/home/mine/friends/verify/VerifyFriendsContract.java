@@ -17,6 +17,6 @@ public class VerifyFriendsContract {
     }
 
     interface Presenter extends IBasePresenter {
-
+        void addFriend(String user_id,String information);
     }
 }

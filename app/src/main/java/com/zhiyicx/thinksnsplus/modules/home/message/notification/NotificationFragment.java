@@ -13,11 +13,13 @@ import com.zhiyicx.common.utils.TimeUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.NotificationBean;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagecomment.MessageCommentActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagelike.MessageLikeActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagereview.MessageReviewActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagereview.MessageReviewFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.notifacationlist.NotificationListActivity;
+import com.zhiyicx.thinksnsplus.modules.home.message.notification.review.NotificationReviewActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -124,6 +126,12 @@ public class NotificationFragment extends TSListFragment<NotificationContract.Pr
                         }
                         to.putExtras(bundle);
                         startActivity(to);
+                        break;
+                    case 4://群聊申请
+                        NotificationReviewActivity.startNotificationReviewActivity(mActivity, IntentKey.NOTIFICATION_REVIEW_GROUP);
+                        break;
+                    case 5://好友申请
+                        NotificationReviewActivity.startNotificationReviewActivity(mActivity, IntentKey.NOTIFICATION_REVIEW_FRIEND);
                         break;
                 }
             }

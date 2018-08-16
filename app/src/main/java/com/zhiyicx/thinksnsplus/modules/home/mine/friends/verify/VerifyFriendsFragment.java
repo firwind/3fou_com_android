@@ -8,16 +8,29 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify;
  * 
  */
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 
+import com.trycatch.mysnackbar.Prompt;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
+
+import butterknife.BindView;
 
 public class VerifyFriendsFragment extends TSFragment<VerifyFriendsContract.Presenter> implements VerifyFriendsContract.View{
 
-    public static VerifyFriendsFragment getInstance(Bundle bundle){
+    @BindView(R.id.et_verify_friends_info)
+    EditText mEtVerifyFriendsInfo;
+
+    public static VerifyFriendsFragment getInstance(String user_id){
         VerifyFriendsFragment friendsFragment = new VerifyFriendsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(IntentKey.USER_ID,user_id);
         friendsFragment.setArguments(bundle);
         return friendsFragment;
     }
@@ -30,6 +43,27 @@ public class VerifyFriendsFragment extends TSFragment<VerifyFriendsContract.Pres
     @Override
     protected void initData() {
 
+    }
+
+    @Override
+    protected void setRightClick() {
+        super.setRightClick();
+
+        if(TextUtils.isEmpty(mEtVerifyFriendsInfo.getText().toString())){
+            showSnackErrorMessage("请输入验证信息");
+            return;
+        }
+
+        mPresenter.addFriend(getArguments().getString(IntentKey.USER_ID),mEtVerifyFriendsInfo.getText().toString());
+
+    }
+
+    @Override
+    protected void snackViewDismissWhenTimeOut(Prompt prompt) {
+        super.snackViewDismissWhenTimeOut(prompt);
+        if(prompt == Prompt.SUCCESS){
+            mActivity.finish();
+        }
     }
 
     @Override

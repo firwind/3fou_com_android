@@ -1,6 +1,7 @@
 package com.zhiyicx.thinksnsplus.modules.home.mine.friends;
 
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
 import java.util.List;
@@ -85,5 +86,25 @@ public interface IBaseFriendsRepository {
     Observable<String> settingAddFriends(int state);
 
 
+    /**
+     * 添加好友
+     * @param user_id
+     * @return
+     */
+    Observable<String> addFriend(String user_id,String information);
+
+    /**
+     * 删除好友
+     * @param user_id
+     * @return
+     */
+    Observable<String> deleteFriend(String user_id);
+
+    /**
+     * 获取好友审核列表
+     * @param maxId
+     * @return
+     */
+    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Long maxId);
 
 }

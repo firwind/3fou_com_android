@@ -13,6 +13,15 @@ public class UnreadCountBean {
     private Long id;
     private String time;
     private UserInfoBean user;
+    private ChatGroupBean group;
+
+    public ChatGroupBean getGroup() {
+        return group;
+    }
+
+    public void setGroup(ChatGroupBean group) {
+        this.group = group;
+    }
 
     public Long getUser_id() {
         return user_id;

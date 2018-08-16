@@ -57,18 +57,18 @@ public interface FollowFansClient {
      * @param limitCount 每页数据
      * @return Observable
      */
-    @GET(APP_PATH_DELETE_USER_FRIENDS_LIST)
+    @GET(ApiConfig.APP_PATH_DELETE_USER_FRIENDS_LIST_NEW)
     Observable<List<UserInfoBean>> getUserFriendsList(@Query("offset") long offset, @Query("limit") Integer limitCount,
                                                       @Query("keyword") String keyword);
 
     /**
-     * 获取用户的好友列表
+     * 获取用户不在群中的好友列表
      *
      * @param offset     offset
      * @param limitCount 每页数据
      * @return Observable
      */
-    @GET(APP_PATH_DELETE_USER_FRIENDS_LIST)
+    @GET(ApiConfig.APP_PATH_DELETE_USER_FRIENDS_LIST_NEW)
     Observable<List<UserInfoBean>> getUserFriendsListInGroup(@Query("offset") long offset, @Query("limit") Integer limitCount,
                                                       @Query("keyword") String keyword,@Query("im_group_id")String groupId);
 

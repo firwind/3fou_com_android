@@ -148,6 +148,9 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
     @BindView(R.id.iv_refresh)
     ImageView mIvRefresh;
 
+    @BindView(R.id.tv_chat)
+    TextView mTvChat;
+
 
     private PersonalCenterHeaderViewItem mPersonalCenterHeaderViewItem;
     // 上一个页面传过来的用户信息
@@ -308,10 +311,21 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         // 添加聊天点击事件
         RxView.clicks(mLlChatContainer)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
-                .subscribe(aVoid ->
-//                        ChatActivity.startChatActivity(mActivity, String.valueOf(mUserInfoBean.getUser_id()), EaseConstant.CHATTYPE_SINGLE)
-                        VerifyFriendsActivity.startVerifyFriendsActivity(mActivity,String.valueOf(mUserInfoBean.getUser_id()))
-                );
+                .subscribe(aVoid -> {
+
+                    if(mUserInfoBean.isIs_my_friend()){
+                        ChatActivity.startChatActivity(mActivity, String.valueOf(mUserInfoBean.getUser_id()), EaseConstant.CHATTYPE_SINGLE);
+                    }else {
+                        if(mUserInfoBean.getFriends_set() == 0){//允许任何人直接申请
+                            mPresenter.addFriend(mUserInfoBean);
+                        }else if(mUserInfoBean.getFriends_set() == 1){//需要验证
+                            VerifyFriendsActivity.startVerifyFriendsActivity(mActivity,String.valueOf(mUserInfoBean.getUser_id()));
+                        }else {
+                            showSnackWarningMessage("该用户已拒绝添加好友！");
+                        }
+                    }
+
+                });
         RxView.clicks(mVShadow)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
                 .subscribe(aVoid -> hideCommentView());
@@ -971,6 +985,12 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         if (mUserInfoBean != null) {
             mUserInfoBean.setBlacked(b);
         }
+    }
+
+    @Override
+    public void addFriendSuccess() {
+        mUserInfoBean.setIs_my_friend(true);
+        mTvChat.setText("聊天");
     }
 
     /**

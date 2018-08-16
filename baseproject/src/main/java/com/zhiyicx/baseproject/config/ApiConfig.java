@@ -93,6 +93,7 @@ public class ApiConfig {
     public static final String APP_PATH_DELETE_USER_PHONE = "api/" + API_VERSION_2 + "/user/phone";// 解除用户 Phone 绑定
     public static final String APP_PATH_DELETE_USER_EMAIL = "api/" + API_VERSION_2 + "/user/email";// 解除用户 E-Mail 绑定
     public static final String APP_PATH_DELETE_USER_FRIENDS_LIST = "api/" + API_VERSION_2 + "/user/follow-mutual";// 好友列表
+    public static final String APP_PATH_DELETE_USER_FRIENDS_LIST_NEW = "api/" + API_VERSION_2 + "/user/friends";// 好友列表
     // 用户标签
     public static final String APP_PATH_GET_USER_TAGS = "api/" + API_VERSION_2 + "/users/{user_id}/tags";// 获取一个用户的标签
     public static final String APP_PATH_GET_CURRENT_USER_TAGS = "api/" + API_VERSION_2 + "/user/tags";// 获取当前认证用户的标签
@@ -179,6 +180,10 @@ public class ApiConfig {
     public static final String APP_PATH_FOLLOW_USER_FORMART = "api/" + API_VERSION_2 + "/user/followings/%d";// 关注用户
     public static final String APP_PATH_CANCEL_FOLLOW_USER = "api/" + API_VERSION_2 + "/user/followings/{user_id}";// 取消用户关注
     public static final String APP_PATH_CANCEL_FOLLOW_USER_FORMART = "api/" + API_VERSION_2 + "/user/followings/%d";// 取消用户关注
+    public static final String APP_PATH_ADD_FRIEND = "api/"+API_VERSION_2+"/user/friends/add";//添加好友
+    public static final String APP_PATH_DELETE_FRIEND = "api/"+API_VERSION_2+"/user/friends/delete";//删除好友
+    public static final String APP_PATH_GET_FRIEND_REVIEW_LIST = "api/"+API_VERSION_2+"/user/friends/shenheList";//获取好友审核列表
+    public static final String APP_PATH_REVIEW_FRIEND_APPLY = "api/"+API_VERSION_2+"/user/friends/sure";//确认审核
 
     /**
      * 动态相关

@@ -26,7 +26,6 @@
             android:layout_height="@dimen/dp140"
             android:background="@color/edit_back_color"
             android:gravity="top"
-
             android:padding="@dimen/dp10"
             android:textColor="@color/video_window_background"
             android:textSize="@dimen/margin_14" />

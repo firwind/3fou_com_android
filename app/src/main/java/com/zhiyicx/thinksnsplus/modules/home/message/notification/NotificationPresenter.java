@@ -78,6 +78,8 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
                     list.add(getCommentNotification(t1, t2));
                     list.add(getDiggNotification(t1, t2));
                     list.add(getReviewNotification(t1, t2));
+                    list.add(getGroupReviewNotification(t1,t2));
+                    list.add(getFriendReviewNotification(t1,t2));
 
                     //通知新的粉丝数量
                     EventBus.getDefault().post(t2, EventBusTagConfig.EVENT_IM_SET_MINE_FANS_TIP_VISABLE);
@@ -146,6 +148,57 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
         addSubscrebe(subscribe);
 
 
+    }
+
+    /**
+     * 组合好友申请通知
+     * @param t1
+     * @param t2
+     * @return
+     */
+    private NotificationBean getFriendReviewNotification(UnReadNotificaitonBean t1,UserFollowerCountBean t2){
+
+        NotificationBean friendReview = new NotificationBean();
+        friendReview.setTitle("新朋友申请");
+        friendReview.setHeadResId(R.mipmap.icon_message_friend_check);
+        friendReview.setUnreadCount(t2.getUser().getMutual());
+        if(null != t1.getFriendChecks() && t1.getFriendChecks().size() > 0 &&
+                null != t1.getFriendChecks().get(0).getUser()){
+            friendReview.setNotification(String.format("%s申请加你为好友",t1.getFriendChecks().get(0).getUser().getName()));
+            friendReview.setTime(TimeUtils.utc2LocalLong(t1.getFriendChecks().get(0).getTime()));
+        }else {
+            friendReview.setNotification("暂无审核申请");
+            friendReview.setTime(0L);
+        }
+
+        return friendReview;
+    }
+
+    /**
+     * 组合群审核通知
+     * @param t1
+     * @param t2
+     * @return
+     */
+    private NotificationBean getGroupReviewNotification(UnReadNotificaitonBean t1, UserFollowerCountBean t2){
+
+        NotificationBean groupReview = new NotificationBean();
+        groupReview.setTitle("群组审核");
+        groupReview.setHeadResId(R.mipmap.icon_message_group_check);
+        groupReview.setUnreadCount(t1.getCounts().getUnread_group_join_count());
+
+        if(null != t1.getGroupChecks() && t1.getGroupChecks().size() > 0
+                && null != t1.getGroupChecks().get(0).getUser() && null != t1.getGroupChecks().get(0).getGroup()){
+
+            groupReview.setNotification(String.format("%s申请加入群聊[%s]",
+                    t1.getGroupChecks().get(0).getUser().getName(),t1.getGroupChecks().get(0).getGroup().getName()));
+            groupReview.setTime(TimeUtils.utc2LocalLong(t1.getGroupChecks().get(0).getTime()));
+        }else {
+            groupReview.setNotification("暂无审核申请");
+            groupReview.setTime(0L);
+        }
+
+        return groupReview;
     }
 
     /**

@@ -8,11 +8,6 @@ import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
-import com.zhiyicx.thinksnsplus.modules.follow_fans.DaggerFollowFansListPresenterComponent;
-import com.zhiyicx.thinksnsplus.modules.follow_fans.FollowFansListAdapter;
-import com.zhiyicx.thinksnsplus.modules.follow_fans.FollowFansListContract;
-import com.zhiyicx.thinksnsplus.modules.follow_fans.FollowFansListPresenter;
-import com.zhiyicx.thinksnsplus.modules.follow_fans.FollowFansListPresenterModule;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 
 import org.jetbrains.annotations.NotNull;
