@@ -154,4 +154,11 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<String> reviewFriendApply(String id, int status) {
+        return mEasemobClient.reviewFriendApply(id,status)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

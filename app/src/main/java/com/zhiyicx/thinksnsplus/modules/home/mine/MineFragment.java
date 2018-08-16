@@ -149,7 +149,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
 
     private void reLoadUserInfo(boolean isVisibleToUser) {
         if (isVisibleToUser && mPresenter != null) {
-            mPresenter.getUserInfoFromDB();
+            //mPresenter.getUserInfoFromDB();
             mPresenter.updateUserNewMessage();
             mPresenter.updateUserInfo();
             mPresenter.getCertificationInfo();

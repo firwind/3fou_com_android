@@ -8,6 +8,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.data.beans.UserFollowerCountBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
@@ -104,23 +105,11 @@ public class MyFriendsListPresenter extends AppBasePresenter<MyFriendsListContra
         mBaseFriendsRepository.deleteFriend(String.valueOf(userInfoBean.getUser_id()))
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscribeForV2<String>() {
+                .subscribe(new BaseSubscriberV3<String>(mRootView) {
                     @Override
                     protected void onSuccess(String data) {
-                        mRootView.dismissSnackBar();
+                        super.onSuccess(data);
                         mRootView.deleteFriendOk(index,userInfoBean);
-                    }
-
-                    @Override
-                    protected void onFailure(String message, int code) {
-                        super.onFailure(message, code);
-                        mRootView.showSnackErrorMessage(message);
-                    }
-
-                    @Override
-                    protected void onException(Throwable throwable) {
-                        super.onException(throwable);
-                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
                 });
     }

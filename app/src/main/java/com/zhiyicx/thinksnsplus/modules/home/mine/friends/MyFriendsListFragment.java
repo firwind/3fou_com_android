@@ -87,15 +87,17 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
     }
 
     @Override
-    protected boolean isNeedRefreshDataWhenComeIn() {
-        return true;
-    }
+    public void onResume() {
+        super.onResume();
 
-    @Override
-    protected boolean isLayzLoad() {
-        return true;
+        if (mPresenter != null) {
+            if (mListDatas.isEmpty()) {
+                mRefreshlayout.autoRefresh(0);
+            } else {
+                mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
+            }
+        }
     }
-
 
     @Override
     protected RecyclerView.Adapter getAdapter() {

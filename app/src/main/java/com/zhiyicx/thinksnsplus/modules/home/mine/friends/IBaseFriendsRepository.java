@@ -107,4 +107,12 @@ public interface IBaseFriendsRepository {
      */
     Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Long maxId);
 
+    /**
+     * 通过或拒绝好友申请
+     * @param id
+     * @param status 1-同意；2-拒绝
+     * @return
+     */
+    Observable<String> reviewFriendApply(String id,int status);
+
 }

@@ -1,7 +1,9 @@
 package com.zhiyicx.thinksnsplus.modules.home.message.notification.review;
 
+import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseFriendsRepository;
 
@@ -10,6 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 
 /**
  * author: huwenyong
@@ -54,5 +59,20 @@ public class NotificationReviewPresenter extends AppBasePresenter<NotificationRe
     @Override
     public boolean insertOrUpdateData(@NotNull List<GroupOrFriendReviewBean> data, boolean isLoadMore) {
         return false;
+    }
+
+    @Override
+    public void requestAgreeOrInjectApply(GroupOrFriendReviewBean bean,boolean isAgree) {
+        mBaseFriendsRepository.reviewFriendApply(bean.getId(),isAgree?1:2)
+                .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriberV3<String>(mRootView){
+                    @Override
+                    protected void onSuccess(String data) {
+                        super.onSuccess(data);
+                        bean.setStatus(isAgree?1:2);
+                        mRootView.refreshData();
+                    }
+                });
     }
 }

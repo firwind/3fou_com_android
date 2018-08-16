@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/white"
-    android:layout_height="@dimen/dp72">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="@dimen/spacing_mid"
         android:paddingLeft="@dimen/spacing_normal"
-        android:layout_toLeftOf="@+id/iv_user_follow"
         android:paddingTop="@dimen/spacing_mid">
 
 
@@ -27,7 +26,7 @@
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dp160"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/textview_spacing_offset_height"
             android:layout_toRightOf="@id/iv_headpic"
@@ -39,43 +38,39 @@
             android:textSize="@dimen/size_sub_title"/>
 
         <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一分钟前"
+            android:layout_toRightOf="@id/tv_name"
+            android:textSize="@dimen/sp11"
+            android:textColor="@color/gray_normal"/>
+
+        <TextView
             android:id="@+id/tv_reason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_name"
             android:layout_marginTop="@dimen/spacing_mid_small"
             android:layout_toRightOf="@id/iv_headpic"
-            android:ellipsize="end"
             android:gravity="top"
-            android:includeFontPadding="false"
-            android:maxLines="1"
             android:text="理由：我爱你"
             android:textColor="@color/normal_for_assist_text"
-            android:textSize="@dimen/size_content_assist"/>
-        <!--点赞数量因为需求，不需要显示，所以暂时隐藏掉，万一以后要显示咧-->
-        <TextView
-            android:id="@+id/tv_dig_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_user_signature"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_toRightOf="@id/iv_headpic"
-            android:ellipsize="end"
-            android:gravity="top"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:text="点赞 56万"
-            android:textColor="@color/normal_for_assist_text"
-            android:textSize="@dimen/size_content_assist"
-            android:visibility="gone"/>
+            android:textSize="@dimen/sp11"/>
 
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="@dimen/dp68"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/dp72"
         android:gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已同意"/>
 
         <TextView
             android:id="@+id/tv_agree"
@@ -85,6 +80,7 @@
             android:textSize="@dimen/sp14"
             android:textColor="@color/white"
             android:text="同意"
+            android:visibility="gone"
             android:gravity="center"/>
 
         <TextView
@@ -96,6 +92,7 @@
             android:textSize="@dimen/sp14"
             android:textColor="@color/black_deep"
             android:text="拒绝"
+            android:visibility="gone"
             android:gravity="center"/>
 
     </LinearLayout>

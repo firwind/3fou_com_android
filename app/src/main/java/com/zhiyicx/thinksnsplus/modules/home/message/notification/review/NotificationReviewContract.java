@@ -19,7 +19,7 @@ public interface NotificationReviewContract {
     }
 
     interface Presenter extends ITSListPresenter<GroupOrFriendReviewBean>{
-
+        void requestAgreeOrInjectApply(GroupOrFriendReviewBean bean,boolean isAgree);
     }
 
 }

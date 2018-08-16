@@ -17,12 +17,85 @@ public class GroupOrFriendReviewBean extends BaseListBean implements Parcelable{
     private String id;
     private String user_id;
     private String friend_user_id;
-    private int status;
+    private int status; //0待验证好友，1好友，2拒绝好友
     private long shehe_time;
     private String information;
     private String remark;
     private String create_at;
     private UserInfoBean friend_data;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getFriend_user_id() {
+        return friend_user_id;
+    }
+
+    public void setFriend_user_id(String friend_user_id) {
+        this.friend_user_id = friend_user_id;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public long getShehe_time() {
+        return shehe_time;
+    }
+
+    public void setShehe_time(long shehe_time) {
+        this.shehe_time = shehe_time;
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getCreate_at() {
+        return create_at;
+    }
+
+    public void setCreate_at(String create_at) {
+        this.create_at = create_at;
+    }
+
+    public UserInfoBean getFriend_data() {
+        return friend_data;
+    }
+
+    public void setFriend_data(UserInfoBean friend_data) {
+        this.friend_data = friend_data;
+    }
 
     protected GroupOrFriendReviewBean(Parcel in) {
         super(in);

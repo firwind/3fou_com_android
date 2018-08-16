@@ -8,6 +8,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.config.NotificationConfig;
 import com.zhiyicx.thinksnsplus.data.beans.UserFollowerCountBean;
@@ -160,28 +161,23 @@ public class FollowFansListPresenter extends AppBasePresenter<
     @Override
     public void addFriend(int index, UserInfoBean userInfoBean) {
         mBaseFriendsRepository.addFriend(String.valueOf(userInfoBean.getUser_id()),null)
-                .subscribe(new BaseSubscribeForV2<String>() {
+                .subscribe(new BaseSubscriberV3<String>(mRootView) {
                     @Override
                     protected void onSuccess(String data) {
+                        super.onSuccess(data);
                         userInfoBean.setIs_my_friend(true);
                         mRootView.upDateFollowFansState();
                     }
 
                     @Override
                     protected void onFailure(String message, int code) {
-                        super.onFailure(message, code);
+                        //super.onFailure(message, code);
                         if(code == 501){//需要验证
                             VerifyFriendsActivity.startVerifyFriendsActivity( ((Fragment)mRootView).getContext(),
                                     String.valueOf(userInfoBean.getUser_id()) );
                         }else{
                             mRootView.showSnackErrorMessage(message);
                         }
-                    }
-
-                    @Override
-                    protected void onException(Throwable throwable) {
-                        super.onException(throwable);
-                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
                     }
                 });
     }

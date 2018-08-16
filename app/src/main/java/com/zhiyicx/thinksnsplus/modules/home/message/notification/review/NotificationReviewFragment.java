@@ -2,11 +2,14 @@ package com.zhiyicx.thinksnsplus.modules.home.message.notification.review;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.common.utils.TimeUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
+import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -47,6 +50,23 @@ public class NotificationReviewFragment extends TSListFragment<NotificationRevie
                 R.layout.item_notification_review,mListDatas) {
             @Override
             protected void convert(ViewHolder holder, GroupOrFriendReviewBean groupOrFriendReviewBean, int position) {
+                ImageUtils.loadCircleUserHeadPic(groupOrFriendReviewBean.getFriend_data(), holder.getView(R.id.iv_headpic));
+                holder.getTextView(R.id.tv_name).setText(groupOrFriendReviewBean.getFriend_data().getName());
+                holder.getTextView(R.id.tv_reason).setText("理由："+groupOrFriendReviewBean.getInformation());
+                try {
+                    holder.getTextView(R.id.tv_time).setText(TimeUtils.getTimeFriendlyNormal(
+                            TimeUtils.string2MillisDefaultLocal(groupOrFriendReviewBean.getCreate_at())));
+                }catch (Exception e){}
+                if(groupOrFriendReviewBean.getStatus() != 0){
+                    holder.getTextView(R.id.tv_state).setText(groupOrFriendReviewBean.getStatus() == 1 ? "已同意" : "已拒绝");
+                }
+
+                holder.getTextView(R.id.tv_state).setVisibility(groupOrFriendReviewBean.getStatus() == 0 ? View.GONE:View.VISIBLE);
+                holder.getTextView(R.id.tv_agree).setVisibility(groupOrFriendReviewBean.getStatus() == 0 ? View.VISIBLE:View.GONE);
+                holder.getTextView(R.id.tv_reject).setVisibility(groupOrFriendReviewBean.getStatus() == 0 ? View.VISIBLE:View.GONE);
+
+                holder.getView(R.id.tv_agree).setOnClickListener(v -> mPresenter.requestAgreeOrInjectApply(groupOrFriendReviewBean,true));
+                holder.getView(R.id.tv_reject).setOnClickListener(v -> mPresenter.requestAgreeOrInjectApply(groupOrFriendReviewBean,false));
 
             }
         };

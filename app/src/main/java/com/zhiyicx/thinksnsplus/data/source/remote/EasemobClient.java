@@ -396,4 +396,13 @@ public interface EasemobClient {
     @GET(ApiConfig.APP_PATH_GET_FRIEND_REVIEW_LIST)
     Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(@Query("limit")int limit, @Query("offset")Long offset);
 
+    /**
+     * 通过或拒绝好友申请
+     * @param id
+     * @param status 1-同意，2-拒绝
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_REVIEW_FRIEND_APPLY)
+    Observable<String> reviewFriendApply(@Query("id")String id,@Query("status")int status);
+
 }
