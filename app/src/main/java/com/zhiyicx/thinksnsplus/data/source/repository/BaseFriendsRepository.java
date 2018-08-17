@@ -148,7 +148,7 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     }
 
     @Override
-    public Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Long maxId) {
+    public Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Integer maxId) {
         return mEasemobClient.getFriendReviewList(TSListFragment.DEFAULT_PAGE_SIZE,maxId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -157,6 +157,13 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     @Override
     public Observable<String> reviewFriendApply(String id, int status) {
         return mEasemobClient.reviewFriendApply(id,status)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> synHuanxinGroupInfo(String group_id, int group_level) {
+        return mEasemobClient.synHuanxinGroupInfo(group_id,group_level)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

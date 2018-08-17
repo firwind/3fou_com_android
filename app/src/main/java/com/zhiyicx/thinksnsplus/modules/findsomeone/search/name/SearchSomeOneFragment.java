@@ -133,7 +133,7 @@ public class SearchSomeOneFragment extends TSListFragment<SearchSomeOneContract.
 
     @Override
     protected CommonAdapter getAdapter() {
-        CommonAdapter adapter = new FindSomeOneListAdapter(getActivity(), R.layout.item_find_some_list, mListDatas, mPresenter);
+        CommonAdapter adapter = new FindSomeOneListAdapter(getActivity(), R.layout.item_follow_fans_list, mListDatas, mPresenter);
         adapter.setOnItemClickListener(this);
         return adapter;
 

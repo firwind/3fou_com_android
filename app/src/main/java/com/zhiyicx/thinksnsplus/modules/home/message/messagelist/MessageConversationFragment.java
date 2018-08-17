@@ -378,10 +378,13 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
                     return;
                 }
                 NotificationUtil.showTextNotification(mActivity, "你被管理员移出" + groupName + "[群聊]");
-                EMClient.getInstance().chatManager().deleteConversation(groupId, true);
+                /*EMClient.getInstance().chatManager().deleteConversation(groupId, true);
                 if (mPresenter != null) {
                     mPresenter.deleteGroup(groupId);
-                }
+                }*/
+                break;
+            case TSEMConstants.TS_ATTR_GROUP_EXIT:
+
                 break;
 
             default:

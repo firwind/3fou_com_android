@@ -171,8 +171,10 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(null != savedInstanceState && null == DEFAULT_PAGE_SIZE)
+        if(null != savedInstanceState && null == DEFAULT_PAGE_SIZE){
             DEFAULT_PAGE_SIZE = savedInstanceState.getInt("default_page_size");
+            mMaxId= 0L;
+        }
     }
 
     /**

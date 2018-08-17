@@ -54,6 +54,10 @@ public interface FindSomeOneListContract {
 
         void cancleFollowUser(int index, UserInfoBean followFansBean);
 
+        /**
+         * 加好友
+         */
+        void addFriend(int index, UserInfoBean userInfoBean);
     }
 
     interface Repository {

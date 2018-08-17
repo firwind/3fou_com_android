@@ -21,7 +21,7 @@ public class GroupOrFriendReviewBean extends BaseListBean implements Parcelable{
     private long shehe_time;
     private String information;
     private String remark;
-    private String create_at;
+    private String created_at;
     private UserInfoBean friend_data;
 
 
@@ -81,12 +81,12 @@ public class GroupOrFriendReviewBean extends BaseListBean implements Parcelable{
         this.remark = remark;
     }
 
-    public String getCreate_at() {
-        return create_at;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setCreate_at(String create_at) {
-        this.create_at = create_at;
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
     public UserInfoBean getFriend_data() {
@@ -106,7 +106,7 @@ public class GroupOrFriendReviewBean extends BaseListBean implements Parcelable{
         shehe_time = in.readLong();
         information = in.readString();
         remark = in.readString();
-        create_at = in.readString();
+        created_at = in.readString();
         friend_data = in.readParcelable(UserInfoBean.class.getClassLoader());
     }
 
@@ -120,7 +120,7 @@ public class GroupOrFriendReviewBean extends BaseListBean implements Parcelable{
         dest.writeLong(shehe_time);
         dest.writeString(information);
         dest.writeString(remark);
-        dest.writeString(create_at);
+        dest.writeString(created_at);
         dest.writeParcelable(friend_data, flags);
     }
 

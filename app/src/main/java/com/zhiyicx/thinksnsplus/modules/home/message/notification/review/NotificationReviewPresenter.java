@@ -1,5 +1,8 @@
 package com.zhiyicx.thinksnsplus.modules.home.message.notification.review;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
@@ -13,8 +16,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * author: huwenyong
@@ -36,7 +43,7 @@ public class NotificationReviewPresenter extends AppBasePresenter<NotificationRe
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        mBaseFriendsRepository.getFriendReviewList(maxId)
+        mBaseFriendsRepository.getFriendReviewList(maxId.intValue())
                 .subscribe(new BaseSubscribeForV2<List<GroupOrFriendReviewBean>>() {
                     @Override
                     protected void onSuccess(List<GroupOrFriendReviewBean> data) {
@@ -64,6 +71,19 @@ public class NotificationReviewPresenter extends AppBasePresenter<NotificationRe
     @Override
     public void requestAgreeOrInjectApply(GroupOrFriendReviewBean bean,boolean isAgree) {
         mBaseFriendsRepository.reviewFriendApply(bean.getId(),isAgree?1:2)
+                .observeOn(Schedulers.io())
+                .map(s -> {
+                    if(isAgree){
+                        //创建会话，发送一条消息
+                        EMClient.getInstance().chatManager().getConversation(bean.getUser_id(),
+                                EMConversation.EMConversationType.Chat, true);
+                        EMMessage message = EMMessage.createTxtSendMessage("我们已经成为好友啦~来一起聊天吧", bean.getUser_id());
+                        EMClient.getInstance().chatManager().sendMessage(message);
+                        EMClient.getInstance().chatManager().saveMessage(message);
+                    }
+                    return s;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriberV3<String>(mRootView){

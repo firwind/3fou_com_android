@@ -100,6 +100,11 @@ public class TSEMConstants {
     public static final String TS_ATTR_GROUP_LAYOFF = "ts_group_layoff";
 
     /**
+     * 退出群聊
+     */
+    public static final String TS_ATTR_GROUP_EXIT = "ts_group_exit";
+
+    /**
      * 用户修改群信息
      */
     public static final String TS_ATTR_GROUP_CHANGE = "ts_group_change";

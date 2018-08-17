@@ -80,10 +80,19 @@ public class UnReadNotificaitonBean {
         private int unread_group_join_count;
         private String created_at;
         private String updated_at;
+        private int unread_friend;
         /**
          * 系统消息未读数
          */
         private int system;
+
+        public int getUnread_friend() {
+            return unread_friend;
+        }
+
+        public void setUnread_friend(int unread_friend) {
+            this.unread_friend = unread_friend;
+        }
 
         public Long getUser_id() {
             return user_id;

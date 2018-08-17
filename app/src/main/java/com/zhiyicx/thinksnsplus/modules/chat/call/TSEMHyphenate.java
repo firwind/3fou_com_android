@@ -948,6 +948,7 @@ public class TSEMHyphenate {
             @Override
             public void onMemberExited(final String groupId, final String member) {
 //                TSEMessageUtils.sendGroupMemberJoinOrExitMessage(groupId,member,false,null);
+                TSEMessageUtils.sendEixtGroupMessage(groupId, "",TSEMConstants.TS_ATTR_GROUP_EXIT);
             }
 
             @Override

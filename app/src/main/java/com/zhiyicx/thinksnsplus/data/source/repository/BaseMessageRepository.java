@@ -196,7 +196,9 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                             }
                         } else if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.GroupChat) {
 
-                            if(null == EMClient.getInstance().groupManager().getGroup(itemBeanV2.getConversation().conversationId())){
+                            //如果本地没有缓存的群信息，并且环信缓存也没有该群信息，则删除会话
+                            if(null == mChatGroupBeanGreenDao.getChatGroupBeanById(itemBeanV2.getConversation().conversationId()) &&
+                                    null == EMClient.getInstance().groupManager().getGroup(itemBeanV2.getConversation().conversationId())){
                                 destroyedGroups.add(itemBeanV2.getConversation().conversationId());
                                 EMClient.getInstance().chatManager().deleteConversation(itemBeanV2.getConversation().conversationId(),true);
                                 continue;

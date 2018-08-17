@@ -6,12 +6,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hyphenate.easeui.EaseConstant;
 import com.jakewharton.rxbinding.view.RxView;
 import com.zhiyicx.common.utils.ColorPhrase;
+import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.follow_fans.FollowFansListContract;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendsActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -50,15 +54,17 @@ public class FindSomeOneListAdapter extends CommonAdapter<UserInfoBean> {
             // 这种情况一般不会发生，为了防止崩溃，做处理
             return;
         }
-        if (userInfoBean1.isFollowing() && userInfoBean1.isFollower()) {
+        /*if (userInfoBean1.isFollowing() && userInfoBean1.isFollower()) {
             holder.setImageResource(R.id.iv_user_follow, R.mipmap.ico_me_followed_eachother);
         } else if (userInfoBean1.isFollower()) {
             holder.setImageResource(R.id.iv_user_follow, R.mipmap.ico_me_followed);
         } else {
             holder.setImageResource(R.id.iv_user_follow, R.mipmap.ico_me_follow);
-        }
+        }*/
+        holder.getTextView(R.id.tv_follow).setText(userInfoBean1.isFollower()?"已关注":"+ 关注");
+        holder.getTextView(R.id.tv_friend).setText(userInfoBean1.isIs_my_friend()?"聊天":"+ 加友");
 
-        RxView.clicks(holder.getView(R.id.iv_user_follow))
+        RxView.clicks(holder.getView(R.id.tv_follow/*iv_user_follow*/))
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)   //两秒钟之内只取一个点击事件，防抖操作
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -81,12 +87,37 @@ public class FindSomeOneListAdapter extends CommonAdapter<UserInfoBean> {
 
                 });
 
+        RxView.clicks(holder.getView(R.id.tv_friend))
+                .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)   //两秒钟之内只取一个点击事件，防抖操作
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(aVoid -> {
+                    // 添加关注，或者取消关注
+                    // 关注列表的逻辑操作：关注，互相关注 ---》未关注
+                    // 粉丝列表的逻辑操作：互相关注 ---》未关注
+
+                    if(userInfoBean1.isIs_my_friend()){
+                        ChatActivity.startChatActivity(mContext,String.valueOf(userInfoBean1.getUser_id()), EaseConstant.CHATTYPE_SINGLE);
+                    }else {
+                        if(userInfoBean1.getFriends_set() == 0){
+                            mPresenter.addFriend(position, userInfoBean1);
+                        }else if(userInfoBean1.getFriends_set() == 1){
+                            VerifyFriendsActivity.startVerifyFriendsActivity(mContext,String.valueOf(userInfoBean1.getUser_id()));
+                        }else {
+                            ToastUtils.showToast(mContext,"该用户已拒绝好友申请！");
+                        }
+                    }
+
+                });
+
 
         /**
          * 如果关注粉丝列表中出现了自己，需要隐藏关注按钮
          */
-        holder.getView(R.id.iv_user_follow).setVisibility(
+        holder.getView(R.id.tv_follow/*iv_user_follow*/).setVisibility(
                 userInfoBean1.getUser_id() == AppApplication.getMyUserIdWithdefault() ? View.GONE : View.VISIBLE);
+        holder.getView(R.id.tv_friend).setVisibility(
+                userInfoBean1.getUser_id() == AppApplication.getmCurrentLoginAuth().getUser_id() ? View.GONE : View.VISIBLE);
         // 设置用户名，用户简介
         holder.setText(R.id.tv_name, userInfoBean1.getName());
 

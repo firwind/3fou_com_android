@@ -92,7 +92,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return null == mDatas ? 0 : mDatas.size();
     }
 
     public List<T> getDatas() {

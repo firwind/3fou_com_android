@@ -57,7 +57,7 @@ public class FindSomeOneListFragment extends TSListFragment<FindSomeOneListContr
 
     @Override
     protected CommonAdapter<UserInfoBean> getAdapter() {
-        mFindSomeOneListAdapter=new FindSomeOneListAdapter(getContext(), R.layout.item_find_some_list, mListDatas, mPresenter);
+        mFindSomeOneListAdapter=new FindSomeOneListAdapter(getContext(), R.layout.item_follow_fans_list/*item_find_some_list*/, mListDatas, mPresenter);
         return mFindSomeOneListAdapter;
     }
 

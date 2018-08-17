@@ -105,7 +105,7 @@ public interface IBaseFriendsRepository {
      * @param maxId
      * @return
      */
-    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Long maxId);
+    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Integer maxId);
 
     /**
      * 通过或拒绝好友申请
@@ -114,5 +114,13 @@ public interface IBaseFriendsRepository {
      * @return
      */
     Observable<String> reviewFriendApply(String id,int status);
+
+    /**
+     * 让服务器同步环信信息
+     * @param group_id
+     * @param group_level
+     * @return
+     */
+    Observable<String> synHuanxinGroupInfo(String group_id,int group_level);
 
 }

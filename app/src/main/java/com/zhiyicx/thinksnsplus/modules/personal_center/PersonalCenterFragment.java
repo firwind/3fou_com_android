@@ -412,10 +412,7 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
     protected void initData() {
         mUserInfoBean = getArguments().getParcelable(PERSONAL_CENTER_DATA);
         if (mUserInfoBean != null) {
-            if(!mUserInfoBean.isIs_my_friend()){
-                mTvChat.setText("+ 好友");
-                mTvChat.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.icon_add_friend,0,0,0);
-            }
+            setBottomFollowState(mUserInfoBean);
             requestData();
         }
         super.initData();
@@ -805,6 +802,10 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
             mTvFollow.setText(R.string.follow);
         }
         mLlFollowContainer.setEnabled(true);
+
+        mTvChat.setText(mUserInfoBean.isIs_my_friend()?"聊天":"+ 好友");
+        mTvChat.setCompoundDrawablesWithIntrinsicBounds(mUserInfoBean.isIs_my_friend()?R.mipmap.ico_me_chat:R.mipmap.icon_add_friend,
+                0,0,0);
     }
 
 
@@ -995,8 +996,7 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
     @Override
     public void addFriendSuccess() {
         mUserInfoBean.setIs_my_friend(true);
-        mTvChat.setText("聊天");
-        mTvChat.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ico_me_chat,0,0,0);
+        setBottomFollowState(mUserInfoBean);
     }
 
     /**

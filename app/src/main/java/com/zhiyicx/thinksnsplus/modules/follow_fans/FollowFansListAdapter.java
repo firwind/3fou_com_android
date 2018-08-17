@@ -115,6 +115,8 @@ public class FollowFansListAdapter extends CommonAdapter<UserInfoBean> {
          */
         holder.getView(R.id.tv_follow/*iv_user_follow*/).setVisibility(
                 userInfoBean1.getUser_id() == AppApplication.getmCurrentLoginAuth().getUser_id() ? View.GONE : View.VISIBLE);
+        holder.getView(R.id.tv_friend).setVisibility(
+                userInfoBean1.getUser_id() == AppApplication.getmCurrentLoginAuth().getUser_id() ? View.GONE : View.VISIBLE);
         // 设置用户名，用户简介
         holder.setText(R.id.tv_name, userInfoBean1.getName());
 

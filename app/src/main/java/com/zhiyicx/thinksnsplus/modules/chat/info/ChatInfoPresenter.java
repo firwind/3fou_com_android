@@ -113,6 +113,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
         Observable.just(chatId)
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
                 .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .flatMap(id -> {
                     //群主
                     if (isGroupOwner()) {
@@ -122,9 +123,16 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     } else {
                         if (mRootView.getIsInGroup()) {
                             // 退群
-                            return mRepository.removeGroupMember(mRootView.getGroupBean().getId(),
+                            try {
+                                EMClient.getInstance().groupManager().leaveGroup(chatId);
+                            } catch (HyphenateException e) {
+                                //e.printStackTrace();
+                                return Observable.error(e);
+                            }
+                            return mRepository.synHuanxinGroupInfo(chatId,mRootView.getGroupBean().getGroup_level())
+                                    .flatMap(s -> Observable.just(id))/*mRepository.removeGroupMember(mRootView.getGroupBean().getId(),
                                     String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()),
-                                    mRootView.getGroupBean().getGroup_level()).flatMap(o -> Observable.just(id));
+                                    mRootView.getGroupBean().getGroup_level()).flatMap(o -> Observable.just(id))*/;
                         } else {
                             // 加群
                             return mRepository.addGroupMember(mRootView.getGroupBean().getId(),
@@ -144,7 +152,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                         mRootView.dismissSnackBar();
 
                         if (mRootView.getIsInGroup()) {
-                            EMClient.getInstance().chatManager().deleteConversation(data, true);
+                            //EMClient.getInstance().chatManager().deleteConversation(data, true);
                             EventBus.getDefault().post(data, EVENT_IM_DELETE_QUIT);
                             mRootView.closeCurrentActivity();
                         } else {

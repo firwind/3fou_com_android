@@ -131,4 +131,9 @@ public class SearchSomeOnePresenter extends AppBasePresenter<SearchSomeOneContra
         mRootView.upDateFollowFansState(index);
     }
 
+    @Override
+    public void addFriend(int index, UserInfoBean userInfoBean) {
+
+    }
+
 }

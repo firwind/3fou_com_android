@@ -143,7 +143,7 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
         //轮播图
         initAdvert(data.getBanners());
         //行情
-        ((CommonAdapter)mRvMarket.getAdapter()).refreshData(data.getJinsecaijing());
+        ((CommonAdapter)mRvMarket.getAdapter()).refreshData(null == data.getJinsecaijing()?new ArrayList():data.getJinsecaijing());
         //持币生息
         mTvYearRate.setText("+ "+data.getYear_rate()+"%");
         //资讯上边刷新

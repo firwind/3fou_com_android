@@ -232,6 +232,10 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             setCenterText(mPresenter.getUserName(toChatUsername));
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
             setCenterText(mPresenter.getGroupName(toChatUsername));
+            //如果已经离开了群聊，则去掉右上角点击事件
+            if(null == EMClient.getInstance().groupManager().getGroup(toChatUsername)){
+                setToolBarRightImage(0);
+            }
             //获取禁言状态
             mPresenter.getCurrentTalkingState(toChatUsername);
         }
@@ -304,6 +308,10 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
     @Override
     protected void setRightClick() {
+        if (chatType == EaseConstant.CHATTYPE_GROUP &&
+                null == EMClient.getInstance().groupManager().getGroup(toChatUsername)) {
+            return;
+        }
         toGroupDetails();
     }
 

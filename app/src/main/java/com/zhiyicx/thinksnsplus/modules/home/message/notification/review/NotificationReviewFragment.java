@@ -13,6 +13,10 @@ import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
 /**
  * author: huwenyong
  * date: 2018/8/16 11:59
@@ -55,7 +59,7 @@ public class NotificationReviewFragment extends TSListFragment<NotificationRevie
                 holder.getTextView(R.id.tv_reason).setText("理由："+groupOrFriendReviewBean.getInformation());
                 try {
                     holder.getTextView(R.id.tv_time).setText(TimeUtils.getTimeFriendlyNormal(
-                            TimeUtils.string2MillisDefaultLocal(groupOrFriendReviewBean.getCreate_at())));
+                            TimeUtils.string2MillisDefaultLocal(groupOrFriendReviewBean.getCreated_at())));
                 }catch (Exception e){}
                 if(groupOrFriendReviewBean.getStatus() != 0){
                     holder.getTextView(R.id.tv_state).setText(groupOrFriendReviewBean.getStatus() == 1 ? "已同意" : "已拒绝");
@@ -72,5 +76,11 @@ public class NotificationReviewFragment extends TSListFragment<NotificationRevie
         };
 
         return mAdapter;
+    }
+
+
+    @Override
+    protected Long getMaxId(@NotNull List<GroupOrFriendReviewBean> data) {
+        return Long.valueOf(mListDatas.size());
     }
 }

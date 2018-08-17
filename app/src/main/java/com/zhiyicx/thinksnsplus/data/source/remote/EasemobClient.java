@@ -394,7 +394,7 @@ public interface EasemobClient {
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_FRIEND_REVIEW_LIST)
-    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(@Query("limit")int limit, @Query("offset")Long offset);
+    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(@Query("limit")int limit, @Query("offset")Integer offset);
 
     /**
      * 通过或拒绝好友申请
@@ -404,5 +404,14 @@ public interface EasemobClient {
      */
     @POST(ApiConfig.APP_PATH_REVIEW_FRIEND_APPLY)
     Observable<String> reviewFriendApply(@Query("id")String id,@Query("status")int status);
+
+    /**
+     * 让服务器同步环信信息
+     * @param im_group_id
+     * @param group_level
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_SYN_HUANXIN_GROUP_INFO)
+    Observable<String> synHuanxinGroupInfo(@Query("im_group_id")String im_group_id,@Query("group_level")int group_level);
 
 }
