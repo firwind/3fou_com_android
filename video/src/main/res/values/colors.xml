@@ -53,5 +53,6 @@
     <color name="black_translucent">#50000000</color>
     <color name="top_bottom">#42BAF8</color>
     <color name="edit_back_color">#42bbbbbb</color>
+    <color name="bg_e_color">#eeeeee</color>
 
 </resources>

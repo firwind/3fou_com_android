@@ -198,4 +198,10 @@ public interface IBillRepository {
      */
     Observable<String> receiveIntegrationRedPacket();
 
+    /**
+     * 领取糖果红包
+     * @return
+     */
+    Observable<String> conversionFcc(String candiesNum);
+
 }

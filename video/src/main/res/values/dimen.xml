@@ -106,6 +106,7 @@
 
     <!-- 显示图片的size -->
     <dimen name="effect_item_size">140dp</dimen>
+    <dimen name="conversion_size">320dp</dimen>
 
     <!--设置PopupView的尺寸-->
     <dimen name="setting_image_size">20dp</dimen>

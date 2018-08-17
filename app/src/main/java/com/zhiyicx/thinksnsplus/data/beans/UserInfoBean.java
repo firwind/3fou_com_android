@@ -95,6 +95,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     private String area;        // 区
     @Transient
     private int member_mute;
+
     private int friends_set;
     private boolean pay_password;//是否已经设置支付密码
 

@@ -948,6 +948,8 @@
     <string name="domain_swith">服务器切换</string>
     <string name="no_new_version">当前已经是最新版</string>
     <string name="defualt_golde_name">糖果</string>
+    <string name="red_candies">红糖果</string>
+    <string name="FCC_text">FCC:</string>
     <string name="today_with_split">今,天</string>
     <string name="yestorday_with_split">昨,天</string>
     <string name="can_not_use_protected_name">不能使用站点预留昵称</string>
@@ -1002,7 +1004,10 @@
     <string name="recharge_integration">充值糖果</string>
     <string name="current_integration">当前糖果</string>
     <string name="withdraw_integration">提取糖果</string>
+    <string name="conversion_integration">糖果兑换</string>
+    <string name="affirm_conversion">确认兑换</string>
     <string name="integration_withdrawals">糖果提取</string>
+    <string name="red_candies_conversion">红糖果兑换</string>
     <string name="integration_shop">糖果商城</string>
     <string name="integration_rule">糖果规则</string>
     <string name="integration_recharge">糖果充值</string>
@@ -1010,6 +1015,8 @@
     <string name="recharge_ratio">充值比率</string>
     <string name="user_reharge_integration_rule">用户充值协议</string>
     <string name="integration_config_info_get_loading_tip">糖果配置信息获取中&#8230;</string>
+    <string name="conversion_hint">正在兑换</string>
+    <string name="conversion_success">兑换成功</string>
     <string name="integration_ratio_formart">%1$d元=%2$d%3$s</string>
     <string name="integration_detail">糖果明细</string>
     <string name="integration_to_wallet">糖果兑换余额</string>

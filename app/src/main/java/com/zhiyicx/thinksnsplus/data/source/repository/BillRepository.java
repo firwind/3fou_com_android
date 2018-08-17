@@ -329,5 +329,12 @@ public class BillRepository implements IBillRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<String> conversionFcc(String candiesNum) {
+        return mWalletClient.conversionFcc(candiesNum)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }

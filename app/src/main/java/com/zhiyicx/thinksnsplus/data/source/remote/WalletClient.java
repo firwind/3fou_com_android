@@ -278,5 +278,11 @@ public interface WalletClient {
      */
     @GET(ApiConfig.APP_PATH_RECEIVE_INTEGRATION_RED_PACKET)
     Observable<String> receiveIntegrationRedPacket();
+    /**
+     * 兑换FCC
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_RECEIVE_CONVERSION_FCC)
+    Observable<String> conversionFcc(@Query("amount") String amount);
 
 }

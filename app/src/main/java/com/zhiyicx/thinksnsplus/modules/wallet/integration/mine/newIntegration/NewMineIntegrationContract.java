@@ -41,6 +41,9 @@ public interface NewMineIntegrationContract {
          * @param tag              action tag, 1 recharge 2 withdraw
          */
         void integrationConfigCallBack(IntegrationConfigBean configBean, int tag);
+
+        void conversionSuccess(long candiesNum);
+        void conversionFailure();
     }
 
     interface Presenter extends ITSListPresenter<IntegrationRuleBean>{
@@ -68,6 +71,12 @@ public interface NewMineIntegrationContract {
          * @param tag action tag
          */
         void checkIntegrationConfig(int tag,boolean isNeedTip);
+
+        /**
+         * 兑换FCC
+         * @param candiesNum  糖果数量
+         */
+        void  conversionFcc(String candiesNum);
     }
 
 }

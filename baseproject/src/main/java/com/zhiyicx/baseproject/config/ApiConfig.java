@@ -1122,6 +1122,8 @@ public class ApiConfig {
     public static final String APP_PATH_GET_INTEGRATION_RED_PACKET_NUM = "api/"+API_VERSION_2+"/getCounts";
     //领取糖果红包
     public static final String APP_PATH_RECEIVE_INTEGRATION_RED_PACKET = "api/"+API_VERSION_2+"/getRegister";
+    //兑换FCC
+    public static final String APP_PATH_RECEIVE_CONVERSION_FCC = "api/"+API_VERSION_2+"/currency/conversion";
 
 
     /*排行榜相关*/

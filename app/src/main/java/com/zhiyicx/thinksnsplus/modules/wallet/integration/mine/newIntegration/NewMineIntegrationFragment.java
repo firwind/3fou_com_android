@@ -46,6 +46,7 @@ import com.zhiyicx.thinksnsplus.modules.wallet.integration.withdrawal.Integratio
 import com.zhiyicx.thinksnsplus.modules.wallet.rule.WalletRuleActivity;
 import com.zhiyicx.thinksnsplus.modules.wallet.rule.WalletRuleFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
+import com.zhiyicx.thinksnsplus.widget.popwindow.ConversionAlertPopWindow;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -85,6 +86,8 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
 
     CombinationButton mBtWithdraw;
 
+    CombinationButton mBtConversion;
+
     CombinationButton mBtIntegrationShop;
 
     TextView mTvDigHead;
@@ -108,6 +111,7 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
      * 充值提示规则选择弹框
      */
     private CenterInfoPopWindow mRulePop = null;
+    private ConversionAlertPopWindow mConversionPop = null;
     private DynamicDetailAdvertHeader mDynamicDetailAdvertHeader;
 
     private String mGoldName = "";
@@ -159,11 +163,12 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
     protected void initView(View rootView) {
         super.initView(rootView);
 
-        View view = LayoutInflater.from(mActivity).inflate(R.layout.view_mine_integration_header,null);
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.view_mine_integration_header, null);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mHeaderAndFooterWrapper.addHeaderView(view);
         mBtReCharge = (CombinationButton) view.findViewById(R.id.bt_recharge);
         mBtWithdraw = (CombinationButton) view.findViewById(R.id.bt_withdraw);
+        mBtConversion = (CombinationButton) view.findViewById(R.id.bt_conversion);
         mBtIntegrationShop = (CombinationButton) view.findViewById(R.id.bt_integration_shop);
         //mTvReChargeAndWithdrawRule = (TextView) view.findViewById(R.id.tv_recharge_and_withdraw_rule);
         mTvDigHead = (TextView) view.findViewById(R.id.tv_dig_head);
@@ -183,13 +188,13 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
         mTvToolbarCenter.setText(getString(R.string.my_integration_name, mGoldName));
         mTvToolbarRight.setText(getString(R.string.detail));
         mTvDayUnit.setText(getString(R.string.current_day_integration_format, mGoldName));
-        mTvIceUnit.setText("冰"+mGoldName);
-        mTvRedUnit.setText("红"+mGoldName);
+        mTvIceUnit.setText("冰" + mGoldName);
+        mTvRedUnit.setText("红" + mGoldName);
 
         mTvToolbarLeft.setCompoundDrawables(UIUtils.getCompoundDrawables(mActivity, R.mipmap.topbar_back_white),
                 null, null, null);
         initListener();
-        initAdvert(mActivity,view, mPresenter.getIntegrationAdvert());
+        initAdvert(mActivity, view, mPresenter.getIntegrationAdvert());
         mSystemConfigBean = mPresenter.getSystemConfigBean();
         if (mSystemConfigBean == null || mSystemConfigBean.getCurrencyRecharge() == null || !mSystemConfigBean.getCurrencyRecharge().isOpen()) {
             mBtReCharge.setVisibility(View.GONE);
@@ -201,7 +206,11 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
         } else {
             mBtWithdraw.setVisibility(View.VISIBLE);
         }
-
+//        if (mSystemConfigBean == null || mSystemConfigBean.getCurrencyConversion() == null || !mSystemConfigBean.getCurrencyConversion().isOpen()) {
+//            mBtConversion.setVisibility(View.GONE);
+//        } else {
+//            mBtConversion.setVisibility(View.VISIBLE);
+//        }
         mBtReCharge.setLeftText(getString(R.string.recharge_integration_foramt, mGoldName));
         mBtWithdraw.setLeftText(getString(R.string.withdraw_integration_foramt, mGoldName));
         mBtIntegrationShop.setLeftText(getString(R.string.integration_shop_foramt, mGoldName));
@@ -210,7 +219,7 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
 
     @Override
     protected void initData() {
-        mPresenter.requestNetData(0L,false);
+        mPresenter.requestNetData(0L, false);
     }
 
     @Override
@@ -221,7 +230,7 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
 
     @Override
     public void onNetResponseSuccess(@NotNull List<IntegrationRuleBean> data, boolean isLoadMore) {
-        if(null != data && data.size() > 0)
+        if (null != data && data.size() > 0)
             mTvDigHead.setVisibility(View.VISIBLE);
         super.onNetResponseSuccess(data, isLoadMore);
     }
@@ -233,14 +242,14 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
                 R.layout.item_new_integration_rule, mListDatas) {
             @Override
             protected void convert(ViewHolder holder, IntegrationRuleBean integrationRuleBean, int position) {
-                ImageUtils.loadImageDefault(holder.getImageViwe(R.id.iv_icon),integrationRuleBean.getIcon());
-                holder.getTextView(R.id.tv_rule).setText(integrationRuleBean.getTitle()+"+送"+integrationRuleBean.getValue()+goldName);
+                ImageUtils.loadImageDefault(holder.getImageViwe(R.id.iv_icon), integrationRuleBean.getIcon());
+                holder.getTextView(R.id.tv_rule).setText(integrationRuleBean.getTitle() + "+送" + integrationRuleBean.getValue() + goldName);
                 holder.getTextView(R.id.tv_rule_desc).setText(integrationRuleBean.getDec());
-                holder.getTextView(R.id.tv_rule_desc).setVisibility(integrationRuleBean.isExpand()? View.VISIBLE:View.GONE);
-                holder.getView(R.id.iv_expand).setRotation(integrationRuleBean.isExpand()?180:0);
+                holder.getTextView(R.id.tv_rule_desc).setVisibility(integrationRuleBean.isExpand() ? View.VISIBLE : View.GONE);
+                holder.getView(R.id.iv_expand).setRotation(integrationRuleBean.isExpand() ? 180 : 0);
 
                 holder.getTextView(R.id.tv_invite).setVisibility(!TextUtils.isEmpty(integrationRuleBean.getStr()) &&
-                        integrationRuleBean.getStr().contains("register")?View.VISIBLE:View.INVISIBLE);
+                        integrationRuleBean.getStr().contains("register") ? View.VISIBLE : View.INVISIBLE);
                 /*holder.getTextView(R.id.tv_invite).setText(!TextUtils.isEmpty(integrationRuleBean.getStr()) &&
                         integrationRuleBean.getStr().contains("register")?"立即邀请":"暂未开放");*/
                 holder.getView(R.id.ll_parent).setOnClickListener(v -> {
@@ -248,7 +257,7 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
                     NewMineIntegrationFragment.this.refreshData();
                 });
                 holder.getTextView(R.id.tv_invite).setOnClickListener(v -> {
-                    if(holder.getTextView(R.id.tv_invite).getText().equals("立即邀请"))
+                    if (holder.getTextView(R.id.tv_invite).getText().equals("立即邀请"))
                         startActivity(InviteShareActivity.newIntent(mActivity));
                 });
 
@@ -258,7 +267,7 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
         return mAdapter;
     }
 
-    private void initAdvert(Context context,View rootView, List<RealAdvertListBean> adverts) {
+    private void initAdvert(Context context, View rootView, List<RealAdvertListBean> adverts) {
         rootView.findViewById(R.id.ll_advert_tag).setVisibility(View.GONE);
 
         if (!BuildConfig.USE_ADVERT || adverts == null || adverts.isEmpty()) {
@@ -294,7 +303,13 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
                 .throttleFirst(ConstantConfig.JITTER_SPACING_TIME, TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())
                 .subscribe(aVoid -> mPresenter.checkIntegrationConfig(NewMineIntegrationPresenter.TAG_RECHARGE, true));
-
+        // 兑换糖果
+        RxView.clicks(mBtConversion)
+                .throttleFirst(ConstantConfig.JITTER_SPACING_TIME, TimeUnit.SECONDS)
+                .compose(this.bindToLifecycle())
+                .subscribe(aVoid ->
+                        mPresenter.checkIntegrationConfig(NewMineIntegrationPresenter.TAG_SHOWRULE_CONVERSION, true)
+                );
         // 提取积分
         RxView.clicks(mBtWithdraw)
                 .throttleFirst(ConstantConfig.JITTER_SPACING_TIME, TimeUnit.SECONDS)
@@ -332,6 +347,31 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
                 .subscribe(aVoid -> mActivity.finish());
     }
 
+    private void showConversionPopupWindow(IntegrationConfigBean bean) {
+        if (mConversionPop != null) {
+            mConversionPop.show();
+            return;
+        }
+        mConversionPop = ConversionAlertPopWindow.builder()
+                .isOutsideTouch(true)
+                .isFocus(true)
+                .desStr(mBalance)
+                .ruleStr(bean.getConversionRule())
+                .ratiosStr(bean.getConversionRatio())
+                .animationStyle(R.style.style_actionPopupAnimation)
+                .backgroundAlpha(CustomPopupWindow.POPUPWINDOW_ALPHA)
+                .with(mActivity)
+                .buildConversionPopWindowItemClickListener(new ConversionAlertPopWindow.ConversionPopWindowItemClickListener() {
+                    @Override
+                    public void affirmConversion(String candiesNum) {
+                        mPresenter.conversionFcc(candiesNum);
+                    }
+                })
+                .parentView(getView())
+                .build();
+        mConversionPop.show();
+    }
+
     private void jumpWalletRuleActivity() {
         Intent intent = new Intent(mActivity, WalletRuleActivity.class);
         Bundle bundle = new Bundle();
@@ -365,22 +405,25 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
         mRulePop.show();
     }
 
+    long mBalance;
+
     @Override
     public void updateBalance(IntegrationBean balance) {
+        mBalance = balance.getRed_candy();
         mTvFrezzIntegration.setText(String.valueOf(balance == null ? 0 : balance.getSum()));
         mTvTodayIntegration.setText(String.valueOf(balance == null ? 0 : balance.getToday_total()));
-        mTvAvaliableIntegration.setText(String.valueOf(balance==null?0:balance.getRed_candy()));
+        mTvAvaliableIntegration.setText(String.valueOf(balance == null ? 0 : balance.getRed_candy()));
         int day = 0;
-        if(null != balance){
+        if (null != balance) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
                 long create = format.parse(balance.getCreated_at()).getTime();
-                day = (int)((System.currentTimeMillis()-create)/1000/60/60/24);
+                day = (int) ((System.currentTimeMillis() - create) / 1000 / 60 / 60 / 24);
             } catch (ParseException e) {
                 //
             }
         }
-        mTvDigDay.setText(String.format("已挖矿%s天，继续努力",day));
+        mTvDigDay.setText(String.format("已挖矿%s天，继续努力", day));
     }
 
     @Override
@@ -421,9 +464,32 @@ public class NewMineIntegrationFragment extends TSListFragment<NewMineIntegratio
             case NewMineIntegrationPresenter.TAG_SHOWRULE_JUMP:
                 jumpWalletRuleActivity();
                 break;
+            case NewMineIntegrationPresenter.TAG_SHOWRULE_CONVERSION:
+                showConversionPopupWindow(configBean);
+                break;
+
 
         }
 
+    }
+
+    @Override
+    public void conversionSuccess(long candiesNum) {
+        if (mConversionPop != null) {
+            mConversionPop.hide();
+            mTvAvaliableIntegration.setText(mBalance - candiesNum + "");
+            return;
+        }
+
+    }
+
+
+    @Override
+    public void conversionFailure() {
+        if (mConversionPop != null) {
+            mConversionPop.hide();
+            return;
+        }
     }
 
 

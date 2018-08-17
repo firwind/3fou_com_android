@@ -5,6 +5,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.config.SharePreferenceTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.AllAdverListBean;
 import com.zhiyicx.thinksnsplus.data.beans.IntegrationRuleBean;
@@ -35,7 +36,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * version:
  */
 
-public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegrationContract.View> implements NewMineIntegrationContract.Presenter{
+public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegrationContract.View> implements NewMineIntegrationContract.Presenter {
 
     @Inject
     UserInfoRepository mUserInfoRepository;
@@ -44,20 +45,22 @@ public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegra
     @Inject
     AllAdvertListBeanGreenDaoImpl mAdvertListBeanGreenDao;
 
-    public static int DEFAULT_LOADING_SHOW_TIME=1;
+    public static int DEFAULT_LOADING_SHOW_TIME = 1;
     /**
      * action tag
      */
-    public static final int TAG_DETAIL=0; // detail
-    public static final int TAG_RECHARGE=1; // recharge
-    public static final int TAG_WITHDRAW=2; // withdraw
-    public static final int TAG_SHOWRULE_POP=3; // show rulepop
-    public static final int TAG_SHOWRULE_JUMP=4; // jump rule
+    public static final int TAG_DETAIL = 0; // detail
+    public static final int TAG_RECHARGE = 1; // recharge
+    public static final int TAG_WITHDRAW = 2; // withdraw
+    public static final int TAG_SHOWRULE_POP = 3; // show rulepop
+    public static final int TAG_SHOWRULE_JUMP = 4; // jump rule
+
+    public static final int TAG_SHOWRULE_CONVERSION = 5; // conversion
 
     /**
      * 用户信息是否拿到了
      */
-    private boolean mIsUsreInfoRequseted=false;
+    private boolean mIsUsreInfoRequseted = false;
     /**
      * 钱包配置信息，必须的数据
      */
@@ -70,47 +73,77 @@ public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegra
 
     @Override
     public void checkIntegrationConfig(int tag, boolean isNeedTip) {
-        if(mIntegrationConfigBean!=null){
-            mRootView.integrationConfigCallBack(mIntegrationConfigBean,tag);
+        if (mIntegrationConfigBean != null) {
+            mRootView.integrationConfigCallBack(mIntegrationConfigBean, tag);
             return;
         }
-        getWalletConfigFromServer(tag,isNeedTip);
+        getWalletConfigFromServer(tag, isNeedTip);
+    }
+
+    @Override
+    public void conversionFcc(String candiesNum) {
+        Subscription subscription = mBillRepository.conversionFcc(candiesNum)
+                .doOnSubscribe(() -> {
+                    mRootView.showSnackLoadingMessage(mContext.getString(R.string.conversion_hint));
+                })
+                .subscribe(new BaseSubscriberV3<String>(mRootView) {
+                    @Override
+                    protected void onSuccess(String data) {
+                        super.onSuccess(data);
+                        mRootView.conversionSuccess(Long.parseLong(candiesNum));
+                        mRootView.dismissSnackBar();
+                        mRootView.showSnackSuccessMessage(mContext.getString(R.string.conversion_success));
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.conversionFailure();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.conversionFailure();
+                    }
+                });
+        addSubscrebe(subscription);
     }
 
     @NotNull
     @Override
     public String getTipPopRule() {
-        return mIntegrationConfigBean==null?
-                mContext.getString(R.string.integration_rule):mIntegrationConfigBean.getRule();
+        return mIntegrationConfigBean == null ?
+                mContext.getString(R.string.integration_rule) : mIntegrationConfigBean.getRule();
     }
 
     @NotNull
     @Override
     public List<RealAdvertListBean> getIntegrationAdvert() {
-        AllAdverListBean adverBean=mAdvertListBeanGreenDao.getIntegrationAdvert();
-        return adverBean == null ? new ArrayList<>():adverBean.getMRealAdvertListBeen();
+        AllAdverListBean adverBean = mAdvertListBeanGreenDao.getIntegrationAdvert();
+        return adverBean == null ? new ArrayList<>() : adverBean.getMRealAdvertListBeen();
     }
 
     @Override
     public void updateUserInfo() {
-        Subscription timerSub= Observable.timer(DEFAULT_LOADING_SHOW_TIME, TimeUnit.SECONDS)
+        Subscription timerSub = Observable.timer(DEFAULT_LOADING_SHOW_TIME, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    if(!mIsUsreInfoRequseted){
+                    if (!mIsUsreInfoRequseted) {
                         mRootView.handleLoading(true);
                     }
                 });
 
-        Subscription userInfoSub=mUserInfoRepository.getCurrentLoginUserInfo()
+        Subscription userInfoSub = mUserInfoRepository.getCurrentLoginUserInfo()
                 .doAfterTerminate(() -> {
                     mRootView.handleLoading(false);
-                    mIsUsreInfoRequseted=true;
+                    mIsUsreInfoRequseted = true;
                 })
                 .subscribe(new BaseSubscribeForV2<UserInfoBean>() {
                     @Override
                     protected void onSuccess(UserInfoBean data) {
                         mUserInfoBeanGreenDao.insertOrReplace(data);
-                        if(data.getWallet()!=null){
+                        if (data.getWallet() != null) {
                             mWalletBeanGreenDao.insertOrReplace(data.getWallet());
                         }
                         mRootView.updateBalance(data.getCurrency());
@@ -138,11 +171,11 @@ public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegra
     public boolean checkIsNeedTipPop() {
         boolean isNotFrist = SharePreferenceUtils.getBoolean(mContext,
                 SharePreferenceTagConfig.SHAREPREFERENCE_TAG_IS_NOT_FIRST_LOOK_WALLET);
-        if(!isNotFrist){
+        if (!isNotFrist) {
             SharePreferenceUtils.saveBoolean(mContext,
-                    SharePreferenceTagConfig.SHAREPREFERENCE_TAG_IS_NOT_FIRST_LOOK_WALLET,true);
+                    SharePreferenceTagConfig.SHAREPREFERENCE_TAG_IS_NOT_FIRST_LOOK_WALLET, true);
         }
-        return!isNotFrist;
+        return !isNotFrist;
     }
 
 
@@ -152,28 +185,28 @@ public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegra
      * @param tag       action tag, 1 recharge 2 withdraw
      * @param isNeedTip true show tip
      */
-    private void getWalletConfigFromServer(Integer tag,boolean isNeedTip){
+    private void getWalletConfigFromServer(Integer tag, boolean isNeedTip) {
 
-        Subscription walletConfigSub=mBillRepository.getIntegrationConfig()
+        Subscription walletConfigSub = mBillRepository.getIntegrationConfig()
                 .doOnSubscribe(() -> {
-                    if(isNeedTip){
+                    if (isNeedTip) {
                         mRootView.showSnackLoadingMessage(mContext.getString(R.string.integration_config_info_get_loading_tip));
                     }
                 })
                 .subscribe(new BaseSubscribeForV2<IntegrationConfigBean>() {
                     @Override
                     protected void onSuccess(IntegrationConfigBean data) {
-                        mIntegrationConfigBean=data;
-                        if(isNeedTip){
+                        mIntegrationConfigBean = data;
+                        if (isNeedTip) {
                             mRootView.dismissSnackBar();
                         }
-                        mRootView.integrationConfigCallBack(data,tag);
+                        mRootView.integrationConfigCallBack(data, tag);
                     }
 
                     @Override
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);
-                        if(isNeedTip){
+                        if (isNeedTip) {
                             mRootView.showSnackErrorMessage(message);
                         }
                     }
@@ -181,7 +214,7 @@ public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegra
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
-                        if(isNeedTip){
+                        if (isNeedTip) {
                             mRootView.showSnackErrorMessage(mContext.getString(R.string.err_net_not_work));
                         }
                     }
@@ -195,7 +228,7 @@ public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegra
                 .subscribe(new BaseSubscribeForV2<List<IntegrationRuleBean>>() {
                     @Override
                     protected void onSuccess(List<IntegrationRuleBean> data) {
-                        mRootView.onNetResponseSuccess(data,isLoadMore);
+                        mRootView.onNetResponseSuccess(data, isLoadMore);
                     }
 
                     @Override
@@ -207,7 +240,7 @@ public class NewMineIntegrationPresenter extends AppBasePresenter<NewMineIntegra
                     @Override
                     protected void onException(Throwable throwable) {
                         super.onException(throwable);
-                        mRootView.onResponseError(throwable,isLoadMore);
+                        mRootView.onResponseError(throwable, isLoadMore);
                     }
                 });
     }

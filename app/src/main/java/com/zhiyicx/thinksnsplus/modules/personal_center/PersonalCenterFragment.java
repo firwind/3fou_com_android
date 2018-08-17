@@ -292,6 +292,7 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
                 TOOLBAR_BLACK_ICON[1], TOOLBAR_BLACK_ICON[2]));
         mIvMore.setVisibility(View.GONE);
 //        setOverScroll(false, null);
+
     }
 
     private void initListener() {

@@ -87,6 +87,9 @@ public class SystemConfigBean implements Serializable {
     private OpenConfig currencyCash;
     @SerializedName("currency:recharge")
     private OpenConfig currencyRecharge;
+    @SerializedName("currency:conversion")
+    private OpenConfig conversion;
+
     private int limit;
 
     /**
@@ -199,6 +202,8 @@ public class SystemConfigBean implements Serializable {
         this.im_serve = im_serve;
     }
 
+
+
     /**
      * 新版的小助手数据放入原有的数据模型
      *
@@ -303,7 +308,13 @@ public class SystemConfigBean implements Serializable {
     public void setWalletTransform(OpenConfig walletTransform) {
         this.walletTransform = walletTransform;
     }
+    public OpenConfig getCurrencyConversion() {
+        return conversion;
+    }
 
+    public void setConversion(OpenConfig conversion) {
+        this.conversion = conversion;
+    }
     /**
      * uid : 1
      * url : https://plus.io/users/1
