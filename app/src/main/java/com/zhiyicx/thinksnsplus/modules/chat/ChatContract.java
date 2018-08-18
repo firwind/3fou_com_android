@@ -19,49 +19,44 @@ import java.util.List;
 public interface ChatContract {
 
     interface View extends IBaseView<Presenter> {
+
+        String getChatId();
+
         void onMessageReceivedWithUserInfo(List<EMMessage> messages);
-        void setGoupName(String name);
-
-        /**
-         * 更新标题
-         * @param s
-         */
-        void setTitle(String s);
-
-        /**
-         * 通知类消息的用户信息
-         * @param
-         */
-        void updateUserInfoForRefreshList(UserInfoBean data,TSEMRefreshEvent event);
-
-        void updateCenterText(UserInfoBean userInfoBean);
 
         void handleNotRoamingMessageWithUserInfo();
 
-        void setTalkingState(boolean isTalking);
+        void setTalkingState(boolean isTalking,String content);
+
+        void updateUserInfo(UserInfoBean userInfoBean);
+
+        void updateChatGroupInfo(ChatGroupBean chatGroupBean);
     }
 
     interface Presenter extends IBasePresenter {
+
+        String getChatGroupName();
+
+        //处理收到的消息
         void dealMessages(List<EMMessage> messages);
-        String getUserName(String id);
 
-        /**
-         * 从本地拿
-         * @param id
-         * @return
-         */
-        ChatGroupBean getChatGroupInfo(String id);
+        //从本地拿群组信息
+        ChatGroupBean getChatGroupInfoFromLocal();
 
-        /**
-         * 从服务器拿
-         * @param groupId
-         */
-        void getGroupChatInfo(String groupId);
+        //从本地拿用户信息
+        UserInfoBean getUserInfoFromLocal();
+
+        UserInfoBean getUserInfoFromLocal(String user_id);
+
+        void getUserInfoFromServer();
+
+        //从服务器拿群组信息
+        void getChatGroupInfoFromServer();
+
+        //更改群名称
         void updateGroupName(ChatGroupBean chatGroupBean);
 
-        void getUserInfoForRefreshList(TSEMRefreshEvent event);
-
-        String getGroupName(String id);
+        //更改群人数
         boolean updateChatGroupMemberCount(String id,int count,boolean add);
 
         //找出未获取到用户信息的消息

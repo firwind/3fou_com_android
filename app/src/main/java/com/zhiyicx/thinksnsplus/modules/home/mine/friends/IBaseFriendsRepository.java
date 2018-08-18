@@ -121,6 +121,6 @@ public interface IBaseFriendsRepository {
      * @param group_level
      * @return
      */
-    Observable<String> synHuanxinGroupInfo(String group_id,int group_level);
+    Observable<String> synExitGroup(String group_id,int group_level);
 
 }

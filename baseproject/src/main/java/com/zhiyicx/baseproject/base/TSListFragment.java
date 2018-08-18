@@ -616,7 +616,7 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
      */
     protected void requestNetData(Long maxId, boolean isLoadMore) {
         if (mPresenter != null) {
-            mPresenter.requestNetData(maxId, isLoadMore);
+            mPresenter.requestNetData(null == maxId ? 0L : maxId, isLoadMore);
         }
     }
 

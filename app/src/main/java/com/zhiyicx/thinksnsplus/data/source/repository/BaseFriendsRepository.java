@@ -162,8 +162,8 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     }
 
     @Override
-    public Observable<String> synHuanxinGroupInfo(String group_id, int group_level) {
-        return mEasemobClient.synHuanxinGroupInfo(group_id,group_level)
+    public Observable<String> synExitGroup(String group_id, int group_level) {
+        return mEasemobClient.synExitGroup(group_id,group_level)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

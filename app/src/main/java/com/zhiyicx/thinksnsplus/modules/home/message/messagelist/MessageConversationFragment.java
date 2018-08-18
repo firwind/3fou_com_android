@@ -368,23 +368,25 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
                     return;
                 }
                 NotificationUtil.showTextNotification(mActivity, groupName + "[群]解散了");
-                EMClient.getInstance().chatManager().deleteConversation(groupId, true);
+                mPresenter.updateGroup(groupId);
+                /*EMClient.getInstance().chatManager().deleteConversation(groupId, true);
                 if (mPresenter != null) {
                     mPresenter.deleteGroup(groupId);
-                }
+                }*/
                 break;
             case TSEMConstants.TS_ATTR_GROUP_LAYOFF:
                 if (TextUtils.isEmpty(groupId)) {
                     return;
                 }
                 NotificationUtil.showTextNotification(mActivity, "你被管理员移出" + groupName + "[群聊]");
+                mPresenter.updateGroup(groupId);
                 /*EMClient.getInstance().chatManager().deleteConversation(groupId, true);
                 if (mPresenter != null) {
                     mPresenter.deleteGroup(groupId);
                 }*/
                 break;
             case TSEMConstants.TS_ATTR_GROUP_EXIT:
-
+                //用户主动退出群聊，在退出成功之后，就加了一条本地消息，不需要再次刷新
                 break;
 
             default:

@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.chat;
 
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMRefreshEvent;
 import com.zhiyicx.common.base.BaseJsonV2;
@@ -7,6 +8,7 @@ import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
@@ -16,6 +18,7 @@ import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -49,6 +52,21 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
     @Inject
     public ChatPresenter(ChatContract.View rootView) {
         super(rootView);
+    }
+
+    @Override
+    public String getChatGroupName() {
+        //这里拿环信的group人数信息，这样子人数每次都是最新的
+
+        if(null != mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId())){
+            return String.format("%s(%s)",mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId()).getName(),
+                    mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId()).getAffiliations_count());
+        }else if(null != EMClient.getInstance().groupManager().getGroup(mRootView.getChatId())){
+            return String.format("%s(%s)",EMClient.getInstance().groupManager().getGroup(mRootView.getChatId()).getGroupName(),
+                    EMClient.getInstance().groupManager().getGroup(mRootView.getChatId()).getMemberCount());
+        }else {
+            return "该群已解散";
+        }
     }
 
     @Override
@@ -87,15 +105,48 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
     }
 
     @Override
-    public void getGroupChatInfo(String groupId) {
-        Subscription subscription = mRepository.getGroupChatInfo(groupId)
+    public ChatGroupBean getChatGroupInfoFromLocal() {
+        return mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId());
+    }
+
+    @Override
+    public UserInfoBean getUserInfoFromLocal() {
+        return mUserInfoBeanGreenDao.getUserInfoById(mRootView.getChatId());
+    }
+
+    @Override
+    public UserInfoBean getUserInfoFromLocal(String user_id) {
+        return mUserInfoBeanGreenDao.getUserInfoById(user_id);
+    }
+
+    @Override
+    public void getUserInfoFromServer() {
+        List<Object> list = new ArrayList<>();
+        list.add(mRootView.getChatId());
+        mUserInfoRepository.getUserInfo(list)
+                .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
+                    @Override
+                    protected void onSuccess(List<UserInfoBean> data) {
+                        if(null != data && data.size() > 0)
+                            mRootView.updateUserInfo(data.get(0));
+                    }
+                });
+    }
+
+    @Override
+    public void getChatGroupInfoFromServer() {
+        Subscription subscription = mRepository.getGroupChatInfo(mRootView.getChatId())
                 .subscribe(new BaseSubscribeForV2<List<ChatGroupBean>>() {
                     @Override
                     protected void onSuccess(List<ChatGroupBean> data) {
                         mChatGroupBeanGreenDao.saveMultiData(data);
-                        if (!data.isEmpty()) {
-                            mRootView.setTitle(data.get(0).getName() + "(" + data.get(0).getAffiliations_count() + ")");
-                        }
+                        mRootView.updateChatGroupInfo(mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId()));
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.updateChatGroupInfo(null);
                     }
                 });
         addSubscrebe(subscription);
@@ -111,75 +162,16 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
                 0, chatGroupBean.getGroup_face(), false, "",chatGroupBean.getGroup_level())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("修改中..."))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {
+                .subscribe(new BaseSubscriberV3<ChatGroupBean>(mRootView){
+
                     @Override
                     protected void onSuccess(ChatGroupBean data) {
-                        mChatGroupBeanGreenDao.saveSingleData(chatGroupBean);
-                        mRootView.setGoupName(mContext.getString(R.string.chat_group_name_default, data.getName(), chatGroupBean
-                                .getAffiliations_count()));
-                        mRootView.dismissSnackBar();
-                    }
-
-                    @Override
-                    protected void onException(Throwable throwable) {
-                        super.onException(throwable);
-                        mRootView.showSnackErrorMessage(throwable.getMessage());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mRootView.showSnackErrorMessage(e.getMessage());
+                        super.onSuccess(data);
+                        mChatGroupBeanGreenDao.saveSingleData(data);
+                        mRootView.updateChatGroupInfo(data);
                     }
                 });
         addSubscrebe(subscription);
-    }
-
-    @Override
-    public String getUserName(String id) {
-        try {
-            return mUserInfoBeanGreenDao.getUserName(id);
-        } catch (Exception e) {
-            Subscription subscribe = mUserInfoRepository.getUserInfoByIds(id)
-                    .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
-                        @Override
-                        protected void onSuccess(List<UserInfoBean> data) {
-                            if (!data.isEmpty()) {
-                                mRootView.updateCenterText(data.get(0));
-                            }
-                        }
-                    });
-            addSubscrebe(subscribe);
-            return mContext.getString(R.string.default_delete_user_name);
-        }
-    }
-
-    @Override
-    public void getUserInfoForRefreshList(TSEMRefreshEvent event) {
-        mUserInfoRepository.getUserInfoWithOutLocalByIds(event.getStringExtra())
-                .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
-                    @Override
-                    protected void onSuccess(List<UserInfoBean> data) {
-                        if (data == null || data.isEmpty()) {
-                            return;
-                        }
-                        mRootView.updateUserInfoForRefreshList(data.get(0), event);
-                    }
-                });
-    }
-
-    @Override
-    public String getGroupName(String id) {
-        try {
-            return mChatGroupBeanGreenDao.getChatGroupName(id);
-        } catch (Exception e) {
-            return mContext.getString(R.string.default_delete_user_name);
-        }
-    }
-
-    @Override
-    public ChatGroupBean getChatGroupInfo(String id) {
-        return mChatGroupBeanGreenDao.getChatGroupBeanById(id);
     }
 
     /**
@@ -199,7 +191,9 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
                 .subscribe(new BaseSubscribeForV2<BaseJsonV2<Boolean>>() {
                     @Override
                     protected void onSuccess(BaseJsonV2<Boolean> data) {
-                        mRootView.setTalkingState(data.getData());
+                        if(!data.getData()){
+                            mRootView.setTalkingState(false,"您已被禁言");
+                        }
                     }
                 }));
     }

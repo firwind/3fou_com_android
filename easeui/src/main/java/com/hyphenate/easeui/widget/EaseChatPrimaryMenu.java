@@ -36,11 +36,9 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
     private View buttonMore;
     private boolean ctrlPress = false;
 
-    public RelativeLayout getmOpenMute() {
-        return mOpenMute;
-    }
+    private RelativeLayout edittext_layout_hint;
+    private TextView tv_sendmessage_hint;
 
-    private RelativeLayout mOpenMute;
     public EaseChatPrimaryMenu(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
@@ -64,7 +62,8 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         editText = (EditText) findViewById(R.id.et_sendmessage);
         buttonSetModeKeyboard = findViewById(R.id.btn_set_mode_keyboard);
         edittext_layout = (RelativeLayout) findViewById(R.id.edittext_layout);
-        mOpenMute = (RelativeLayout) findViewById(R.id.edittext_layout_hint);
+        edittext_layout_hint = (RelativeLayout) findViewById(R.id.edittext_layout_hint);
+        tv_sendmessage_hint = (TextView) findViewById(R.id.tv_sendmessage_hint);
         buttonSetModeVoice = findViewById(R.id.btn_set_mode_voice);
         buttonSend = findViewById(R.id.btn_send);
         buttonPressToSpeak = findViewById(R.id.btn_press_to_speak);
@@ -324,8 +323,9 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
     /**
      * 设置禁言状态
      */
-    public void setNoTalkingState(){
-        mOpenMute.setVisibility(VISIBLE);
+    public void setNoTalkingState(String desc){
+        edittext_layout_hint.setVisibility(VISIBLE);
+        tv_sendmessage_hint.setText(desc);
         edittext_layout.setVisibility(GONE);
         buttonSetModeVoice.setEnabled(false);//设置说话不能点击
         buttonMore.setEnabled(false);//+号不能点击

@@ -411,7 +411,7 @@ public interface EasemobClient {
      * @param group_level
      * @return
      */
-    @GET(ApiConfig.APP_PATH_SYN_HUANXIN_GROUP_INFO)
-    Observable<String> synHuanxinGroupInfo(@Query("im_group_id")String im_group_id,@Query("group_level")int group_level);
+    @GET(ApiConfig.APP_PATH_SYN_EXIT_GROUP)
+    Observable<String> synExitGroup(@Query("im_group_id")String im_group_id,@Query("group_level")int group_level);
 
 }

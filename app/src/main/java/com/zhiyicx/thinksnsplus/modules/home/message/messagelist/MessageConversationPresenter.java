@@ -537,7 +537,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
         return true;
     }
 
-    @Subscriber(mode = ThreadMode.MAIN)
+    /*@Subscriber(mode = ThreadMode.MAIN)
     public void onTSEMRefreshEventEventBus(TSEMRefreshEvent event) {
         if (TSEMRefreshEvent.TYPE_USER_EXIT == event.getType()) {
             getUserInfoForRefreshList(event);
@@ -560,7 +560,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                     }
                 });
         addSubscrebe(subscription);
-    }
+    }*/
 
     /**
      * 收到聊天消息
@@ -665,7 +665,6 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
      * 删除群
      */
     @Override
-    @Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_IM_DELETE_QUIT)
     public void deleteGroup(String id) {
         if (TextUtils.isEmpty(id)) {
             return;
@@ -690,6 +689,23 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
     @Override
     public boolean checkUserIsImHelper(long userId) {
         return mSystemRepository.checkUserIsImHelper(userId);
+    }
+
+    @Override
+    public void updateGroup(String id) {
+        if (TextUtils.isEmpty(id)) {
+            return;
+        }
+        MessageItemBeanV2 item = null;
+        for (MessageItemBeanV2 messageItemBeanV2 : mRootView.getListDatas()) {
+            if (messageItemBeanV2.getConversation().conversationId().equals(id)) {
+                item = messageItemBeanV2;
+                break;
+            }
+        }
+        if (item != null) {
+            mRootView.refreshData(mRootView.getListDatas().indexOf(item));
+        }
     }
 
     /**

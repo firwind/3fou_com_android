@@ -83,13 +83,15 @@ public class MyFriendsListPresenter extends AppBasePresenter<MyFriendsListContra
 
     @Override
     public void requestCacheData(Long maxId, boolean isLoadMore) {
-        List<UserInfoBean> followFansBeanList = mUserInfoBeanGreenDao.getUserFriendsList(maxId);
-        mRootView.onCacheResponseSuccess(followFansBeanList, isLoadMore);
+        //获取本地相互关注的列表
+        //List<UserInfoBean> followFansBeanList = mUserInfoBeanGreenDao.getUserFriendsList(maxId);
+        mRootView.onCacheResponseSuccess(null, isLoadMore);
     }
 
     @Override
     public boolean insertOrUpdateData(@NotNull List<UserInfoBean> data, boolean isLoadMore) {
-        return false;
+        mUserInfoBeanGreenDao.saveMultiData(data);
+        return true;
     }
 
     @Override

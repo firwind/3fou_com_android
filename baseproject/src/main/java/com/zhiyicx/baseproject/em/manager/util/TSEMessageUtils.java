@@ -236,6 +236,27 @@ public class TSEMessageUtils {
         EMClient.getInstance().chatManager().saveMessage(message);
     }
 
+
+    /**
+     * 本地创建admin消息
+     * @param content
+     * @param groupId
+     */
+    public static EMMessage createLocalMessageFromAdmin(String content,String groupId,String type){
+
+        //如果是自己退出了群聊，本地给自己发送一条消息
+        EMMessage message = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
+        message.addBody(new EMTextMessageBody(content));
+        message.setTo(groupId);
+        message.setFrom("admin");
+        message.setChatType(EMMessage.ChatType.GroupChat);
+        message.setMsgTime(System.currentTimeMillis());
+        // 设置消息的扩展
+        message.setAttribute("type", type);
+        return message;
+
+    }
+
     /**
      * 删除某条消息
      *

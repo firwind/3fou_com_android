@@ -170,7 +170,7 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_MEMBER_IS_ADD_GROUP = "api/" + API_VERSION_2 + "/easemob/group/isGroupMember";//是否加入该群
     public static final String APP_PATH_GET_TALKING_STATE = "api/"+API_VERSION_2+"/easemob/group/checkTalkingState";//检查说话权限
     public static final String APP_PATH_SET_ADD_FRIEND = "api/"+API_VERSION_2+"/user/resetFriendsSet";//设置加好友状态
-    public static final String APP_PATH_SYN_HUANXIN_GROUP_INFO = "api/"+API_VERSION_2+"/tongbuhuanxin";//
+    public static final String APP_PATH_SYN_EXIT_GROUP = "api/"+API_VERSION_2+"/easemob/synExitGroup";//退出群聊
 
     /**
      * 关注粉丝 FollowFansClient

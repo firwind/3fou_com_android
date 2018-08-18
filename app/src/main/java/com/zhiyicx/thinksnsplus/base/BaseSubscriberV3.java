@@ -21,18 +21,21 @@ public class BaseSubscriberV3<T> extends BaseSubscribeForV2<T>{
 
     @Override
     protected void onSuccess(T data) {
-        mView.dismissSnackBar();
+        if(null != mView)
+            mView.dismissSnackBar();
     }
 
     @Override
     protected void onFailure(String message, int code) {
         super.onFailure(message, code);
-        mView.showSnackErrorMessage(message);
+        if(null != mView)
+            mView.showSnackErrorMessage(message);
     }
 
     @Override
     protected void onException(Throwable throwable) {
         super.onException(throwable);
-        mView.showSnackErrorMessage("网络异常，请检查网络！");
+        if(null != mView)
+            mView.showSnackErrorMessage("网络异常，请检查网络！");
     }
 }

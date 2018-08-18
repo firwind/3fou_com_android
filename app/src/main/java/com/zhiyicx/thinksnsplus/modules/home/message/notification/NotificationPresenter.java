@@ -8,6 +8,7 @@ import com.zhiyicx.baseproject.base.ITSListView;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.utils.TimeUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
@@ -122,15 +123,13 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
                 .subscribeOn(Schedulers.io())
                 .map(aBoolean -> {
                     // 是否显示底部红点
-                    boolean isShowMessgeTip;
-
-                    boolean hasSystemMsg = mRootView.getListDatas().get(0).getUnreadCount() != 0;
-                    boolean hasCommentMsg = mRootView.getListDatas().get(1).getUnreadCount() != 0;
-                    boolean hasDigMsg = mRootView.getListDatas().get(2).getUnreadCount() != 0;
-                    boolean hasReviewMsg = mRootView.getListDatas().get(3).getUnreadCount() != 0;
-
-                    isShowMessgeTip = hasSystemMsg || hasDigMsg || hasCommentMsg || hasReviewMsg;
-
+                    boolean isShowMessgeTip = false;
+                    for (int i = 0; i < 6; i++) {
+                        if(mRootView.getListDatas().get(i).getUnreadCount() != 0){
+                            isShowMessgeTip = true;
+                            break;
+                        }
+                    }
                     return isShowMessgeTip;
                 })
                 .observeOn(AndroidSchedulers.mainThread())

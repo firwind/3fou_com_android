@@ -129,7 +129,21 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                                 //e.printStackTrace();
                                 return Observable.error(e);
                             }
-                            return mRepository.synHuanxinGroupInfo(chatId,mRootView.getGroupBean().getGroup_level())
+
+                            //如果是自己退出了群聊，本地给自己发送一条消息
+                            EMMessage message = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
+                            message.addBody(new EMTextMessageBody("你已经退出了群聊"));
+                            message.setTo(chatId);
+                            message.setFrom("admin");
+                            message.setChatType(EMMessage.ChatType.GroupChat);
+                            message.setMsgTime(System.currentTimeMillis());
+                            // 设置消息的扩展
+                            message.setAttribute("type", TSEMConstants.TS_ATTR_JOIN);
+                            message.setAttribute(TSEMConstants.TS_ATTR_JOIN, false);
+                            message.setAttribute(TSEMConstants.TS_ATTR_EIXT, true);
+                            EMClient.getInstance().chatManager().getConversation(chatId).insertMessage(message);
+
+                            return mRepository.synExitGroup(chatId,mRootView.getGroupBean().getGroup_level())
                                     .flatMap(s -> Observable.just(id))/*mRepository.removeGroupMember(mRootView.getGroupBean().getId(),
                                     String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()),
                                     mRootView.getGroupBean().getGroup_level()).flatMap(o -> Observable.just(id))*/;
@@ -399,7 +413,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                         data.setAffiliations_count(2);
                         mChatGroupBeanGreenDao.saveSingleData(data);
                         mRootView.dismissSnackBar();
-                        EventBus.getDefault().post(data, EventBusTagConfig.EVENT_IM_GROUP_CREATE_FROM_SINGLE);
+//                        EventBus.getDefault().post(data, EventBusTagConfig.EVENT_IM_GROUP_CREATE_FROM_SINGLE);
                         mRootView.createGroupSuccess(data);
                     }
 

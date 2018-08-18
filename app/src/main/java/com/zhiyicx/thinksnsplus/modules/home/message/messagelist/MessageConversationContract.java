@@ -77,5 +77,7 @@ public interface MessageConversationContract {
          * @return true 是 IM 小助手
          */
         boolean checkUserIsImHelper(long userId);
+
+        void updateGroup(String id);
     }
 }

@@ -39,9 +39,6 @@ public interface ChatInfoContract {
 
         void isShowEmptyView(boolean isShow, boolean isSuccess);
 
-        /**
-         * 单聊的对方的id
-         */
         String getToUserId();
 
         void createGroupSuccess(ChatGroupBean chatGroupBean);
