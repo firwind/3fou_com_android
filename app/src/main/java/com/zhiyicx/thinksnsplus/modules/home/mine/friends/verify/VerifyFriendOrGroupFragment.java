@@ -8,8 +8,6 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify;
  * 
  */
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,19 +16,21 @@ import android.widget.EditText;
 import com.trycatch.mysnackbar.Prompt;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 import butterknife.BindView;
 
-public class VerifyFriendsFragment extends TSFragment<VerifyFriendsContract.Presenter> implements VerifyFriendsContract.View{
+public class VerifyFriendOrGroupFragment extends TSFragment<VerifyFriendOrGroupContract.Presenter> implements VerifyFriendOrGroupContract.View{
 
     @BindView(R.id.et_verify_friends_info)
     EditText mEtVerifyFriendsInfo;
 
-    public static VerifyFriendsFragment getInstance(String user_id){
-        VerifyFriendsFragment friendsFragment = new VerifyFriendsFragment();
+    public static VerifyFriendOrGroupFragment getInstance(String user_id,String groupId){
+        VerifyFriendOrGroupFragment friendsFragment = new VerifyFriendOrGroupFragment();
         Bundle bundle = new Bundle();
         bundle.putString(IntentKey.USER_ID,user_id);
+        bundle.putString(IntentKey.GROUP_ID,groupId);
         friendsFragment.setArguments(bundle);
         return friendsFragment;
     }
@@ -54,7 +54,8 @@ public class VerifyFriendsFragment extends TSFragment<VerifyFriendsContract.Pres
             return;
         }
 
-        mPresenter.addFriend(getArguments().getString(IntentKey.USER_ID),mEtVerifyFriendsInfo.getText().toString());
+        mPresenter.addFriendOrGroup(isGroupVerify()?((ChatGroupBean)getArguments().getParcelable(IntentKey.GROUP_INFO)).getId():
+                getArguments().getString(IntentKey.USER_ID),mEtVerifyFriendsInfo.getText().toString());
 
     }
 
@@ -86,4 +87,8 @@ public class VerifyFriendsFragment extends TSFragment<VerifyFriendsContract.Pres
         return getString(R.string.chat_send_location);
     }
 
+    @Override
+    public boolean isGroupVerify() {
+        return !TextUtils.isEmpty(getArguments().getString(IntentKey.GROUP_ID));
+    }
 }

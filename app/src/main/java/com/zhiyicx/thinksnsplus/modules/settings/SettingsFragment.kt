@@ -35,12 +35,11 @@ import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity
 import com.zhiyicx.thinksnsplus.modules.feedback.FeedBackActivity
 import com.zhiyicx.thinksnsplus.modules.guide.GuideActivity
 import com.zhiyicx.thinksnsplus.modules.login.LoginActivity
-import com.zhiyicx.thinksnsplus.modules.password.changepassword.ChangePasswordActivity
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity
 import com.zhiyicx.thinksnsplus.modules.settings.account.AccountManagementActivity
 import com.zhiyicx.thinksnsplus.modules.settings.blacklist.BlackListActivity
 import com.zhiyicx.thinksnsplus.modules.settings.password.PassWordManagerActivity
-import com.zhiyicx.thinksnsplus.modules.settings.privacy.SettingPricacyActivity
+import com.zhiyicx.thinksnsplus.modules.settings.privacy.SettingPrivacyActivity
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil
 import java.util.concurrent.TimeUnit
 
@@ -216,7 +215,7 @@ class SettingsFragment : TSFragment<SettingsContract.Presenter>(), SettingsContr
                 .throttleFirst(JITTER_SPACING_TIME.toLong(), TimeUnit.SECONDS)
                 .compose(this.bindToLifecycle())
                 .subscribe {
-                    startActivity(Intent(activity, SettingPricacyActivity::class.java))
+                    startActivity(Intent(activity, SettingPrivacyActivity::class.java))
                 }
         // 意见反馈
         RxView.clicks(mBtFeedBack!!)

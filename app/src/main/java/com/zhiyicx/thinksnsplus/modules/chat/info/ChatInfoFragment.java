@@ -56,6 +56,7 @@ import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgra
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.settingadmin.SettingAdminActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
+import com.zhiyicx.thinksnsplus.modules.settings.privacy.SettingPrivacyActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.utils.TSImHelperUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -187,6 +188,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @BindView(R.id.tv_album_desc)
     TextView mTvAlbumDesc;
 
+    @BindView(R.id.tv_privacy)
+    TextView mTvPrivacy;
+
     private int mChatType;
     private int mIsStick;
     private String mChatId;
@@ -245,6 +249,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             mTvDeleteGroup.setVisibility(View.GONE);
             llGroupManager.setVisibility(View.GONE);
             mTvGroupQrcode.setVisibility(View.GONE);
+            mTvPrivacy.setVisibility(View.GONE);
             isShowEmptyView(false, true);
             setGroupData();
             setCenterText(getString(R.string.chat_info_title_single));
@@ -348,7 +353,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @OnClick({R.id.iv_add_user, R.id.tv_to_all_members, R.id.ll_manager, R.id.tv_clear_message, R.id.tv_delete_group,
             R.id.ll_group_portrait, R.id.ll_group_name, R.id.iv_user_portrait, R.id.ll_announcement, R.id.ll_photo,
             R.id.ll_card, R.id.tv_find_message, R.id.tv_set_admin, R.id.ll_banned_post, R.id.tv_jurisdiction,
-            R.id.tv_upgrade,R.id.tv_group_qrcode})
+            R.id.tv_upgrade,R.id.tv_group_qrcode,R.id.tv_privacy})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add_user:
@@ -459,6 +464,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 break;
             case R.id.tv_group_qrcode:
                 ChatGroupCardActivity.startChatGroupCardActivity(getContext(),mChatGroupBean);
+                break;
+            case R.id.tv_privacy:
+                SettingPrivacyActivity.startSettingPricacyActivity(mActivity,mChatGroupBean);
                 break;
             default:
         }
@@ -940,15 +948,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mLlBannedPost.setVisibility(View.GONE);
                 mTvJurisdiction.setVisibility(View.GONE);
                 mTvUpgrade.setText(getString(R.string.chat_info_report));
-
-//                vwSetAdmin.setVisibility(View.GONE);
-//                mTvUpgrade.setVisibility(View.VISIBLE);
-                //vwSetAdmin.setVisibility(View.GONE);
                 mTvUpgrade.setVisibility(View.VISIBLE);
-                /*vwSetAdmin.setVisibility(View.GONE);
-                vwJurisdiction.setVisibility(View.GONE);
-                vwUpgrade.setVisibility(View.GONE);
-                vwSetStick.setVisibility(View.GONE);*/
 
             } else {
                 // 群主无法屏蔽消息
@@ -972,6 +972,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 dealAddOrDeleteButton();
                 mChatMemberAdapter.refreshData(mChatMembers);
             }
+
+            mTvPrivacy.setVisibility(mPresenter.isGroupOwner() || mPresenter.isGroupAdminer() ? View.VISIBLE:View.GONE);
+
         }
     }
 

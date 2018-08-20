@@ -11,12 +11,12 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify;
 import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 
-public class VerifyFriendsContract {
+public class VerifyFriendOrGroupContract {
     interface View extends IBaseView<Presenter> {
-
+        boolean isGroupVerify();
     }
 
     interface Presenter extends IBasePresenter {
-        void addFriend(String user_id,String information);
+        void addFriendOrGroup(String id,String information);
     }
 }

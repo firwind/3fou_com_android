@@ -4,21 +4,17 @@ import android.support.v4.app.Fragment;
 
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.utils.log.LogUtils;
-import com.zhiyicx.thinksnsplus.R;
-import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
-import com.zhiyicx.thinksnsplus.config.NotificationConfig;
 import com.zhiyicx.thinksnsplus.data.beans.UserFollowerCountBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.FlushMessageBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.FollowFansBeanGreenDaoImpl;
-import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseFriendsRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
-import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendsActivity;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendOrGroupActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.EventBus;
@@ -173,7 +169,7 @@ public class FollowFansListPresenter extends AppBasePresenter<
                     protected void onFailure(String message, int code) {
                         //super.onFailure(message, code);
                         if(code == 501){//需要验证
-                            VerifyFriendsActivity.startVerifyFriendsActivity( ((Fragment)mRootView).getContext(),
+                            VerifyFriendOrGroupActivity.startVerifyFriendsActivity( ((Fragment)mRootView).getContext(),
                                     String.valueOf(userInfoBean.getUser_id()) );
                         }else{
                             mRootView.showSnackErrorMessage(message);

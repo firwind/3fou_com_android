@@ -4,19 +4,17 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyphenate.easeui.EaseConstant;
 import com.jakewharton.rxbinding.view.RxView;
 import com.zhiyicx.common.utils.ColorPhrase;
 import com.zhiyicx.common.utils.ToastUtils;
-import com.zhiyicx.imsdk.core.ChatType;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
-import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendsActivity;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendOrGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -101,7 +99,7 @@ public class FollowFansListAdapter extends CommonAdapter<UserInfoBean> {
                         if(userInfoBean1.getFriends_set() == 0){
                             mPresenter.addFriend(position, userInfoBean1);
                         }else if(userInfoBean1.getFriends_set() == 1){
-                            VerifyFriendsActivity.startVerifyFriendsActivity(mContext,String.valueOf(userInfoBean1.getUser_id()));
+                            VerifyFriendOrGroupActivity.startVerifyFriendsActivity(mContext,String.valueOf(userInfoBean1.getUser_id()));
                         }else {
                             ToastUtils.showToast(mContext,"该用户已拒绝好友申请！");
                         }

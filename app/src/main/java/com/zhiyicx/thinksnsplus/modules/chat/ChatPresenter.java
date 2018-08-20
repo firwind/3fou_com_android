@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.chat;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
+import com.zhiyicx.baseproject.base.SystemConfigBean;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMRefreshEvent;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.utils.log.LogUtils;
@@ -52,6 +53,16 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
     @Inject
     public ChatPresenter(ChatContract.View rootView) {
         super(rootView);
+    }
+
+    @Override
+    public boolean isImHelper() {
+        List<SystemConfigBean.ImHelperBean> list = mSystemRepository.getBootstrappersInfoFromLocal().getIm_helper();
+        for (SystemConfigBean.ImHelperBean helperBean:list) {
+            if(helperBean.getUid().equals(mRootView.getChatId()))
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -191,9 +202,16 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
                 .subscribe(new BaseSubscribeForV2<BaseJsonV2<Boolean>>() {
                     @Override
                     protected void onSuccess(BaseJsonV2<Boolean> data) {
-                        if(!data.getData()){
-                            mRootView.setTalkingState(false,"您已被禁言");
+                        if(null != data){
+                            mRootView.setTalkingState(data.getData(),mContext.getString(R.string.chat_no_talking_silent));
                         }
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        if(code == 404)
+                            mRootView.setTalkingState(false,mContext.getString(R.string.chat_no_talking_had_destory));
                     }
                 }));
     }

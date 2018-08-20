@@ -3,7 +3,6 @@ package com.zhiyicx.thinksnsplus.modules.settings.privacy;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppComponent;
 import com.zhiyicx.thinksnsplus.base.InjectComponent;
-import com.zhiyicx.thinksnsplus.modules.settings.SettingsPresenterModule;
 
 import dagger.Component;
 
@@ -16,7 +15,7 @@ import dagger.Component;
  * 
  */
 @FragmentScoped
-@Component(dependencies = AppComponent.class, modules = SettingPricacyPresenterModule.class)
-public interface SettingPricacyComponent extends InjectComponent<SettingPricacyActivity>{
+@Component(dependencies = AppComponent.class, modules = SettingPrivacyPresenterModule.class)
+public interface SettingPrivacyComponent extends InjectComponent<SettingPrivacyActivity>{
 
 }

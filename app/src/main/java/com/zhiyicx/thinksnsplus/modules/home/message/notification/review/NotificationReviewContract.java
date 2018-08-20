@@ -19,7 +19,11 @@ public interface NotificationReviewContract {
     }
 
     interface Presenter extends ITSListPresenter<GroupOrFriendReviewBean>{
+        //同意或者拒绝申请
         void requestAgreeOrInjectApply(GroupOrFriendReviewBean bean,boolean isAgree);
+        //清空验证信息
+        void clearApplyList();
+
     }
 
 }

@@ -144,6 +144,20 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
     }
 
     @Override
+    public Observable<String> setGroupPrivacy(String groupId,int state) {
+        return mEasemobClient.setGroupPrivacy(groupId,state)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> verifyEnterGroup(String groupId, String information) {
+        return mEasemobClient.verifyGroupPrivacy(groupId,information)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
     public Observable<ChatGroupNewBean> getNewGroupInfoV2(String group_id) {
         return mEasemobClient.getNewGroupInfoV2(group_id);
     }

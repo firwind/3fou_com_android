@@ -1242,6 +1242,11 @@
     <string name="refuse_anyone_add">拒绝任何人加我</string>
     <string name="write_verify_info">填写验证信息</string>
 
+    <string name="chat_no_talking_not_friend">对方不是你的好友</string>
+    <string name="chat_no_talking_not_in_group">你不在群聊当中</string>
+    <string name="chat_no_talking_silent">你已被禁言</string>
+    <string name="chat_no_talking_had_destory">群组已解散</string>
+
 
     <string name="only_number_or_letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 

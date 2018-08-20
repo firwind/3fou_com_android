@@ -12,6 +12,8 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
+import com.zhiyicx.thinksnsplus.config.JpushMessageTypeConfig;
+import com.zhiyicx.thinksnsplus.data.beans.JpushMessageBean;
 import com.zhiyicx.thinksnsplus.data.beans.NotificationBean;
 import com.zhiyicx.thinksnsplus.data.beans.UnReadNotificaitonBean;
 import com.zhiyicx.thinksnsplus.data.beans.UnreadCountBean;
@@ -23,6 +25,7 @@ import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerF
 
 import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +117,31 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
         return false;
     }
 
+    @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
+    /**
+     * 推送相关
+     */
+    @Subscriber(tag = EventBusTagConfig.EVENT_JPUSH_RECIEVED_MESSAGE_UPDATE_MESSAGE_LIST)
+    private void onJpushMessageRecieved(JpushMessageBean jpushMessageBean) {
+        if (jpushMessageBean.getType() == null) {
+            return;
+        }
+        switch (jpushMessageBean.getType()) {
+
+            case JpushMessageTypeConfig.JPUSH_MESSAGE_TYPE_FEED_CONTENT:
+
+            default:
+                // 服务器同步未读评论和点赞消息
+                requestNetData(0L,false);
+                break;
+
+
+        }
+    }
 
     /**
      * 检测底部小红点是否需要显示

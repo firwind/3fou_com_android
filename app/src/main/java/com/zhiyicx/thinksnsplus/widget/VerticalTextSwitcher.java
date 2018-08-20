@@ -55,7 +55,7 @@ public class VerticalTextSwitcher extends TextSwitcher implements ViewSwitcher.V
      */
     public void setupData(List<String> list){
         mHandler.removeMessages(MESSAGE_SWITCH_TEXT);
-        this.texts = list;
+        this.texts = null == list ? new ArrayList<>() : list;
         if(null != list && list.size() > 1){
             setCurrentText(list.get(0));
             mHandler.sendEmptyMessageDelayed(MESSAGE_SWITCH_TEXT,SWITCH_DURATION);
@@ -91,6 +91,24 @@ public class VerticalTextSwitcher extends TextSwitcher implements ViewSwitcher.V
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,10);
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
+    }
+
+    /**
+     * 停止自动滚动
+     */
+    public void stopAutoPlay(){
+        if(null != mHandler)
+            mHandler.removeMessages(MESSAGE_SWITCH_TEXT);
+    }
+
+    /**
+     * 开始自动滚动
+     */
+    public void startAutoPlay(){
+        if(null != mHandler){
+            mHandler.removeMessages(MESSAGE_SWITCH_TEXT);
+            mHandler.sendEmptyMessageDelayed(MESSAGE_SWITCH_TEXT,SWITCH_DURATION);
+        }
     }
 
     /**

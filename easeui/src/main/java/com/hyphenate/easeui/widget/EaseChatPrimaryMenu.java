@@ -323,12 +323,19 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
     /**
      * 设置禁言状态
      */
-    public void setNoTalkingState(String desc){
-        edittext_layout_hint.setVisibility(VISIBLE);
-        tv_sendmessage_hint.setText(desc);
-        edittext_layout.setVisibility(GONE);
-        buttonSetModeVoice.setEnabled(false);//设置说话不能点击
-        buttonMore.setEnabled(false);//+号不能点击
+    public void setTalkingState(boolean isTalking,String desc){
+        if(isTalking){
+            edittext_layout_hint.setVisibility(GONE);
+            edittext_layout.setVisibility(VISIBLE);
+            buttonSetModeVoice.setEnabled(true);//设置说话能点击
+            buttonMore.setEnabled(true);//+号能点击
+        }else {
+            edittext_layout_hint.setVisibility(VISIBLE);
+            tv_sendmessage_hint.setText(desc);
+            edittext_layout.setVisibility(GONE);
+            buttonSetModeVoice.setEnabled(false);//设置说话不能点击
+            buttonMore.setEnabled(false);//+号不能点击
+        }
     }
 
 }

@@ -124,8 +124,8 @@ public class NotificationReviewFragment extends TSListFragment<NotificationRevie
         if(null == mClearReviewPop){
             mClearReviewPop = ActionPopupWindow
                     .builder()
-                    .item2Str(getString(R.string.ts_delete))
-                    .item2Color(ContextCompat.getColor(getContext(), R.color.important_for_note))
+                    .item1Str(getString(R.string.ts_delete))
+                    .item1Color(ContextCompat.getColor(getContext(), R.color.important_for_note))
                     .bottomStr(getString(R.string.cancel))
                     .isOutsideTouch(true)
                     .isFocus(true)
@@ -133,6 +133,7 @@ public class NotificationReviewFragment extends TSListFragment<NotificationRevie
                     .with(mActivity)
                     .item1ClickListener(() -> {
                         mClearReviewPop.hide();
+                        mPresenter.clearApplyList();
                     })
                     .bottomClickListener(() -> mClearReviewPop.hide())
                     .build();

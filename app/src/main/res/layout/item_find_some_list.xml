@@ -60,7 +60,8 @@
         android:maxLines="1"
         android:text="点赞 56万"
         android:textColor="@color/normal_for_assist_text"
-        android:textSize="@dimen/size_content_assist"/>
+        android:textSize="@dimen/size_content_assist"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/iv_user_follow"

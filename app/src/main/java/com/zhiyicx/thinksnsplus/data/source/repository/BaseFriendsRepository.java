@@ -168,4 +168,11 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<String> clearFriendApplyList() {
+        return mEasemobClient.clearFriendApplyList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

@@ -15,8 +15,8 @@ import com.zhiyicx.baseproject.base.BaseListBean;
 public class GroupOrFriendReviewBean extends BaseListBean implements Parcelable{
 
     private String id;
-    private String user_id;//被加好友的user_id
-    private String friend_user_id;//主动发起验证信息的user_id
+    private String user_id;//主动发起验证信息的user_id
+    private String friend_user_id;//被加好友的user_id
     private int status; //0待验证好友，1好友，2拒绝好友
     private long shehe_time;
     private String information;

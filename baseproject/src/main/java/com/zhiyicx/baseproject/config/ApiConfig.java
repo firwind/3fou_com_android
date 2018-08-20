@@ -119,6 +119,9 @@ public class ApiConfig {
     public static final String APP_PATH_MAKE_NOTIFICAITON_READED = "api/" + API_VERSION_2 + "/user/notifications/";
     // 标记所有通知已读
     public static final String APP_PATH_MAKE_NOTIFICAITON_ALL_READED = "api/" + API_VERSION_2 + "/user/notifications/all";
+    //清空好友审核列表
+    public static final String APP_PATH_CLEAR_FRIEND_APPLY_LIST = "api/"+API_VERSION_2+"/user/friends/shenheList/clean";
+
     // type  获取通知类型，可选 all,read,unread 默认 all
 
     public static final String NOTIFICATION_TYPE_ALL = "all";
@@ -169,8 +172,9 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_MEMBER_INFO_NEW = "api/" + API_VERSION_2 + "/easemob/group/memberlist";//获取群成员信息
     public static final String APP_PATH_GET_GROUP_MEMBER_IS_ADD_GROUP = "api/" + API_VERSION_2 + "/easemob/group/isGroupMember";//是否加入该群
     public static final String APP_PATH_GET_TALKING_STATE = "api/"+API_VERSION_2+"/easemob/group/checkTalkingState";//检查说话权限
-    public static final String APP_PATH_SET_ADD_FRIEND = "api/"+API_VERSION_2+"/user/resetFriendsSet";//设置加好友状态
     public static final String APP_PATH_SYN_EXIT_GROUP = "api/"+API_VERSION_2+"/easemob/synExitGroup";//退出群聊
+    public static final String APP_PATH_SET_GROUP_PRIVACY = "api/"+API_VERSION_2+"/easemob/setGroupPrivacy";//设置群隐私设置
+    public static final String APP_PATH_VERIFY_ENTER_GROUP = "api/"+API_VERSION_2+"/easemob/verifyEnterGroup";//验证加入群
 
     /**
      * 关注粉丝 FollowFansClient
@@ -185,6 +189,7 @@ public class ApiConfig {
     public static final String APP_PATH_DELETE_FRIEND = "api/"+API_VERSION_2+"/user/friends/delete";//删除好友
     public static final String APP_PATH_GET_FRIEND_REVIEW_LIST = "api/"+API_VERSION_2+"/user/friends/shenheList";//获取好友审核列表
     public static final String APP_PATH_REVIEW_FRIEND_APPLY = "api/"+API_VERSION_2+"/user/friends/sure";//确认审核
+    public static final String APP_PATH_SET_ADD_FRIEND = "api/"+API_VERSION_2+"/user/resetFriendsSet";//设置加好友状态
 
     /**
      * 动态相关

@@ -123,4 +123,10 @@ public interface IBaseFriendsRepository {
      */
     Observable<String> synExitGroup(String group_id,int group_level);
 
+    /**
+     * 清空好友审核列表
+     * @return
+     */
+    Observable<String> clearFriendApplyList();
+
 }

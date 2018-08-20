@@ -59,6 +59,9 @@ public interface ChatInfoContract {
     }
 
     interface Presenter extends IBasePresenter {
+
+        boolean isGroupAdminer();
+
         boolean isGroupOwner();
 
         void getIsInGroup();
@@ -166,5 +169,9 @@ public interface ChatInfoContract {
         Observable<String> reportGroup(String userId, String groupId, String reason, String tel);
         //获取群说话权限
         Observable<BaseJsonV2<Boolean>> getTalkingState(String groupId);
+        //设置群隐私权限
+        Observable<String> setGroupPrivacy(String groupId,int state);
+        //提交验证信息
+        Observable<String> verifyEnterGroup(String groupId,String information);
     }
 }

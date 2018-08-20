@@ -264,7 +264,7 @@ public interface EasemobClient {
             ,@Query("group_level")int grouplevel);
 
     /**
-     * 添加群组成员
+     * 移除群组成员
      *
      * @param id     群Id
      * @param member 群成员 1,2,3 这种样式的
@@ -406,12 +406,36 @@ public interface EasemobClient {
     Observable<String> reviewFriendApply(@Query("id")String id,@Query("status")int status);
 
     /**
-     * 让服务器同步环信信息
+     * 退出群聊
      * @param im_group_id
      * @param group_level
      * @return
      */
     @GET(ApiConfig.APP_PATH_SYN_EXIT_GROUP)
     Observable<String> synExitGroup(@Query("im_group_id")String im_group_id,@Query("group_level")int group_level);
+
+
+    /**
+     * 设置群隐私
+     * @param im_group_id
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_SET_GROUP_PRIVACY)
+    Observable<String> setGroupPrivacy(@Query("im_group_id")String im_group_id,@Query("group_set")int state);
+
+    /**
+     * 提交验证信息进入群聊
+     * @param im_group_id
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_VERIFY_ENTER_GROUP)
+    Observable<String> verifyGroupPrivacy(@Query("im_group_id")String im_group_id,@Query("information")String information);
+
+    /**
+     * 清空好友审核列表
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_CLEAR_FRIEND_APPLY_LIST)
+    Observable<String> clearFriendApplyList();
 
 }

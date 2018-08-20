@@ -44,6 +44,8 @@ public interface FindSomeOneNearbyListContract {
 
         void cancleFollowUser(int index, UserInfoBean followFansBean);
 
+        void addFriend(int index, UserInfoBean userInfoBean);
+
     }
 
 

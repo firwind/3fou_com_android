@@ -1,10 +1,15 @@
 package com.zhiyicx.thinksnsplus.modules.findsomeone.search.name;
 
+import android.support.v4.app.Fragment;
+
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.data.source.repository.BaseFriendsRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendOrGroupActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +32,10 @@ public class SearchSomeOnePresenter extends AppBasePresenter<SearchSomeOneContra
 
     @Inject
     UserInfoRepository mUserInfoRepository;
+
+    @Inject
+    BaseFriendsRepository mBaseFriendsRepository;
+
     private Subscription searchSub;
 
     private String mSeachText;
@@ -133,7 +142,26 @@ public class SearchSomeOnePresenter extends AppBasePresenter<SearchSomeOneContra
 
     @Override
     public void addFriend(int index, UserInfoBean userInfoBean) {
+        mBaseFriendsRepository.addFriend(String.valueOf(userInfoBean.getUser_id()),null)
+                .subscribe(new BaseSubscriberV3<String>(mRootView) {
+                    @Override
+                    protected void onSuccess(String data) {
+                        super.onSuccess(data);
+                        userInfoBean.setIs_my_friend(true);
+                        mRootView.upDateFollowFansState(index);
+                    }
 
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        //super.onFailure(message, code);
+                        if(code == 501){//需要验证
+                            VerifyFriendOrGroupActivity.startVerifyFriendsActivity( ((Fragment)mRootView).getContext(),
+                                    String.valueOf(userInfoBean.getUser_id()) );
+                        }else{
+                            mRootView.showSnackErrorMessage(message);
+                        }
+                    }
+                });
     }
 
 }

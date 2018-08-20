@@ -14,8 +14,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
-import com.zhiyicx.thinksnsplus.modules.follow_fans.FollowFansListContract;
-import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendsActivity;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendOrGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -25,7 +24,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
 
@@ -92,17 +90,16 @@ public class FindSomeOneListAdapter extends CommonAdapter<UserInfoBean> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(aVoid -> {
-                    // 添加关注，或者取消关注
-                    // 关注列表的逻辑操作：关注，互相关注 ---》未关注
-                    // 粉丝列表的逻辑操作：互相关注 ---》未关注
-
+                    if (mPresenter.handleTouristControl()) { // 游客无入
+                        return;
+                    }
                     if(userInfoBean1.isIs_my_friend()){
                         ChatActivity.startChatActivity(mContext,String.valueOf(userInfoBean1.getUser_id()), EaseConstant.CHATTYPE_SINGLE);
                     }else {
                         if(userInfoBean1.getFriends_set() == 0){
                             mPresenter.addFriend(position, userInfoBean1);
                         }else if(userInfoBean1.getFriends_set() == 1){
-                            VerifyFriendsActivity.startVerifyFriendsActivity(mContext,String.valueOf(userInfoBean1.getUser_id()));
+                            VerifyFriendOrGroupActivity.startVerifyFriendsActivity(mContext,String.valueOf(userInfoBean1.getUser_id()));
                         }else {
                             ToastUtils.showToast(mContext,"该用户已拒绝好友申请！");
                         }

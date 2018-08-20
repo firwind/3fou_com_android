@@ -16,6 +16,6 @@ import com.zhiyicx.thinksnsplus.base.InjectComponent;
 import dagger.Component;
 
 @FragmentScoped
-@Component(dependencies = AppComponent.class, modules = VerifyFriendsPresenterModule.class)
-public interface VerifyFriendsComponent extends InjectComponent<VerifyFriendsActivity>{
+@Component(dependencies = AppComponent.class, modules = VerifyFriendOrGroupPresenterModule.class)
+public interface VerifyFriendOrGroupComponent extends InjectComponent<VerifyFriendOrGroupActivity>{
 }

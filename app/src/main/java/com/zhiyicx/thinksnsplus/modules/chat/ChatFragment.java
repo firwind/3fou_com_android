@@ -223,21 +223,18 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     @Override
     protected void setUpView() {
         setChatFragmentHelper(this);
+
+        //初始化为无法聊天的状态
+        setTalkingState(false,"正在连接服务器");
+
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             setCenterText(mPresenter.getUserInfoFromLocal().getName());
             //从服务器更新群信息
             mPresenter.getUserInfoFromServer();
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
             setCenterText(mPresenter.getChatGroupName());
-            //如果已经离开了群聊，则去掉右上角点击事件
-            if(null == EMClient.getInstance().groupManager().getGroup(toChatUsername)){
-                setToolBarRightImage(0);
-                setTalkingState(false,"你已经不在群聊当中");
-            }else {
-                //mPresenter.getChatGroupInfoFromServer();
-                //获取禁言状态
-                mPresenter.getCurrentTalkingState(toChatUsername);
-            }
+            //获取禁言状态
+            mPresenter.getCurrentTalkingState(toChatUsername);
         }
         if (chatType != EaseConstant.CHATTYPE_CHATROOM) {
             onConversationInit();
@@ -264,23 +261,27 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
      */
     @Override
     public void setTalkingState(boolean isTalking,String content) {
-        if(!isTalking)
-            ((EaseChatPrimaryMenu)inputMenu.getPrimaryMenu()).setNoTalkingState(content);
+        ((EaseChatPrimaryMenu)inputMenu.getPrimaryMenu()).setTalkingState(
+                isTalking||mPresenter.isImHelper(), content);
     }
 
     @Override
     public void updateUserInfo(UserInfoBean userInfoBean) {
         setCenterText(userInfoBean.getName());
-        if(!userInfoBean.isIs_my_friend())
-            setTalkingState(false,"对方不是你的好友");
+
+        setTalkingState(userInfoBean.isIs_my_friend(),getString(R.string.chat_no_talking_not_friend));
+
     }
 
     @Override
     public void updateChatGroupInfo(ChatGroupBean chatGroupBean) {
-        if(null != chatGroupBean)
+        if(null != chatGroupBean){
             setCenterText(mPresenter.getChatGroupName());
-        else
-            setTalkingState(false,"你已经不在群聊当中");
+            setTalkingState(true,getString(R.string.chat_no_talking_not_in_group));
+        }else {
+            setTalkingState(false,getString(R.string.chat_no_talking_not_in_group));
+        }
+
     }
 
     @Override
@@ -298,6 +299,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             setCenterText(mPresenter.getUserInfoFromLocal().getName());
+            setTalkingState(mPresenter.getUserInfoFromLocal().isIs_my_friend(),getString(R.string.chat_no_talking_not_friend));
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
             EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
             if (group != null && group.isMsgBlocked()) {

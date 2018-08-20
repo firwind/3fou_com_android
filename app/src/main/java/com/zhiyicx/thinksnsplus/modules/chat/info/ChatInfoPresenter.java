@@ -65,6 +65,19 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
     }
 
     @Override
+    public boolean isGroupAdminer() {
+        if(null != EMClient.getInstance().groupManager().getGroup(mRootView.getChatId())){
+            List<String> adminList = EMClient.getInstance().groupManager().getGroup(mRootView.getChatId()).getAdminList();
+            for (String admin:adminList) {
+                if(admin.equals(String.valueOf(AppApplication.getMyUserIdWithdefault())))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean isGroupOwner() {
         if (null == mRootView.getGroupBean()) {
             EMGroup group = EMClient.getInstance().groupManager().getGroup(mRootView.getChatId());

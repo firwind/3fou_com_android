@@ -38,7 +38,7 @@ public class FindSomeOneNearbyListFragment extends TSListFragment<FindSomeOneNea
 
     @Override
     protected CommonAdapter<NearbyBean> getAdapter() {
-        mFindSomeOneNearbyListAdapter=new FindSomeOneNearbyListAdapter(getContext(), R.layout.item_find_some_list, mListDatas, mPresenter);
+        mFindSomeOneNearbyListAdapter=new FindSomeOneNearbyListAdapter(getContext(), R.layout.item_follow_fans_list/*item_find_some_list*/, mListDatas, mPresenter);
         return mFindSomeOneNearbyListAdapter;
     }
 

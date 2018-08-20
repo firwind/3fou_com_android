@@ -9,22 +9,19 @@ package com.zhiyicx.thinksnsplus.modules.settings.privacy;
  */
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.widget.button.CombinationButton;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
-import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
-public class SettingPricacyFragment extends TSFragment<SettingPricacyContract.Presenter> implements SettingPricacyContract.View {
+public class SettingPrivacyFragment extends TSFragment<SettingPrivacyContract.Presenter> implements SettingPrivacyContract.View {
 
     @BindView(R.id.bt_allow_anyone)
     CombinationButton mAllowAnyone;
@@ -36,8 +33,10 @@ public class SettingPricacyFragment extends TSFragment<SettingPricacyContract.Pr
     CombinationButton[] combinationButtons = new CombinationButton[3];
     private int mSetState;
 
-    public static SettingPricacyFragment getInstance(Bundle bundle) {
-        SettingPricacyFragment fragment = new SettingPricacyFragment();
+    public static SettingPrivacyFragment getInstance(ChatGroupBean chatGroupBean) {
+        SettingPrivacyFragment fragment = new SettingPrivacyFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(IntentKey.GROUP_INFO,chatGroupBean);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -48,15 +47,21 @@ public class SettingPricacyFragment extends TSFragment<SettingPricacyContract.Pr
         combinationButtons[0] = mAllowAnyone;
         combinationButtons[1] = mNeedVerify;
         combinationButtons[2] = mRefuseAnyone;
-        mSetState = AppApplication.getmCurrentLoginAuth().getUser().getFriends_set();
-        combinationButtons[mSetState].setRightImage(R.mipmap.pricacy_icon);
+
+        if(null == getArguments().getParcelable(IntentKey.GROUP_INFO)){//单人加好友设置
+            mSetState = mPresenter.getCurrentUser().getFriends_set();
+            combinationButtons[mSetState].setRightImage(R.mipmap.pricacy_icon);
+        }else {//群聊设置
+
+        }
+
     }
 
     private void selectorItem(int p) {
 
         for (int i = 0; i < combinationButtons.length; i++) {
             if (i == p) {
-                mPresenter.settingAddFriendWay(p);
+                mPresenter.settingAddFriendOrGroupWay(p);
             } else {
                 combinationButtons[i].setRightImage(0);
             }
@@ -104,4 +109,10 @@ public class SettingPricacyFragment extends TSFragment<SettingPricacyContract.Pr
 
         combinationButtons[state].setRightImage(R.mipmap.pricacy_icon);
     }
+
+    @Override
+    public ChatGroupBean getChatGroupBean() {
+        return getArguments().getParcelable(IntentKey.GROUP_INFO);
+    }
+
 }

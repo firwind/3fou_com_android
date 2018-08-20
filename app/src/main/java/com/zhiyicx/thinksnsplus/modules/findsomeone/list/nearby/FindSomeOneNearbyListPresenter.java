@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.findsomeone.list.nearby;
 
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.amap.api.services.core.LatLonPoint;
@@ -13,13 +14,16 @@ import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.NearbyBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.FollowFansBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
+import com.zhiyicx.thinksnsplus.data.source.repository.BaseFriendsRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
 import com.zhiyicx.thinksnsplus.modules.findsomeone.list.FindSomeOneListPresenter;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendOrGroupActivity;
 import com.zhiyicx.thinksnsplus.utils.LocationUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +55,9 @@ public class FindSomeOneNearbyListPresenter extends AppBasePresenter<FindSomeOne
     UserInfoRepository mUserInfoRepository;
 
     LatLonPoint mLatLonPoint;
+
+    @Inject
+    BaseFriendsRepository mBaseFriendsRepository;
 
     private boolean mIsConverLocation;
 
@@ -125,6 +132,30 @@ public class FindSomeOneNearbyListPresenter extends AppBasePresenter<FindSomeOne
     public void cancleFollowUser(int index, UserInfoBean followFansBean) {
         mUserInfoRepository.handleFollow(followFansBean);
         mRootView.upDateFollowFansState(index);
+    }
+
+    @Override
+    public void addFriend(int index, UserInfoBean userInfoBean) {
+        mBaseFriendsRepository.addFriend(String.valueOf(userInfoBean.getUser_id()),null)
+                .subscribe(new BaseSubscriberV3<String>(mRootView) {
+                    @Override
+                    protected void onSuccess(String data) {
+                        super.onSuccess(data);
+                        userInfoBean.setIs_my_friend(true);
+                        mRootView.upDateFollowFansState(index);
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        //super.onFailure(message, code);
+                        if(code == 501){//需要验证
+                            VerifyFriendOrGroupActivity.startVerifyFriendsActivity( ((Fragment)mRootView).getContext(),
+                                    String.valueOf(userInfoBean.getUser_id()) );
+                        }else{
+                            mRootView.showSnackErrorMessage(message);
+                        }
+                    }
+                });
     }
 
     /**

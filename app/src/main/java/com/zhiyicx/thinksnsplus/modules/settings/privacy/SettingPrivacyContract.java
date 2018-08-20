@@ -10,13 +10,17 @@ package com.zhiyicx.thinksnsplus.modules.settings.privacy;
 
 import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
+import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
-public interface SettingPricacyContract {
+public interface SettingPrivacyContract {
     interface View extends IBaseView<Presenter>{
         void settingSuccess(int state);
+        ChatGroupBean getChatGroupBean();
     }
 
     interface Presenter extends IBasePresenter{
-        void settingAddFriendWay(int setState);
+        void settingAddFriendOrGroupWay(int setState);
+        UserInfoBean getCurrentUser();
     }
 }

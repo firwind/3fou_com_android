@@ -12,6 +12,7 @@ import com.zhiyicx.thinksnsplus.data.source.repository.BaseFriendsRepository;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -92,6 +93,19 @@ public class NotificationReviewPresenter extends AppBasePresenter<NotificationRe
                         super.onSuccess(data);
                         bean.setStatus(isAgree?1:2);
                         mRootView.refreshData();
+                    }
+                });
+    }
+
+    @Override
+    public void clearApplyList() {
+        mBaseFriendsRepository.clearFriendApplyList()
+                .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
+                .subscribe(new BaseSubscriberV3<String>(mRootView){
+                    @Override
+                    protected void onSuccess(String data) {
+                        super.onSuccess(data);
+                        mRootView.onNetResponseSuccess(new ArrayList<>(),false);
                     }
                 });
     }

@@ -35,6 +35,9 @@ public interface ChatContract {
 
     interface Presenter extends IBasePresenter {
 
+        //是否是小助手
+        boolean isImHelper();
+
         String getChatGroupName();
 
         //处理收到的消息

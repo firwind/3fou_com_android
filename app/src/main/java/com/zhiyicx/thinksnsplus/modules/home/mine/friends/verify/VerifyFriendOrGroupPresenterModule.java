@@ -12,15 +12,15 @@ import dagger.Provides;
  * 
  */
 @Module
-public class VerifyFriendsPresenterModule {
-    private final VerifyFriendsContract.View mView;
+public class VerifyFriendOrGroupPresenterModule {
+    private final VerifyFriendOrGroupContract.View mView;
 
-    public VerifyFriendsPresenterModule(VerifyFriendsContract.View view) {
+    public VerifyFriendOrGroupPresenterModule(VerifyFriendOrGroupContract.View view) {
         this.mView = view;
     }
 
     @Provides
-    VerifyFriendsContract.View provideVerifyFriendsContractView() {
+    VerifyFriendOrGroupContract.View provideVerifyFriendsContractView() {
         return mView;
     }
 }

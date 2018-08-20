@@ -814,12 +814,12 @@
 
         <activity android:name=".modules.information.flashdetails.FlashDetailsActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".modules.settings.privacy.SettingPricacyActivity"
+        <activity android:name=".modules.settings.privacy.SettingPrivacyActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".modules.home.message.notification.review.NotificationReviewActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".modules.home.mine.friends.verify.VerifyFriendsActivity"
+        <activity android:name=".modules.home.mine.friends.verify.VerifyFriendOrGroupActivity"
             android:screenOrientation="portrait"/>
 
         <!-- 开机自启动服务 -->
