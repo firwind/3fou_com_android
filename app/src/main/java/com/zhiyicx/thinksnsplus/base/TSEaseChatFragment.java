@@ -17,11 +17,16 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.hyphenate.EMMessageListener;
@@ -105,7 +110,7 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
     protected EaseVoiceRecorderView voiceRecorderView;
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected ListView listView;
-
+    protected FrameLayout mChatView;
     protected boolean isloading;
     protected boolean haveMoreData = true;
     protected int pagesize = 30;
@@ -207,7 +212,11 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
                 sendBigExpressionMessage(emojicon.getName(), emojicon.getIdentityCode());
             }
         });
-
+//        mChatView = (FrameLayout) rootView.findViewById(R.id.fl_chat_view);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        View layoutView = LayoutInflater.from(getContext()).inflate(com.zhiyicx.thinksnsplus.R.layout.item_circle_list,null,false);
+//        layoutView.setLayoutParams(params);
+//        mChatView.addView(layoutView);
         swipeRefreshLayout = messageList.getSwipeRefreshLayout();
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
                 R.color.holo_orange_light, R.color.holo_red_light);

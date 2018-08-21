@@ -821,6 +821,12 @@
 
         <activity android:name=".modules.home.mine.friends.verify.VerifyFriendOrGroupActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".modules.chat.select.organization.SelectOrganizationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
+        <activity android:name=".modules.chat.select.community.RelevanceCommunityActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">

@@ -1,7 +1,9 @@
 package com.zhiyicx.thinksnsplus.modules.home.mine.friends;
 
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
+import com.zhiyicx.thinksnsplus.data.beans.OrganizationBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public interface IBaseFriendsRepository {
      * @param keyword 搜索用的关键字
      * @return Observable
      */
-    Observable<List<UserInfoBean>> getUserFriendsListInGroup(long maxId, String keyword,String groupId);
+    Observable<List<UserInfoBean>> getUserFriendsListInGroup(long maxId, String keyword, String groupId);
 
     /**
      * 创建群组会话
@@ -50,29 +52,48 @@ public interface IBaseFriendsRepository {
                                           int maxUser, boolean isMemberOnly, boolean isAllowInvites,
                                           long owner, String members);
 
+    /**
+     * 创建群组会话
+     * groupName 	// 群组名称（必填）
+     * groupIntro 		// 群组简介（必填）
+     * isPublic 		// 是否是公开群，此属性为必须的（必填）
+     * maxUser	// 群组成员最大数
+     * isMemberOnly	// 加入群是否需要群主或者群管理员审批，默认是false
+     * isAllowInvites	// 是否允许群成员邀请别人加入此群
+     * owner		// 群组的管理员（必填）
+     * members		// 群组的成员
+     * organize_id		// 组织ID
+     */
+    Observable<ChatGroupBean> createGroup(String groupName, String groupIntro, boolean isPublic,
+                                          int maxUser, boolean isMemberOnly, boolean isAllowInvites,
+                                          long owner, String members, int organize_id);
+
     Observable<ChatGroupBean> updateGroup(String im_group_id, String groupName, String groupIntro, int isPublic,
-                                          int maxUser, boolean isMemberOnly,  int isAllowInvites, String groupFace,
-                                          boolean isEditGroupFace, String newOwner,int groupLevel);
+                                          int maxUser, boolean isMemberOnly, int isAllowInvites, String groupFace,
+                                          boolean isEditGroupFace, String newOwner, int groupLevel);
 
 
     /**
      * 添加成员
+     *
      * @param id
      * @param member
      * @return
      */
-    Observable<Object> addGroupMember(String id, String member,int grouplevel);
+    Observable<Object> addGroupMember(String id, String member, int grouplevel);
 
     /**
      * 移除成员
+     *
      * @param id
      * @param member
      * @return
      */
-    Observable<Object> removeGroupMember(String id, String member,int grouplevel);
+    Observable<Object> removeGroupMember(String id, String member, int grouplevel);
 
     /**
      * 删除群组
+     *
      * @param group_id
      * @return
      */
@@ -80,7 +101,8 @@ public interface IBaseFriendsRepository {
 
     /**
      * 设置加好友方式
-     * @param state  设置，0为允许，1验证，2不允许
+     *
+     * @param state 设置，0为允许，1验证，2不允许
      * @return
      */
     Observable<String> settingAddFriends(int state);
@@ -88,6 +110,7 @@ public interface IBaseFriendsRepository {
 
     /**
      * 添加好友
+     *
      * @param user_id
      * @return
      */
@@ -102,6 +125,7 @@ public interface IBaseFriendsRepository {
     Observable<String> verifyAddFriend(String user_id,String information);
     /**
      * 删除好友
+     *
      * @param user_id
      * @return
      */
@@ -109,6 +133,7 @@ public interface IBaseFriendsRepository {
 
     /**
      * 获取好友审核列表
+     *
      * @param maxId
      * @return
      */
@@ -116,6 +141,7 @@ public interface IBaseFriendsRepository {
 
     /**
      * 通过或拒绝好友申请
+     *
      * @param id
      * @   1-同意；2-拒绝
      * @return
@@ -124,12 +150,46 @@ public interface IBaseFriendsRepository {
 
     /**
      * 让服务器同步环信信息
+     *
      * @param group_id
      * @param group_level
      * @return
      */
-    Observable<String> synExitGroup(String group_id,int group_level);
+    Observable<String> synExitGroup(String group_id, int group_level);
 
+    /**
+     * 建群选择组织
+     *
+     * @param search
+     * @return
+     */
+    Observable<List<OrganizationBean>> getOrganizationList(int page, String search);
+
+    /**
+     * 更换群组织
+     *
+     * @param
+     * @return
+     */
+    Observable<String> changOrganization(String groupId, int organize_id);
+
+    /**
+     * 社区列表
+     *
+     * @param page
+     * @param search
+     * @return
+     */
+    Observable<List<CircleInfo>> communityList(int page, String search);
+
+
+    /**
+     * 关联社区
+     *
+     * @param communityId 社区ID
+     * @return
+     */
+    Observable<String> relevanceCommunity(String groupId, long communityId);
     /**
      * 清空好友审核列表
      * @return

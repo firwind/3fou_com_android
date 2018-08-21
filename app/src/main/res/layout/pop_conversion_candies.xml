@@ -103,7 +103,7 @@
                 android:id="@+id/tv_fcc_num"
                 android:background="@drawable/shape_stroke_gray"
                 android:textSize="@dimen/sp16"
-                android:text="0.00"
+                android:text="0.0000"
                 android:textColor="@color/grid_state_focused"
                 android:gravity="center"
                 android:layout_marginLeft="@dimen/dp10"

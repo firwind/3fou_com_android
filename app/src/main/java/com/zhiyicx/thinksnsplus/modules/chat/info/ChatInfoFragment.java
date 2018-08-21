@@ -48,6 +48,8 @@ import com.zhiyicx.thinksnsplus.modules.chat.item.ChatConfig;
 import com.zhiyicx.thinksnsplus.modules.chat.member.GroupMemberListActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.record.ChatRecordActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
+import com.zhiyicx.thinksnsplus.modules.chat.select.community.RelevanceCommunityActivity;
+import com.zhiyicx.thinksnsplus.modules.chat.select.organization.SelectOrganizationActivity;
 import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.album.MessageGroupAlbumActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.jurisdiction.JurisdictionActivity;
@@ -174,6 +176,10 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     TextView mTvGroupQrcode;
     @BindView(R.id.tv_find_message)
     TextView mTvFindMessage;
+    @BindView(R.id.tv_change_organization)
+    LinearLayout mTvChangeOrganization;
+    @BindView(R.id.tv_relevance_community)
+    LinearLayout mTvRelevanceCommunity;
 //    @BindView(R.id.vw_set_admin)
 //    View vwSetAdmin;
 //    @BindView(R.id.vw_jurisdiction)
@@ -213,7 +219,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     private boolean mIsInGroup = false;//是否在群组中
 
-    public static ChatInfoFragment newInstance(String chatId,int chatType) {
+    public static ChatInfoFragment newInstance(String chatId, int chatType) {
         ChatInfoFragment fragment = new ChatInfoFragment();
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_TO_USER_ID, chatId);
@@ -255,6 +261,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             setCenterText(getString(R.string.chat_info_title_single));
             // 单聊没有屏蔽消息
             mRlBlockMessage.setVisibility(View.GONE);
+            mTvChangeOrganization.setVisibility(View.GONE);
 
             //处理单聊信息
             setChatSingleData();
@@ -276,7 +283,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
 
     @Override
     protected void initData() {
-        if(mChatType == CHATTYPE_GROUP){
+        if (mChatType == CHATTYPE_GROUP) {
             mPresenter.getIsInGroup();
             mPresenter.getGroupChatInfo(mChatId);
         }
@@ -356,7 +363,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @OnClick({R.id.iv_add_user, R.id.tv_to_all_members, R.id.ll_manager, R.id.tv_clear_message, R.id.tv_delete_group,
             R.id.ll_group_portrait, R.id.ll_group_name, R.id.iv_user_portrait, R.id.ll_announcement, R.id.ll_photo,
             R.id.ll_card, R.id.tv_find_message, R.id.tv_set_admin, R.id.ll_banned_post, R.id.tv_jurisdiction,
-            R.id.tv_upgrade,R.id.tv_group_qrcode,R.id.tv_privacy})
+            R.id.tv_upgrade,R.id.tv_group_qrcode,R.id.tv_privacy,R.id.tv_change_organization, R.id.tv_relevance_community})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add_user:
@@ -475,10 +482,16 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 }
                 break;
             case R.id.tv_group_qrcode:
-                ChatGroupCardActivity.startChatGroupCardActivity(getContext(),mChatGroupBean);
+                ChatGroupCardActivity.startChatGroupCardActivity(getContext(), mChatGroupBean);
                 break;
             case R.id.tv_privacy:
                 SettingPrivacyActivity.startSettingPricacyActivity(mActivity,mChatGroupBean);
+                break;
+            case R.id.tv_change_organization://更换组织
+                SelectOrganizationActivity.startSelectOrganizationActivity(getContext(), mChatGroupBean.getOrganizationBean().getOrganize_id(), mChatGroupBean.getId());
+                break;
+            case R.id.tv_relevance_community://关联/更换社区
+                RelevanceCommunityActivity.startRelevanceCommunityActivity(getContext(),mChatGroupBean.getId());
                 break;
             default:
         }
@@ -507,8 +520,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     /**
      * show选择图片弹窗
      */
-    private void showPhotoPupupWindow(){
-        if(null == mPhotoPopupWindow){
+    private void showPhotoPupupWindow() {
+        if (null == mPhotoPopupWindow) {
             mPhotoPopupWindow = ActionPopupWindow.builder()
                     .item1Str(mActivity.getString(R.string.choose_from_photo))
                     .item2Str(mActivity.getString(R.string.choose_from_camera))
@@ -979,7 +992,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             mTvJurisdiction.setVisibility(View.GONE);
             mTvUpgrade.setText(getString(R.string.chat_info_report));
             mTvUpgrade.setVisibility(View.VISIBLE);
-
+            mTvChangeOrganization.setVisibility(View.GONE);
+            mTvRelevanceCommunity.setVisibility(View.GONE);
         } else {
             // 群主无法屏蔽消息
             mTvGroupHeader.setText(R.string.chat_set_group_portrait);

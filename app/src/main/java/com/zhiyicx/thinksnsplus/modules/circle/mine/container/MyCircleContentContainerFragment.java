@@ -1,25 +1,12 @@
 package com.zhiyicx.thinksnsplus.modules.circle.mine.container;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.TypedValue;
 import android.view.View;
 
 import com.zhiyicx.baseproject.base.TSViewPagerFragment;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.modules.circle.mine.joined.MyJoinedCircleFragment;
 import com.zhiyicx.thinksnsplus.modules.circle.mine.joined.MyWaitAuditCircleFragment;
-import com.zhiyicx.thinksnsplus.modules.information.adapter.ScaleTransitionPagerTitleView;
-import com.zhiyicx.thinksnsplus.modules.q_a.mine.answer.MyAnswerFragment;
-
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +55,7 @@ public class MyCircleContentContainerFragment extends TSViewPagerFragment {
     @Override
     protected void initViewPager(View rootView) {
         super.initViewPager(rootView);
+
         mTsvToolbar.setLeftImg(0);
         mTsvToolbar.showDivider(false);
         mTsvToolbar.setPadding(getResources().getDimensionPixelOffset(R.dimen.spacing_mid), 0, getResources().getDimensionPixelOffset(R.dimen

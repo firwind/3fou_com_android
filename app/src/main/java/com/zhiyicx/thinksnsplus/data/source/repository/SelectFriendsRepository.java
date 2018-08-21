@@ -18,4 +18,6 @@ public class SelectFriendsRepository extends BaseFriendsRepository implements Se
     public SelectFriendsRepository(ServiceManager manager) {
         super(manager);
     }
+
+
 }

@@ -43,6 +43,8 @@ public interface SelectFriendsContract {
          * @return
          */
         String getSearchKeyWord();
+
+        void nextCreateGroup(List<UserInfoBean> list);
     }
 
     interface Presenter extends ITSListPresenter<UserInfoBean> {

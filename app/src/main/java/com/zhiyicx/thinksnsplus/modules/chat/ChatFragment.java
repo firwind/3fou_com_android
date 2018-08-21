@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -130,6 +131,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     private static final int ITEM_VIDEO_CALL_TS = 36;
     @BindView(R.id.input_menu)
     TSChatInputMenu inputMenu;
+
     Unbinder unbinder;
 
     private ActionPopupWindow mActionPopupWindow;
@@ -139,6 +141,12 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         ChatFragment chatFragment = new ChatFragment();
         chatFragment.setArguments(bundle);
         return chatFragment;
+    }
+
+    @Override
+    protected void initView(View rootView) {
+        super.initView(rootView);
+
     }
 
     @Override
@@ -173,12 +181,15 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
     @Override
     protected void initEMView(View rootView) {
+
         super.initEMView(rootView);
 
         // 适配手机无法显示输入焦点
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
             AndroidBug5497Workaround.assistActivity(mActivity);
         }
+
+
     }
 
     @Override

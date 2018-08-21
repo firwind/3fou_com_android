@@ -161,76 +161,77 @@ public class SelectFriendsPresenter extends AppBasePresenter<SelectFriendsContra
             // 创建单聊，判断当前是否与该用户的会话，没有创建会话
             mRootView.createConversionResult(getChatUser(list), EMConversation.EMConversationType.Chat, EaseConstant.CHATTYPE_SINGLE, id);
         } else {
-            StringBuilder members = new StringBuilder();
-            StringBuilder groupNames = new StringBuilder();
-            for (UserInfoBean userInfoBean : list) {
-                members.append(String.valueOf(userInfoBean.getUser_id())).append(",");
-                groupNames.append(userInfoBean.getName()).append("、");
-            }
-            groupNames.deleteCharAt(groupNames.length() - 1);
-
-            // 创建群组会话
-            String groupName = groupNames.toString();
-
-            // 群简介并没有地方展示 随便写写啦
-            String groupIntro = "暂无";
-
-            Subscription subscription = mRepository
-                    .createGroup(groupName, groupIntro, true,
-                            200, false, false, list.get(0).getUser_id(), members.substring(0, members.length() - 1))
-                    .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.circle_dealing)))
-                    .flatMap(groupInfo -> {
-                        EMGroup group = null;
-                        try {
-                            group = EMClient.getInstance().groupManager().getGroupFromServer(groupInfo.getId());
-                            TSEMessageUtils.sendCreateGroupMessage(mContext.getString(R.string.super_edit_group_name),
-                                    groupInfo.getId(), AppApplication.getMyUserIdWithdefault());
-
-                        } catch (HyphenateException e) {
-                            e.printStackTrace();
-                        }
-                        return Observable.just(groupInfo);
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {
-                        @Override
-                        protected void onSuccess(ChatGroupBean data) {
-                            // 创建成功 跳转聊天详情页面
-                            String id = data.getId();
-                            data.setName(groupName);
-                            data.setMembersonly(false);
-                            data.setMaxusers(200);
-                            data.setAllowinvites(false);
-                            data.setIsPublic(false);
-                            data.setOwner(list.get(0).getUser_id());
-                            data.setDescription(groupIntro);
-                            data.setAffiliations_count(list.size());
-                            data.setAffiliations(list);
-                            mChatGroupBeanGreenDao.saveSingleData(data);
-                            mUserInfoBeanGreenDao.saveMultiData(data.getAffiliations());
-                            mRootView.createConversionResult(getChatUser(list), EMConversation.EMConversationType.GroupChat, EaseConstant
-                                    .CHATTYPE_GROUP, id);
-                        }
-
-                        @Override
-                        protected void onFailure(String message, int code) {
-                            super.onFailure(message, code);
-                            mRootView.showSnackErrorMessage(message);
-                        }
-
-                        @Override
-                        protected void onException(Throwable throwable) {
-                            super.onException(throwable);
-                            mRootView.showSnackErrorMessage(throwable.getMessage());
-                        }
-
-                        @Override
-                        public void onCompleted() {
-                            super.onCompleted();
-                            mRootView.dismissSnackBar();
-                        }
-                    });
-            addSubscrebe(subscription);
+            mRootView.nextCreateGroup(list);
+//            StringBuilder members = new StringBuilder();
+//            StringBuilder groupNames = new StringBuilder();
+//            for (UserInfoBean userInfoBean : list) {
+//                members.append(String.valueOf(userInfoBean.getUser_id())).append(",");
+//                groupNames.append(userInfoBean.getName()).append("、");
+//            }
+//            groupNames.deleteCharAt(groupNames.length() - 1);
+//
+//            // 创建群组会话
+//            String groupName = groupNames.toString();
+//
+//            // 群简介并没有地方展示 随便写写啦
+//            String groupIntro = "暂无";
+//
+//            Subscription subscription = mRepository
+//                    .createGroup(groupName, groupIntro, true,
+//                            200, false, false, list.get(0).getUser_id(), members.substring(0, members.length() - 1))
+//                    .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.circle_dealing)))
+//                    .flatMap(groupInfo -> {
+//                        EMGroup group = null;
+//                        try {
+//                            group = EMClient.getInstance().groupManager().getGroupFromServer(groupInfo.getId());
+//                            TSEMessageUtils.sendCreateGroupMessage(mContext.getString(R.string.super_edit_group_name),
+//                                    groupInfo.getId(), AppApplication.getMyUserIdWithdefault());
+//
+//                        } catch (HyphenateException e) {
+//                            e.printStackTrace();
+//                        }
+//                        return Observable.just(groupInfo);
+//                    })
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new BaseSubscribeForV2<ChatGroupBean>() {
+//                        @Override
+//                        protected void onSuccess(ChatGroupBean data) {
+//                            // 创建成功 跳转聊天详情页面
+//                            String id = data.getId();
+//                            data.setName(groupName);
+//                            data.setMembersonly(false);
+//                            data.setMaxusers(200);
+//                            data.setAllowinvites(false);
+//                            data.setIsPublic(false);
+//                            data.setOwner(list.get(0).getUser_id());
+//                            data.setDescription(groupIntro);
+//                            data.setAffiliations_count(list.size());
+//                            data.setAffiliations(list);
+//                            mChatGroupBeanGreenDao.saveSingleData(data);
+//                            mUserInfoBeanGreenDao.saveMultiData(data.getAffiliations());
+//                            mRootView.createConversionResult(getChatUser(list), EMConversation.EMConversationType.GroupChat, EaseConstant
+//                                    .CHATTYPE_GROUP, id);
+//                        }
+//
+//                        @Override
+//                        protected void onFailure(String message, int code) {
+//                            super.onFailure(message, code);
+//                            mRootView.showSnackErrorMessage(message);
+//                        }
+//
+//                        @Override
+//                        protected void onException(Throwable throwable) {
+//                            super.onException(throwable);
+//                            mRootView.showSnackErrorMessage(throwable.getMessage());
+//                        }
+//
+//                        @Override
+//                        public void onCompleted() {
+//                            super.onCompleted();
+//                            mRootView.dismissSnackBar();
+//                        }
+//                    });
+//            addSubscrebe(subscription);
         }
     }
 

@@ -132,6 +132,7 @@
     <string name="clean_failure">删除失败!</string>
     <string name="cache_zero_size">0.0B</string>
     <string name="change">更改</string>
+
     <string name="account_bind_phone">绑定手机号</string>
     <string name="account_bind_email">绑定邮箱</string>
     <string name="account_bind_qq">绑定QQ</string>
@@ -153,6 +154,7 @@
     <string name="album_list">相册</string>
     <string name="preview">预览</string>
     <string name="album_selected_count">完成(%1$d/%2$d)</string>
+    <string name="album_finish">完成</string>
     <string name="album_selected">选择</string>
     <string name="save_to_photo">保存至手机相册</string>
     <string name="save_success">图片保存成功</string>
@@ -1083,8 +1085,10 @@
     <string name="chat_type_file">[文件]</string>
 
     <string name="select_friends_center_title">选择好友</string>
+    <string name="select_organization_center_title">选择组织</string>
     <string name="select_friends_right_title_default">聊天</string>
     <string name="select_friends_right_title">聊天(%d)</string>
+    <string name="select_friends_right_next_title">下一步(%d)</string>
     <string name="video_call_in">邀请你进入视屏聊天</string>
     <string name="voice_call_in">邀请你进入语音聊天</string>
     <string name="video_call_out">等待对方接受请求</string>
@@ -1117,6 +1121,10 @@
     <string name="chat_info_jurisdiction">成员权限</string>
     <string name="chat_setting_info_jurisdiction">设置成员权限</string>
     <string name="chat_info_upgrade">升级群</string>
+    <string name="chat_change_organization">更换组织</string>
+    <string name="chat_relevance_community">关联社区</string>
+    <string name="chat_relevance">关联</string>
+    <string name="chat_change_community">更换社区</string>
     <string name="selector_pay_way">选择支付方式</string>
     <string name="chat_info_report">举报群</string>
     <string name="chat_info_upgrade_success">恭喜您，升级成功</string>
@@ -1225,6 +1233,8 @@
     <string name="go_top">置顶</string>
     <string name="cancel_top">取消置顶</string>
     <string name="search_group_name">搜索群名称</string>
+    <string name="search_organization_name">搜索组织名称</string>
+    <string name="search_community_name">搜索社区名称</string>
     <string name="no_result_group">该群不存在</string>
 
     <string name="official_group">企业群</string>

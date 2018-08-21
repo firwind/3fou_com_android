@@ -28,6 +28,7 @@ import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.adapter.SelectFriendsAllAdapter;
 import com.zhiyicx.thinksnsplus.modules.chat.adapter.SelectedFriendsAdapter;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
+import com.zhiyicx.thinksnsplus.modules.chat.select.organization.SelectOrganizationActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -158,6 +159,11 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
     }
 
     @Override
+    public void nextCreateGroup(List<UserInfoBean> list) {
+        SelectOrganizationActivity.startSelectOrganizationActivity(getContext(),list);
+    }
+
+    @Override
     protected String setRightTitle() {
         return getString(R.string.select_friends_right_title_default);
     }
@@ -203,6 +209,7 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
                     list.addAll(mChatGroupBean.getAffiliations());
                 }
                 mPresenter.createConversation(list);
+
             }
         }
     }
@@ -221,7 +228,11 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
         if (mSelectedList.size() > 0) {
 
             if (mChatGroupBean == null) {
-                setRightText(String.format(getString(R.string.select_friends_right_title), mSelectedList.size()));
+                if (mSelectedList.size()>1){
+                    setRightText(String.format(getString(R.string.select_friends_right_next_title), mSelectedList.size()));
+                }else {
+                    setRightText(String.format(getString(R.string.select_friends_right_title), mSelectedList.size()));
+                }
             } else {
                 setRightText(String.format(getString(mIsDeleteMember ? R.string.chat_edit_group_remove_d : R.string.chat_edit_group_add_d),
                         mSelectedList.size()));

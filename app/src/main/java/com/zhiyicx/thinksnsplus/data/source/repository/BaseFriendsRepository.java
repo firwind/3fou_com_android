@@ -3,7 +3,9 @@ package com.zhiyicx.thinksnsplus.data.source.repository;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.em.manager.util.TSEMessageUtils;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
+import com.zhiyicx.thinksnsplus.data.beans.OrganizationBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
@@ -77,6 +79,12 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
                                                  int maxUser, boolean isMemberOnly, boolean isAllowInvites,
                                                  long owner, String members) {
         return mEasemobClient.createGroup(groupName, groupIntro, isPublic ? 1 : 0, maxUser, isMemberOnly ? 1 : 0, isAllowInvites ? 1 : 0, owner, members)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<ChatGroupBean> createGroup(String groupName, String groupIntro, boolean isPublic, int maxUser, boolean isMemberOnly, boolean isAllowInvites, long owner, String members, int organize_id) {
+        return mEasemobClient.createGroup(groupName, groupIntro, isPublic ? 1 : 0, maxUser, isMemberOnly ? 1 : 0, isAllowInvites ? 1 : 0, owner, members, organize_id)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -176,7 +184,7 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
 
     @Override
     public Observable<String> synExitGroup(String group_id, int group_level) {
-        return mEasemobClient.synExitGroup(group_id,group_level)
+        return mEasemobClient.synExitGroup(group_id, group_level)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -184,6 +192,34 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     @Override
     public Observable<String> clearFriendApplyList() {
         return mEasemobClient.clearFriendApplyList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<OrganizationBean>> getOrganizationList(int page, String search) {
+        return mEasemobClient.getOrganizationList(TSListFragment.DEFAULT_PAGE_SIZE, page, search)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<String> changOrganization(String groupId, int organize_id) {
+        return mEasemobClient.changOrganization(groupId, organize_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<CircleInfo>> communityList(int page, String search) {
+        return mEasemobClient.getCommunityList(TSListFragment.DEFAULT_PAGE_SIZE, page, search)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+    @Override
+    public Observable<String> relevanceCommunity(String groupId, long communityId) {
+        return mEasemobClient.relevanceCommunity(groupId, communityId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

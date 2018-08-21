@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/dp10"
+            android:src="@mipmap/search_icon_search" />
+
+        <com.zhiyicx.baseproject.widget.edittext.DeleteEditText
+            android:id="@+id/et_search_community"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp10"
+            android:background="@color/transparent"
+            android:hint="@string/search_community_name"
+            android:textColor="@color/origin_back_color"
+            android:textSize="@dimen/sp14" />
+
+    </LinearLayout>
+
+    <View style="@style/style_divider_horizontal" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/fragment_tslist" />
+
+        <ImageView
+            android:id="@+id/iv_community"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="@dimen/dp80"
+            android:layout_marginRight="@dimen/dp30"
+            android:src="@mipmap/add_icon" />
+    </FrameLayout>
+
+</LinearLayout>

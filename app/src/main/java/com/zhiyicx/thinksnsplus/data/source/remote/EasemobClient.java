@@ -5,9 +5,11 @@ import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
+import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
+import com.zhiyicx.thinksnsplus.data.beans.OrganizationBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
@@ -49,6 +51,22 @@ public interface EasemobClient {
                                           @Query("owner") long owner, @Query("members") String members);
 
     /**
+     * 创建群组会话
+     * groupname 	// 群组名称（必填）
+     * desc 		// 群组简介（必填）
+     * public 		// 是否是公开群，此属性为必须的（必填）
+     * maxusers	// 群组成员最大数
+     * members_only	// 加入群是否需要群主或者群管理员审批，默认是false
+     * allowinvites	// 是否允许群成员邀请别人加入此群
+     * owner		// 群组的管理员（必填）
+     * members		// 群组的成员
+     */
+    @POST(ApiConfig.APP_PATH_CREATE_CHAT_GROUP)
+    Observable<ChatGroupBean> createGroup(@Query("groupname") String groupName, @Query("desc") String groupIntro, @Query("public") int isPublic,
+                                          @Query("maxusers") int maxUser, @Query("members_only") int isMemberOnly, @Query("allowinvites") int isAllowInvites,
+                                          @Query("owner") long owner, @Query("members") String members, @Query("organize_id") int organize_id);
+
+    /**
      * 更新群信息
      *
      * @param groupName      groupName
@@ -88,6 +106,7 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_S_FACE)
     Observable<List<ChatGroupBean>> getGroupInfoOnlyGroupFace(@Query("im_group_id") String ids);
+
     /**
      * 获取所有官方群
      *
@@ -95,6 +114,7 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_OFFICIAL)
     Observable<List<ChatGroupBean>> getOfficialGroupInfo();
+
     /**
      * 获取用户加入的群组列表
      *
@@ -109,7 +129,7 @@ public interface EasemobClient {
      * @param
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_RECOMMEND)
-    Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(@Query("name") String name,@Query("per_page") Integer per_page,@Query("page") long page);
+    Observable<List<ChatGroupServerBean>> getSearchGroupInfoFace(@Query("name") String name, @Query("per_page") Integer per_page, @Query("page") long page);
 
     /**
      * 搜索群
@@ -210,6 +230,7 @@ public interface EasemobClient {
     @POST(ApiConfig.APP_PATH_GET_GROUP_UPGRADE_GROUP)
     Observable<String> upgradeGroup(@Query("im_group_id") String im_group_id,
                                     @Query("type") int type);
+
     /**
      * 升级群
      *
@@ -220,10 +241,11 @@ public interface EasemobClient {
 
     /**
      * 举报群
-     * @param user_id  用户ID
+     *
+     * @param user_id     用户ID
      * @param im_group_id 群ID
-     * @param reason  内容
-     * @param tel  手机
+     * @param reason      内容
+     * @param tel         手机
      * @return
      */
     @POST(ApiConfig.APP_PATH_GET_GROUP_REPORT_GROUP)
@@ -242,6 +264,7 @@ public interface EasemobClient {
                                      @Query("title") String title,
                                      @Query("content") String content,
                                      @Query("author") String author);
+
     /**
      * 修改群公告
      *
@@ -249,9 +272,9 @@ public interface EasemobClient {
      */
     @PATCH(ApiConfig.APP_PATH_GET_GROUP_UPDATE_NOTICE)
     Observable<String> updateNotice(@Query("notice_id") String ids,
-                                     @Query("title") String title,
-                                     @Query("content") String content,
-                                     @Query("author") String author);
+                                    @Query("title") String title,
+                                    @Query("content") String content,
+                                    @Query("author") String author);
 
     /**
      * 添加群组成员
@@ -261,7 +284,7 @@ public interface EasemobClient {
      */
     @POST(ApiConfig.APP_PATH_GET_GROUP_ADD_MEMBER)
     Observable<Object> addGroupMember(@Query("im_group_id") String id, @Query("members") String member
-            ,@Query("group_level")int grouplevel);
+            , @Query("group_level") int grouplevel);
 
     /**
      * 移除群组成员
@@ -271,7 +294,7 @@ public interface EasemobClient {
      */
     @DELETE(ApiConfig.APP_PATH_GET_GROUP_ADD_MEMBER)
     Observable<Object> removeGroupMember(@Query("im_group_id") String id,
-                                         @Query("members") String member,@Query("group_level")int grouplevel);
+                                         @Query("members") String member, @Query("group_level") int grouplevel);
 
 
     /**
@@ -287,11 +310,12 @@ public interface EasemobClient {
 
     /**
      * 删除群相册图片
+     *
      * @param image_id
      * @return
      */
     @DELETE(ApiConfig.APP_PATH_GET_GROUP_ALBUM)
-    Observable<String> deleteGroupAlbum(@Query("image_id") String image_id,@Query("im_group_id")String im_group_id);
+    Observable<String> deleteGroupAlbum(@Query("image_id") String image_id, @Query("im_group_id") String im_group_id);
 
     /**
      * 获取群相册图片
@@ -307,47 +331,54 @@ public interface EasemobClient {
 
     /**
      * 删除群组
+     *
      * @param group_id
      * @return
      */
     @DELETE(ApiConfig.APP_PATH_GET_GROUP_DEL_NOTICE)
-    Observable<String> deleteNotice(@Query("notice_id")String group_id);
+    Observable<String> deleteNotice(@Query("notice_id") String group_id);
 
     /**
      * 删除群组
+     *
      * @param group_id
      * @return
      */
     @DELETE(ApiConfig.APP_PATH_GET_GROUP_INFO_S)
-    Observable<String> deleteGroup(@Query("im_group_id")String group_id);
+    Observable<String> deleteGroup(@Query("im_group_id") String group_id);
 
     /**
      * 获取简单群信息
+     *
      * @param im_group_id
      * @param group_level
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_SIMPLE_GROUP_INFO)
-    Observable<List<ChatGroupBean>> getSimpleGroupInfo(@Query("im_group_id")String im_group_id,@Query("group_level")int group_level);
+    Observable<List<ChatGroupBean>> getSimpleGroupInfo(@Query("im_group_id") String im_group_id, @Query("group_level") int group_level);
 
     /**
      * 新的获取群组信息
+     *
      * @param ids
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_NEW)
     Observable<ChatGroupNewBean> getNewGroupInfoV2(@Query("im_group_id") String ids);
+
     /**
      * 获取群成员
+     *
      * @param id
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_MEMBER_INFO_NEW)
-    Observable<List<UserInfoBean>> getGroupMemberInfo(@Query("im_group_id") String id,@Query("username")String username,
-                                                      @Query("last_user_id")Long maxId,@Query("limit")Integer limit);
+    Observable<List<UserInfoBean>> getGroupMemberInfo(@Query("im_group_id") String id, @Query("username") String username,
+                                                      @Query("last_user_id") Long maxId, @Query("limit") Integer limit);
 
     /**
      * 是否加入群
+     *
      * @param ids
      * @return
      */
@@ -356,15 +387,17 @@ public interface EasemobClient {
 
     /**
      * 获取群说话权限
+     *
      * @param groupId
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_TALKING_STATE)
-    Observable<BaseJsonV2<Boolean>> getTalkingState(@Query("im_group_id")String groupId);
+    Observable<BaseJsonV2<Boolean>> getTalkingState(@Query("im_group_id") String groupId);
 
 
     /**
      * 设置加好友方式
+     *
      * @param state 设置，0为允许，1验证，2不允许
      * @return
      */
@@ -372,9 +405,9 @@ public interface EasemobClient {
     Observable<String> setAddFriendState(@Query("friends_set") int state);
 
 
-
     /**
      * 添加好友
+     *
      * @param user_id
      * @return
      */
@@ -384,14 +417,16 @@ public interface EasemobClient {
 
     /**
      * 删除好友
+     *
      * @param user_id
      * @return
      */
     @DELETE(ApiConfig.APP_PATH_DELETE_FRIEND)
-    Observable<String> deleteFriend(@Query("friend_user_id")String user_id);
+    Observable<String> deleteFriend(@Query("friend_user_id") String user_id);
 
     /**
      * 获取好友审核列表
+     *
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_FRIEND_REVIEW_LIST)
@@ -399,21 +434,24 @@ public interface EasemobClient {
 
     /**
      * 通过或拒绝好友申请
+     *
      * @param id
      * @param status 1-同意，2-拒绝
      * @return
      */
     @POST(ApiConfig.APP_PATH_REVIEW_FRIEND_APPLY)
-    Observable<String> reviewFriendApply(@Query("id")String id,@Query("status")int status);
+    Observable<String> reviewFriendApply(@Query("id") String id, @Query("status") int status);
 
     /**
      * 退出群聊
+     * 让服务器同步环信信息
+     *
      * @param im_group_id
      * @param group_level
      * @return
      */
     @GET(ApiConfig.APP_PATH_SYN_EXIT_GROUP)
-    Observable<String> synExitGroup(@Query("im_group_id")String im_group_id,@Query("group_level")int group_level);
+    Observable<String> synExitGroup(@Query("im_group_id") String im_group_id, @Query("group_level") int group_level);
 
 
     /**
@@ -463,4 +501,43 @@ public interface EasemobClient {
     @POST(ApiConfig.APP_PATH_CLEAR_GROUP_APPLY_LIST)
     Observable<String> clearGroupApplyList();
 
+    /**
+     * 建群选择组织
+     *
+     * @param
+     * @param
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_SELECT_ORGANIZATION)
+    Observable<List<OrganizationBean>> getOrganizationList(@Query("limit") int limit, @Query("offset") int offset, @Query("keyword") String keyword);
+
+    /**
+     * 更换组织
+     *
+     * @param
+     * @param
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_CHANGE_ORGANIZATION)
+    Observable<String> changOrganization(@Query("im_group_id") String groupId, @Query("organize_id") int organizationId);
+
+    /**
+     * 获取社区列表
+     *
+     * @param
+     * @param
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_RELEVANCE_COMMUNITY_LIST)
+    Observable<List<CircleInfo>> getCommunityList(@Query("limit") int limit, @Query("offset") int offset, @Query("keyword") String keyword);
+
+    /**
+     * 关联社区
+     *
+     * @param
+     * @param
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_RELEVANCE_COMMUNITY)
+    Observable<String> relevanceCommunity(@Query("im_group_id") String groupId, @Query("community_id") long communityId);
 }

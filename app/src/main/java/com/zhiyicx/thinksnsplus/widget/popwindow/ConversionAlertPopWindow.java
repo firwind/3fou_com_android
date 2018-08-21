@@ -61,18 +61,13 @@ public class ConversionAlertPopWindow extends CustomPopupWindow {
 
         Button mAffirm = (Button) mContentView.findViewById(R.id.bt_affirm_conversion);
         mUsableNum.setText("(今日可用" + candiesNum + "个)");
-        mConversionRatio.setText("兑换为(" + ratio + ")");
+        mConversionRatio.setText("兑换为(" + ratio + ":1)");
         mConversionContent.setText(des);
         mAllNum.setOnClickListener(v -> {
             mEditNum.setText(candiesNum + "");
             initFCC(mFCCNum, Integer.valueOf(mEditNum.getText().toString()));
         });
-        mClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hide();
-            }
-        });
+        mClose.setOnClickListener(v -> hide());
         mAffirm.setOnClickListener(v -> {
             String num = mEditNum.getText().toString();
             if (TextUtils.isEmpty(num) || num.equals("0")) {
@@ -112,7 +107,6 @@ public class ConversionAlertPopWindow extends CustomPopupWindow {
 
     private void initFCC(TextView textView, int candiesNum) {
         textView.setText((candiesNum * 0.001) + "");
-
     }
 
     public static final class CBuilder extends Builder {

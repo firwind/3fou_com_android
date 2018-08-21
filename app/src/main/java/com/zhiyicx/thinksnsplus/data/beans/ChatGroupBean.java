@@ -69,7 +69,10 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     @SerializedName("public")
     private boolean isPublic;
     private int group_level;//群等级，1-官方群;2-热门群
-    private int privacy;//群隐私，加群设置。0-允许任何人加入；1-需要经过群主和管理员验证；2-拒绝任何人加入
+    @Transient
+    @SerializedName("im_group_organize")
+    private OrganizationBean organizationBean;
+
 
     public int getIs_in() {
         return mIsIn;
@@ -81,7 +84,7 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     @SerializedName(value = "mIsIn", alternate = {"is_in"})
     @Transient
     private int mIsIn;//是否加入该群
-
+    private int privacy;
     public int getGroup_level() {
         return group_level;
     }
@@ -107,6 +110,21 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
             return;
         }
         this.name = name;
+    }
+    public OrganizationBean getOrganizationBean() {
+        return organizationBean;
+    }
+
+    public void setOrganizationBean(OrganizationBean organizationBean) {
+        this.organizationBean = organizationBean;
+    }
+
+    public int getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(int privacy) {
+        this.privacy = privacy;
     }
 
     public String getDescription() {
@@ -214,7 +232,6 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
                 ", affiliations=" + affiliations +
                 ", isPublic=" + isPublic +
                 ", group_level" + group_level +
-                ", privacy" + privacy +
                 '}';
     }
 
@@ -307,15 +324,9 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         dest.writeTypedList(this.affiliations);
         dest.writeByte(this.isPublic ? (byte) 1 : (byte) 0);
         dest.writeInt(this.group_level);
+        dest.writeParcelable(this.organizationBean, flags);
+        dest.writeInt(this.mIsIn);
         dest.writeInt(this.privacy);
-    }
-
-    public int getPrivacy() {
-        return this.privacy;
-    }
-
-    public void setPrivacy(int privacy) {
-        this.privacy = privacy;
     }
 
     protected ChatGroupBean(Parcel in) {
@@ -335,6 +346,8 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         this.affiliations = in.createTypedArrayList(UserInfoBean.CREATOR);
         this.isPublic = in.readByte() != 0;
         this.group_level = in.readInt();
+        this.organizationBean = in.readParcelable(OrganizationBean.class.getClassLoader());
+        this.mIsIn = in.readInt();
         this.privacy = in.readInt();
     }
 
