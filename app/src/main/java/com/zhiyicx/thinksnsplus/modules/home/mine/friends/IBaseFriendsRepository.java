@@ -91,8 +91,15 @@ public interface IBaseFriendsRepository {
      * @param user_id
      * @return
      */
-    Observable<String> addFriend(String user_id,String information);
+    Observable<String> addFriend(String user_id);
 
+    /**
+     * 验证添加好友
+     * @param user_id
+     * @param information
+     * @return
+     */
+    Observable<String> verifyAddFriend(String user_id,String information);
     /**
      * 删除好友
      * @param user_id
@@ -105,15 +112,15 @@ public interface IBaseFriendsRepository {
      * @param maxId
      * @return
      */
-    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Integer maxId);
+    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Long maxId);
 
     /**
      * 通过或拒绝好友申请
      * @param id
-     * @param status 1-同意；2-拒绝
+     * @   1-同意；2-拒绝
      * @return
      */
-    Observable<String> reviewFriendApply(String id,int status);
+    Observable<String> reviewFriendApply(String id,boolean isAgree);
 
     /**
      * 让服务器同步环信信息

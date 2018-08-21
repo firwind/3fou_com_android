@@ -15,10 +15,10 @@ public interface NewMessageGroupContract {
 
     interface View extends ITSListView<GroupParentBean,Presenter>{
         String getsearchKeyWord();
-        void checkGroupExist(String id);
+        //void checkGroupExist(String id);
     }
 
     interface Presenter extends ITSListPresenter<GroupParentBean>{
-        void checkGroupExist(ChatGroupBean chatGroupBean);
+        //void checkGroupExist(ChatGroupBean chatGroupBean);
     }
 }

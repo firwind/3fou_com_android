@@ -79,7 +79,11 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
 //        mLvList.setGroupIndicator(null);
         mLvList.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
 //            mPresenter.checkGroupExist(mListDatas.get(groupPosition).childs.get(childPosition));
-            checkGroupExist(mListDatas.get(groupPosition).childs.get(childPosition).getId());
+            //checkGroupExist(mListDatas.get(groupPosition).childs.get(childPosition).getId());
+            EMConversation conversation = EMClient.getInstance().chatManager().getConversation(
+                    mListDatas.get(groupPosition).childs.get(childPosition).getId(),
+                    EMConversation.EMConversationType.GroupChat, true);
+            ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
             return false;
         });
     }
@@ -154,12 +158,12 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
         return mAdapter;
     }
 
-    @Override
+    /*@Override
     public void checkGroupExist(String id) {
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
         ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
 //            mActivity.finish();
-    }
+    }*/
 
     @Override
     protected int getBodyLayoutId() {

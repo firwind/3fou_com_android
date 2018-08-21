@@ -31,8 +31,8 @@ public class VerifyFriendOrGroupPresenter extends BasePresenter<VerifyFriendOrGr
 
     @Override
     public void addFriendOrGroup(String id, String information) {
-        addSubscrebe((mRootView.isGroupVerify() ? mChatInfoRepository.verifyEnterGroup(id, information) :
-                mChatInfoRepository.addFriend(id, information))
+        addSubscrebe((mRootView.isGroupVerify() ? mChatInfoRepository.verifyEnterGroup(id, information,true) :
+                mChatInfoRepository.verifyAddFriend(id, information))
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriberV3<String>(mRootView) {

@@ -233,6 +233,8 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             mPresenter.getUserInfoFromServer();
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
             setCenterText(mPresenter.getChatGroupName());
+            if(null == EMClient.getInstance().groupManager().getGroup(toChatUsername))
+                setToolBarRightImage(0);
             //获取禁言状态
             mPresenter.getCurrentTalkingState(toChatUsername);
         }
@@ -275,13 +277,8 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
     @Override
     public void updateChatGroupInfo(ChatGroupBean chatGroupBean) {
-        if(null != chatGroupBean){
+        if(null != chatGroupBean)
             setCenterText(mPresenter.getChatGroupName());
-            setTalkingState(true,getString(R.string.chat_no_talking_not_in_group));
-        }else {
-            setTalkingState(false,getString(R.string.chat_no_talking_not_in_group));
-        }
-
     }
 
     @Override
@@ -320,10 +317,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
     @Override
     protected void setRightClick() {
-        if (chatType == EaseConstant.CHATTYPE_GROUP &&
-                null == EMClient.getInstance().groupManager().getGroup(toChatUsername)) {
+        if(chatType == EaseConstant.CHATTYPE_GROUP &&
+                null == EMClient.getInstance().groupManager().getGroup(toChatUsername))
             return;
-        }
         toGroupDetails();
     }
 

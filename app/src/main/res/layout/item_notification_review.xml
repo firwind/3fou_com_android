@@ -39,6 +39,7 @@
 
         <TextView
             android:id="@+id/tv_time"
+            android:layout_marginLeft="@dimen/dp8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="一分钟前"
@@ -83,7 +84,7 @@
             android:visibility="gone"
             android:gravity="center"/>
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_reject"
             android:layout_marginTop="@dimen/dp10"
             android:layout_width="@dimen/dp52"
@@ -93,7 +94,7 @@
             android:textColor="@color/black_deep"
             android:text="拒绝"
             android:visibility="gone"
-            android:gravity="center"/>
+            android:gravity="center"/>-->
 
     </LinearLayout>
 

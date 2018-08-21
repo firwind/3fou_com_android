@@ -763,7 +763,7 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
         }
         mMaxId = DEFAULT_PAGE_MAX_ID;
         mPage = DEFAULT_PAGE;
-        requestNetData(mMaxId, false);
+        requestNetData(null==mMaxId?0L:mMaxId, false);
     }
 
     /**

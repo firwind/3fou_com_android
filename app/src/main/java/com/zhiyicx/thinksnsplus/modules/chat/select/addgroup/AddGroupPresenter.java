@@ -143,13 +143,14 @@ public class AddGroupPresenter extends AppBasePresenter<AddGroupContract.View>
         mGroupExistSubscription = Observable.just(id)
                 .subscribeOn(Schedulers.io())
                 .map(s -> {
-                    EMGroup group = null;
+                    /*EMGroup group = null;
                     try {
                         group = EMClient.getInstance().groupManager().getGroupFromServer(s);
                     } catch (HyphenateException e) {
                         e.printStackTrace();
                     }
-                    return group;
+                    return group;*/
+                    return EMClient.getInstance().groupManager().getGroup(id);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<EMGroup>() {

@@ -876,7 +876,7 @@ public class PersonalCenterPresenter extends AppBasePresenter<PersonalCenterCont
 
     @Override
     public void addFriend(UserInfoBean userInfoBean) {
-        mBaseFriendsRepository.addFriend(String.valueOf(userInfoBean.getUser_id()),null)
+        mBaseFriendsRepository.addFriend(String.valueOf(userInfoBean.getUser_id()))
                 .subscribe(new BaseSubscribeForV2<String>() {
                     @Override
                     protected void onSuccess(String data) {

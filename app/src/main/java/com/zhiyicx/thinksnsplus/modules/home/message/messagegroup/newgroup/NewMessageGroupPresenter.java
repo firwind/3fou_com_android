@@ -43,7 +43,7 @@ public class NewMessageGroupPresenter extends AppBasePresenter<NewMessageGroupCo
     BaseMessageRepository mBaseMessageRepository;
     @Inject
     ChatInfoRepository mChatInfoRepository;
-    private Subscription mGroupExistSubscription;
+    //private Subscription mGroupExistSubscription;
 
     @Inject
     public NewMessageGroupPresenter(NewMessageGroupContract.View rootView) {
@@ -92,7 +92,7 @@ public class NewMessageGroupPresenter extends AppBasePresenter<NewMessageGroupCo
         addSubscrebe(subscribe);
     }
 
-    @Override
+    /*@Override
     public void checkGroupExist( ChatGroupBean groupBean ) {
         if (mGroupExistSubscription != null && !mGroupExistSubscription.isUnsubscribed()) {
             mGroupExistSubscription.unsubscribe();
@@ -156,7 +156,7 @@ public class NewMessageGroupPresenter extends AppBasePresenter<NewMessageGroupCo
                 });
         addSubscrebe(mGroupExistSubscription);
 
-    }
+    }*/
 
     @Override
     public void requestCacheData(Long maxId, boolean isLoadMore) {

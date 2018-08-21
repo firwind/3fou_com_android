@@ -379,7 +379,8 @@ public interface EasemobClient {
      * @return
      */
     @PUT(ApiConfig.APP_PATH_ADD_FRIEND)
-    Observable<String> addFriend(@Query("friend_user_id")String user_id,@Query("information")String information);
+    Observable<String> addFriend(@Query("friend_user_id")String user_id,
+                                 @Query("information")String information,@Query("type")String type);
 
     /**
      * 删除好友
@@ -394,7 +395,7 @@ public interface EasemobClient {
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_FRIEND_REVIEW_LIST)
-    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(@Query("limit")int limit, @Query("offset")Integer offset);
+    Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(@Query("limit")int limit, @Query("offset")Long offset);
 
     /**
      * 通过或拒绝好友申请
@@ -421,7 +422,7 @@ public interface EasemobClient {
      * @return
      */
     @POST(ApiConfig.APP_PATH_SET_GROUP_PRIVACY)
-    Observable<String> setGroupPrivacy(@Query("im_group_id")String im_group_id,@Query("group_set")int state);
+    Observable<String> setGroupPrivacy(@Query("im_group_id")String im_group_id,@Query("privacy")int state);
 
     /**
      * 提交验证信息进入群聊
@@ -429,7 +430,7 @@ public interface EasemobClient {
      * @return
      */
     @POST(ApiConfig.APP_PATH_VERIFY_ENTER_GROUP)
-    Observable<String> verifyGroupPrivacy(@Query("im_group_id")String im_group_id,@Query("information")String information);
+    Observable<String> verifyGroupPrivacy(@Query("im_group_id")String im_group_id,@Query("information")String information,@Query("type")String type);
 
     /**
      * 清空好友审核列表
@@ -437,5 +438,29 @@ public interface EasemobClient {
      */
     @POST(ApiConfig.APP_PATH_CLEAR_FRIEND_APPLY_LIST)
     Observable<String> clearFriendApplyList();
+
+    /**
+     * 加群审核列表
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_REVIEW_LIST)
+    Observable<List<GroupOrFriendReviewBean>> getGroupReviewList();
+
+
+    /**
+     * 加群申请审核
+     * @param id
+     * @param status
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_REVIEW_GROUP_APPLY)
+    Observable<String> reviewGroupApply(@Query("id")String id,@Query("status")int status);
+
+    /**
+     * 清空群申请
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_CLEAR_GROUP_APPLY_LIST)
+    Observable<String> clearGroupApplyList();
 
 }

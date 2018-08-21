@@ -10,6 +10,7 @@ import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
+import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
@@ -151,8 +152,29 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
     }
 
     @Override
-    public Observable<String> verifyEnterGroup(String groupId, String information) {
-        return mEasemobClient.verifyGroupPrivacy(groupId,information)
+    public Observable<String> verifyEnterGroup(String groupId, String information,boolean isVerify) {
+        return mEasemobClient.verifyGroupPrivacy(groupId,information,isVerify?"sure":null)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<GroupOrFriendReviewBean>> getGroupReviewList() {
+        return mEasemobClient.getGroupReviewList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> reviewGroupApply(String id, boolean isAgree) {
+        return mEasemobClient.reviewGroupApply(id,isAgree?1:2)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> clearGroupApply() {
+        return mEasemobClient.clearGroupApplyList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

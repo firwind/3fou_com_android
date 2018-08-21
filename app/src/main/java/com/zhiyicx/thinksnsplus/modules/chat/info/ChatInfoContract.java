@@ -6,6 +6,7 @@ import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
+import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UpgradeTypeBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
@@ -45,7 +46,7 @@ public interface ChatInfoContract {
 
         void closeCurrentActivity();
 
-        void updateGroupOwner(ChatGroupBean chatGroupBean);
+        //void updateGroupOwner(ChatGroupBean chatGroupBean);
 
         //void setSticksSuccess();
 
@@ -172,6 +173,12 @@ public interface ChatInfoContract {
         //设置群隐私权限
         Observable<String> setGroupPrivacy(String groupId,int state);
         //提交验证信息
-        Observable<String> verifyEnterGroup(String groupId,String information);
+        Observable<String> verifyEnterGroup(String groupId,String information,boolean isVerify);
+        //加群审核列表
+        Observable<List<GroupOrFriendReviewBean>> getGroupReviewList();
+        //加群申请审核
+        Observable<String> reviewGroupApply(String id,boolean isAgree);
+        //清空群申请列表
+        Observable<String> clearGroupApply();
     }
 }

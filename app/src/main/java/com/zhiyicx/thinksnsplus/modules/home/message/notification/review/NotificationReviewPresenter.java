@@ -1,14 +1,11 @@
 package com.zhiyicx.thinksnsplus.modules.home.message.notification.review;
 
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMMessage;
-import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.baseproject.em.manager.util.TSEMessageUtils;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
-import com.zhiyicx.thinksnsplus.data.source.repository.BaseFriendsRepository;
+import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -17,12 +14,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Observable;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * author: huwenyong
@@ -32,10 +24,10 @@ import rx.schedulers.Schedulers;
  */
 
 public class NotificationReviewPresenter extends AppBasePresenter<NotificationReviewContract.View>
-        implements NotificationReviewContract.Presenter{
+        implements NotificationReviewContract.Presenter {
 
     @Inject
-    BaseFriendsRepository mBaseFriendsRepository;
+    ChatInfoRepository mChatInfoRepository;
 
     @Inject
     public NotificationReviewPresenter(NotificationReviewContract.View rootView) {
@@ -44,19 +36,20 @@ public class NotificationReviewPresenter extends AppBasePresenter<NotificationRe
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        mBaseFriendsRepository.getFriendReviewList(maxId.intValue())
-                .subscribe(new BaseSubscribeForV2<List<GroupOrFriendReviewBean>>() {
+        addSubscrebe((mRootView.isFriendReview() ? mChatInfoRepository.getFriendReviewList(maxId) :
+                mChatInfoRepository.getGroupReviewList()).subscribe(
+                new BaseSubscribeForV2<List<GroupOrFriendReviewBean>>() {
                     @Override
                     protected void onSuccess(List<GroupOrFriendReviewBean> data) {
-                        mRootView.onNetResponseSuccess(data,isLoadMore);
+                        mRootView.onNetResponseSuccess(data, isLoadMore);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        mRootView.onResponseError(e,isLoadMore);
+                        mRootView.onResponseError(e, isLoadMore);
                     }
-                });
+                }));
     }
 
     @Override
@@ -70,43 +63,39 @@ public class NotificationReviewPresenter extends AppBasePresenter<NotificationRe
     }
 
     @Override
-    public void requestAgreeOrInjectApply(GroupOrFriendReviewBean bean,boolean isAgree) {
-        mBaseFriendsRepository.reviewFriendApply(bean.getId(),isAgree?1:2)
-                .observeOn(Schedulers.io())
-                .map(s -> {
-                    if(isAgree){
+    public void requestAgreeOrInjectApply(GroupOrFriendReviewBean bean, boolean isAgree) {
+        addSubscrebe((mRootView.isFriendReview() ?
+                mChatInfoRepository.reviewFriendApply(bean.getId(), isAgree).map(s -> {
+                    if (isAgree) {
                         //创建会话，发送一条消息
-                        EMClient.getInstance().chatManager().getConversation(bean.getUser_id(),
-                                EMConversation.EMConversationType.Chat, true);
-                        EMMessage message = EMMessage.createTxtSendMessage("我们已经成为好友啦~来一起聊天吧", bean.getUser_id());
-                        EMClient.getInstance().chatManager().sendMessage(message);
-                        EMClient.getInstance().chatManager().saveMessage(message);
+                        TSEMessageUtils.sendAgreeFriendApplyMessage(bean.getUser_id());
                     }
                     return s;
-                })
-                .observeOn(AndroidSchedulers.mainThread())
+                }) : mChatInfoRepository.reviewGroupApply(bean.getId(), isAgree))
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriberV3<String>(mRootView){
+                .subscribe(new BaseSubscriberV3<String>(mRootView) {
                     @Override
                     protected void onSuccess(String data) {
                         super.onSuccess(data);
-                        bean.setStatus(isAgree?1:2);
+                        bean.setStatus(isAgree ? 1 : 2);
                         mRootView.refreshData();
                     }
-                });
+                }));
+
     }
 
     @Override
     public void clearApplyList() {
-        mBaseFriendsRepository.clearFriendApplyList()
-                .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
-                .subscribe(new BaseSubscriberV3<String>(mRootView){
+
+        addSubscrebe((mRootView.isFriendReview() ? mChatInfoRepository.clearFriendApplyList() :
+                mChatInfoRepository.clearGroupApply()).doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
+                .subscribe(new BaseSubscriberV3<String>(mRootView) {
                     @Override
                     protected void onSuccess(String data) {
                         super.onSuccess(data);
-                        mRootView.onNetResponseSuccess(new ArrayList<>(),false);
+                        mRootView.onNetResponseSuccess(new ArrayList<>(), false);
                     }
-                });
+                }));
     }
 }

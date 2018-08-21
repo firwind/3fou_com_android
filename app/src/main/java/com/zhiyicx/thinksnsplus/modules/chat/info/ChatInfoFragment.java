@@ -55,6 +55,7 @@ import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.repor
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.maintain.upgradegroup.UpgradeGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.settingadmin.SettingAdminActivity;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendOrGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.modules.settings.privacy.SettingPrivacyActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
@@ -251,10 +252,13 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             mTvGroupQrcode.setVisibility(View.GONE);
             mTvPrivacy.setVisibility(View.GONE);
             isShowEmptyView(false, true);
-            setGroupData();
             setCenterText(getString(R.string.chat_info_title_single));
             // 单聊没有屏蔽消息
             mRlBlockMessage.setVisibility(View.GONE);
+
+            //处理单聊信息
+            setChatSingleData();
+
         } else {
 
             mEmptyView.setNeedTextTip(false);
@@ -325,7 +329,6 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 5);
         mRvMemberList.setLayoutManager(manager);
         mRvMemberList.addItemDecoration(new TGridDecoration(0, getResources().getDimensionPixelOffset(R.dimen.spacing_large), true));
-        dealAddOrDeleteButton();
         mChatMemberAdapter = new ChatMemberAdapter(getContext(), mChatMembers, -1, false);
         mRvMemberList.setAdapter(mChatMemberAdapter);
         mChatMemberAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
@@ -399,6 +402,15 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                  非本群用户：加入群聊
                  */
             case R.id.tv_delete_group:
+                if(null==mChatGroupBean || !mIsInGroup){//用户不在群聊当中，加入群聊
+                    if(mChatGroupBean.getPrivacy() == 1){
+                        VerifyFriendOrGroupActivity.startVerifyGroupActivity(mActivity,mChatId);
+                        return;
+                    } else if(mChatGroupBean.getPrivacy() == 2){
+                        showSnackErrorMessage(getString(R.string.chat_group_not_allow_anyone_enter));
+                        return;
+                    }
+                }
                 initDeletePopupWindow(mPresenter.isGroupOwner() ? getString(R.string.chat_delete) : mIsInGroup ? getString(R.string.chat_quit) : getString(R.string.tv_add_group_chat)
                         , mPresenter.isGroupOwner() ? getString(R.string.chat_delete_group_alert) : mIsInGroup ? getString(R.string.chat_quit_group_alert) : getString(R.string.chat_quit_group_add));
                 break;
@@ -539,7 +551,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @Override
     public void setIsInGroup(boolean isInGroup) {
         this.mIsInGroup = isInGroup;
-        mRlBlockMessage.setVisibility(isInGroup?View.VISIBLE:View.GONE);
+        mRlBlockMessage.setVisibility(isInGroup && !mPresenter.isGroupOwner()?View.VISIBLE:View.GONE);
         if (mIsInGroup) {
             EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
             // 屏蔽按钮
@@ -554,9 +566,14 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             mLlSetStick.setVisibility(View.GONE);
             mTvClearMessage.setVisibility(View.GONE);
             mTvDeleteGroup.setText(getString(R.string.tv_add_group_chat));
-            mRlBlockMessage.setVisibility(View.GONE);
             mTvJurisdiction.setVisibility(View.GONE);
             mTvFindMessage.setVisibility(View.GONE);
+        }
+
+        //处理添加和删除群成员button,如果不在这个群里面，不能邀请
+        if(mIsInGroup){
+            dealAddOrDeleteButton();
+            mChatMemberAdapter.refreshData(mChatMembers);
         }
     }
 
@@ -574,7 +591,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         setGroupData();
     }
 
-    @Override
+    /*@Override
     public void updateGroupOwner(ChatGroupBean chatGroupBean) {
         // emm 由于没有完全返回所有信息 再加上字段也不同 所以手动改一下
         Observable.just(chatGroupBean)
@@ -605,7 +622,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                         setGroupData();
                     }
                 }, Throwable::printStackTrace);
-    }
+    }*/
 
     /*@Override
     public void setSticksSuccess() {
@@ -684,10 +701,8 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         }
 
-//        setIsStick();
-
+        //群相册
         setGroupAlbumData(chatGroupBean.group_images_data);
-
     }
 
     /*@Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPDATE_ALBUM_SUCCESS)
@@ -850,6 +865,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         });
     }
 
+    /**
+     * 处理添加和删减的button
+     */
     private void dealAddOrDeleteButton() {
 
         if (mChatGroupBean == null) {
@@ -879,10 +897,13 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 mTvToAllMembers.setVisibility(View.GONE);
             }
         }
-        // 添加按钮，都可以拉人
-        UserInfoBean chatUserInfoBean = new UserInfoBean();
-        chatUserInfoBean.setUser_id(-1L);
-        mChatMembers.add(chatUserInfoBean);
+
+        // 添加按钮，只要是群成员都可以拉人
+        if(mIsInGroup){
+            UserInfoBean chatUserInfoBean = new UserInfoBean();
+            chatUserInfoBean.setUser_id(-1L);
+            mChatMembers.add(chatUserInfoBean);
+        }
         if (mPresenter.isGroupOwner()) {
             // 删除按钮，仅群主
             UserInfoBean chatUserInfoBean1 = new UserInfoBean();
@@ -919,63 +940,69 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         mClearAllMessagePop.show();
     }
 
-    private void setGroupData() {
-        if (mChatType == EaseConstant.CHATTYPE_SINGLE) {
-            // 单聊处理布局
-            user = mPresenter.getUserInfoFromLocal(mChatId);
+    /**
+     * 处理单聊布局
+     */
+    private void setChatSingleData(){
+
+        // 单聊处理布局
+        user = mPresenter.getUserInfoFromLocal(mChatId);
 //            setIsStick();
-            ImageUtils.loadUserHead(user, mIvUserPortrait, false);
-            mTvUserName.setText(user.getName());
-            mIvUserPortrait.setOnClickListener(v -> PersonalCenterFragment.startToPersonalCenter(getContext(), user));
-            //设置置顶
-            mScStickMessage.setOnClickListener((buttonView) -> {
-                if (mScStickMessage.isChecked()) {
-                    mPresenter.setSticks(String.valueOf(user.getUser_id()), String.valueOf(AppApplication.getMyUserIdWithdefault()), 0);
-                } else {
-                    mPresenter.setSticks(String.valueOf(user.getUser_id()), String.valueOf(AppApplication.getMyUserIdWithdefault()), 1);
-                }
-            });
-        } else {
-            // 非群主屏蔽群管理
-            if (!mPresenter.isGroupOwner()) {
-                mLlManager.setVisibility(View.GONE);
-                mRlBlockMessage.setVisibility(View.VISIBLE);
-                mTvGroupHeader.setText(R.string.chat_group_portrait);
-                mScBlockMessage.setEnabled(true);
-                mIvGropIconArrow.setVisibility(View.GONE);
-                mIvGropNameArrow.setVisibility(View.GONE);
-                mTvSetAdmin.setVisibility(View.GONE);
-                mLlBannedPost.setVisibility(View.GONE);
-                mTvJurisdiction.setVisibility(View.GONE);
-                mTvUpgrade.setText(getString(R.string.chat_info_report));
-                mTvUpgrade.setVisibility(View.VISIBLE);
-
+        ImageUtils.loadUserHead(user, mIvUserPortrait, false);
+        mTvUserName.setText(user.getName());
+        mIvUserPortrait.setOnClickListener(v -> PersonalCenterFragment.startToPersonalCenter(getContext(), user));
+        //设置置顶
+        mScStickMessage.setOnClickListener((buttonView) -> {
+            if (mScStickMessage.isChecked()) {
+                mPresenter.setSticks(String.valueOf(user.getUser_id()), String.valueOf(AppApplication.getMyUserIdWithdefault()), 0);
             } else {
-                // 群主无法屏蔽消息
-                mTvGroupHeader.setText(R.string.chat_set_group_portrait);
-                mRlBlockMessage.setVisibility(View.GONE);
-                mScBlockMessage.setEnabled(false);
-                mIvGropIconArrow.setVisibility(View.VISIBLE);
-                mIvGropNameArrow.setVisibility(View.VISIBLE);
+                mPresenter.setSticks(String.valueOf(user.getUser_id()), String.valueOf(AppApplication.getMyUserIdWithdefault()), 1);
             }
+        });
 
-            // 群名称
-            String groupName = mChatGroupBean.getName();
-            // + "(" + mChatGroupBean.getAffiliations_count() + ")";
-            mTvGroupName.setText(groupName);
-            mTvGroupCardName.setText(groupName);
-            // 群头像
-            ImageUtils.loadCircleImageDefault(mIvGroupPortrait, mChatGroupBean.getGroup_face(), R.mipmap.ico_ts_assistant, R.mipmap.ico_ts_assistant);
+    }
 
-            if (mChatMemberAdapter != null && mChatGroupBean != null) {
-                mChatMemberAdapter.setOwnerId(mChatGroupBean.getOwner());
-                dealAddOrDeleteButton();
-                mChatMemberAdapter.refreshData(mChatMembers);
-            }
+    /**
+     * 处理群聊信息
+     */
+    private void setGroupData() {
 
-            mTvPrivacy.setVisibility(mPresenter.isGroupOwner() || mPresenter.isGroupAdminer() ? View.VISIBLE:View.GONE);
+        // 非群主屏蔽群管理
+        if (!mPresenter.isGroupOwner()) {
+            mLlManager.setVisibility(View.GONE);
+            mTvGroupHeader.setText(R.string.chat_group_portrait);
+            mScBlockMessage.setEnabled(true);
+            mIvGropIconArrow.setVisibility(View.GONE);
+            mIvGropNameArrow.setVisibility(View.GONE);
+            mTvSetAdmin.setVisibility(View.GONE);
+            mLlBannedPost.setVisibility(View.GONE);
+            mTvJurisdiction.setVisibility(View.GONE);
+            mTvUpgrade.setText(getString(R.string.chat_info_report));
+            mTvUpgrade.setVisibility(View.VISIBLE);
 
+        } else {
+            // 群主无法屏蔽消息
+            mTvGroupHeader.setText(R.string.chat_set_group_portrait);
+            mScBlockMessage.setEnabled(false);
+            mIvGropIconArrow.setVisibility(View.VISIBLE);
+            mIvGropNameArrow.setVisibility(View.VISIBLE);
         }
+
+        // 群名称
+        String groupName = mChatGroupBean.getName();
+        // + "(" + mChatGroupBean.getAffiliations_count() + ")";
+        mTvGroupName.setText(groupName);
+        mTvGroupCardName.setText(groupName);
+        // 群头像
+        ImageUtils.loadCircleImageDefault(mIvGroupPortrait, mChatGroupBean.getGroup_face(), R.mipmap.ico_ts_assistant, R.mipmap.ico_ts_assistant);
+
+        if (mChatMemberAdapter != null && mChatGroupBean != null) {
+            mChatMemberAdapter.setOwnerId(mChatGroupBean.getOwner());
+            dealAddOrDeleteButton();
+            mChatMemberAdapter.refreshData(mChatMembers);
+        }
+
+        mTvPrivacy.setVisibility(mPresenter.isGroupOwner() || mPresenter.isGroupAdminer() ? View.VISIBLE:View.GONE);
     }
 
     /**

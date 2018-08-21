@@ -208,11 +208,10 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
      * @return
      */
     private NotificationBean getGroupReviewNotification(UnReadNotificaitonBean t1, UserFollowerCountBean t2){
-
         NotificationBean groupReview = new NotificationBean();
         groupReview.setTitle("群组审核");
         groupReview.setHeadResId(R.mipmap.icon_message_group_check);
-        groupReview.setUnreadCount(t1.getCounts().getUnread_group_join_count());
+        groupReview.setUnreadCount(t1.getCounts().getUnread_group());
 
         if(null != t1.getGroupChecks() && t1.getGroupChecks().size() > 0
                 && null != t1.getGroupChecks().get(0).getUser() && null != t1.getGroupChecks().get(0).getGroup()){

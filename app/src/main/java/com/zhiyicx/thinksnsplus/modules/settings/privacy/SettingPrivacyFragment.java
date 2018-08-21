@@ -48,11 +48,17 @@ public class SettingPrivacyFragment extends TSFragment<SettingPrivacyContract.Pr
         combinationButtons[1] = mNeedVerify;
         combinationButtons[2] = mRefuseAnyone;
 
-        if(null == getArguments().getParcelable(IntentKey.GROUP_INFO)){//单人加好友设置
+        if(null == getChatGroupBean()){//单人加好友设置
             mSetState = mPresenter.getCurrentUser().getFriends_set();
             combinationButtons[mSetState].setRightImage(R.mipmap.pricacy_icon);
         }else {//群聊设置
 
+            mAllowAnyone.setLeftText("允许任何人加群");
+            mNeedVerify.setLeftText("需要身份验证");
+            mRefuseAnyone.setLeftText("拒绝任何人加群");
+
+            mSetState = getChatGroupBean().getPrivacy();
+            combinationButtons[mSetState].setRightImage(R.mipmap.pricacy_icon);
         }
 
     }
@@ -80,7 +86,7 @@ public class SettingPrivacyFragment extends TSFragment<SettingPrivacyContract.Pr
 
     @Override
     protected String setCenterTitle() {
-        return getString(R.string.add_friends_setting);
+        return null == getChatGroupBean()?getString(R.string.add_friends_setting):"加群方式";
     }
 
     @Override
@@ -112,7 +118,7 @@ public class SettingPrivacyFragment extends TSFragment<SettingPrivacyContract.Pr
 
     @Override
     public ChatGroupBean getChatGroupBean() {
-        return getArguments().getParcelable(IntentKey.GROUP_INFO);
+        return null == getArguments()?null:getArguments().getParcelable(IntentKey.GROUP_INFO);
     }
 
 }

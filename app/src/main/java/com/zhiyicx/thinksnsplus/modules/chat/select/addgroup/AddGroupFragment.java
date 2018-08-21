@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.easeui.EaseConstant;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.impl.imageloader.glide.transformation.GlideCircleTransform;
 import com.zhiyicx.baseproject.widget.edittext.DeleteEditText;
@@ -161,7 +162,12 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 ChatGroupServerBean groupBean = mListDatas.get(position);
-                mPresenter.checkGroupExist(groupBean.getId());
+                /*mPresenter.checkGroupExist(groupBean.getId());*/
+                if(null == EMClient.getInstance().chatManager().getConversation(groupBean.getId())){
+                    ChatInfoActivity.startChatInfoActivity(getContext(), groupBean.getId(), CHATTYPE_GROUP);
+                }else {
+                    ChatActivity.startChatActivity(getContext(),groupBean.getId(), EaseConstant.CHATTYPE_GROUP);
+                }
             }
 
             @Override

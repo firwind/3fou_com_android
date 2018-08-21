@@ -1247,6 +1247,7 @@
     <string name="chat_no_talking_silent">你已被禁言</string>
     <string name="chat_no_talking_had_destory">群组已解散</string>
 
+    <string name="chat_group_not_allow_anyone_enter">该群已禁止任何人加入！</string>
 
     <string name="only_number_or_letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 

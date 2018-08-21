@@ -81,10 +81,19 @@ public class UnReadNotificaitonBean {
         private String created_at;
         private String updated_at;
         private int unread_friend;
+        private int unread_group;
         /**
          * 系统消息未读数
          */
         private int system;
+
+        public int getUnread_group() {
+            return unread_group;
+        }
+
+        public void setUnread_group(int unread_group) {
+            this.unread_group = unread_group;
+        }
 
         public int getUnread_friend() {
             return unread_friend;

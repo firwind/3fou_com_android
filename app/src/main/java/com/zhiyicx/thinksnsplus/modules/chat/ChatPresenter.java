@@ -212,6 +212,10 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
                         super.onFailure(message, code);
                         if(code == 404)
                             mRootView.setTalkingState(false,mContext.getString(R.string.chat_no_talking_had_destory));
+                        else if(code == 405)
+                            mRootView.setTalkingState(false,mContext.getString(R.string.chat_no_talking_not_in_group));
+                        else//接口调用失败，不影响聊天
+                            mRootView.setTalkingState(true,"");
                     }
                 }));
     }

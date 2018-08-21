@@ -49,12 +49,7 @@ public class VerifyFriendOrGroupFragment extends TSFragment<VerifyFriendOrGroupC
     protected void setRightClick() {
         super.setRightClick();
 
-        if(TextUtils.isEmpty(mEtVerifyFriendsInfo.getText().toString())){
-            showSnackErrorMessage("请输入验证信息");
-            return;
-        }
-
-        mPresenter.addFriendOrGroup(isGroupVerify()?((ChatGroupBean)getArguments().getParcelable(IntentKey.GROUP_INFO)).getId():
+        mPresenter.addFriendOrGroup(isGroupVerify()?getArguments().getString(IntentKey.GROUP_ID):
                 getArguments().getString(IntentKey.USER_ID),mEtVerifyFriendsInfo.getText().toString());
 
     }
@@ -74,7 +69,7 @@ public class VerifyFriendOrGroupFragment extends TSFragment<VerifyFriendOrGroupC
 
     @Override
     protected String setCenterTitle() {
-        return getString(R.string.tv_add_friends);
+        return isGroupVerify()?"申请理由":getString(R.string.tv_add_friends);
     }
 
     @Override

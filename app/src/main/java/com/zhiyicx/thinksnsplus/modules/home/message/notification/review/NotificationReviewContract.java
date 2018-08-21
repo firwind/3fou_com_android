@@ -15,7 +15,7 @@ public interface NotificationReviewContract {
 
 
     interface View extends ITSListView<GroupOrFriendReviewBean,Presenter>{
-
+        boolean isFriendReview();
     }
 
     interface Presenter extends ITSListPresenter<GroupOrFriendReviewBean>{

@@ -267,4 +267,40 @@ public class TSEMessageUtils {
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(conversationId);
         conversation.removeMessage(msgId);
     }
+
+    /**
+     * 发送已经成为好友的消息
+     * @param userId
+     */
+    public static void sendAgreeFriendApplyMessage(String userId){
+        //创建会话，发送一条消息
+        EMClient.getInstance().chatManager().getConversation(userId,
+                EMConversation.EMConversationType.Chat, true);
+        EMMessage message = EMMessage.createTxtSendMessage("我们已经成为好友啦~来一起聊天吧", userId);
+        EMClient.getInstance().chatManager().sendMessage(message);
+        EMClient.getInstance().chatManager().saveMessage(message);
+    }
+
+
+    /**
+     * 保存退出群聊的信息到本地
+     * @param chatId
+     */
+    public static void saveExitGroupInLocal(String chatId){
+
+        //如果是自己退出了群聊，本地给自己发送一条消息
+        EMMessage message = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
+        message.addBody(new EMTextMessageBody("你已经退出了群聊"));
+        message.setTo(chatId);
+        message.setFrom("admin");
+        message.setChatType(EMMessage.ChatType.GroupChat);
+        message.setMsgTime(System.currentTimeMillis());
+        // 设置消息的扩展
+        message.setAttribute("type", TSEMConstants.TS_ATTR_JOIN);
+        message.setAttribute(TSEMConstants.TS_ATTR_JOIN, false);
+        message.setAttribute(TSEMConstants.TS_ATTR_EIXT, true);
+        EMClient.getInstance().chatManager().getConversation(chatId).insertMessage(message);
+
+    }
+
 }

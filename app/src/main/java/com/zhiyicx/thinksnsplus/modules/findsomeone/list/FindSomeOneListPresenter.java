@@ -137,7 +137,7 @@ public class FindSomeOneListPresenter extends AppBasePresenter<FindSomeOneListCo
 
     @Override
     public void addFriend(int index, UserInfoBean userInfoBean) {
-        mBaseFriendsRepository.addFriend(String.valueOf(userInfoBean.getUser_id()),null)
+        mBaseFriendsRepository.addFriend(String.valueOf(userInfoBean.getUser_id()))
                 .subscribe(new BaseSubscriberV3<String>(mRootView) {
                     @Override
                     protected void onSuccess(String data) {

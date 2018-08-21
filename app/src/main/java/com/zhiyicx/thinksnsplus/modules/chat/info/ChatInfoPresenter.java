@@ -14,6 +14,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.base.EmptySubscribe;
 import com.zhiyicx.thinksnsplus.config.DefaultUserInfoConfig;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
@@ -24,6 +25,7 @@ import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
+import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendOrGroupActivity;
 
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
@@ -89,28 +91,25 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
     @Override
     public void getIsInGroup() {
-        Observable.create(new Observable.OnSubscribe<Boolean>() {
-            @Override
-            public void call(rx.Subscriber<? super Boolean> subscriber) {
-                List<EMGroup> groupList = null;
-                try {
-                    groupList = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
-                } catch (HyphenateException e) {
-                    //e.printStackTrace();
-                }
-                boolean isInGroup = false;
-                if(null != groupList && groupList.size() > 0 ){
-                    for (EMGroup group:groupList) {
-                        if(group.getGroupId().equals(mRootView.getChatId())){
-                            isInGroup = true;
-                            break;
-                        }
+        Observable.create((Observable.OnSubscribe<Boolean>) subscriber -> {
+            List<EMGroup> groupList = null;
+            try {
+                groupList = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+            } catch (HyphenateException e) {
+                //e.printStackTrace();
+            }
+            boolean isInGroup = false;
+            if(null != groupList && groupList.size() > 0 ){
+                for (EMGroup group:groupList) {
+                    if(group.getGroupId().equals(mRootView.getChatId())){
+                        isInGroup = true;
+                        break;
                     }
                 }
-                subscriber.onNext(isInGroup);
-                subscriber.onCompleted();
-
             }
+            subscriber.onNext(isInGroup);
+            subscriber.onCompleted();
+
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<Boolean>() {
@@ -123,81 +122,69 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
     @Override
     public void destoryOrLeaveGroup(String chatId) {
-        Observable.just(chatId)
-                .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(Schedulers.io())
-                .flatMap(id -> {
-                    //群主
-                    if (isGroupOwner()) {
-                        // 解散群组
-                        return mRepository.deleteGroup(id)
-                                .map(s -> id);
-                    } else {
-                        if (mRootView.getIsInGroup()) {
-                            // 退群
-                            try {
-                                EMClient.getInstance().groupManager().leaveGroup(chatId);
-                            } catch (HyphenateException e) {
-                                //e.printStackTrace();
-                                return Observable.error(e);
-                            }
 
-                            //如果是自己退出了群聊，本地给自己发送一条消息
-                            EMMessage message = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
-                            message.addBody(new EMTextMessageBody("你已经退出了群聊"));
-                            message.setTo(chatId);
-                            message.setFrom("admin");
-                            message.setChatType(EMMessage.ChatType.GroupChat);
-                            message.setMsgTime(System.currentTimeMillis());
-                            // 设置消息的扩展
-                            message.setAttribute("type", TSEMConstants.TS_ATTR_JOIN);
-                            message.setAttribute(TSEMConstants.TS_ATTR_JOIN, false);
-                            message.setAttribute(TSEMConstants.TS_ATTR_EIXT, true);
-                            EMClient.getInstance().chatManager().getConversation(chatId).insertMessage(message);
+        if(null == mRootView.getGroupBean())
+            return;
 
-                            return mRepository.synExitGroup(chatId,mRootView.getGroupBean().getGroup_level())
-                                    .flatMap(s -> Observable.just(id))/*mRepository.removeGroupMember(mRootView.getGroupBean().getId(),
-                                    String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id()),
-                                    mRootView.getGroupBean().getGroup_level()).flatMap(o -> Observable.just(id))*/;
-                        } else {
-                            // 加群
-                            return mRepository.addGroupMember(mRootView.getGroupBean().getId(),
-                                    String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id())
-                                    , mRootView.getGroupBean().getGroup_level())
-                                    .flatMap(o -> Observable.just(id));
-                        }
-
-                    }
-
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscribeForV2<String>() {
-                    @Override
-                    protected void onSuccess(String data) {
-                        mRootView.dismissSnackBar();
-
-                        if (mRootView.getIsInGroup()) {
-                            //EMClient.getInstance().chatManager().deleteConversation(data, true);
-                            EventBus.getDefault().post(data, EVENT_IM_DELETE_QUIT);
+        mRootView.showSnackLoadingMessage("请稍后...");
+        if(isGroupOwner()){//解散群
+            mRepository.deleteGroup(chatId)
+                    .subscribe(new BaseSubscriberV3<String>(mRootView){
+                        @Override
+                        protected void onSuccess(String data) {
+                            super.onSuccess(data);
+                            EventBus.getDefault().post("解散群聊", EVENT_IM_DELETE_QUIT);
                             mRootView.closeCurrentActivity();
-                        } else {
+                        }
+                    });
+        }
+
+        if(mRootView.getIsInGroup()){//退群
+            Observable.just(chatId)
+                    .subscribeOn(Schedulers.io())
+                    .flatMap(s -> {
+                        // 退群
+                        try {
+                            EMClient.getInstance().groupManager().leaveGroup(chatId);
+                        } catch (HyphenateException e) {
+                            //e.printStackTrace();
+                            return Observable.error(e);
+                        }
+                        TSEMessageUtils.saveExitGroupInLocal(chatId);
+                        return mRepository.synExitGroup(chatId,mRootView.getGroupBean().getGroup_level());
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriberV3<String>(mRootView){
+                        @Override
+                        protected void onSuccess(String data) {
+                            super.onSuccess(data);
+                            EventBus.getDefault().post("退出群聊", EVENT_IM_DELETE_QUIT);
+                            mRootView.closeCurrentActivity();
+                        }
+                    });
+        }else {//加入群聊
+            mRepository.verifyEnterGroup(chatId,null,false)
+                    .subscribe(new BaseSubscriberV3<String>(mRootView){
+                        @Override
+                        protected void onSuccess(String data) {
+                            super.onSuccess(data);
                             mRootView.goChatActivity();
                         }
-                    }
 
-                    @Override
-                    protected void onException(Throwable throwable) {
-                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
-                    }
-
-                    @Override
-                    protected void onFailure(String message, int code) {
-                        super.onFailure(message, code);
-                        mRootView.showSnackErrorMessage(message);
-                    }
-                });
+                        @Override
+                        protected void onFailure(String message, int code) {
+                            //super.onFailure(message, code);
+                            mRootView.dismissSnackBar();
+                            if(code == 502){//等待验证
+                                VerifyFriendOrGroupActivity.startVerifyGroupActivity(mContext,chatId);
+                            }else if(code == 503){
+                                mRootView.showSnackErrorMessage(mContext.getString(R.string.chat_group_not_allow_anyone_enter));
+                            }else {
+                                super.onFailure(message,code);
+                            }
+                        }
+                    });
+        }
     }
 
     @Override

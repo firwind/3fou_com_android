@@ -1,6 +1,7 @@
 package com.zhiyicx.thinksnsplus.data.source.repository;
 
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.baseproject.em.manager.util.TSEMessageUtils;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -134,8 +136,19 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     }
 
     @Override
-    public Observable<String> addFriend(String user_id, String information) {
-        return mEasemobClient.addFriend(user_id,information)
+    public Observable<String> addFriend(String user_id) {
+        return mEasemobClient.addFriend(user_id,null,null)
+                .subscribeOn(Schedulers.io())
+                .map(s -> {
+                    //向对方发送一条已经成为好友的消息
+                    TSEMessageUtils.sendAgreeFriendApplyMessage(user_id);
+                    return s;
+                }).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> verifyAddFriend(String user_id, String information) {
+        return mEasemobClient.addFriend(user_id,information,"sure")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -148,15 +161,15 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     }
 
     @Override
-    public Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Integer maxId) {
+    public Observable<List<GroupOrFriendReviewBean>> getFriendReviewList(Long maxId) {
         return mEasemobClient.getFriendReviewList(TSListFragment.DEFAULT_PAGE_SIZE,maxId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Observable<String> reviewFriendApply(String id, int status) {
-        return mEasemobClient.reviewFriendApply(id,status)
+    public Observable<String> reviewFriendApply(String id, boolean isAgree) {
+        return mEasemobClient.reviewFriendApply(id,isAgree?1:2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
