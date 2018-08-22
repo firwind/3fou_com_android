@@ -6,6 +6,7 @@ import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
+import com.zhiyicx.thinksnsplus.data.beans.ExpandOfficialChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
@@ -114,6 +115,13 @@ public interface EasemobClient {
      */
     @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_OFFICIAL)
     Observable<List<ChatGroupBean>> getOfficialGroupInfo();
+
+    /**
+     * 获取带组织的官方群列表
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_GROUP_INFO_OFFICIAL_V2)
+    Observable<List<ExpandOfficialChatGroupBean>> getOfficialGroupInfoV2();
 
     /**
      * 获取用户加入的群组列表

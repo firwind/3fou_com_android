@@ -146,6 +146,7 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_INFO_S = "api/" + API_VERSION_2 + "/easemob/group";// 获取群信息
     public static final String APP_PATH_GET_GROUP_INFO_S_FACE = "api/" + API_VERSION_2 + "/easemob/groups";// 获取群信息,只返回群头像，
     public static final String APP_PATH_GET_GROUP_INFO_OFFICIAL = "api/" + API_VERSION_2 + "/easemob/group/getOfficialGroup";// 获取所有官方群
+    public static final String APP_PATH_GET_GROUP_INFO_OFFICIAL_V2 = "api/" + API_VERSION_2 + "/easemob/group/getOfficialGroupV2";// 获取所有官方群
     public static final String APP_PATH_GET_GROUP_INFO_S_FACE_V2 = "api/" + API_VERSION_2 + "/easemob/group/newGroupList";// 获取用户加入的群组列表
     public static final String APP_PATH_GET_GROUP_RECOMMEND = "api/" + API_VERSION_2 + "/group/randomquery";// 获取推荐群
     public static final String APP_PATH_GET_GROUP_SEARCE = "api/" + API_VERSION_2 + "/easemob/group/search";// 搜索群

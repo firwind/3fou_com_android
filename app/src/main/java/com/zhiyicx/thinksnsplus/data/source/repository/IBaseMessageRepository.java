@@ -4,6 +4,7 @@ import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatItemBean;
+import com.zhiyicx.thinksnsplus.data.beans.ExpandOfficialChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
@@ -151,5 +152,11 @@ public interface IBaseMessageRepository {
      * @return
      */
     Observable<ChatGroupBean> getChickIsAddGroup(String group_id);
+
+    /**
+     * 获取带组织的官方群列表
+     * @return
+     */
+    Observable<List<ExpandOfficialChatGroupBean>> getOfficialGroupListV2();
 
 }

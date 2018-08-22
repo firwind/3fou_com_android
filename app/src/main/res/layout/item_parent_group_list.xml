@@ -21,7 +21,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:textColor="@color/text_title"
-        android:textSize="@dimen/size_rank_number"
+        android:textSize="@dimen/sp16"
         tools:text="官方群聊" />
 
     <TextView

@@ -28,7 +28,8 @@
             android:gravity="top"
             android:padding="@dimen/dp10"
             android:textColor="@color/video_window_background"
-            android:textSize="@dimen/margin_14" />
+            android:textSize="@dimen/margin_14"
+            android:maxLength="20"/>
 
     </LinearLayout>
 </com.wcy.overscroll.OverScrollLayout>

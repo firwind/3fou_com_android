@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.home.message.messagegroup.newgroup;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,7 +19,9 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupParentBean;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
+import com.zhiyicx.thinksnsplus.modules.chat.info.ChatInfoActivity;
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 import com.zhiyicx.thinksnsplus.widget.TSSearchView;
 
@@ -44,10 +47,6 @@ import butterknife.BindView;
 public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessageGroupContract.Presenter,GroupParentBean>
         implements NewMessageGroupContract.View{
 
-    @BindView(R.id.searchView)
-    TSSearchView mSearchView;
-    private List<GroupParentBean> cache = new ArrayList<>();
-
     @Inject
     public NewMessageGroupPresenter mPresenter;
 
@@ -56,10 +55,11 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
         return true;
     }
 
-    public static NewMessageGroupListFragment newInstance() {
+    public static NewMessageGroupListFragment newInstance(boolean isOnlyOfficial) {
         NewMessageGroupListFragment fragment = new NewMessageGroupListFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IntentKey.IS_ONLY_OFFICIAL,isOnlyOfficial);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -72,18 +72,20 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
                 .newMessageGroupPresenterModule(new NewMessageGroupPresenterModule(this))
                 .build()
                 .inject(this);
+
         super.initView(rootView);
 
-        //去掉自带的箭头
-        //mSearchView.setVisibility(View.VISIBLE);
-//        mLvList.setGroupIndicator(null);
+        rootView.setBackgroundColor(Color.WHITE);
         mLvList.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-//            mPresenter.checkGroupExist(mListDatas.get(groupPosition).childs.get(childPosition));
-            //checkGroupExist(mListDatas.get(groupPosition).childs.get(childPosition).getId());
-            EMConversation conversation = EMClient.getInstance().chatManager().getConversation(
-                    mListDatas.get(groupPosition).childs.get(childPosition).getId(),
-                    EMConversation.EMConversationType.GroupChat, true);
-            ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
+            String groupId = mListDatas.get(groupPosition).childs.get(childPosition).getId();
+            if(null == EMClient.getInstance().groupManager().getGroup(groupId)){
+                ChatInfoActivity.startChatInfoActivity(mActivity,groupId,EaseConstant.CHATTYPE_GROUP);
+            }else {
+                EMConversation conversation = EMClient.getInstance().chatManager().getConversation(
+                        groupId, EMConversation.EMConversationType.GroupChat, true);
+                ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
+            }
+
             return false;
         });
     }
@@ -119,37 +121,9 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
     }
 
     @Override
-    protected void initData() {
-        super.initData();
-        initListener();
-    }
-
-    /*@Override
-    protected boolean isLayzLoad() {
-        return true;
-    }*/
-
-    @Override
     public void onResume() {
         super.onResume();
-
-        if (mPresenter != null) {
-            if (mListDatas.isEmpty()) {
-                mRefreshlayout.autoRefresh(0);
-            } else {
-                mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
-            }
-        }
-        /*if (getUserVisibleHint() && !TextUtils.isEmpty(mSearchView.getText())) {
-            mSearchView.setText("");
-        }*/
-    }
-
-    @Override
-    public void onNetResponseSuccess(@NotNull List<GroupParentBean> data, boolean isLoadMore) {
-        super.onNetResponseSuccess(data, isLoadMore);
-        cache.clear();
-        cache.addAll(data);
+        getGroupListData();
     }
 
     @Override
@@ -158,21 +132,17 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
         return mAdapter;
     }
 
-    /*@Override
-    public void checkGroupExist(String id) {
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(id, EMConversation.EMConversationType.GroupChat, true);
-        ChatActivity.startChatActivity(mActivity, conversation.conversationId(), EaseConstant.CHATTYPE_GROUP);
-//            mActivity.finish();
-    }*/
-
-    @Override
-    protected int getBodyLayoutId() {
-        return R.layout.fragment_expand_tslist_with_search;
-    }
-
-    @Override
-    public String getsearchKeyWord() {
-        return mSearchView.getText().toString().trim();
+    /**
+     * 获取群列表
+     */
+    private void getGroupListData() {
+        if (mPresenter != null) {
+            if (mListDatas.isEmpty()) {
+                mRefreshlayout.autoRefresh(0);
+            } else {
+                mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
+            }
+        }
     }
 
     @Subscriber(mode = ThreadMode.MAIN)
@@ -195,73 +165,8 @@ public class NewMessageGroupListFragment extends TSExpandListFragment<NewMessage
     }
 
 
-    private void initListener() {
-
-        mSearchView.setOnSearchClickListener(new TSSearchView.OnSearchClickListener() {
-            @Override
-            public void onSearchClick(View view) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mPresenter == null) {
-                    return;
-                }
-                filterData(s.toString().trim());
-            }
-        });
+    @Override
+    public boolean isOnlyOfficial() {
+        return null != getArguments() && getArguments().getBoolean(IntentKey.IS_ONLY_OFFICIAL,false);
     }
-
-    /**
-     * 获取
-     *
-     * @param filterStr
-     */
-    private void filterData(CharSequence filterStr) {
-        if (cache.isEmpty()) {
-            return;
-        }
-        if (TextUtils.isEmpty(filterStr)) {
-            mListDatas.clear();
-            mListDatas.addAll(cache);
-        } else {
-            List<GroupParentBean> result = new ArrayList<>();
-            for (GroupParentBean parentBean : cache) {
-                List<ChatGroupBean> childResult = new ArrayList<>();
-                for (ChatGroupBean sortModel: parentBean.childs) {
-                    String name = sortModel.getName();
-                    boolean isContent = !TextUtils.isEmpty(name) && name.toLowerCase().contains(filterStr.toString().toLowerCase());
-                    if (isContent) {
-                        childResult.add(sortModel);
-                    }
-                }
-                String title ;
-                if(cache.indexOf(parentBean) == 0){
-                    title = "官方群聊";
-                }else if(cache.indexOf(parentBean) == 1){
-                    title = "热门群聊";
-                }else {
-                    title = "自建群聊";
-                }
-                result.add(new GroupParentBean(title,childResult));
-            }
-            mListDatas.clear();
-            mListDatas.addAll(result);
-        }
-        refreshData();
-        if (mListDatas.isEmpty()) {
-            setEmptyViewVisiable(false);
-        }
-    }
-
-    /**
-     * 获取群列表
-     */
-    private void getGroupListData() {
-        if (mPresenter != null) {
-            mRefreshlayout.autoRefresh(0);
-        }
-    }
-
 }

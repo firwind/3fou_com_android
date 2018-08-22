@@ -163,7 +163,7 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 ChatGroupServerBean groupBean = mListDatas.get(position);
                 /*mPresenter.checkGroupExist(groupBean.getId());*/
-                if(null == EMClient.getInstance().chatManager().getConversation(groupBean.getId())){
+                if(null == EMClient.getInstance().groupManager().getGroup(groupBean.getId())){
                     ChatInfoActivity.startChatInfoActivity(getContext(), groupBean.getId(), CHATTYPE_GROUP);
                 }else {
                     ChatActivity.startChatActivity(getContext(),groupBean.getId(), EaseConstant.CHATTYPE_GROUP);

@@ -22,6 +22,7 @@ public interface IntentKey {
 
     String IS_SELECT = "is_select";//是否选择
 
+    String IS_ONLY_OFFICIAL = "is_only_official";//是否只显示官方群
 
     String IS_GET_SCAN_RESULT = "is_get_scan_result";
 

@@ -12,13 +12,13 @@ import com.zhiyicx.baseproject.base.SystemConfigBean;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.common.base.BaseJsonV2;
-import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatItemBean;
+import com.zhiyicx.thinksnsplus.data.beans.ExpandOfficialChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageGroupAlbumBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.NoticeItemBean;
@@ -40,7 +40,6 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -435,7 +434,8 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     @Override
     public Observable<ExpandChatGroupBean> getGroupInfoOnlyGroupFaceV2() {
         return mClient.getGroupInfoOnlyGroupFaceV2()
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -554,6 +554,13 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     @Override
     public Observable<ChatGroupBean> getChickIsAddGroup(String group_id) {
         return mClient.getChickIsAddGroup(group_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<ExpandOfficialChatGroupBean>> getOfficialGroupListV2() {
+        return mClient.getOfficialGroupInfoV2()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

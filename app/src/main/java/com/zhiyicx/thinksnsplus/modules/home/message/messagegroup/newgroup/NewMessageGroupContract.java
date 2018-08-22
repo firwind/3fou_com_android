@@ -14,11 +14,10 @@ import com.zhiyicx.thinksnsplus.data.beans.GroupParentBean;
 public interface NewMessageGroupContract {
 
     interface View extends ITSListView<GroupParentBean,Presenter>{
-        String getsearchKeyWord();
-        //void checkGroupExist(String id);
+        boolean isOnlyOfficial();
     }
 
     interface Presenter extends ITSListPresenter<GroupParentBean>{
-        //void checkGroupExist(ChatGroupBean chatGroupBean);
+
     }
 }

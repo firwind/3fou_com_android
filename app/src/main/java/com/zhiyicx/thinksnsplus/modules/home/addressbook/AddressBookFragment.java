@@ -126,7 +126,7 @@ public class AddressBookFragment extends TSViewPagerFragment {
         if (mFragmentList == null) {
             mFragmentList = new ArrayList();
             mFragmentList.add(MyFriendsListFragment.newInstance());
-            mFragmentList.add(/*MessageGroupListFragment.newInstance()*/NewMessageGroupListFragment.newInstance());
+            mFragmentList.add(/*MessageGroupListFragment.newInstance()*/NewMessageGroupListFragment.newInstance(false));
             mFragmentList.add(ContactsFragment.newInstance());
         }
         return mFragmentList;
