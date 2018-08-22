@@ -189,6 +189,7 @@ public class EventBusTagConfig {
     public static final String EVENT_IM_GET_GROUP_INFO = "getChatGroupInfo";
     public static final String EVENT_IM_GROUP_EDIT_NAME = "group_edit_name";
     public static final String EVENT_IM_DELETE_QUIT = "group_quit";
+    public static final String EVENT_IM_COMMUNITY = "group_community";
 
     public static final String EVENT_IM_GROUP_UPDATE_INFO = "group_update_info";
     public static final String EVENT_IM_GROUP_CREATE_FROM_SINGLE = "group_create_from_single";

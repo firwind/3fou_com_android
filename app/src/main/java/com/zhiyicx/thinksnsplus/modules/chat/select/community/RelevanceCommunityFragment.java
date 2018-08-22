@@ -34,6 +34,8 @@ import com.zhiyicx.thinksnsplus.modules.circle.create.CreateCircleActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import org.simple.eventbus.EventBus;
+
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -42,6 +44,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
+import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_COMMUNITY;
+import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_DELETE_QUIT;
 import static com.zhiyicx.thinksnsplus.i.IntentKey.GROUP_ID;
 
 public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunityContract.Presenter, CircleInfo> implements RelevanceCommunityContract.View {
@@ -143,11 +147,17 @@ public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunit
     }
 
     @Override
+    protected boolean useEventBus() {
+        return super.useEventBus();
+    }
+
+    @Override
     protected void snackViewDismissWhenTimeOut(Prompt prompt) {
         super.snackViewDismissWhenTimeOut(prompt);
         if (prompt == Prompt.SUCCESS) {
             getActivity().finish();
         }
+        EventBus.getDefault().post("跟新社区", EVENT_IM_COMMUNITY);
     }
     @Override
     protected void initView(View rootView) {

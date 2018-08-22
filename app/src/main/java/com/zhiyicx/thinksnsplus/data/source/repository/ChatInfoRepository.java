@@ -9,6 +9,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
+import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
@@ -140,6 +141,13 @@ public class ChatInfoRepository extends BaseFriendsRepository implements ChatInf
     @Override
     public Observable<BaseJsonV2<Boolean>> getTalkingState(String groupId) {
         return mEasemobClient.getTalkingState(groupId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<CircleInfo> getCommunityInfo(String groupId) {
+        return mEasemobClient.getGroupCommunity(groupId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

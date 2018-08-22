@@ -5,6 +5,7 @@ import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupNewBean;
+import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
 import com.zhiyicx.thinksnsplus.data.beans.GroupHankBean;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
@@ -170,6 +171,8 @@ public interface ChatInfoContract {
         Observable<String> reportGroup(String userId, String groupId, String reason, String tel);
         //获取群说话权限
         Observable<BaseJsonV2<Boolean>> getTalkingState(String groupId);
+
+        Observable<CircleInfo> getCommunityInfo(String groupId);
         //设置群隐私权限
         Observable<String> setGroupPrivacy(String groupId,int state);
         //提交验证信息

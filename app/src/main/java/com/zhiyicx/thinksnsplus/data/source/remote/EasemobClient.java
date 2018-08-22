@@ -402,7 +402,6 @@ public interface EasemobClient {
     @GET(ApiConfig.APP_PATH_GET_TALKING_STATE)
     Observable<BaseJsonV2<Boolean>> getTalkingState(@Query("im_group_id") String groupId);
 
-
     /**
      * 设置加好友方式
      *
@@ -548,4 +547,13 @@ public interface EasemobClient {
      */
     @POST(ApiConfig.APP_PATH_RELEVANCE_COMMUNITY)
     Observable<String> relevanceCommunity(@Query("im_group_id") String groupId, @Query("community_id") long communityId);
+    /**
+     * 关联社区
+     *
+     * @param
+     * @param
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_RELEVANCE_COMMUNITY)
+    Observable<CircleInfo> getGroupCommunity(@Query("im_group_id") String groupId);
 }

@@ -5,6 +5,7 @@ import com.zhiyicx.baseproject.em.manager.eventbus.TSEMRefreshEvent;
 import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public interface ChatContract {
         void updateUserInfo(UserInfoBean userInfoBean);
 
         void updateChatGroupInfo(ChatGroupBean chatGroupBean);
+
+        void getCommunityInfo(CircleInfo data);
+        void getCommunityError();
     }
 
     interface Presenter extends IBasePresenter {
@@ -68,5 +72,7 @@ public interface ChatContract {
         //获取当前用户信息的
         void getCurrentTalkingState(String groupId);
 
+        //获取社区信息
+        void getCommunityInfo(String groupId);
     }
 }

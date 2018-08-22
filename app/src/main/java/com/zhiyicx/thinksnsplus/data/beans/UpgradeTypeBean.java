@@ -79,7 +79,7 @@ public class UpgradeTypeBean implements Parcelable{
         this.obligate = obligate;
     }
 
-    public Object getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
@@ -87,7 +87,7 @@ public class UpgradeTypeBean implements Parcelable{
         this.created_at = created_at;
     }
 
-    public Object getUpdated_at() {
+    public String getUpdated_at() {
         return updated_at;
     }
 
@@ -95,7 +95,7 @@ public class UpgradeTypeBean implements Parcelable{
         this.updated_at = updated_at;
     }
 
-    public Object getDeleted_at() {
+    public String getDeleted_at() {
         return deleted_at;
     }
 
@@ -244,6 +244,9 @@ public class UpgradeTypeBean implements Parcelable{
         };
     }
 
+    public UpgradeTypeBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -259,11 +262,8 @@ public class UpgradeTypeBean implements Parcelable{
         dest.writeString(this.created_at);
         dest.writeString(this.updated_at);
         dest.writeString(this.deleted_at);
-        dest.writeList(this.taocan_data);
-        dest.writeList(this.zhekou_data);
-    }
-
-    public UpgradeTypeBean() {
+        dest.writeTypedList(this.taocan_data);
+        dest.writeTypedList(this.zhekou_data);
     }
 
     protected UpgradeTypeBean(Parcel in) {
@@ -272,13 +272,11 @@ public class UpgradeTypeBean implements Parcelable{
         this.preferentia_policy = in.readString();
         this.price = in.readInt();
         this.obligate = in.readString();
-        this.created_at = in.readParcelable(Object.class.getClassLoader());
-        this.updated_at = in.readParcelable(Object.class.getClassLoader());
-        this.deleted_at = in.readParcelable(Object.class.getClassLoader());
-        this.taocan_data = new ArrayList<TaocanDataBean>();
-        in.readList(this.taocan_data, TaocanDataBean.class.getClassLoader());
-        this.zhekou_data = new ArrayList<ZhekouDataBean>();
-        in.readList(this.zhekou_data, ZhekouDataBean.class.getClassLoader());
+        this.created_at = in.readString();
+        this.updated_at = in.readString();
+        this.deleted_at = in.readString();
+        this.taocan_data = in.createTypedArrayList(TaocanDataBean.CREATOR);
+        this.zhekou_data = in.createTypedArrayList(ZhekouDataBean.CREATOR);
     }
 
     public static final Creator<UpgradeTypeBean> CREATOR = new Creator<UpgradeTypeBean>() {

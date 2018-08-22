@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -19,8 +20,10 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMGroup;
@@ -45,6 +48,8 @@ import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
 import com.zhiyicx.baseproject.widget.popwindow.NoticePopupWindow;
 import com.zhiyicx.baseproject.widget.popwindow.PermissionPopupWindow;
 import com.zhiyicx.common.utils.AndroidBug5497Workaround;
+import com.zhiyicx.common.utils.ColorPhrase;
+import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.common.utils.TimeUtils;
 import com.zhiyicx.common.utils.ToastUtils;
@@ -56,6 +61,7 @@ import com.zhiyicx.thinksnsplus.base.TSEaseChatFragment;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.config.JpushMessageTypeConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
 import com.zhiyicx.thinksnsplus.data.beans.JpushMessageBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.call.BaseCallActivity;
@@ -71,6 +77,7 @@ import com.zhiyicx.thinksnsplus.modules.chat.item.presenter.TSChatVideoPresenter
 import com.zhiyicx.thinksnsplus.modules.chat.item.presenter.TSChatVoicePresenter;
 import com.zhiyicx.thinksnsplus.modules.chat.location.SendLocationActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.video.ImageGridActivity;
+import com.zhiyicx.thinksnsplus.modules.circle.detailv2.CircleDetailActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.managergroup.notice.NoticeManagerActivity;
 import com.zhiyicx.thinksnsplus.utils.NotificationUtil;
 import com.zhiyicx.thinksnsplus.widget.chat.TSChatInputMenu;
@@ -137,7 +144,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     CardView mCardCommunity;
 
     Unbinder unbinder;
-
+    View mView;
     private ActionPopupWindow mActionPopupWindow;
 
 
@@ -192,15 +199,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
             AndroidBug5497Workaround.assistActivity(mActivity);
         }
-        /*View inflateView = LayoutInflater.from(getContext()).inflate(R.layout.item_chat_community, mFrameLayout, false);
-        mFrameLayout.addView(inflateView);
-        ImageView mCloseView = (ImageView) rootView.findViewById(R.id.iv_close_community);
-        mCloseView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFrameLayout.removeView(inflateView);
-            }
-        });*/
+
     }
 
     @Override
@@ -255,12 +254,12 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             mPresenter.getUserInfoFromServer();
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
             setCenterText(mPresenter.getChatGroupName());
-            mCardCommunity.setVisibility(View.VISIBLE);//显示频道
+
             /*if(null == EMClient.getInstance().groupManager().getGroup(toChatUsername))
                 setToolBarRightImage(0);*/
             //获取禁言状态
             mPresenter.getCurrentTalkingState(toChatUsername);
-
+            mPresenter.getCommunityInfo(toChatUsername);
         }
         if (chatType != EaseConstant.CHATTYPE_CHATROOM) {
             onConversationInit();
@@ -306,6 +305,55 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     public void updateChatGroupInfo(ChatGroupBean chatGroupBean) {
         if(null != chatGroupBean)
             setCenterText(mPresenter.getChatGroupName());
+    }
+
+    @Override
+    public void getCommunityInfo(CircleInfo data) {
+
+        if (data!=null) {
+            mCardCommunity.setVisibility(View.VISIBLE);//显示频道
+            ImageView mCloseView = (ImageView) mCardCommunity.findViewById(R.id.iv_close_community);
+            // 封面
+            ImageView mCircleCover = (ImageView) mCardCommunity.findViewById(R.id.iv_circle_cover);
+            TextView mCommunityName = (TextView) mCardCommunity.findViewById(R.id.tv_circle_name);
+            TextView mShareNum = (TextView) mCardCommunity.findViewById(R.id.tv_circle_feed_count);
+            TextView mFollow = (TextView) mCardCommunity.findViewById(R.id.tv_circle_follow_count);
+            TextView mRurnInfo = (TextView) mCardCommunity.findViewById(R.id.tv_turn_into);
+            // 设置封面
+            Glide.with(getContext())
+                    .load(data.getAvatar())
+                    .error(R.drawable.shape_default_image)
+                    .placeholder(R.drawable.shape_default_image)
+                    .into(mCircleCover);
+            mCommunityName.setText(data.getName());
+            String feedCountNumber = ConvertUtils.numberConvert(data.getPosts_count());
+            String feedContent = getContext().getString(R.string.circle_post) + " " + "<" +
+                    feedCountNumber + ">";
+            CharSequence feedString = ColorPhrase.from(feedContent).withSeparator("<>")
+                    .innerColor(ContextCompat.getColor(getContext(), R.color.themeColor))
+                    .outerColor(ContextCompat.getColor(getContext(), R.color.normal_for_assist_text))
+                    .format();
+            mShareNum.setText(feedString);
+            // 设置订阅人数
+            String followCountNumber = ConvertUtils.numberConvert(data.getUsers_count());
+            String followContent = getContext().getString(R.string.circle_member) + " " + "<" +
+                    followCountNumber + ">";
+            CharSequence followString = ColorPhrase.from(followContent).withSeparator("<>")
+                    .innerColor(ContextCompat.getColor(getContext(), R.color.themeColor))
+                    .outerColor(ContextCompat.getColor(getContext(), R.color.normal_for_assist_text))
+                    .format();
+            mFollow.setText(followString);
+            mCloseView.setOnClickListener(v -> mCardCommunity.setVisibility(View.GONE));
+            mRurnInfo.setOnClickListener(v -> CircleDetailActivity.startCircleDetailActivity(getContext(),data.getId()));
+
+        }else {
+            mCardCommunity.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getCommunityError() {
+        mCardCommunity.setVisibility(View.GONE);
     }
 
     @Override
@@ -792,6 +840,10 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         mActivity.finish();
     }
 
+    @Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_IM_COMMUNITY)
+    public void updateCommunityInfo(String str){
+        mPresenter.getCommunityInfo(toChatUsername);
+    }
     /*@Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_IM_GROUP_CREATE_FROM_SINGLE)
     public void closeCurrent(ChatGroupBean chatGroupBean) {
         if (!chatGroupBean.getId().equals(toChatUsername)) {
@@ -863,7 +915,6 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                 break;
         }
     }
-
 
     private void initPermissionPopUpWindow(String item1) {
         mActionPopupWindow = PermissionPopupWindow.builder()

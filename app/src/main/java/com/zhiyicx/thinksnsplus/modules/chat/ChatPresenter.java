@@ -12,6 +12,7 @@ import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
@@ -71,13 +72,13 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
     public String getChatGroupName() {
         //这里拿环信的group人数信息，这样子人数每次都是最新的
 
-        if(null != mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId())){
-            return String.format("%s(%s)",mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId()).getName(),
+        if (null != mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId())) {
+            return String.format("%s(%s)", mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId()).getName(),
                     mChatGroupBeanGreenDao.getChatGroupBeanById(mRootView.getChatId()).getAffiliations_count());
-        }else if(null != EMClient.getInstance().groupManager().getGroup(mRootView.getChatId())){
-            return String.format("%s(%s)",EMClient.getInstance().groupManager().getGroup(mRootView.getChatId()).getGroupName(),
+        } else if (null != EMClient.getInstance().groupManager().getGroup(mRootView.getChatId())) {
+            return String.format("%s(%s)", EMClient.getInstance().groupManager().getGroup(mRootView.getChatId()).getGroupName(),
                     EMClient.getInstance().groupManager().getGroup(mRootView.getChatId()).getMemberCount());
-        }else {
+        } else {
             return "该群已解散";
         }
     }
@@ -140,7 +141,7 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
                 .subscribe(new BaseSubscribeForV2<List<UserInfoBean>>() {
                     @Override
                     protected void onSuccess(List<UserInfoBean> data) {
-                        if(null != data && data.size() > 0)
+                        if (null != data && data.size() > 0)
                             mRootView.updateUserInfo(data.get(0));
                     }
                 });
@@ -172,10 +173,10 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
         }
         Subscription subscription = mBaseFriendsRepository.updateGroup(chatGroupBean.getId(), chatGroupBean.getName(), chatGroupBean.getDescription
                         (), 1, 200, chatGroupBean.isMembersonly(),
-                0, chatGroupBean.getGroup_face(), false, "",chatGroupBean.getGroup_level())
+                0, chatGroupBean.getGroup_face(), false, "", chatGroupBean.getGroup_level())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("修改中..."))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriberV3<ChatGroupBean>(mRootView){
+                .subscribe(new BaseSubscriberV3<ChatGroupBean>(mRootView) {
 
                     @Override
                     protected void onSuccess(ChatGroupBean data) {
@@ -204,20 +205,37 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
                 .subscribe(new BaseSubscribeForV2<BaseJsonV2<Boolean>>() {
                     @Override
                     protected void onSuccess(BaseJsonV2<Boolean> data) {
-                        if(null != data){
-                            mRootView.setTalkingState(data.getData(),mContext.getString(R.string.chat_no_talking_silent));
+                        if (null != data) {
+                            mRootView.setTalkingState(data.getData(), mContext.getString(R.string.chat_no_talking_silent));
                         }
                     }
 
                     @Override
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);
-                        if(code == 404)
-                            mRootView.setTalkingState(false,mContext.getString(R.string.chat_no_talking_had_destory));
-                        else if(code == 405)
-                            mRootView.setTalkingState(false,mContext.getString(R.string.chat_no_talking_not_in_group));
+                        if (code == 404)
+                            mRootView.setTalkingState(false, mContext.getString(R.string.chat_no_talking_had_destory));
+                        else if (code == 405)
+                            mRootView.setTalkingState(false, mContext.getString(R.string.chat_no_talking_not_in_group));
                         else//接口调用失败，不影响聊天
-                            mRootView.setTalkingState(true,"");
+                            mRootView.setTalkingState(true, "");
+                    }
+                }));
+    }
+
+    @Override
+    public void getCommunityInfo(String groupId) {
+        addSubscrebe(mRepository.getCommunityInfo(groupId)
+                .subscribe(new BaseSubscribeForV2<CircleInfo>(){
+                    @Override
+                    protected void onSuccess(CircleInfo data) {
+                        mRootView.getCommunityInfo(data);
+                    }
+
+                    @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.getCommunityError();
                     }
                 }));
     }
@@ -255,7 +273,7 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
                 .subscribe(new BaseSubscribeForV2<List<Object>>() {
                     @Override
                     protected void onSuccess(List<Object> data) {
-                        if(null != data)
+                        if (null != data)
                             mRootView.handleNotRoamingMessageWithUserInfo();
                     }
                 });
