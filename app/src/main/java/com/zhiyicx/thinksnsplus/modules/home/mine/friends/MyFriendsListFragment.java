@@ -151,6 +151,11 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
         refreshData();
     }
 
+    @Override
+    public boolean isHasParentFragment() {
+        return null != getParentFragment();
+    }
+
     /*@Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK)
     public void updateStick(int stick) {
         mPresenter.requestCacheData(0L, false);

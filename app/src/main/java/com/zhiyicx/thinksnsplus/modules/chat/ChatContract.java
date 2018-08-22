@@ -35,7 +35,7 @@ public interface ChatContract {
 
     interface Presenter extends IBasePresenter {
 
-        //是否是小助手
+        //聊天对象或者本人是否是前链小助手
         boolean isImHelper();
 
         String getChatGroupName();

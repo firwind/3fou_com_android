@@ -158,6 +158,10 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                         @Override
                         protected void onSuccess(String data) {
                             super.onSuccess(data);
+
+                            TSEMessageUtils.sendEixtGroupMessage(mRootView.getChatId(),
+                                    mRootView.getGroupBean().getName(),TSEMConstants.TS_ATTR_GROUP_EXIT);
+
                             EventBus.getDefault().post("退出群聊", EVENT_IM_DELETE_QUIT);
                             mRootView.closeCurrentActivity();
                         }
@@ -175,7 +179,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                         protected void onFailure(String message, int code) {
                             //super.onFailure(message, code);
                             mRootView.dismissSnackBar();
-                            if(code == 502){//等待验证
+                            if(code == 504){//等待验证
                                 VerifyFriendOrGroupActivity.startVerifyGroupActivity(mContext,chatId);
                             }else if(code == 503){
                                 mRootView.showSnackErrorMessage(mContext.getString(R.string.chat_group_not_allow_anyone_enter));

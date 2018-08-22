@@ -430,6 +430,20 @@
                     android:text="@string/chat_info_upgrade"
                     android:textColor="@color/important_for_content"
                     android:textSize="@dimen/size_content" />
+
+                <TextView
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:visibility="gone"
+                    android:id="@+id/tv_privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/chat_info_header_view_width"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid"
+                    android:text="隐私设置"
+                    android:textColor="@color/important_for_content"
+                    android:textSize="@dimen/size_content" />
+
                 <!--更换组织-->
                 <LinearLayout
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -444,18 +458,6 @@
                     android:paddingRight="@dimen/spacing_mid"
                     android:paddingTop="@dimen/spacing_mid">
 
-                <TextView
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:visibility="gone"
-                    android:id="@+id/tv_privacy"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/chat_info_header_view_width"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/spacing_mid"
-                    android:text="隐私设置"
-                    android:textColor="@color/important_for_content"
-                    android:textSize="@dimen/size_content" />
 
                     <TextView
                         android:layout_width="0dp"

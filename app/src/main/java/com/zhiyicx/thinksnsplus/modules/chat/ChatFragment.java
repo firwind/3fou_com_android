@@ -9,6 +9,7 @@ import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -132,6 +133,8 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     private static final int ITEM_VIDEO_CALL_TS = 36;
     @BindView(R.id.input_menu)
     TSChatInputMenu inputMenu;
+    @BindView(R.id.card_community)
+    CardView mCardCommunity;
 
     Unbinder unbinder;
 
@@ -189,7 +192,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
             AndroidBug5497Workaround.assistActivity(mActivity);
         }
-        View inflateView = LayoutInflater.from(getContext()).inflate(R.layout.item_chat_community, mFrameLayout, false);
+        /*View inflateView = LayoutInflater.from(getContext()).inflate(R.layout.item_chat_community, mFrameLayout, false);
         mFrameLayout.addView(inflateView);
         ImageView mCloseView = (ImageView) rootView.findViewById(R.id.iv_close_community);
         mCloseView.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +200,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             public void onClick(View v) {
                 mFrameLayout.removeView(inflateView);
             }
-        });
+        });*/
     }
 
     @Override
@@ -252,8 +255,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
             mPresenter.getUserInfoFromServer();
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
             setCenterText(mPresenter.getChatGroupName());
-            if(null == EMClient.getInstance().groupManager().getGroup(toChatUsername))
-                setToolBarRightImage(0);
+            mCardCommunity.setVisibility(View.VISIBLE);//显示频道
+            /*if(null == EMClient.getInstance().groupManager().getGroup(toChatUsername))
+                setToolBarRightImage(0);*/
             //获取禁言状态
             mPresenter.getCurrentTalkingState(toChatUsername);
 
@@ -283,8 +287,11 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
      */
     @Override
     public void setTalkingState(boolean isTalking,String content) {
-        ((EaseChatPrimaryMenu)inputMenu.getPrimaryMenu()).setTalkingState(
-                isTalking||mPresenter.isImHelper(), content);
+        if(chatType == EaseConstant.CHATTYPE_SINGLE){
+            ((EaseChatPrimaryMenu)inputMenu.getPrimaryMenu()).setTalkingState(isTalking||mPresenter.isImHelper(), content);
+        }else {
+            ((EaseChatPrimaryMenu)inputMenu.getPrimaryMenu()).setTalkingState(isTalking, content);
+        }
     }
 
     @Override
@@ -337,9 +344,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
     @Override
     protected void setRightClick() {
-        if(chatType == EaseConstant.CHATTYPE_GROUP &&
+        /*if(chatType == EaseConstant.CHATTYPE_GROUP &&
                 null == EMClient.getInstance().groupManager().getGroup(toChatUsername))
-            return;
+            return;*/
         toGroupDetails();
     }
 

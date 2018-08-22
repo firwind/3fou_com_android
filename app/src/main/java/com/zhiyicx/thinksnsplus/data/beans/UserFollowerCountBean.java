@@ -31,6 +31,8 @@ public class UserFollowerCountBean {
         public static final String MESSAGE_TYPE_FOLLOWING = "following";
         public static final String MESSAGE_TYPE_MUTUAL = "mutual";
         public static final String MESSAGE_TYPE_LIKED = "liked";
+        public static final String MESSAGE_TYPE_FRIEND = "friend";
+        public static final String MESSAGE_TYPE_GROUP = "group";
         public static final String MESSAGE_TYPE_COMMENTED = "commented";
         public static final String MESSAGE_TYPE_SYSTEM = "system";
         public static final String MESSAGE_TYPE_NEWS_COMMENT_PINNED = "news-comment-pinned";

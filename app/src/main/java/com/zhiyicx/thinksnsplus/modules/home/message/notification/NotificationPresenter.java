@@ -218,7 +218,8 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
 
             groupReview.setNotification(String.format("%s申请加入群聊[%s]",
                     t1.getGroupChecks().get(0).getUser().getName(),t1.getGroupChecks().get(0).getGroup().getName()));
-            groupReview.setTime(TimeUtils.utc2LocalLong(t1.getGroupChecks().get(0).getTime()));
+            //字段未返回，暂时弄成0L
+            groupReview.setTime(0L/*TimeUtils.utc2LocalLong(t1.getGroupChecks().get(0).getTime())*/);
         }else {
             groupReview.setNotification("暂无审核申请");
             groupReview.setTime(0L);

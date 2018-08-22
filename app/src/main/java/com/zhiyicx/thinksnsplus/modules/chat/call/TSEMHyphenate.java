@@ -888,13 +888,13 @@ public class TSEMHyphenate {
             public void onUserRemoved(String groupId, String groupName) {
 
                 //如果是被管理员移除了群聊，本地给自己发送一条消息
-                EMMessage message = TSEMessageUtils.createLocalMessageFromAdmin("你已被管理员移出了群聊",groupId,
+                /*EMMessage message = TSEMessageUtils.createLocalMessageFromAdmin("你已被管理员移出了群聊",groupId,
                         TSEMConstants.TS_ATTR_JOIN);
                 message.setAttribute("type", TSEMConstants.TS_ATTR_GROUP_LAYOFF);
                 message.setAttribute(TSEMConstants.TS_ATTR_JOIN, false);
                 message.setAttribute(TSEMConstants.TS_ATTR_EIXT, true);
                 if(null != EMClient.getInstance().chatManager().getConversation(groupId))
-                    EMClient.getInstance().chatManager().getConversation(groupId).insertMessage(message);
+                    EMClient.getInstance().chatManager().getConversation(groupId).insertMessage(message);*/
 
                 TSEMessageUtils.sendEixtGroupMessage(groupId, groupName,TSEMConstants.TS_ATTR_GROUP_LAYOFF);
                 LogUtils.i("onUserRemoved groupId:%s, groupName:%s", groupId, groupName);
@@ -909,9 +909,9 @@ public class TSEMHyphenate {
             @Override
             public void onGroupDestroyed(String groupId, String groupName) {
                 //如果是解散了群聊
-                EMMessage message = TSEMessageUtils.createLocalMessageFromAdmin("该群已解散",groupId,TSEMConstants.TS_ATTR_GROUP_DISBAND);
+                /*EMMessage message = TSEMessageUtils.createLocalMessageFromAdmin("该群已解散",groupId,TSEMConstants.TS_ATTR_GROUP_DISBAND);
                 if(null != EMClient.getInstance().chatManager().getConversation(groupId))
-                    EMClient.getInstance().chatManager().getConversation(groupId).insertMessage(message);
+                    EMClient.getInstance().chatManager().getConversation(groupId).insertMessage(message);*/
 
 
                 TSEMessageUtils.sendEixtGroupMessage(groupId, groupName,TSEMConstants.TS_ATTR_GROUP_DISBAND);

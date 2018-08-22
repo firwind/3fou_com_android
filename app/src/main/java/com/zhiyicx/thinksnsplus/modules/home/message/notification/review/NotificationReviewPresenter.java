@@ -5,7 +5,10 @@ import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.data.beans.GroupOrFriendReviewBean;
+import com.zhiyicx.thinksnsplus.data.beans.UserFollowerCountBean;
+import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
+import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +31,8 @@ public class NotificationReviewPresenter extends AppBasePresenter<NotificationRe
 
     @Inject
     ChatInfoRepository mChatInfoRepository;
+    @Inject
+    UserInfoRepository mUserInfoRepository;
 
     @Inject
     public NotificationReviewPresenter(NotificationReviewContract.View rootView) {
@@ -50,6 +55,20 @@ public class NotificationReviewPresenter extends AppBasePresenter<NotificationRe
                         mRootView.onResponseError(e, isLoadMore);
                     }
                 }));
+
+        //清空未读消息数量
+        if(!isLoadMore){
+            mUserInfoRepository.clearUserMessageCount(mRootView.isFriendReview()?
+                    UserFollowerCountBean.UserBean.MESSAGE_TYPE_FRIEND:
+                    UserFollowerCountBean.UserBean.MESSAGE_TYPE_GROUP)
+                    .subscribe(new BaseSubscribeForV2<Object>() {
+                        @Override
+                        protected void onSuccess(Object data) {
+
+                        }
+                    });
+        }
+
     }
 
     @Override

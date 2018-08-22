@@ -7,6 +7,7 @@ import com.zhiyicx.baseproject.em.manager.eventbus.TSEMRefreshEvent;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
@@ -59,7 +60,8 @@ public class ChatPresenter extends AppBasePresenter<ChatContract.View> implement
     public boolean isImHelper() {
         List<SystemConfigBean.ImHelperBean> list = mSystemRepository.getBootstrappersInfoFromLocal().getIm_helper();
         for (SystemConfigBean.ImHelperBean helperBean:list) {
-            if(helperBean.getUid().equals(mRootView.getChatId()))
+            if(helperBean.getUid().equals(String.valueOf(AppApplication.getMyUserIdWithdefault())) ||
+                    helperBean.getUid().equals(mRootView.getChatId()))
                 return true;
         }
         return false;

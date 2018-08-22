@@ -13,11 +13,14 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
+import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.AuthRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseFriendsRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
+
+import org.simple.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -51,7 +54,8 @@ public class SettingPrivacyPresenter extends AppBasePresenter<SettingPrivacyCont
                     userInfoBean.setFriends_set(setState);
                     mUserInfoBeanGreenDao.insertOrReplace(userInfoBean);
                 }else {
-
+                    //更新群信息
+                    EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
                 }
                 mRootView.showSnackSuccessMessage("设置成功");
                 mRootView.settingSuccess(setState);

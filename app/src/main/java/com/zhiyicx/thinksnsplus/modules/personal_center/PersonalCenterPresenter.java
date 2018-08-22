@@ -888,7 +888,7 @@ public class PersonalCenterPresenter extends AppBasePresenter<PersonalCenterCont
                     @Override
                     protected void onFailure(String message, int code) {
                         super.onFailure(message, code);
-                        if(code == 501){//需要验证
+                        if(code == 504){//需要验证
                             VerifyFriendOrGroupActivity.startVerifyFriendsActivity( ((Fragment)mRootView).getContext(),
                                     String.valueOf(userInfoBean.getUser_id()) );
                         }else{

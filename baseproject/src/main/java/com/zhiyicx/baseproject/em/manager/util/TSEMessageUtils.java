@@ -276,7 +276,7 @@ public class TSEMessageUtils {
         //创建会话，发送一条消息
         EMClient.getInstance().chatManager().getConversation(userId,
                 EMConversation.EMConversationType.Chat, true);
-        EMMessage message = EMMessage.createTxtSendMessage("我们已经成为好友啦~来一起聊天吧", userId);
+        EMMessage message = EMMessage.createTxtSendMessage("我们已经是好友啦，一起来聊天吧！", userId);
         EMClient.getInstance().chatManager().sendMessage(message);
         EMClient.getInstance().chatManager().saveMessage(message);
     }

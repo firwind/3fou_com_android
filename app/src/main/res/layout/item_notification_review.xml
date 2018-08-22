@@ -71,7 +71,8 @@
             android:id="@+id/tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已同意"/>
+            android:text="已同意"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/tv_agree"

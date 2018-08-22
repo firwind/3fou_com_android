@@ -17,16 +17,12 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.hyphenate.EMMessageListener;
@@ -60,13 +56,11 @@ import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
-import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.baseproject.em.manager.util.TSEMessageUtils;
 import com.zhiyicx.baseproject.impl.photoselector.ImageBean;
 import com.zhiyicx.baseproject.impl.photoselector.PhotoSelectorImpl;
 import com.zhiyicx.common.mvp.i.IBasePresenter;
-import com.zhiyicx.common.utils.FileUtils;
 import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.modules.chat.call.TSEMHyphenate;
@@ -76,8 +70,6 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import rx.Observable;
 
 /**
  * @author Jliuer
@@ -117,7 +109,6 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
     protected GroupListener groupListener;
     protected ChatRoomListener chatRoomListener;
     protected EMMessage contextMenuMessage;
-    protected FrameLayout mFrameLayout;
     static final int ITEM_TAKE_PICTURE = 1;
     static final int ITEM_PICTURE = 2;
     static final int ITEM_LOCATION = 3;
@@ -185,7 +176,6 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
             messageList.setShowUserNick(true);
         }
         listView = messageList.getListView();
-        mFrameLayout = (FrameLayout) rootView.findViewById(R.id.fl_chat_view);
 
 
         extendMenuItemClickListener = new MyItemClickListener();
