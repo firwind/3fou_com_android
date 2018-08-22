@@ -256,6 +256,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                 setToolBarRightImage(0);
             //获取禁言状态
             mPresenter.getCurrentTalkingState(toChatUsername);
+
         }
         if (chatType != EaseConstant.CHATTYPE_CHATROOM) {
             onConversationInit();
