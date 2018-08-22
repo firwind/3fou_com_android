@@ -47,7 +47,7 @@ public class SelectOrganizationFragment extends TSListFragment<SelectOrganizatio
     DeleteEditText mSearchOrganization;
     public int mOrganizationId;
     public String mGroupId;
-
+    public boolean isCreate;
     List<UserInfoBean> list;
 
 
@@ -66,7 +66,10 @@ public class SelectOrganizationFragment extends TSListFragment<SelectOrganizatio
             Bundle bundle = getArguments().getBundle(GROUP_INFO);
             if (bundle != null) {
                 mOrganizationId = bundle.getInt(GROUP_ORGANIZATION_ID, 0);
+                isCreate = mOrganizationId==0?true:false;
                 mGroupId = bundle.getString(GROUP_ID);
+            }else {
+                isCreate = true;
             }
         }
         getGroupListData();
@@ -96,7 +99,7 @@ public class SelectOrganizationFragment extends TSListFragment<SelectOrganizatio
     @Override
     protected void setRightClick() {
         super.setRightClick();
-        if (mOrganizationId == 0) {
+        if (isCreate) {
             mPresenter.createConversation(list, mOrganizationId);
         } else {
             mPresenter.changOrganization();

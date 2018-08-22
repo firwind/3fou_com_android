@@ -117,7 +117,7 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
     protected GroupListener groupListener;
     protected ChatRoomListener chatRoomListener;
     protected EMMessage contextMenuMessage;
-
+    protected FrameLayout mFrameLayout;
     static final int ITEM_TAKE_PICTURE = 1;
     static final int ITEM_PICTURE = 2;
     static final int ITEM_LOCATION = 3;
@@ -185,6 +185,8 @@ public class TSEaseChatFragment<P extends IBasePresenter> extends TSEaseBaseFrag
             messageList.setShowUserNick(true);
         }
         listView = messageList.getListView();
+        mFrameLayout = (FrameLayout) rootView.findViewById(R.id.fl_chat_view);
+
 
         extendMenuItemClickListener = new MyItemClickListener();
         inputMenu = (EaseChatInputMenu) rootView.findViewById(R.id.input_menu);

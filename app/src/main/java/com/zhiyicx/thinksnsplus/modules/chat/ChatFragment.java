@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -188,8 +189,15 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
             AndroidBug5497Workaround.assistActivity(mActivity);
         }
-
-
+        View inflateView = LayoutInflater.from(getContext()).inflate(R.layout.item_chat_community, mFrameLayout, false);
+        mFrameLayout.addView(inflateView);
+        ImageView mCloseView = (ImageView) rootView.findViewById(R.id.iv_close_community);
+        mCloseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFrameLayout.removeView(inflateView);
+            }
+        });
     }
 
     @Override
