@@ -45,6 +45,7 @@ public interface InfoMainContract {
     interface InfoListView extends ITSListView<BaseListBean,InfoListPresenter> {
         String getInfoType();
         int isRecommend();
+        boolean isVideoInfo();
     }
 
     interface InfoListPresenter extends ITSListPresenter<BaseListBean> {

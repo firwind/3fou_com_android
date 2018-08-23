@@ -58,8 +58,10 @@
 
         <TextView
             android:id="@+id/tv_comment_count"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="@dimen/sp14"
             android:singleLine="true"
             android:textColor="@color/black_deep"
@@ -70,10 +72,12 @@
 
         <TextView
             android:id="@+id/tv_dig_count"
-            android:layout_marginLeft="@dimen/dp20"
-            android:layout_marginRight="@dimen/dp20"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="@dimen/sp14"
             android:singleLine="true"
             android:drawablePadding="@dimen/dp8"

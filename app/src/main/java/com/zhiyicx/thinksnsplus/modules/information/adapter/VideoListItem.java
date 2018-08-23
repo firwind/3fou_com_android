@@ -3,6 +3,7 @@ package com.zhiyicx.thinksnsplus.modules.information.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.FastBlur;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
+import com.zhiyicx.thinksnsplus.modules.information.infomain.list.InfoListPresenter;
 import com.zhiyicx.thinksnsplus.modules.shortvideo.helper.ZhiyiVideoView;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
@@ -39,9 +41,12 @@ import static cn.jzvd.JZVideoPlayer.URL_KEY_DEFAULT;
 public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
 
     private Context mContext;
+    private InfoListPresenter mPresenter;
 
-    public VideoListItem(Context mContext) {
+
+    public VideoListItem(Context mContext, InfoListPresenter mPresenter) {
         this.mContext = mContext;
+        this.mPresenter = mPresenter;
     }
 
     @Override
@@ -64,11 +69,17 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
         holder.getTextView(R.id.tv_dig_count).setText( String.valueOf(info.getDigg_count()) );
         holder.getTextView(R.id.tv_dig_count).setSelected(info.getHas_like());
         holder.getTextView(R.id.tv_user_name).setText(info.getUser_name());
-        ImageUtils.loadCircleImageDefault(holder.getImageViwe(R.id.user_avatar),
-                ImageUtils.imagePathConvertV2(info.getAvatar(), DensityUtil.dip2px(mContext,25),
-                        DensityUtil.dip2px(mContext,25), ImageZipConfig.IMAGE_80_ZIP));
+        ImageUtils.loadCircleImageDefault(holder.getImageViwe(R.id.user_avatar),info.getAvatar());
 
         initVideoView(info,ImageUtils.getVideoUrl(info.getVideo()),holder.getView(R.id.videoplayer),position);
+
+        holder.getView(R.id.tv_dig_count).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null != mPresenter)
+                    mPresenter.handleLike(info);
+            }
+        });
 
 
     }

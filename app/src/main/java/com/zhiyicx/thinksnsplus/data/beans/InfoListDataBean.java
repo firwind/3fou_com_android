@@ -71,7 +71,7 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
     private boolean has_likong;
     //新增视频地址id、用户头像、用户姓名
     private int video;//视频地址
-    private int avatar;
+    private String avatar;
     private String user_name;
 
     @Convert(converter = InfoDigListConvert.class, columnType = String.class)
@@ -550,50 +550,6 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
         myDao.update(this);
     }
 
-    @Generated(hash = 1456115523)
-    public InfoListDataBean(Long id, long user_id, Long info_type, int is_collection_news,
-            int is_digg_news, String title, String text_content, String from, String created_at,
-            String updated_at, StorageBean image, int audit_status, boolean is_pinned, String subject,
-            boolean has_collect, boolean has_like, InfoCategory category, boolean isTop, String author,
-            int hits, List<UserTagBean> tags, int digg_count, int undigg_count, int comment_count,
-            int is_recommend, int audit_count, String content, boolean has_lihao, boolean has_likong,
-            int video, int avatar, String user_name, List<InfoDigListBean> digList,
-            List<InfoListDataBean> relateInfoList) {
-        this.id = id;
-        this.user_id = user_id;
-        this.info_type = info_type;
-        this.is_collection_news = is_collection_news;
-        this.is_digg_news = is_digg_news;
-        this.title = title;
-        this.text_content = text_content;
-        this.from = from;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.image = image;
-        this.audit_status = audit_status;
-        this.is_pinned = is_pinned;
-        this.subject = subject;
-        this.has_collect = has_collect;
-        this.has_like = has_like;
-        this.category = category;
-        this.isTop = isTop;
-        this.author = author;
-        this.hits = hits;
-        this.tags = tags;
-        this.digg_count = digg_count;
-        this.undigg_count = undigg_count;
-        this.comment_count = comment_count;
-        this.is_recommend = is_recommend;
-        this.audit_count = audit_count;
-        this.content = content;
-        this.has_lihao = has_lihao;
-        this.has_likong = has_likong;
-        this.video = video;
-        this.avatar = avatar;
-        this.user_name = user_name;
-        this.digList = digList;
-        this.relateInfoList = relateInfoList;
-    }
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -652,11 +608,11 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
         return this.has_likong;
     }
 
-    public int getAvatar() {
-        return this.avatar;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvatar(int avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
@@ -709,6 +665,51 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
         this.digList = in.createTypedArrayList(InfoDigListBean.CREATOR);
         this.commentList = in.createTypedArrayList(InfoCommentListBean.CREATOR);
         this.relateInfoList = in.createTypedArrayList(InfoListDataBean.CREATOR);
+    }
+
+    @Generated(hash = 379480779)
+    public InfoListDataBean(Long id, long user_id, Long info_type, int is_collection_news,
+            int is_digg_news, String title, String text_content, String from, String created_at,
+            String updated_at, StorageBean image, int audit_status, boolean is_pinned, String subject,
+            boolean has_collect, boolean has_like, InfoCategory category, boolean isTop, String author,
+            int hits, List<UserTagBean> tags, int digg_count, int undigg_count, int comment_count,
+            int is_recommend, int audit_count, String content, boolean has_lihao, boolean has_likong,
+            int video, String avatar, String user_name, List<InfoDigListBean> digList,
+            List<InfoListDataBean> relateInfoList) {
+        this.id = id;
+        this.user_id = user_id;
+        this.info_type = info_type;
+        this.is_collection_news = is_collection_news;
+        this.is_digg_news = is_digg_news;
+        this.title = title;
+        this.text_content = text_content;
+        this.from = from;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.image = image;
+        this.audit_status = audit_status;
+        this.is_pinned = is_pinned;
+        this.subject = subject;
+        this.has_collect = has_collect;
+        this.has_like = has_like;
+        this.category = category;
+        this.isTop = isTop;
+        this.author = author;
+        this.hits = hits;
+        this.tags = tags;
+        this.digg_count = digg_count;
+        this.undigg_count = undigg_count;
+        this.comment_count = comment_count;
+        this.is_recommend = is_recommend;
+        this.audit_count = audit_count;
+        this.content = content;
+        this.has_lihao = has_lihao;
+        this.has_likong = has_likong;
+        this.video = video;
+        this.avatar = avatar;
+        this.user_name = user_name;
+        this.digList = digList;
+        this.relateInfoList = relateInfoList;
     }
 
     public static final Creator<InfoListDataBean> CREATOR = new Creator<InfoListDataBean>() {

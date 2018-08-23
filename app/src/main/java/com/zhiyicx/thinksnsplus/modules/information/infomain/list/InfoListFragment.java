@@ -134,12 +134,20 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
     @Override
     protected MultiItemTypeAdapter getAdapter() {
 
-        boolean isVideo = getArguments().getString(BUNDLE_INFO_TYPE).equals("8");//暂时默认8为video
-
         MultiItemTypeAdapter adapter = new MultiItemTypeAdapter(getActivity(), mListDatas);
-        adapter.addItemViewDelegate(isVideo?getVideoInfoListDelegate():getNormalInfoListDelegate());
+        adapter.addItemViewDelegate(isVideoInfo()?getVideoInfoListDelegate():getNormalInfoListDelegate());
 
         return adapter;
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if(isVideoInfo()){//暂停播放
+
+        }
     }
 
     @Override
@@ -241,6 +249,11 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
     }
 
     @Override
+    public boolean isVideoInfo() {
+        return getArguments().getString(BUNDLE_INFO_TYPE).equals("8");//暂时默认8为video
+    }
+
+    @Override
     public void showMessage(String message) {
         showMessageNotSticky(message);
     }
@@ -272,6 +285,8 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
         mListDatas.remove(mListDatas.indexOf(info));
         refreshData();
     }
+
+
 
     /**
      * 获取普通资讯列表的delegate
@@ -307,7 +322,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
      */
     private ItemViewDelegate getVideoInfoListDelegate(){
 
-        return new VideoListItem(mActivity) {
+        return new VideoListItem(mActivity,mInfoListPresenter) {
             @Override
             public void itemClick(int position, ImageView imageView, TextView title, InfoListDataBean realData) {
 
