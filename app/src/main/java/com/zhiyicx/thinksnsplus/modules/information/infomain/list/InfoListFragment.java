@@ -21,10 +21,12 @@ import com.zhiyicx.thinksnsplus.data.beans.RealAdvertListBean;
 import com.zhiyicx.thinksnsplus.modules.home.HomeActivity;
 import com.zhiyicx.thinksnsplus.modules.information.adapter.InfoBannerHeader;
 import com.zhiyicx.thinksnsplus.modules.information.adapter.InfoListItem;
+import com.zhiyicx.thinksnsplus.modules.information.adapter.VideoListItem;
 import com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
+import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 
 import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.Subscriber;
@@ -131,27 +133,11 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
 
     @Override
     protected MultiItemTypeAdapter getAdapter() {
+
+        boolean isVideo = getArguments().getString(BUNDLE_INFO_TYPE).equals("8");//暂时默认8为video
+
         MultiItemTypeAdapter adapter = new MultiItemTypeAdapter(getActivity(), mListDatas);
-        adapter.addItemViewDelegate(new InfoListItem(false) {
-            @Override
-            public void itemClick(int position, ImageView imageView, TextView title, InfoListDataBean realData) {
-                if (TouristConfig.INFO_DETAIL_CAN_LOOK || !mPresenter.handleTouristControl()) {
-                    if (!AppApplication.sOverRead.contains(realData.getId())) {
-                        AppApplication.sOverRead.add(realData.getId().intValue());
-                    }
-                    FileUtils.saveBitmapToFile(getActivity(), ConvertUtils.drawable2BitmapWithWhiteBg(getContext()
-                            , imageView.getDrawable(), R.mipmap.icon), "info_share.jpg");
-                    title.setTextColor(getResources()
-                            .getColor(R.color.normal_for_assist_text));
-                    Intent intent = new Intent(getActivity(), InfoDetailsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(BUNDLE_INFO, realData);
-                    bundle.putString(BUNDLE_INFO_TYPE, mInfoType);
-                    intent.putExtra(BUNDLE_INFO, bundle);
-                    startActivity(intent);
-                }
-            }
-        });
+        adapter.addItemViewDelegate(isVideo?getVideoInfoListDelegate():getNormalInfoListDelegate());
 
         return adapter;
     }
@@ -287,7 +273,47 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
         refreshData();
     }
 
-    public void setInfoType(String infoType) {
-        mInfoType = infoType;
+    /**
+     * 获取普通资讯列表的delegate
+     * @return
+     */
+    private ItemViewDelegate getNormalInfoListDelegate(){
+        return new InfoListItem(false) {
+            @Override
+            public void itemClick(int position, ImageView imageView, TextView title, InfoListDataBean realData) {
+                if (TouristConfig.INFO_DETAIL_CAN_LOOK || !mPresenter.handleTouristControl()) {
+                    if (!AppApplication.sOverRead.contains(realData.getId())) {
+                        AppApplication.sOverRead.add(realData.getId().intValue());
+                    }
+                    FileUtils.saveBitmapToFile(getActivity(), ConvertUtils.drawable2BitmapWithWhiteBg(getContext()
+                            , imageView.getDrawable(), R.mipmap.icon), "info_share.jpg");
+                    title.setTextColor(getResources()
+                            .getColor(R.color.normal_for_assist_text));
+                    Intent intent = new Intent(getActivity(), InfoDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(BUNDLE_INFO, realData);
+                    bundle.putString(BUNDLE_INFO_TYPE, mInfoType);
+                    intent.putExtra(BUNDLE_INFO, bundle);
+                    startActivity(intent);
+                }
+            }
+        };
     }
+
+
+    /**
+     * 获取视频资讯列表的delegate
+     * @return
+     */
+    private ItemViewDelegate getVideoInfoListDelegate(){
+
+        return new VideoListItem(mActivity) {
+            @Override
+            public void itemClick(int position, ImageView imageView, TextView title, InfoListDataBean realData) {
+
+            }
+        };
+    }
+
+
 }

@@ -52,6 +52,7 @@ public interface InfoMainContract {
                          long limit, long page);
         List<RealAdvertListBean> getBannerAdvert();
         List<RealAdvertListBean> getListAdvert();
+        void handleLike(InfoListDataBean dataBean);
     }
     /**
      * 内层内容列表

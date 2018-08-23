@@ -66,6 +66,7 @@ public class UserFollowerCountBean {
         @SerializedName("group-join-pinned")
         private int groupJoinPinned;
 
+        @SerializedName("user-friend")//将这里的mutual改成 user-friend
         private int mutual;
 
         public int getMutual() {

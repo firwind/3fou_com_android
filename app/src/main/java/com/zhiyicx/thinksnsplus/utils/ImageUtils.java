@@ -816,4 +816,14 @@ public class ImageUtils {
         return resId;
     }
 
+    /**
+     * 获取视频文件地址
+     * @param id
+     * @return
+     */
+    public static String getVideoUrl(int id){
+        return id==0?"":String.format(Locale.getDefault(), ApiConfig.APP_DOMAIN + ApiConfig.IMAGE_PATH_V2_ORIGIN,id);
+    }
+
+
 }

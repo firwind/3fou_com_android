@@ -70,6 +70,13 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
     }
 
     @Override
+    public void handleLike(InfoListDataBean dataBean) {
+        dataBean.setHas_like(!dataBean.isHas_like());
+        mRootView.refreshData();
+        mBaseInfoRepository.handleLike(!dataBean.isHas_like(), String.valueOf(dataBean.getId()) );
+    }
+
+    @Override
     public void requestNetData(Long maxId, final boolean isLoadMore) {
         String typeString = mRootView.getInfoType();
         final long type = Long.parseLong(typeString);

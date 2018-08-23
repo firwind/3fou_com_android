@@ -69,6 +69,10 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
 
     private boolean has_lihao;
     private boolean has_likong;
+    //新增视频地址id、用户头像、用户姓名
+    private int video;//视频地址
+    private int avatar;
+    private String user_name;
 
     @Convert(converter = InfoDigListConvert.class, columnType = String.class)
     private List<InfoDigListBean> digList;
@@ -77,6 +81,13 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
     @Convert(converter = InfoRelateListConvert.class, columnType = String.class)
     private List<InfoListDataBean> relateInfoList;
 
+    public int getVideo() {
+        return video;
+    }
+
+    public void setVideo(int video) {
+        this.video = video;
+    }
 
     public String getText_content() {
         return text_content;
@@ -539,14 +550,15 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
         myDao.update(this);
     }
 
-    @Generated(hash = 212578246)
+    @Generated(hash = 1456115523)
     public InfoListDataBean(Long id, long user_id, Long info_type, int is_collection_news,
             int is_digg_news, String title, String text_content, String from, String created_at,
             String updated_at, StorageBean image, int audit_status, boolean is_pinned, String subject,
             boolean has_collect, boolean has_like, InfoCategory category, boolean isTop, String author,
             int hits, List<UserTagBean> tags, int digg_count, int undigg_count, int comment_count,
             int is_recommend, int audit_count, String content, boolean has_lihao, boolean has_likong,
-            List<InfoDigListBean> digList, List<InfoListDataBean> relateInfoList) {
+            int video, int avatar, String user_name, List<InfoDigListBean> digList,
+            List<InfoListDataBean> relateInfoList) {
         this.id = id;
         this.user_id = user_id;
         this.info_type = info_type;
@@ -576,6 +588,9 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
         this.content = content;
         this.has_lihao = has_lihao;
         this.has_likong = has_likong;
+        this.video = video;
+        this.avatar = avatar;
+        this.user_name = user_name;
         this.digList = digList;
         this.relateInfoList = relateInfoList;
     }
@@ -635,6 +650,22 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
 
     public boolean getHas_likong() {
         return this.has_likong;
+    }
+
+    public int getAvatar() {
+        return this.avatar;
+    }
+
+    public void setAvatar(int avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getUser_name() {
+        return this.user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     /** called by internal mechanisms, do not call yourself. */

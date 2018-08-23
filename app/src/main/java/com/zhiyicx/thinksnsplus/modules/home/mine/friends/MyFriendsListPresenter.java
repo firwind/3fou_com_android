@@ -71,7 +71,7 @@ public class MyFriendsListPresenter extends AppBasePresenter<MyFriendsListContra
         addSubscrebe(subscription);
 
         if (!isLoadMore&&!mRootView.isHasParentFragment()) {//只有当刷新和当前界面仅仅是获取好友列表的时候才清空
-            mUserInfoRepository.clearUserMessageCount(UserFollowerCountBean.UserBean.MESSAGE_TYPE_MUTUAL)
+            mUserInfoRepository.clearUserMessageCount(UserFollowerCountBean.UserBean.MESSAGE_TYPE_FRIEND)
                     .subscribe(new BaseSubscribeForV2<Object>() {
                         @Override
                         protected void onSuccess(Object data) {
