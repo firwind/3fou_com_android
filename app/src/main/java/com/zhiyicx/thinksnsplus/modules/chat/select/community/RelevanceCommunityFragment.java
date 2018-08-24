@@ -29,6 +29,7 @@ import com.zhiyicx.common.utils.ColorPhrase;
 import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.recycleviewdecoration.CustomLinearDecoration;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.CircleInfo;
 import com.zhiyicx.thinksnsplus.modules.circle.create.CreateCircleActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -61,6 +62,7 @@ public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunit
 
     private String mGroupId;
     private String mCommunityId;
+
     @Override
     protected boolean isNeedRefreshAnimation() {
         return true;
@@ -119,16 +121,20 @@ public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunit
                         .outerColor(ContextCompat.getColor(context, R.color.normal_for_assist_text))
                         .format();
                 circleMemberCount.setText(followString);
-                if (circleInfo.getId() == Long.valueOf(getCommunityId())){
 
-                }
                 TextView mRelevance = holder.getView(R.id.tv_community_relevance);
+                if (getCommunityId().length() > 0 && circleInfo.getId().equals(Long.valueOf(getCommunityId()))) {
+                    mRelevance.setText("已关联");
+                }
                 RxView.clicks(mRelevance)
                         .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
                         .subscribe(aVoid -> {
+                            if (getCommunityId().length() > 0 && circleInfo.getId().equals(Long.valueOf(getCommunityId()))) {
+                                showSnackErrorMessage("不能重复关联同一个社区");
+                                return;
+                            }
                             mPresenter.relevanceCommunity(circleInfo.getId());
                         });
-
             }
         };
         return adapter;
@@ -160,8 +166,9 @@ public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunit
         if (prompt == Prompt.SUCCESS) {
             getActivity().finish();
         }
-        EventBus.getDefault().post("跟新社区", EVENT_IM_COMMUNITY);
+        EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
     }
+
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);

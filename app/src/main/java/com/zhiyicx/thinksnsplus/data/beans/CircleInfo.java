@@ -462,6 +462,14 @@ public class CircleInfo extends BaseListBean implements Serializable {
         this.permissions = permissions;
     }
 
+    public boolean getIsRelevance() {
+        return this.isRelevance;
+    }
+
+    public void setIsRelevance(boolean isRelevance) {
+        this.isRelevance = isRelevance;
+    }
+
     protected CircleInfo(Parcel in) {
         super(in);
         this.id = (Long) in.readValue(Long.class.getClassLoader());
@@ -494,12 +502,12 @@ public class CircleInfo extends BaseListBean implements Serializable {
         this.category = in.readParcelable(CircleTypeBean.class.getClassLoader());
     }
 
-    @Generated(hash = 497247326)
+    @Generated(hash = 209821711)
     public CircleInfo(Long id, String name, String avatar, int user_id, int join_income_count, int pinned_income_count,
             int category_id, String location, String longitude, String latitude, String geo_hash, String permissions, int allow_feed,
             String mode, int money, String summary, String notice, int users_count, int posts_count, int blacklist_count, int audit,
             String created_at, String updated_at, CircleJoinedBean joined, UserInfoBean user, CircleJoinedBean founder,
-            List<UserTagBean> tags, CircleTypeBean category) {
+            List<UserTagBean> tags, CircleTypeBean category, boolean isRelevance) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
@@ -528,6 +536,7 @@ public class CircleInfo extends BaseListBean implements Serializable {
         this.founder = founder;
         this.tags = tags;
         this.category = category;
+        this.isRelevance = isRelevance;
     }
 
     public static final Creator<CircleInfo> CREATOR = new Creator<CircleInfo>() {

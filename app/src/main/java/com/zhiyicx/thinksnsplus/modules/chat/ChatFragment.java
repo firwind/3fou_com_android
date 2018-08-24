@@ -100,6 +100,7 @@ import static com.hyphenate.easeui.EaseConstant.EXTRA_CHAT_TYPE;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_IS_ADD_GROUP;
 import static com.hyphenate.easeui.EaseConstant.EXTRA_TO_USER_ID;
 import static com.hyphenate.easeui.widget.chatrow.EaseChatRow.TipMsgType.OPEN_MUTE;
+import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.GROUP_ORIGINAL_ID;
 import static com.zhiyicx.thinksnsplus.modules.chat.edit.name.EditGroupNameFragment.IS_GROUP_OWNER;
 
@@ -246,7 +247,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         setChatFragmentHelper(this);
 
         //初始化为无法聊天的状态
-        setTalkingState(false,"正在连接服务器");
+        setTalkingState(false, "正在连接服务器");
 
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             setCenterText(mPresenter.getUserInfoFromLocal().getName());
@@ -275,21 +276,22 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
     @Override
     public void handleNotRoamingMessageWithUserInfo() {
-        if(isMessageListInited)
+        if (isMessageListInited)
             messageList.refresh();
 
     }
 
     /**
      * 设置禁言状态
+     *
      * @param isTalking
      */
     @Override
-    public void setTalkingState(boolean isTalking,String content) {
-        if(chatType == EaseConstant.CHATTYPE_SINGLE){
-            ((EaseChatPrimaryMenu)inputMenu.getPrimaryMenu()).setTalkingState(isTalking||mPresenter.isImHelper(), content);
-        }else {
-            ((EaseChatPrimaryMenu)inputMenu.getPrimaryMenu()).setTalkingState(isTalking, content);
+    public void setTalkingState(boolean isTalking, String content) {
+        if (chatType == EaseConstant.CHATTYPE_SINGLE) {
+            ((EaseChatPrimaryMenu) inputMenu.getPrimaryMenu()).setTalkingState(isTalking || mPresenter.isImHelper(), content);
+        } else {
+            ((EaseChatPrimaryMenu) inputMenu.getPrimaryMenu()).setTalkingState(isTalking, content);
         }
     }
 
@@ -297,20 +299,20 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     public void updateUserInfo(UserInfoBean userInfoBean) {
         setCenterText(userInfoBean.getName());
 
-        setTalkingState(userInfoBean.isIs_my_friend(),getString(R.string.chat_no_talking_not_friend));
+        setTalkingState(userInfoBean.isIs_my_friend(), getString(R.string.chat_no_talking_not_friend));
 
     }
 
     @Override
     public void updateChatGroupInfo(ChatGroupBean chatGroupBean) {
-        if(null != chatGroupBean)
+        if (null != chatGroupBean)
             setCenterText(mPresenter.getChatGroupName());
     }
 
     @Override
     public void getCommunityInfo(CircleInfo data) {
 
-        if (data!=null) {
+        if (data != null) {
             mCardCommunity.setVisibility(View.VISIBLE);//显示频道
             ImageView mCloseView = (ImageView) mCardCommunity.findViewById(R.id.iv_close_community);
             // 封面
@@ -344,9 +346,9 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                     .format();
             mFollow.setText(followString);
             mCloseView.setOnClickListener(v -> mCardCommunity.setVisibility(View.GONE));
-            mRurnInfo.setOnClickListener(v -> CircleDetailActivity.startCircleDetailActivity(getContext(),data.getId()));
+            mRurnInfo.setOnClickListener(v -> CircleDetailActivity.startCircleDetailActivity(getContext(), data.getId()));
 
-        }else {
+        } else {
             mCardCommunity.setVisibility(View.GONE);
         }
     }
@@ -371,7 +373,7 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             setCenterText(mPresenter.getUserInfoFromLocal().getName());
-            setTalkingState(mPresenter.getUserInfoFromLocal().isIs_my_friend(),getString(R.string.chat_no_talking_not_friend));
+            setTalkingState(mPresenter.getUserInfoFromLocal().isIs_my_friend(), getString(R.string.chat_no_talking_not_friend));
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
             EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
             if (group != null && group.isMsgBlocked()) {
@@ -438,20 +440,20 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
     @Override
     public void onMessageBubbleLongClick(EMMessage message) {
         String[] items = message.getType() == EMMessage.Type.TXT ?
-                new String[]{"复制","删除"}:new String[]{"删除"};
+                new String[]{"复制", "删除"} : new String[]{"删除"};
         new AlertDialog.Builder(mActivity)
                 .setItems(items,
                         (dialog, which) -> {
-                            if(which == 0){
-                                if(EMMessage.Type.TXT == message.getType()){
+                            if (which == 0) {
+                                if (EMMessage.Type.TXT == message.getType()) {
                                     DeviceUtils.copyTextToBoard(mActivity,
                                             ((EMTextMessageBody) message.getBody()).getMessage());
-                                }else {
+                                } else {
                                     EMClient.getInstance().chatManager().getConversation(message.conversationId())
                                             .removeMessage(message.getMsgId());
                                     messageList.refresh();
                                 }
-                            }else {
+                            } else {
                                 EMClient.getInstance().chatManager().getConversation(message.conversationId())
                                         .removeMessage(message.getMsgId());
                                 messageList.refresh();
@@ -578,13 +580,13 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
 
 
                 // 从左到右依次：用户加入，用户退出，创建群聊，屏蔽/接收群消息，该群消息作用对象是否是自己,群信息修改
-                boolean isUserJoin, isUserExit, isCreate, isBlock, userTag , groupNotice,isGroupChange;
+                boolean isUserJoin, isUserExit, isCreate, isBlock, userTag, groupNotice, isGroupChange;
 
                 isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
                 isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
                 isCreate = message.getBooleanAttribute(TSEMConstants.TS_ATTR_GROUP_CRATE, false);
                 isBlock = message.getBooleanAttribute(TSEMConstants.TS_ATTR_BLOCK, false);
-                groupNotice = message.getBooleanAttribute(TSEMConstants.TS_ATTR_RELEASE_NOTICE,false);
+                groupNotice = message.getBooleanAttribute(TSEMConstants.TS_ATTR_RELEASE_NOTICE, false);
                 isGroupChange = TSEMConstants.TS_ATTR_GROUP_CHANGE.equals(message.ext().get("type"));
 
                 userTag = AppApplication.getMyUserIdWithdefault() == message.getLongAttribute(TSEMConstants.TS_ATTR_TAG, -1L);
@@ -596,10 +598,10 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                 }
 
                 //当最后一个item不可见时，不滑动到底部
-                if(messageList.getListView().getLastVisiblePosition()
-                        != messageList.getChildCount()-1){
+                if (messageList.getListView().getLastVisiblePosition()
+                        != messageList.getChildCount() - 1) {
                     messageList.refresh();
-                }else {
+                } else {
                     messageList.refreshSelectLast();
                 }
 
@@ -612,10 +614,10 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                     setCenterText(mPresenter.getChatGroupName());
                 }
                 //如果群信息改变，则向服务器请求群信息
-                if(isGroupChange)
+                if (isGroupChange)
                     mPresenter.getChatGroupInfoFromServer();
 
-                if (groupNotice){
+                if (groupNotice) {
                     ToastUtils.showLongToast("收到公告");
                 }
 
@@ -764,17 +766,17 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
                 presenter = new TSChatVideoPresenter();
             } else if (message.getType() == EMMessage.Type.FILE) {
                 presenter = new TSChatFilePresenter();
-            }else
+            } else
                 presenter = null;
 
-            if(null != presenter)
+            if (null != presenter)
                 presenter.setMessageSendErrorCallback((code, msg) -> {
-                mActivity.runOnUiThread(() -> {
-                    if(code == 215){//禁言
-                        setTalkingState(false,"您已被禁言");
-                    }
-                    //ToastUtils.showToast(mActivity,msg);
-                });
+                    mActivity.runOnUiThread(() -> {
+                        if (code == 215) {//禁言
+                            setTalkingState(false, "您已被禁言");
+                        }
+                        //ToastUtils.showToast(mActivity,msg);
+                    });
                 });
             return presenter;
         }
@@ -840,9 +842,13 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         mActivity.finish();
     }
 
-    @Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_IM_COMMUNITY)
-    public void updateCommunityInfo(String str){
-        mPresenter.getCommunityInfo(toChatUsername);
+    /**
+     * 更新社区信息
+     */
+    @Subscriber(tag = EVENT_IM_GROUP_UPDATE_INFO)
+    public void onPublishGroupSuccess(boolean result) {
+        if (result)
+            mPresenter.getCommunityInfo(toChatUsername);
     }
     /*@Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_IM_GROUP_CREATE_FROM_SINGLE)
     public void closeCurrent(ChatGroupBean chatGroupBean) {

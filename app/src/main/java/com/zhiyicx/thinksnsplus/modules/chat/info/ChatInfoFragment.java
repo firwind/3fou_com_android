@@ -491,7 +491,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 SelectOrganizationActivity.startSelectOrganizationActivity(getContext(), mChatGroupBean.getOrganizationBean().getOrganize_id(), mChatGroupBean.getId());
                 break;
             case R.id.tv_relevance_community://关联/更换社区
-                String communityId = mChatGroupBean != null ? String.valueOf(mChatGroupBean.getCircleInfo().getId()) : "";
+                String communityId = mChatGroupBean.getCircleInfo() != null ? String.valueOf(mChatGroupBean.getCircleInfo().getId()) : "";
                 RelevanceCommunityActivity.startRelevanceCommunityActivity(getContext(), mChatGroupBean.getId(), communityId);
                 break;
             default:

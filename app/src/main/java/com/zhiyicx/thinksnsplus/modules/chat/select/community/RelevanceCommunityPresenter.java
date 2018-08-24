@@ -35,7 +35,7 @@ public class RelevanceCommunityPresenter extends AppBasePresenter<RelevanceCommu
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        Subscription subscribe = mRepository.communityList(mRootView.getPage(),mRootView.getSearchKeyWord())
+        Subscription subscribe = mRepository.communityList(maxId.intValue(),mRootView.getSearchKeyWord())
                 .subscribe(new BaseSubscriberV3<List<CircleInfo>>(mRootView){
                     @Override
                     protected void onSuccess(List<CircleInfo> data) {
