@@ -20,7 +20,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscription;
+import rx.functions.Func1;
 
 public class RelevanceCommunityPresenter extends AppBasePresenter<RelevanceCommunityContract.View> implements RelevanceCommunityContract.Presenter{
     @Inject

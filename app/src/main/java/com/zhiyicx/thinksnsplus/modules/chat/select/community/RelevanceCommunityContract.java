@@ -18,6 +18,7 @@ public class RelevanceCommunityContract {
     interface View extends ITSListView<CircleInfo, Presenter> {
         String getSearchKeyWord();
         String getGroupId();
+        String getCommunityId();
     }
 
     interface Presenter extends ITSListPresenter<CircleInfo> {

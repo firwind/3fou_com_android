@@ -153,6 +153,15 @@ public class CircleInfo extends BaseListBean implements Serializable {
     @Convert(columnType = String.class, converter = CircleTypeBeanConvert.class)
     private CircleTypeBean category;
 
+    public boolean isRelevance() {
+        return isRelevance;
+    }
+
+    public void setRelevance(boolean relevance) {
+        isRelevance = relevance;
+    }
+
+    private boolean isRelevance;
     @Override
     public Long getMaxId() {
         return id;

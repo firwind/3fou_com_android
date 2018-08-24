@@ -47,6 +47,7 @@ import static com.zhiyicx.common.config.ConstantConfig.JITTER_SPACING_TIME;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_COMMUNITY;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_DELETE_QUIT;
 import static com.zhiyicx.thinksnsplus.i.IntentKey.GROUP_ID;
+import static com.zhiyicx.thinksnsplus.modules.chat.select.community.RelevanceCommunityActivity.COMMUNITY_ID;
 
 public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunityContract.Presenter, CircleInfo> implements RelevanceCommunityContract.View {
     @BindView(R.id.et_search_community)
@@ -59,7 +60,7 @@ public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunit
     }
 
     private String mGroupId;
-
+    private String mCommunityId;
     @Override
     protected boolean isNeedRefreshAnimation() {
         return true;
@@ -118,7 +119,9 @@ public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunit
                         .outerColor(ContextCompat.getColor(context, R.color.normal_for_assist_text))
                         .format();
                 circleMemberCount.setText(followString);
+                if (circleInfo.getId() == Long.valueOf(getCommunityId())){
 
+                }
                 TextView mRelevance = holder.getView(R.id.tv_community_relevance);
                 RxView.clicks(mRelevance)
                         .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
@@ -185,6 +188,7 @@ public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunit
         super.initData();
         if (getArguments() != null) {
             mGroupId = getArguments().getString(GROUP_ID);
+            mCommunityId = getArguments().getString(COMMUNITY_ID);
         }
         getCommunityListData();
     }
@@ -197,6 +201,11 @@ public class RelevanceCommunityFragment extends TSListFragment<RelevanceCommunit
     @Override
     public String getGroupId() {
         return mGroupId;
+    }
+
+    @Override
+    public String getCommunityId() {
+        return mCommunityId;
     }
 
     /**
