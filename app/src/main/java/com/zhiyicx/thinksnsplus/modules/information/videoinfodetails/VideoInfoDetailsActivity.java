@@ -48,6 +48,14 @@ public class VideoInfoDetailsActivity extends TSActivity<VideoInfoDetailsPresent
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (JZVideoPlayer.backPress()) {
+            return;
+        }
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         JZVideoPlayer.goOnPlayOnPause();

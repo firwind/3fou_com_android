@@ -326,7 +326,7 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
      */
     private List<MenuItem> getMenuItems(){
         List<MenuItem> list = new ArrayList<>();
-        list.add(new MenuItem(R.mipmap.icon_home_menu1, "群聊", v -> {
+        list.add(new MenuItem(R.mipmap.icon_home_menu1, "群组", v -> {
             AddGroupActivity.startAddGroupActivity(getContext());
         }));
         list.add(new MenuItem(R.mipmap.icon_home_menu2, "社区", v -> {

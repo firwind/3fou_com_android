@@ -152,6 +152,7 @@
     <dimen name="sp35">35sp</dimen>
 
 
+    <dimen name="dp9">9dp</dimen>
     <dimen name="dp22">22dp</dimen>
     <dimen name="dp44">44dp</dimen>
     <dimen name="dp46">46dp</dimen>

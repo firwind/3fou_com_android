@@ -29,16 +29,24 @@
 
     </FrameLayout>
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:layout_marginLeft="@dimen/dp2"
         android:layout_marginRight="@dimen/dp2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp35"
-        android:background="@mipmap/bg_home_flash_news">
+        app:cardCornerRadius="@dimen/dp6"
+        app:cardBackgroundColor="#F4F4F4">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/dp9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_fast_news"
+            android:layout_gravity="center_vertical"/>
 
         <com.zhiyicx.thinksnsplus.widget.VerticalTextSwitcher
             android:id="@+id/text_switcher"
-            android:layout_marginLeft="@dimen/dp74"
+            android:layout_marginLeft="@dimen/dp50"
             android:layout_marginRight="@dimen/dp54"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -52,7 +60,7 @@
             android:layout_gravity="right"
             android:textSize="@dimen/sp10"/>
 
-    </FrameLayout>
+    </android.support.v7.widget.CardView>
 
     <FrameLayout
         android:layout_width="match_parent"

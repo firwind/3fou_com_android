@@ -911,8 +911,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             }
         }
 
-        // 添加按钮，只要是群成员都可以拉人
-        if(mIsInGroup){
+        // 添加按钮，开放状态只要是群成员都可以拉人，如果不是开放状态，只有群主可以拉人
+        if( (mChatGroupBean.getPrivacy() == 0 && mIsInGroup) ||
+                (mChatGroupBean.getPrivacy() != 0 && mPresenter.isGroupOwner()) ){
             UserInfoBean chatUserInfoBean = new UserInfoBean();
             chatUserInfoBean.setUser_id(-1L);
             mChatMembers.add(chatUserInfoBean);

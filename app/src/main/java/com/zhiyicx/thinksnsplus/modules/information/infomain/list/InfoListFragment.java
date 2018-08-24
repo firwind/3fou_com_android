@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tym.shortvideo.view.AutoPlayScrollListener;
 import com.zhiyicx.baseproject.base.BaseListBean;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.TouristConfig;
@@ -190,6 +191,21 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
 
                     }
                 });
+
+        if(isVideoInfo()){
+            mRvList.addOnScrollListener(new AutoPlayScrollListener() {
+                @Override
+                public int getPlayerViewId() {
+                    return R.id.videoplayer;
+                }
+
+                @Override
+                public boolean canAutoPlay() {
+                    return true;
+                }
+            });
+        }
+
     }
 
     @Override
