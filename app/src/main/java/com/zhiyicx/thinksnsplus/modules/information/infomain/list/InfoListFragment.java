@@ -18,15 +18,19 @@ import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicListAdvert;
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
 import com.zhiyicx.thinksnsplus.data.beans.RealAdvertListBean;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.home.HomeActivity;
 import com.zhiyicx.thinksnsplus.modules.information.adapter.InfoBannerHeader;
 import com.zhiyicx.thinksnsplus.modules.information.adapter.InfoListItem;
 import com.zhiyicx.thinksnsplus.modules.information.adapter.VideoListItem;
 import com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
+import com.zhiyicx.thinksnsplus.modules.information.videoinfodetails.VideoInfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
+import com.zhiyicx.thinksnsplus.modules.shortvideo.helper.ZhiyiVideoView;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.Subscriber;
@@ -36,6 +40,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cn.jzvd.JZMediaManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -167,6 +172,10 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
                 .subscribe(new rx.Subscriber<Object>() {
                     @Override
                     public void onCompleted() {
+
+                        if(null != mVideoListItem)
+                            mVideoListItem.setPresenter(mInfoListPresenter);
+
                         initData();
                         initAdvert();
                     }
@@ -316,18 +325,30 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
     }
 
 
+    private VideoListItem mVideoListItem = null;
     /**
      * 获取视频资讯列表的delegate
      * @return
      */
     private ItemViewDelegate getVideoInfoListDelegate(){
+        if(null == mVideoListItem){
+            mVideoListItem = new VideoListItem(mActivity) {
+                @Override
+                public void itemClick(int position, ViewHolder holder, InfoListDataBean realData) {
+                    ZhiyiVideoView playView = (ZhiyiVideoView)holder.getView(R.id.videoplayer);
+                    if (playView.currentState == ZhiyiVideoView.CURRENT_STATE_PLAYING) {
+                        playView.startButton.callOnClick();
+                    }
+                    int videoState = playView.currentState;
 
-        return new VideoListItem(mActivity,mInfoListPresenter) {
-            @Override
-            public void itemClick(int position, ImageView imageView, TextView title, InfoListDataBean realData) {
+                    playView.textureViewContainer.removeView(JZMediaManager.textureView);
+                    playView.onStateNormal();
 
-            }
-        };
+                    VideoInfoDetailsActivity.startVideoInfoDetailsActivity(mActivity,realData,videoState);
+                }
+            };
+        }
+        return mVideoListItem;
     }
 
 

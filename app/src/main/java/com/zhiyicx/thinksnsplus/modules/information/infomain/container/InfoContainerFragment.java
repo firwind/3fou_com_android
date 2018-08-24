@@ -245,6 +245,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
     @Override
     public void setInfoType(InfoTypeBean infoType) {
         mInfoTypeBean = infoType;
+        //mFragmentList.clear();
 //        mInfoTypeBean.getMy_cates().add(0, new InfoTypeCatesBean(-1L, getString(R.string
 //                .flash), true));
         for (InfoTypeCatesBean myCatesBean : infoType.getMy_cates()) {

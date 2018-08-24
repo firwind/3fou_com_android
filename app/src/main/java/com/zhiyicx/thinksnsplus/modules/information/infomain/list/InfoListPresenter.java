@@ -71,9 +71,12 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
 
     @Override
     public void handleLike(InfoListDataBean dataBean) {
-        dataBean.setHas_like(!dataBean.isHas_like());
-        mRootView.refreshData();
+
         mBaseInfoRepository.handleLike(!dataBean.isHas_like(), String.valueOf(dataBean.getId()) );
+
+        dataBean.setHas_like(!dataBean.isHas_like());
+        dataBean.setDigg_count(dataBean.isHas_like()?dataBean.getDigg_count()+1:dataBean.getDigg_count()-1);
+        mRootView.refreshData();
     }
 
     @Override

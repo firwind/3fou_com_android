@@ -67,17 +67,21 @@ public class HomeActivity extends TSActivity {
     @Override
     public void onPause() {
         super.onPause();
-        JZVideoPlayer jzVideoPlayer = JZVideoPlayerManager.getCurrentJzvd();
+        /*JZVideoPlayer jzVideoPlayer = JZVideoPlayerManager.getCurrentJzvd();
         if (jzVideoPlayer != null) {
             if (JZUtils.scanForActivity(jzVideoPlayer.getContext()) instanceof HomeActivity) {
                 jzVideoPlayer.onStateNormal();
             }
-        }
+        }*/
+        JZVideoPlayer.goOnPlayOnPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        JZVideoPlayer.releaseAllVideos();
+
         UmengSharePolicyImpl.onDestroy(this);
         if(mNetChangeReceiver!=null){
             unregisterReceiver(mNetChangeReceiver);

@@ -11,6 +11,8 @@ package com.zhiyicx.thinksnsplus.i;
 
 public interface IntentKey {
 
+    String DATA = "data";
+
     String USER_ID = "user_id";
     String GROUP_ID = "group_id";
     String GROUP_INFO = "group_info";
@@ -34,6 +36,8 @@ public interface IntentKey {
     String PASSWORD_TYPE = "password_type";
 
     String NOTIFICATION_REVIEW_TYPE = "notification_review_type";
+
+    String VIDEO_STATE = "video_state";
 
     int TYPE_PASSWORD_LOGIN = 0;
     int TYPE_PASSWORD_PAY = 1;

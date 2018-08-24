@@ -23,7 +23,7 @@ import java.util.List;
 import org.greenrobot.greendao.DaoException;
 
 @Entity
-public class InfoListDataBean extends BaseListBean implements Serializable {
+public class InfoListDataBean extends BaseListBean implements Serializable,Parcelable {
     @Transient
     private static final long serialVersionUID = 1L;
     /**
@@ -80,6 +80,7 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
     private List<InfoCommentListBean> commentList;
     @Convert(converter = InfoRelateListConvert.class, columnType = String.class)
     private List<InfoListDataBean> relateInfoList;
+
 
     public int getVideo() {
         return video;
@@ -558,48 +559,6 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
     @Generated(hash = 438734104)
     private transient InfoListDataBeanDao myDao;
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeValue(this.id);
-        dest.writeLong(this.user_id);
-        dest.writeValue(this.info_type);
-        dest.writeInt(this.is_collection_news);
-        dest.writeInt(this.is_digg_news);
-        dest.writeString(this.title);
-        dest.writeString(this.text_content);
-        dest.writeString(this.from);
-        dest.writeString(this.created_at);
-        dest.writeString(this.updated_at);
-        dest.writeParcelable(this.image, flags);
-        dest.writeInt(this.audit_status);
-        dest.writeByte(this.is_pinned ? (byte) 1 : (byte) 0);
-        dest.writeString(this.subject);
-        dest.writeByte(this.has_collect ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.has_like ? (byte) 1 : (byte) 0);
-        dest.writeParcelable(this.category, flags);
-        dest.writeByte(this.isTop ? (byte) 1 : (byte) 0);
-        dest.writeString(this.author);
-        dest.writeInt(this.hits);
-        dest.writeTypedList(this.tags);
-        dest.writeInt(this.digg_count);
-        dest.writeInt(this.undigg_count);
-        dest.writeInt(this.comment_count);
-        dest.writeInt(this.is_recommend);
-        dest.writeInt(this.audit_count);
-        dest.writeString(this.content);
-        dest.writeByte(this.has_lihao ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.has_likong ? (byte) 1 : (byte) 0);
-        dest.writeTypedList(this.digList);
-        dest.writeTypedList(this.commentList);
-        dest.writeTypedList(this.relateInfoList);
-    }
-
     public boolean getHas_lihao() {
         return this.has_lihao;
     }
@@ -622,49 +581,6 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 338806337)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getInfoListDataBeanDao() : null;
-    }
-
-    protected InfoListDataBean(Parcel in) {
-        super(in);
-        this.id = (Long) in.readValue(Long.class.getClassLoader());
-        this.user_id = in.readLong();
-        this.info_type = (Long) in.readValue(Long.class.getClassLoader());
-        this.is_collection_news = in.readInt();
-        this.is_digg_news = in.readInt();
-        this.title = in.readString();
-        this.text_content = in.readString();
-        this.from = in.readString();
-        this.created_at = in.readString();
-        this.updated_at = in.readString();
-        this.image = in.readParcelable(StorageBean.class.getClassLoader());
-        this.audit_status = in.readInt();
-        this.is_pinned = in.readByte() != 0;
-        this.subject = in.readString();
-        this.has_collect = in.readByte() != 0;
-        this.has_like = in.readByte() != 0;
-        this.category = in.readParcelable(InfoCategory.class.getClassLoader());
-        this.isTop = in.readByte() != 0;
-        this.author = in.readString();
-        this.hits = in.readInt();
-        this.tags = in.createTypedArrayList(UserTagBean.CREATOR);
-        this.digg_count = in.readInt();
-        this.undigg_count = in.readInt();
-        this.comment_count = in.readInt();
-        this.is_recommend = in.readInt();
-        this.audit_count = in.readInt();
-        this.content = in.readString();
-        this.has_lihao = in.readByte() != 0;
-        this.has_likong = in.readByte() != 0;
-        this.digList = in.createTypedArrayList(InfoDigListBean.CREATOR);
-        this.commentList = in.createTypedArrayList(InfoCommentListBean.CREATOR);
-        this.relateInfoList = in.createTypedArrayList(InfoListDataBean.CREATOR);
     }
 
     @Generated(hash = 379480779)
@@ -712,10 +628,121 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
         this.relateInfoList = relateInfoList;
     }
 
+
+    protected InfoListDataBean(Parcel in) {
+        super(in);
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        user_id = in.readLong();
+        if (in.readByte() == 0) {
+            info_type = null;
+        } else {
+            info_type = in.readLong();
+        }
+        is_collection_news = in.readInt();
+        is_digg_news = in.readInt();
+        title = in.readString();
+        text_content = in.readString();
+        from = in.readString();
+        created_at = in.readString();
+        updated_at = in.readString();
+        image = in.readParcelable(StorageBean.class.getClassLoader());
+        audit_status = in.readInt();
+        is_pinned = in.readByte() != 0;
+        subject = in.readString();
+        has_collect = in.readByte() != 0;
+        has_like = in.readByte() != 0;
+        category = in.readParcelable(InfoCategory.class.getClassLoader());
+        isTop = in.readByte() != 0;
+        author = in.readString();
+        hits = in.readInt();
+        tags = in.createTypedArrayList(UserTagBean.CREATOR);
+        digg_count = in.readInt();
+        undigg_count = in.readInt();
+        comment_count = in.readInt();
+        is_recommend = in.readInt();
+        audit_count = in.readInt();
+        content = in.readString();
+        has_lihao = in.readByte() != 0;
+        has_likong = in.readByte() != 0;
+        video = in.readInt();
+        avatar = in.readString();
+        user_name = in.readString();
+        digList = in.createTypedArrayList(InfoDigListBean.CREATOR);
+        commentList = in.createTypedArrayList(InfoCommentListBean.CREATOR);
+        relateInfoList = in.createTypedArrayList(InfoListDataBean.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        dest.writeLong(user_id);
+        if (info_type == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(info_type);
+        }
+        dest.writeInt(is_collection_news);
+        dest.writeInt(is_digg_news);
+        dest.writeString(title);
+        dest.writeString(text_content);
+        dest.writeString(from);
+        dest.writeString(created_at);
+        dest.writeString(updated_at);
+        dest.writeParcelable(image, flags);
+        dest.writeInt(audit_status);
+        dest.writeByte((byte) (is_pinned ? 1 : 0));
+        dest.writeString(subject);
+        dest.writeByte((byte) (has_collect ? 1 : 0));
+        dest.writeByte((byte) (has_like ? 1 : 0));
+        dest.writeParcelable(category, flags);
+        dest.writeByte((byte) (isTop ? 1 : 0));
+        dest.writeString(author);
+        dest.writeInt(hits);
+        dest.writeTypedList(tags);
+        dest.writeInt(digg_count);
+        dest.writeInt(undigg_count);
+        dest.writeInt(comment_count);
+        dest.writeInt(is_recommend);
+        dest.writeInt(audit_count);
+        dest.writeString(content);
+        dest.writeByte((byte) (has_lihao ? 1 : 0));
+        dest.writeByte((byte) (has_likong ? 1 : 0));
+        dest.writeInt(video);
+        dest.writeString(avatar);
+        dest.writeString(user_name);
+        dest.writeTypedList(digList);
+        dest.writeTypedList(commentList);
+        dest.writeTypedList(relateInfoList);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 338806337)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getInfoListDataBeanDao() : null;
+    }
+
+
     public static final Creator<InfoListDataBean> CREATOR = new Creator<InfoListDataBean>() {
         @Override
-        public InfoListDataBean createFromParcel(Parcel source) {
-            return new InfoListDataBean(source);
+        public InfoListDataBean createFromParcel(Parcel in) {
+            return new InfoListDataBean(in);
         }
 
         @Override
@@ -723,5 +750,6 @@ public class InfoListDataBean extends BaseListBean implements Serializable {
             return new InfoListDataBean[size];
         }
     };
+
 }
 

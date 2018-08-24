@@ -44,8 +44,11 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
     private InfoListPresenter mPresenter;
 
 
-    public VideoListItem(Context mContext, InfoListPresenter mPresenter) {
+    public VideoListItem(Context mContext) {
         this.mContext = mContext;
+    }
+
+    public void setPresenter(InfoListPresenter mPresenter) {
         this.mPresenter = mPresenter;
     }
 
@@ -73,14 +76,12 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
 
         initVideoView(info,ImageUtils.getVideoUrl(info.getVideo()),holder.getView(R.id.videoplayer),position);
 
-        holder.getView(R.id.tv_dig_count).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(null != mPresenter)
-                    mPresenter.handleLike(info);
-            }
+        holder.getView(R.id.tv_dig_count).setOnClickListener(v -> {
+            if(null != mPresenter)
+                mPresenter.handleLike(info);
         });
 
+        holder.itemView.setOnClickListener(v -> itemClick(position,holder, info));
 
     }
 
@@ -136,13 +137,10 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
             if (isDetailBackToList) {
                 view.setUp(videoUrl, JZVideoPlayerStandard.SCREEN_WINDOW_LIST);
 
+                if(null != JZMediaManager.textureView.getParent())
+                    ((ZhiyiVideoView) JZVideoPlayerManager.getFirstFloor()).removeTextureView();
+
                 JZVideoPlayer first = JZVideoPlayerManager.getFirstFloor();
-                if (first instanceof ZhiyiVideoView) {
-                    ZhiyiVideoView videoView = (ZhiyiVideoView) first;
-                    if (!"".equals(videoView.mVideoFrom)) {
-                        return;
-                    }
-                }
                 first.textureViewContainer.removeView(JZMediaManager.textureView);
                 view.setState(first.currentState);
                 view.addTextureView();
@@ -159,7 +157,6 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
 
     }
 
-    public abstract void itemClick(int position, ImageView imageView, TextView title,
-                                   InfoListDataBean realData);
+    public abstract void itemClick(int position,ViewHolder holder,InfoListDataBean realData);
 
 }
