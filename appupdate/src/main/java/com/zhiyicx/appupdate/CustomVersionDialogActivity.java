@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,17 +107,17 @@ public class CustomVersionDialogActivity extends VersionDialogActivity implement
         final Bundle bundle = getVersionParamBundle();
         final AppVersionBean appVersionBean = bundle.getParcelable(BUNDLE_VERSIONDATA);
         versionDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.custom_dialog_two_layout);
-        TextView tvTitle = (TextView) versionDialog.findViewById(R.id.tv_title);
+        TextView tvVersion = (TextView) versionDialog.findViewById(R.id.tv_version);
         final MarkdownView mdMsg = (MarkdownView) versionDialog.findViewById(R.id.md_msg);
 
-        TextView tvAbord = (TextView) versionDialog.findViewById(R.id.tv_abord);
-        TextView tvInstall = (TextView) versionDialog.findViewById(R.id.tv_install);
+        ImageView ivClose = (ImageView) versionDialog.findViewById(R.id.iv_close);
+        ImageView ivInstall = (ImageView) versionDialog.findViewById(R.id.iv_install);
 
         versionDialog.show();
         //设置dismiss listener 用于强制更新,dimiss会回调dialogDismiss方法
         versionDialog.setOnDismissListener(this);
         //可以使用之前从service传过来的一些参数比如：title。msg，downloadurl，parambundle
-        tvTitle.setText(getVersionTitle());
+        tvVersion.setText("最新版本："+appVersionBean.getVersion());
         InternalStyleSheet css = new Github();
         css.addRule(".container", "padding-right:0", ";padding-left:0", "text-align:justify","text-align-last:left", "letter-spacing: 0.3px");
         css.addRule("body", "line-height: 1.59", "padding: 0px", "font-size: 17px", "color: #333333");
@@ -171,7 +172,7 @@ public class CustomVersionDialogActivity extends VersionDialogActivity implement
         mdMsg.setWebViewClient(mWebViewClient);
 
         //可以使用之前service传过来的值
-        tvInstall.setOnClickListener(new View.OnClickListener() {
+        ivInstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 versionDialog.dismiss();
@@ -180,8 +181,8 @@ public class CustomVersionDialogActivity extends VersionDialogActivity implement
             }
         });
         if (!isForceUpdate) {
-            tvAbord.setVisibility(View.VISIBLE);
-            tvAbord.setOnClickListener(new View.OnClickListener() {
+            ivClose.setVisibility(View.VISIBLE);
+            ivClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     versionDialog.dismiss();

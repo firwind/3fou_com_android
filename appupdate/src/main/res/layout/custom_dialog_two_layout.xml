@@ -1,63 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@android:color/transparent"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_custom"
-        android:orientation="vertical"
-        android:padding="15dp">
+        android:layout_height="wrap_content">
 
 
-        <TextView
-            android:id="@+id/tv_title"
+        <ImageView
+            android:id="@+id/iv_close"
+            android:visibility="gone"
+            android:layout_gravity="end"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="检测到新版本是否更新?"
-            android:textColor="@color/important_for_content"
-            android:textSize="@dimen/size_sub_title"/>
+            android:src="@drawable/icon_close"/>
 
-        <br.tiagohm.markdownview.MarkdownView
-            android:id="@+id/md_msg"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:layout_marginTop="15dp"
-            android:visibility="visible"
-            tools:ignore="WebViewLayout"/>
+            android:layout_height="match_parent"
+            android:src="@drawable/bg_rocket"
+            android:scaleType="fitCenter"/>
 
         <LinearLayout
+            android:layout_marginTop="155dp"
+            android:layout_marginLeft="23dp"
+            android:layout_marginRight="23dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_abord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="忽略此版本"
-                android:textColor="@color/important_for_theme"
-                android:textSize="@dimen/size_content_comment"
-                android:visibility="invisible"/>
+                android:layout_gravity="center_horizontal"
+                android:text="发现新版本！"
+                android:textColor="#000000"
+                android:textSize="17sp" />
 
             <TextView
-                android:id="@+id/tv_install"
+                android:id="@+id/tv_version"
+                android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="立即安装"
+                android:textSize="14sp"
+                android:text="最新版本：V2.8.0"
+                android:textColor="#000000"/>
 
-                android:textColor="@color/important_for_theme"
-                android:textSize="@dimen/size_content_comment"/>
+            <br.tiagohm.markdownview.MarkdownView
+                android:id="@+id/md_msg"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="10dp"
+                android:visibility="visible"
+                tools:ignore="WebViewLayout" />
+
+            <ImageView
+                android:id="@+id/iv_install"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/icon_up_version"
+                android:scaleType="centerInside"/>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </FrameLayout>
+
 </LinearLayout>

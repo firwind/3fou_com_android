@@ -74,6 +74,7 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
         holder.getTextView(R.id.tv_user_name).setText(info.getUser_name());
         ImageUtils.loadCircleImageDefault(holder.getImageViwe(R.id.user_avatar),info.getAvatar());
 
+        ((ZhiyiVideoView)holder.getView(R.id.videoplayer)).setShowShare(false);
         initVideoView(info,ImageUtils.getVideoUrl(info.getVideo()),holder.getView(R.id.videoplayer),position);
 
         holder.getView(R.id.tv_dig_count).setOnClickListener(v -> {

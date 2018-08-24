@@ -291,6 +291,8 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
      */
     private void initVideoPlayer(){
 
+        videoView.setShowShare(false);//屏蔽分享
+
         String imageUrl = ImageUtils.imagePathConvertV2(mInfoMation.getImage().getId(), 0, 0, ImageZipConfig.IMAGE_100_ZIP);
         String videoUrl = ImageUtils.getVideoUrl(mInfoMation.getVideo());
 

@@ -77,6 +77,12 @@ public class ZhiyiVideoView extends JZVideoPlayerStandard {
 
     public String mVideoFrom;
 
+    private boolean isShowShare = true;//是否显示分享
+
+    public void setShowShare(boolean showShare) {
+        isShowShare = showShare;
+    }
+
     public ZhiyiVideoView(Context context) {
         super(context);
     }
@@ -162,7 +168,7 @@ public class ZhiyiVideoView extends JZVideoPlayerStandard {
             onStatePreparing();
         } else {
             JZVideoPlayerManager.completeAll();
-            Log.d(TAG, "startVideo [" + this.hashCode() + "] ");
+            //Log.d(TAG, "startVideo [" + this.hashCode() + "] ");
             initTextureView();
             addTextureView();
             AudioManager mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
@@ -204,11 +210,15 @@ public class ZhiyiVideoView extends JZVideoPlayerStandard {
             mShareImageView.setVisibility(GONE);
             mShareTextView.setVisibility(GONE);
             replayTextView.setVisibility(GONE);
-            mShareLineLinearLayout.setVisibility(VISIBLE);
-            mShareLinearLayout.setVisibility(VISIBLE);
+
+            if(isShowShare){
+                mShareLineLinearLayout.setVisibility(VISIBLE);
+                mShareLinearLayout.setVisibility(VISIBLE);
+            }
         } else {
             super.onAutoCompletion();
-            mShareImageView.setVisibility(VISIBLE);
+            if(isShowShare)
+                mShareImageView.setVisibility(VISIBLE);
         }
         mDefaultStartImageView.setVisibility(GONE);
         thumbImageView.setBackgroundColor(Color.parseColor("#80000000"));
@@ -298,14 +308,17 @@ public class ZhiyiVideoView extends JZVideoPlayerStandard {
         switch (currentScreen) {
             case SCREEN_WINDOW_NORMAL:
             case SCREEN_WINDOW_LIST:
-                mShareImageView.setVisibility(VISIBLE);
+                if(isShowShare)
+                    mShareImageView.setVisibility(VISIBLE);
                 mShareLineLinearLayout.setVisibility(GONE);
                 mShareLinearLayout.setVisibility(GONE);
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
                 mShareImageView.setVisibility(GONE);
-                mShareLineLinearLayout.setVisibility(VISIBLE);
-                mShareLinearLayout.setVisibility(VISIBLE);
+                if(isShowShare){
+                    mShareLineLinearLayout.setVisibility(VISIBLE);
+                    mShareLinearLayout.setVisibility(VISIBLE);
+                }
                 break;
             case SCREEN_WINDOW_TINY:
                 break;
@@ -355,7 +368,7 @@ public class ZhiyiVideoView extends JZVideoPlayerStandard {
             }
             replayTextView.setVisibility(GONE);
         }
-        mShareTextView.setVisibility(replayTextView.getVisibility());
+        mShareTextView.setVisibility(isShowShare?replayTextView.getVisibility():GONE);
     }
 
     @Override

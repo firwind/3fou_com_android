@@ -33,6 +33,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.info.ChatInfoActivity;
+import com.zhiyicx.thinksnsplus.widget.EditTextWithDel;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -48,7 +49,7 @@ import static com.hyphenate.easeui.EaseConstant.CHATTYPE_GROUP;
 public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter, ChatGroupServerBean> implements AddGroupContract.View {
 
     @BindView(R.id.et_search_group)
-    DeleteEditText mSearchGroup;
+    EditTextWithDel mSearchGroup;
     private boolean mIsSearch = false;
 
     public static AddGroupFragment instance(Bundle bundle) {

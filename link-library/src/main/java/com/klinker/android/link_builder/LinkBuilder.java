@@ -213,7 +213,8 @@ public class LinkBuilder {
                     link_real_position++;
                 } else if (!Link.DEFAULT_NET_SITE.equals(link.getText())) {
                     TouchableSpan spanNor = applyLink(link, new Range(start, end), s);
-                    spanNor.position = link_position;
+                    if(null != spanNor)
+                        spanNor.position = link_position;
                 }
                 link_position++;
             }
