@@ -47,6 +47,7 @@ import com.zhiyicx.thinksnsplus.modules.information.adapter.InfoListItem;
 import com.zhiyicx.thinksnsplus.modules.information.flashdetails.FlashDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.container.InfoContainerFragment;
+import com.zhiyicx.thinksnsplus.modules.information.videoinfodetails.VideoInfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.q_a.QA_Activity;
 import com.zhiyicx.thinksnsplus.modules.rank.main.container.RankIndexActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
@@ -174,12 +175,16 @@ public class MessageHomePageFragment extends TSListFragment<MessageHomePageContr
                             , imageView.getDrawable(), R.mipmap.icon), "info_share.jpg");
                     title.setTextColor(getResources()
                             .getColor(R.color.normal_for_assist_text));
-                    Intent intent = new Intent(getActivity(), InfoDetailsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(BUNDLE_INFO, realData);
-                    bundle.putString(BUNDLE_INFO_TYPE, InfoContainerFragment.RECOMMEND_INFO);
-                    intent.putExtra(BUNDLE_INFO, bundle);
-                    startActivity(intent);
+                    if (realData.getVideo() == 0) {
+                        Intent intent = new Intent(getActivity(), InfoDetailsActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(BUNDLE_INFO, realData);
+                        bundle.putString(BUNDLE_INFO_TYPE, InfoContainerFragment.RECOMMEND_INFO);
+                        intent.putExtra(BUNDLE_INFO, bundle);
+                        startActivity(intent);
+                    }else {
+                        VideoInfoDetailsActivity.startVideoInfoDetailsActivity(getContext(),realData,-1);
+                    }
                 }
             }
         });

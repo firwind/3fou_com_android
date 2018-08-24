@@ -516,7 +516,7 @@ public interface EasemobClient {
      * @return
      */
     @GET(ApiConfig.APP_PATH_SELECT_ORGANIZATION)
-    Observable<List<OrganizationBean>> getOrganizationList(@Query("limit") int limit, @Query("offset") int offset, @Query("keyword") String keyword);
+    Observable<List<OrganizationBean>> getOrganizationList(@Query("limit") Integer limit, @Query("offset") int offset, @Query("keyword") String keyword);
 
     /**
      * 更换组织

@@ -39,6 +39,7 @@ import com.zhiyicx.thinksnsplus.modules.edit_userinfo.UserInfoTagsAdapter;
 import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
 import com.zhiyicx.thinksnsplus.modules.information.dig.InfoDigListActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetailsActivity;
+import com.zhiyicx.thinksnsplus.modules.information.videoinfodetails.VideoInfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhiyicx.thinksnsplus.modules.wallet.reward.RewardType;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
@@ -154,7 +155,7 @@ public class VideoInfoDetailHeaderView {
             LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
             mRvRelateInfo.setLayoutManager(manager);
             mRvRelateInfo.setNestedScrollingEnabled(false);
-            CommonAdapter adapter = new CommonAdapter<InfoListDataBean>(mContext, R.layout.item_info, infoListDataBeen) {
+            CommonAdapter adapter = new CommonAdapter<InfoListDataBean>(mContext, R.layout.item_video_details_info, infoListDataBeen) {
                 @Override
                 protected void convert(ViewHolder holder, InfoListDataBean infoListDataBean, int position) {
                     final TextView title = holder.getView(R.id.item_info_title);
@@ -173,24 +174,24 @@ public class VideoInfoDetailHeaderView {
                         Glide.with(BaseApplication.getContext())
                                 .load(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(), imageView.getWidth(), imageView.getHeight(),
                                         ImageZipConfig.IMAGE_80_ZIP))
-                                .placeholder(R.drawable.shape_default_image)
-                                .error(R.drawable.shape_default_image)
+                                .placeholder(R.mipmap.default_image_for_video)
+                                .error(R.mipmap.default_image_for_video)
                                 .override(imageView.getContext().getResources().getDimensionPixelOffset(R.dimen.info_channel_list_image_width)
                                         , imageView.getContext().getResources().getDimensionPixelOffset(R.dimen.info_channel_list_height))
                                 .into(imageView);
                     }
-                    // 来自单独分开
-                    String category = infoListDataBean.getCategory() == null ? "" : infoListDataBean.getCategory().getName();
-                    holder.setText(R.id.tv_from_channel, category);
+//                    // 来自单独分开
+//                    String category = infoListDataBean.getCategory() == null ? "" : infoListDataBean.getCategory().getName();
+//                    holder.setText(R.id.tv_from_channel, category);
                     // 投稿来源，浏览数，时间
                     String from = infoListDataBean.getFrom().equals(title.getContext().getString(R.string.info_publish_original)) ?
                             infoListDataBean.getAuthor() : infoListDataBean.getFrom();
                     String infoData = String.format(Locale.getDefault(), title.getContext().getString(R.string.info_list_count)
                             , from, String.valueOf(infoListDataBean.getHits()), TimeUtils.getTimeFriendlyNormal(infoListDataBean
                                     .getUpdated_at()));
-                    holder.setText(R.id.item_info_timeform, infoData);
+                    holder.setText(R.id.item_play_num,  String.valueOf(infoListDataBean.getHits()));
                     // 是否置顶
-                    holder.setVisible(R.id.tv_top_flag, infoListDataBean.isTop() ? View.VISIBLE : View.GONE);
+//                    holder.setVisible(R.id.tv_top_flag, infoListDataBean.isTop() ? View.VISIBLE : View.GONE);
                     holder.itemView.setOnClickListener(v -> {
                         if (!AppApplication.sOverRead.contains(infoListDataBean.getId())) {
                             AppApplication.sOverRead.add(infoListDataBean.getId().intValue());
@@ -199,12 +200,8 @@ public class VideoInfoDetailHeaderView {
                                 , imageView.getDrawable(), R.mipmap.icon), "info_share.jpg");
                         title.setTextColor(mContext.getResources()
                                 .getColor(R.color.normal_for_assist_text));
-                        // 跳转到新的咨询页
-                        Intent intent = new Intent(mContext, InfoDetailsActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(BUNDLE_INFO, infoListDataBeen.get(position));
-                        intent.putExtra(BUNDLE_INFO, bundle);
-                        mContext.startActivity(intent);
+                        // 跳转到新的视频详情页
+                        VideoInfoDetailsActivity.startVideoInfoDetailsActivity(getContext(),infoListDataBeen.get(position),-1);
                     });
                 }
             };

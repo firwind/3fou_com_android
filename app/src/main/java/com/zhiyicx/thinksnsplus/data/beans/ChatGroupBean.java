@@ -72,7 +72,16 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
     @Transient
     @SerializedName("im_group_organize")
     private OrganizationBean organizationBean;
+    @Transient
+    @SerializedName("im_group_community")
+    private CircleInfo circleInfo;
 
+    public CircleInfo getCircleInfo() {
+        return circleInfo;
+    }
+    public void setCircleInfo(CircleInfo circleInfo) {
+        this.circleInfo = circleInfo;
+    }
 
     public int getIs_in() {
         return mIsIn;
@@ -325,6 +334,7 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         dest.writeByte(this.isPublic ? (byte) 1 : (byte) 0);
         dest.writeInt(this.group_level);
         dest.writeParcelable(this.organizationBean, flags);
+        dest.writeParcelable(this.circleInfo, flags);
         dest.writeInt(this.mIsIn);
         dest.writeInt(this.privacy);
     }
@@ -347,6 +357,7 @@ public class ChatGroupBean extends BaseListBean implements Parcelable, Serializa
         this.isPublic = in.readByte() != 0;
         this.group_level = in.readInt();
         this.organizationBean = in.readParcelable(OrganizationBean.class.getClassLoader());
+        this.circleInfo = in.readParcelable(CircleInfo.class.getClassLoader());
         this.mIsIn = in.readInt();
         this.privacy = in.readInt();
     }

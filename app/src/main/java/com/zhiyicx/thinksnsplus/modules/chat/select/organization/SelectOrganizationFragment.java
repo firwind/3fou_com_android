@@ -28,6 +28,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.OrganizationBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
+import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -45,9 +46,10 @@ import static com.zhiyicx.thinksnsplus.modules.chat.select.organization.SelectOr
 public class SelectOrganizationFragment extends TSListFragment<SelectOrganizationContract.Presenter, OrganizationBean> implements SelectOrganizationContract.View {
     @BindView(R.id.et_search_organization)
     DeleteEditText mSearchOrganization;
-    public int mOrganizationId;
+    public int mOrganizationId = -1;
     public String mGroupId;
     public boolean isCreate;
+    public boolean isSelect;
     List<UserInfoBean> list;
 
 
@@ -66,9 +68,9 @@ public class SelectOrganizationFragment extends TSListFragment<SelectOrganizatio
             Bundle bundle = getArguments().getBundle(GROUP_INFO);
             if (bundle != null) {
                 mOrganizationId = bundle.getInt(GROUP_ORGANIZATION_ID, 0);
-                isCreate = mOrganizationId==0?true:false;
+                isCreate = mOrganizationId == 0 ? true : false;
                 mGroupId = bundle.getString(GROUP_ID);
-            }else {
+            } else {
                 isCreate = true;
             }
         }
@@ -100,7 +102,11 @@ public class SelectOrganizationFragment extends TSListFragment<SelectOrganizatio
     protected void setRightClick() {
         super.setRightClick();
         if (isCreate) {
-            mPresenter.createConversation(list, mOrganizationId);
+            if (getOrganizationId() != -1) {
+                mPresenter.createConversation(list);
+            } else {
+                showSnackErrorMessage("请选择组织");
+            }
         } else {
             mPresenter.changOrganization();
         }
@@ -161,7 +167,7 @@ public class SelectOrganizationFragment extends TSListFragment<SelectOrganizatio
                     OrganizationBean organizationBean = mListDatas.get(i);
                     if (position == i) {
                         organizationBean.setSelector(true);
-                        mOrganizationId = organizationBean.getId();
+                        setmOrganizationId(organizationBean.getId());
                     } else {
                         organizationBean.setSelector(false);
                     }
@@ -183,6 +189,7 @@ public class SelectOrganizationFragment extends TSListFragment<SelectOrganizatio
         super.snackViewDismissWhenTimeOut(prompt);
         if (prompt == Prompt.SUCCESS) {
             getActivity().finish();
+
         }
     }
 
@@ -214,13 +221,16 @@ public class SelectOrganizationFragment extends TSListFragment<SelectOrganizatio
         }
         ChatActivity.startChatActivity(mActivity, id, chatType);
         getActivity().finish();
+        SelectFriendsActivity.mSelectFriendsActivity.finish();
     }
 
     @Override
     public int getOrganizationId() {
         return mOrganizationId;
     }
-
+    public void setmOrganizationId(int mOrganizationId) {
+        this.mOrganizationId = mOrganizationId;
+    }
     @Override
     public String getGroupId() {
         return mGroupId;

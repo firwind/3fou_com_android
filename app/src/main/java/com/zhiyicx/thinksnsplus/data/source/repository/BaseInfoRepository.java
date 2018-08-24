@@ -254,6 +254,11 @@ public class BaseInfoRepository implements IBaseInfoRepository {
     }
 
     @Override
+    public Observable<List<InfoListDataBean>> getVideoInfoList(String news_id) {
+        return mInfoMainClient.getVideoInfoList(news_id);
+    }
+
+    @Override
     public Observable<InfoListDataBean> getInfoDetail(String news_id) {
         return mInfoMainClient.getInfoDetail(news_id);
     }

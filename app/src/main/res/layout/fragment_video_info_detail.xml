@@ -74,20 +74,17 @@
     </FrameLayout>
 
     <FrameLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <include layout="@layout/fragment_tslist"/>
-
-        <com.zhiyicx.baseproject.widget.InputLimitView
-            android:id="@+id/ilv_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:fitsSystemWindows="true"
-            app:limitSize="@integer/comment_input_max_size"
-            app:showLimitSize="@integer/show_comment_input_size"/>
-
     </FrameLayout>
-
+    <com.zhiyicx.baseproject.widget.InputLimitView
+        android:id="@+id/ilv_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:fitsSystemWindows="true"
+        app:limitSize="@integer/comment_input_max_size"
+        app:showLimitSize="@integer/show_comment_input_size"/>
 </LinearLayout>

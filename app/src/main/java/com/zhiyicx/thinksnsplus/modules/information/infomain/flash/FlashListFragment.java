@@ -29,6 +29,7 @@ import com.zhiyicx.thinksnsplus.modules.information.flashdetails.FlashDetailsAct
 import com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.list.InfoListPresenterModule;
+import com.zhiyicx.thinksnsplus.modules.information.videodetails.VideoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
@@ -121,6 +122,7 @@ public class FlashListFragment extends TSListFragment<InfoMainContract.FlashList
                     content.setTextColor(getResources()
                             .getColor(R.color.normal_for_assist_text));
                     FlashDetailsActivity.startActivity(getContext(),realData);
+
                 }
             }
 

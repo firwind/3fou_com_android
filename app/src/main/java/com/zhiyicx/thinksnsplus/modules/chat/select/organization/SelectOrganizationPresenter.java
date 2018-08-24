@@ -83,7 +83,7 @@ public class SelectOrganizationPresenter extends AppBasePresenter<SelectOrganiza
     }
 
     @Override
-    public void createConversation(List<UserInfoBean> list, int organizationId) {
+    public void createConversation(List<UserInfoBean> list) {
         // 没有添加当前用户的情况下 添加在第一个
         if (list.get(0).getUser_id() != AppApplication.getMyUserIdWithdefault()) {
             UserInfoBean mySelf = mUserInfoBeanGreenDao.getSingleDataFromCache(AppApplication.getMyUserIdWithdefault());
@@ -110,7 +110,7 @@ public class SelectOrganizationPresenter extends AppBasePresenter<SelectOrganiza
 
         Subscription subscription = mRepository
                 .createGroup(groupName, groupIntro, true,
-                        200, false, false, list.get(0).getUser_id(), members.substring(0, members.length() - 1), organizationId)
+                        200, false, false, list.get(0).getUser_id(), members.substring(0, members.length() - 1), mRootView.getOrganizationId())
                 .doOnSubscribe(() -> mRootView.showSnackLoadingMessage(mContext.getString(R.string.circle_dealing)))
                 .flatMap(groupInfo -> {
                     EMGroup group = null;

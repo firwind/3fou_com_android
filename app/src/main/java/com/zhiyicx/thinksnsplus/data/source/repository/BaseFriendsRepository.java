@@ -198,7 +198,7 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
 
     @Override
     public Observable<List<OrganizationBean>> getOrganizationList(int page, String search) {
-        return mEasemobClient.getOrganizationList(TSListFragment.DEFAULT_PAGE_SIZE, page, search)
+        return mEasemobClient.getOrganizationList(TSListFragment.DEFAULT_PAGE_DB_SIZE, page, search)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -211,7 +211,7 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
 
     @Override
     public Observable<List<CircleInfo>> communityList(int page, String search) {
-        return mEasemobClient.getCommunityList(TSListFragment.DEFAULT_PAGE_SIZE, page, search)
+        return mEasemobClient.getCommunityList(TSListFragment.DEFAULT_PAGE_DB_SIZE, page, search)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

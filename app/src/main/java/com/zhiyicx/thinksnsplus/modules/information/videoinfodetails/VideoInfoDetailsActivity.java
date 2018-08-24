@@ -69,12 +69,10 @@ public class VideoInfoDetailsActivity extends TSActivity<VideoInfoDetailsPresent
 
 
     public static void startVideoInfoDetailsActivity(Context mContext,InfoListDataBean data, int videoState){
-
         Intent intent = new Intent(mContext,VideoInfoDetailsActivity.class);
         intent.putExtra(IntentKey.DATA, (Parcelable) data);
         intent.putExtra(IntentKey.VIDEO_STATE,videoState);
         mContext.startActivity(intent);
-
     }
 
 }

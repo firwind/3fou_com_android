@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import static com.zhiyicx.thinksnsplus.i.IntentKey.GROUP_ID;
 
 public class RelevanceCommunityActivity extends TSActivity<RelevanceCommunityPresenter, RelevanceCommunityFragment> {
-
+    public static String COMMUNITY_ID = "communityId";
     @Override
     protected RelevanceCommunityFragment getFragment() {
         return RelevanceCommunityFragment.getInstance(getIntent().getExtras());
@@ -33,9 +33,10 @@ public class RelevanceCommunityActivity extends TSActivity<RelevanceCommunityPre
                 .build().inject(this);
     }
 
-    public static void startRelevanceCommunityActivity(Context context, String groupId) {
+    public static void startRelevanceCommunityActivity(Context context, String groupId,String communityId) {
         Intent intent = new Intent(context, RelevanceCommunityActivity.class);
         intent.putExtra(GROUP_ID, groupId);
+        intent.putExtra(COMMUNITY_ID, communityId);
         context.startActivity(intent);
     }
 }

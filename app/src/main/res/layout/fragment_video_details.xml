@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="@color/black_deep"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp200">
+        <com.zhiyicx.thinksnsplus.modules.shortvideo.helper.ZhiyiVideoView
+            android:id="@+id/video_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/fragment_tslist" />
+    </FrameLayout>
+    <com.zhiyicx.baseproject.widget.InputLimitView
+        android:id="@+id/ilv_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="@bool/pickerview_customTextSize"
+        android:layout_gravity="bottom"
+        android:fitsSystemWindows="true"
+        android:visibility="gone"
+        app:limitSize="@integer/comment_input_max_size"
+        app:showLimitSize="@integer/show_comment_input_size"/>
+
+</LinearLayout>

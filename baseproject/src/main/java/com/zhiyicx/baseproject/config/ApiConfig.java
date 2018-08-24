@@ -1071,6 +1071,7 @@ public class ApiConfig {
     public static final String APP_PATH_INFO_TOP_LIST = "api/" + API_VERSION_2 + "/news/categories/pinneds";// 获取置顶资讯
     public static final String APP_PATH_INFO_DETAIL = "api/" + API_VERSION_2 + "/news/{news}";// 详情
     public static final String APP_PATH_INFO_DETAIL_RELATION = "api/" + API_VERSION_2 + "/news/{news}/correlations";// 相关资讯
+    public static final String APP_PATH_INFO_DETAIL_VIDEO = "api/" + API_VERSION_2 + "/news/{news}/correlations_video";// 相关视频
     public static final String APP_PATH_INFO_DIG_V2 = "api/" + API_VERSION_2 + "/news/{news}/likes";// 点赞
     public static final String APP_PATH_FLASH_BEAR_NEWS_DIG = "api/" + API_VERSION_2 + "/news/{news}/likong";// 利空
     public static final String APP_PATH_FLASH_BULL_DIG = "api/" + API_VERSION_2 + "/news/{news}/lihao";// 利好

@@ -38,7 +38,7 @@ public class SelectOrganizationContract {
          *
          * @param list 用户列表
          */
-        void createConversation(List<UserInfoBean> list,int organizationId);
+        void createConversation(List<UserInfoBean> list);
 
         void changOrganization();
     }

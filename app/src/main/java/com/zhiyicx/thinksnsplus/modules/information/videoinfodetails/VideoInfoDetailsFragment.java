@@ -87,7 +87,7 @@ import static com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetai
  * @Author Jliuer
  * @Date 2017/03/08
  * @Email Jliuer@aliyun.com
- * @Description 资讯详情
+ * @Description 视频详情
  */
 public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsConstract.Presenter,
         InfoCommentListBean> implements VideoInfoDetailsConstract.View, InputLimitView
@@ -138,7 +138,10 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     protected boolean isRefreshEnable() {
         return false;
     }
-
+    @Override
+    protected boolean setUseCenterLoading() {
+        return true;
+    }
     @Override
     protected int getstatusbarAndToolbarHeight() {
         return 0;
@@ -165,6 +168,7 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
 
     @Override
     public void updateInfoHeader(InfoListDataBean infoDetailBean) {
+        closeLoadingView();
         this.mInfoMation = infoDetailBean;
         mInfoDetailHeader.setDetail(infoDetailBean);
         mInfoDetailHeader.setRelateInfo(infoDetailBean);

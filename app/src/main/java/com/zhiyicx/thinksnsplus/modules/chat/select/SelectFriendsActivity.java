@@ -19,14 +19,21 @@ import static com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsFragment
  */
 
 public class SelectFriendsActivity extends TSActivity<SelectFriendsPresenter, SelectFriendsFragment> {
-
+    public static SelectFriendsActivity mSelectFriendsActivity;
     @Override
     protected SelectFriendsFragment getFragment() {
         return SelectFriendsFragment.instance(getIntent().getExtras());
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSelectFriendsActivity = this;
+    }
+
+    @Override
     protected void componentInject() {
+
         DaggerSelectFriendsComponent.builder()
                 .appComponent(AppApplication.AppComponentHolder.getAppComponent())
                 .selectFriendsPresenterModule(new SelectFriendsPresenterModule(mContanierFragment))

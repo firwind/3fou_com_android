@@ -38,6 +38,7 @@ import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_COLLECTION_
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_DELETE;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_DETAIL;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_DETAIL_RELATION;
+import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_DETAIL_VIDEO;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_DIG_LIST;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_FOLLOW_LIST;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_GET_COMMENT;
@@ -144,6 +145,11 @@ public interface InfoMainClient {
      */
     @GET(APP_PATH_INFO_DETAIL_RELATION)
     Observable<List<InfoListDataBean>> getRelateInfoList(@Path("news") String news_id);
+    /**
+     * 获取一条视频的相关资讯
+     */
+    @GET(APP_PATH_INFO_DETAIL_VIDEO)
+    Observable<List<InfoListDataBean>> getVideoInfoList(@Path("news") String news_id);
 
     @DELETE(APP_PATH_INFO_DELETE)
     Observable<BaseJsonV2<Object>> deleteInfo(@Path("category") String category, @Path("news") String news_id);

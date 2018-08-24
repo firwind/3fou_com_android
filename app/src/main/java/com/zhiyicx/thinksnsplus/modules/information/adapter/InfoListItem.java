@@ -51,7 +51,7 @@ public abstract class InfoListItem implements ItemViewDelegate<BaseListBean> {
         final InfoListDataBean realData = (InfoListDataBean) baseListBean;
         final TextView title = holder.getView(R.id.item_info_title);
         final ImageView imageView = holder.getView(R.id.item_info_imag);
-
+        holder.setVisible(R.id.iv_video_icon,realData.getVideo()==0?View.GONE:View.VISIBLE);
         // 记录点击过后颜色
         if (AppApplication.sOverRead.contains(realData.getId())) {
             title.setTextColor(SkinUtils.getColor(R.color.normal_for_assist_text));
@@ -109,8 +109,8 @@ public abstract class InfoListItem implements ItemViewDelegate<BaseListBean> {
                     ImageZipConfig.IMAGE_80_ZIP);
             Glide.with(BaseApplication.getContext())
                     .load(url)
-                    .placeholder(R.drawable.shape_default_image)
-                    .error(R.drawable.shape_default_image)
+                    .placeholder(R.mipmap.default_image_for_video)
+                    .error(R.mipmap.default_image_for_video)
                     .override(w, h)
                     .into(imageView);
         }

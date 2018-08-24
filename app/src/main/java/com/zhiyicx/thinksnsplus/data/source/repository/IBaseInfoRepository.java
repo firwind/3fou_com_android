@@ -47,6 +47,8 @@ public interface IBaseInfoRepository {
 
     Observable<List<InfoListDataBean>> getRelateInfoList(String news_id);
 
+    Observable<List<InfoListDataBean>> getVideoInfoList(String news_id);
+
     Observable<InfoListDataBean> getInfoDetail(String news_id);
 
 

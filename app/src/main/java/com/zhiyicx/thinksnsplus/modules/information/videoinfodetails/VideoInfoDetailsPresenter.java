@@ -103,7 +103,7 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
                 || mRootView.getCurrentInfo().getRelateInfoList().size() == 0) {
             Subscription subscribe = Observable.zip(mBaseInfoRepository.getInfoDetail(String.valueOf(mRootView.getNewsId())),
                     mBaseInfoRepository.getInfoDigListV2(String.valueOf(mRootView.getNewsId()), 0L),
-                    mBaseInfoRepository.getRelateInfoList(String.valueOf(mRootView.getNewsId())),
+                    mBaseInfoRepository.getVideoInfoList(String.valueOf(mRootView.getNewsId())),
                     mBaseInfoRepository.getInfoCommentListV2(String.valueOf(mRootView.getNewsId()), 0L, 0L),
                     (infoListDataBean, infoDigListBeen, infoRelateBean, infoCommentBean) -> {
                         infoListDataBean.setDigList(infoDigListBeen);
@@ -213,6 +213,7 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
                 for (int i = 0; i < localComment.size(); i++) {
                     localComment.get(i).setFromUserInfoBean(mUserInfoBeanGreenDao
                             .getSingleDataFromCache(localComment.get(i).getUser_id()));
+
                     if (localComment.get(i).getReply_to_user_id() != 0) {
                         localComment.get(i).setToUserInfoBean(mUserInfoBeanGreenDao
                                 .getSingleDataFromCache(localComment.get(i)

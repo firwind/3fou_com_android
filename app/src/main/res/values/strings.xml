@@ -1259,6 +1259,10 @@
     <string name="chat_no_talking_had_destory">群组已解散</string>
 
     <string name="chat_group_not_allow_anyone_enter">该群已禁止任何人加入！</string>
+    <string name="recommend_video">推荐视频</string>
+    <string name="video_details">视频详情</string>
+    <string name="all_comment">全部评论(%d)</string>
+    <string name="play_num">播放量%1$s</string>
 
     <string name="only_number_or_letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 
