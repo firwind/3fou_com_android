@@ -22,6 +22,7 @@
             android:paddingLeft="@dimen/dp20"
             android:paddingRight="@dimen/dp20"
             android:textColor="@color/text_color_black"
+            android:focusable="false"
             android:textSize="@dimen/dp14" />
 
         <View style="@style/style_divider_horizontal" />

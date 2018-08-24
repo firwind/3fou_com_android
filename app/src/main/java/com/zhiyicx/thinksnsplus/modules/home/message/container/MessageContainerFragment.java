@@ -71,7 +71,7 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
     private static final int DEFAULT_TAB_UNSELECTED_TEXTCOLOR = com.zhiyicx.baseproject.R.color.normal_for_assist_text;// 缺省的tab未选择文字
     private static final int DEFAULT_TAB_SELECTED_TEXTCOLOR = com.zhiyicx.baseproject.R.color.important_for_content;// 缺省的tab被选择文字
     private static final int DEFAULT_TAB_TEXTSIZE = com.zhiyicx.baseproject.R.integer.tab_text_size;// 缺省的tab文字大小
-    private static final int DEFAULT_TAB_MARGIN = com.zhiyicx.baseproject.R.integer.tab_margin;// 缺省的tab左右padding
+    private static final int DEFAULT_TAB_MARGIN = com.zhiyicx.baseproject.R.integer.tab_small_margin;// 缺省的tab左右padding
     private static final int DEFAULT_TAB_PADDING = com.zhiyicx.baseproject.R.integer.tab_padding;// 缺省的tab的线和文字的边缘距离
     private static final int DEFAULT_TAB_LINE_COLOR = com.zhiyicx.baseproject.R.color.themeColor;// 缺省的tab的线的颜色
     private static final int DEFAULT_TAB_LINE_HEGIHT = com.zhiyicx.baseproject.R.integer.line_height;// 缺省的tab的线的高度

@@ -139,9 +139,11 @@ public class NotificationReviewFragment extends TSListFragment<NotificationRevie
                         .subscribe(aVoid -> toUserCenter(getContext(), groupOrFriendReviewBean.getUser_data()));
 
                 ImageUtils.loadCircleUserHeadPic(groupOrFriendReviewBean.getUser_data(), holder.getView(R.id.iv_headpic));
-                holder.getTextView(R.id.tv_name).setText(groupOrFriendReviewBean.getGroup_data().getName());
-                holder.getTextView(R.id.tv_reason).setText( (TextUtils.isEmpty(groupOrFriendReviewBean.getInformation())?
-                        "申请加入群":"理由："+groupOrFriendReviewBean.getInformation()) );
+                holder.getTextView(R.id.tv_name).setText(groupOrFriendReviewBean.getUser_data().getName());
+                holder.getTextView(R.id.tv_group_name).setVisibility(View.VISIBLE);
+                holder.getTextView(R.id.tv_group_name).setText("申请加入"+groupOrFriendReviewBean.getGroup_data().getName());
+                holder.getTextView(R.id.tv_reason).setVisibility(TextUtils.isEmpty(groupOrFriendReviewBean.getInformation())?View.GONE:View.VISIBLE);
+                holder.getTextView(R.id.tv_reason).setText("理由："+groupOrFriendReviewBean.getInformation() );
                 try {
                     holder.getTextView(R.id.tv_time).setText(TimeUtils.getTimeFriendlyNormal(
                             TimeUtils.string2MillisDefaultLocal(groupOrFriendReviewBean.getCreated_at())));

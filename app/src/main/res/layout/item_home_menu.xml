@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp77"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center">
 
     <ImageView
         android:id="@+id/iv_icon"
+        android:layout_marginBottom="@dimen/dp5"
         android:layout_width="@dimen/dp48"
-        android:layout_height="@dimen/dp45"
+        android:layout_height="@dimen/dp30"
         android:scaleType="centerInside"/>
 
     <TextView
@@ -16,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black_deep"
-        android:textSize="@dimen/sp14"/>
+        android:textSize="@dimen/sp12"
+        tools:text="菜单"/>
 
 </LinearLayout>

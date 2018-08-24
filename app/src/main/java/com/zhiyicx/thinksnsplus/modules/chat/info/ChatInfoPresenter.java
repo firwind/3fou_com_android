@@ -137,9 +137,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                             mRootView.closeCurrentActivity();
                         }
                     });
-        }
-
-        if(mRootView.getIsInGroup()){//退群
+        }else if(mRootView.getIsInGroup()){//退群
             Observable.just(chatId)
                     .subscribeOn(Schedulers.io())
                     .flatMap(s -> {

@@ -161,6 +161,7 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
     @Override
     public void nextCreateGroup(List<UserInfoBean> list) {
         SelectOrganizationActivity.startSelectOrganizationActivity(getContext(),list);
+        getActivity().finish();
     }
 
     @Override
@@ -290,7 +291,7 @@ public class SelectFriendsFragment extends TSListFragment<SelectFriendsContract.
             mListDatas.addAll(position, newList);
             mAdapter.notifyDataSetChanged();
         }
-        mEditSearchFriends.setText("");
+        //mEditSearchFriends.setText("");
         checkData();
     }
 

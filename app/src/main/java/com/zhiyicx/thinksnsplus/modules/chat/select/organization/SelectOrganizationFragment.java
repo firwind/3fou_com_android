@@ -67,8 +67,8 @@ public class SelectOrganizationFragment extends TSListFragment<SelectOrganizatio
             list = (List<UserInfoBean>) getArguments().getSerializable(GROUP_INFO_BEAN);
             Bundle bundle = getArguments().getBundle(GROUP_INFO);
             if (bundle != null) {
-                mOrganizationId = bundle.getInt(GROUP_ORGANIZATION_ID, 0);
-                isCreate = mOrganizationId == 0 ? true : false;
+                mOrganizationId = bundle.getInt(GROUP_ORGANIZATION_ID, -1);
+                isCreate = mOrganizationId == -1 ? true : false;
                 mGroupId = bundle.getString(GROUP_ID);
             } else {
                 isCreate = true;

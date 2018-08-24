@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -87,6 +88,8 @@ public class VideoInfoDetailHeaderView {
     private boolean isReviewIng;
     private TextView mTvDigCount;
     private TextView mTvPlayCount;
+    private LinearLayout mLlHeader;
+    private ImageView mIvLoading;
 
     public View getInfoDetailHeader() {
         return mInfoDetailHeader;
@@ -108,9 +111,12 @@ public class VideoInfoDetailHeaderView {
         mIvDetail = (ImageView) mInfoDetailHeader.findViewById(R.id.iv_detail);
         mTvDigCount = (TextView) mInfoDetailHeader.findViewById(R.id.tv_dig_count);
         mTvPlayCount = (TextView) mInfoDetailHeader.findViewById(R.id.tv_play_count);
+        mIvLoading = (ImageView) mInfoDetailHeader.findViewById(R.id.iv_loading);
+        mLlHeader = (LinearLayout) mInfoDetailHeader.findViewById(R.id.ll_header);
     }
 
     public void setDetail(InfoListDataBean infoMain) {
+
         if (infoMain != null) {
             mTitle.setText(infoMain.getTitle());
             mTvDigCount.setText( String.valueOf(infoMain.getDigg_count()) );
@@ -137,6 +143,10 @@ public class VideoInfoDetailHeaderView {
 
 
     public void setRelateInfo(InfoListDataBean infoMain) {
+
+        mLlHeader.setVisibility(VISIBLE);
+        mIvLoading.setVisibility(GONE);
+
         List<InfoListDataBean> infoListDataBeen = infoMain.getRelateInfoList();
         if (infoListDataBeen != null && infoListDataBeen.size() > 0) {
             if (!isReviewIng) {

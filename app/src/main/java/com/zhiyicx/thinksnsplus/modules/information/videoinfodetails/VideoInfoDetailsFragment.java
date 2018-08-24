@@ -138,10 +138,10 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     protected boolean isRefreshEnable() {
         return false;
     }
-    @Override
+    /*@Override
     protected boolean setUseCenterLoading() {
         return true;
-    }
+    }*/
     @Override
     protected int getstatusbarAndToolbarHeight() {
         return 0;
@@ -168,16 +168,17 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
 
     @Override
     public void updateInfoHeader(InfoListDataBean infoDetailBean) {
-        closeLoadingView();
+        //closeLoadingView();
         this.mInfoMation = infoDetailBean;
         mInfoDetailHeader.setDetail(infoDetailBean);
         mInfoDetailHeader.setRelateInfo(infoDetailBean);
+        mIlvComment.setVisibility(View.VISIBLE);
         onNetResponseSuccess(infoDetailBean.getCommentList(), false);
     }
 
     @Override
     public void setDigg(boolean isDigged, int count) {
-
+        mInfoDetailHeader.setDigCount(isDigged,count);
     }
 
 
@@ -275,7 +276,6 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     @Override
     public void onSendClick(View v, String text) {
         DeviceUtils.hideSoftKeyboard(getContext(), v);
-        mIlvComment.setVisibility(View.GONE);
         mPresenter.sendComment(mReplyUserId, text);
     }
 
@@ -378,6 +378,7 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
         mHeaderAndFooterWrapper.addFootView(mFooterView);
         mRvList.setAdapter(mHeaderAndFooterWrapper);
         mHeaderAndFooterWrapper.notifyDataSetChanged();
+        mInfoDetailHeader.setDetail(mInfoMation);
     }
 
     private void initListener() {

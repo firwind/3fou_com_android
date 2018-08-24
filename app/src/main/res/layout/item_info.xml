@@ -22,8 +22,6 @@
             android:id="@+id/item_info_imag"
             android:layout_width="@dimen/info_channel_list_image_width"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/default_image_for_video" />
 

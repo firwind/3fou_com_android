@@ -56,94 +56,118 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/info_relate_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/ll_header"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_normal"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:id="@+id/info_relate_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/spacing_mid"
-                android:paddingBottom="@dimen/spacing_mid"
-                android:paddingLeft="@dimen/spacing_normal"
-                android:paddingRight="@dimen/spacing_normal"
-                android:paddingTop="@dimen/spacing_mid"
-                android:text="推荐视频"
-                android:textColor="@color/important_for_content"
-                android:textSize="@dimen/size_content_assist"/>
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/spacing_mid"
+                        android:paddingBottom="@dimen/spacing_mid"
+                        android:paddingLeft="@dimen/spacing_normal"
+                        android:paddingRight="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_mid"
+                        android:text="推荐视频"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content_assist"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_line_bottom_themcolor"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/fl_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@color/white"
+                app:max_select="0"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_relate_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_line_bottom_themcolor"/>
-        </LinearLayout>
+                android:layout_height="@dimen/spacing_small_3dp"
+                android:background="@color/general_for_bg_light"/>
 
-        <View
-            style="@style/style_divider_horizontal_light"
-            android:layout_gravity="bottom"/>
-    </FrameLayout>
-
-    <com.zhy.view.flowlayout.TagFlowLayout
-        android:id="@+id/fl_tags"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/spacing_normal"
-        android:background="@color/white"
-        app:max_select="0"
-        />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_relate_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/spacing_small_3dp"
-        android:background="@color/general_for_bg_light"/>
-
-    <!--评论数-->
-    <FrameLayout
-        android:id="@+id/info_detail_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:background="@color/white">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_normal"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_comment_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/spacing_mid"
-                android:paddingBottom="@dimen/spacing_mid"
-                android:paddingLeft="@dimen/spacing_normal"
-                android:paddingRight="@dimen/spacing_normal"
-                android:paddingTop="@dimen/spacing_mid"
-                android:textColor="@color/important_for_content"
-                android:textSize="@dimen/size_content_assist"/>
-
-            <View
+            <!--评论数-->
+            <FrameLayout
+                android:id="@+id/info_detail_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_line_bottom_themcolor"/>
+                android:layout_marginTop="@dimen/spacing_small"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_comment_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/spacing_mid"
+                        android:paddingBottom="@dimen/spacing_mid"
+                        android:paddingLeft="@dimen/spacing_normal"
+                        android:paddingRight="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_mid"
+                        android:textColor="@color/important_for_content"
+                        android:textSize="@dimen/size_content_assist"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_line_bottom_themcolor"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/style_divider_horizontal_light"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+
         </LinearLayout>
 
-        <View
-            style="@style/style_divider_horizontal_light"
-            android:layout_gravity="bottom"/>
+        <ImageView
+            android:id="@+id/iv_loading"
+            android:layout_marginTop="@dimen/dp100"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/frame_loading_grey"/>
+
     </FrameLayout>
+
 </LinearLayout>

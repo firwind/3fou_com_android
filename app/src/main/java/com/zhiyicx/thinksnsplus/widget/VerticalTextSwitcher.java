@@ -88,7 +88,7 @@ public class VerticalTextSwitcher extends TextSwitcher implements ViewSwitcher.V
                 FrameLayout.LayoutParams.MATCH_PARENT));
         textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setTextColor(Color.BLACK);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
     }

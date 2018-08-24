@@ -488,7 +488,12 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
                 SettingPrivacyActivity.startSettingPricacyActivity(mActivity, mChatGroupBean);
                 break;
             case R.id.tv_change_organization://更换组织
-                SelectOrganizationActivity.startSelectOrganizationActivity(getContext(), mChatGroupBean.getOrganizationBean().getOrganize_id(), mChatGroupBean.getId());
+                if(null == mChatGroupBean.getOrganizationBean()){
+                    SelectOrganizationActivity.startSelectOrganizationActivity(getContext(), 0, mChatId);
+                }else {
+                    SelectOrganizationActivity.startSelectOrganizationActivity(getContext(),
+                            mChatGroupBean.getOrganizationBean().getOrganize_id(), mChatId);
+                }
                 break;
             case R.id.tv_relevance_community://关联/更换社区
                 String communityId = mChatGroupBean.getCircleInfo() != null ? String.valueOf(mChatGroupBean.getCircleInfo().getId()) : "";

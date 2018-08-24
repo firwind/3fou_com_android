@@ -21,6 +21,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
+import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.OrganizationBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
@@ -28,6 +29,7 @@ import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.SelectFriendsRepository;
 
 import org.jetbrains.annotations.NotNull;
+import org.simple.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,6 +175,8 @@ public class SelectOrganizationPresenter extends AppBasePresenter<SelectOrganiza
                 .subscribe(new BaseSubscriberV3<String>(mRootView) {
                     @Override
                     protected void onSuccess(String data) {
+                        //更新群组信息
+                        EventBus.getDefault().post(true, EventBusTagConfig.EVENT_IM_GROUP_UPDATE_INFO);
                         mRootView.showSnackSuccessMessage("更换成功");
                     }
                 });

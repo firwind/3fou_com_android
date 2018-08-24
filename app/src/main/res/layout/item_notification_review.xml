@@ -38,6 +38,21 @@
             android:textSize="@dimen/size_sub_title"/>
 
         <TextView
+            android:id="@+id/tv_group_name"
+            android:layout_width="@dimen/dp160"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_toRightOf="@id/iv_headpic"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="申请加入群"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/spacing_mid_small"
+            android:textColor="@color/gray_normal"
+            android:textSize="@dimen/sp14"/>
+
+        <TextView
             android:id="@+id/tv_time"
             android:layout_marginLeft="@dimen/dp8"
             android:layout_width="wrap_content"
@@ -51,7 +66,7 @@
             android:id="@+id/tv_reason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_name"
+            android:layout_below="@id/tv_group_name"
             android:layout_marginTop="@dimen/spacing_mid_small"
             android:layout_toRightOf="@id/iv_headpic"
             android:gravity="top"

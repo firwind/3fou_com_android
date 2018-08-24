@@ -91,6 +91,7 @@
 
     <!--#########################################      viewpager的tab切换相关      ################################-->
     <!--tab的间距,单位dp-->
+    <integer name="tab_small_margin">15</integer>
     <integer name="tab_margin">20</integer>
     <integer name="tab_margin_10">10</integer>
     <!--tab的间距,单位dp-->
