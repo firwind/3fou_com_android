@@ -91,7 +91,7 @@ public class ExpandGroupListAdapter extends BaseExpandableListAdapter {
         if(null == convertView)
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_group_list,parent,false);
         ChatGroupBean chatGroupBean = mList.get(groupPosition).childs.get(childPosition);
-        ((TextView) convertView.findViewById(R.id.tv_group_name)).setText(chatGroupBean.getName());
+        ((TextView) convertView.findViewById(R.id.tv_group_name)).setText(chatGroupBean.getName()+"("+chatGroupBean.getAffiliations_count()+")");
         FilterImageView imageView = ((FilterImageView) convertView.findViewById(R.id.uv_group_head));
         ImageView signImageView = ((ImageView) convertView.findViewById(R.id.iv_group_sign));
         Glide.with(mContext)

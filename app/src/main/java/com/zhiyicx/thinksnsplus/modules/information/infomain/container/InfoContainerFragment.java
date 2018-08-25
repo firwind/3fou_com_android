@@ -215,15 +215,14 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
             mFragmentList.clear();
             mInfoTypeBean = data.getBundleExtra(SUBSCRIBE_EXTRA).getParcelable(SUBSCRIBE_EXTRA);
 
-            /*Observable.from(mInfoTypeBean.getMy_cates())
+            Observable.from(mInfoTypeBean.getMy_cates())
                     .subscribe(myCatesBean -> {
                         mTitle.add(myCatesBean.getName());
                         mFragmentList.add(InfoListFragment.newInstance(myCatesBean.getId() + ""));
                     });
             mTsvToolbar.notifyDataSetChanged(mTitle);
             tsViewPagerAdapter.bindData(mFragmentList, mTitle.toArray(new String[]{}));
-            mVpFragment.setOffscreenPageLimit(mTitle.size());*/
-            setInfoType(mInfoTypeBean);
+            mVpFragment.setOffscreenPageLimit(mTitle.size());
         }
 
     }
