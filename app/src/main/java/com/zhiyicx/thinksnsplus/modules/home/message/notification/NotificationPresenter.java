@@ -198,7 +198,7 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
         if(null != t1.getFriendChecks() && t1.getFriendChecks().size() > 0 &&
                 null != t1.getFriendChecks().get(0).getUser()){
             friendReview.setNotification(String.format("%s申请加你为好友",t1.getFriendChecks().get(0).getUser().getName()));
-            friendReview.setTime(TimeUtils.utc2LocalLong(t1.getFriendChecks().get(0).getTime()));
+            friendReview.setTime(TimeUtils.string2MillisDefaultLocal(t1.getFriendChecks().get(0).getTime()));
         }else {
             friendReview.setNotification("暂无审核申请");
             friendReview.setTime(0L);
@@ -224,8 +224,7 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
 
             groupReview.setNotification(String.format("%s申请加入群聊[%s]",
                     t1.getGroupChecks().get(0).getUser().getName(),t1.getGroupChecks().get(0).getGroup().getName()));
-            //字段未返回，暂时弄成0L
-            groupReview.setTime(0L/*TimeUtils.utc2LocalLong(t1.getGroupChecks().get(0).getTime())*/);
+            groupReview.setTime(TimeUtils.string2MillisDefaultLocal(t1.getGroupChecks().get(0).getCreated_at()));
         }else {
             groupReview.setNotification("暂无审核申请");
             groupReview.setTime(0L);

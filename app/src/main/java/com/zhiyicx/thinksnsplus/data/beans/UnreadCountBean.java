@@ -12,8 +12,18 @@ public class UnreadCountBean {
     private Long user_id;
     private Long id;
     private String time;
+    private String created_at;
     private UserInfoBean user;
     private ChatGroupBean group;
+
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
 
     public ChatGroupBean getGroup() {
         return group;

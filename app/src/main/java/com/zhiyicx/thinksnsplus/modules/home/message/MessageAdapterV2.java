@@ -1,6 +1,7 @@
 package com.zhiyicx.thinksnsplus.modules.home.message;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.bean.ChatUserInfoBean;
 import com.jakewharton.rxbinding.view.RxView;
+import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.baseproject.impl.imageloader.glide.transformation.GlideCircleTransform;
 import com.zhiyicx.baseproject.widget.BadgeView;
 import com.zhiyicx.baseproject.widget.UserAvatarView;
@@ -59,16 +61,21 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
     private OnConversationItemLongClickListener mOnConversationItemLongClickListener;
     private OnUserInfoClickListener mOnUserInfoClickListener;
     private MessageConversationContract.Presenter mPresenter;
+    private Drawable mGroupDrawable;
+    private Drawable mFriendDrawable;
 
     public MessageAdapterV2(Context context, List<MessageItemBeanV2> datas, MessageConversationContract.Presenter presenter) {
         super(context, R.layout.item_message_list, datas);
         mItemManger = new SwipeItemRecyclerMangerImpl(this);
         mPresenter = presenter;
+
+        mGroupDrawable = context.getResources().getDrawable(R.mipmap.icon_conversation_group);
+        mFriendDrawable = context.getResources().getDrawable(R.mipmap.icon_conversation_friend);
     }
 
     @Override
     protected void convert(ViewHolder holder, MessageItemBeanV2 messageItemBean, int position) {
-        setItemData(holder, messageItemBean, position-1);//因为外部列表加了一个header，所以这里的位置要-1
+        setItemData(holder, messageItemBean, position);
     }
 
     /**
@@ -90,20 +97,38 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
         switch (null == messageItemBean.getConversation()?messageItemBean.getType() :
                 messageItemBean.getConversation().getType()) {
             case Chat:
-                // 私聊
-                UserInfoBean singleChatUserinfo = messageItemBean.getUserInfo();
-                if (singleChatUserinfo == null) {
-                    TSEMHyphenate.getInstance().getChatUser(messageItemBean.getEmKey());
-                }
-                userAvatarView.getIvVerify().setVisibility(View.VISIBLE);
-                ImageUtils.loadUserHead(singleChatUserinfo, userAvatarView, false);
-                // 响应事件
-                holder.setText(R.id.tv_name, singleChatUserinfo.getName());
-                setUserInfoClick(holder.getView(R.id.tv_name), messageItemBean);
-                setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
+
+                if(messageItemBean.getEmKey().equals(TSEMConstants.EMKEY_GROUP_NOTIFICATION)){
+                    //群组通知
+                    userAvatarView.getIvAvatar().setImageDrawable(mGroupDrawable);
+                    userAvatarView.getIvVerify().setVisibility(View.INVISIBLE);
+                    holder.setText(R.id.tv_name, "群通知");
+                    holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
+
+                }else if(messageItemBean.getEmKey().equals(TSEMConstants.EMKEY_FRIEND_NOTIFICATION)){
+                    //新朋友
+                    userAvatarView.getIvAvatar().setImageDrawable(mFriendDrawable);
+                    userAvatarView.getIvVerify().setVisibility(View.INVISIBLE);
+                    holder.setText(R.id.tv_name, "新朋友");
+                    holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
+
+                }else {
+                    // 私聊
+                    UserInfoBean singleChatUserinfo = messageItemBean.getUserInfo();
+                    if (singleChatUserinfo == null) {
+                        TSEMHyphenate.getInstance().getChatUser(messageItemBean.getEmKey());
+                    }
+                    userAvatarView.getIvVerify().setVisibility(View.VISIBLE);
+                    ImageUtils.loadUserHead(singleChatUserinfo, userAvatarView, false);
+                    // 响应事件
+                    holder.setText(R.id.tv_name, singleChatUserinfo.getName());
+                    setUserInfoClick(holder.getView(R.id.tv_name), messageItemBean);
+                    setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
 //                swipeLayout.setSwipeEnabled(mPresenter == null || (singleChatUserinfo!=null&&!mPresenter.checkUserIsImHelper(singleChatUserinfo
 // .getUser_id())));
-                holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
+                    holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
+                }
+
                 break;
             case GroupChat:
                 // 群组
@@ -163,9 +188,11 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
         } else {
             // 最新的消息的发言人，只有群组才管这个
             String lastUserName = "";
-            ChatUserInfoBean chatUserInfoBean = TSEMHyphenate.getInstance().getChatUser(messageItemBean.getConversation().getLastMessage().getFrom());
-            if (!TextUtils.isEmpty(chatUserInfoBean.getName())) {
-                lastUserName = chatUserInfoBean.getName() + ": ";
+            if(messageItemBean.getConversation().isGroup()){
+                ChatUserInfoBean chatUserInfoBean = TSEMHyphenate.getInstance().getChatUser(messageItemBean.getConversation().getLastMessage().getFrom());
+                if (!TextUtils.isEmpty(chatUserInfoBean.getName())) {
+                    lastUserName = chatUserInfoBean.getName() + ": ";
+                }
             }
             EMMessage message = messageItemBean.getConversation().getLastMessage();
             // 根据发送状态设置是否有失败icon
@@ -231,9 +258,14 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
             holder.setText(R.id.tv_time, TimeUtils.getTimeFriendlyNormal(messageItemBean.getConversation().getLastMessage().getMsgTime()));
         }
         try {
-            if(null != messageItemBean.getConversation())
+            if(null != messageItemBean.getConversation() && !TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(messageItemBean.getEmKey()) &&
+                    !TSEMConstants.EMKEY_FRIEND_NOTIFICATION.equals(messageItemBean.getEmKey()))
                 ((BadgeView) holder.getView(R.id.tv_tip)).setBadgeCount(Integer.parseInt(ConvertUtils.messageNumberConvert(messageItemBean
                         .getConversation().getUnreadMsgCount())));
+            else if(null != messageItemBean.getConversation() && (TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(messageItemBean.getEmKey()) ||
+                    TSEMConstants.EMKEY_FRIEND_NOTIFICATION.equals(messageItemBean.getEmKey())) ){
+                ((BadgeView) holder.getView(R.id.tv_tip)).setBadgeCount(messageItemBean.getUnReadCount());
+            }
             else {
                 //((BadgeView) holder.getView(R.id.tv_tip)).setBadgeCount(0);
             }

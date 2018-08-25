@@ -8,6 +8,10 @@ package com.zhiyicx.baseproject.em.manager.util;
  */
 public class TSEMConstants {
 
+    //群通知和好友通知的emkey
+    public static final String EMKEY_GROUP_NOTIFICATION = "group_notification";
+    public static final String EMKEY_FRIEND_NOTIFICATION = "friend_notification";
+
     // GCM number
     public static final String ML_GCM_NUMBER = "163141467698";
 

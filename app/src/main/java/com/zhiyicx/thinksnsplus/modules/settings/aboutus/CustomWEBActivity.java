@@ -57,7 +57,7 @@ public class CustomWEBActivity extends TSActivity<RegisterPresenter, CustomWEBFr
                 String url = args[0];
                 // 广告需要 token
                 url = url.replace("__token__", AppApplication.getTOKEN().replace(" ", "|"));
-                bundle.putString(CustomWEBFragment.BUNDLE_PARAMS_WEB_URL, url);
+                bundle.putString(CustomWEBFragment.BUNDLE_PARAMS_WEB_URL,url+ (url.indexOf("?") == -1?"?":"&")+"platform=app");
                 bundle.putString(CustomWEBFragment.BUNDLE_PARAMS_WEB_TITLE, args[1]);
                 if (headers != null) {
                     bundle.putSerializable(CustomWEBFragment.BUNDLE_PARAMS_WEB_HEADERS, headers);

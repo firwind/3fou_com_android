@@ -12,6 +12,7 @@ import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.TimeUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.NotificationBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagecomment.MessageCommentActivity;
@@ -23,6 +24,8 @@ import com.zhiyicx.thinksnsplus.modules.home.message.notification.review.Notific
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+
+import org.simple.eventbus.Subscriber;
 
 import javax.inject.Inject;
 
@@ -77,9 +80,26 @@ public class NotificationFragment extends TSListFragment<NotificationContract.Pr
     }
 
     @Override
+    protected void initData() {
+        super.initData();
+        mPresenter.requestNetData(0L,false);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         mPresenter.requestNetData(0L,false);
+    }
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
+    @Subscriber(tag = EventBusTagConfig.EVENT_REFRESH_NOTIFICATION_LIST)
+    public void refreshNotificationList(boolean isRefresh){
+        if(isRefresh)
+            mPresenter.requestNetData(0L,false);
     }
 
     @Override

@@ -132,7 +132,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
 //            showBindPopupWindow();
 //        }
 
-        initHeaderView();
+        //initHeaderView();
 
 
     }
@@ -297,8 +297,8 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            if (mSearchView != null)
-                mSearchView.setText("");
+            /*if (mSearchView != null)
+                mSearchView.setText("");*/
 
             //该事件会由以下两种情况出现
             // ①MessageContainerfragment中的viewPager切换
@@ -396,7 +396,13 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
 
     @Override
     public void onLeftClick(int position) {
-        toChatV2(mListDatas.get(position), position);
+        if(TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(mListDatas.get(position).getEmKey()) ){//群组通知
+            NotificationReviewActivity.startNotificationReviewActivity(mActivity, IntentKey.NOTIFICATION_REVIEW_GROUP);
+        }else if(TSEMConstants.EMKEY_FRIEND_NOTIFICATION.equals(mListDatas.get(position).getEmKey())){//新朋友
+            NotificationReviewActivity.startNotificationReviewActivity(mActivity, IntentKey.NOTIFICATION_REVIEW_FRIEND);
+        }else {
+            toChatV2(mListDatas.get(position), position);
+        }
     }
 
     @Override
@@ -411,14 +417,14 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
 
     /**
      * 新朋友和群审核通知
-     * @param notificaiton
+     *  notificaiton
      */
-    @Subscriber(mode = ThreadMode.MAIN,tag = EventBusTagConfig.EVENT_GROUP_AND_FRIEND_NOTIFICATION_LIST)
+    /*@Subscriber(mode = ThreadMode.MAIN,tag = EventBusTagConfig.EVENT_GROUP_AND_FRIEND_NOTIFICATION_LIST)
     public void onTSEMConnectionEventBus(GroupAndFriendNotificaiton notificaiton) {
         try {
             setupGroupAndFriendNotification(notificaiton);
         }catch (Exception e){}
-    }
+    }*/
 
     @Subscriber(mode = ThreadMode.MAIN)
     public void onTSEMConnectionEventBus(TSEMConnectionEvent event) {
@@ -543,7 +549,11 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
      * @param position 被删除项在列表中的位置
      */
     private void initCheckSurePop(int position) {
-        String mStickStr = mListDatas.get(position).getIsStick() == 0 ? getString(R.string.go_top) : getString(R.string.cancel_top);
+        String mStickStr = "";
+        if(!TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(mListDatas.get(position).getEmKey())
+                && !TSEMConstants.EMKEY_FRIEND_NOTIFICATION.equals(mListDatas.get(position).getEmKey()))
+            mStickStr = mListDatas.get(position).getIsStick() == 0 ? getString(R.string.go_top) : getString(R.string.cancel_top);
+
         mCheckSurePop = ActionPopupWindow
                 .builder()
                 .item1Str(mStickStr)

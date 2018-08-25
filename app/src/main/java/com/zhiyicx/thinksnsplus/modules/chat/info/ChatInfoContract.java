@@ -31,7 +31,7 @@ public interface ChatInfoContract {
     interface View extends IBaseView<Presenter> {
         String getChatId();
 
-        void setIsInGroup(boolean isInGroup);
+        //void setIsInGroup(boolean isInGroup);
 
         void updateGroup(ChatGroupBean chatGroupBean);
 
@@ -66,7 +66,7 @@ public interface ChatInfoContract {
 
         boolean isGroupOwner();
 
-        void getIsInGroup();
+        //void getIsInGroup();
 
         void updateGroup(ChatGroupBean chatGroupBean, boolean isEditGroupFace);
 

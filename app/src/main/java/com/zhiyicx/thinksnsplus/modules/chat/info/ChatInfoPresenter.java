@@ -41,6 +41,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_IM_DELETE_QUIT;
@@ -89,7 +90,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
         }
     }
 
-    @Override
+    /*@Override
     public void getIsInGroup() {
         Observable.create((Observable.OnSubscribe<Boolean>) subscriber -> {
             List<EMGroup> groupList = null;
@@ -118,7 +119,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                         mRootView.setIsInGroup(data);
                     }
                 });
-    }
+    }*/
 
     @Override
     public void destoryOrLeaveGroup(String chatId) {
@@ -341,20 +342,12 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
 
     @Override
     public void getGroupChatInfo(String groupId) {
-        Subscription subscription = mRepository.getNewGroupInfoV2(groupId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .flatMap(chatGroupBeans -> {
-                    /*if (chatGroupBeans.isEmpty()) {
-                        return null;
-                    }
-                    try {
-                        EMClient.getInstance().groupManager().getGroupFromServer(chatGroupBeans.get(0).getId());
-                    } catch (HyphenateException e) {
-                        e.printStackTrace();
-                    }*/
-                    return Observable.just(chatGroupBeans/*.get(0)*/);
-                })
+
+        addSubscrebe(Observable.zip(mRepository.getNewGroupInfoV2(groupId),
+                getIsInGroupObservable(), (chatGroupNewBean, aBoolean) -> {
+                    chatGroupNewBean.setIs_in(aBoolean ? 1 : 0);
+                    return chatGroupNewBean;
+                }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscribeForV2<ChatGroupNewBean>() {
                     @Override
@@ -375,8 +368,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                         super.onException(throwable);
                         mRootView.isShowEmptyView(false, false);
                     }
-                });
-        addSubscrebe(subscription);
+                }));
     }
 
     @Override
@@ -532,5 +524,33 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                     }
                 });
     }
+
+
+    /**
+     * 获取是否在群里的observable
+     * @return
+     */
+    private Observable<Boolean> getIsInGroupObservable(){
+        return Observable.create(subscriber -> {
+            List<EMGroup> groupList = null;
+            try {
+                groupList = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+            } catch (HyphenateException e) {
+                //e.printStackTrace();
+            }
+            boolean isInGroup = false;
+            if(null != groupList && groupList.size() > 0 ){
+                for (EMGroup group:groupList) {
+                    if(group.getGroupId().equals(mRootView.getChatId())){
+                        isInGroup = true;
+                        break;
+                    }
+                }
+            }
+            subscriber.onNext(isInGroup);
+            subscriber.onCompleted();
+        });
+    }
+
 
 }

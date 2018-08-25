@@ -97,7 +97,7 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
 
     @Override
     protected int getOffsetPage() {
-        return 3;
+        return 4;
     }
 
     @Override

@@ -25,6 +25,15 @@ public class MessageItemBeanV2 extends BaseListBean implements Serializable {
     private List<UserInfoBean> list;
     private ChatGroupBean chatGroupBean;
     private int isStick;
+    private int unReadCount;
+
+    public int getUnReadCount() {
+        return unReadCount;
+    }
+
+    public void setUnReadCount(int unReadCount) {
+        this.unReadCount = unReadCount;
+    }
 
     public int getIsStick() {
         return isStick;

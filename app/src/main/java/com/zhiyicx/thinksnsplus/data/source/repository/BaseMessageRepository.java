@@ -78,6 +78,11 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                     // 先将环信返回的数据转换为model 然后根据type来处理是否需要获取用户信息，如果不需要则直接返回数据
                     List<MessageItemBeanV2> list = new ArrayList<>();
                     for (Map.Entry<String, EMConversation> entry : stringEMConversationMap.entrySet()) {
+                        //先屏蔽掉新朋友和群通知的会话（在最后组合加上）
+                        if(entry.getKey().equals(TSEMConstants.EMKEY_GROUP_NOTIFICATION) ||
+                                entry.getKey().equals(TSEMConstants.EMKEY_FRIEND_NOTIFICATION )){
+                            continue;
+                        }
                         MessageItemBeanV2 itemBeanV2 = new MessageItemBeanV2();
                         itemBeanV2.setConversation(entry.getValue());
                         itemBeanV2.setEmKey(entry.getKey());
@@ -183,8 +188,10 @@ public class BaseMessageRepository implements IBaseMessageRepository {
                     for (MessageItemBeanV2 itemBeanV2 : list1) {
 
                         if (itemBeanV2.getConversation().getType() == EMConversation.EMConversationType.Chat) {
-                            // 单聊处理用户信息，首先过滤掉环信后台的管理员有用户 admin
-                            if (!itemBeanV2.getEmKey().equals("admin")) {
+                            // 单聊处理用户信息，首先过滤掉环信后台的管理员有用户 admin，群通知，新朋友
+                            if (!itemBeanV2.getEmKey().equals("admin") &&
+                                    !itemBeanV2.getEmKey().equals(TSEMConstants.EMKEY_GROUP_NOTIFICATION) &&
+                                    !itemBeanV2.getEmKey().equals(TSEMConstants.EMKEY_FRIEND_NOTIFICATION)) {
                                 try {
                                     itemBeanV2.setUserInfo(mUserInfoBeanGreenDao.getSingleDataFromCache(Long.parseLong(itemBeanV2.getEmKey())));
                                 } catch (NumberFormatException ignored) {

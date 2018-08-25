@@ -284,7 +284,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     @Override
     protected void initData() {
         if (mChatType == CHATTYPE_GROUP) {
-            mPresenter.getIsInGroup();
+            //mPresenter.getIsInGroup();
             mPresenter.getGroupChatInfo(mChatId);
         }
         //获取置顶列表匹配
@@ -567,7 +567,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         return mChatId;
     }
 
-    @Override
+    /*@Override
     public void setIsInGroup(boolean isInGroup) {
         this.mIsInGroup = isInGroup;
         mRlBlockMessage.setVisibility(isInGroup && !mPresenter.isGroupOwner() ? View.VISIBLE : View.GONE);
@@ -594,7 +594,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             dealAddOrDeleteButton();
             mChatMemberAdapter.refreshData(mChatMembers);
         }
-    }
+    }*/
 
     @Override
     public void updateGroup(ChatGroupBean chatGroupBean) {
@@ -680,6 +680,9 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
     public void getGroupInfoSuccess(ChatGroupNewBean chatGroupBean) {
         mChatGroupBean = chatGroupBean;
         mChatGroupBean.setId(mChatId);
+        //合并为1个接口
+        this.mIsInGroup = chatGroupBean.getIs_in() == 1;
+
         setGroupData();
         // 切换是否屏蔽消息
         mScBlockMessage.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -1024,6 +1027,31 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         }
 
         mTvPrivacy.setVisibility(mPresenter.isGroupOwner() || mPresenter.isGroupAdminer() ? View.VISIBLE : View.GONE);
+
+        mRlBlockMessage.setVisibility(mIsInGroup && !mPresenter.isGroupOwner() ? View.VISIBLE : View.GONE);
+        if (mIsInGroup) {
+            EMGroup group = EMClient.getInstance().groupManager().getGroup(mChatId);
+            // 屏蔽按钮
+            if (group != null) {
+                mScBlockMessage.setChecked(group.isMsgBlocked());
+                mTvDeleteGroup.setText(getString(
+                        group.getOwner().equals(String.valueOf(AppApplication.getmCurrentLoginAuth().getUser_id())) ?
+                                R.string.chat_delete_group : R.string.chat_quit_group));
+            }
+
+        } else {
+            mLlSetStick.setVisibility(View.GONE);
+            mTvClearMessage.setVisibility(View.GONE);
+            mTvDeleteGroup.setText(getString(R.string.tv_add_group_chat));
+            mTvJurisdiction.setVisibility(View.GONE);
+            mTvFindMessage.setVisibility(View.GONE);
+        }
+
+        //处理添加和删除群成员button,如果不在这个群里面，不能邀请
+        if (mIsInGroup) {
+            dealAddOrDeleteButton();
+            mChatMemberAdapter.refreshData(mChatMembers);
+        }
     }
 
     /**

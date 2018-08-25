@@ -20,10 +20,15 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.base.BaseSubscriberV3;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
+import com.zhiyicx.thinksnsplus.data.beans.GroupAndFriendNotificaiton;
+import com.zhiyicx.thinksnsplus.data.beans.MessageItemBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
+import com.zhiyicx.thinksnsplus.data.beans.NotificationBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
+import com.zhiyicx.thinksnsplus.data.beans.UserFollowerCountBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
@@ -35,6 +40,7 @@ import com.zhiyicx.thinksnsplus.utils.MessageTimeAndStickSort;
 import com.zhiyicx.thinksnsplus.utils.badge.CommonBadgeUtil;
 
 import org.jetbrains.annotations.NotNull;
+import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 import org.simple.eventbus.ThreadMode;
 
@@ -48,6 +54,7 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
@@ -84,6 +91,8 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
     private List<StickBean> mStickList = new ArrayList<>();//当前缓存的置顶信息
 
+    private NotificationBean mGroupNotification;//缓存群通知
+    private NotificationBean mFriendNotification;//缓存好友通知
 
     @Inject
     public MessageConversationPresenter(MessageConversationContract.View rootView) {
@@ -180,13 +189,33 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
         // 改为环信的删除
         MessageItemBeanV2 messageItemBeanV2 = mRootView.getListDatas().get(position);
         Subscription subscription = Observable.just(messageItemBeanV2)
-                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .flatMap(messageItemBeanV21 -> {
+                    if(TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(messageItemBeanV21.getEmKey() )){//清除群组未读消息
+                        return mUserInfoRepository.clearUserMessageCount(UserFollowerCountBean.UserBean.MESSAGE_TYPE_GROUP)
+                                .map(s -> messageItemBeanV21);
+                    }else if(TSEMConstants.EMKEY_FRIEND_NOTIFICATION.equals(messageItemBeanV21.getEmKey() )){//清除好友未读消息
+                        return mUserInfoRepository.clearUserMessageCount(UserFollowerCountBean.UserBean.MESSAGE_TYPE_FRIEND)
+                                .map(s -> messageItemBeanV21);
+                    }else {
+                        return Observable.just(messageItemBeanV21);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(itemBeanV2 -> {
-                    mRootView.getListDatas().remove(itemBeanV2);
-                    mRootView.refreshData();
-                    checkBottomMessageTip();
-                    EMClient.getInstance().chatManager().deleteConversation(itemBeanV2.getEmKey(), true);
+                .doOnSubscribe(() -> mRootView.showSnackLoadingMessage("请稍后..."))
+                .subscribe(new BaseSubscriberV3<MessageItemBeanV2>(mRootView){
+                    @Override
+                    protected void onSuccess(MessageItemBeanV2 data) {
+                        super.onSuccess(data);
+                        if(TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(data.getEmKey() ) ||
+                                TSEMConstants.EMKEY_FRIEND_NOTIFICATION.equals(data.getEmKey() )){
+                            EventBus.getDefault().post(true,EventBusTagConfig.EVENT_REFRESH_NOTIFICATION_LIST);
+                        }
+                        EMClient.getInstance().chatManager().deleteConversation(data.getEmKey(), true);
+                        mRootView.getListDatas().remove(data);
+                        mRootView.refreshData();
+                        checkBottomMessageTip();
+                    }
                 });
         addSubscrebe(subscription);
     }
@@ -245,6 +274,15 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                         @Override
                         public List<MessageItemBeanV2> call(List<MessageItemBeanV2> messageItemBeanV2s) {
                             return mStickList.size() == 0?messageItemBeanV2s:handleStickAndCacheConversation(mStickList,messageItemBeanV2s);
+                        }
+                    })
+                    .map(new Func1<List<MessageItemBeanV2>, List<MessageItemBeanV2>>() {
+                        @Override
+                        public List<MessageItemBeanV2> call(List<MessageItemBeanV2> messageItemBeanV2s) {
+                            //增加好友通知和群通知
+                            handleGroupAndFriendNotification(
+                                    new GroupAndFriendNotificaiton(mGroupNotification,mFriendNotification), messageItemBeanV2s);
+                            return messageItemBeanV2s;
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())
@@ -494,6 +532,162 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
 
     }
+
+    /**
+     * 处理缓存的群通知和好友通知
+     * @param notificaiton
+     * @param list
+     * @return
+     */
+    private List<MessageItemBeanV2> handleGroupAndFriendNotification(GroupAndFriendNotificaiton notificaiton,List<MessageItemBeanV2> list){
+
+        //有群通知时，才走下一步
+        if(null != notificaiton.group && notificaiton.group.getTime() != 0L){
+
+            EMConversation groupConversation = EMClient.getInstance().chatManager().getConversation(TSEMConstants.EMKEY_GROUP_NOTIFICATION);
+            //只有当 未读消息大于0时，才去创建新的会话
+            if(null == groupConversation && notificaiton.group.getUnreadCount() > 0){
+
+                groupConversation = EMClient.getInstance().chatManager().getConversation(TSEMConstants.EMKEY_GROUP_NOTIFICATION,
+                                EMConversation.EMConversationType.Chat, true);
+                // 给这个会话插入一条自定义的消息 文本类型的
+                EMMessage welcomeMsg = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
+                welcomeMsg.setMsgId(TSEMConstants.EMKEY_GROUP_NOTIFICATION);
+                welcomeMsg.addBody(new EMTextMessageBody(notificaiton.group.getNotification()));// 消息体
+                welcomeMsg.setFrom(TSEMConstants.EMKEY_GROUP_NOTIFICATION);// 来自 用户名
+                welcomeMsg.setMsgTime(notificaiton.group.getTime());// 当前时间
+                groupConversation.insertMessage(welcomeMsg);
+
+                //新增group message
+                MessageItemBeanV2 messageItemBeanV2 = new MessageItemBeanV2();
+                messageItemBeanV2.setEmKey(TSEMConstants.EMKEY_GROUP_NOTIFICATION);
+                messageItemBeanV2.setConversation(groupConversation);
+                messageItemBeanV2.setType(EMConversation.EMConversationType.Chat);
+                messageItemBeanV2.setUnReadCount(notificaiton.group.getUnreadCount());
+
+                list.add(messageItemBeanV2);
+
+            }else if(null != groupConversation && null != groupConversation.getLastMessage()){//当本地会话还在时，才去添加到界面
+                groupConversation.getLastMessage().addBody(new EMTextMessageBody(notificaiton.group.getNotification()));
+                groupConversation.getLastMessage().setMsgTime(notificaiton.group.getTime());
+
+                MessageItemBeanV2 messageItemBeanV2 = null;
+
+                for (MessageItemBeanV2 message:list) {
+                    if(groupConversation.conversationId().equals(message.getEmKey())){
+                        messageItemBeanV2 = message;
+                        break;
+                    }
+                }
+
+                if(null == messageItemBeanV2){
+                    //新增group message
+                    messageItemBeanV2 = new MessageItemBeanV2();
+                    messageItemBeanV2.setEmKey(TSEMConstants.EMKEY_GROUP_NOTIFICATION);
+                    messageItemBeanV2.setConversation(groupConversation);
+                    messageItemBeanV2.setType(EMConversation.EMConversationType.Chat);
+                    messageItemBeanV2.setUnReadCount(notificaiton.group.getUnreadCount());
+                    list.add(messageItemBeanV2);
+                }else {//list中包含该会话，重设会话就好
+
+                    messageItemBeanV2.setConversation(groupConversation);
+                    messageItemBeanV2.setUnReadCount(notificaiton.group.getUnreadCount());
+
+                }
+
+            }
+
+        }
+
+
+        //有新朋友时，才走下一步
+        if(null != notificaiton.friend && notificaiton.friend.getTime() != 0L){
+
+            EMConversation friendConversation = EMClient.getInstance().chatManager().getConversation(TSEMConstants.EMKEY_FRIEND_NOTIFICATION);
+
+            //只有当 未读消息大于0时，才去创建新的会话
+            if(null == friendConversation && notificaiton.friend.getUnreadCount() > 0){
+
+                friendConversation = EMClient.getInstance().chatManager().
+                        getConversation(TSEMConstants.EMKEY_FRIEND_NOTIFICATION, EMConversation.EMConversationType.Chat, true);
+                EMMessage welcomeMsg = EMMessage.createReceiveMessage(EMMessage.Type.TXT);// 给这个会话插入一条自定义的消息 文本类型的
+                welcomeMsg.setMsgId(TSEMConstants.EMKEY_FRIEND_NOTIFICATION);
+                welcomeMsg.addBody(new EMTextMessageBody(notificaiton.friend.getNotification()));// 消息体
+                welcomeMsg.setFrom(TSEMConstants.EMKEY_FRIEND_NOTIFICATION);// 来自 用户名
+                welcomeMsg.setMsgTime(notificaiton.friend.getTime());// 当前时间
+                friendConversation.insertMessage(welcomeMsg);
+
+                //friend message
+                MessageItemBeanV2 messageItemBeanV2 = new MessageItemBeanV2();
+                messageItemBeanV2.setEmKey(TSEMConstants.EMKEY_FRIEND_NOTIFICATION);
+                messageItemBeanV2.setConversation(friendConversation);
+                messageItemBeanV2.setType(EMConversation.EMConversationType.Chat);
+                messageItemBeanV2.setUnReadCount(notificaiton.friend.getUnreadCount());
+
+                list.add(messageItemBeanV2);
+
+            }else if(null != friendConversation && null != friendConversation.getLastMessage()){//只有当会话不为空时，才组合消息添加到界面
+
+                friendConversation.getLastMessage().addBody(new EMTextMessageBody(notificaiton.friend.getNotification()));
+                friendConversation.getLastMessage().setMsgTime(notificaiton.friend.getTime());
+
+
+                MessageItemBeanV2 messageItemBeanV2 = null;
+
+                for (MessageItemBeanV2 message:list) {
+                    if(friendConversation.conversationId().equals(message.getEmKey())){
+                        messageItemBeanV2 = message;
+                        break;
+                    }
+                }
+
+                if(null == messageItemBeanV2){
+                    //friend message
+                    messageItemBeanV2 = new MessageItemBeanV2();
+                    messageItemBeanV2.setEmKey(TSEMConstants.EMKEY_FRIEND_NOTIFICATION);
+                    messageItemBeanV2.setConversation(friendConversation);
+                    messageItemBeanV2.setType(EMConversation.EMConversationType.Chat);
+                    messageItemBeanV2.setUnReadCount(notificaiton.friend.getUnreadCount());
+
+                    list.add(messageItemBeanV2);
+                }else {
+                    //list中包含该会话，重设会话就好
+                    messageItemBeanV2.setConversation(friendConversation);
+                    messageItemBeanV2.setUnReadCount(notificaiton.friend.getUnreadCount());
+
+                }
+            }
+
+        }
+
+        Collections.sort(list, new MessageTimeAndStickSort());
+        return list;
+    }
+
+
+    @Subscriber(mode = ThreadMode.MAIN, tag = EventBusTagConfig.EVENT_GROUP_AND_FRIEND_NOTIFICATION_LIST)
+    public void onGroupAndFriendNotificationReceived(GroupAndFriendNotificaiton notificaiton) {
+
+        this.mGroupNotification = notificaiton.group;
+        this.mFriendNotification = notificaiton.friend;
+
+        if(mRootView.getListDatas().size() == 0)
+            return;
+
+        Observable.create((Observable.OnSubscribe<List<MessageItemBeanV2>>) subscriber -> {
+            subscriber.onNext(handleGroupAndFriendNotification(notificaiton,mRootView.getListDatas()));
+            subscriber.onCompleted();
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new BaseSubscribeForV2<List<MessageItemBeanV2>>() {
+            @Override
+            protected void onSuccess(List<MessageItemBeanV2> data) {
+                mRootView.refreshData();
+            }
+        });
+
+    }
+
+
 
     /**
      * 请求 群聊天会话信息列表  成功的回调

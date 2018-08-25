@@ -223,6 +223,10 @@ public class EventBusTagConfig {
      */
     public static final String EVENT_GROUP_AND_FRIEND_NOTIFICATION_LIST = "groupAndFriendNotificationList";
     /**
+     * 刷新通知
+     */
+    public static final String EVENT_REFRESH_NOTIFICATION_LIST = "refresh_notification_list";
+    /**
      * 消息通知
      */
     public static final String EVENT_UNREAD_NOTIFICATION_LIMIT = "unread-notification-limit";
