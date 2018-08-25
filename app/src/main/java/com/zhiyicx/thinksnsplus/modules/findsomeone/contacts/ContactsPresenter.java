@@ -7,6 +7,7 @@ import com.github.tamir7.contacts.Contacts;
 import com.github.tamir7.contacts.PhoneNumber;
 import com.github.tamir7.contacts.Query;
 import com.zhiyicx.baseproject.base.SystemConfigBean;
+import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -14,6 +15,7 @@ import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.ContactsBean;
 import com.zhiyicx.thinksnsplus.data.beans.ContactsContainerBean;
+import com.zhiyicx.thinksnsplus.data.beans.InviteAndQrcode;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.SystemRepository;
@@ -168,20 +170,44 @@ public class ContactsPresenter extends AppBasePresenter<ContactsContract.View> i
     public void cancleFollowUser(int index, UserInfoBean followFansBean) {
         mUserInfoRepository.handleFollow(followFansBean);
     }
-
+    String tip = null;
     /**
      * @return 邀请模板
      */
     @Override
     public String getInviteSMSTip() {
-        String tip = null;
-        SystemConfigBean systemConfigBean = mSystemRepository.getBootstrappersInfoFromLocal();
-        if (systemConfigBean != null && systemConfigBean.getSite() != null) {
-            tip = systemConfigBean.getSite().getUser_invite_template();
-        }
-        if (TextUtils.isEmpty(tip)) {
-            tip = mContext.getString(R.string.invite_friend);
-        }
+
+//        SystemConfigBean systemConfigBean = mSystemRepository.getBootstrappersInfoFromLocal();
+//        if (systemConfigBean != null && systemConfigBean.getSite() != null) {
+//            tip = systemConfigBean.getSite().getUser_invite_template()+ ApiConfig.APP_SHARE_REGISTER+AppApplication.getmCurrentLoginAuth();
+//        }
+//        if (TextUtils.isEmpty(tip)) {
+//            tip = mContext.getString(R.string.invite_friend);
+//        }
         return tip;
+    }
+
+    @Override
+    public void getInviteCode() {
+        addSubscrebe(mUserInfoRepository.getInviteCode().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<InviteAndQrcode>() {
+                    @Override
+                    protected void onSuccess(InviteAndQrcode data) {
+                        tip = data.user_msg+","+data.reward_msg1+","+data.reward_msg2+":"+data.user_url;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        mRootView.closeLoadingView();
+                    }
+                }));
     }
 }

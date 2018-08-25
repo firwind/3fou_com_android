@@ -66,7 +66,7 @@ public class ChatGroupCardFragment extends TSFragment{
         if(null != groupBean){
             mTvGroupName.setText(groupBean.getName());
             if(TextUtils.isEmpty(groupBean.getGroup_face())){
-                mIvGroupAvatar.setImageResource(R.mipmap.icon);
+                mIvGroupAvatar.setImageResource(R.mipmap.group_details_icon);
             }else {
                 ImageUtils.loadImageDefault(mIvGroupAvatar,groupBean.getGroup_face());
             }

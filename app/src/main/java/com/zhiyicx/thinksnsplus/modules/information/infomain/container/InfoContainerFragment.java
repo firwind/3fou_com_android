@@ -57,6 +57,8 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
 
     public static final String SUBSCRIBE_EXTRA = "mycates";
     public static final String RECOMMEND_INFO = "-1";
+    public static final String FLASH_INFO_ID = "7";
+    public static final String VIDEO_INFO_ID = "8";
     public static final int REQUEST_CODE = 0;
 
     /**
@@ -252,11 +254,11 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
                     && !mTitle.contains(myCatesBean.getName())) {
                 LogUtils.d(myCatesBean.getName());
                 mTitle.add(myCatesBean.getName());
-                if (mInfoTypeBean.getMy_cates().indexOf(myCatesBean) == 0){
-                    mFragmentList.add(FlashListFragment.newInstance(myCatesBean.getId() + ""));
-                }else {
+//                if (mInfoTypeBean.getMy_cates().indexOf(myCatesBean) == 0){
+//                    mFragmentList.add(FlashListFragment.newInstance(myCatesBean.getId() + ""));
+//                }else {
                     mFragmentList.add(InfoListFragment.newInstance(myCatesBean.getId() + ""));
-                }
+//                }
             }
         }
         mTsvToolbar.notifyDataSetChanged(mTitle);
@@ -274,7 +276,8 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
     protected List<String> initTitles() {
         if (mTitle == null) {
             mTitle = new ArrayList<>();
-//            mTitle.add(getString(R.string.flash));
+            mTitle.add(getString(R.string.flash));
+            mTitle.add(getString(R.string.videos));
         }
         return mTitle;
     }
@@ -284,7 +287,8 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
 
         if (mFragmentList == null) {
             mFragmentList = new ArrayList<>();
-//            mFragmentList.add(InfoListFragment.newInstance(RECOMMEND_INFO));
+            mFragmentList.add(FlashListFragment.newInstance(FLASH_INFO_ID));
+            mFragmentList.add(InfoListFragment.newInstance(VIDEO_INFO_ID));
         }
         return mFragmentList;
     }

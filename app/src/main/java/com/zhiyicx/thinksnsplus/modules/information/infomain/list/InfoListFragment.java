@@ -49,6 +49,7 @@ import rx.schedulers.Schedulers;
 import static com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetailsFragment.BUNDLE_INFO;
 import static com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetailsFragment.BUNDLE_INFO_TYPE;
 import static com.zhiyicx.thinksnsplus.modules.information.infomain.container.InfoContainerFragment.RECOMMEND_INFO;
+import static com.zhiyicx.thinksnsplus.modules.information.infomain.container.InfoContainerFragment.VIDEO_INFO_ID;
 
 /**
  * @Author Jliuer
@@ -275,7 +276,8 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
 
     @Override
     public boolean isVideoInfo() {
-        return getArguments().getString(BUNDLE_INFO_TYPE).equals("8");//暂时默认8为video
+
+        return getArguments().getString(BUNDLE_INFO_TYPE).equals(VIDEO_INFO_ID);//系统定死默认8为video
     }
 
     @Override

@@ -204,6 +204,7 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
      * 数据懒加载
      */
     private void layzLoad() {
+
         if (getUserVisibleHint() && isFirst) {
             isFirst = false;
 
@@ -216,7 +217,7 @@ public class ContactsFragment extends TSFragment<ContactsContract.Presenter> imp
                         .subscribe(aBoolean -> {
                             if (aBoolean) {
 //                            ContactsFragment.startToEditTagActivity(getActivity(), null, null);
-
+                                mPresenter.getInviteCode();
                                 if (!getArguments().getBoolean(IntentKey.IS_SELECT,false)) {
                                     mPresenter.getContacts();
                                 } /*else {

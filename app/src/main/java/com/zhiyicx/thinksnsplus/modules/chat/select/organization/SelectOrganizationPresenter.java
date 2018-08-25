@@ -54,7 +54,7 @@ public class SelectOrganizationPresenter extends AppBasePresenter<SelectOrganiza
 
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
-        Subscription subscribe = mRepository.getOrganizationList(mRootView.getPage(), mRootView.getSearchKeyWord())
+        Subscription subscribe = mRepository.getOrganizationList(maxId.intValue(), mRootView.getSearchKeyWord())
                 .flatMap(organizationBeans -> {
                     for (OrganizationBean organizationBean : organizationBeans) {
                         //如果是更换状态则默认选中原组织
@@ -191,7 +191,7 @@ public class SelectOrganizationPresenter extends AppBasePresenter<SelectOrganiza
             chatUserInfoBean.setAvatar(userInfoBean.getAvatar());
             chatUserInfoBean.setName(userInfoBean.getName());
             chatUserInfoBean.setSex(userInfoBean.getSex());
-            if (userInfoBean.getVerified() != null) {
+                if (userInfoBean.getVerified() != null) {
                 ChatVerifiedBean verifiedBean = new ChatVerifiedBean();
                 verifiedBean.setDescription(userInfoBean.getVerified().getDescription());
                 verifiedBean.setIcon(userInfoBean.getVerified().getIcon());

@@ -4,6 +4,7 @@ import com.zhiyicx.baseproject.base.IBaseTouristPresenter;
 import com.zhiyicx.common.mvp.i.IBasePresenter;
 import com.zhiyicx.common.mvp.i.IBaseView;
 import com.zhiyicx.thinksnsplus.data.beans.ContactsContainerBean;
+import com.zhiyicx.thinksnsplus.data.beans.InviteAndQrcode;
 import com.zhiyicx.thinksnsplus.data.beans.TagCategoryBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserTagBean;
@@ -48,6 +49,8 @@ public interface ContactsContract {
          */
         String getInviteSMSTip();
 
+
+        void getInviteCode();
     }
 
 }

@@ -88,7 +88,7 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
 
     private void initVideoView(InfoListDataBean infoBean,String videoUrl, ZhiyiVideoView view,int position){
 
-        String imageUrl = ImageUtils.imagePathConvertV2(infoBean.getImage().getId(), 0, 0, ImageZipConfig.IMAGE_100_ZIP);
+        String imageUrl = ImageUtils.imagePathConvertV2(infoBean.getImage()!=null?infoBean.getImage().getId():0, 0, 0, ImageZipConfig.IMAGE_100_ZIP);
 
         Glide.with(mContext)
                 .load(imageUrl)

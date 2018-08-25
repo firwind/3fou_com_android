@@ -262,7 +262,6 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
             // 单聊没有屏蔽消息
             mRlBlockMessage.setVisibility(View.GONE);
             mTvChangeOrganization.setVisibility(View.GONE);
-
             //处理单聊信息
             setChatSingleData();
 
@@ -1018,7 +1017,7 @@ public class ChatInfoFragment extends TSFragment<ChatInfoContract.Presenter> imp
         mTvGroupName.setText(groupName);
         mTvGroupCardName.setText(groupName);
         // 群头像
-        ImageUtils.loadCircleImageDefault(mIvGroupPortrait, mChatGroupBean.getGroup_face(), R.mipmap.ico_ts_assistant, R.mipmap.ico_ts_assistant);
+        ImageUtils.loadCircleImageDefault(mIvGroupPortrait, mChatGroupBean.getGroup_face(), R.mipmap.group_details_icon, R.mipmap.group_details_icon);
 
         if (mChatMemberAdapter != null && mChatGroupBean != null) {
             mChatMemberAdapter.setOwnerId(mChatGroupBean.getOwner());

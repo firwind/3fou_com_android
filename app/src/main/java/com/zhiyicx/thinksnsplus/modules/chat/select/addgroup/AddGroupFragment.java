@@ -151,10 +151,10 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
             protected void convert(ViewHolder holder, ChatGroupServerBean chatGroupBean, int position) {
                 holder.setText(R.id.tv_group_name, chatGroupBean.getName());
                 Glide.with(mContext)
-                        .load(TextUtils.isEmpty(chatGroupBean.getGroup_face()) ? R.mipmap.ico_ts_assistant : chatGroupBean
+                        .load(TextUtils.isEmpty(chatGroupBean.getGroup_face()) ? R.mipmap.group_details_icon : chatGroupBean
                                 .getGroup_face())
-                        .error(R.mipmap.ico_ts_assistant)
-                        .placeholder(R.mipmap.ico_ts_assistant)
+                        .error(R.mipmap.group_details_icon)
+                        .placeholder(R.mipmap.group_details_icon)
                         .transform(new GlideCircleTransform(mContext))
                         .into(holder.getImageViwe(R.id.uv_group_head));
             }

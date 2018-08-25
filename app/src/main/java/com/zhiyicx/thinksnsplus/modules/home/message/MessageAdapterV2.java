@@ -147,10 +147,10 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                 }
                 userAvatarView.getIvVerify().setVisibility(View.GONE);
                 Glide.with(mContext)
-                        .load(chatGroupBean == null || TextUtils.isEmpty(chatGroupBean.getGroup_face()) ? R.mipmap.ico_ts_assistant : chatGroupBean
+                        .load(chatGroupBean == null || TextUtils.isEmpty(chatGroupBean.getGroup_face()) ? R.mipmap.group_details_icon : chatGroupBean
                                 .getGroup_face())
-                        .error(R.mipmap.ico_ts_assistant)
-                        .placeholder(R.mipmap.ico_ts_assistant)
+                        .error(R.mipmap.group_details_icon)
+                        .placeholder(R.mipmap.group_details_icon)//ico_ts_assistant
                         .transform(new GlideCircleTransform(mContext))
                         .into(userAvatarView.getIvAvatar());
 

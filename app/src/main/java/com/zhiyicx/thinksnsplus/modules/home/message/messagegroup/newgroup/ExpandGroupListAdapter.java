@@ -95,10 +95,10 @@ public class ExpandGroupListAdapter extends BaseExpandableListAdapter {
         FilterImageView imageView = ((FilterImageView) convertView.findViewById(R.id.uv_group_head));
         ImageView signImageView = ((ImageView) convertView.findViewById(R.id.iv_group_sign));
         Glide.with(mContext)
-                .load(TextUtils.isEmpty(chatGroupBean.getGroup_face()) ? R.mipmap.ico_ts_assistant : chatGroupBean
+                .load(TextUtils.isEmpty(chatGroupBean.getGroup_face()) ? R.mipmap.group_details_icon : chatGroupBean
                         .getGroup_face())
-                .error(R.mipmap.ico_ts_assistant)
-                .placeholder(R.mipmap.ico_ts_assistant)
+                .error(R.mipmap.group_details_icon)
+                .placeholder(R.mipmap.group_details_icon)
                 .transform(new GlideCircleTransform(mContext))
                 .into(imageView);
 

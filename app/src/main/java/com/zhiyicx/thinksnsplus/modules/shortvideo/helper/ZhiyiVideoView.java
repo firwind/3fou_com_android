@@ -212,8 +212,8 @@ public class ZhiyiVideoView extends JZVideoPlayerStandard {
             replayTextView.setVisibility(GONE);
 
             if(isShowShare){
-                mShareLineLinearLayout.setVisibility(VISIBLE);
-                mShareLinearLayout.setVisibility(VISIBLE);
+                mShareLineLinearLayout.setVisibility(GONE);
+                mShareLinearLayout.setVisibility(GONE);
             }
         } else {
             super.onAutoCompletion();
@@ -422,6 +422,7 @@ public class ZhiyiVideoView extends JZVideoPlayerStandard {
             }else{
                 jzVideoPlayer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
             }
+
             jzVideoPlayer.setUp(dataSourceObjects, currentUrlMapIndex, JZVideoPlayerStandard
                     .SCREEN_WINDOW_FULLSCREEN, objects);
             jzVideoPlayer.setState(currentState);
@@ -453,9 +454,11 @@ public class ZhiyiVideoView extends JZVideoPlayerStandard {
             if (JZMediaManager.instance().currentVideoWidth > JZMediaManager.instance()
                     .currentVideoHeight && rotation == 0) {
                 // 横屏
+                LogUtils.d(TAG,isShowShare);
                 orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
             } else {
                 orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                LogUtils.d(TAG,isShowShare);
             }
             JZUtils.setRequestedOrientation(getContext(), orientation);
 
