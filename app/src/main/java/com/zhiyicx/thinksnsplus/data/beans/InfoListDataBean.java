@@ -170,7 +170,7 @@ public class InfoListDataBean extends BaseListBean implements Serializable,Parce
     }
 
     public StorageBean getImage() {
-        return image;
+        return image!=null?image:new StorageBean();
     }
 
     public void setImage(StorageBean image) {
