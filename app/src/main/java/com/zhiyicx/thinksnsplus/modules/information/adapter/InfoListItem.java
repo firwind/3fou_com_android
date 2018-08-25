@@ -109,8 +109,8 @@ public abstract class InfoListItem implements ItemViewDelegate<BaseListBean> {
                     ImageZipConfig.IMAGE_80_ZIP);
             Glide.with(BaseApplication.getContext())
                     .load(url)
-                    .placeholder(R.mipmap.default_image_for_video)
-                    .error(R.mipmap.default_image_for_video)
+                    .placeholder(R.drawable.shape_default_image)
+                    .error(R.drawable.shape_default_image)
                     .override(w, h)
                     .into(imageView);
         }
