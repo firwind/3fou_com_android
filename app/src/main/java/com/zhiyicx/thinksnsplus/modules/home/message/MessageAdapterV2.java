@@ -68,7 +68,7 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
 
     @Override
     protected void convert(ViewHolder holder, MessageItemBeanV2 messageItemBean, int position) {
-        setItemData(holder, messageItemBean, position);
+        setItemData(holder, messageItemBean, position-1);//因为外部列表加了一个header，所以这里的位置要-1
     }
 
     /**

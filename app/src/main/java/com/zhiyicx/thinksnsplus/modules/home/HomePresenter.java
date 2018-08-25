@@ -230,7 +230,7 @@ class HomePresenter extends AppBasePresenter<HomeContract.View> implements HomeC
 //        ChatClient.getInstance(mContext).onDestroy();
     }
 
-    @Subscriber(mode = ThreadMode.MAIN)
+   /* @Subscriber(mode = ThreadMode.MAIN)
     public void onMessageReceived(TSEMMultipleMessagesEvent messagesEvent) {
         List<EMMessage> list = messagesEvent.getMessages();
         if (list == null || list.isEmpty() || !mRootView.needShowChatNotofication()) {
@@ -309,12 +309,9 @@ class HomePresenter extends AppBasePresenter<HomeContract.View> implements HomeC
 
                         NotificationUtil.showChatNotifyMessageExceptCurrentConversation(mContext,
                                 jpushMessageBean, chatItemBean12.getMessage().conversationId());
-                        /*int unreadCount = EMClient.getInstance().chatManager().getUnreadMessageCount();
-                        在MessageConversationPresenter做角标更新
-                        ShortcutBadgeUtil.getInstance().toChangeBadge(ActivityHandler.getInstance().currentActivity(), unreadCount);*/
                     });
         }
-    }
+    }*/
 
     /**
      * @param id    群 id

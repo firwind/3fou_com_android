@@ -154,7 +154,8 @@ public class NotificationReviewFragment extends TSListFragment<NotificationRevie
                     if(null != groupOrFriendReviewBean.getShenhe_user_data() &&
                             groupOrFriendReviewBean.getShenhe_user_data().getUser_id() != AppApplication.getMyUserIdWithdefault())
                         reviewName = groupOrFriendReviewBean.getShenhe_user_data().getName();
-                    holder.getTextView(R.id.tv_state).setText(reviewName+(groupOrFriendReviewBean.getStatus() == 1 ? "已同意" : "已拒绝"));
+                    holder.getTextView(R.id.tv_state).setText( (TextUtils.isEmpty(reviewName)?reviewName:reviewName+"\n")
+                            +(groupOrFriendReviewBean.getStatus() == 1 ? "已同意" : "已拒绝"));
                 }else {
                     holder.getTextView(R.id.tv_state).setText("等待验证");
                 }

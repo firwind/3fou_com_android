@@ -14,6 +14,7 @@ import com.hyphenate.easeui.bean.ChatUserInfoBean;
 import com.hyphenate.easeui.bean.ChatVerifiedBean;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMMultipleMessagesEvent;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMRefreshEvent;
+import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -24,6 +25,7 @@ import com.zhiyicx.thinksnsplus.data.beans.ChatGroupBean;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.data.source.local.ChatGroupBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.ChatInfoRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.MessageConversationRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
@@ -68,6 +70,9 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
     @Inject
     ChatInfoRepository mChatInfoRepository;
+
+    @Inject
+    ChatGroupBeanGreenDaoImpl mChatGroupBeanGreenDao;
 
     /**
      * 是否是第一次连接 im
@@ -581,6 +586,23 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
         Subscription subscribe = Observable.just(list)
                 .subscribeOn(Schedulers.io())
+                .flatMap(emMessages -> {
+                    //更新群组信息
+                    for (EMMessage message:emMessages) {
+                        //如果是群聊，更新群成员数量信息
+                        if(message.getChatType() == EMMessage.ChatType.GroupChat){
+                            boolean isUserJoin, isUserExit;
+                            isUserJoin = TSEMConstants.TS_ATTR_JOIN.equals(message.ext().get("type"));
+                            isUserExit = TSEMConstants.TS_ATTR_EIXT.equals(message.ext().get("type"));
+
+                            if (isUserExit || isUserJoin) {
+                                // 只有群聊中才会有 成员 加入or退出的消息
+                                updateChatGroupMemberCount(message.conversationId(), 1, isUserJoin);
+                            }
+                        }
+                    }
+                    return Observable.just(emMessages);
+                })
                 .flatMap(messageList -> {
 
                     List<MessageItemBeanV2> exitInViewList = mRootView.getListDatas();
@@ -706,6 +728,17 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
         if (item != null) {
             mRootView.refreshData(mRootView.getListDatas().indexOf(item));
         }
+    }
+
+    /**
+     * 更新群成员数量
+     * @param id
+     * @param count
+     * @param add
+     * @return
+     */
+    private boolean updateChatGroupMemberCount(String id, int count, boolean add) {
+        return mChatGroupBeanGreenDao.updateChatGroupMemberCount(id, count, add);
     }
 
     /**

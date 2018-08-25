@@ -218,7 +218,10 @@ public class EventBusTagConfig {
      * Jpush  推送相关
      */
     public static final String EVENT_JPUSH_RECIEVED_MESSAGE_UPDATE_MESSAGE_LIST = "onJpushMessageRecievedUpdateMessageList";
-
+    /**
+     * 群通知和好友通知
+     */
+    public static final String EVENT_GROUP_AND_FRIEND_NOTIFICATION_LIST = "groupAndFriendNotificationList";
     /**
      * 消息通知
      */

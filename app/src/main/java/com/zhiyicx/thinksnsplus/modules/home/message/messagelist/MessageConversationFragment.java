@@ -9,7 +9,10 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
@@ -19,12 +22,14 @@ import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.em.manager.util.TSEMConstants;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMConnectionEvent;
 import com.zhiyicx.baseproject.em.manager.eventbus.TSEMessageEvent;
+import com.zhiyicx.baseproject.widget.BadgeView;
 import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
 import com.zhiyicx.baseproject.widget.popwindow.CenterAlertPopWindow;
 import com.zhiyicx.baseproject.widget.popwindow.CenterInfoPopWindow;
 import com.zhiyicx.baseproject.widget.popwindow.NoticePopupWindow;
 import com.zhiyicx.baseproject.widget.recycleview.BlankClickRecycleView;
 import com.zhiyicx.common.base.BaseFragment;
+import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.common.utils.TimeUtils;
 import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
@@ -32,13 +37,17 @@ import com.zhiyicx.common.utils.recycleviewdecoration.CustomLinearDecoration;
 import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
+import com.zhiyicx.thinksnsplus.data.beans.GroupAndFriendNotificaiton;
 import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.StickBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.i.IntentKey;
 import com.zhiyicx.thinksnsplus.i.OnUserInfoClickListener;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.MessageAdapterV2;
 import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
+import com.zhiyicx.thinksnsplus.modules.home.message.notification.review.NotificationReviewActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.modules.settings.bind.AccountBindActivity;
 import com.zhiyicx.thinksnsplus.utils.MessageTimeAndStickSort;
@@ -78,6 +87,17 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     MessageConversationPresenter mConversationPresenter;
     @BindView(R.id.searchView)
     TSSearchView mSearchView;
+    
+    //群通知
+    private TextView mTvGroupNotificationTime;
+    private TextView mTvGroupNotificationContent;
+    private BadgeView mTvGroupNotificationTip;
+    //新朋友
+    private TextView mTvFriendNotificationTime;
+    private TextView mTvFriendNotificationContent;
+    private BadgeView mTvFriendNotificationTip;
+    
+    
     /**
      * 删除确认弹框
      */
@@ -111,7 +131,60 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
 //        if (TextUtils.isEmpty(userInfoBean.getPhone())){
 //            showBindPopupWindow();
 //        }
+
+        initHeaderView();
+
+
     }
+
+
+    /**
+     * 初始化头部view
+     */
+    private void initHeaderView(){
+
+        View head = LayoutInflater.from(mActivity).inflate(R.layout.view_conversation_header,null);
+        head.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        mHeaderAndFooterWrapper.addHeaderView(head);
+
+        head.findViewById(R.id.rl_group).setOnClickListener(v -> 
+                NotificationReviewActivity.startNotificationReviewActivity(mActivity, IntentKey.NOTIFICATION_REVIEW_GROUP));
+        head.findViewById(R.id.rl_friend).setOnClickListener(v -> 
+                NotificationReviewActivity.startNotificationReviewActivity(mActivity, IntentKey.NOTIFICATION_REVIEW_FRIEND));
+        
+        //群通知
+        mTvGroupNotificationContent = (TextView) head.findViewById(R.id.tv_group_notification_content);
+        mTvGroupNotificationTime = (TextView) head.findViewById(R.id.tv_group_notification_time);
+        mTvGroupNotificationTip = (BadgeView) head.findViewById(R.id.tv_group_notification_tip);
+
+        //新朋友
+        mTvFriendNotificationContent = (TextView) head.findViewById(R.id.tv_friend_notification_content);
+        mTvFriendNotificationTime = (TextView) head.findViewById(R.id.tv_friend_notification_time);
+        mTvFriendNotificationTip = (BadgeView) head.findViewById(R.id.tv_friend_notification_tip);
+        
+    }
+
+    /**
+     * 更新群通知和新朋友通知
+     * @param notificaiton
+     */
+    private void setupGroupAndFriendNotification(GroupAndFriendNotificaiton notificaiton){
+
+        if(null != notificaiton.group){
+            mTvGroupNotificationContent.setText(notificaiton.group.getNotification());
+            mTvGroupNotificationTime.setText(TimeUtils.getTimeFriendlyNormal(notificaiton.group.getTime()));
+            mTvGroupNotificationTip.setBadgeCount(Integer.parseInt(ConvertUtils.messageNumberConvert(notificaiton.group.getUnreadCount())));
+        }
+        if(null != notificaiton.friend){
+            mTvFriendNotificationContent.setText(notificaiton.friend.getNotification());
+            mTvFriendNotificationTime.setText(TimeUtils.getTimeFriendlyNormal(notificaiton.friend.getTime()));
+            mTvFriendNotificationTip.setBadgeCount(Integer.parseInt(ConvertUtils.messageNumberConvert(notificaiton.friend.getUnreadCount())));
+        }
+
+    }
+
+
+
     /**
      * 提示绑定手机号
      */
@@ -334,6 +407,17 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     private void deleteChatConversation(int position) {
         mPresenter.deleteConversation(position);
         refreshData();
+    }
+
+    /**
+     * 新朋友和群审核通知
+     * @param notificaiton
+     */
+    @Subscriber(mode = ThreadMode.MAIN,tag = EventBusTagConfig.EVENT_GROUP_AND_FRIEND_NOTIFICATION_LIST)
+    public void onTSEMConnectionEventBus(GroupAndFriendNotificaiton notificaiton) {
+        try {
+            setupGroupAndFriendNotification(notificaiton);
+        }catch (Exception e){}
     }
 
     @Subscriber(mode = ThreadMode.MAIN)

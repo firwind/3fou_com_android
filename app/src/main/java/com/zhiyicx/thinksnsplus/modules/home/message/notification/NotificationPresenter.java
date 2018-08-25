@@ -13,6 +13,7 @@ import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.config.JpushMessageTypeConfig;
+import com.zhiyicx.thinksnsplus.data.beans.GroupAndFriendNotificaiton;
 import com.zhiyicx.thinksnsplus.data.beans.JpushMessageBean;
 import com.zhiyicx.thinksnsplus.data.beans.NotificationBean;
 import com.zhiyicx.thinksnsplus.data.beans.UnReadNotificaitonBean;
@@ -85,6 +86,11 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
                     list.add(getGroupReviewNotification(t1,t2));
                     list.add(getFriendReviewNotification(t1,t2));
 
+                    try {
+                        //通知新的未审核好友和群消息
+                        EventBus.getDefault().post(new GroupAndFriendNotificaiton(list.get(4),list.get(5)),
+                                EventBusTagConfig.EVENT_GROUP_AND_FRIEND_NOTIFICATION_LIST);
+                    }catch (Exception e){}
                     //通知新的粉丝数量
                     EventBus.getDefault().post(t2, EventBusTagConfig.EVENT_IM_SET_MINE_FANS_TIP_VISABLE);
                     return list;

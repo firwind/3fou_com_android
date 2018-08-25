@@ -187,7 +187,8 @@ public class AppApplication extends TSApplication {
             public Response onHttpResponse(String httpResult, Interceptor.Chain chain, Response
                     originalResponse) {
                 // 处理 head请求
-                handleHeadRequest(originalResponse);
+                //#todo 这里暂时去掉 handleHeadRequest()，因为首页通知列表重写了
+                //handleHeadRequest(originalResponse);
                 // 这里可以先客户端一步拿到每一次http请求的结果,可以解析成json,做一些操作,如检测到token过期后
                 // token过期，调到登陆页面重新请求token,
                 BaseJson baseJson = null;
