@@ -55,6 +55,7 @@ public class CustomWEBFragment extends TSWebFragment {
             mTitle = getArguments().getString(BUNDLE_PARAMS_WEB_TITLE);
             mHeaders= (HashMap<String, String>) getArguments().getSerializable(BUNDLE_PARAMS_WEB_HEADERS);
 
+            Log.e("zl","args--"+ mUrl);
         }
     }
 

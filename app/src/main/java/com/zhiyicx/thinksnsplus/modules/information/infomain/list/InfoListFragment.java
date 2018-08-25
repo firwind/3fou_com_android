@@ -42,6 +42,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import cn.jzvd.JZMediaManager;
+import cn.jzvd.JZVideoPlayer;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -153,7 +154,15 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
         super.onPause();
 
         if(isVideoInfo()){//暂停播放
+            JZVideoPlayer.goOnPlayOnPause();
+        }
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(!isVisibleToUser && isVideoInfo()){//暂停播放
+            JZVideoPlayer.goOnPlayOnPause();
         }
     }
 
@@ -193,7 +202,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
                     }
                 });
 
-        if(isVideoInfo()){
+        /*if(isVideoInfo()){
             mRvList.addOnScrollListener(new AutoPlayScrollListener() {
                 @Override
                 public int getPlayerViewId() {
@@ -205,7 +214,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
                     return true;
                 }
             });
-        }
+        }*/
 
     }
 

@@ -51,7 +51,6 @@ public class CustomWEBActivity extends TSActivity<RegisterPresenter, CustomWEBFr
         flag = "";
         Intent intent = new Intent(context, CustomWEBActivity.class);
         Bundle bundle = new Bundle();
-        Log.e("zl","args--"+ args[0]);
         if (args.length > 0) {
             try {
                 String url = args[0];
@@ -62,7 +61,8 @@ public class CustomWEBActivity extends TSActivity<RegisterPresenter, CustomWEBFr
                 if (headers != null) {
                     bundle.putSerializable(CustomWEBFragment.BUNDLE_PARAMS_WEB_HEADERS, headers);
                 }
-                flag = args[2];
+                if(flag.length() > 2)
+                    flag = args[2];
             } catch (Exception e) {
                 e.printStackTrace();
             }
