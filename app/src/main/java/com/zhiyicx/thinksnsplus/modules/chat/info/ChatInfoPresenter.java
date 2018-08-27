@@ -537,6 +537,7 @@ public class ChatInfoPresenter extends AppBasePresenter<ChatInfoContract.View>
                 groupList = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
             } catch (HyphenateException e) {
                 //e.printStackTrace();
+                Observable.error(e);
             }
             boolean isInGroup = false;
             if(null != groupList && groupList.size() > 0 ){

@@ -141,7 +141,7 @@ public class NotificationReviewFragment extends TSListFragment<NotificationRevie
                 ImageUtils.loadCircleUserHeadPic(groupOrFriendReviewBean.getUser_data(), holder.getView(R.id.iv_headpic));
                 holder.getTextView(R.id.tv_name).setText(groupOrFriendReviewBean.getUser_data().getName());
                 holder.getTextView(R.id.tv_group_name).setVisibility(View.VISIBLE);
-                holder.getTextView(R.id.tv_group_name).setText("申请加入"+groupOrFriendReviewBean.getGroup_data().getName());
+                holder.getTextView(R.id.tv_group_name).setText("申请加入"+(null == groupOrFriendReviewBean.getGroup_data()?"[该群已解散]":groupOrFriendReviewBean.getGroup_data().getName()) );
                 holder.getTextView(R.id.tv_reason).setVisibility(TextUtils.isEmpty(groupOrFriendReviewBean.getInformation())?View.GONE:View.VISIBLE);
                 holder.getTextView(R.id.tv_reason).setText("理由："+groupOrFriendReviewBean.getInformation() );
                 try {

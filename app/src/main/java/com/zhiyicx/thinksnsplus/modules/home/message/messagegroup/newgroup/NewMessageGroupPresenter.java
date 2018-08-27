@@ -20,8 +20,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Scheduler;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * @Author Jliuer
@@ -46,16 +49,18 @@ public class NewMessageGroupPresenter extends AppBasePresenter<NewMessageGroupCo
     @Override
     public void requestNetData(Long maxId, boolean isLoadMore) {
 
-        addSubscrebe( mRootView.isOnlyOfficial()?
-                mBaseMessageRepository.getOfficialGroupListV2().map(expandOfficialChatGroupBeans -> {
-                    try {
-                        //同步自己加入的群组，此api获取的群组sdk会自动保存到内存和db。
-                        EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
-                    } catch (HyphenateException e) {
-                        //e.printStackTrace();
-                    }
-                    return expandOfficialChatGroupBeans;
-                }).subscribe(getOfficialGroupListSubscriber(isLoadMore)) :
+        addSubscrebe(mRootView.isOnlyOfficial() ?
+                mBaseMessageRepository.getOfficialGroupListV2()
+                        .observeOn(Schedulers.io())
+                        .map(expandOfficialChatGroupBeans -> {
+                            try {
+                                //同步自己加入的群组，此api获取的群组sdk会自动保存到内存和db。
+                                EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+                            } catch (HyphenateException e) {
+                                //e.printStackTrace();
+                            }
+                            return expandOfficialChatGroupBeans;
+                        }).observeOn(AndroidSchedulers.mainThread()).subscribe(getOfficialGroupListSubscriber(isLoadMore)) :
                 mBaseMessageRepository.getGroupInfoOnlyGroupFaceV2().subscribe(getMySelfGroupListSubscriber(isLoadMore)));
     }
 
