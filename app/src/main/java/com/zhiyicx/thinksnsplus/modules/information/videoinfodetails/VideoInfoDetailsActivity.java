@@ -64,6 +64,9 @@ public class VideoInfoDetailsActivity extends TSActivity<VideoInfoDetailsPresent
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        JZVideoPlayer.releaseAllVideos();
+
         UmengSharePolicyImpl.onDestroy(this);
     }
 

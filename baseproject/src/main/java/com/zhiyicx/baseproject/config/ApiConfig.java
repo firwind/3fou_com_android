@@ -38,7 +38,7 @@ public class ApiConfig {
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
 
-    public static String APP_DOMAIN = APP_DOMAIN_FORMAL/*APP_DOMAIN_TEST*/;
+    public static String APP_DOMAIN = /*APP_DOMAIN_FORMAL*/APP_DOMAIN_TEST;
 
     public static final String URL_ABOUT_US = "api/" + API_VERSION_2 + "/aboutus";// 关于我们网站
     public static final String URL_JIPU_SHOP = "http://haoshe.hotime.cn";// 豪舍购物地址
@@ -279,6 +279,8 @@ public class ApiConfig {
     public static final String APP_PATH_DYNAMIC_REPORT = "/api/" + API_VERSION_2 + "/feeds/{feed_id}/reports";
     // 获取动态置顶平均糖果
     public static final String APP_PATH_DYNAMIC_TOP_AVERAGE_NUM = "/api/" + API_VERSION_2 + "/feeds/average";
+    //获取小视频列表
+    public static final String APP_PATH_GET_SMALL_VIDEO_LIST = "api/"+API_VERSION_2+"/feeds/small_video";
 
     /**
      * 资讯相关

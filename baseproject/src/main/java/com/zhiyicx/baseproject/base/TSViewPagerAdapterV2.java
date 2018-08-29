@@ -50,7 +50,7 @@ public class TSViewPagerAdapterV2 extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return null == list ? 0 : list.size();
     }
 
 

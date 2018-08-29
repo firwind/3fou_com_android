@@ -198,7 +198,7 @@ public class DynamicDetailFragment extends TSListFragment<DynamicDetailContract.
         mCoordinatorLayout.setEnabled(false);
         RxView.clicks(mTvToolbarLeft)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
-                .subscribe(aVoid -> getActivity().finish());
+                .subscribe(aVoid -> mActivity.finish());
         RxView.clicks(mTvToolbarRight)
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
@@ -722,7 +722,7 @@ public class DynamicDetailFragment extends TSListFragment<DynamicDetailContract.
                     showDeleteTipPopupWindow(getString(R.string.dynamic_list_delete_dynamic), () -> {
                         mPresenter.setNeedDynamicListRefresh(false);
                         EventBus.getDefault().post(dynamicBean, DYNAMIC_LIST_DELETE_UPDATE);
-                        getActivity().finish();
+                        mActivity.finish();
                     }, true);
                 })
                 .item2ClickListener(() -> {

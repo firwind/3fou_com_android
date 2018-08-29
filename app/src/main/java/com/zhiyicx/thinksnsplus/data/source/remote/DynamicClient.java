@@ -1,7 +1,6 @@
 package com.zhiyicx.thinksnsplus.data.source.remote;
 
 import com.zhiyicx.baseproject.config.ApiConfig;
-import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicCommentBeanV2;
@@ -12,7 +11,6 @@ import com.zhiyicx.thinksnsplus.data.beans.ReportResultBean;
 import com.zhiyicx.thinksnsplus.data.beans.RewardsListBean;
 import com.zhiyicx.thinksnsplus.data.beans.StickTopAverageBean;
 import com.zhiyicx.thinksnsplus.data.beans.TopDynamicCommentBean;
-import com.zhiyicx.thinksnsplus.data.beans.TopNewsCommentListBean;
 
 import java.util.List;
 
@@ -219,5 +217,15 @@ public interface DynamicClient {
      */
     @GET(APP_PATH_DYNAMIC_TOP_AVERAGE_NUM)
     Observable<StickTopAverageBean> getDynamicAndCommentTopAverageNum();
+
+
+    /**
+     * 获取小视频列表
+     * @param after
+     * @param limit
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_SMALL_VIDEO_LIST)
+    Observable<DynamicBeanV2> getSmallVideoList(@Query("after") Long after, @Query("limit") Integer limit);
 
 }

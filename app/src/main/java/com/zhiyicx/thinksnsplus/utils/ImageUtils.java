@@ -606,6 +606,23 @@ public class ImageUtils {
     }
 
     /**
+     * 加载视频缩略图
+     * @param imageView
+     * @param url
+     */
+    public static void loadVerticalVideoThumbDefault(ImageView imageView, String url) {
+        if (checkImageContext(imageView)) {
+            return;
+        }
+        Glide.with(imageView.getContext())
+                .load(url)
+                .placeholder(R.mipmap.default_image_for_video_vertical)
+                .error(R.mipmap.default_image_for_video_vertical)
+                .into(imageView);
+
+    }
+
+    /**
      * 默认加载图片
      *
      * @param imageView target view to display image
@@ -620,6 +637,20 @@ public class ImageUtils {
                 .error(R.drawable.shape_default_error_image)
                 .into(imageView);
 
+    }
+
+    /**
+     * 加载图片不加载任何默认图
+     * @param imageView
+     * @param url
+     */
+    public static void loadImageWithNoDefault(ImageView imageView, String url){
+        if (checkImageContext(imageView)) {
+            return;
+        }
+        Glide.with(imageView.getContext())
+                .load(url)
+                .into(imageView);
     }
 
     /**

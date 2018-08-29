@@ -1,17 +1,15 @@
 package com.zhiyicx.thinksnsplus.modules.dynamic;
 
-import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.common.base.BaseJsonV2;
+import com.zhiyicx.thinksnsplus.data.beans.DynamicBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicCommentBean;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicCommentToll;
-import com.zhiyicx.thinksnsplus.data.beans.DynamicDetailBean;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicDetailBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicDigListBean;
 import com.zhiyicx.thinksnsplus.data.beans.SendDynamicDataBeanV2;
 
 import java.util.List;
 
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -120,5 +118,12 @@ public interface IDynamicReppsitory {
      * 获取某个人的动态列表
      */
     Observable<List<DynamicDetailBeanV2>> getDynamicListForSomeone(Long user_id, Long max_id, String screen);
+
+    /**
+     * 获取小视频列表
+     * @param after
+     * @return
+     */
+    Observable<DynamicBeanV2> getSmallVideoList(Long after);
 
 }

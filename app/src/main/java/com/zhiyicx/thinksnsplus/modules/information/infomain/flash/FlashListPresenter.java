@@ -54,16 +54,6 @@ public class FlashListPresenter extends AppBasePresenter<InfoMainContract.FlashL
         mBaseInfoRepository = baseInfoRepository;
     }
 
-
-    @Override
-    public List<RealAdvertListBean> getListAdvert() {
-        if (!com.zhiyicx.common.BuildConfig.USE_ADVERT || mAllAdvertListBeanGreenDao.getInfoListAdvert() == null) {
-            return new ArrayList<>();
-
-        }
-        return mAllAdvertListBeanGreenDao.getInfoListAdvert().getMRealAdvertListBeen();
-    }
-
     @Override
     public void commitBull(InfoListDataBean bean) {
         Subscription subscription  = (bean.getHas_lihao()?mBaseInfoRepository.deteleBull(String.valueOf(bean.getId())):mBaseInfoRepository.commitBull(String.valueOf(bean.getId())))

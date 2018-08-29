@@ -26,6 +26,7 @@ import com.zhiyicx.thinksnsplus.modules.information.infochannel.ChannelActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.flash.FlashListFragment;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.list.InfoListFragment;
+import com.zhiyicx.thinksnsplus.modules.information.infomain.smallvideo.SmallVideoListFragment;
 import com.zhiyicx.thinksnsplus.modules.information.infosearch.SearchActivity;
 import com.zhiyicx.thinksnsplus.modules.information.publish.detail.EditeInfoDetailActivity;
 
@@ -203,7 +204,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
             bundle.putParcelable(BUNDLE_INFO_TYPE, mInfoTypeBean);
             intent.putExtra(BUNDLE_INFO_TYPE, bundle);
             startActivityForResult(intent, REQUEST_CODE);
-            getActivity().overridePendingTransition(R.anim.slide_from_top_enter, R.anim
+            mActivity.overridePendingTransition(R.anim.slide_from_top_enter, R.anim
                     .slide_from_top_quit);
         });
         mVpFragment.setOffscreenPageLimit(getOffsetPage());
@@ -213,8 +214,14 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            mTitle.clear();
-            mFragmentList.clear();
+            /*mTitle.clear();
+            mFragmentList.clear();*/
+            for (int i = 0; i < mTitle.size(); i++) {
+                if(i > 2){//   7*24快讯、视频、小视频 写死
+                    mTitle.remove(i);
+                    mFragmentList.remove(i);
+                }
+            }
             mInfoTypeBean = data.getBundleExtra(SUBSCRIBE_EXTRA).getParcelable(SUBSCRIBE_EXTRA);
 
             Observable.from(mInfoTypeBean.getMy_cates())
@@ -278,6 +285,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
             mTitle = new ArrayList<>();
             mTitle.add(getString(R.string.flash));
             mTitle.add(getString(R.string.videos));
+            mTitle.add("小视频");
         }
         return mTitle;
     }
@@ -289,6 +297,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
             mFragmentList = new ArrayList<>();
             mFragmentList.add(FlashListFragment.newInstance(FLASH_INFO_ID));
             mFragmentList.add(InfoListFragment.newInstance(VIDEO_INFO_ID));
+            mFragmentList.add(new SmallVideoListFragment());
         }
         return mFragmentList;
     }

@@ -44,6 +44,16 @@ android {
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
         multiDexEnabled true
+
+        //强制使用某一个版本
+        configurations.all{
+            resolutionStrategy{
+                force 'com.android.support:support-annotations:25.3.1'
+                force 'com.android.support:support-media-compat:25.3.1'
+            }
+        }
+
+
     }
 
     signingConfigs {
@@ -254,4 +264,9 @@ dependencies {
     implementation project(':righttopmenu')
     implementation project(':kchartlib')
     testCompile 'com.jungly:gridPasswordView:0.3'
+
+    //视频播放
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.4'
+    //implementation 'com.google.android.exoplayer:exoplayer-dash:2.8.4'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.4'
 }

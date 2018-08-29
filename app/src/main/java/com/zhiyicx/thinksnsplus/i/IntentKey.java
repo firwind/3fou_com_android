@@ -39,6 +39,10 @@ public interface IntentKey {
 
     String VIDEO_STATE = "video_state";
 
+    String VIDEO_URL = "video_url";
+    String THUMB_URL = "thumb_url";
+    String POSITION = "position";
+
     int TYPE_PASSWORD_LOGIN = 0;
     int TYPE_PASSWORD_PAY = 1;
 
