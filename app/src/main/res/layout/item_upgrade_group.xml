@@ -3,45 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:gravity="center"
+
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_upgrade_item_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp16"
         android:gravity="center"
-        android:text="@string/chat_info_upgrade"
-        android:textColor="@color/text_color_black"
-        android:textSize="@dimen/sp16" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_upgrade_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp10"
-        android:gravity="center"
-        android:text="￥200"
-        android:textColor="@color/themeColor"
-        android:textSize="@dimen/sp20"
-        android:textStyle="bold" />
-    <com.zhiyicx.common.widget.NoPullRecycleView
-        android:id="@+id/upgrade_group_rv"
-        android:paddingTop="@dimen/dp20"
-        android:layout_marginLeft="@dimen/dp20"
-        android:layout_marginRight="@dimen/dp20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-    </com.zhiyicx.common.widget.NoPullRecycleView>
-    <Button
-        android:id="@+id/bt_upgrade_immediately"
-        android:textColor="@color/white"
-        android:text="@string/upgrade_immediately"
-        android:layout_margin="@dimen/dp30"
-        android:background="@color/themeColor"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp40"
-        />
+        <TextView
+            android:id="@+id/tv_upgrade_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp25"
+            android:gravity="center"
+            android:text="@string/chat_info_upgrade"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/sp16" />
+
+        <TextView
+            android:id="@+id/tv_upgrade_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp10"
+            android:gravity="center"
+            android:text="￥200"
+            android:textColor="@color/themeColor"
+            android:textSize="@dimen/sp20"
+            android:textStyle="bold" />
+
+        <com.zhiyicx.common.widget.NoPullRecycleView
+            android:id="@+id/upgrade_group_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp20"
+            android:paddingTop="@dimen/dp20">
+
+        </com.zhiyicx.common.widget.NoPullRecycleView>
+
+        <Button
+            android:id="@+id/bt_upgrade_immediately"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp40"
+            android:layout_margin="@dimen/dp30"
+            android:background="@color/themeColor"
+            android:text="@string/upgrade_immediately"
+            android:textColor="@color/white" />
+    </LinearLayout>
 </LinearLayout>

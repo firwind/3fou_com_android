@@ -173,6 +173,7 @@
     <dimen name="dp142">142dp</dimen>
     <dimen name="dp146">146dp</dimen>
     <dimen name="dp154">154dp</dimen>
+    <dimen name="dp200">200dp</dimen>
     <dimen name="dp224">224dp</dimen>
     <dimen name="dp300">300dp</dimen>
     <dimen name="dp306">306dp</dimen>

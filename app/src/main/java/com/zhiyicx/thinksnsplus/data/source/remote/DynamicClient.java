@@ -70,6 +70,26 @@ public interface DynamicClient {
             , @Query("offset") Integer offset);
 
     /**
+     * 获取动态列表
+     *
+     * @param type   "" 代表最新；follows 代表关注 ； hots 代表热门
+     * @param after  用来翻页的记录id(对应数据体里的feed_id ,最新和关注选填)
+     * @param userId 动态所属人
+     * @param limit  请求数据条数 默认10条
+     * @param screen type = users 时可选，paid-付费动态 pinned - 置顶动态
+     * @param offset 热门时使用 offset
+     * @return dynamic list
+     */
+    @GET(ApiConfig.APP_PATH_GET_VIDEO_LIST_V2)
+    Observable<DynamicBeanV2> getVideoListV2(@Query("type") String type
+            , @Query("after") Long after
+            , @Query("user") Long userId
+            , @Query("limit") Integer limit
+            , @Query("screen") String screen
+            , @Query("offset") Integer offset);
+
+
+    /**
      * 获取搜索的动态
      *
      * @param offset  偏移值

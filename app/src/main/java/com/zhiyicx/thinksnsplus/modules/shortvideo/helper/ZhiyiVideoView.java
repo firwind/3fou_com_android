@@ -212,8 +212,8 @@ public class ZhiyiVideoView extends JZVideoPlayerStandard {
             replayTextView.setVisibility(GONE);
 
             if(isShowShare){
-                mShareLineLinearLayout.setVisibility(GONE);
-                mShareLinearLayout.setVisibility(GONE);
+                mShareLineLinearLayout.setVisibility(VISIBLE);
+                mShareLinearLayout.setVisibility(VISIBLE);
             }
         } else {
             super.onAutoCompletion();

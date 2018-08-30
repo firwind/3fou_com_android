@@ -309,6 +309,9 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
 
         mRefreshlayout.setOnRefreshListener(this);
         mRefreshlayout.setOnLoadmoreListener(this);
+        mRefreshlayout.setEnableAutoLoadmore(false);
+        mRefreshlayout.setEnableRefresh(isRefreshEnable());
+        mRefreshlayout.setEnableLoadmore(isLoadingMoreEnable());
         if (setListBackColor() != -1) {
             mRvList.setBackgroundColor(ContextCompat.getColor(getContext(), setListBackColor()));
         }
@@ -327,9 +330,7 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
         mHeaderAndFooterWrapper = new HeaderAndFooterWrapper(mAdapter);
         mHeaderAndFooterWrapper.addFootView(getFooterView());
         mRvList.setAdapter(mHeaderAndFooterWrapper);
-        mRefreshlayout.setEnableAutoLoadmore(false);
-        mRefreshlayout.setEnableRefresh(isRefreshEnable());
-        mRefreshlayout.setEnableLoadmore(isLoadingMoreEnable());
+
         mRvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

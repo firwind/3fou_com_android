@@ -117,6 +117,24 @@ public class BaseDynamicRepository implements IDynamicReppsitory {
         return dealWithDynamicListV2(observable, type, isLoadMore);
     }
 
+    @Override
+    public Observable<List<DynamicDetailBeanV2>> getVideoListV2(String type, Long after, Long user_id, boolean isLoadMore, String screen) {
+        Observable<DynamicBeanV2> observable;
+        // 收藏的动态地址和返回大不一样，真滴难受
+        if (DYNAMIC_TYPE_MY_COLLECTION.equals(type)) {
+            observable = mDynamicClient.getCollectDynamicListV2(after, user_id, TSListFragment.DEFAULT_PAGE_SIZE)
+                    .flatMap(detailBeanV2 -> {
+                        DynamicBeanV2 data = new DynamicBeanV2();
+                        data.setFeeds(detailBeanV2);
+                        return Observable.just(data);
+                    });
+        } else {
+            observable = mDynamicClient.getVideoListV2(type, DYNAMIC_TYPE_HOTS.equals(type) ? null : after, user_id, TSListFragment
+                    .DEFAULT_PAGE_SIZE, screen, DYNAMIC_TYPE_HOTS.equals(type) ? after.intValue() : null);
+        }
+        return dealWithDynamicListV2(observable, type, isLoadMore);
+    }
+
     /**
      * 处理喜欢操作
      *

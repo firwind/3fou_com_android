@@ -157,7 +157,6 @@ public class MyTeamFragment extends TSViewPagerFragmentV2<MyTeamContract.Present
     protected List<String> initTitles() {
         return Arrays.asList(getString(R.string.stair),
                 getString(R.string.second_level), getString(R.string.three_level)
-
         );
     }
 
@@ -169,7 +168,6 @@ public class MyTeamFragment extends TSViewPagerFragmentV2<MyTeamContract.Present
         tsViewPagerAdapter = new TSViewPagerAdapterV2(getChildFragmentManager());
         tsViewPagerAdapter.bindData(initFragments());
         mVpFragment.setAdapter(tsViewPagerAdapter);
-
     }
     @NonNull
     private CommonNavigatorAdapter getCommonNavigatorAdapter(final List<String> mStringList) {

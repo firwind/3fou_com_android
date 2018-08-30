@@ -30,6 +30,7 @@ public class ApiConfig {
     //    public static final String APP_DOMAIN_DEV = "https://dev.zhibocloud.cn/";// 模拟在线正式服务器
 //    public static final String APP_DOMAIN_TEST = "http://test-plus.zhibocloud.cn/";// 在线测试服务器
     public static final String APP_DOMAIN_TEST = "http://112.74.168.35/";// 在线测试服务器
+//    public static final String APP_DOMAIN_TEST = "http://test.faceke.ipmw.cn/";// 在线测试服务器
     //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
 //    public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
     public static final String APP_DOMAIN_FORMAL = "http://www.mybcbnet.com/";// 正式服务器
@@ -215,6 +216,8 @@ public class ApiConfig {
     public static final String DYNAMIC_TYPE_FOLLOWS = "follow"; // 关注动态
     public static final String DYNAMIC_TYPE_HOTS = "hot"; // 热门动态
     public static final String DYNAMIC_TYPE_USERS = "users"; // 用户动态
+
+    public static final String VIDEO_TYPE_USERS = "usersvideo"; // 用户视频
     public static final String DYNAMIC_TYPE_SOMEONE = "users/%s"; // 某个人的动态列表,%s表示用户id
     public static final String DYNAMIC_TYPE_MY_COLLECTION = "collections";// 我收藏的动态列表
     // 点赞一条动态,取消点赞
@@ -235,7 +238,9 @@ public class ApiConfig {
     public static final String APP_PATH_GET_DYNAMIC_DETAIL = "api/" + API_VERSION_2 + "/feeds/{feed_id}";
 
     // 获取动态列表 V2
-    public static final String APP_PATH_GET_DYNAMIC_LIST_V2 = "api/" + API_VERSION_2 + "/feeds";//
+    public static final String APP_PATH_GET_DYNAMIC_LIST_V2 = "api/" + API_VERSION_2 + "/feeds";
+    // 获取视频列表 V2
+    public static final String APP_PATH_GET_VIDEO_LIST_V2 = "api/" + API_VERSION_2 + "/feeds/small_video";
     public static final String APP_PATH_GET_COLLECT_DYNAMIC_LIST_V2 = "api/" + API_VERSION_2 + "/feeds/collections";
 
     // 设置动态评论收费 V2
@@ -1221,4 +1226,5 @@ public class ApiConfig {
     public static final String APP_DOWNLOAD = APP_DOMAIN+"api/v2/share/appDownload";
     //邀请分享URL
     public static final String APP_SHARE_REGISTER = APP_DOMAIN+"api/v2/shareRegister?user_code=";
+    public static final String APP_SHARE_VIDEO = APP_DOMAIN+"h5/news/video/";
 }

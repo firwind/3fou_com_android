@@ -273,6 +273,7 @@
     <!--个人中心-->
     <string name="chat">聊天</string>
     <string name="dynamic_count">%1$s条动态</string>
+    <string name="video_count">%1$s条视频</string>
     <string name="followed">已关注</string>
     <string name="followed_eachother">互相关注</string>
     <string name="cover_change_success">封面修改成功</string>
@@ -512,6 +513,7 @@
     <string name="token_expiers">token过期，请重新登陆</string>
     <string name="share">分享</string>
     <string name="share_dynamic">分享动态</string>
+    <string name="share_video">分享视频</string>
     <string name="share_circle">分享社区</string>
     <string name="share_post">分享帖子</string>
     <string name="favorite">收藏</string>

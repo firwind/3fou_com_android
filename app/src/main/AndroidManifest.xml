@@ -834,6 +834,10 @@
 
         <activity android:name=".modules.information.smallvideo.SmallVideoActivity"
             android:screenOrientation="portrait"/>
+        <!--<activity android:name=".modules.personal_center.person_home.PersonalCenterActivityV2"
+            android:screenOrientation="portrait"
+            />-->
+
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".modules.chat.call.receiver.StartServiceReceiver">

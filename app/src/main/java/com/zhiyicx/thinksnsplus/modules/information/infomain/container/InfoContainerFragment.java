@@ -214,12 +214,16 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            /*mTitle.clear();
-            mFragmentList.clear();*/
-            for (int i = 0; i < mTitle.size(); i++) {
-                if(i > 2){//   7*24快讯、视频、小视频 写死
-                    mTitle.remove(i);
-                    mFragmentList.remove(i);
+            for (int i = 0;i<mTitle.size();i++){
+                if (i!=0&&i!=1){
+                    mTitle.remove(mTitle.get(i));
+                    i--;
+                }
+            }
+            for (int i = 0;i<mFragmentList.size();i++){
+                if (i!=0&&i!=1){
+                    mFragmentList.remove(mFragmentList.get(i));
+                    i--;
                 }
             }
             mInfoTypeBean = data.getBundleExtra(SUBSCRIBE_EXTRA).getParcelable(SUBSCRIBE_EXTRA);
@@ -283,8 +287,8 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
     protected List<String> initTitles() {
         if (mTitle == null) {
             mTitle = new ArrayList<>();
-            mTitle.add(getString(R.string.flash));
-            mTitle.add(getString(R.string.videos));
+            mTitle.add(0,getString(R.string.flash));
+            mTitle.add(1,getString(R.string.videos));
             mTitle.add("小视频");
         }
         return mTitle;
@@ -295,8 +299,8 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
 
         if (mFragmentList == null) {
             mFragmentList = new ArrayList<>();
-            mFragmentList.add(FlashListFragment.newInstance(FLASH_INFO_ID));
-            mFragmentList.add(InfoListFragment.newInstance(VIDEO_INFO_ID));
+            mFragmentList.add(0,FlashListFragment.newInstance(FLASH_INFO_ID));
+            mFragmentList.add(1,InfoListFragment.newInstance(VIDEO_INFO_ID));
             mFragmentList.add(new SmallVideoListFragment());
         }
         return mFragmentList;
