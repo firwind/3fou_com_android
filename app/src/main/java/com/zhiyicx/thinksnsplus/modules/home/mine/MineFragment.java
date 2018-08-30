@@ -38,6 +38,7 @@ import com.zhiyicx.thinksnsplus.modules.home.mine.team.MyTeamActivity;
 import com.zhiyicx.thinksnsplus.modules.information.my_info.ManuscriptsActivity;
 import com.zhiyicx.thinksnsplus.modules.music_fm.paided_music.MyMusicActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
+import com.zhiyicx.thinksnsplus.modules.personal_center.person_home.PersonalCenterFragmentV2;
 import com.zhiyicx.thinksnsplus.modules.q_a.mine.container.MyQuestionActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.SettingsActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
@@ -248,6 +249,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
                 break;
             case R.id.bt_personal_page:
                 PersonalCenterFragment.startToPersonalCenter(mActivity, mUserInfoBean);
+//                PersonalCenterFragmentV2.startToPersonalCenter(mActivity, mUserInfoBean);
                 break;
             case R.id.bt_team://我的团队
                 MyTeamActivity.startMyTeamActivity(getContext());

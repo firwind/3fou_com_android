@@ -3,9 +3,13 @@ package com.zhiyicx.thinksnsplus.modules.information.videoinfodetails;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.baseproject.config.ImageZipConfig;
 import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
 import com.zhiyicx.common.base.BaseJsonV2;
@@ -58,6 +62,7 @@ import rx.schedulers.Schedulers;
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_DETAILS_FORMAT;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_SEND_INFO_LIST_COLLECT;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_SEND_INFO_LIST_DELETE_UPDATE;
+import static com.zhiyicx.thinksnsplus.data.beans.DynamicListAdvert.DEFAULT_ADVERT_FROM_TAG;
 import static com.zhiyicx.thinksnsplus.data.beans.InfoCommentListBean.SEND_ING;
 
 /**
@@ -250,6 +255,69 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
         dataBean.setHas_like(!dataBean.isHas_like());
         dataBean.setDigg_count(dataBean.isHas_like()?dataBean.getDigg_count()+1:dataBean.getDigg_count()-1);
         mRootView.setDigg(dataBean.getHas_like(),dataBean.getDigg_count());
+    }
+
+    @Override
+    public void shareVideo(InfoListDataBean infoListDataBean) {
+        if (mSharePolicy == null) {
+            if (mRootView instanceof Fragment) {
+                mSharePolicy = new UmengSharePolicyImpl(((Fragment) mRootView).getActivity());
+            } else {
+                return;
+            }
+        }
+        ((UmengSharePolicyImpl) mSharePolicy).setOnShareCallbackListener(this);
+        ShareContent shareContent = new ShareContent();
+        shareContent.setTitle(infoListDataBean.getTitle());
+        shareContent.setContent("   ");
+        if (infoListDataBean.getImage() != null) {
+            shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
+        } else {
+            shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon)));
+        }
+        shareContent.setUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
+        mSharePolicy.setShareContent(shareContent);
+        mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
+
+    }
+
+    @Override
+    public void shareVideo(InfoListDataBean infoListDataBean, SHARE_MEDIA type) {
+        if (mSharePolicy == null) {
+            if (mRootView instanceof Fragment) {
+                mSharePolicy = new UmengSharePolicyImpl(((Fragment) mRootView).getActivity());
+            } else {
+                return;
+            }
+        }
+        ShareContent shareContent = new ShareContent();
+        shareContent.setTitle(infoListDataBean.getTitle());
+        shareContent.setContent("   ");
+        if (infoListDataBean.getImage() != null) {
+            shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
+        } else {
+            shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon)));
+        }
+        shareContent.setUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
+        mSharePolicy.setShareContent(shareContent);
+        switch (type) {
+            case QQ:
+                mSharePolicy.shareQQ(((TSFragment) mRootView).getActivity(), this);
+                break;
+            case QZONE:
+                mSharePolicy.shareZone(((TSFragment) mRootView).getActivity(), this);
+                break;
+            case WEIXIN:
+                mSharePolicy.shareWechat(((TSFragment) mRootView).getActivity(), this);
+                break;
+            case WEIXIN_CIRCLE:
+                mSharePolicy.shareMoment(((TSFragment) mRootView).getActivity(), this);
+                break;
+            case SINA:
+                mSharePolicy.shareWeibo(((TSFragment) mRootView).getActivity(), this);
+                break;
+            default:
+        }
     }
 
     /**

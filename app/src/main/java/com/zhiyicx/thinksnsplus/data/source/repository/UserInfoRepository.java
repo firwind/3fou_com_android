@@ -205,7 +205,7 @@ public class UserInfoRepository implements IUserInfoRepository {
         }
     }
 
-    private Observable<List<UserInfoBean>> getUserBaseJsonObservable(List<Object> user_ids) {
+    private Observable<List<UserInfoBean>>  getUserBaseJsonObservable(List<Object> user_ids) {
         if (user_ids.isEmpty()) {
             return Observable.just(new ArrayList<>());
         }

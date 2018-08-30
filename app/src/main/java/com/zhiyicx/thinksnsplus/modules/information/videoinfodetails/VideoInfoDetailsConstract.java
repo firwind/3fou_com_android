@@ -2,8 +2,10 @@ package com.zhiyicx.thinksnsplus.modules.information.videoinfodetails;
 
 import android.graphics.Bitmap;
 
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhiyicx.baseproject.base.ITSListPresenter;
 import com.zhiyicx.baseproject.base.ITSListView;
+import com.zhiyicx.thinksnsplus.data.beans.DynamicDetailBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.InfoCommentListBean;
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
 import com.zhiyicx.thinksnsplus.data.beans.RealAdvertListBean;
@@ -30,6 +32,8 @@ public interface VideoInfoDetailsConstract {
         void updateInfoHeader(InfoListDataBean infoDetailBean);
 
         void setDigg(boolean isDigged,int count);
+
+
     }
 
     interface Presenter extends ITSListPresenter<InfoCommentListBean> {
@@ -41,6 +45,10 @@ public interface VideoInfoDetailsConstract {
         void deleteComment(InfoCommentListBean data);
 
         void handleLike(InfoListDataBean data);
+
+        void shareVideo(InfoListDataBean infoListDataBean);
+
+        void shareVideo(InfoListDataBean infoListDataBean,SHARE_MEDIA type);
     }
 
 }

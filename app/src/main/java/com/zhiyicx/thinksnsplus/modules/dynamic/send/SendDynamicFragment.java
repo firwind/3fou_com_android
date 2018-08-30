@@ -1,7 +1,9 @@
 package com.zhiyicx.thinksnsplus.modules.dynamic.send;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
@@ -563,8 +565,9 @@ public class SendDynamicFragment extends TSFragment<SendDynamicContract.Presente
         if (getView() != null) {
             getView().postDelayed(() -> {
                 if (getActivity() != null) {
-                    startActivity(new Intent(getActivity(), HomeActivity.class));
-                    getActivity().overridePendingTransition(0, R.anim.fade_out);
+//                   startActivity(new Intent(getActivity(), HomeActivity.class));
+//                    getActivity().overridePendingTransition(0, R.anim.fade_out);
+                    getActivity().finish();
                 }
             }, 100);
         }
@@ -754,6 +757,7 @@ public class SendDynamicFragment extends TSFragment<SendDynamicContract.Presente
 
             if (dynamicType == SendDynamicDataBean.VIDEO_TEXT_DYNAMIC) {
                 VideoInfo videoInfo = mSendDynamicDataBean.getVideoInfo();
+
                 DynamicDetailBeanV2.Video video = new DynamicDetailBeanV2.Video();
                 video.setCreated_at(dynamicDetailBeanV2.getCreated_at());
                 video.setHeight(videoInfo.getHeight());
@@ -888,7 +892,14 @@ public class SendDynamicFragment extends TSFragment<SendDynamicContract.Presente
                         DeviceUtils.hideSoftKeyboard(getContext(), v);
                         if (TextUtils.isEmpty(imageBean.getImgUrl())) {
                             if (dynamicType == SendDynamicDataBean.VIDEO_TEXT_DYNAMIC) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    if (getActivity().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED&&getActivity().checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED) {
+                                        requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO}, 1);
+                                        return;
+                                    }
+                                }
                                 startActivity(new Intent(getActivity(), VideoSelectActivity.class));
+                                getActivity().finish();
                                 return;
                             }
                             ArrayList<String> photos = new ArrayList<>();
@@ -901,6 +912,7 @@ public class SendDynamicFragment extends TSFragment<SendDynamicContract.Presente
                             }
                             mPhotoSelector.getPhotoListFromSelector(MAX_PHOTOS, photos);
                         } else {
+
                             if (dynamicType == SendDynamicDataBean.VIDEO_TEXT_DYNAMIC) {
                                 ArrayList<String> srcList = new ArrayList<>();
                                 srcList.add(mSendDynamicDataBean.getVideoInfo().getPath());

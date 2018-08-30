@@ -1,10 +1,13 @@
 package com.tym.shortvideo.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -94,6 +97,8 @@ public class CameraUtils {
             throw new RuntimeException("camera already initialized!");
         }
         mCamera = Camera.open(cameraID);
+
+
         if (mCamera == null) {
             throw new RuntimeException("Unable to open camera");
         }

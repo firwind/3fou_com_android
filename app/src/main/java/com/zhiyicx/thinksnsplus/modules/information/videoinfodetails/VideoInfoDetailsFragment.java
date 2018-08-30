@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +21,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.StringSignature;
 import com.jakewharton.rxbinding.view.RxView;
 import com.trycatch.mysnackbar.Prompt;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.ImageZipConfig;
 import com.zhiyicx.baseproject.config.MarkdownConfig;
@@ -91,7 +93,7 @@ import static com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetai
  */
 public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsConstract.Presenter,
         InfoCommentListBean> implements VideoInfoDetailsConstract.View, InputLimitView
-        .OnSendClickListener, MultiItemTypeAdapter.OnItemClickListener, OnUserInfoClickListener {
+        .OnSendClickListener, MultiItemTypeAdapter.OnItemClickListener, OnUserInfoClickListener, ZhiyiVideoView.ShareInterface {
 
     @BindView(R.id.tv_toolbar_center)
     TextView mTvToolbarCenter;
@@ -99,6 +101,8 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     TextView mTvToolbarLeft;
     @BindView(R.id.tv_toolbar_right)
     TextView mTvToolbarRight;
+    @BindView(R.id.iv_toolbar_right)
+    ImageView mIvToolbarRight;
     @BindView(R.id.ilv_comment)
     InputLimitView mIlvComment;
     @BindView(R.id.videoplayer)
@@ -120,11 +124,11 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
 
     private boolean mIsClose;
 
-    public static VideoInfoDetailsFragment newInstance(InfoListDataBean data,int videoState) {
+    public static VideoInfoDetailsFragment newInstance(InfoListDataBean data, int videoState) {
         VideoInfoDetailsFragment fragment = new VideoInfoDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(IntentKey.DATA,data);
-        bundle.putInt(IntentKey.VIDEO_STATE,videoState);
+        bundle.putParcelable(IntentKey.DATA, data);
+        bundle.putInt(IntentKey.VIDEO_STATE, videoState);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -138,6 +142,7 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     protected boolean isRefreshEnable() {
         return false;
     }
+
     /*@Override
     protected boolean setUseCenterLoading() {
         return true;
@@ -178,7 +183,7 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
 
     @Override
     public void setDigg(boolean isDigged, int count) {
-        mInfoDetailHeader.setDigCount(isDigged,count);
+        mInfoDetailHeader.setDigCount(isDigged, count);
     }
 
 
@@ -198,9 +203,12 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
+        mIvToolbarRight.setVisibility(View.VISIBLE);
+        mIvToolbarRight.setBackground(getContext().getResources().getDrawable(R.mipmap.topbar_more_black));
+
         mIlvComment.setEtContentHint(getString(R.string.default_input_hint));
         mInfoMation = (InfoListDataBean) getArguments().getParcelable(IntentKey.DATA);
-        mVideoState = getArguments().getInt(IntentKey.VIDEO_STATE,-1);
+        mVideoState = getArguments().getInt(IntentKey.VIDEO_STATE, -1);
         if (mInfoMation == null) {
             mInfoMation = new InfoListDataBean();
             Long ids = getArguments().getLong(BUNDLE_SOURCE_ID);
@@ -219,8 +227,9 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
         initListener();
 
         mInfoDetailHeader.getDigView().setOnClickListener(v -> mPresenter.handleLike(mInfoMation));
-
+        videoView.setShareInterface(this);
         mInfoDetailHeader.setInfoReviewIng(mInfoMation.getAudit_status() == 0 ? View.VISIBLE : View.GONE);
+
     }
 
     @Override
@@ -239,6 +248,19 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
         requestNetData(mMaxId, false);
     }
 
+    @Override
+    protected int setRightImg() {
+        return R.mipmap.topbar_more_black;
+    }
+
+    @Override
+    protected void setRightClick() {
+        super.setRightClick();
+        if (mInfoMation != null) {
+            Bitmap shareBitMap = getShareBitmap(0, R.id.thumb);
+            mPresenter.shareVideo(mInfoMation);
+        }
+    }
 
     @Override
     protected boolean showToolbar() {
@@ -289,9 +311,9 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     /**
      * 初始化播放器
      */
-    private void initVideoPlayer(){
+    private void initVideoPlayer() {
 
-        videoView.setShowShare(false);//屏蔽分享
+        videoView.setShowShare(true);//屏蔽分享
 
         String imageUrl = ImageUtils.imagePathConvertV2(mInfoMation.getImage().getId(), 0, 0, ImageZipConfig.IMAGE_100_ZIP);
         String videoUrl = ImageUtils.getVideoUrl(mInfoMation.getVideo());
@@ -334,8 +356,6 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
         boolean isListToDetail = false;
         if (JZVideoPlayerManager.getFirstFloor() != null
                 && !JZVideoPlayerManager.getCurrentJzvd().equals(videoView)) {
-
-
             LinkedHashMap<String, Object> map = (LinkedHashMap) JZVideoPlayerManager.getFirstFloor().dataSourceObjects[0];
             if (map != null) {
                 isListToDetail = videoUrl.equals(map.get(URL_KEY_DEFAULT).toString());
@@ -347,7 +367,7 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
                 videoView.positionInList = 0;
                 videoView.setState(mVideoState);
                 videoView.positionInList = JZVideoPlayerManager.getFirstFloor().positionInList;
-                if(null != JZMediaManager.textureView.getParent())
+                if (null != JZMediaManager.textureView.getParent())
                     ((ZhiyiVideoView) JZVideoPlayerManager.getFirstFloor()).removeTextureView();
                 videoView.addTextureView();
                 if (JZVideoPlayerManager.getFirstFloor() instanceof ZhiyiVideoView) {
@@ -385,6 +405,12 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
 
     private void initListener() {
         mIlvComment.setOnSendClickListener(this);
+        mIvToolbarRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.shareVideo(mInfoMation);
+            }
+        });
     }
 
     public void showCommentView() {
@@ -444,6 +470,30 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
         PersonalCenterFragment.startToPersonalCenter(getContext(), userInfoBean);
     }
 
+    @Override
+    public void share(int position) {
+
+        Bitmap shareBitMap = getShareBitmap(position, R.id.thumb);
+        mPresenter.shareVideo(mInfoMation);
+
+    }
+
+    @Override
+    public void shareWihtType(int position, SHARE_MEDIA type) {
+        mPresenter.shareVideo(mInfoMation,type);
+    }
+
+    private Bitmap getShareBitmap(int position, int id) {
+        Bitmap shareBitMap = null;
+        try {
+            ImageView imageView = (ImageView) layoutManager.findViewByPosition
+                    (position + mHeaderAndFooterWrapper.getHeadersCount()).findViewById(id);
+            shareBitMap = ConvertUtils.drawable2BitmapWithWhiteBg(getContext(), imageView
+                    .getDrawable(), R.mipmap.icon);
+        } catch (Exception e) {
+        }
+        return shareBitMap;
+    }
 
     class ItemOnCommentListener implements InfoDetailCommentItem.OnCommentItemListener {
         @Override
@@ -510,7 +560,6 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
 
         }
     }
-
 
 
     @Override

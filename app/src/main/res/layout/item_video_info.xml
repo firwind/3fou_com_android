@@ -15,7 +15,7 @@
         <com.zhiyicx.thinksnsplus.modules.shortvideo.helper.ZhiyiVideoView
             android:id="@+id/videoplayer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -30,61 +30,70 @@
     </FrameLayout>
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp46"
         android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/user_avatar"
-            android:layout_marginLeft="@dimen/dp16"
             android:layout_width="@dimen/dp25"
-            android:layout_height="@dimen/dp25"/>
+            android:layout_height="@dimen/dp25"
+            android:layout_marginLeft="@dimen/dp16" />
 
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="@dimen/dp80"
             android:layout_marginLeft="@dimen/dp8"
-            tools:text="我是发布人我是发布人"
-            android:textSize="@dimen/sp13"
+            android:maxWidth="@dimen/dp80"
             android:singleLine="true"
-            android:textColor="@color/black_deep"/>
+            android:textColor="@color/black_deep"
+            android:textSize="@dimen/sp13"
+            tools:text="我是发布人我是发布人" />
 
         <View
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_comment_count"
-            android:paddingLeft="@dimen/dp10"
-            android:paddingRight="@dimen/dp10"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="@dimen/sp14"
-            android:singleLine="true"
-            android:textColor="@color/black_deep"
-            android:text="0"
+            android:drawableLeft="@mipmap/icon_video_comment"
             android:drawablePadding="@dimen/dp8"
             android:gravity="center"
-            android:drawableLeft="@mipmap/icon_video_comment"/>
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
+            android:singleLine="true"
+            android:text="0"
+            android:textColor="@color/black_deep"
+            android:textSize="@dimen/sp14" />
 
         <TextView
             android:id="@+id/tv_dig_count"
-            android:layout_marginLeft="@dimen/dp10"
-            android:layout_marginRight="@dimen/dp10"
-            android:paddingLeft="@dimen/dp10"
-            android:paddingRight="@dimen/dp10"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="@dimen/sp14"
-            android:singleLine="true"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:drawableLeft="@drawable/selector_video_like"
             android:drawablePadding="@dimen/dp8"
-            android:textColor="@color/black_deep"
-            android:text="0"
             android:gravity="center"
-            android:drawableLeft="@drawable/selector_video_like"/>
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
+            android:singleLine="true"
+            android:text="0"
+            android:textColor="@color/black_deep"
+            android:textSize="@dimen/sp14" />
+
+        <ImageView
+            android:id="@+id/iv_share_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/topbar_more_black"
+            android:layout_marginRight="@dimen/dp10"/>
+
 
     </LinearLayout>
 

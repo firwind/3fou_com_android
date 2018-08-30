@@ -43,6 +43,18 @@ public interface IDynamicReppsitory {
      */
     Observable<List<DynamicDetailBeanV2>> getDynamicListV2(String type, Long after, Long user_id,boolean isLoadMore,
                                                            String screen);
+    /**
+     * get dynamic list
+     *
+     * @param type       "" 代表最新；follows 代表关注 ； hots 代表热门
+     * @param after     用来翻页的记录id(对应数据体里的 feed_id ,最新和关注选填)
+     * @param user_id   动态所属人
+     * @param isLoadMore 是否是刷新
+     * @param screen  type = users 时可选，paid-付费动态 pinned - 置顶动态
+     * @return dynamic list
+     */
+    Observable<List<DynamicDetailBeanV2>> getVideoListV2(String type, Long after, Long user_id,boolean isLoadMore,
+                                                           String screen);
 
     /**
      * 动态点赞

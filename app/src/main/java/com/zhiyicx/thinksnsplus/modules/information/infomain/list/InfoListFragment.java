@@ -1,12 +1,14 @@
 package com.zhiyicx.thinksnsplus.modules.information.infomain.list;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tym.shortvideo.view.AutoPlayScrollListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhiyicx.baseproject.base.BaseListBean;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.TouristConfig;
@@ -59,7 +61,7 @@ import static com.zhiyicx.thinksnsplus.modules.information.infomain.container.In
  * @Description
  */
 public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPresenter,
-        BaseListBean> implements InfoMainContract.InfoListView, InfoBannerHeader.InfoBannerHeadlerClickEvent {
+        BaseListBean> implements InfoMainContract.InfoListView, InfoBannerHeader.InfoBannerHeadlerClickEvent, ZhiyiVideoView.ShareInterface {
 
     /**
      * 推荐分类
@@ -143,7 +145,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
     protected MultiItemTypeAdapter getAdapter() {
 
         MultiItemTypeAdapter adapter = new MultiItemTypeAdapter(getActivity(), mListDatas);
-        adapter.addItemViewDelegate(isVideoInfo()?getVideoInfoListDelegate():getNormalInfoListDelegate());
+        adapter.addItemViewDelegate(isVideoInfo() ? getVideoInfoListDelegate() : getNormalInfoListDelegate());
 
         return adapter;
     }
@@ -153,7 +155,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
     public void onPause() {
         super.onPause();
 
-        if(isVideoInfo()){//暂停播放
+        if (isVideoInfo()) {//暂停播放
             JZVideoPlayer.goOnPlayOnPause();
         }
     }
@@ -161,7 +163,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(!isVisibleToUser && isVideoInfo()){//暂停播放
+        if (!isVisibleToUser && isVideoInfo()) {//暂停播放
             JZVideoPlayer.goOnPlayOnPause();
         }
     }
@@ -184,7 +186,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
                     @Override
                     public void onCompleted() {
 
-                        if(null != mVideoListItem)
+                        if (null != mVideoListItem)
                             mVideoListItem.setPresenter(mInfoListPresenter);
 
                         initData();
@@ -215,6 +217,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
                 }
             });
         }*/
+
 
     }
 
@@ -323,12 +326,12 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
     }
 
 
-
     /**
      * 获取普通资讯列表的delegate
+     *
      * @return
      */
-    private ItemViewDelegate getNormalInfoListDelegate(){
+    private ItemViewDelegate getNormalInfoListDelegate() {
         return new InfoListItem(false) {
             @Override
             public void itemClick(int position, ImageView imageView, TextView title, InfoListDataBean realData) {
@@ -353,16 +356,18 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
 
 
     private VideoListItem mVideoListItem = null;
+
     /**
      * 获取视频资讯列表的delegate
+     *
      * @return
      */
-    private ItemViewDelegate getVideoInfoListDelegate(){
-        if(null == mVideoListItem){
+    private ItemViewDelegate getVideoInfoListDelegate() {
+        if (null == mVideoListItem) {
             mVideoListItem = new VideoListItem(mActivity) {
                 @Override
                 public void itemClick(int position, ViewHolder holder, InfoListDataBean realData) {
-                    ZhiyiVideoView playView = (ZhiyiVideoView)holder.getView(R.id.videoplayer);
+                    ZhiyiVideoView playView = (ZhiyiVideoView) holder.getView(R.id.videoplayer);
                     if (playView.currentState == ZhiyiVideoView.CURRENT_STATE_PLAYING) {
                         playView.startButton.callOnClick();
                     }
@@ -371,12 +376,23 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
                     playView.textureViewContainer.removeView(JZMediaManager.textureView);
                     playView.onStateNormal();
 
-                    VideoInfoDetailsActivity.startVideoInfoDetailsActivity(mActivity,realData,videoState);
+                    VideoInfoDetailsActivity.startVideoInfoDetailsActivity(mActivity, realData, videoState);
                 }
             };
+            mVideoListItem.setShareInterface(this);
         }
         return mVideoListItem;
     }
 
 
+    @Override
+    public void share(int position) {
+        mPresenter.shareVideo((InfoListDataBean) mListDatas.get(position));
+
+    }
+
+    @Override
+    public void shareWihtType(int position, SHARE_MEDIA type) {
+        mPresenter.shareVideo((InfoListDataBean) mListDatas.get(position),type);
+    }
 }

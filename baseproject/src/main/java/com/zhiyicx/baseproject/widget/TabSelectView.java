@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
@@ -110,7 +111,17 @@ public class TabSelectView extends FrameLayout {
         }
         initMagicIndicator();
     }
+    public void setMagicIndicatorCenterInParent(boolean isCenter){
 
+            RelativeLayout.LayoutParams rp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        if (!isCenter) {
+            rp.addRule(RelativeLayout.LEFT_OF);
+        }else {
+            rp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        }
+            mMagicIndicator.setLayoutParams(rp);
+
+    }
     public void initTabView(ViewPager viewPager, List<String> stringList, CommonNavigatorAdapter customAdapter) {
         this.mViewPager = viewPager;
         this.mStringList = stringList;
@@ -226,6 +237,7 @@ public class TabSelectView extends FrameLayout {
     }
 
     private void initMagicIndicator() {
+
         mMagicIndicator.setBackgroundColor(Color.TRANSPARENT);
         mCommonNavigator = new CommonNavigator(mContext);
         mCommonNavigator.setAdjustMode(mIsAdjustMode);

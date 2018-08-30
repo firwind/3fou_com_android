@@ -1,9 +1,26 @@
 package com.zhiyicx.thinksnsplus.modules.information.infomain.list;
 
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhiyicx.baseproject.base.BaseListBean;
+import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.baseproject.config.ApiConfig;
+import com.zhiyicx.baseproject.config.ImageZipConfig;
+import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
+import com.zhiyicx.common.thridmanager.share.OnShareCallbackListener;
+import com.zhiyicx.common.thridmanager.share.Share;
+import com.zhiyicx.common.thridmanager.share.ShareContent;
+import com.zhiyicx.common.thridmanager.share.SharePolicy;
+import com.zhiyicx.common.utils.ConvertUtils;
+import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.data.beans.InfoCommentListBean;
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
 import com.zhiyicx.thinksnsplus.data.beans.InfoRecommendBean;
 import com.zhiyicx.thinksnsplus.data.beans.RealAdvertListBean;
@@ -11,6 +28,8 @@ import com.zhiyicx.thinksnsplus.data.source.local.AllAdvertListBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.InfoListDataBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseInfoRepository;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
+import com.zhiyicx.thinksnsplus.utils.ImageUtils;
+import com.zhiyicx.thinksnsplus.utils.TSShareUtils;
 
 import org.jetbrains.annotations.NotNull;
 import org.simple.eventbus.Subscriber;
@@ -34,7 +53,7 @@ import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_UPDATE_LIS
  * @Description
  */
 @FragmentScoped
-public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoListView> implements InfoMainContract.InfoListPresenter {
+public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoListView> implements InfoMainContract.InfoListPresenter ,OnShareCallbackListener {
 
     InfoListDataBeanGreenDaoImpl mInfoListDataBeanGreenDao;
 
@@ -42,6 +61,7 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
 
     BaseInfoRepository mBaseInfoRepository;
 
+    public SharePolicy mSharePolicy;
     @Inject
     public InfoListPresenter(InfoMainContract.InfoListView rootInfoListView
             , InfoListDataBeanGreenDaoImpl infoListDataBeanGreenDao
@@ -77,6 +97,68 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
         dataBean.setHas_like(!dataBean.isHas_like());
         dataBean.setDigg_count(dataBean.isHas_like()?dataBean.getDigg_count()+1:dataBean.getDigg_count()-1);
         mRootView.refreshData();
+    }
+
+    @Override
+    public void shareVideo(InfoListDataBean infoListDataBean) {
+        if (mSharePolicy == null) {
+            if (mRootView instanceof Fragment) {
+                mSharePolicy = new UmengSharePolicyImpl(((Fragment) mRootView).getActivity());
+            } else {
+                return;
+            }
+        }
+        ((UmengSharePolicyImpl) mSharePolicy).setOnShareCallbackListener(this);
+        ShareContent shareContent = new ShareContent();
+        shareContent.setTitle(infoListDataBean.getTitle());
+        shareContent.setContent("   ");
+        if (infoListDataBean.getImage() != null) {
+            shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
+        } else {
+            shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon)));
+        }
+        shareContent.setUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
+        mSharePolicy.setShareContent(shareContent);
+        mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
+    }
+
+    @Override
+    public void shareVideo(InfoListDataBean infoListDataBean, SHARE_MEDIA type) {
+        if (mSharePolicy == null) {
+            if (mRootView instanceof Fragment) {
+                mSharePolicy = new UmengSharePolicyImpl(((Fragment) mRootView).getActivity());
+            } else {
+                return;
+            }
+        }
+        ShareContent shareContent = new ShareContent();
+        shareContent.setTitle(infoListDataBean.getTitle());
+        shareContent.setContent("  ");
+        if (infoListDataBean.getImage() != null) {
+            shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
+        } else {
+            shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon)));
+        }
+        shareContent.setUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
+        mSharePolicy.setShareContent(shareContent);
+        switch (type) {
+            case QQ:
+                mSharePolicy.shareQQ(((TSFragment) mRootView).getActivity(), this);
+                break;
+            case QZONE:
+                mSharePolicy.shareZone(((TSFragment) mRootView).getActivity(), this);
+                break;
+            case WEIXIN:
+                mSharePolicy.shareWechat(((TSFragment) mRootView).getActivity(), this);
+                break;
+            case WEIXIN_CIRCLE:
+                mSharePolicy.shareMoment(((TSFragment) mRootView).getActivity(), this);
+                break;
+            case SINA:
+                mSharePolicy.shareWeibo(((TSFragment) mRootView).getActivity(), this);
+                break;
+            default:
+        }
     }
 
     @Override
@@ -161,5 +243,25 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
                 break;
             }
         }
+    }
+
+    @Override
+    public void onStart(Share share) {
+
+    }
+
+    @Override
+    public void onSuccess(Share share) {
+        mRootView.showSnackSuccessMessage(mContext.getString(R.string.share_sccuess));
+    }
+
+    @Override
+    public void onError(Share share, Throwable throwable) {
+        mRootView.showSnackErrorMessage(mContext.getString(R.string.share_fail));
+    }
+
+    @Override
+    public void onCancel(Share share) {
+        mRootView.showSnackSuccessMessage(mContext.getString(R.string.share_cancel));
     }
 }

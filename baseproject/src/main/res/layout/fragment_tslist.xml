@@ -26,7 +26,9 @@
             android:id="@+id/swipe_target"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never"/>
+            android:overScrollMode="never"
+            android:focusableInTouchMode="true"
+            android:focusable="true"/>
 
         <com.zhiyicx.baseproject.widget.refresh.TSRefreshFooter
             android:layout_width="match_parent"

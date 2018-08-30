@@ -42,7 +42,7 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
 
     private Context mContext;
     private InfoListPresenter mPresenter;
-
+    private ZhiyiVideoView.ShareInterface mShareInterface;
 
     public VideoListItem(Context mContext) {
         this.mContext = mContext;
@@ -61,7 +61,9 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
     public boolean isForViewType(BaseListBean item, int position) {
         return item instanceof InfoListDataBean;
     }
-
+    public void setShareInterface(ZhiyiVideoView.ShareInterface shareInterface){
+        this.mShareInterface = shareInterface;
+    }
     @Override
     public void convert(ViewHolder holder, BaseListBean baseListBean, BaseListBean lastT,
                         final int position, int itemCounts) {
@@ -74,12 +76,17 @@ public abstract class VideoListItem implements ItemViewDelegate<BaseListBean> {
         holder.getTextView(R.id.tv_user_name).setText(info.getUser_name());
         ImageUtils.loadCircleImageDefault(holder.getImageViwe(R.id.user_avatar),info.getAvatar());
 
-        ((ZhiyiVideoView)holder.getView(R.id.videoplayer)).setShowShare(false);
+        ((ZhiyiVideoView)holder.getView(R.id.videoplayer)).setShowShare(true);
+        ((ZhiyiVideoView)holder.getView(R.id.videoplayer)).setShareInterface(mShareInterface);
         initVideoView(info,ImageUtils.getVideoUrl(info.getVideo()),holder.getView(R.id.videoplayer),position);
 
         holder.getView(R.id.tv_dig_count).setOnClickListener(v -> {
             if(null != mPresenter)
                 mPresenter.handleLike(info);
+        });
+        holder.getView(R.id.iv_share_video).setOnClickListener(v -> {
+            if(null != mPresenter)
+                mPresenter.shareVideo(info);
         });
 
         holder.itemView.setOnClickListener(v -> itemClick(position,holder, info));
