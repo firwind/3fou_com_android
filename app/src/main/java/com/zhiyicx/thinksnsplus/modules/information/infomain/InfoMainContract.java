@@ -79,7 +79,7 @@ public interface InfoMainContract {
 
     //小视频
     interface SmallVideoListPresenter extends ITSListPresenter<DynamicDetailBeanV2>{
-
+        void shareVideo(DynamicDetailBeanV2 detailBeanV2);
     }
     //小视频
     interface SmallVideoListView extends ITSListView<DynamicDetailBeanV2,SmallVideoListPresenter>{

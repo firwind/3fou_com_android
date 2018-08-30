@@ -1,6 +1,19 @@
 package com.zhiyicx.thinksnsplus.modules.information.infomain.smallvideo;
 
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.text.TextUtils;
+
+import com.zhiyicx.baseproject.base.TSFragment;
+import com.zhiyicx.baseproject.config.ApiConfig;
+import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
+import com.zhiyicx.common.thridmanager.share.OnShareCallbackListener;
+import com.zhiyicx.common.thridmanager.share.Share;
+import com.zhiyicx.common.thridmanager.share.ShareContent;
+import com.zhiyicx.common.thridmanager.share.SharePolicy;
+import com.zhiyicx.common.utils.ConvertUtils;
+import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicBeanV2;
@@ -10,6 +23,7 @@ import com.zhiyicx.thinksnsplus.data.source.local.InfoListDataBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseDynamicRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseInfoRepository;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
+import com.zhiyicx.thinksnsplus.utils.TSShareUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +38,8 @@ import javax.inject.Inject;
  * version:
  */
 @FragmentScoped
-public class SmallVideoListPresenter extends AppBasePresenter<InfoMainContract.SmallVideoListView> implements InfoMainContract.SmallVideoListPresenter {
+public class SmallVideoListPresenter extends AppBasePresenter<InfoMainContract.SmallVideoListView> implements
+        InfoMainContract.SmallVideoListPresenter, OnShareCallbackListener {
 
     InfoListDataBeanGreenDaoImpl mInfoListDataBeanGreenDao;
 
@@ -32,6 +47,9 @@ public class SmallVideoListPresenter extends AppBasePresenter<InfoMainContract.S
 
     @Inject
     BaseDynamicRepository mDynamicRepository;
+
+    @Inject
+    public SharePolicy mSharePolicy;
 
     @Inject
     public SmallVideoListPresenter(InfoMainContract.SmallVideoListView smallVideoListView
@@ -81,6 +99,47 @@ public class SmallVideoListPresenter extends AppBasePresenter<InfoMainContract.S
     @Override
     protected boolean useEventBus() {
         return true;
+    }
+
+    @Override
+    public void shareVideo(DynamicDetailBeanV2 dynamicBean) {
+        ((UmengSharePolicyImpl) mSharePolicy).setOnShareCallbackListener(this);
+        ShareContent shareContent = new ShareContent();
+        shareContent.setTitle(mContext.getString(R.string.share));
+        shareContent.setContent(TextUtils.isEmpty(dynamicBean.getFeed_content()) ? mContext
+                .getString(R.string.share_dynamic) : dynamicBean.getFeed_content());
+        /*if (bitmap != null) {
+            shareContent.setBitmap(bitmap);
+        } else {*/
+        shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory
+                .decodeResource(mContext.getResources(), R.mipmap.icon)));
+//        }
+        shareContent.setUrl(TSShareUtils.convert2ShareUrl(String.format(ApiConfig.APP_PATH_SHARE_DYNAMIC, dynamicBean
+                .getId()
+                == null ? "" : dynamicBean.getId())));
+        mSharePolicy.setShareContent(shareContent);
+        mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
+    }
+
+
+
+    @Override
+    public void onStart(Share share) {
+    }
+
+    @Override
+    public void onSuccess(Share share) {
+        mRootView.showSnackSuccessMessage(mContext.getString(R.string.share_sccuess));
+    }
+
+    @Override
+    public void onError(Share share, Throwable throwable) {
+        mRootView.showSnackErrorMessage(mContext.getString(R.string.share_fail));
+    }
+
+    @Override
+    public void onCancel(Share share) {
+        mRootView.showSnackSuccessMessage(mContext.getString(R.string.share_cancel));
     }
 
 }

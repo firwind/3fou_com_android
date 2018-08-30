@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Parcelable;
 
 import com.zhiyicx.baseproject.base.TSActivity;
+import com.zhiyicx.baseproject.impl.share.ShareModule;
+import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicDetailBeanV2;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
@@ -32,8 +34,23 @@ public class SmallVideoActivity extends TSActivity<SmallVideoPresenter,SmallVide
         DaggerSmallVideoComponent.builder()
                 .appComponent(AppApplication.AppComponentHolder.getAppComponent())
                 .smallVideoPresenterModule(new SmallVideoPresenterModule(mContanierFragment))
+                .shareModule(new ShareModule(this))
                 .build()
                 .inject(this);
+    }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UmengSharePolicyImpl.onActivityResult(requestCode, resultCode, data, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UmengSharePolicyImpl.onDestroy(this);
     }
 
 

@@ -334,7 +334,8 @@ public class BaseDynamicRepository implements IDynamicReppsitory {
                     listBaseJson.getPinneds().addAll(listBaseJson.getComments());
                     for (DynamicCommentBean dynamicCommentBean : listBaseJson.getPinneds()) {
                         userIds.add(dynamicCommentBean.getUser_id());
-                        userIds.add(dynamicCommentBean.getReply_to_user_id());
+                        if(0 != dynamicCommentBean.getReply_to_user_id())
+                            userIds.add(dynamicCommentBean.getReply_to_user_id());
                         dynamicCommentBean.setFeed_mark(feedMark);
                     }
 
@@ -518,7 +519,8 @@ public class BaseDynamicRepository implements IDynamicReppsitory {
                             .flatMap(dynamicCommentBeen -> {
                                 for (DynamicCommentBean dynamicCommentBean : dynamicCommentBeen) {
                                     user_ids.add(dynamicCommentBean.getUser_id());
-                                    user_ids.add(dynamicCommentBean.getReply_to_user_id());
+                                    if(0 != dynamicCommentBean.getReply_to_user_id())
+                                        user_ids.add(dynamicCommentBean.getReply_to_user_id());
                                     // 评论中增加
                                     dynamicCommentBean.setFeed_mark(dynamicBean.getFeed_mark());
                                     // feed_mark \和用户标记

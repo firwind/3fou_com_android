@@ -371,6 +371,7 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
         if (messageItemBean == null) {
             return;
         }
+
         if (null == messageItemBean.getConversation()) {
             ChatActivity.startChatActivity(mActivity, messageItemBean.getEmKey()
                     , messageItemBean.getType() == EMConversation.EMConversationType.Chat ? EaseConstant.CHATTYPE_SINGLE :

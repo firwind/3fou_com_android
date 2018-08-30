@@ -115,9 +115,16 @@
                     android:text="猪小萌"
                     android:layout_marginLeft="@dimen/dp8"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp13"/>
+                    android:textSize="@dimen/sp13"
+                    android:singleLine="true"/>
 
-
+                <ImageView
+                    android:id="@+id/iv_follow"
+                    android:paddingLeft="@dimen/dp8"
+                    android:paddingRight="@dimen/dp8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp32"
+                    android:src="@drawable/selector_red_follow"/>
 
             </LinearLayout>
 

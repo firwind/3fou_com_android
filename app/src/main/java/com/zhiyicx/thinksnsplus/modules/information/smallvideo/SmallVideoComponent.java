@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.information.smallvideo;
 
+import com.zhiyicx.baseproject.impl.share.ShareModule;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.thinksnsplus.base.AppComponent;
 import com.zhiyicx.thinksnsplus.base.InjectComponent;
@@ -13,6 +14,6 @@ import dagger.Component;
  * version:
  */
 @FragmentScoped
-@Component(dependencies = AppComponent.class, modules = SmallVideoPresenterModule.class)
+@Component(dependencies = AppComponent.class, modules = {SmallVideoPresenterModule.class,ShareModule.class})
 public interface SmallVideoComponent extends InjectComponent<SmallVideoActivity>{
 }

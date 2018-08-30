@@ -172,6 +172,7 @@
     <dimen name="dp134">134dp</dimen>
     <dimen name="dp142">142dp</dimen>
     <dimen name="dp146">146dp</dimen>
+    <dimen name="dp150">150dp</dimen>
     <dimen name="dp154">154dp</dimen>
     <dimen name="dp200">200dp</dimen>
     <dimen name="dp224">224dp</dimen>
@@ -180,5 +181,6 @@
     <dimen name="dp318">318dp</dimen>
     <dimen name="dp395">395dp</dimen>
     <dimen name="dp424">424dp</dimen>
+    <dimen name="dp490">490dp</dimen>
 
 </resources>

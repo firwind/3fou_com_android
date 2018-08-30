@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.BottomSheetDialog;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
@@ -17,9 +18,9 @@ import android.widget.TextView;
  * Time:2018/4/16 19:12
  * Description:This is HBaseDialog.For...
  */
-public class HBaseDialog {
+public class HBaseBottomSheetDialog {
 
-    private Dialog dialog;
+    private BottomSheetDialog dialog;
 
     protected Activity mContext;
 
@@ -29,14 +30,14 @@ public class HBaseDialog {
 
     protected int gravity = Gravity.CENTER;
 
-//    private HBaseDialog.DialogShowListener listener;
+    private HBaseBottomSheetDialog.DialogShowListener listener;
 
     /**
      * 构造方法
      * @param context 上下文
      * @param layoutResId 布局id
      */
-    public HBaseDialog(Activity context, int layoutResId, boolean cancelOnTouchOutside){
+    public HBaseBottomSheetDialog(Activity context, int layoutResId, boolean cancelOnTouchOutside){
         this.mContext = context;
         mViews = new SparseArray<>();
         this.layoutResId = layoutResId;
@@ -57,7 +58,7 @@ public class HBaseDialog {
      * 初始化view
      */
     private void initView(boolean cancelOnTouchOutside) {
-        dialog = new Dialog(mContext);
+        dialog = new BottomSheetDialog(mContext);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         dialog.setContentView(layoutResId);
@@ -66,7 +67,7 @@ public class HBaseDialog {
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(params);
-        dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         cancelDialogTitleLineColor();
     }
     /**
@@ -119,7 +120,7 @@ public class HBaseDialog {
      * @param textContent 文本内容
      * @return
      */
-    public HBaseDialog setText(int viewId, String textContent){
+    public HBaseBottomSheetDialog setText(int viewId, String textContent){
         TextView textView = getView(viewId);
         textView.setText(textContent);
         return this;
@@ -131,7 +132,7 @@ public class HBaseDialog {
      * @param resId 文本内容资源id
      * @return
      */
-    public HBaseDialog setText(int viewId, int resId){
+    public HBaseBottomSheetDialog setText(int viewId, int resId){
         TextView textView = getView(viewId);
         textView.setText(resId);
         return this;
@@ -160,9 +161,9 @@ public class HBaseDialog {
         if(dialog != null){
             if(dialog.isShowing()){
                 dialog.dismiss();
-                /*if(listener != null){
+                if(listener != null){
                     listener.onDismiss();
-                }*/
+                }
             }else{
                 dialog.show();
             }
@@ -172,12 +173,12 @@ public class HBaseDialog {
     public boolean isShowing(){
         return dialog.isShowing();
     }
-/*
-    *//**
+
+    /**
      * 监听对话框的消失
      * @param listener
-     *//*
-    public void setDialogShowListener(HBaseDialog.DialogShowListener listener){
+     */
+    public void setDialogShowListener(HBaseBottomSheetDialog.DialogShowListener listener){
         this.listener = listener;
     }
 
@@ -187,6 +188,6 @@ public class HBaseDialog {
 
     public void setOnKeyDown(DialogInterface.OnKeyListener listener){
         dialog.setOnKeyListener(listener);
-    }*/
+    }
 
 }

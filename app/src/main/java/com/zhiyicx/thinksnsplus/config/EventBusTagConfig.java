@@ -279,5 +279,7 @@ public class EventBusTagConfig {
 
     public static final String EVENT_USER_HEADPIC_UPDATE="event_user_update_headpic";
 
+    //更新小视频列表
+    public static final String EVENT_UPDATE_SMALL_VIDEO_LIST = "event_update_small_video_list";
 
 }

@@ -9,16 +9,21 @@ import android.widget.FrameLayout;
 
 import com.hyphenate.util.DensityUtil;
 import com.zhiyicx.baseproject.base.TSListFragment;
+import com.zhiyicx.baseproject.impl.share.ShareModule;
 import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicDetailBeanV2;
+import com.zhiyicx.thinksnsplus.data.beans.SmallVideoDataBean;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
 import com.zhiyicx.thinksnsplus.modules.information.smallvideo.SmallVideoActivity;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+
+import org.simple.eventbus.Subscriber;
 
 import javax.inject.Inject;
 import rx.Observable;
@@ -51,6 +56,7 @@ public class SmallVideoListFragment extends TSListFragment<InfoMainContract.Smal
             DaggerSmallVideoListComponent.builder()
                     .appComponent(AppApplication.AppComponentHolder.getAppComponent())
                     .smallVideoListPresenterModule(new SmallVideoListPresenterModule(SmallVideoListFragment.this))
+                    .shareModule(new ShareModule(mActivity))
                     .build()
                     .inject(SmallVideoListFragment.this);
             subscriber.onCompleted();
@@ -102,6 +108,36 @@ public class SmallVideoListFragment extends TSListFragment<InfoMainContract.Smal
     }
 
     @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
+
+    /**
+     * 小视频详情中 - 更新数据源
+     * @param dataBean
+     */
+    @Subscriber(tag = EventBusTagConfig.EVENT_UPDATE_SMALL_VIDEO_LIST)
+    public void updateSmallVideoList(SmallVideoDataBean dataBean){
+
+
+        if(null != dataBean.list){
+            try {
+                mListDatas.clear();
+                mListDatas.addAll(dataBean.list);
+                refreshData();
+
+                mRvList.smoothScrollToPosition(dataBean.currentPosition);
+            }catch (Exception e){
+                //
+            }
+        }
+
+    }
+
+
+
+    @Override
     protected RecyclerView.ItemDecoration getItemDecoration() {
         int width = mActivity.getResources().getDimensionPixelSize(R.dimen.dp4);
         return new RecyclerView.ItemDecoration() {
@@ -137,13 +173,10 @@ public class SmallVideoListFragment extends TSListFragment<InfoMainContract.Smal
     protected CommonAdapter getAdapter() {
         int itemWidth = (DeviceUtils.getScreenWidth(mActivity)-mActivity.getResources().getDimensionPixelSize(R.dimen.dp4))/2;
         int minHeight = DensityUtil.dip2px(mActivity,200);
-        int subWidth = getResources().getDimensionPixelOffset(R.dimen.dp_sub_4);
         CommonAdapter<DynamicDetailBeanV2> mAdapter = new CommonAdapter<DynamicDetailBeanV2>(mActivity,
                 R.layout.item_small_video,mListDatas) {
             @Override
             protected void convert(ViewHolder holder, DynamicDetailBeanV2 smallVideoListBean, int position) {
-
-                boolean isLeft = ((StaggeredGridLayoutManager.LayoutParams) (holder.itemView.getLayoutParams())).getSpanIndex() % 2 == 0;
 
                 //重设高度
                 FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) holder.getView(R.id.video_container)
@@ -158,8 +191,11 @@ public class SmallVideoListFragment extends TSListFragment<InfoMainContract.Smal
                 holder.getTextView(R.id.tv_title).setText(smallVideoListBean.getFeed_content());
                 holder.getTextView(R.id.tv_play_count).setText(String.valueOf(smallVideoListBean.getFeed_view_count()) );
 
-                ImageUtils.loadImageWithNoDefault(holder.getImageViwe(R.id.iv_cover),
+                ImageUtils.loadVerticalVideoThumbDefault(holder.getImageViwe(R.id.iv_cover),
                         ImageUtils.getVideoUrl( (null != smallVideoListBean.getVideo()?smallVideoListBean.getVideo().getCover_id():0)));
+
+                //分享
+                holder.getView(R.id.iv_share).setOnClickListener(v -> mPresenter.shareVideo(smallVideoListBean));
             }
         };
 

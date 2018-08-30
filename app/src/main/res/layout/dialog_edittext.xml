@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_input"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp70"
+        android:layout_margin="10dp"
+        android:background="@null"
+        android:gravity="top"
+        android:textColor="@color/black_deep"
+        android:hint="精彩评论..."
+        android:textSize="@dimen/sp13"/>
+
+    <Button
+        android:id="@+id/bt_confirm"
+        android:layout_width="@dimen/dp54"
+        android:layout_height="@dimen/dp25"
+        android:layout_gravity="end"
+        android:layout_marginRight="@dimen/dp10"
+        android:layout_marginBottom="@dimen/dp10"
+        android:background="@drawable/selector_publish_btn"
+        android:enabled="false"
+        android:text="发表"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp12" />
+
+</LinearLayout>

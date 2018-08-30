@@ -123,6 +123,11 @@ public class TSEMConstants {
      */
     public static final String TS_ATTR_TAG = "ts_attr_tag";
 
+    /**
+     * 红包
+     */
+    public static final String TS_ATTR_RED_PACKET = "ts_attr_red_packet";
+
     // 状态
     public static final String ML_ATTR_STATUS = "ml_attr_status";
     // 类型

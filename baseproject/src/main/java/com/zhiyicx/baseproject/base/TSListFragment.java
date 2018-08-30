@@ -309,7 +309,7 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
 
         mRefreshlayout.setOnRefreshListener(this);
         mRefreshlayout.setOnLoadmoreListener(this);
-        mRefreshlayout.setEnableAutoLoadmore(false);
+        mRefreshlayout.setEnableAutoLoadmore(getEnalbeAutoLoadMore());
         mRefreshlayout.setEnableRefresh(isRefreshEnable());
         mRefreshlayout.setEnableLoadmore(isLoadingMoreEnable());
         if (setListBackColor() != -1) {
@@ -426,6 +426,14 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
      */
     protected RecyclerView.LayoutManager getLayoutManager() {
         return new LinearLayoutManager(mActivity);
+    }
+
+    /**
+     * 设置是否自动加载更多
+     * @return
+     */
+    protected boolean getEnalbeAutoLoadMore(){
+        return false;
     }
 
     /**

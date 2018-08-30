@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.modules.information.smallvideo;
 
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -8,15 +9,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.video.VideoListener;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.widget.UserAvatarView;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
+import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicDetailBeanV2;
+import com.zhiyicx.thinksnsplus.data.beans.SmallVideoDataBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
+import com.zhiyicx.thinksnsplus.modules.information.smallvideo.comment.SmallVideoCommentDialog;
+import com.zhiyicx.thinksnsplus.modules.personal_center.PersonalCenterFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
+import com.zhiyicx.thinksnsplus.widget.dialog.EditTextDialog;
+import com.zhiyicx.thinksnsplus.widget.dialog.HBaseDialog;
 import com.zhiyicx.thinksnsplus.widget.verticalviewpager.OnViewPagerListener;
 import com.zhiyicx.thinksnsplus.widget.verticalviewpager.ViewPagerLayoutManager;
 import com.zhiyicx.thinksnsplus.widget.videoplayer.SimpleVideoPlayer;
@@ -24,8 +33,13 @@ import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import org.jetbrains.annotations.NotNull;
+import org.simple.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
 
 
 /**
@@ -35,11 +49,13 @@ import java.util.List;
  * version:
  */
 
-public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presenter, DynamicDetailBeanV2> implements SmallVideoContract.View, OnViewPagerListener {
+public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presenter, DynamicDetailBeanV2> implements SmallVideoContract.View, OnViewPagerListener, SmallVideoCommentDialog.OnInputDialogShowListener {
 
-    /*@BindView(R.id.iv_back)
-    ImageView mIvBack;*/
+    @BindView(R.id.iv_back)
+    ImageView mIvBack;
 
+    private SmallVideoCommentDialog mSmallVideoCommentDialog;//评论弹窗
+    private EditTextDialog mEditTextDialog;//输入弹窗
 
     private int currentPosition = 0;
 
@@ -52,6 +68,11 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
         fragment.setArguments(bundle);
 
         return fragment;
+    }
+
+    @Override
+    protected boolean isRefreshEnable() {
+        return false;
     }
 
     @Override
@@ -74,17 +95,21 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
         return false;
     }
 
-   /* @Override
+    @Override
     protected int getBodyLayoutId() {
         return R.layout.fragment_small_video_play;
-    }*/
+    }
 
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-
         currentPosition = getArguments().getInt(IntentKey.POSITION);
+        mIvBack.setOnClickListener(v -> mActivity.finish());
+    }
 
+    @Override
+    protected boolean getEnalbeAutoLoadMore() {
+        return true;
     }
 
     @Override
@@ -104,6 +129,15 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
         ViewPagerLayoutManager layoutManager = new ViewPagerLayoutManager(getContext(), OrientationHelper.VERTICAL);
         layoutManager.setOnViewPagerListener(this);
         return layoutManager;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        //通知上一个页面更新数据
+        EventBus.getDefault().post(new SmallVideoDataBean(mListDatas,currentPosition),
+                EventBusTagConfig.EVENT_UPDATE_SMALL_VIDEO_LIST);
     }
 
     @Override
@@ -188,7 +222,45 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
         return getArguments().getParcelableArrayList(IntentKey.DATA);
     }
 
+    /**
+     * 评论弹窗
+     * @param detailBeanV2
+     */
+    private void showSmallVideoCommentDialog(DynamicDetailBeanV2 detailBeanV2){
 
+        if(null == mSmallVideoCommentDialog){
+            mSmallVideoCommentDialog = new SmallVideoCommentDialog(mActivity,true);
+            mSmallVideoCommentDialog.setOnInputDialogShowListener(this);
+            mSmallVideoCommentDialog.setPresenter( ((SmallVideoPresenter)mPresenter) );
+            mSmallVideoCommentDialog.getDialog().setOnDismissListener(dialog -> {
+                //刷新评论数
+                refreshData(currentPosition);
+            });
+            ((SmallVideoPresenter)mPresenter).setSmallVideoCommentView(mSmallVideoCommentDialog);
+        }
+        mSmallVideoCommentDialog.setCurrentDynamicDetailData(detailBeanV2);
+        mSmallVideoCommentDialog.showDialog();
+    }
+
+    /**
+     * 输入弹窗
+     * @param hint
+     * @param listener
+     */
+    @Override
+    public void onInputDilaogShow(String hint, EditTextDialog.OnInputOkListener listener) {
+        if(null == mEditTextDialog)
+            mEditTextDialog = new EditTextDialog(mActivity,true);
+        mEditTextDialog.setOnInputOkListener(listener);
+        mEditTextDialog.setHintText(hint);
+        mEditTextDialog.showDialog();
+    }
+
+
+    /**
+     * 适配器
+     * @return
+     */
     private CommonAdapter<DynamicDetailBeanV2> getSmallVideoAdapter(){
 
         return new CommonAdapter<DynamicDetailBeanV2>(mActivity,
@@ -200,47 +272,96 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
                         ((UserAvatarView)holder.getView(R.id.user_avatar)), false);
                 if(null != smallVideoListBean.getUserInfoBean())
                     holder.getTextView(R.id.tv_user_name).setText(smallVideoListBean.getUserInfoBean().getName());
-                holder.getImageViwe(R.id.iv_thumb).setVisibility(View.VISIBLE);
+
+                holder.getView(R.id.iv_follow).setVisibility(
+                        AppApplication.getMyUserIdWithdefault() == smallVideoListBean.getUser_id()?View.INVISIBLE:View.VISIBLE);
+
                 //视频缩略图
+                holder.getImageViwe(R.id.iv_thumb).setVisibility(View.VISIBLE);
                 ImageUtils.loadVerticalVideoThumbDefault(holder.getImageViwe(R.id.iv_thumb),
                         ImageUtils.getVideoUrl(smallVideoListBean.getVideo() != null?smallVideoListBean.getVideo().getCover_id():0));
                 //评论数
                 holder.getTextView(R.id.tv_comment).setText(String.valueOf(smallVideoListBean.getFeed_comment_count()) );
                 //点赞数
                 holder.getTextView(R.id.tv_dig).setText(String.valueOf(smallVideoListBean.getFeed_digg_count()) );
-                //是否已经点赞
-                holder.getTextView(R.id.tv_dig).setSelected(smallVideoListBean.getHas_digg());
                 //内容
                 holder.getTextView(R.id.tv_content).setText(smallVideoListBean.getFeed_content());
                 //播放按钮
                 holder.getView(R.id.iv_play).setVisibility(View.INVISIBLE);
+
+
+                //是否已经点赞
+                holder.getTextView(R.id.tv_dig).setSelected(smallVideoListBean.getHas_digg());
+                holder.getImageViwe(R.id.iv_follow).setSelected(smallVideoListBean.getUserInfoBean().isFollower());
+
+                //关注监听
+                holder.getView(R.id.iv_follow).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.handleFollow(smallVideoListBean.getUserInfoBean());
+                        //presenter中已经做了处理
+                        //smallVideoListBean.getUserInfoBean().setFollowing(smallVideoListBean.getUserInfoBean().isFollowing());
+                        holder.getImageViwe(R.id.iv_follow).setSelected(smallVideoListBean.getUserInfoBean().isFollower());
+                    }
+                });
+
+                //点赞监听
+                holder.getView(R.id.tv_dig).setOnClickListener(v -> {
+                    //后台处理
+                    mPresenter.handleLike(smallVideoListBean);
+
+//                    smallVideoListBean.setHas_digg(smallVideoListBean.getHas_digg());
+                    smallVideoListBean.setFeed_digg_count(smallVideoListBean.getHas_digg() ? smallVideoListBean.getFeed_digg_count() + 1 :
+                            smallVideoListBean.getFeed_digg_count() - 1);
+                    holder.getTextView(R.id.tv_dig).setSelected(smallVideoListBean.getHas_digg());
+                    holder.getTextView(R.id.tv_dig).setText(String.valueOf(smallVideoListBean.getFeed_digg_count()));
+                });
+
+                //跳转 个人中心
+                holder.getView(R.id.user_avatar).setOnClickListener(v ->
+                        PersonalCenterFragment.startToPersonalCenter(mActivity,smallVideoListBean.getUserInfoBean()));
+
+                //分享
+                holder.getView(R.id.tv_share).setOnClickListener(v -> mPresenter.shareDynamic(smallVideoListBean,null));
+
+                //评论
+                holder.getView(R.id.tv_comment).setOnClickListener(v -> showSmallVideoCommentDialog(smallVideoListBean));
+
                 //视频处理
                 if(currentPosition == position && null != smallVideoListBean.getVideo()){
 
-                    ((FrameLayout)holder.getView(R.id.video_container)).removeAllViews();
+                    //如果当前视频正在播放
+                    if(((FrameLayout)holder.getView(R.id.video_container)).getChildCount() > 0 &&
+                            SimpleVideoPlayer.getInstance(mActivity).getCurrentVideoUrl()
+                                    .equals(ImageUtils.getVideoUrl(mListDatas.get(currentPosition).getVideo().getVideo_id()))){
 
-                    PlayerView playerView = new PlayerView(mActivity);
-                    playerView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT));
-                    ((FrameLayout)holder.getView(R.id.video_container)).addView(playerView);
-                    SimpleVideoPlayer.getInstance(mActivity).toPlayVideo(mActivity,
-                            ImageUtils.getVideoUrl(mListDatas.get(currentPosition).getVideo().getVideo_id()),
-                            playerView, new VideoListener() {
-                                @Override
-                                public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
+                    }else {
 
-                                }
+                        ((FrameLayout)holder.getView(R.id.video_container)).removeAllViews();
 
-                                @Override
-                                public void onRenderedFirstFrame() {
-                                    holder.getImageViwe(R.id.iv_thumb).setVisibility(View.INVISIBLE);
-                                }
-                            });
+                        PlayerView playerView = new PlayerView(mActivity);
+                        playerView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT));
+                        ((FrameLayout)holder.getView(R.id.video_container)).addView(playerView);
+                        SimpleVideoPlayer.getInstance(mActivity).toPlayVideo(mActivity,
+                                ImageUtils.getVideoUrl(mListDatas.get(currentPosition).getVideo().getVideo_id()),
+                                playerView, new VideoListener() {
+                                    @Override
+                                    public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
+
+                                    }
+
+                                    @Override
+                                    public void onRenderedFirstFrame() {
+                                        holder.getImageViwe(R.id.iv_thumb).setVisibility(View.INVISIBLE);
+                                    }
+                                });
+                    }
+
                 }
             }
         };
 
     }
-
 
 }

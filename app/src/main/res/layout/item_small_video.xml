@@ -11,14 +11,13 @@
         android:layout_height="wrap_content"
         android:minHeight="@dimen/dp200"
         app:cardCornerRadius="@dimen/dp4"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/black_deep">
+        app:cardElevation="0dp">
 
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:layout_gravity="center"
             android:src="@mipmap/default_image_for_video_vertical"/>
 

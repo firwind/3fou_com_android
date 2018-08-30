@@ -43,7 +43,8 @@ public class SimpleVideoPlayer {
     private static SimpleExoPlayer mExoPlayer;
     private static SimpleVideoPlayer instance;
 
-    private boolean isPlaying = false;
+    private PlayerView mCurrentPlayerView;
+    private String mCurrentVideoUrl = "";
 
     public static SimpleVideoPlayer getInstance(Activity mActivity){
         if(instance == null){
@@ -63,6 +64,9 @@ public class SimpleVideoPlayer {
     public void toPlayVideo(Context mContext, String videoUrl, PlayerView mPlayerView,VideoListener mVideoListener){
 
         mExoPlayer.stop(true);
+
+        this.mCurrentPlayerView = mPlayerView;
+        this.mCurrentVideoUrl = videoUrl;
 
         // Produces DataSource instances through which media data is loaded.
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(mContext,
@@ -112,6 +116,14 @@ public class SimpleVideoPlayer {
      */
     public SimpleExoPlayer getSimpleExoPlayer(){
         return mExoPlayer;
+    }
+
+    public PlayerView getCurrentPlayerView(){
+        return mCurrentPlayerView;
+    }
+
+    public String getCurrentVideoUrl(){
+        return mCurrentVideoUrl;
     }
 
     /**
