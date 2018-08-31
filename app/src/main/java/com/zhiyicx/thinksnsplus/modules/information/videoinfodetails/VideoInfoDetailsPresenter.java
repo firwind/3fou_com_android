@@ -174,29 +174,14 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
 
     @Override
     public void shareInfo(Bitmap bitmap) {
-        ((UmengSharePolicyImpl) mSharePolicy).setOnShareCallbackListener(this);
+        /*((UmengSharePolicyImpl) mSharePolicy).setOnShareCallbackListener(this);
         ShareContent shareContent = new ShareContent();
-        shareContent.setTitle(mRootView.getCurrentInfo().getTitle());
-        shareContent.setUrl(TSShareUtils.convert2ShareUrl(String.format(APP_PATH_INFO_DETAILS_FORMAT,
-                mRootView.getCurrentInfo().getId())));
-        shareContent.setContent(mRootView.getCurrentInfo().getContent());
-
-        if (bitmap == null) {
-            shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon)));
-        } else {
-            shareContent.setBitmap(bitmap);
-        }
-
-        if (mRootView.getCurrentInfo().getImage() != null) {
-            shareContent.setImage(ImageUtils.imagePathConvertV2(mRootView.getCurrentInfo()
-                            .getImage().getId()
-                    , mContext.getResources().getDimensionPixelOffset(R.dimen.headpic_for_user_home)
-                    , mContext.getResources().getDimensionPixelOffset(R.dimen.headpic_for_user_home)
-                    , ImageZipConfig.IMAGE_70_ZIP));
-
-        }
+        shareContent.setTitle(infoListDataBean.getTitle());
+        shareContent.setContent("    ");
+        shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
+        shareContent.setVideoUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
         mSharePolicy.setShareContent(shareContent);
-        mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
+        mSharePolicy.showShare(((TSFragment) mRootView).getActivity());*/
     }
 
 
@@ -269,13 +254,9 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
         ((UmengSharePolicyImpl) mSharePolicy).setOnShareCallbackListener(this);
         ShareContent shareContent = new ShareContent();
         shareContent.setTitle(infoListDataBean.getTitle());
-        shareContent.setContent("   ");
-        if (infoListDataBean.getImage() != null) {
-            shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
-        } else {
-            shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon)));
-        }
-        shareContent.setUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
+        shareContent.setContent("    ");
+        shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
+        shareContent.setVideoUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
 

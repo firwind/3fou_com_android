@@ -93,6 +93,11 @@ public class SmallVideoListFragment extends TSListFragment<InfoMainContract.Smal
     }
 
     @Override
+    protected boolean getEnalbeAutoLoadMore() {
+        return true;
+    }
+
+    @Override
     protected boolean setUseSatusbar() {
         return false;
     }

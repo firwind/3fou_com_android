@@ -87,7 +87,7 @@ public class SearchSomeOneFragment extends TSListFragment<SearchSomeOneContract.
         RxTextView.editorActionEvents(mFragmentInfoSearchEdittext).subscribe(textViewEditorActionEvent -> {
             if (textViewEditorActionEvent.actionId() == EditorInfo.IME_ACTION_SEARCH) {
                 if (!TextUtils.isEmpty(textViewEditorActionEvent.toString().trim())) {
-                    mPresenter.searchUser(mFragmentInfoSearchEdittext.getText().toString().trim());
+                    mPresenter.searchUser(mFragmentInfoSearchEdittext.getText().toString().replace(" ",""));
                     DeviceUtils.hideSoftKeyboard(getContext(), mFragmentInfoSearchEdittext);
                 } else {
                     mPresenter.getRecommentUser();

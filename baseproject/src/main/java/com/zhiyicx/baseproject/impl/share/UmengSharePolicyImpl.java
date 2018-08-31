@@ -15,6 +15,7 @@ import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMWeb;
 import com.zhiyicx.baseproject.R;
 import com.zhiyicx.baseproject.base.TSActivity;
@@ -238,6 +239,17 @@ public class UmengSharePolicyImpl implements SharePolicy, OnShareCallbackListene
                 web.setThumb(image);
             }
             shareAction.withMedia(web);
+        }else if(!TextUtils.isEmpty(mShareContent.getVideoUrl())){
+
+            UMVideo video = new UMVideo(mShareContent.getVideoUrl());
+            if(!TextUtils.isEmpty(mShareContent.getTitle()))
+                video.setTitle(mShareContent.getTitle());//视频的标题
+            if(null != image)
+                video.setThumb(image);//视频的缩略图
+            if(!TextUtils.isEmpty(mShareContent.getContent()))
+                video.setDescription(mShareContent.getContent());//视频的描述
+            shareAction.withMedia(video);
+
         } else {
             shareAction.withMedia(image);
         }

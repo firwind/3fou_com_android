@@ -23,6 +23,7 @@ import com.zhiyicx.thinksnsplus.data.source.local.InfoListDataBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseDynamicRepository;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseInfoRepository;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
+import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.utils.TSShareUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -74,6 +75,7 @@ public class SmallVideoListPresenter extends AppBasePresenter<InfoMainContract.S
                     @Override
                     protected void onFailure(String message, int code) {
                         mRootView.showMessage(message);
+                        mRootView.onResponseError(null, isLoadMore);
                     }
 
                     @Override
@@ -105,16 +107,10 @@ public class SmallVideoListPresenter extends AppBasePresenter<InfoMainContract.S
     public void shareVideo(DynamicDetailBeanV2 dynamicBean) {
         ((UmengSharePolicyImpl) mSharePolicy).setOnShareCallbackListener(this);
         ShareContent shareContent = new ShareContent();
-        shareContent.setTitle(mContext.getString(R.string.share));
-        shareContent.setContent(TextUtils.isEmpty(dynamicBean.getFeed_content()) ? mContext
-                .getString(R.string.share_dynamic) : dynamicBean.getFeed_content());
-        /*if (bitmap != null) {
-            shareContent.setBitmap(bitmap);
-        } else {*/
-        shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory
-                .decodeResource(mContext.getResources(), R.mipmap.icon)));
-//        }
-        shareContent.setUrl(TSShareUtils.convert2ShareUrl(String.format(ApiConfig.APP_PATH_SHARE_DYNAMIC, dynamicBean
+        shareContent.setTitle(dynamicBean.getFeed_content());
+        shareContent.setContent("    ");
+        shareContent.setImage(ImageUtils.getVideoUrl(dynamicBean.getVideo().getCover_id()));
+        shareContent.setVideoUrl(TSShareUtils.convert2ShareUrl(String.format(ApiConfig.APP_PATH_SHARE_DYNAMIC, dynamicBean
                 .getId()
                 == null ? "" : dynamicBean.getId())));
         mSharePolicy.setShareContent(shareContent);

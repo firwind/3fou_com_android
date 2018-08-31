@@ -148,8 +148,6 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.member_mute = member_mute;
     }
 
-
-    @Transient
     private boolean is_my_friend;
     /**
      * 基于这条消息的用户是否关注了我
@@ -823,12 +821,12 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     }
 
 
-    @Generated(hash = 379684811)
+    @Generated(hash = 817641472)
     public UserInfoBean(Long user_id, String name, String phone, String email, String intro, int sex, String location, int friends_set,
-            boolean pay_password, boolean following, boolean follower, String created_at, String updated_at, String deleted_at, String avatar,
-            String localAvatar, String cover, WalletBean wallet, BCWalletBean bcwallet, IntegrationBean currency, UserInfoExtraBean extra,
-            VerifiedBean verified, List<UserTagBean> tags, String im_pwd_hash, int friends_count, boolean initial_password, boolean has_deleted,
-            boolean blacked) {
+            boolean pay_password, boolean is_my_friend, boolean following, boolean follower, String created_at, String updated_at,
+            String deleted_at, String avatar, String localAvatar, String cover, WalletBean wallet, BCWalletBean bcwallet,
+            IntegrationBean currency, UserInfoExtraBean extra, VerifiedBean verified, List<UserTagBean> tags, String im_pwd_hash,
+            int friends_count, boolean initial_password, boolean has_deleted, boolean blacked) {
         this.user_id = user_id;
         this.name = name;
         this.phone = phone;
@@ -838,6 +836,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.location = location;
         this.friends_set = friends_set;
         this.pay_password = pay_password;
+        this.is_my_friend = is_my_friend;
         this.following = following;
         this.follower = follower;
         this.created_at = created_at;
@@ -961,6 +960,10 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public boolean getIs_my_friend() {
+        return this.is_my_friend;
     }
 
     public static final Creator<UserInfoBean> CREATOR = new Creator<UserInfoBean>() {

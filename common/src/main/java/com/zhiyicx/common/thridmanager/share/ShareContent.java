@@ -33,6 +33,7 @@ public class ShareContent implements Serializable {
     @DrawableRes
     int resImage;
     private File file;
+    private String videoUrl;
 
     public String getTitle() {
         return title;
@@ -90,6 +91,14 @@ public class ShareContent implements Serializable {
         this.file = file;
     }
 
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
     @Override
     public String toString() {
         return "ShareContent{" +
@@ -99,6 +108,7 @@ public class ShareContent implements Serializable {
                 ", image='" + image + '\'' +
                 ", bitmap=" + bitmap +
                 ", resImage=" + resImage +
+                ", videoUrl=" + videoUrl +
                 ", file=" + file +
                 '}';
     }

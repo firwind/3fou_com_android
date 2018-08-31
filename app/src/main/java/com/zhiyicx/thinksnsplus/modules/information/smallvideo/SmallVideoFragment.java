@@ -1,9 +1,12 @@
 package com.zhiyicx.thinksnsplus.modules.information.smallvideo;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,6 +19,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.video.VideoListener;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.widget.UserAvatarView;
+import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
@@ -328,7 +332,8 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
                         PersonalCenterFragment.startToPersonalCenter(mActivity,smallVideoListBean.getUserInfoBean()));
 
                 //分享
-                holder.getView(R.id.tv_share).setOnClickListener(v -> mPresenter.shareDynamic(smallVideoListBean,null));
+                holder.getView(R.id.tv_share).setOnClickListener(v ->
+                        mPresenter.shareDynamic(smallVideoListBean,null/*getSharBitmap(holder.getImageViwe(R.id.iv_thumb)))*/));
 
                 //评论
                 holder.getView(R.id.tv_comment).setOnClickListener(v -> showSmallVideoCommentDialog(smallVideoListBean));
@@ -373,6 +378,23 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
             }
         };
 
+    }
+
+    /**
+     * 获取分享的bitmap
+     * @return
+     */
+    private Bitmap getSharBitmap(ImageView imageView) {
+        Bitmap sharBitmap = null;
+        try {
+            if (null != imageView) {
+                sharBitmap = ConvertUtils.drawable2BitmapWithWhiteBg(mActivity, imageView
+                        .getDrawable(), R.mipmap.icon);
+            }
+        } catch (Exception e) {
+
+        }
+        return sharBitmap;
     }
 
 }
