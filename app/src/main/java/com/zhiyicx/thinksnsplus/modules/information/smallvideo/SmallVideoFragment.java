@@ -149,7 +149,7 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
         super.onDestroyView();
 
         //通知上一个页面更新数据
-        if(0 != mUserId)
+        if(0 == mUserId)
             EventBus.getDefault().post(new SmallVideoDataBean(mListDatas,currentPosition),
                     EventBusTagConfig.EVENT_UPDATE_SMALL_VIDEO_LIST);
     }
@@ -337,9 +337,9 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
                     holder.getTextView(R.id.tv_dig).setText(String.valueOf(smallVideoListBean.getFeed_digg_count()));
                 });
 
-                //跳转 个人中心
-                holder.getView(R.id.user_avatar).setOnClickListener(v ->
-                        PersonalCenterFragment.startToPersonalCenter(mActivity,smallVideoListBean.getUserInfoBean()));
+                //跳转 个人中心  这里暂时屏蔽掉，从这里进入个人主页，再进视频，再返回这里，会有问题
+                /*holder.getView(R.id.user_avatar).setOnClickListener(v ->
+                        PersonalCenterFragment.startToPersonalCenter(mActivity,smallVideoListBean.getUserInfoBean()));*/
 
                 //分享
                 holder.getView(R.id.tv_share).setOnClickListener(v ->
@@ -388,23 +388,6 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
             }
         };
 
-    }
-
-    /**
-     * 获取分享的bitmap
-     * @return
-     */
-    private Bitmap getSharBitmap(ImageView imageView) {
-        Bitmap sharBitmap = null;
-        try {
-            if (null != imageView) {
-                sharBitmap = ConvertUtils.drawable2BitmapWithWhiteBg(mActivity, imageView
-                        .getDrawable(), R.mipmap.icon);
-            }
-        } catch (Exception e) {
-
-        }
-        return sharBitmap;
     }
 
 }
