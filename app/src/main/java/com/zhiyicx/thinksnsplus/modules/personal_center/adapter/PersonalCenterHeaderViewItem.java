@@ -76,6 +76,13 @@ public class PersonalCenterHeaderViewItem implements TypeChoosePopAdapter.OnType
     private TextView userName;
     private View bootomDivider;// 底部的分割线
 
+    private LinearLayout mLlDynamicCount;
+    private LinearLayout mLlVideoCount;
+    private TextView mTvVideoCount;
+    private LinearLayout[] mLlSelect = new LinearLayout[2];
+    private View mVwDynamicLine;
+    private View mVwVideoLine;
+
     private ActionPopupWindow mPhotoPopupWindow;// 图片选择弹框
     private PhotoSelectorImpl mPhotoSelector;
 
@@ -84,6 +91,8 @@ public class PersonalCenterHeaderViewItem implements TypeChoosePopAdapter.OnType
 
     private int mToolBarHeight;
 
+
+    private OnTabClickListener onTabClickListener;
     /**
      * 标题文字的颜色:#333333
      **/
@@ -112,8 +121,14 @@ public class PersonalCenterHeaderViewItem implements TypeChoosePopAdapter.OnType
      **/
     public static int[] TOOLBAR_BLACK_ICON = {51, 51, 51};
 
+    public View getHeaderView() {
+        return headerView;
+    }
     private View headerView;
     private int userNameFirstY = 0;
+    public void setOnTabClickListener(OnTabClickListener onTabClickListener) {
+        this.onTabClickListener = onTabClickListener;
+    }
 
     public PersonalCenterHeaderViewItem(Activity activity, PersonalCenterContract.View view, PhotoSelectorImpl photoSelector, RecyclerView
             recyclerView, HeaderAndFooterWrapper headerAndFooterWrapper, View mToolBarContainer) {
@@ -376,7 +391,16 @@ public class PersonalCenterHeaderViewItem implements TypeChoosePopAdapter.OnType
         mFlTags = (TagFlowLayout) headerView.findViewById(R.id.fl_tags);
         mTvCertify = (TextView) headerView.findViewById(R.id.tv_verify);
         mTvAddres = (TextView) headerView.findViewById(R.id.tv_address);
-
+        mLlDynamicCount = (LinearLayout) headerView.findViewById(R.id.ll_dynamic_count);
+        mLlVideoCount = (LinearLayout) headerView.findViewById(R.id.ll_video_count);
+        mTvVideoCount = (TextView) headerView.findViewById(R.id.tv_video_count);
+        mVwDynamicLine = headerView.findViewById(R.id.view_dynamic_line);
+        mVwVideoLine = headerView.findViewById(R.id.view_video_line);
+        mLlSelect[0] = mLlDynamicCount;
+        mLlSelect[1] = mLlVideoCount;
+        selectTab(0);
+        mLlDynamicCount.setOnClickListener(v -> selectTab(0));
+        mLlVideoCount.setOnClickListener(v -> selectTab(1));
         // 高度为屏幕宽度一半加上20dp
         int width = DeviceUtils.getScreenWidth(mActivity);
         int height = width / 2 + mActivity.getResources().getDimensionPixelOffset(R.dimen.spacing_mid);
@@ -386,6 +410,17 @@ public class PersonalCenterHeaderViewItem implements TypeChoosePopAdapter.OnType
         // 添加头部放缩
         new ZoomView(fl_cover_contaner, mActivity, mRecyclerView, width, height).initZoom();
 
+    }
+    private void selectTab(int p) {
+        if (p == 0){
+            mVwDynamicLine.setVisibility(View.VISIBLE);
+            mVwVideoLine.setVisibility(View.INVISIBLE);
+
+        }else {
+            mVwDynamicLine.setVisibility(View.INVISIBLE);
+            mVwVideoLine.setVisibility(View.VISIBLE);
+        }
+        onTabClickListener.setTabClick(p);
     }
 
     public void setViewColorWithAlpha(View v, int[] colorRGB, int alpha) {
@@ -455,7 +490,7 @@ public class PersonalCenterHeaderViewItem implements TypeChoosePopAdapter.OnType
             mLlDynamicCountContainer.setVisibility(View.GONE);
         } else {
             mLlDynamicCountContainer.setVisibility(View.VISIBLE);
-            mTvDynamicCount.setText(mActivity.getString(R.string.dynamic_count, String.valueOf(dynamicCountInt)));
+//            mTvDynamicCount.setText(mActivity.getString(R.string.dynamic_count, String.valueOf(dynamicCountInt)));
         }
         mHeaderAndFooterWrapper.notifyDataSetChanged();
     }
@@ -484,5 +519,8 @@ public class PersonalCenterHeaderViewItem implements TypeChoosePopAdapter.OnType
         if (mTypeChoosePopupWindow != null) {
             mTypeChoosePopupWindow.dismiss();
         }
+    }
+    public interface OnTabClickListener{
+        void setTabClick(int p);
     }
 }

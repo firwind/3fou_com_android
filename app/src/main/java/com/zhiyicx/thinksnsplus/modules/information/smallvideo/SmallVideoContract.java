@@ -20,6 +20,7 @@ public interface SmallVideoContract {
 
     interface View extends ITSListView<DynamicDetailBeanV2,Presenter> {
         List<DynamicDetailBeanV2> getInitVideoList();
+        Long getUserId();
     }
 
     interface Presenter extends ITSListPresenter<DynamicDetailBeanV2> {

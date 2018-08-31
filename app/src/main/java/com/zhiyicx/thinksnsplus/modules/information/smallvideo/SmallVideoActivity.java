@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.information.smallvideo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.zhiyicx.baseproject.base.TSActivity;
@@ -25,8 +26,9 @@ public class SmallVideoActivity extends TSActivity<SmallVideoPresenter,SmallVide
 
     @Override
     protected SmallVideoFragment getFragment() {
-        return SmallVideoFragment.newInstance(getIntent().getParcelableArrayListExtra(IntentKey.DATA),
-                getIntent().getIntExtra(IntentKey.POSITION,0));
+//        return SmallVideoFragment.newInstance(getIntent().getParcelableArrayListExtra(IntentKey.DATA),
+//                getIntent().getIntExtra(IntentKey.POSITION,0));
+        return SmallVideoFragment.newInstance(getIntent().getExtras());
     }
 
     @Override
@@ -58,6 +60,16 @@ public class SmallVideoActivity extends TSActivity<SmallVideoPresenter,SmallVide
         Intent intent = new Intent(mContext,SmallVideoActivity.class);
         intent.putParcelableArrayListExtra(IntentKey.DATA, (ArrayList<? extends Parcelable>) list);
         intent.putExtra(IntentKey.POSITION,position);
+        mContext.startActivity(intent);
+    }
+
+    public static void startSmallVideoActivity(Context mContext, List<DynamicDetailBeanV2> list,int position,Long userId){
+        Intent intent = new Intent(mContext,SmallVideoActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(IntentKey.DATA, (ArrayList<? extends Parcelable>) list);
+        bundle.putInt(IntentKey.POSITION,position);
+        bundle.putLong(IntentKey.USER_ID,userId);
+        intent.putExtras(bundle);
         mContext.startActivity(intent);
     }
 

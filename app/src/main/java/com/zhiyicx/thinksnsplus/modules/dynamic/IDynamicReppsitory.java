@@ -136,6 +136,6 @@ public interface IDynamicReppsitory {
      * @param after
      * @return
      */
-    Observable<DynamicBeanV2> getSmallVideoList(Long after);
+    Observable<DynamicBeanV2> getSmallVideoList(Long after,Long userId);
 
 }

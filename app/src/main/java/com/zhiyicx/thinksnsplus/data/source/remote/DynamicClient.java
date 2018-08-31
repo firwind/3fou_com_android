@@ -247,5 +247,13 @@ public interface DynamicClient {
      */
     @GET(ApiConfig.APP_PATH_GET_SMALL_VIDEO_LIST)
     Observable<DynamicBeanV2> getSmallVideoList(@Query("after") Long after, @Query("limit") Integer limit);
+    /**
+     * 获取小视频列表
+     * @param after
+     * @param limit
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_SMALL_VIDEO_LIST)
+    Observable<DynamicBeanV2> getSmallVideoList(@Query("after") Long after, @Query("limit") Integer limit, @Query("user") Long userId);
 
 }

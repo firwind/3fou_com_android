@@ -27,16 +27,16 @@
                 android:layout_marginLeft="@dimen/spacing_normal"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="200条动态"
-                android:textColor="@color/normal_for_assist_text"
-                android:textSize="@dimen/size_content_comment" />
+                android:text="动态"
+                android:textColor="@color/black_deep"
+                android:textSize="@dimen/size_content" />
 
             <View
                 android:id="@+id/view_dynamic_line"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
                 android:layout_marginLeft="@dimen/margin_10dp"
-                android:layout_marginRight="@dimen/margin_10dp"
+
                 android:background="@color/themeColor"
                 android:visibility="invisible" />
         </LinearLayout>
@@ -57,8 +57,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="视频"
-                android:textColor="@color/normal_for_assist_text"
-                android:textSize="@dimen/size_content_comment" />
+                android:textColor="@color/black_deep"
+                android:textSize="@dimen/size_content" />
 
             <View
                 android:id="@+id/view_video_line"

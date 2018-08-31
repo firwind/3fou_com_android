@@ -334,7 +334,7 @@ public class BaseDynamicRepository implements IDynamicReppsitory {
                     listBaseJson.getPinneds().addAll(listBaseJson.getComments());
                     for (DynamicCommentBean dynamicCommentBean : listBaseJson.getPinneds()) {
                         userIds.add(dynamicCommentBean.getUser_id());
-                        if(0 != dynamicCommentBean.getReply_to_user_id())
+                        if (0 != dynamicCommentBean.getReply_to_user_id())
                             userIds.add(dynamicCommentBean.getReply_to_user_id());
                         dynamicCommentBean.setFeed_mark(feedMark);
                     }
@@ -519,7 +519,7 @@ public class BaseDynamicRepository implements IDynamicReppsitory {
                             .flatMap(dynamicCommentBeen -> {
                                 for (DynamicCommentBean dynamicCommentBean : dynamicCommentBeen) {
                                     user_ids.add(dynamicCommentBean.getUser_id());
-                                    if(0 != dynamicCommentBean.getReply_to_user_id())
+                                    if (0 != dynamicCommentBean.getReply_to_user_id())
                                         user_ids.add(dynamicCommentBean.getReply_to_user_id());
                                     // 评论中增加
                                     dynamicCommentBean.setFeed_mark(dynamicBean.getFeed_mark());
@@ -745,8 +745,12 @@ public class BaseDynamicRepository implements IDynamicReppsitory {
     }
 
     @Override
-    public Observable<DynamicBeanV2> getSmallVideoList(Long after) {
-        return mDynamicClient.getSmallVideoList(after,TSListFragment.DEFAULT_PAGE_SIZE)
+    public Observable<DynamicBeanV2> getSmallVideoList(Long after, Long userId) {
+
+        return userId == 0 ? mDynamicClient.getSmallVideoList(after, TSListFragment.DEFAULT_PAGE_SIZE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()) :
+                mDynamicClient.getSmallVideoList(after, TSListFragment.DEFAULT_PAGE_SIZE, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

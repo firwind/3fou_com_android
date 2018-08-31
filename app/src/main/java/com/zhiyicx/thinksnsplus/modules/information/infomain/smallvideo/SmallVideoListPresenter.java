@@ -65,7 +65,7 @@ public class SmallVideoListPresenter extends AppBasePresenter<InfoMainContract.S
     @Override
     public void requestNetData(Long maxId, final boolean isLoadMore) {
 
-        mDynamicRepository.getSmallVideoList(maxId)
+        mDynamicRepository.getSmallVideoList(maxId, (long) 0)
                 .subscribe(new BaseSubscribeForV2<DynamicBeanV2>() {
                     @Override
                     protected void onSuccess(DynamicBeanV2 data) {

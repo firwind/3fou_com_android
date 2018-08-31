@@ -62,10 +62,9 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
 
     private TextView mTvComment;
     private ImageView mIvFollow;
-
     private SmallVideoCommentDialog mSmallVideoCommentDialog;//评论弹窗
     private EditTextDialog mEditTextDialog;//输入弹窗
-
+    private long mUserId;
     private int currentPosition = 0;
 
     public static SmallVideoFragment newInstance(List<DynamicDetailBeanV2> list, int position) {
@@ -78,7 +77,11 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
 
         return fragment;
     }
-
+    public static SmallVideoFragment newInstance(Bundle bundle) {
+        SmallVideoFragment fragment = new SmallVideoFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     @Override
     protected boolean isRefreshEnable() {
         return false;
@@ -113,6 +116,7 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
     protected void initView(View rootView) {
         super.initView(rootView);
         currentPosition = getArguments().getInt(IntentKey.POSITION);
+        mUserId = getArguments().getLong(IntentKey.USER_ID);
         mIvBack.setOnClickListener(v -> mActivity.finish());
     }
 
@@ -229,6 +233,11 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
     @Override
     public List<DynamicDetailBeanV2> getInitVideoList() {
         return getArguments().getParcelableArrayList(IntentKey.DATA);
+    }
+
+    @Override
+    public Long getUserId() {
+        return mUserId;
     }
 
     /**

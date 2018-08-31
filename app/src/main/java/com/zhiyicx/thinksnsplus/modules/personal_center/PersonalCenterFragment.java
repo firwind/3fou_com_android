@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.hyphenate.easeui.EaseConstant;
 import com.jakewharton.rxbinding.view.RxView;
 import com.tym.shortvideo.view.AutoPlayScrollListener;
@@ -31,6 +37,7 @@ import com.zhiyicx.baseproject.impl.photoselector.PhotoSelectorImpl;
 import com.zhiyicx.baseproject.impl.photoselector.PhotoSeletorImplModule;
 import com.zhiyicx.baseproject.impl.photoselector.Toll;
 import com.zhiyicx.baseproject.widget.InputLimitView;
+import com.zhiyicx.baseproject.widget.imageview.FilterImageView;
 import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
 import com.zhiyicx.baseproject.widget.popwindow.PayPopWindow;
 import com.zhiyicx.common.BuildConfig;
@@ -40,12 +47,14 @@ import com.zhiyicx.common.utils.TextViewUtils;
 import com.zhiyicx.common.utils.ToastUtils;
 import com.zhiyicx.common.utils.UIUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
+import com.zhiyicx.common.utils.recycleviewdecoration.GridDecoration;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.data.beans.AnimationRectBean;
 import com.zhiyicx.thinksnsplus.data.beans.AuthBean;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicCommentBean;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicDetailBeanV2;
+import com.zhiyicx.thinksnsplus.data.beans.SendDynamicDataBean;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.beans.report.ReportResourceBean;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseDynamicRepository;
@@ -53,8 +62,12 @@ import com.zhiyicx.thinksnsplus.i.OnUserInfoClickListener;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.dynamic.detail.DynamicDetailActivity;
 import com.zhiyicx.thinksnsplus.modules.dynamic.list.adapter.DynamicListBaseItem;
+import com.zhiyicx.thinksnsplus.modules.dynamic.send.SendDynamicActivity;
 import com.zhiyicx.thinksnsplus.modules.gallery.GalleryActivity;
+import com.zhiyicx.thinksnsplus.modules.home.HomeFragment;
+import com.zhiyicx.thinksnsplus.modules.home.main.MainFragment;
 import com.zhiyicx.thinksnsplus.modules.home.mine.friends.verify.VerifyFriendOrGroupActivity;
+import com.zhiyicx.thinksnsplus.modules.information.smallvideo.SmallVideoActivity;
 import com.zhiyicx.thinksnsplus.modules.personal_center.adapter.PersonalCenterDynamicListForZeroImage;
 import com.zhiyicx.thinksnsplus.modules.personal_center.adapter.PersonalCenterDynamicListItemForEightImage;
 import com.zhiyicx.thinksnsplus.modules.personal_center.adapter.PersonalCenterDynamicListItemForFiveImage;
@@ -77,11 +90,14 @@ import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.widget.DynamicEmptyItem;
 import com.zhiyicx.thinksnsplus.widget.comment.DynamicListCommentView;
 import com.zhiyicx.thinksnsplus.widget.comment.DynamicNoPullRecycleView;
+import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -117,7 +133,7 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         DynamicListCommentView.OnCommentClickListener, DynamicListBaseItem.OnMenuItemClickLisitener,
         DynamicListBaseItem.OnImageClickListener, OnUserInfoClickListener, DynamicListCommentView.OnMoreCommentClickListener,
         InputLimitView.OnSendClickListener, MultiItemTypeAdapter.OnItemClickListener,
-        PhotoSelectorImpl.IPhotoBackListener, TextViewUtils.OnSpanTextClickListener, ZhiyiVideoView.ShareInterface {
+        PhotoSelectorImpl.IPhotoBackListener, TextViewUtils.OnSpanTextClickListener, ZhiyiVideoView.ShareInterface, PersonalCenterHeaderViewItem.OnTabClickListener {
 
     public static final String PERSONAL_CENTER_DATA = "personal_center_data";
     public static final String VIDEO_FROME = "personal";
@@ -149,8 +165,8 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
 
     @BindView(R.id.tv_chat)
     TextView mTvChat;
-
-
+    @BindView(R.id.iv_add_video)
+    ImageView mAddVideo;
     private PersonalCenterHeaderViewItem mPersonalCenterHeaderViewItem;
     // 上一个页面传过来的用户信息
     private UserInfoBean mUserInfoBean;
@@ -164,6 +180,7 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
     private int mCurrentPostion;// 当前评论的动态位置
     private long mReplyToUserId;// 被评论者的 id
     private BaseDynamicRepository.MyDynamicTypeEnum mDynamicType = BaseDynamicRepository.MyDynamicTypeEnum.ALL; //type = users 时可选，null-全部
+    private CommonAdapter<DynamicDetailBeanV2> videoAdapter;
     // paid-付费动态 pinned - 置顶动态
 
     /**
@@ -284,6 +301,7 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         mHeaderAndFooterWrapper.addFootView(mFooterView);
         mPersonalCenterHeaderViewItem = new PersonalCenterHeaderViewItem(getActivity(), this, mPhotoSelector, mRvList, mHeaderAndFooterWrapper,
                 mLlToolbarContainerParent);
+        mPersonalCenterHeaderViewItem.setOnTabClickListener(this);
         mPersonalCenterHeaderViewItem.initHeaderView(false);
         mPersonalCenterHeaderViewItem.setViewColorWithAlpha(mLlToolbarContainerParent, STATUS_RGB, 255);
         mPersonalCenterHeaderViewItem.setViewColorWithAlpha(mLlToolbarContainerParent.findViewById(R.id.v_horizontal_line), TOOLBAR_DIVIDER_RGB, 255);
@@ -313,14 +331,14 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
                 .throttleFirst(JITTER_SPACING_TIME, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
 
-                    if(mUserInfoBean.isIs_my_friend()){
+                    if (mUserInfoBean.isIs_my_friend()) {
                         ChatActivity.startChatActivity(mActivity, String.valueOf(mUserInfoBean.getUser_id()), EaseConstant.CHATTYPE_SINGLE);
-                    }else {
-                        if(mUserInfoBean.getFriends_set() == 0){//允许任何人直接申请
+                    } else {
+                        if (mUserInfoBean.getFriends_set() == 0) {//允许任何人直接申请
                             mPresenter.addFriend(mUserInfoBean);
-                        }else if(mUserInfoBean.getFriends_set() == 1){//需要验证
-                            VerifyFriendOrGroupActivity.startVerifyFriendsActivity(mActivity,String.valueOf(mUserInfoBean.getUser_id()));
-                        }else {
+                        } else if (mUserInfoBean.getFriends_set() == 1) {//需要验证
+                            VerifyFriendOrGroupActivity.startVerifyFriendsActivity(mActivity, String.valueOf(mUserInfoBean.getUser_id()));
+                        } else {
                             showSnackWarningMessage("该用户已拒绝添加好友！");
                         }
                     }
@@ -353,12 +371,21 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         if (!isLoadMore) {
             refreshStart();
         }
-        mPresenter.requestNetData(maxId, isLoadMore, mUserInfoBean.getUser_id());
+        if (mTabPostion == 0) {
+            mPresenter.requestNetData(maxId, isLoadMore, mUserInfoBean.getUser_id());
+        } else {
+            mPresenter.getVideoList(maxId, isLoadMore, mUserInfoBean.getUser_id());
+        }
+
     }
 
     @Override
     protected void requestCacheData(Long maxId, boolean isLoadMore) {
-        mPresenter.requestCacheData(maxId, isLoadMore, mUserInfoBean.getUser_id());
+        if (mTabPostion == 0) {
+            mPresenter.requestNetData(maxId, isLoadMore, mUserInfoBean.getUser_id());
+        } else {
+            mPresenter.getVideoList(maxId, isLoadMore, mUserInfoBean.getUser_id());
+        }
     }
 
     @Override
@@ -381,30 +408,68 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         requestData();
     }
 
+    private boolean isFrist = false;
+
     @Override
     protected MultiItemTypeAdapter getAdapter() {
-        MultiItemTypeAdapter adapter = new MultiItemTypeAdapter(getContext(), mListDatas);
-        // 按照添加顺序，先判断成功后，后面的item就不会继续判断了，类似if else
-        setAdapter(adapter, new PersonalCenterDynamicListForZeroImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForOneImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForTwoImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForThreeImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForFourImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForFiveImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForSixImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForSevenImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForEightImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForNineImage(getContext()));
-        setAdapter(adapter, new PersonalCenterDynamicListItemForShortVideo(getContext(), this) {
-            @Override
-            protected String videoFrom() {
-                return VIDEO_FROME;
+        MultiItemTypeAdapter adapter;
+        if (mTabPostion == 0) {
+            if (!isFrist) {
+                adapter = new MultiItemTypeAdapter(getContext(), mListDatas);
+            } else {
+                adapter = new MultiItemTypeAdapter(getContext(), mDynamicBeanV2s);
             }
-        });
-        DynamicEmptyItem emptyItem = new DynamicEmptyItem();
-        adapter.addItemViewDelegate(emptyItem);
-        adapter.setOnItemClickListener(this);
-        return adapter;
+
+            // 按照添加顺序，先判断成功后，后面的item就不会继续判断了，类似if else
+            setAdapter(adapter, new PersonalCenterDynamicListForZeroImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForOneImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForTwoImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForThreeImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForFourImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForFiveImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForSixImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForSevenImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForEightImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForNineImage(getContext()));
+            setAdapter(adapter, new PersonalCenterDynamicListItemForShortVideo(getContext(), this) {
+                @Override
+                protected String videoFrom() {
+                    return VIDEO_FROME;
+                }
+            });
+            DynamicEmptyItem emptyItem = new DynamicEmptyItem();
+            adapter.addItemViewDelegate(emptyItem);
+            adapter.setOnItemClickListener(this);
+            return adapter;
+        } else {
+            mListDatas = videoDetailBeanV2s;
+            videoAdapter = new CommonAdapter<DynamicDetailBeanV2>(getActivity(), R.layout.item_personal_video, mListDatas) {
+                @Override
+                protected void convert(ViewHolder holder, DynamicDetailBeanV2 dynamicDetailBeanV2, int position) {
+                    ImageView imageView = holder.getView(R.id.iv_video_image);
+                    Glide.with(mContext)
+                            .load(TextUtils.isEmpty(dynamicDetailBeanV2.getVideo().getUrl()) ? dynamicDetailBeanV2.getVideo().getGlideUrl() : new File(dynamicDetailBeanV2.getVideo().getUrl()))
+                            .placeholder(R.drawable.shape_default_image)
+
+                            .error(R.drawable.shape_default_image)
+                            .into(imageView);
+                    holder.setText(R.id.tv_video_title, dynamicDetailBeanV2.getFeed_content());
+                }
+            };
+            videoAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    SmallVideoActivity.startSmallVideoActivity(mActivity, mListDatas, position - 1, mUserInfoBean.getUser_id());
+                }
+
+                @Override
+                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    return false;
+                }
+            });
+            return videoAdapter;
+        }
+
     }
 
     @Override
@@ -425,6 +490,8 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         mPresenter.setCurrentUserInfo(mUserInfoBean.getUser_id());
         // 获取动态列表
         mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false, mUserInfoBean.getUser_id());
+        // 获取视频列表
+        mPresenter.getVideoList(DEFAULT_PAGE_MAX_ID, false, mUserInfoBean.getUser_id());
     }
 
     @Override
@@ -620,7 +687,7 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         return false;
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_more})
+    @OnClick({R.id.iv_back, R.id.iv_more, R.id.iv_add_video})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -628,6 +695,12 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
                 break;
             case R.id.iv_more:
                 showTopBarMorePopWindow();
+                break;
+            case R.id.iv_add_video://跳转到发送视频
+                SendDynamicDataBean sendDynamicDataBeanV = new SendDynamicDataBean();
+                sendDynamicDataBeanV.setDynamicBelong(SendDynamicDataBean.NORMAL_DYNAMIC);
+                sendDynamicDataBeanV.setDynamicType(SendDynamicDataBean.VIDEO_TEXT_DYNAMIC);
+                SendDynamicActivity.startToSendDynamicActivity(getContext(), sendDynamicDataBeanV);
                 break;
             default:
         }
@@ -641,6 +714,11 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
             mPersonalCenterHeaderViewItem.initHeaderViewData(userInfoBean, mDynamicType);
             // ui进行刷新
             setFollowState(userInfoBean);
+            if (AppApplication.getMyUserIdWithdefault() == userInfoBean.getUser_id() && mTabPostion == 1) {
+                mAddVideo.setVisibility(View.VISIBLE);
+            } else {
+                mAddVideo.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -653,7 +731,6 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
     public void onDynamicTypeChanged(BaseDynamicRepository.MyDynamicTypeEnum type) {
         mDynamicType = type;
         requestNetData(DEFAULT_PAGE_MAX_ID, false);
-
     }
 
     @Override
@@ -694,7 +771,6 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
             showSnackSuccessMessage(getString(R.string.cover_change_success));
         } else {
             showSnackErrorMessage(getString(R.string.cover_change_failure));
-
         }
     }
 
@@ -802,9 +878,9 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         }
         mLlFollowContainer.setEnabled(true);
 
-        mTvChat.setText(mUserInfoBean.isIs_my_friend()?"聊天":"+ 好友");
-        mTvChat.setCompoundDrawablesWithIntrinsicBounds(mUserInfoBean.isIs_my_friend()?R.mipmap.ico_me_chat:R.mipmap.icon_add_friend,
-                0,0,0);
+        mTvChat.setText(mUserInfoBean.isIs_my_friend() ? "聊天" : "+ 好友");
+        mTvChat.setCompoundDrawablesWithIntrinsicBounds(mUserInfoBean.isIs_my_friend() ? R.mipmap.ico_me_chat : R.mipmap.icon_add_friend,
+                0, 0, 0);
     }
 
 
@@ -919,7 +995,7 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         mDeletCommentPopWindow = ActionPopupWindow.builder()
                 .item1Str(BuildConfig.USE_TOLL && dynamicBean.getState() == DynamicDetailBeanV2
                         .SEND_SUCCESS && !dynamicBean
-                        .getComments().get(commentPosition).getPinned()  && dynamicBean.getComments().get(commentPosition).getComment_id() != null ? getString(R
+                        .getComments().get(commentPosition).getPinned() && dynamicBean.getComments().get(commentPosition).getComment_id() != null ? getString(R
                         .string.dynamic_list_top_comment) : null)
                 .item2Str(getString(R.string.dynamic_list_delete_comment))
                 .bottomStr(getString(R.string.cancel))
@@ -937,7 +1013,7 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
                 .item2ClickListener(() -> {
                     mDeletCommentPopWindow.hide();
                     showDeleteTipPopupWindow(getString(R.string.delete_comment), () -> {
-                        mPresenter.deleteCommentV2(dynamicBean, dynamicPositon, dynamicBean.getComments().get(commentPosition).getComment_id()!=null? dynamicBean.getComments().get(commentPosition).getComment_id():0,
+                        mPresenter.deleteCommentV2(dynamicBean, dynamicPositon, dynamicBean.getComments().get(commentPosition).getComment_id() != null ? dynamicBean.getComments().get(commentPosition).getComment_id() : 0,
                                 commentPosition);
                     }, true);
 
@@ -996,6 +1072,39 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
     public void addFriendSuccess() {
         mUserInfoBean.setIs_my_friend(true);
         setBottomFollowState(mUserInfoBean);
+    }
+
+    List<DynamicDetailBeanV2> videoDetailBeanV2s;
+    List<DynamicDetailBeanV2> mDynamicBeanV2s;
+
+    @Override
+    public void setVideoList(List<DynamicDetailBeanV2> dynamicDetailBeanV2s, boolean isLoadMore) {
+        if (videoDetailBeanV2s == null) {
+            videoDetailBeanV2s = new ArrayList<>();
+        }
+        videoDetailBeanV2s.addAll(dynamicDetailBeanV2s);
+    }
+
+    @Override
+    public void setDynamicList(List<DynamicDetailBeanV2> dynamicDetailBeanV2s) {
+//        mDynamicBeanV2s = dynamicDetailBeanV2s;
+        if (mDynamicBeanV2s == null) {
+            mDynamicBeanV2s = new ArrayList<>();
+        }
+        mDynamicBeanV2s.addAll(dynamicDetailBeanV2s);
+    }
+
+    @Override
+    public void showNewDynamic(int position) {
+        if (position == -1) {
+            // 添加一条新动态
+            refreshData();
+            // 回到顶部
+            mRvList.scrollToPosition(0);
+
+        } else {
+            refreshData();
+        }
     }
 
     /**
@@ -1217,5 +1326,32 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
         dismissPop(mReSendDynamicPopWindow);
         dismissPop(mTopBarMorePopWindow);
         super.onDestroyView();
+    }
+
+    private int mTabPostion;
+
+    @Override
+    public void setTabClick(int p) {
+        mTabPostion = p;
+        if (p == 1) {
+            mAddVideo.setVisibility(mUserInfoBean.getUser_id() == AppApplication.getmCurrentLoginAuth().getUser_id()?View.VISIBLE:View.GONE);
+            layoutManager = new GridLayoutManager(getContext(), 3);
+            mRvList.setLayoutManager(layoutManager);
+            mAdapter = getAdapter();
+            mHeaderAndFooterWrapper = new HeaderAndFooterWrapper(mAdapter);
+            mHeaderAndFooterWrapper.addHeaderView(mPersonalCenterHeaderViewItem.getHeaderView());
+            mHeaderAndFooterWrapper.addFootView(getFooterView());
+            mRvList.setAdapter(mHeaderAndFooterWrapper);
+        } else {
+            mAddVideo.setVisibility(View.GONE);
+            layoutManager = getLayoutManager();
+            mRvList.setLayoutManager(layoutManager);
+            mAdapter = getAdapter();
+            mHeaderAndFooterWrapper = new HeaderAndFooterWrapper(mAdapter);
+            mHeaderAndFooterWrapper.addHeaderView(mPersonalCenterHeaderViewItem.getHeaderView());
+            mHeaderAndFooterWrapper.addFootView(getFooterView());
+            mRvList.setAdapter(mHeaderAndFooterWrapper);
+            isFrist = true;
+        }
     }
 }

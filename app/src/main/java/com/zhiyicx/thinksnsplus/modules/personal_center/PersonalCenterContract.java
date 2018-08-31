@@ -97,6 +97,10 @@ public interface PersonalCenterContract {
          * 添加好友成功
          */
         void addFriendSuccess();
+
+        void setVideoList(List<DynamicDetailBeanV2> dynamicDetailBeanV2s,boolean isLoadMore);
+        void setDynamicList(List<DynamicDetailBeanV2> dynamicDetailBeanV2s);
+        void showNewDynamic(int position);
     }
 
     interface Presenter extends DynamicContract.Presenter {
@@ -161,5 +165,12 @@ public interface PersonalCenterContract {
          */
         void addFriend(UserInfoBean userInfoBean);
 
+        /**
+         * 获取视频列表
+         * @param maxId
+         * @param isLoadMore
+         * @param user_id
+         */
+        void getVideoList(Long maxId, boolean isLoadMore, long user_id);
     }
 }
