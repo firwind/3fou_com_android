@@ -120,11 +120,12 @@ public class SmallVideoPresenter extends AppBasePresenter<SmallVideoContract.Vie
 
         //更新列表中所有该用户视频的关注状态
         for (DynamicDetailBeanV2 data:mRootView.getListDatas()) {
-            if(data.getUser_id() == userInfoBean.getUser_id()){
+            //用==不会进入判断，此类型是  Long  类型
+            if(String.valueOf(data.getUserInfoBean().getUser_id()).equals(String.valueOf(userInfoBean.getUser_id()))){
                 data.getUserInfoBean().setFollower(userInfoBean.getFollower());
             }
         }
-        mRootView.refreshData();
+        //mRootView.refreshData();
 
     }
 

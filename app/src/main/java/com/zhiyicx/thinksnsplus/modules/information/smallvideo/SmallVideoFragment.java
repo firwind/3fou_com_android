@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.video.VideoListener;
@@ -49,10 +50,14 @@ import butterknife.BindView;
  * version:
  */
 
-public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presenter, DynamicDetailBeanV2> implements SmallVideoContract.View, OnViewPagerListener, SmallVideoCommentDialog.OnInputDialogShowListener {
+public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presenter, DynamicDetailBeanV2>
+        implements SmallVideoContract.View, OnViewPagerListener, SmallVideoCommentDialog.OnInputDialogShowListener {
 
     @BindView(R.id.iv_back)
     ImageView mIvBack;
+
+    private TextView mTvComment;
+    private ImageView mIvFollow;
 
     private SmallVideoCommentDialog mSmallVideoCommentDialog;//评论弹窗
     private EditTextDialog mEditTextDialog;//输入弹窗
@@ -234,7 +239,8 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
             mSmallVideoCommentDialog.setPresenter( ((SmallVideoPresenter)mPresenter) );
             mSmallVideoCommentDialog.getDialog().setOnDismissListener(dialog -> {
                 //刷新评论数
-                refreshData(currentPosition);
+                //refreshData(currentPosition);
+                mTvComment.setText(String.valueOf(detailBeanV2.getFeed_comment_count()));
             });
             ((SmallVideoPresenter)mPresenter).setSmallVideoCommentView(mSmallVideoCommentDialog);
         }
@@ -326,6 +332,11 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
 
                 //评论
                 holder.getView(R.id.tv_comment).setOnClickListener(v -> showSmallVideoCommentDialog(smallVideoListBean));
+
+                if(currentPosition == position){
+                    mTvComment = holder.getTextView(R.id.tv_comment);
+                    mIvFollow = holder.getImageViwe(R.id.iv_follow);
+                }
 
                 //视频处理
                 if(currentPosition == position && null != smallVideoListBean.getVideo()){
