@@ -149,8 +149,9 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
         super.onDestroyView();
 
         //通知上一个页面更新数据
-        EventBus.getDefault().post(new SmallVideoDataBean(mListDatas,currentPosition),
-                EventBusTagConfig.EVENT_UPDATE_SMALL_VIDEO_LIST);
+        if(0 != mUserId)
+            EventBus.getDefault().post(new SmallVideoDataBean(mListDatas,currentPosition),
+                    EventBusTagConfig.EVENT_UPDATE_SMALL_VIDEO_LIST);
     }
 
     @Override
