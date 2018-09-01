@@ -52,7 +52,7 @@ import cn.jzvd.JZVideoPlayerManager;
  * @Date 2017/1/5
  * @Contact master.jungle68@gmail.com
  */
-public class MainFragment extends TSViewPagerFragment implements DynamicFragment.OnCommentClickListener {
+public class MainFragment extends TSViewPagerFragment {
     // 关注动态列表位置，如果更新了，记得修改这儿
     public static final int PAGER_FOLLOW_DYNAMIC_LIST_POSITION = 0;
     @BindView(R.id.v_status_bar_placeholder)
@@ -65,15 +65,8 @@ public class MainFragment extends TSViewPagerFragment implements DynamicFragment
     @Inject
     DynamicBeanGreenDaoImpl mDynamicBeanGreenDao;
 
-    public void setOnImageClickListener(DynamicFragment.OnCommentClickListener onCommentClickListener) {
-        mOnCommentClickListener = onCommentClickListener;
-    }
-
-    DynamicFragment.OnCommentClickListener mOnCommentClickListener;
-
-    public static MainFragment newInstance(DynamicFragment.OnCommentClickListener l) {
+    public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
-        fragment.setOnImageClickListener(l);
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -228,26 +221,17 @@ public class MainFragment extends TSViewPagerFragment implements DynamicFragment
     protected List<Fragment> initFragments() {
         if (mFragmentList == null) {
             mFragmentList = new ArrayList();
-            mFragmentList.add(DynamicFragment.newInstance(ApiConfig.DYNAMIC_TYPE_NEW, this));
-            mFragmentList.add(DynamicFragment.newInstance(ApiConfig.DYNAMIC_TYPE_HOTS, this));
+            mFragmentList.add(DynamicFragment.newInstance(ApiConfig.DYNAMIC_TYPE_NEW));
+            mFragmentList.add(DynamicFragment.newInstance(ApiConfig.DYNAMIC_TYPE_HOTS));
             // 游客处理
             if (TouristConfig.FOLLOW_CAN_LOOK || mIAuthRepository.isLogin()) {
-                mFragmentList.add(DynamicFragment.newInstance(ApiConfig.DYNAMIC_TYPE_FOLLOWS, this));
+                mFragmentList.add(DynamicFragment.newInstance(ApiConfig.DYNAMIC_TYPE_FOLLOWS));
             } else {
                 // 用于viewpager 占位
-                mFragmentList.add(DynamicFragment.newInstance(ApiConfig.DYNAMIC_TYPE_EMPTY, this));
+                mFragmentList.add(DynamicFragment.newInstance(ApiConfig.DYNAMIC_TYPE_EMPTY));
             }
         }
         return mFragmentList;
-    }
-
-
-    @Override
-    public void onButtonMenuShow(boolean isShow) {
-        mVShadow.setVisibility(isShow ? View.GONE : View.VISIBLE);
-//        if (mOnCommentClickListener != null) {
-//            mOnCommentClickListener.onButtonMenuShow(isShow);
-//        }
     }
 
     /**

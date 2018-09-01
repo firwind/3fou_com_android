@@ -26,7 +26,7 @@
         android:layout_height="@dimen/dp40"
         android:layout_gravity="center"
         android:visibility="invisible"
-        android:src="@mipmap/play_icon"/>
+        android:src="@mipmap/icon_small_video_play"/>
 
     <FrameLayout
         android:id="@+id/fl_content"

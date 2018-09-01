@@ -204,7 +204,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
                     }
                 });
 
-        /*if(isVideoInfo()){
+        if(isVideoInfo()){
             mRvList.addOnScrollListener(new AutoPlayScrollListener() {
                 @Override
                 public int getPlayerViewId() {
@@ -213,10 +213,10 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
 
                 @Override
                 public boolean canAutoPlay() {
-                    return true;
+                    return false;
                 }
             });
-        }*/
+        }
 
 
     }

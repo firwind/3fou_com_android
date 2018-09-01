@@ -96,7 +96,6 @@ public class CollectDynamicListFragment extends DynamicFragment {
 
     public static CollectDynamicListFragment newInstance() {
         CollectDynamicListFragment fragment = new CollectDynamicListFragment();
-        fragment.setOnCommentClickListener(null);
         Bundle args = new Bundle();
         args.putString(BUNDLE_DYNAMIC_TYPE, ApiConfig.DYNAMIC_TYPE_MY_COLLECTION);
         fragment.setArguments(args);

@@ -462,6 +462,12 @@ public class DeviceUtils {
                 InputMethodManager.SHOW_FORCED);
     }
 
+    public static void showSoftKeyboardV2(Context context, View view) {
+        ((InputMethodManager) context.getSystemService(
+                Context.INPUT_METHOD_SERVICE)).showSoftInput(view,
+                InputMethodManager.SHOW_IMPLICIT);
+    }
+
     public static void toogleSoftKeyboard(Context context, View view) {
         ((InputMethodManager) context.getSystemService(
                 Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0,

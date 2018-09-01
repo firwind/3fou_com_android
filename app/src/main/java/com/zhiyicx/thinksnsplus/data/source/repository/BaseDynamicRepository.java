@@ -750,7 +750,7 @@ public class BaseDynamicRepository implements IDynamicReppsitory {
         return userId == 0 ? mDynamicClient.getSmallVideoList(after, TSListFragment.DEFAULT_PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()) :
-                mDynamicClient.getSmallVideoList(after, TSListFragment.DEFAULT_PAGE_SIZE, userId)
+                mDynamicClient.getSmallVideoList(after, TSListFragment.DEFAULT_PAGE_SIZE, userId,ApiConfig.VIDEO_TYPE_USERS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

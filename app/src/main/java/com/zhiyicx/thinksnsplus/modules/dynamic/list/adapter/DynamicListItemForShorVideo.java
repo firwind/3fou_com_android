@@ -200,6 +200,10 @@ public class DynamicListItemForShorVideo extends DynamicListBaseItem {
                 }
                 first.textureViewContainer.removeView(JZMediaManager.textureView);
                 view.setState(first.currentState);
+
+                /*if(null != JZMediaManager.textureView.getParent())
+                    ((ZhiyiVideoView) first).removeTextureView();*/
+
                 view.addTextureView();
                 JZVideoPlayerManager.setFirstFloor(view);
                 view.startProgressTimer();

@@ -15,10 +15,12 @@ import android.support.v4.app.Fragment;
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.thinksnsplus.modules.dynamic.list.DynamicFragment;
 
-public class MainActivity extends TSActivity implements DynamicFragment.OnCommentClickListener {
+import cn.jzvd.JZVideoPlayer;
+
+public class MainActivity extends TSActivity {
     @Override
     protected Fragment getFragment() {
-        return MainFragment.newInstance(this);
+        return MainFragment.newInstance();
     }
 
     @Override
@@ -26,8 +28,28 @@ public class MainActivity extends TSActivity implements DynamicFragment.OnCommen
 
     }
 
+
     @Override
-    public void onButtonMenuShow(boolean isShow) {
+    public void onPause() {
+        super.onPause();
+
+        JZVideoPlayer.goOnPlayOnPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        JZVideoPlayer.releaseAllVideos();
 
     }
+
+    @Override
+    public void onBackPressed() {
+        if (JZVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
 }

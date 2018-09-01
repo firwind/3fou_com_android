@@ -250,7 +250,14 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         setTalkingState(false, "正在连接服务器");
 
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
-            setCenterText(mPresenter.getUserInfoFromLocal().getName());
+            UserInfoBean userInfoBean = mPresenter.getUserInfoFromLocal();
+            if(null != userInfoBean){
+                setCenterText(mPresenter.getUserInfoFromLocal().getName());
+                setTalkingState(mPresenter.getUserInfoFromLocal().isIs_my_friend(), getString(R.string.chat_no_talking_not_friend));
+            }else {
+                setCenterText("该用户已删除");
+                setTalkingState(false, getString(R.string.chat_no_talking_not_friend));
+            }
             //从服务器更新群信息
             mPresenter.getUserInfoFromServer();
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
@@ -372,8 +379,11 @@ public class ChatFragment extends TSEaseChatFragment<ChatContract.Presenter>
         setNeedRefreshToLast(false);
 
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
-            setCenterText(mPresenter.getUserInfoFromLocal().getName());
-            setTalkingState(mPresenter.getUserInfoFromLocal().isIs_my_friend(), getString(R.string.chat_no_talking_not_friend));
+            UserInfoBean userInfoBean = mPresenter.getUserInfoFromLocal();
+            if(null != userInfoBean){
+                setCenterText(mPresenter.getUserInfoFromLocal().getName());
+                setTalkingState(mPresenter.getUserInfoFromLocal().isIs_my_friend(), getString(R.string.chat_no_talking_not_friend));
+            }
         } else if (chatType == EaseConstant.CHATTYPE_GROUP) {
             EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
             if (group != null && group.isMsgBlocked()) {
