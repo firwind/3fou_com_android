@@ -310,6 +310,7 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
         mRefreshlayout.setOnRefreshListener(this);
         mRefreshlayout.setOnLoadmoreListener(this);
         mRefreshlayout.setEnableAutoLoadmore(getEnalbeAutoLoadMore());
+        mRefreshlayout.setEnableScrollContentWhenLoaded(getEnableScrollContentWhenLoaded());
         mRefreshlayout.setEnableRefresh(isRefreshEnable());
         mRefreshlayout.setEnableLoadmore(isLoadingMoreEnable());
         if (setListBackColor() != -1) {
@@ -434,6 +435,14 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
      */
     protected boolean getEnalbeAutoLoadMore(){
         return false;
+    }
+
+    /**
+     * 是否在加载更多完成之后滚动内容显示新数据
+     * @return
+     */
+    protected boolean getEnableScrollContentWhenLoaded(){
+        return true;
     }
 
     /**

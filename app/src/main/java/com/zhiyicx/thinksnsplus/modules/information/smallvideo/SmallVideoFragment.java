@@ -129,6 +129,11 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
     }
 
     @Override
+    protected boolean getEnableScrollContentWhenLoaded() {
+        return false;
+    }
+
+    @Override
     protected void initData() {
         super.initData();
     }
@@ -395,24 +400,6 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
             }
         };
 
-    }
-
-    /**
-     * 获取分享的bitmap
-     *
-     * @return
-     */
-    private Bitmap getSharBitmap(ImageView imageView) {
-        Bitmap sharBitmap = null;
-        try {
-            if (null != imageView) {
-                sharBitmap = ConvertUtils.drawable2BitmapWithWhiteBg(mActivity, imageView
-                        .getDrawable(), R.mipmap.icon);
-            }
-        } catch (Exception e) {
-
-        }
-        return sharBitmap;
     }
 
 }

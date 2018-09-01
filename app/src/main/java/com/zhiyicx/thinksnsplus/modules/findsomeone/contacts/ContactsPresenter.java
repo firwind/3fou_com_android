@@ -198,6 +198,18 @@ public class ContactsPresenter extends AppBasePresenter<ContactsContract.View> i
                     }
 
                     @Override
+                    protected void onFailure(String message, int code) {
+                        super.onFailure(message, code);
+                        mRootView.showSnackErrorMessage(message);
+                    }
+
+                    @Override
+                    protected void onException(Throwable throwable) {
+                        super.onException(throwable);
+                        mRootView.showSnackErrorMessage(mContext.getString(R.string.network_anomalies));
+                    }
+
+                    /*@Override
                     public void onError(Throwable e) {
                         super.onError(e);
                         mRootView.showSnackErrorMessage(e.getMessage());
@@ -207,7 +219,7 @@ public class ContactsPresenter extends AppBasePresenter<ContactsContract.View> i
                     public void onCompleted() {
                         super.onCompleted();
                         mRootView.closeLoadingView();
-                    }
+                    }*/
                 }));
     }
 }

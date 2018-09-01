@@ -1,6 +1,7 @@
 package com.zhiyicx.thinksnsplus.widget.dialog;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -43,10 +44,9 @@ public class EditTextDialog extends HBaseDialog implements View.OnClickListener,
         setGravity(Gravity.BOTTOM);
         //处理键盘
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
+        getDialog().setOnDismissListener(dialog -> DeviceUtils.hideSoftKeyboard(mContext,((EditText)getView(R.id.et_input))));
         getView(R.id.bt_confirm).setOnClickListener(this);
         ((EditText)getView(R.id.et_input)).addTextChangedListener(this);
-
     }
 
     @Override
@@ -57,7 +57,8 @@ public class EditTextDialog extends HBaseDialog implements View.OnClickListener,
         ((EditText)getView(R.id.et_input)).setText("");
         ((EditText)getView(R.id.et_input)).setHint(hintText);
         ((EditText)getView(R.id.et_input)).requestFocus();
-        ((EditText)getView(R.id.et_input)).post(() -> DeviceUtils.showSoftKeyboard(mContext,((EditText)getView(R.id.et_input))));
+        ((EditText)getView(R.id.et_input)).post(() ->
+                DeviceUtils.showSoftKeyboardV2(mContext,((EditText)getView(R.id.et_input))));
 
     }
 

@@ -18,7 +18,6 @@ import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.baseproject.config.TouristConfig;
 import com.zhiyicx.baseproject.impl.photoselector.ImageBean;
 import com.zhiyicx.baseproject.impl.photoselector.Toll;
-import com.zhiyicx.baseproject.widget.InputLimitView;
 import com.zhiyicx.baseproject.widget.popwindow.ActionPopupWindow;
 import com.zhiyicx.baseproject.widget.popwindow.PayPopWindow;
 import com.zhiyicx.common.BuildConfig;
@@ -64,8 +63,10 @@ import com.zhiyicx.thinksnsplus.modules.shortvideo.helper.ZhiyiVideoView;
 import com.zhiyicx.thinksnsplus.modules.wallet.sticktop.StickTopActivity;
 import com.zhiyicx.thinksnsplus.modules.wallet.sticktop.StickTopFragment;
 import com.zhiyicx.thinksnsplus.utils.ImageUtils;
+import com.zhiyicx.thinksnsplus.widget.comment.CommentBaseRecycleView;
 import com.zhiyicx.thinksnsplus.widget.comment.DynamicListCommentView;
 import com.zhiyicx.thinksnsplus.widget.comment.DynamicNoPullRecycleView;
+import com.zhiyicx.thinksnsplus.widget.dialog.EditTextDialog;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -109,12 +110,12 @@ import static com.zhiyicx.thinksnsplus.modules.dynamic.tollcomment.DynamicCommen
  */
 public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, DynamicDetailBeanV2>
         implements DynamicNoPullRecycleView.OnCommentStateClickListener<DynamicCommentBean>,
-        InputLimitView.OnSendClickListener, DynamicContract.View, DynamicListCommentView
-                .OnCommentClickListener, DynamicListCommentView.OnMoreCommentClickListener,
+        DynamicContract.View, DynamicListCommentView.OnMoreCommentClickListener,
         DynamicListBaseItem.OnReSendClickListener, DynamicListBaseItem.OnMenuItemClickLisitener,
         DynamicListBaseItem.OnImageClickListener, OnUserInfoClickListener,
         MultiItemTypeAdapter.OnItemClickListener, TextViewUtils.OnSpanTextClickListener,
-        DynamicBannerHeader.DynamicBannerHeadlerClickEvent, ZhiyiVideoView.ShareInterface {
+        DynamicBannerHeader.DynamicBannerHeadlerClickEvent, ZhiyiVideoView.ShareInterface,
+        DynamicListCommentView.OnCommentClickListener {
 
     protected static final String BUNDLE_DYNAMIC_TYPE = "dynamic_type";
 
@@ -123,8 +124,8 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
      */
     public static final long ITEM_SPACING = 5L;
 
-    @BindView(R.id.ilv_comment)
-    InputLimitView mIlvComment;
+    /*@BindView(R.id.ilv_comment)
+    InputLimitView mIlvComment;*/
     @BindView(R.id.v_shadow)
     View mVShadow;
 
@@ -161,15 +162,10 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
     private List<RealAdvertListBean> mListAdvert;
     private List<RealAdvertListBean> mHeaderAdvert;
 
-    public void setOnCommentClickListener(OnCommentClickListener onCommentClickListener) {
-        mOnCommentClickListener = onCommentClickListener;
-    }
+    private EditTextDialog mEditTextDialog;//输入弹窗
 
-    OnCommentClickListener mOnCommentClickListener;
-
-    public static DynamicFragment newInstance(String dynamicType, OnCommentClickListener l) {
+    public static DynamicFragment newInstance(String dynamicType) {
         DynamicFragment fragment = new DynamicFragment();
-        fragment.setOnCommentClickListener(l);
         Bundle args = new Bundle();
         args.putString(BUNDLE_DYNAMIC_TYPE, dynamicType);
         fragment.setArguments(args);
@@ -267,8 +263,8 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
         // 刷新控件调白
         mRefreshlayout.setBackgroundResource(R.color.white);
         mRvList.setBackgroundResource(R.color.bgColor);
-        initInputView();
-        AndroidBug5497Workaround.assistActivity(mActivity);
+
+        //AndroidBug5497Workaround.assistActivity(mActivity);
         Observable.create(subscriber -> {
             // 在 super.initData();之前，因为initdata 会使用到 presenter
             DaggerDynamicComponent
@@ -380,10 +376,10 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
     /**
      * 初始化输入框
      */
-    private void initInputView() {
+    /*private void initInputView() {
         mVShadow.setOnClickListener(v -> closeInputView());
         mIlvComment.setOnSendClickListener(this);
-    }
+    }*/
 
     @Override
     protected float getItemDecorationSpacing() {
@@ -575,14 +571,7 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
 
     @Override
     public void closeInputView() {
-        if (mIlvComment.getVisibility() == View.VISIBLE) {
-            mIlvComment.setVisibility(View.GONE);
-            DeviceUtils.hideSoftKeyboard(getActivity(), mIlvComment.getEtContent());
-        }
-        mVShadow.setVisibility(View.GONE);
-        if (mOnCommentClickListener != null) {
-            mOnCommentClickListener.onButtonMenuShow(true);
-        }
+        dismissEditTextDialog();
     }
 
     @Override
@@ -685,8 +674,7 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
                         (dataPosition).getId() == 0) {
                     return;
                 }
-                showCommentView();
-                mIlvComment.setEtContentHint(getString(R.string.default_input_hint));
+                showEditTextDialog(getString(R.string.default_input_hint));
                 mCurrentPostion = dataPosition;
                 // 0 代表评论动态
                 mReplyToUserId = 0;
@@ -775,7 +763,6 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
             mDeletCommentPopWindow.show();
 
         } else {
-            showCommentView();
             mReplyToUserId = dynamicBean.getComments().get(position).getUser_id();
             String contentHint = getString(R.string.default_input_hint);
             if (dynamicBean.getComments().get(position).getUser_id() != AppApplication
@@ -783,7 +770,7 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
                 contentHint = getString(R.string.reply, dynamicBean.getComments().get(position)
                         .getCommentUser().getName());
             }
-            mIlvComment.setEtContentHint(contentHint);
+            showEditTextDialog(contentHint);
         }
 
     }
@@ -819,20 +806,6 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
     private void showCommentView() {
         showBottomView(false);
 
-    }
-
-    /**
-     * comment send
-     *
-     * @param text
-     */
-    @Override
-    public void onSendClick(View v, final String text) {
-        com.zhiyicx.imsdk.utils.common.DeviceUtils.hideSoftKeyboard(getContext(), v);
-        mIlvComment.setVisibility(View.GONE);
-        mVShadow.setVisibility(View.GONE);
-        mPresenter.sendCommentV2(mCurrentPostion, mReplyToUserId, text);
-        showBottomView(true);
     }
 
     /**
@@ -1173,20 +1146,11 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
     private void showBottomView(boolean isShow) {
         if (isShow) {
             mVShadow.setVisibility(View.GONE);
-            mIlvComment.setVisibility(View.GONE);
-            mIlvComment.clearFocus();
-            mIlvComment.setSendButtonVisiable(false);
-            DeviceUtils.hideSoftKeyboard(getActivity(), mIlvComment.getEtContent());
+
         } else {
             mVShadow.setVisibility(View.VISIBLE);
-            mIlvComment.setVisibility(View.VISIBLE);
-            mIlvComment.getFocus();
-            mIlvComment.setSendButtonVisiable(true);
-            DeviceUtils.showSoftKeyboard(getActivity(), mIlvComment.getEtContent());
         }
-        if (mOnCommentClickListener != null) {
-            mOnCommentClickListener.onButtonMenuShow(isShow);
-        }
+
     }
 
     private Bitmap getShareBitmap(int position, int id) {
@@ -1244,8 +1208,26 @@ public class DynamicFragment extends TSListFragment<DynamicContract.Presenter, D
 
     }
 
-    public interface OnCommentClickListener {
-        void onButtonMenuShow(boolean isShow);
+    /**
+     * 输入弹窗
+     * @param hint
+     */
+    private void showEditTextDialog(String hint){
+        if(null == mEditTextDialog){
+            mEditTextDialog = new EditTextDialog(mActivity,true);
+            mEditTextDialog.setOnInputOkListener(str ->
+                    mPresenter.sendCommentV2(mCurrentPostion, mReplyToUserId, str));
+        }
+        mEditTextDialog.setHintText(hint);
+        mEditTextDialog.showDialog();
+    }
+
+    /**
+     * 让输入弹窗消失
+     */
+    private void dismissEditTextDialog(){
+        if(null != mEditTextDialog)
+            mEditTextDialog.dismissDialog();
     }
 
     @Override

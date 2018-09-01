@@ -49,7 +49,7 @@ public class TimeUtils {
      */
     public static String getTimeFriendlyNormal(String timestr) {
         String result = "1分钟内";
-        long timesamp = utc2LocalLong(timestr);
+        long timesamp = string2MillisDefaultLocal(timestr)/*utc2LocalLong(timestr)*/;
         switch (getifferenceDays(timesamp)) {
             case 0:
                 result = getFriendlyTimeForBeforHour(timesamp, result);
