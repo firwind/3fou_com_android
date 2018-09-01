@@ -22,5 +22,6 @@ public class FlashDetailsContract {
     interface Presenter extends IBasePresenter {
 
         void inviteShare(android.view.View v, SHARE_MEDIA shareMedia);
+        void getInviteCode();
     }
 }

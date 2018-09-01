@@ -103,6 +103,8 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
         params.topMargin = statusBarHeight;
         mIvBack.setLayoutParams(params);
         mIvBack.setOnClickListener(v -> getActivity().onBackPressed());
+
+        mPresenter.getInviteCode();//获取分享数据
     }
 
 
@@ -140,12 +142,7 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
             }
         });
 
-        String url = ApiConfig.APP_DOWNLOAD;
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon);
-        mIvQrcode.setImageBitmap(ImageUtils.createQrcodeImage(url,
-                getResources().getDimensionPixelSize(R.dimen.invite_img_size),
-                bitmap));
     }
 
     @Override
@@ -208,6 +205,10 @@ public class FlashDetailsFragment extends TSFragment<FlashDetailsContract.Presen
     @Override
     public void setInviteAndQrCode(InviteAndQrcode inviteAndQrCode) {
 
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon);
+        mIvQrcode.setImageBitmap(ImageUtils.createQrcodeImage(inviteAndQrCode.short_url,
+                getResources().getDimensionPixelSize(R.dimen.invite_img_size),
+                bitmap));
     }
 
     private static class ShareBean {

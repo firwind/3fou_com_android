@@ -146,7 +146,7 @@ public class InviteShareFragment extends TSFragment<InviteShareContract.Presente
             bitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.icon);
         }
 
-        mIvQrcode.setImageBitmap(ImageUtils.createQrcodeImage(inviteAndQrCode.user_url,
+        mIvQrcode.setImageBitmap(ImageUtils.createQrcodeImage(inviteAndQrCode.short_url,
                 getResources().getDimensionPixelSize(R.dimen.invite_img_size),
                 bitmap));
     }
@@ -155,7 +155,6 @@ public class InviteShareFragment extends TSFragment<InviteShareContract.Presente
      * 初始化分享
      */
     private void initShare(){
-
         List<ShareBean> mDatas = new ArrayList<>();
         ShareBean qq = new ShareBean(com.zhiyicx.baseproject.R.mipmap.detail_share_qq,
                 getString(com.zhiyicx.baseproject.R.string.qq_share),SHARE_MEDIA.QQ);

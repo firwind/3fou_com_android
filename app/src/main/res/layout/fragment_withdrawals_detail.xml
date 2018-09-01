@@ -20,7 +20,7 @@
         android:paddingTop="@dimen/spacing_mid_small_8dp"
         android:paddingBottom="@dimen/spacing_mid_small_8dp"
         android:text="@string/integration_rule"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textColor="@color/white"
         />
 

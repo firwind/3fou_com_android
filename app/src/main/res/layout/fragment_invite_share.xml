@@ -111,7 +111,7 @@
                 android:layout_marginTop="@dimen/dp10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="邀请好友一起挖矿 即可获得100糖果"
+                tools:text="邀请好友一起挖矿 即可获得1000糖果"
                 android:layout_gravity="center"
                 android:textColor="@color/black_deep"
                 android:textSize="@dimen/sp10"/>

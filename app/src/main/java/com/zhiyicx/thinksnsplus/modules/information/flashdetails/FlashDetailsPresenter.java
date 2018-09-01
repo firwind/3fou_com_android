@@ -18,15 +18,23 @@ import com.zhiyicx.common.thridmanager.share.ShareContent;
 import com.zhiyicx.common.thridmanager.share.SharePolicy;
 import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
+import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
+import com.zhiyicx.thinksnsplus.data.beans.InviteAndQrcode;
+import com.zhiyicx.thinksnsplus.data.source.repository.UserInfoRepository;
 
 
 import javax.inject.Inject;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class FlashDetailsPresenter extends AppBasePresenter<FlashDetailsContract.View> implements FlashDetailsContract.Presenter, OnShareCallbackListener {
 
     @Inject
     public SharePolicy mSharePolicy;
     private ShareContent mShareContent;
+    @Inject
+    public UserInfoRepository mUserRepository;
     @Inject
     public FlashDetailsPresenter(FlashDetailsContract.View rootView) {
         super(rootView);
@@ -61,5 +69,29 @@ public class FlashDetailsPresenter extends AppBasePresenter<FlashDetailsContract
         ((UmengSharePolicyWithoutViewImpl) mSharePolicy).setOnShareCallbackListener(this);
         mSharePolicy.setShareContent(mShareContent);
         ((UmengSharePolicyWithoutViewImpl) mSharePolicy).startShare(shareMedia);
+    }
+
+    @Override
+    public void getInviteCode() {
+        addSubscrebe(mUserRepository.getInviteCode().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscribeForV2<InviteAndQrcode>() {
+                    @Override
+                    protected void onSuccess(InviteAndQrcode data) {
+                        mRootView.setInviteAndQrCode(data);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mRootView.showSnackErrorMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        mRootView.closeLoadingView();
+                    }
+                }));
     }
 }

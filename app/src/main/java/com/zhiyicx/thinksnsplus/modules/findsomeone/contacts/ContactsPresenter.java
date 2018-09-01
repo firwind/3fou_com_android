@@ -194,7 +194,7 @@ public class ContactsPresenter extends AppBasePresenter<ContactsContract.View> i
                 .subscribe(new BaseSubscribeForV2<InviteAndQrcode>() {
                     @Override
                     protected void onSuccess(InviteAndQrcode data) {
-                        tip = data.user_msg+","+data.reward_msg1+","+data.reward_msg2+":"+data.user_url;
+                        tip = data.user_msg+","+data.reward_msg1+","+data.reward_msg2+":"+data.short_url;
                     }
 
                     @Override
