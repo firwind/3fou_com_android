@@ -136,7 +136,7 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
     @Override
     public void onCacheResponseSuccess(List<DynamicDetailBeanV2> data, boolean isLoadMore) {
         super.onCacheResponseSuccess(data, isLoadMore);
-        if (data.size() > currentPosition)
+        if(data.size() > currentPosition)
             mRvList.scrollToPosition(currentPosition);
     }
 
@@ -152,8 +152,9 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
         super.onDestroyView();
 
         //通知上一个页面更新数据
-        EventBus.getDefault().post(new SmallVideoDataBean(mListDatas, currentPosition),
-                EventBusTagConfig.EVENT_UPDATE_SMALL_VIDEO_LIST);
+        if(0 == mUserId)
+            EventBus.getDefault().post(new SmallVideoDataBean(mListDatas,currentPosition),
+                    EventBusTagConfig.EVENT_UPDATE_SMALL_VIDEO_LIST);
     }
 
     @Override
@@ -342,18 +343,18 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
                     holder.getTextView(R.id.tv_dig).setText(String.valueOf(smallVideoListBean.getFeed_digg_count()));
                 });
 
-                //跳转 个人中心
-                holder.getView(R.id.user_avatar).setOnClickListener(v ->
-                        PersonalCenterFragment.startToPersonalCenter(mActivity, smallVideoListBean.getUserInfoBean()));
+                //跳转 个人中心  这里暂时屏蔽掉，从这里进入个人主页，再进视频，再返回这里，会有问题
+                /*holder.getView(R.id.user_avatar).setOnClickListener(v ->
+                        PersonalCenterFragment.startToPersonalCenter(mActivity,smallVideoListBean.getUserInfoBean()));*/
 
                 //分享
                 holder.getView(R.id.tv_share).setOnClickListener(v ->
-                        mPresenter.shareDynamic(smallVideoListBean, null/*getSharBitmap(holder.getImageViwe(R.id.iv_thumb)))*/));
+                        mPresenter.shareDynamic(smallVideoListBean,null/*getSharBitmap(holder.getImageViwe(R.id.iv_thumb)))*/));
 
                 //评论
                 holder.getView(R.id.tv_comment).setOnClickListener(v -> showSmallVideoCommentDialog(smallVideoListBean));
 
-                if (currentPosition == position) {
+                if(currentPosition == position){
                     mTvComment = holder.getTextView(R.id.tv_comment);
                     mIvFollow = holder.getImageViwe(R.id.iv_follow);
                 }
