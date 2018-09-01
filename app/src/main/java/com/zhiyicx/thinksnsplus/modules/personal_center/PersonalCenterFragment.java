@@ -450,7 +450,6 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
                     Glide.with(mContext)
                             .load(TextUtils.isEmpty(dynamicDetailBeanV2.getVideo().getUrl()) ? dynamicDetailBeanV2.getVideo().getGlideUrl() : new File(dynamicDetailBeanV2.getVideo().getUrl()))
                             .placeholder(R.drawable.shape_default_image)
-
                             .error(R.drawable.shape_default_image)
                             .into(imageView);
                     holder.setText(R.id.tv_video_title, dynamicDetailBeanV2.getFeed_content());

@@ -199,7 +199,7 @@ public class NotificationReviewFragment extends TSListFragment<NotificationRevie
                         .subscribe(aVoid -> toUserCenter(getContext(), groupOrFriendReviewBean.getFriend_data()));
 
                 ImageUtils.loadCircleUserHeadPic(groupOrFriendReviewBean.getFriend_data(), holder.getView(R.id.iv_headpic));
-                holder.getTextView(R.id.tv_name).setText(groupOrFriendReviewBean.getFriend_data().getName());
+                holder.getTextView(R.id.tv_name).setText(TextUtils.isEmpty(groupOrFriendReviewBean.getFriend_data().getName())?"":groupOrFriendReviewBean.getFriend_data().getName());
                 holder.getTextView(R.id.tv_reason).setText( (TextUtils.isEmpty(groupOrFriendReviewBean.getInformation())?
                         "请求加你为好友":"理由："+groupOrFriendReviewBean.getInformation()) );
                 try {

@@ -1042,6 +1042,7 @@ public class PersonalCenterPresenter extends AppBasePresenter<PersonalCenterCont
                         mRootView.getListDatas().addAll(temps);
                         temps.clear();
                         mRootView.showNewDynamic(-1);
+
                     }
                 }, Throwable::printStackTrace);
         addSubscrebe(subscribe);
