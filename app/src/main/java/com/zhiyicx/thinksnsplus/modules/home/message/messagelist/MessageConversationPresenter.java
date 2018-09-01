@@ -513,20 +513,25 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                             isShowMessageTip = false;
                         }
                     }*/
-                    int unreadCount = TSEMHyphenate.getInstance().getUnreadMsgCount();
+
+                    int unreadNotifyCount = 0;
+                    for (MessageItemBeanV2 message : mRootView.getListDatas()) {
+                        if (message.getEmKey().equals(TSEMConstants.EMKEY_GROUP_NOTIFICATION) ||
+                                message.getEmKey().equals(TSEMConstants.EMKEY_FRIEND_NOTIFICATION)) {
+                            unreadNotifyCount += message.getUnReadCount();
+                        }
+                    }
+
+                    int unreadCount = TSEMHyphenate.getInstance().getUnreadMsgCount()+unreadNotifyCount;
                     //这里通知桌面更新角标
                     //ShortcutBadgeUtil.getInstance().toChangeBadge(mRootView.getCurrentFragment().getContext(),unreadCount);
-                    CommonBadgeUtil.setBadge(mRootView.getCurrentFragment().getContext(),unreadCount);
+                    CommonBadgeUtil.setBadge(mContext,unreadCount);
 
                     return unreadCount>0;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(isShowMessageTip -> {
-                    Fragment containerFragment = mRootView.getCurrentFragment().getParentFragment();
-                    if (containerFragment != null && containerFragment instanceof MessageContainerFragment) {
-                        //环信消息
-                        ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(isShowMessageTip, 2);
-                    }
+                    mRootView.showNewMessageTip(isShowMessageTip);
                 }, Throwable::printStackTrace);
         addSubscrebe(subscribe);
 
@@ -556,6 +561,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                 welcomeMsg.addBody(new EMTextMessageBody(notificaiton.group.getNotification()));// 消息体
                 welcomeMsg.setFrom(TSEMConstants.EMKEY_GROUP_NOTIFICATION);// 来自 用户名
                 welcomeMsg.setMsgTime(notificaiton.group.getTime());// 当前时间
+                welcomeMsg.setUnread(false);
                 groupConversation.insertMessage(welcomeMsg);
 
                 //新增group message
@@ -570,6 +576,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
             }else if(null != groupConversation && null != groupConversation.getLastMessage()){//当本地会话还在时，才去添加到界面
                 groupConversation.getLastMessage().addBody(new EMTextMessageBody(notificaiton.group.getNotification()));
                 groupConversation.getLastMessage().setMsgTime(notificaiton.group.getTime());
+                groupConversation.markAllMessagesAsRead();
 
                 MessageItemBeanV2 messageItemBeanV2 = null;
 
@@ -615,6 +622,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
                 welcomeMsg.addBody(new EMTextMessageBody(notificaiton.friend.getNotification()));// 消息体
                 welcomeMsg.setFrom(TSEMConstants.EMKEY_FRIEND_NOTIFICATION);// 来自 用户名
                 welcomeMsg.setMsgTime(notificaiton.friend.getTime());// 当前时间
+                welcomeMsg.setUnread(false);
                 friendConversation.insertMessage(welcomeMsg);
 
                 //friend message
@@ -630,6 +638,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
 
                 friendConversation.getLastMessage().addBody(new EMTextMessageBody(notificaiton.friend.getNotification()));
                 friendConversation.getLastMessage().setMsgTime(notificaiton.friend.getTime());
+                friendConversation.markAllMessagesAsRead();
 
 
                 MessageItemBeanV2 messageItemBeanV2 = null;
@@ -682,6 +691,7 @@ public class MessageConversationPresenter extends AppBasePresenter<MessageConver
             @Override
             protected void onSuccess(List<MessageItemBeanV2> data) {
                 mRootView.refreshData();
+                checkBottomMessageTip();
             }
         });
 

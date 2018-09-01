@@ -70,9 +70,13 @@ public class GuidePresenter extends BasePresenter<GuideContract.View>
         }
     }
 
-    @Override
+    /*@Override
     public void checkLogin() {
         mRootView.startActivity(mIAuthRepository.isLogin() ? HomeActivity.class : LoginActivity.class);
+    }*/
+    @Override
+    public boolean checkLogin() {
+        return mIAuthRepository.isLogin();
     }
 
 

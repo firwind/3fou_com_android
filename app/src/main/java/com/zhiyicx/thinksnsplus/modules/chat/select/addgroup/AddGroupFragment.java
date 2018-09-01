@@ -33,6 +33,7 @@ import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.data.beans.ChatGroupServerBean;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.info.ChatInfoActivity;
+import com.zhiyicx.thinksnsplus.utils.ImageUtils;
 import com.zhiyicx.thinksnsplus.widget.EditTextWithDel;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
@@ -157,6 +158,12 @@ public class AddGroupFragment extends TSListFragment<AddGroupContract.Presenter,
                         .placeholder(R.mipmap.group_details_icon)
                         .transform(new GlideCircleTransform(mContext))
                         .into(holder.getImageViwe(R.id.uv_group_head));
+
+                int resId = ImageUtils.getGroupSignResId(chatGroupBean.getGrouplevel());
+                holder.getImageViwe(R.id.iv_group_sign).setVisibility(0 == resId ? View.INVISIBLE : View.VISIBLE);
+                if(0 != resId)
+                    holder.getImageViwe(R.id.iv_group_sign).setImageDrawable(mContext.getResources().getDrawable(resId));
+
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {

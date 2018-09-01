@@ -214,14 +214,14 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            for (int i = 0;i<mTitle.size();i++){
-                if (i!=0&&i!=1){
+            for (int i = 0; i < mTitle.size(); i++) {
+                if (i != 0 && i != 1 && i != 2) {
                     mTitle.remove(mTitle.get(i));
                     i--;
                 }
             }
-            for (int i = 0;i<mFragmentList.size();i++){
-                if (i!=0&&i!=1){
+            for (int i = 0; i < mFragmentList.size(); i++) {
+                if (i != 0 && i != 1 && i != 2) {
                     mFragmentList.remove(mFragmentList.get(i));
                     i--;
                 }
@@ -289,7 +289,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
             mTitle = new ArrayList<>();
             mTitle.add(0,getString(R.string.flash));
             mTitle.add(1,getString(R.string.videos));
-            mTitle.add("小视频");
+            mTitle.add(2,"小视频");
         }
         return mTitle;
     }
@@ -301,7 +301,7 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
             mFragmentList = new ArrayList<>();
             mFragmentList.add(0,FlashListFragment.newInstance(FLASH_INFO_ID));
             mFragmentList.add(1,InfoListFragment.newInstance(VIDEO_INFO_ID));
-            mFragmentList.add(new SmallVideoListFragment());
+            mFragmentList.add(2,new SmallVideoListFragment());
         }
         return mFragmentList;
     }

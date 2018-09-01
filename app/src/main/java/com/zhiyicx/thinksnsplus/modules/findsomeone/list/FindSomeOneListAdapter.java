@@ -59,7 +59,7 @@ public class FindSomeOneListAdapter extends CommonAdapter<UserInfoBean> {
         } else {
             holder.setImageResource(R.id.iv_user_follow, R.mipmap.ico_me_follow);
         }*/
-        holder.getTextView(R.id.tv_follow).setText(userInfoBean1.isFollower()?"已关注":"+ 关注");
+        holder.getTextView(R.id.tv_follow).setText(userInfoBean1.isFollower()?"取消关注":"+ 关注");
         holder.getTextView(R.id.tv_friend).setText(userInfoBean1.isIs_my_friend()?"聊天":"+ 加友");
 
         RxView.clicks(holder.getView(R.id.tv_follow/*iv_user_follow*/))

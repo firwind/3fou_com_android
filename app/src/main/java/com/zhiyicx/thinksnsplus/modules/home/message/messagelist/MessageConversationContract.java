@@ -25,7 +25,7 @@ public interface MessageConversationContract {
      * 对于经常使用的关于 UI 的方法可以定义到 BaseView 中,如显示隐藏进度条,和显示文字消息
      */
     interface View extends ITSListView<MessageItemBeanV2, Presenter> {
-        BaseFragment getCurrentFragment();
+        void showNewMessageTip(boolean isShow);
     }
 
     /**

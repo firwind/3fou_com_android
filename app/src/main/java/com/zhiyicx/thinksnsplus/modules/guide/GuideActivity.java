@@ -10,11 +10,16 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
  * @Date 2017/1/13
  * @Contact master.jungle68@gmail.com
  */
-public class GuideActivity extends TSActivity<GuidePresenter, GuideFragment_v2> {
+public class GuideActivity extends TSActivity<GuidePresenter, GuideFragment/*GuideFragment_v2*/> {
 
-    @Override
+    /*@Override
     protected GuideFragment_v2 getFragment() {
         return new GuideFragment_v2();
+    }*/
+
+    @Override
+    protected GuideFragment getFragment() {
+        return new GuideFragment();
     }
 
     @Override
@@ -31,5 +36,11 @@ public class GuideActivity extends TSActivity<GuidePresenter, GuideFragment_v2> 
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         mContanierFragment.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mContanierFragment.onActivityResult(requestCode,resultCode,data);
     }
 }

@@ -29,8 +29,8 @@ public class ApiConfig {
     public static final boolean APP_IS_NEED_SSH_CERTIFICATE = true;// 自定义证书时使用false
     //    public static final String APP_DOMAIN_DEV = "https://dev.zhibocloud.cn/";// 模拟在线正式服务器
 //    public static final String APP_DOMAIN_TEST = "http://test-plus.zhibocloud.cn/";// 在线测试服务器
-    public static final String APP_DOMAIN_TEST = "http://112.74.168.35/";// 在线测试服务器
-//    public static final String APP_DOMAIN_TEST = "http://test.faceke.ipmw.cn/";// 在线测试服务器
+//    public static final String APP_DOMAIN_TEST = "http://112.74.168.35/";// 在线测试服务器
+    public static final String APP_DOMAIN_TEST = "http://test.faceke.ipmw.cn/";// 在线测试服务器
     //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
 //    public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
     public static final String APP_DOMAIN_FORMAL = "http://www.mybcbnet.com/";// 正式服务器

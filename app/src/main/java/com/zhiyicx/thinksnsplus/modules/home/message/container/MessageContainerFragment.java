@@ -32,6 +32,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.modules.chat.select.SelectFriendsActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.select.addgroup.AddGroupActivity;
 import com.zhiyicx.thinksnsplus.modules.findsomeone.contianer.FindSomeOneContainerActivity;
+import com.zhiyicx.thinksnsplus.modules.home.HomeFragment;
 import com.zhiyicx.thinksnsplus.modules.home.common.invite.InviteShareActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.MessageFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.homepage.MessageHomePageFragment;
@@ -182,48 +183,55 @@ public class MessageContainerFragment extends TSViewPagerFragmentV2/* implements
         return false;
     }
 
+
     /**
-     * 设置提示的红点的显示和隐藏
-     *
-     * @param isShow   状态
-     * @param position 位置 0-消息 1=通知
+     * 设置新消息类型
+     * @param isShow
      */
-    public void setNewMessageNoticeState(boolean isShow, int position) {
-        if (position != 2 && position != 3) {
-            return;
-        }
-        switch (position) {
-            case 2:
-                if (isShow == mIsMessageTipShow) {
-//                    return;
-                } else {
-                    mIsMessageTipShow = isShow;
-                }
-                break;
-            case 3:
-                if (isShow == mIsNotificationTipShow) {
-//                    return;
-                } else {
-                    mIsNotificationTipShow = isShow;
-                }
-                break;
-            default:
-        }
+    public void setNewMessageState(boolean isShow){
+        mIsMessageTipShow = isShow;
         BadgePagerTitleView badgePagerTitleView;
         try {
-            badgePagerTitleView = mBadgePagerTitleViews.get(position);
+            badgePagerTitleView = mBadgePagerTitleViews.get(2);
             if (isShow) {
                 ImageView badgeImageView = (ImageView) LayoutInflater.from(getContext()).inflate(R.layout.simple_count_badge_layout, null);
                 badgePagerTitleView.setBadgeView(badgeImageView);
                 badgePagerTitleView.setXBadgeRule(new BadgeRule(BadgeAnchor.CONTENT_RIGHT, UIUtil.dip2px(getContext(), 10)));
                 badgePagerTitleView.setYBadgeRule(new BadgeRule(BadgeAnchor.CONTENT_TOP, -UIUtil.dip2px(getContext(), 3)));
-            }
-            if (!isShow) {
+            }else {
                 badgePagerTitleView.setBadgeView(null);
             }
         } catch (Exception ignore) {
             LogUtils.d("can not find badgeView");
         }
+
+
+        ((HomeFragment)getParentFragment()).setMessageTipVisable(mIsMessageTipShow || mIsNotificationTipShow);
+
+    }
+
+    /**
+     * 新通知的提醒
+     * @param isShow
+     */
+    public void setNewNotificationState(boolean isShow){
+        mIsNotificationTipShow = isShow;
+        BadgePagerTitleView badgePagerTitleView;
+        try {
+            badgePagerTitleView = mBadgePagerTitleViews.get(3);
+            if (isShow) {
+                ImageView badgeImageView = (ImageView) LayoutInflater.from(getContext()).inflate(R.layout.simple_count_badge_layout, null);
+                badgePagerTitleView.setBadgeView(badgeImageView);
+                badgePagerTitleView.setXBadgeRule(new BadgeRule(BadgeAnchor.CONTENT_RIGHT, UIUtil.dip2px(getContext(), 10)));
+                badgePagerTitleView.setYBadgeRule(new BadgeRule(BadgeAnchor.CONTENT_TOP, -UIUtil.dip2px(getContext(), 3)));
+            }else {
+                badgePagerTitleView.setBadgeView(null);
+            }
+        } catch (Exception ignore) {
+            LogUtils.d("can not find badgeView");
+        }
+
+        ((HomeFragment)getParentFragment()).setMessageTipVisable(mIsMessageTipShow || mIsNotificationTipShow);
     }
 
     private void initToolBar() {

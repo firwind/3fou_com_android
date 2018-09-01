@@ -72,14 +72,16 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/dp68"
+        android:paddingLeft="@dimen/dp8"
+        android:paddingRight="@dimen/dp8"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_friend"
-            android:layout_width="@dimen/dp52"
+            android:layout_width="@dimen/dp70"
             android:layout_height="@dimen/dp22"
             android:background="@drawable/shape_corner_2dp_bg_theme"
             android:textSize="@dimen/sp14"
@@ -90,12 +92,12 @@
         <TextView
             android:id="@+id/tv_follow"
             android:layout_marginTop="@dimen/dp10"
-            android:layout_width="@dimen/dp52"
+            android:layout_width="@dimen/dp70"
             android:layout_height="@dimen/dp22"
             android:background="@drawable/shape_corner_2dp_stroke_1dp_gray"
             android:textSize="@dimen/sp14"
             android:textColor="@color/black_deep"
-            android:text="+ 关注"
+            android:text="关注"
             android:gravity="center"/>
 
     </LinearLayout>

@@ -146,6 +146,13 @@ public class SmallVideoFragment extends TSListFragment<SmallVideoContract.Presen
     }
 
     @Override
+    public void onNetResponseSuccess(@NotNull List<DynamicDetailBeanV2> data, boolean isLoadMore) {
+        super.onNetResponseSuccess(data, isLoadMore);
+        if(data.size()>0)
+            mRvList.smoothScrollToPosition(currentPosition+1);
+    }
+
+    @Override
     protected RecyclerView.LayoutManager getLayoutManager() {
         ViewPagerLayoutManager layoutManager = new ViewPagerLayoutManager(getContext(), OrientationHelper.VERTICAL);
         layoutManager.setOnViewPagerListener(this);

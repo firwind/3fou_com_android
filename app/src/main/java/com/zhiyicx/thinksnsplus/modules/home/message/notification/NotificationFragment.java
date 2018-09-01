@@ -15,6 +15,7 @@ import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
 import com.zhiyicx.thinksnsplus.data.beans.NotificationBean;
 import com.zhiyicx.thinksnsplus.i.IntentKey;
+import com.zhiyicx.thinksnsplus.modules.home.message.container.MessageContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagecomment.MessageCommentActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagelike.MessageLikeActivity;
 import com.zhiyicx.thinksnsplus.modules.home.message.messagereview.MessageReviewActivity;
@@ -166,7 +167,8 @@ public class NotificationFragment extends TSListFragment<NotificationContract.Pr
 
 
     @Override
-    public Fragment getCurrentFragment() {
-        return this;
+    public void showNewNotificationTip(boolean isShow) {
+        if(null != getParentFragment())
+            ((MessageContainerFragment)getParentFragment()).setNewNotificationState(isShow);
     }
 }

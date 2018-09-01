@@ -1,10 +1,12 @@
 package com.zhiyicx.thinksnsplus.modules.settings.aboutus;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -13,6 +15,7 @@ import com.zhiyicx.baseproject.config.MarkdownConfig;
 import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.modules.guide.GuideActivity;
+import com.zhiyicx.thinksnsplus.modules.guide.GuideFragment;
 import com.zhiyicx.thinksnsplus.modules.guide.GuideFragment_v2;
 import com.zhiyicx.thinksnsplus.modules.register.RegisterPresenter;
 
@@ -61,14 +64,18 @@ public class CustomWEBActivity extends TSActivity<RegisterPresenter, CustomWEBFr
                 if (headers != null) {
                     bundle.putSerializable(CustomWEBFragment.BUNDLE_PARAMS_WEB_HEADERS, headers);
                 }
-                if(flag.length() > 2)
+                if(args.length > 2)
                     flag = args[2];
             } catch (Exception e) {
                 e.printStackTrace();
             }
             intent.putExtras(bundle);
         }
-        context.startActivity(intent);
+        if(GuideFragment/*GuideFragment_v2*/.ADVERT.equals(flag) && context instanceof Activity){
+            ((Activity)context).startActivityForResult(intent,100);
+        }else {
+            context.startActivity(intent);
+        }
 
     }
 
@@ -105,15 +112,6 @@ public class CustomWEBActivity extends TSActivity<RegisterPresenter, CustomWEBFr
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (GuideFragment_v2.ADVERT.equals(flag)) {
-            finish();
-            startActivity(new Intent(this, GuideActivity.class));
-        }
-    }
-
-    @Override
     protected CustomWEBFragment getFragment() {
         return CustomWEBFragment.newInstance(getIntent().getExtras());
     }
@@ -121,6 +119,9 @@ public class CustomWEBActivity extends TSActivity<RegisterPresenter, CustomWEBFr
     @Override
     public void finish() {
         setResult(RESULT_OK);
+        /*if (GuideFragment*//*GuideFragment_v2*//*.ADVERT.equals(flag)) {
+            startActivity(new Intent(this, GuideActivity.class));
+        }*/
         super.finish();
     }
 

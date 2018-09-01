@@ -19,16 +19,16 @@
             android:id="@+id/guide_text"
             android:layout_width="@dimen/launch_advert_width"
             android:layout_height="@dimen/launch_advert_height"
-            android:layout_gravity="top|right"
+            android:layout_gravity="bottom|end"
             android:layout_marginRight="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_mid"
+            android:layout_marginBottom="@dimen/dp10"
             android:background="@drawable/shape_button_corner_advert_big"
-            android:clickable="false"
             android:gravity="center"
             android:minWidth="@dimen/info_channel_20dp"
             android:textColor="@color/copy_right_color"
             android:textSize="@dimen/size_advert_launche"
-            android:visibility="gone"/>
+            android:text="跳过"
+            android:visibility="invisible"/>
 
         <TextView
             android:layout_width="match_parent"

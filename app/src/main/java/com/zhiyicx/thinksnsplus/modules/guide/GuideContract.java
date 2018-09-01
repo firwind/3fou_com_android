@@ -29,14 +29,14 @@ public interface GuideContract {
          *
          * @param tClass
          */
-        void startActivity(Class tClass);
-        void initAdvert();
+        /*void startActivity(Class tClass);
+        void initAdvert();*/
     }
 
 
     interface Presenter extends IBasePresenter {
 
-        void checkLogin();
+        boolean checkLogin();
 
         SystemConfigBean getAdvert();
 

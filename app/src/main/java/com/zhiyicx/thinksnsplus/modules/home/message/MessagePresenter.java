@@ -609,12 +609,12 @@ public class MessagePresenter extends AppBasePresenter<MessageContract.View> imp
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(isShowMessgeTip -> {
-                    Fragment containerFragment = mRootView.getCureenFragment().getParentFragment();
+                    /*Fragment containerFragment = mRootView.getCureenFragment().getParentFragment();
                     if (containerFragment != null && containerFragment instanceof MessageContainerFragment) {
                         ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(isShowMessgeTip, 3);
                         //环信消息
                         ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(mNotificaitonRedDotIsShow, 2);
-                    }
+                    }*/
                     boolean messageContainerRedDotIsShow = isShowMessgeTip || mNotificaitonRedDotIsShow;
                     EventBus.getDefault().post(messageContainerRedDotIsShow, EventBusTagConfig.EVENT_IM_SET_MESSAGE_TIP_VISABLE);
 

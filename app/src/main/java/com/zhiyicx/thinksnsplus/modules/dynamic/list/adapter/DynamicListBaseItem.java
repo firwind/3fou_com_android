@@ -24,6 +24,7 @@ import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.common.utils.DrawableProvider;
 import com.zhiyicx.common.utils.SkinUtils;
 import com.zhiyicx.common.utils.TextViewUtils;
+import com.zhiyicx.common.utils.TimeUtils;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.common.widget.popwindow.CustomPopupWindow;
 import com.zhiyicx.thinksnsplus.R;
@@ -186,7 +187,7 @@ public class DynamicListBaseItem implements ItemViewDelegate<DynamicDetailBeanV2
             holder.setText(R.id.tv_name, dynamicBean.getUserInfoBean().getName());
             setUserInfoClick(holder.getView(R.id.tv_name), dynamicBean);
 
-            holder.setText(R.id.tv_time, dynamicBean.getFriendlyTime());
+            holder.setText(R.id.tv_time, TimeUtils.getTimeFriendlyNormal(dynamicBean.getCreated_at()));
             holder.setVisible(R.id.tv_title, View.GONE);
             TextView contentView = holder.getView(R.id.tv_content);
 

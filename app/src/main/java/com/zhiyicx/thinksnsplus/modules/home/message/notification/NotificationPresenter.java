@@ -168,14 +168,8 @@ public class NotificationPresenter extends AppBasePresenter<NotificationContract
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(isShowMessgeTip -> {
-                    Fragment containerFragment = mRootView.getCurrentFragment().getParentFragment();
-                    if (containerFragment != null && containerFragment instanceof MessageContainerFragment) {
-                        ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(isShowMessgeTip, 3);
-                        //环信消息
-                        ((MessageContainerFragment) containerFragment).setNewMessageNoticeState(TSEMHyphenate.getInstance().getUnreadMsgCount() > 0, 2);
-                    }
-                    boolean messageContainerRedDotIsShow = isShowMessgeTip || TSEMHyphenate.getInstance().getUnreadMsgCount() > 0;
-                    EventBus.getDefault().post(messageContainerRedDotIsShow, EventBusTagConfig.EVENT_IM_SET_MESSAGE_TIP_VISABLE);
+
+                    mRootView.showNewNotificationTip(isShowMessgeTip);
 
                 }, Throwable::printStackTrace);
         addSubscrebe(subscribe);

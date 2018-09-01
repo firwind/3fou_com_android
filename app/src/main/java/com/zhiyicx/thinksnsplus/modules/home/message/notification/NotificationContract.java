@@ -17,7 +17,7 @@ import com.zhiyicx.thinksnsplus.data.beans.UnReadNotificaitonBean;
 public interface NotificationContract {
 
     interface View extends ITSListView<NotificationBean,Presenter>{
-        Fragment getCurrentFragment();
+        void showNewNotificationTip(boolean isShow);
     }
 
     interface Presenter extends ITSListPresenter<NotificationBean>{

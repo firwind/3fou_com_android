@@ -331,11 +331,6 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     }
 
     @Override
-    public BaseFragment getCurrentFragment() {
-        return this;
-    }
-
-    @Override
     public void showMessage(String message) {
         showMessageNotSticky(message);
     }
@@ -592,5 +587,11 @@ public class MessageConversationFragment extends TSListFragment<MessageConversat
     @Override
     public void onConversationItemLongClick(int position) {
         initCheckSurePop(position);
+    }
+
+    @Override
+    public void showNewMessageTip(boolean isShow) {
+        if(null != getParentFragment())
+            ((MessageContainerFragment)getParentFragment()).setNewMessageState(isShow);
     }
 }
