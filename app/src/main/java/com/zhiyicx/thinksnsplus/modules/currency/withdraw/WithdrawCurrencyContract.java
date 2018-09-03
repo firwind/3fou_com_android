@@ -22,7 +22,7 @@ public interface WithdrawCurrencyContract {
         void requestCostFeeRate();
 
         void requestWithdrawCurrency(String address, String mark,
-                              boolean isSave, String money, String remark);
+                              boolean isSave, String money, String remark,String pay_password);
     }
 
 }

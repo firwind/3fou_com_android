@@ -1,5 +1,6 @@
 package com.zhiyicx.thinksnsplus.data.source.repository;
 
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.InfoCommentBean;
 import com.zhiyicx.thinksnsplus.data.beans.InfoDigListBean;
@@ -67,6 +68,15 @@ public interface IBaseInfoRepository {
     Observable<String> deteleBull(String newsId);
 
     Observable<String> commitBearNews(String newsId);
+
     Observable<String> deteleBearNews(String newsId);
+
+    //分享获取糖果
+    Observable<String> getIntegrationByShare(String newsId,String authorId);
+
+    //点赞
+    Observable<BaseJson<Boolean>> handleLikeV2(String news_id);
+    //取消点赞
+    Observable<String> handleDislikeV2(String news_id);
 
 }

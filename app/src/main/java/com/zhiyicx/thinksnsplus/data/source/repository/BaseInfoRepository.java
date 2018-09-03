@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import com.google.gson.Gson;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.ApiConfig;
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.config.BackgroundTaskRequestMethodConfig;
@@ -32,6 +33,7 @@ import javax.inject.Inject;
 
 import okhttp3.RequestBody;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -407,6 +409,27 @@ public class BaseInfoRepository implements IBaseInfoRepository {
     @Override
     public Observable<String> deteleBearNews(String newsId) {
         return mInfoMainClient.deleteBearNews(newsId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> getIntegrationByShare(String newsId, String authorId) {
+        return mInfoMainClient.getIntegrationByShare(newsId, authorId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseJson<Boolean>> handleLikeV2(String news_id) {
+        return mInfoMainClient.requestLikeInfoV2(news_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<String> handleDislikeV2(String news_id) {
+        return mInfoMainClient.requestDislikeInfoV2(news_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

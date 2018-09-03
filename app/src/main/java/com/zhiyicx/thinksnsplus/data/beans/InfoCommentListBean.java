@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Transient;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.io.Serializable;
@@ -57,6 +58,17 @@ public class InfoCommentListBean extends BaseListBean {
     private String commentable_type;
     private int state = SEND_SUCCESS;
     private boolean pinned ;// 是否是被固定（置顶）的评论 1 置顶 0 不置顶
+
+    @Transient
+    private boolean isCandySuccess;//是否送糖果
+
+    public boolean isCandySuccess() {
+        return isCandySuccess;
+    }
+
+    public void setCandySuccess(boolean candySuccess) {
+        isCandySuccess = candySuccess;
+    }
 
     public int getState() {
         return state;

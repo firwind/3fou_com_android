@@ -61,7 +61,8 @@ public class NewMessageGroupPresenter extends AppBasePresenter<NewMessageGroupCo
                             }
                             return expandOfficialChatGroupBeans;
                         }).observeOn(AndroidSchedulers.mainThread()).subscribe(getOfficialGroupListSubscriber(isLoadMore)) :
-                mBaseMessageRepository.getGroupInfoOnlyGroupFaceV2().subscribe(getMySelfGroupListSubscriber(isLoadMore)));
+                /*mBaseMessageRepository.getGroupInfoOnlyGroupFaceV2().subscribe(getMySelfGroupListSubscriber(isLoadMore))*/
+                mBaseMessageRepository.getMyGroupListWithOrganize().subscribe(getOfficialGroupListSubscriber(isLoadMore)));
     }
 
 

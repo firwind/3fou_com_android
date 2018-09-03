@@ -46,8 +46,8 @@ public class WithdrawCurrencyPresenter extends AppBasePresenter<WithdrawCurrency
     }
 
     @Override
-    public void requestWithdrawCurrency(String address, String mark, boolean isSave, String money, String remark) {
-        mCurrencyRepository.withdrawCurrency(mRootView.getCurrency(),address,mark,isSave,money,remark)
+    public void requestWithdrawCurrency(String address, String mark, boolean isSave, String money, String remark,String pay_password) {
+        mCurrencyRepository.withdrawCurrency(mRootView.getCurrency(),address,mark,isSave,money,remark,pay_password)
                 .doOnSubscribe(() -> {
                     mRootView.showSnackLoadingMessage("请稍后...");
                 })

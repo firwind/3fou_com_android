@@ -39,6 +39,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -568,6 +569,13 @@ public class BaseMessageRepository implements IBaseMessageRepository {
     @Override
     public Observable<List<ExpandOfficialChatGroupBean>> getOfficialGroupListV2() {
         return mClient.getOfficialGroupInfoV2()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<ExpandOfficialChatGroupBean>> getMyGroupListWithOrganize() {
+        return mClient.getMyGroupListWithOrganize()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -575,6 +575,15 @@ public class ImageUtils {
     }
 
     /**
+     * 获取完成的图片地址
+     * @param storage
+     * @return
+     */
+    public static String imagePathConvert(int storage) {
+        return String.format(Locale.getDefault(), ApiConfig.APP_DOMAIN + ApiConfig.IMAGE_PATH_V2_ORIGIN, storage);
+    }
+
+    /**
      * 通过 file path 获取 bitmap size
      *
      * @param url file path

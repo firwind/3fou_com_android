@@ -173,8 +173,13 @@ public class MyCurrencyFragment extends TSListFragment<MyCurrencyContract.Presen
                         AccountBookActivity.startAccountBookActivity(mActivity,currencyBalanceBean.currency));
                 holder.getView(R.id.bt_recharge).setOnClickListener(v->
                         RechargeCurrencyActivity.startRechargeCurrencyActivity(getContext(),currencyBalanceBean.currency));
-                holder.getView(R.id.bt_withdraw).setOnClickListener(v->
-                        WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext(),currencyBalanceBean.currency));
+                holder.getView(R.id.bt_withdraw).setOnClickListener(v -> {
+                    if (mPresenter.getPayPasswordIsSetted()) {
+                        WithdrawCurrencyActivity.startWithdrawCurrencyActivity(getContext(), currencyBalanceBean.currency);
+                    } else {
+                        showSetPayPwdDialog();
+                    }
+                });
                 holder.getView(R.id.bt_exchange).setOnClickListener(getExchangeClickListener(currencyBalanceBean));
 
                 holder.getView(R.id.bt_exchange).setVisibility(

@@ -10,6 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
@@ -95,11 +101,15 @@ public class InfoDetailsFragment extends TSListFragment<InfoDetailsConstract.Pre
     InputLimitView mIlvComment;
     @BindView(R.id.ll_bottom_menu_container)
     ViewGroup mLLBottomMenuContainer;
+    @BindView(R.id.tv_integration_anim)
+    TextView mTvIntegrationAnim;
 
     private InfoDetailHeaderView mInfoDetailHeader;
 
     private ActionPopupWindow mDeletCommentPopWindow;
     private ActionPopupWindow mDealInfoMationPopWindow;
+
+    private AnimationSet mIntegrationPlusAnimation;//糖果+1动画
 
     /**
      * 传入的资讯信息
@@ -183,6 +193,41 @@ public class InfoDetailsFragment extends TSListFragment<InfoDetailsConstract.Pre
                 showSnackErrorMessage(message);
             }
         }
+    }
+
+    @Override
+    public void showIntegrationPlusAnim() {
+        if(null == mIntegrationPlusAnimation){
+            mIntegrationPlusAnimation = new AnimationSet(true);
+            mIntegrationPlusAnimation.setInterpolator(new DecelerateInterpolator());
+            mIntegrationPlusAnimation.addAnimation(new AlphaAnimation(1.0f,0f));
+            mIntegrationPlusAnimation.addAnimation(new TranslateAnimation(0,0,0,-800));
+            mIntegrationPlusAnimation.setDuration(3000);
+            mIntegrationPlusAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    mTvIntegrationAnim.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mTvIntegrationAnim.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+
+        /*if(null != mTvIntegrationAnim.getAnimation() &&
+                !mTvIntegrationAnim.getAnimation().hasEnded())
+            return;*/
+
+        mTvIntegrationAnim.setAnimation(mIntegrationPlusAnimation);
+        mIntegrationPlusAnimation.start();
+
     }
 
     @Override
@@ -362,9 +407,9 @@ public class InfoDetailsFragment extends TSListFragment<InfoDetailsConstract.Pre
                     mReplyUserId = 0;
                     break;
                 case DynamicDetailMenuView.ITEM_POSITION_2:// 分享
-                    Bitmap bitmap = FileUtils.readImgFromFile(getActivity(), "info_share.jpg");
+                    //Bitmap bitmap = FileUtils.readImgFromFile(getActivity(), "info_share.jpg");
 
-                    mPresenter.shareInfo(bitmap);
+                    mPresenter.shareInfo(null);
                     break;
                 case DynamicDetailMenuView.ITEM_POSITION_3:// 更多
                     initDealInfoMationPopupWindow(mInfoMation, mInfoMation.getHas_collect());

@@ -27,8 +27,7 @@
             android:minWidth="@dimen/info_channel_20dp"
             android:textColor="@color/copy_right_color"
             android:textSize="@dimen/size_advert_launche"
-            android:text="跳过"
-            android:visibility="invisible"/>
+            android:text="跳过"/>
 
         <TextView
             android:layout_width="match_parent"

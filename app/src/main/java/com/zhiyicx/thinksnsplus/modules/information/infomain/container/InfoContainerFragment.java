@@ -5,6 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
+import android.widget.TextView;
 
 import com.zhiyicx.baseproject.base.SystemConfigBean;
 import com.zhiyicx.baseproject.base.TSViewPagerAdapter;
@@ -37,6 +43,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import rx.Observable;
 
 import static com.zhiyicx.thinksnsplus.modules.certification.detail.CertificationDetailActivity.BUNDLE_DETAIL_DATA;
@@ -62,6 +69,11 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
     public static final String VIDEO_INFO_ID = "8";
     public static final int REQUEST_CODE = 0;
 
+
+    @BindView(R.id.tv_integration_anim)
+    TextView mTvIntegrationAnim;
+
+    private AnimationSet mIntegrationPlusAnimation;//糖果+1动画
     /**
      * 仅用于构造
      */
@@ -107,6 +119,12 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
 //    protected int setTitleDrawableLeft() {
 //        return R.mipmap.btn_open;
 //    }
+
+
+    @Override
+    protected int getBodyLayoutId() {
+        return R.layout.fragment_info_container;
+    }
 
     @Override
     protected int setLeftImg() {
@@ -414,6 +432,42 @@ public class InfoContainerFragment extends TSViewPagerFragment<InfoMainContract.
                     .build();
         }
         mCertificationAlertPopWindow.show();
+    }
+
+    /**
+     * 糖果+1动画
+     */
+    public void showIntegrationPlusAnim() {
+        if(null == mIntegrationPlusAnimation){
+            mIntegrationPlusAnimation = new AnimationSet(true);
+            mIntegrationPlusAnimation.setInterpolator(new DecelerateInterpolator());
+            mIntegrationPlusAnimation.addAnimation(new AlphaAnimation(1.0f,0f));
+            mIntegrationPlusAnimation.addAnimation(new TranslateAnimation(0,0,0,-800));
+            mIntegrationPlusAnimation.setDuration(3000);
+            mIntegrationPlusAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    mTvIntegrationAnim.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mTvIntegrationAnim.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+
+        /*if(null != mTvIntegrationAnim.getAnimation() &&
+                !mTvIntegrationAnim.getAnimation().hasEnded())
+            return;*/
+
+        mTvIntegrationAnim.setAnimation(mIntegrationPlusAnimation);
+        mIntegrationPlusAnimation.start();
     }
 
 }

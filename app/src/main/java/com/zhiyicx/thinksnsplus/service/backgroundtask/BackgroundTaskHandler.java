@@ -1576,6 +1576,7 @@ public class BackgroundTaskHandler {
                             infoCommentListBean.setId(jsonObject.getJSONObject("comment").getLong
                                     ("id"));
                             infoCommentListBean.setState(InfoCommentListBean.SEND_SUCCESS);
+                            infoCommentListBean.setCandySuccess(jsonObject.getBoolean("isCandySuccess"));
                             mInfoCommentListBeanDao.insertOrReplace(infoCommentListBean);
                             EventBus.getDefault().post(infoCommentListBean,
                                     EVENT_SEND_COMMENT_TO_INFO_LIST);

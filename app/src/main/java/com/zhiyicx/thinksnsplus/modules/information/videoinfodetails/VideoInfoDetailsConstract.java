@@ -33,6 +33,7 @@ public interface VideoInfoDetailsConstract {
 
         void setDigg(boolean isDigged,int count);
 
+        void showIntegrationPlusAnim();
 
     }
 

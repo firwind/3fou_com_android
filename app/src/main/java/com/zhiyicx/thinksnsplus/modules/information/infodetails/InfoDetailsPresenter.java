@@ -8,6 +8,7 @@ import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.ImageZipConfig;
 import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.thridmanager.share.OnShareCallbackListener;
@@ -128,6 +129,11 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
                         @Override
                         protected void onSuccess(InfoListDataBean data) {
                             mRootView.updateInfoHeader(data);
+
+                            if(data.isCandySuccess()){
+                                //糖果+1动画
+                                mRootView.showIntegrationPlusAnim();
+                            }
                         }
 
                         @Override
@@ -197,11 +203,11 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
                 mRootView.getCurrentInfo().getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
         shareContent.setContent(mRootView.getCurrentInfo().getContent());
 
-        if (bitmap == null) {
+        /*if (bitmap == null) {
             shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon)));
         } else {
             shareContent.setBitmap(bitmap);
-        }
+        }*/
 
         if (mRootView.getCurrentInfo().getImage() != null) {
             shareContent.setImage(ImageUtils.imagePathConvertV2(mRootView.getCurrentInfo()
@@ -209,7 +215,8 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
                     , mContext.getResources().getDimensionPixelOffset(R.dimen.headpic_for_user_home)
                     , mContext.getResources().getDimensionPixelOffset(R.dimen.headpic_for_user_home)
                     , ImageZipConfig.IMAGE_70_ZIP));
-
+        }else {
+            shareContent.setBitmap(ConvertUtils.drawBg4Bitmap(Color.WHITE, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon)));
         }
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
@@ -237,6 +244,25 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
         if (AppApplication.getmCurrentLoginAuth() == null) {
             return;
         }
+
+
+        //mBaseInfoRepository.handleLike(isLiked, news_id);
+        if(mRootView.getCurrentInfo().isHas_like()){//取消点赞
+            mBaseInfoRepository.handleLike(!mRootView.getCurrentInfo().isHas_like(), String.valueOf(mRootView.getCurrentInfo().getId()) );
+        }else {//点赞
+            mBaseInfoRepository.handleLikeV2(String.valueOf(mRootView.getCurrentInfo().getId()) )
+                    .subscribe(new BaseSubscribeForV2<BaseJson<Boolean>>() {
+                        @Override
+                        protected void onSuccess(BaseJson<Boolean> data) {
+                            if(data.getData()){
+                                //糖果+1动画
+                                mRootView.showIntegrationPlusAnim();
+                            }
+                        }
+                    });
+        }
+
+
         UserInfoBean userInfoBean = mUserInfoBeanGreenDao
                 .getSingleDataFromCache(AppApplication.getmCurrentLoginAuth().getUser_id());
         InfoDigListBean digListBean = new InfoDigListBean();
@@ -264,7 +290,7 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
             //return;// 搜索出来的资讯，收藏状态有待优化  已处理
         }
         mInfoListBeanGreenDao.updateInfo(mRootView.getCurrentInfo());
-        mBaseInfoRepository.handleLike(isLiked, news_id);
+
     }
 
     @Override
@@ -414,6 +440,10 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
     @Subscriber(tag = EventBusTagConfig.EVENT_SEND_COMMENT_TO_INFO_LIST)
     public void handleSendComment(InfoCommentListBean infoCommentListBean) {
         LogUtils.d(TAG, "dynamicCommentBean = " + infoCommentListBean.toString());
+
+        if(infoCommentListBean.isCandySuccess())
+            mRootView.showIntegrationPlusAnim();
+
         mInfoCommentListBeanDao.insertOrReplace(infoCommentListBean);
         Subscription subscribe = Observable.just(infoCommentListBean)
                 .subscribeOn(Schedulers.newThread())
@@ -495,6 +525,16 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
     @Override
     public void onSuccess(Share share) {
         mRootView.showSnackSuccessMessage(mContext.getString(R.string.share_sccuess));
+        if(null != mRootView.getCurrentInfo()){
+            mBaseInfoRepository.getIntegrationByShare(String.valueOf(mRootView.getCurrentInfo().getId()),
+                    String.valueOf(mRootView.getCurrentInfo().getUser_id()) )
+                    .subscribe(new BaseSubscribeForV2<String>() {
+                        @Override
+                        protected void onSuccess(String data) {
+                            mRootView.showIntegrationPlusAnim();
+                        }
+                    });
+        }
     }
 
     @Override

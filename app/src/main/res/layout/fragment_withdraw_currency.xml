@@ -161,6 +161,39 @@
     <View
         style="@style/style_divider_horizontal"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp45"
+        android:gravity="bottom"
+        android:paddingBottom="@dimen/dp6">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:text="支付密码："
+            android:textSize="@dimen/sp16"
+            android:textColor="@color/black_deep"/>
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textSize="@dimen/sp13"
+            android:textColorHint="@color/gray_normal"
+            android:textColor="@color/black_deep"
+            android:hint="请输入..."
+            android:gravity="bottom"
+            android:maxLength="6"
+            android:inputType="number"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/style_divider_horizontal"/>
+
     <EditText
         android:id="@+id/et_remark"
         android:layout_marginTop="@dimen/dp32"
@@ -175,7 +208,7 @@
     
     <Button
         android:id="@+id/bt_confirm"
-        android:layout_marginTop="@dimen/dp130"
+        android:layout_marginTop="@dimen/dp80"
         android:layout_width="@dimen/dp280"
         android:layout_height="@dimen/dp45"
         android:layout_gravity="center_horizontal"

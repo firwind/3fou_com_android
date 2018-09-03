@@ -119,8 +119,9 @@ public class CurrencyRepository implements ICurrencyRepository {
     }
 
     @Override
-    public Observable<String> withdrawCurrency(String currency, String address, String mark, boolean isSave, String money, String remark) {
-        return mCurrencyClient.withdrawCurrency(currency,address,mark,isSave?"1":"0",money,remark)
+    public Observable<String> withdrawCurrency(String currency, String address, String mark,
+                                               boolean isSave, String money, String remark,String pay_password) {
+        return mCurrencyClient.withdrawCurrency(currency,address,mark,isSave?"1":"0",money,remark,pay_password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

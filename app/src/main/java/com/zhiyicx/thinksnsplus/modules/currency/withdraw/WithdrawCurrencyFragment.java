@@ -61,6 +61,8 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     TextView mTvTransfer;
     @BindView(R.id.tv_rate)
     TextView mTvRate;
+    @BindView(R.id.et_password)
+    EditText mEtPassword;
 
     private RightTopMenu mRightTopMenu;
     private double mTransferRate = 0;//转账手续费
@@ -150,7 +152,8 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
                             mEtTag.getText().toString(),
                             mCbSave.isChecked(),
                             mEtNum.getText().toString(),
-                            mEtRemark.getText().toString());
+                            mEtRemark.getText().toString(),
+                            mEtPassword.getText().toString());
                 }
                 break;
         }
@@ -229,6 +232,11 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
 
         if(TextUtils.isEmpty(mEtNum.getText().toString())){
             showSnackErrorMessage("请输入发送数量！");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(mEtPassword.getText().toString())){
+            showSnackErrorMessage("请输入支付密码！");
             return false;
         }
 

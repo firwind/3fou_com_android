@@ -149,6 +149,7 @@ public class ApiConfig {
     public static final String APP_PATH_GET_GROUP_INFO_OFFICIAL = "api/" + API_VERSION_2 + "/easemob/group/getOfficialGroup";// 获取所有官方群
     public static final String APP_PATH_GET_GROUP_INFO_OFFICIAL_V2 = "api/" + API_VERSION_2 + "/easemob/group/getOfficialGroupV2";// 获取所有官方群
     public static final String APP_PATH_GET_GROUP_INFO_S_FACE_V2 = "api/" + API_VERSION_2 + "/easemob/group/newGroupList";// 获取用户加入的群组列表
+    public static final String APP_PATH_GET_MY_GROUP_LIST_WITH_ORGANIZE = "api/"+API_VERSION_2+"/easemob/group/getOfficialGroupMy";//获取当前用户所加入的群（按组织分类）
     public static final String APP_PATH_GET_GROUP_RECOMMEND = "api/" + API_VERSION_2 + "/group/randomquery";// 获取推荐群
     public static final String APP_PATH_GET_GROUP_SEARCE = "api/" + API_VERSION_2 + "/easemob/group/search";// 搜索群
     public static final String APP_PATH_GET_GROUP_ADD_MEMBER = "api/" + API_VERSION_2 + "/easemob/group/member";// 修改成员 添加POST 移除delete
@@ -330,6 +331,9 @@ public class ApiConfig {
     // 拒绝资讯评论置顶
     public static final String APP_PATH_REFUSE_INFO_COMMENT = "/api/" + API_VERSION_2 +
             "/news/{news_id}/comments/{comment_id}/currency-pinneds/{pinned_id}/reject";
+
+    //赠送糖果
+    public static final String APP_PATH_GET_INTEGRATION_BY_SHARE = "/api/"+API_VERSION_2+"/shareArticle";
 
 
     /**

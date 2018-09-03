@@ -105,7 +105,7 @@ public interface ICurrencyRepository {
      * @return
      */
     Observable<String> withdrawCurrency(String currency, String address, String mark, boolean isSave,
-                                          String money, String remark);
+                                          String money, String remark,String pay_password);
 
     /**
      * 获取转账手续费率

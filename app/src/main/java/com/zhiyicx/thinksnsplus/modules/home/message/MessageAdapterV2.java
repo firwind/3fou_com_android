@@ -172,6 +172,7 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
 //                swipeLayout.setSwipeEnabled(true);
                 setUserInfoClick(holder.getView(R.id.tv_name), messageItemBean);
                 setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
+                setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
 
                 if (null != chatGroupBean) {
                     int resId = ImageUtils.getGroupSignResId(chatGroupBean.getGroup_level());

@@ -11,6 +11,7 @@ import com.zhiyicx.baseproject.base.TSFragment;
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.baseproject.config.ImageZipConfig;
 import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.thridmanager.share.OnShareCallbackListener;
 import com.zhiyicx.common.thridmanager.share.Share;
@@ -66,6 +67,9 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
     BaseInfoRepository mBaseInfoRepository;
 
     public SharePolicy mSharePolicy;
+
+    private InfoListDataBean mCurrentInfoListDataBean = null;//当前分享的infolistdata
+
     @Inject
     public InfoListPresenter(InfoMainContract.InfoListView rootInfoListView
             , InfoListDataBeanGreenDaoImpl infoListDataBeanGreenDao
@@ -96,15 +100,34 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
     @Override
     public void handleLike(InfoListDataBean dataBean) {
 
-        mBaseInfoRepository.handleLike(!dataBean.isHas_like(), String.valueOf(dataBean.getId()) );
+        //mBaseInfoRepository.handleLike(!dataBean.isHas_like(), String.valueOf(dataBean.getId()) );
+
+        if(dataBean.isHas_like()){//取消点赞
+
+            mBaseInfoRepository.handleLike(!dataBean.isHas_like(), String.valueOf(dataBean.getId()) );
+
+        }else {//点赞
+            mBaseInfoRepository.handleLikeV2(String.valueOf(dataBean.getId()) )
+                    .subscribe(new BaseSubscribeForV2<BaseJson<Boolean>>() {
+                        @Override
+                        protected void onSuccess(BaseJson<Boolean> data) {
+                            if(null != data && data.getData()){
+                                //糖果+1动画
+                                mRootView.showIntegrationPlusAnim();
+                            }
+                        }
+                    });
+        }
 
         dataBean.setHas_like(!dataBean.isHas_like());
         dataBean.setDigg_count(dataBean.isHas_like()?dataBean.getDigg_count()+1:dataBean.getDigg_count()-1);
-        mRootView.refreshData();
+        mRootView.refreshData(mRootView.getListDatas().indexOf(dataBean));
+
     }
 
     @Override
     public void shareVideo(InfoListDataBean infoListDataBean) {
+        this.mCurrentInfoListDataBean = infoListDataBean;
         if (mSharePolicy == null) {
             if (mRootView instanceof Fragment) {
                 mSharePolicy = new UmengSharePolicyImpl(((Fragment) mRootView).getActivity());
@@ -126,6 +149,7 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
 
     @Override
     public void shareVideo(InfoListDataBean infoListDataBean, SHARE_MEDIA type) {
+        this.mCurrentInfoListDataBean = infoListDataBean;
         if (mSharePolicy == null) {
             if (mRootView instanceof Fragment) {
                 mSharePolicy = new UmengSharePolicyImpl(((Fragment) mRootView).getActivity());
@@ -255,6 +279,16 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
     @Override
     public void onSuccess(Share share) {
         mRootView.showSnackSuccessMessage(mContext.getString(R.string.share_sccuess));
+        if(null != mCurrentInfoListDataBean){
+            mBaseInfoRepository.getIntegrationByShare(String.valueOf(mCurrentInfoListDataBean.getId()),
+                    String.valueOf(mCurrentInfoListDataBean.getUser_id()))
+                    .subscribe(new BaseSubscribeForV2<String>() {
+                        @Override
+                        protected void onSuccess(String data) {
+                            mRootView.showIntegrationPlusAnim();
+                        }
+                    });
+        }
     }
 
     @Override

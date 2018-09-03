@@ -1,6 +1,7 @@
 package com.zhiyicx.thinksnsplus.data.source.remote;
 
 import com.zhiyicx.baseproject.config.ApiConfig;
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.thinksnsplus.data.beans.InfoCommentBean;
 import com.zhiyicx.thinksnsplus.data.beans.InfoDigListBean;
@@ -295,4 +296,30 @@ public interface InfoMainClient {
     @FormUrlEncoded
     @POST(APP_PATH_INFO_REPORT)
     Observable<ReportResultBean> reportInfo(@Path("news_id") String newsId, @Field("reason") String reason);
+
+    /**
+     * 分享获取糖果
+     * @param newsId
+     * @param author_id
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_INTEGRATION_BY_SHARE)
+    Observable<String> getIntegrationByShare(@Query("news_id") String newsId,@Query("author_id")String author_id);
+
+    /**
+     * 点赞
+     * @param newsId
+     * @return
+     */
+    @POST(ApiConfig.APP_PATH_INFO_DIG_V2)
+    Observable<BaseJson<Boolean>> requestLikeInfoV2(@Path("news")String newsId);
+
+    /**
+     * 取消点赞
+     * @param newsId
+     * @return
+     */
+    @DELETE(ApiConfig.APP_PATH_INFO_DIG_V2)
+    Observable<String> requestDislikeInfoV2(@Path("news")String newsId);
+
 }

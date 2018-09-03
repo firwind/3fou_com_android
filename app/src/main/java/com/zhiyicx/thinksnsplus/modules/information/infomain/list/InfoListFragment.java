@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +33,7 @@ import com.zhiyicx.thinksnsplus.modules.information.adapter.InfoListItem;
 import com.zhiyicx.thinksnsplus.modules.information.adapter.VideoListItem;
 import com.zhiyicx.thinksnsplus.modules.information.infodetails.InfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.information.infomain.InfoMainContract;
+import com.zhiyicx.thinksnsplus.modules.information.infomain.container.InfoContainerFragment;
 import com.zhiyicx.thinksnsplus.modules.information.videoinfodetails.VideoInfoDetailsActivity;
 import com.zhiyicx.thinksnsplus.modules.settings.aboutus.CustomWEBActivity;
 import com.zhiyicx.thinksnsplus.modules.shortvideo.helper.ZhiyiVideoView;
@@ -43,6 +49,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import cn.jzvd.JZMediaManager;
 import cn.jzvd.JZVideoPlayer;
 import rx.Observable;
@@ -72,6 +79,7 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
 
     private InfoBannerHeader mInfoBannerHeader;
 
+
     public static InfoListFragment newInstance(String params) {
         InfoListFragment fragment = new InfoListFragment();
         Bundle args = new Bundle();
@@ -92,6 +100,11 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
     protected boolean needMusicWindowView() {
         return false;
     }
+
+    /*@Override
+    protected boolean isLayzLoad() {
+        return true;
+    }*/
 
     @Override
     protected boolean isNeedRefreshDataWhenComeIn() {
@@ -293,6 +306,11 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
     }
 
     @Override
+    public void showIntegrationPlusAnim() {
+        ((InfoContainerFragment)getParentFragment()).showIntegrationPlusAnim();
+    }
+
+    @Override
     public void showMessage(String message) {
         showMessageNotSticky(message);
     }
@@ -339,8 +357,8 @@ public class InfoListFragment extends TSListFragment<InfoMainContract.InfoListPr
                     if (!AppApplication.sOverRead.contains(realData.getId())) {
                         AppApplication.sOverRead.add(realData.getId().intValue());
                     }
-                    FileUtils.saveBitmapToFile(getActivity(), ConvertUtils.drawable2BitmapWithWhiteBg(getContext()
-                            , imageView.getDrawable(), R.mipmap.icon), "info_share.jpg");
+                    /*FileUtils.saveBitmapToFile(getActivity(), ConvertUtils.drawable2BitmapWithWhiteBg(getContext()
+                            , imageView.getDrawable(), R.mipmap.icon), "info_share.jpg");*/
                     title.setTextColor(getResources()
                             .getColor(R.color.normal_for_assist_text));
                     Intent intent = new Intent(getActivity(), InfoDetailsActivity.class);

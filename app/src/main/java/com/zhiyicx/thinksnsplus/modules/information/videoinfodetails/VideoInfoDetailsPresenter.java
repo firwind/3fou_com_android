@@ -12,6 +12,7 @@ import com.zhiyicx.baseproject.base.TSListFragment;
 import com.zhiyicx.baseproject.config.ApiConfig;
 import com.zhiyicx.baseproject.config.ImageZipConfig;
 import com.zhiyicx.baseproject.impl.share.UmengSharePolicyImpl;
+import com.zhiyicx.common.base.BaseJson;
 import com.zhiyicx.common.base.BaseJsonV2;
 import com.zhiyicx.common.dagger.scope.FragmentScoped;
 import com.zhiyicx.common.thridmanager.share.OnShareCallbackListener;
@@ -123,6 +124,9 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
                         @Override
                         protected void onSuccess(InfoListDataBean data) {
                             mRootView.updateInfoHeader(data);
+                            if(data.isCandySuccess()){
+                                mRootView.showIntegrationPlusAnim();
+                            }
                         }
 
                         @Override
@@ -236,11 +240,26 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
 
     @Override
     public void handleLike(InfoListDataBean dataBean) {
-        mBaseInfoRepository.handleLike(!dataBean.isHas_like(), String.valueOf(dataBean.getId()) );
+        //mBaseInfoRepository.handleLike(!dataBean.isHas_like(), String.valueOf(dataBean.getId()) );
+        if(dataBean.isHas_like()){//取消点赞
+            mBaseInfoRepository.handleLike(!dataBean.isHas_like(), String.valueOf(dataBean.getId()) );
+        }else {//点赞
+            mBaseInfoRepository.handleLikeV2(String.valueOf(dataBean.getId()) )
+                    .subscribe(new BaseSubscribeForV2<BaseJson<Boolean>>() {
+                        @Override
+                        protected void onSuccess(BaseJson<Boolean> data) {
+                            if(data.getData()){
+                                //糖果+1动画
+                                mRootView.showIntegrationPlusAnim();
+                            }
+                        }
+                    });
+        }
 
         dataBean.setHas_like(!dataBean.isHas_like());
         dataBean.setDigg_count(dataBean.isHas_like()?dataBean.getDigg_count()+1:dataBean.getDigg_count()-1);
         mRootView.setDigg(dataBean.getHas_like(),dataBean.getDigg_count());
+
     }
 
     @Override
@@ -256,7 +275,7 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
         ShareContent shareContent = new ShareContent();
         shareContent.setTitle(infoListDataBean.getTitle());
         shareContent.setContent("    ");
-        shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
+        shareContent.setImage(ImageUtils.imagePathConvert(infoListDataBean.getImage().getId()));
 //        shareContent.setVideoUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
         shareContent.setVideoUrl(TSShareUtils.convert2ShareUrl(String.format(APP_PATH_VIDEO_DETAILS_FORMAT,
                 infoListDataBean.getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));

@@ -74,6 +74,9 @@ public class InfoListDataBean extends BaseListBean implements Serializable,Parce
     private String avatar;
     private String user_name;
 
+    @Transient
+    private boolean isCandySuccess;//是否送糖果
+
     @Convert(converter = InfoDigListConvert.class, columnType = String.class)
     private List<InfoDigListBean> digList;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "info_id")})
@@ -81,6 +84,14 @@ public class InfoListDataBean extends BaseListBean implements Serializable,Parce
     @Convert(converter = InfoRelateListConvert.class, columnType = String.class)
     private List<InfoListDataBean> relateInfoList;
 
+
+    public boolean isCandySuccess() {
+        return isCandySuccess;
+    }
+
+    public void setCandySuccess(boolean candySuccess) {
+        isCandySuccess = candySuccess;
+    }
 
     public int getVideo() {
         return video;

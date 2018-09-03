@@ -50,6 +50,8 @@ public interface InfoDetailsConstract {
         void updateInfoHeader(InfoListDataBean infoDetailBean);
 
         void deleteInfo(boolean deleting, boolean success, String message);
+
+        void showIntegrationPlusAnim();
     }
 
     interface Presenter extends ITSListPresenter<InfoCommentListBean> {

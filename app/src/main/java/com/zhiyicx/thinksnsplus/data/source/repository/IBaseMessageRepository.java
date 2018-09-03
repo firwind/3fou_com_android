@@ -159,4 +159,10 @@ public interface IBaseMessageRepository {
      */
     Observable<List<ExpandOfficialChatGroupBean>> getOfficialGroupListV2();
 
+    /**
+     * 获取我加入的群组列表（按组织分类）
+     * @return
+     */
+    Observable<List<ExpandOfficialChatGroupBean>> getMyGroupListWithOrganize();
+
 }

@@ -129,7 +129,8 @@ public interface CurrencyClient {
     @POST(ApiConfig.APP_PATH_WITHDRAW_CURRENCY)
     Observable<String> withdrawCurrency(@Query("currency")String currency,@Query("to_address")String address,
                                         @Query("mark")String mark,@Query("is_mark")String isSave,
-                                        @Query("money")String money,@Query("remark")String remark);
+                                        @Query("money")String money,@Query("remark")String remark,
+                                        @Query("pay_password")String pay_password);
 
     /**
      * 获取提币手续费

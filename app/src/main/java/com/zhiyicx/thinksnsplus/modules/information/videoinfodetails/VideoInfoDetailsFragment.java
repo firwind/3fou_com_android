@@ -11,6 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -107,11 +112,14 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     InputLimitView mIlvComment;
     @BindView(R.id.videoplayer)
     ZhiyiVideoView videoView;
+    @BindView(R.id.tv_integration_anim)
+    TextView mTvIntegrationAnim;
 
     private VideoInfoDetailHeaderView mInfoDetailHeader;
 
     private ActionPopupWindow mDeletCommentPopWindow;
 
+    private AnimationSet mIntegrationPlusAnimation;//糖果+1动画
     /**
      * 传入的资讯信息
      */
@@ -186,6 +194,41 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
         mInfoDetailHeader.setDigCount(isDigged, count);
     }
 
+    @Override
+    public void showIntegrationPlusAnim() {
+        if(null == mIntegrationPlusAnimation){
+            mIntegrationPlusAnimation = new AnimationSet(true);
+            mIntegrationPlusAnimation.setInterpolator(new DecelerateInterpolator());
+            mIntegrationPlusAnimation.addAnimation(new AlphaAnimation(1.0f,0f));
+            mIntegrationPlusAnimation.addAnimation(new TranslateAnimation(0,0,0,-800));
+            mIntegrationPlusAnimation.setDuration(3000);
+            mIntegrationPlusAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    mTvIntegrationAnim.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mTvIntegrationAnim.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+
+        /*if(null != mTvIntegrationAnim.getAnimation() &&
+                !mTvIntegrationAnim.getAnimation().hasEnded())
+            return;*/
+
+        mTvIntegrationAnim.setAnimation(mIntegrationPlusAnimation);
+        mIntegrationPlusAnimation.start();
+
+    }
+
 
     @Override
     protected void snackViewDismissWhenTimeOut(Prompt prompt) {
@@ -203,8 +246,12 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        mIvToolbarRight.setVisibility(View.VISIBLE);
-        mIvToolbarRight.setBackground(getContext().getResources().getDrawable(R.mipmap.topbar_more_black));
+
+        mIvToolbarRight.setOnClickListener(v -> {
+            if (mInfoMation != null) {
+                mPresenter.shareVideo(mInfoMation);
+            }
+        });
 
         mIlvComment.setEtContentHint(getString(R.string.default_input_hint));
         mInfoMation = (InfoListDataBean) getArguments().getParcelable(IntentKey.DATA);
@@ -248,7 +295,7 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
         requestNetData(mMaxId, false);
     }
 
-    @Override
+    /*@Override
     protected int setRightImg() {
         return R.mipmap.topbar_more_black;
     }
@@ -257,10 +304,10 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     protected void setRightClick() {
         super.setRightClick();
         if (mInfoMation != null) {
-            Bitmap shareBitMap = getShareBitmap(0, R.id.thumb);
+            //Bitmap shareBitMap = getShareBitmap(0, R.id.thumb);
             mPresenter.shareVideo(mInfoMation);
         }
-    }
+    }*/
 
     @Override
     protected boolean showToolbar() {

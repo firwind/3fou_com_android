@@ -132,6 +132,13 @@ public interface EasemobClient {
     Observable<ExpandChatGroupBean> getGroupInfoOnlyGroupFaceV2();
 
     /**
+     * 获取用户加入的群组列表（按组织分类）
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_MY_GROUP_LIST_WITH_ORGANIZE)
+    Observable<List<ExpandOfficialChatGroupBean>> getMyGroupListWithOrganize();
+
+    /**
      * 获取推荐群
      *
      * @param
