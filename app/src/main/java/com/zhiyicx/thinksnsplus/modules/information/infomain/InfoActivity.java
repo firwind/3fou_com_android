@@ -1,5 +1,7 @@
 package com.zhiyicx.thinksnsplus.modules.information.infomain;
 
+import android.content.Intent;
+
 import com.zhiyicx.baseproject.base.TSActivity;
 import com.zhiyicx.common.base.BaseFragment;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
@@ -19,6 +21,12 @@ public class InfoActivity extends TSActivity<InfoContainerPresenter, InfoContain
     @Override
     protected InfoContainerFragment getFragment() {
         return new InfoContainerFragment();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override

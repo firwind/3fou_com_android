@@ -619,6 +619,7 @@ public class ApiConfig {
      */
     public static final String APP_SHARE_URL_FORMAT = "redirect?target=";
     public static final String APP_SHARE_URL_PLATFORM = "?from=" + ANDROID_PLATFORM;
+    public static final String APP_SHARE_URL_USER_CODE = "&user_code=%s";
     public static final String APP_SHARE_URL_PLATFORM_2 = "&from=" + ANDROID_PLATFORM;
     // 开发中
     public static final String APP_PATH_SHARE_DEFAULT = "api/develop";
@@ -627,9 +628,10 @@ public class ApiConfig {
     // 用户分享
     public static final String APP_PATH_SHARE_USERINFO = "/users/%s" + APP_SHARE_URL_PLATFORM;
     // 动态分享
-    public static final String APP_PATH_SHARE_DYNAMIC = "/feeds/%s" + APP_SHARE_URL_PLATFORM;
+    public static final String APP_PATH_SHARE_DYNAMIC = "/feeds/%s" + APP_SHARE_URL_PLATFORM+APP_SHARE_URL_USER_CODE;
     // 资讯详情网页
-    public static final String APP_PATH_INFO_DETAILS_FORMAT = "/news/%s" + APP_SHARE_URL_PLATFORM;
+    public static final String APP_PATH_INFO_DETAILS_FORMAT = "/news/%s" + APP_SHARE_URL_PLATFORM+APP_SHARE_URL_USER_CODE;
+    public static final String APP_PATH_VIDEO_DETAILS_FORMAT = "/news/video/%s" + APP_SHARE_URL_PLATFORM+APP_SHARE_URL_USER_CODE;
     // 社区分享
     public static final String APP_PATH_SHARE_GROUP = "/groups/%1$s?type=%2$s" + APP_SHARE_URL_PLATFORM_2;
     // 社区帖子分享

@@ -139,7 +139,7 @@ public class SmallVideoPresenter extends AppBasePresenter<SmallVideoContract.Vie
         shareContent.setImage(ImageUtils.getVideoUrl(dynamicBean.getVideo().getCover_id()));
         shareContent.setVideoUrl(TSShareUtils.convert2ShareUrl(String.format(ApiConfig.APP_PATH_SHARE_DYNAMIC, dynamicBean
                 .getId()
-                == null ? "" : dynamicBean.getId())));
+                == null ? "" : dynamicBean.getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
     }

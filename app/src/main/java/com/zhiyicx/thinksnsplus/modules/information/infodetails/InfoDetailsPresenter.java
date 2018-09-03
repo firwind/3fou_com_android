@@ -168,7 +168,7 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
                         protected void onException(Throwable throwable) {
                             if (!isLoadMore) {
                                 mRootView.loadAllError();
-                            }else {
+                            } else {
                                 mRootView.onResponseError(throwable, isLoadMore);
                             }
                         }
@@ -194,7 +194,7 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
         ShareContent shareContent = new ShareContent();
         shareContent.setTitle(mRootView.getCurrentInfo().getTitle());
         shareContent.setUrl(TSShareUtils.convert2ShareUrl(String.format(APP_PATH_INFO_DETAILS_FORMAT,
-                mRootView.getCurrentInfo().getId())));
+                mRootView.getCurrentInfo().getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
         shareContent.setContent(mRootView.getCurrentInfo().getContent());
 
         if (bitmap == null) {
@@ -478,7 +478,7 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
         createComment.setFromUserInfoBean(mUserInfoBeanGreenDao.getSingleDataFromCache(
                 AppApplication.getmCurrentLoginAuth().getUser_id()));
         mInfoCommentListBeanDao.insertOrReplace(createComment);
-        if (mRootView.getListDatas()!=null&&mRootView.getListDatas().get(0).getComment_content() == null) {
+        if (mRootView.getListDatas() != null && mRootView.getListDatas().get(0).getComment_content() == null) {
             mRootView.getListDatas().remove(0);// 去掉占位图
         }
         mRootView.getListDatas().add(0, createComment);

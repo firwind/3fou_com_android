@@ -97,6 +97,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     private int member_mute;
 
     private int friends_set;
+    private String user_code;//用户邀请码，用于资讯分享，视频分享，动态，社区等分享带入的参数
     private boolean pay_password;//是否已经设置支付密码
 
 
@@ -191,6 +192,9 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     @Convert(converter = UserTagsBeanConverter.class, columnType = String.class)
     private List<UserTagBean> tags;
 
+
+
+
     /**
      * 1.5.0新增 环信登陆的密码  用户名是uid
      */
@@ -221,7 +225,13 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
      * 是否是黑名单
      */
     private boolean blacked;
+    public String getUser_code() {
+        return user_code;
+    }
 
+    public void setUser_code(String user_code) {
+        this.user_code = user_code;
+    }
 
     public boolean isBlacked() {
         return blacked;
@@ -821,10 +831,10 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     }
 
 
-    @Generated(hash = 817641472)
+    @Generated(hash = 1839298958)
     public UserInfoBean(Long user_id, String name, String phone, String email, String intro, int sex, String location, int friends_set,
-            boolean pay_password, boolean is_my_friend, boolean following, boolean follower, String created_at, String updated_at,
-            String deleted_at, String avatar, String localAvatar, String cover, WalletBean wallet, BCWalletBean bcwallet,
+            String user_code, boolean pay_password, boolean is_my_friend, boolean following, boolean follower, String created_at,
+            String updated_at, String deleted_at, String avatar, String localAvatar, String cover, WalletBean wallet, BCWalletBean bcwallet,
             IntegrationBean currency, UserInfoExtraBean extra, VerifiedBean verified, List<UserTagBean> tags, String im_pwd_hash,
             int friends_count, boolean initial_password, boolean has_deleted, boolean blacked) {
         this.user_id = user_id;
@@ -835,6 +845,7 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         this.sex = sex;
         this.location = location;
         this.friends_set = friends_set;
+        this.user_code = user_code;
         this.pay_password = pay_password;
         this.is_my_friend = is_my_friend;
         this.following = following;
@@ -863,98 +874,8 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
     }
 
 
-    protected UserInfoBean(Parcel in) {
-        super(in);
-        if (in.readByte() == 0) {
-            user_id = null;
-        } else {
-            user_id = in.readLong();
-        }
-        name = in.readString();
-        phone = in.readString();
-        email = in.readString();
-        intro = in.readString();
-        sex = in.readInt();
-        sexString = in.readString();
-        location = in.readString();
-        province = in.readString();
-        city = in.readString();
-        area = in.readString();
-        member_mute = in.readInt();
-        friends_set = in.readInt();
-        pay_password = in.readByte() != 0;
-        isstick = in.readInt();
-        is_owner = in.readInt();
-        admin_type = in.readInt();
-        is_my_friend = in.readByte() != 0;
-        following = in.readByte() != 0;
-        follower = in.readByte() != 0;
-        created_at = in.readString();
-        updated_at = in.readString();
-        deleted_at = in.readString();
-        avatar = in.readString();
-        localAvatar = in.readString();
-        cover = in.readString();
-        wallet = in.readParcelable(WalletBean.class.getClassLoader());
-        bcwallet = in.readParcelable(BCWalletBean.class.getClassLoader());
-        extra = in.readParcelable(UserInfoExtraBean.class.getClassLoader());
-        verified = in.readParcelable(VerifiedBean.class.getClassLoader());
-        tags = in.createTypedArrayList(UserTagBean.CREATOR);
-        im_pwd_hash = in.readString();
-        friends_count = in.readInt();
-        isSelected = in.readInt();
-        in_group = in.readByte() != 0;
-        initial_password = in.readByte() != 0;
-        has_deleted = in.readByte() != 0;
-        blacked = in.readByte() != 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        if (user_id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(user_id);
-        }
-        dest.writeString(name);
-        dest.writeString(phone);
-        dest.writeString(email);
-        dest.writeString(intro);
-        dest.writeInt(sex);
-        dest.writeString(sexString);
-        dest.writeString(location);
-        dest.writeString(province);
-        dest.writeString(city);
-        dest.writeString(area);
-        dest.writeInt(member_mute);
-        dest.writeInt(friends_set);
-        dest.writeByte((byte) (pay_password ? 1 : 0));
-        dest.writeInt(isstick);
-        dest.writeInt(is_owner);
-        dest.writeInt(admin_type);
-        dest.writeByte((byte) (is_my_friend ? 1 : 0));
-        dest.writeByte((byte) (following ? 1 : 0));
-        dest.writeByte((byte) (follower ? 1 : 0));
-        dest.writeString(created_at);
-        dest.writeString(updated_at);
-        dest.writeString(deleted_at);
-        dest.writeString(avatar);
-        dest.writeString(localAvatar);
-        dest.writeString(cover);
-        dest.writeParcelable(wallet, flags);
-        dest.writeParcelable(bcwallet, flags);
-        dest.writeParcelable(extra, flags);
-        dest.writeParcelable(verified, flags);
-        dest.writeTypedList(tags);
-        dest.writeString(im_pwd_hash);
-        dest.writeInt(friends_count);
-        dest.writeInt(isSelected);
-        dest.writeByte((byte) (in_group ? 1 : 0));
-        dest.writeByte((byte) (initial_password ? 1 : 0));
-        dest.writeByte((byte) (has_deleted ? 1 : 0));
-        dest.writeByte((byte) (blacked ? 1 : 0));
+    public boolean getIs_my_friend() {
+        return this.is_my_friend;
     }
 
     @Override
@@ -962,14 +883,99 @@ public class UserInfoBean extends BaseListBean implements Parcelable, Serializab
         return 0;
     }
 
-    public boolean getIs_my_friend() {
-        return this.is_my_friend;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.user_id);
+        dest.writeString(this.name);
+        dest.writeString(this.phone);
+        dest.writeString(this.email);
+        dest.writeString(this.intro);
+        dest.writeInt(this.sex);
+        dest.writeString(this.sexString);
+        dest.writeString(this.location);
+        dest.writeString(this.province);
+        dest.writeString(this.city);
+        dest.writeString(this.area);
+        dest.writeInt(this.member_mute);
+        dest.writeInt(this.friends_set);
+        dest.writeByte(this.pay_password ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.isstick);
+        dest.writeInt(this.is_owner);
+        dest.writeInt(this.admin_type);
+        dest.writeByte(this.is_my_friend ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.following ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.follower ? (byte) 1 : (byte) 0);
+        dest.writeString(this.created_at);
+        dest.writeString(this.updated_at);
+        dest.writeString(this.deleted_at);
+        dest.writeString(this.avatar);
+        dest.writeString(this.localAvatar);
+        dest.writeString(this.cover);
+        dest.writeParcelable(this.wallet, flags);
+        dest.writeParcelable(this.bcwallet, flags);
+        dest.writeSerializable(this.currency);
+        dest.writeParcelable(this.extra, flags);
+        dest.writeParcelable(this.verified, flags);
+        dest.writeTypedList(this.tags);
+        dest.writeString(this.user_code);
+        dest.writeString(this.im_pwd_hash);
+        dest.writeInt(this.friends_count);
+        dest.writeInt(this.isSelected);
+        dest.writeByte(this.in_group ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.initial_password ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.has_deleted ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.blacked ? (byte) 1 : (byte) 0);
+    }
+
+    protected UserInfoBean(Parcel in) {
+        super(in);
+        this.user_id = (Long) in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        this.phone = in.readString();
+        this.email = in.readString();
+        this.intro = in.readString();
+        this.sex = in.readInt();
+        this.sexString = in.readString();
+        this.location = in.readString();
+        this.province = in.readString();
+        this.city = in.readString();
+        this.area = in.readString();
+        this.member_mute = in.readInt();
+        this.friends_set = in.readInt();
+        this.pay_password = in.readByte() != 0;
+        this.isstick = in.readInt();
+        this.is_owner = in.readInt();
+        this.admin_type = in.readInt();
+        this.is_my_friend = in.readByte() != 0;
+        this.following = in.readByte() != 0;
+        this.follower = in.readByte() != 0;
+        this.created_at = in.readString();
+        this.updated_at = in.readString();
+        this.deleted_at = in.readString();
+        this.avatar = in.readString();
+        this.localAvatar = in.readString();
+        this.cover = in.readString();
+        this.wallet = in.readParcelable(WalletBean.class.getClassLoader());
+        this.bcwallet = in.readParcelable(BCWalletBean.class.getClassLoader());
+        this.currency = (IntegrationBean) in.readSerializable();
+        this.extra = in.readParcelable(UserInfoExtraBean.class.getClassLoader());
+        this.verified = in.readParcelable(VerifiedBean.class.getClassLoader());
+        this.tags = in.createTypedArrayList(UserTagBean.CREATOR);
+        this.user_code = in.readString();
+        this.im_pwd_hash = in.readString();
+        this.friends_count = in.readInt();
+        this.isSelected = in.readInt();
+        this.in_group = in.readByte() != 0;
+        this.initial_password = in.readByte() != 0;
+        this.has_deleted = in.readByte() != 0;
+        this.blacked = in.readByte() != 0;
     }
 
     public static final Creator<UserInfoBean> CREATOR = new Creator<UserInfoBean>() {
         @Override
-        public UserInfoBean createFromParcel(Parcel in) {
-            return new UserInfoBean(in);
+        public UserInfoBean createFromParcel(Parcel source) {
+            return new UserInfoBean(source);
         }
 
         @Override

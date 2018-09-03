@@ -94,25 +94,25 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
         swipeLayout.setSwipeEnabled(false);
         UserAvatarView userAvatarView = holder.getView(R.id.iv_headpic);
         holder.getTextView(R.id.tv_time).setCompoundDrawables(null, null, null, null);
-        switch (null == messageItemBean.getConversation()?messageItemBean.getType() :
+        switch (null == messageItemBean.getConversation() ? messageItemBean.getType() :
                 messageItemBean.getConversation().getType()) {
             case Chat:
 
-                if(messageItemBean.getEmKey().equals(TSEMConstants.EMKEY_GROUP_NOTIFICATION)){
+                if (messageItemBean.getEmKey().equals(TSEMConstants.EMKEY_GROUP_NOTIFICATION)) {
                     //群组通知
                     userAvatarView.getIvAvatar().setImageDrawable(mGroupDrawable);
                     userAvatarView.getIvVerify().setVisibility(View.INVISIBLE);
                     holder.setText(R.id.tv_name, "群通知");
                     holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
 
-                }else if(messageItemBean.getEmKey().equals(TSEMConstants.EMKEY_FRIEND_NOTIFICATION)){
+                } else if (messageItemBean.getEmKey().equals(TSEMConstants.EMKEY_FRIEND_NOTIFICATION)) {
                     //新朋友
                     userAvatarView.getIvAvatar().setImageDrawable(mFriendDrawable);
                     userAvatarView.getIvVerify().setVisibility(View.INVISIBLE);
                     holder.setText(R.id.tv_name, "新朋友");
                     holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
 
-                }else {
+                } else {
                     // 私聊
                     UserInfoBean singleChatUserinfo = messageItemBean.getUserInfo();
                     if (singleChatUserinfo == null) {
@@ -120,10 +120,14 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                     }
                     userAvatarView.getIvVerify().setVisibility(View.VISIBLE);
                     ImageUtils.loadUserHead(singleChatUserinfo, userAvatarView, false);
-                    // 响应事件
-                    holder.setText(R.id.tv_name, singleChatUserinfo.getName());
-                    setUserInfoClick(holder.getView(R.id.tv_name), messageItemBean);
-                    setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
+                    if (singleChatUserinfo != null) {
+                        // 响应事件
+                        holder.setText(R.id.tv_name, singleChatUserinfo.getName());
+                        setUserInfoClick(holder.getView(R.id.tv_name), messageItemBean);
+                        setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
+                    } else {
+                        holder.setText(R.id.tv_name, "");
+                    }
 //                swipeLayout.setSwipeEnabled(mPresenter == null || (singleChatUserinfo!=null&&!mPresenter.checkUserIsImHelper(singleChatUserinfo
 // .getUser_id())));
                     holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
@@ -156,25 +160,25 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
 
                 //群名称
                 String groupName = "[群聊]";
-                if(null != group){
+                if (null != group) {
                     groupName = mContext.getString(R.string.chat_group_name_default,
-                            group.getGroupName(),group.getMemberCount());
+                            group.getGroupName(), group.getMemberCount());
                 }
-                if(null != chatGroupBean){
+                if (null != chatGroupBean) {
                     groupName = mContext.getString(R.string.chat_group_name_default,
-                            chatGroupBean.getName(),chatGroupBean.getAffiliations_count());
+                            chatGroupBean.getName(), chatGroupBean.getAffiliations_count());
                 }
                 holder.setText(R.id.tv_name, groupName);
 //                swipeLayout.setSwipeEnabled(true);
                 setUserInfoClick(holder.getView(R.id.tv_name), messageItemBean);
                 setUserInfoClick(holder.getView(R.id.iv_headpic), messageItemBean);
 
-                if(null != chatGroupBean){
+                if (null != chatGroupBean) {
                     int resId = ImageUtils.getGroupSignResId(chatGroupBean.getGroup_level());
                     holder.getImageViwe(R.id.iv_group_sign).setVisibility(0 == resId ? View.INVISIBLE : View.VISIBLE);
-                    if(0 != resId)
+                    if (0 != resId)
                         holder.getImageViwe(R.id.iv_group_sign).setImageDrawable(mContext.getResources().getDrawable(resId));
-                }else {
+                } else {
                     holder.getImageViwe(R.id.iv_group_sign).setVisibility(View.INVISIBLE);
                 }
                 break;
@@ -188,7 +192,7 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
         } else {
             // 最新的消息的发言人，只有群组才管这个
             String lastUserName = "";
-            if(messageItemBean.getConversation().isGroup()){
+            if (messageItemBean.getConversation().isGroup()) {
                 ChatUserInfoBean chatUserInfoBean = TSEMHyphenate.getInstance().getChatUser(messageItemBean.getConversation().getLastMessage().getFrom());
                 if (!TextUtils.isEmpty(chatUserInfoBean.getName())) {
                     lastUserName = chatUserInfoBean.getName() + ": ";
@@ -258,15 +262,14 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
             holder.setText(R.id.tv_time, TimeUtils.getTimeFriendlyNormal(messageItemBean.getConversation().getLastMessage().getMsgTime()));
         }
         try {
-            if(null != messageItemBean.getConversation() && !TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(messageItemBean.getEmKey()) &&
+            if (null != messageItemBean.getConversation() && !TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(messageItemBean.getEmKey()) &&
                     !TSEMConstants.EMKEY_FRIEND_NOTIFICATION.equals(messageItemBean.getEmKey()))
                 ((BadgeView) holder.getView(R.id.tv_tip)).setBadgeCount(Integer.parseInt(ConvertUtils.messageNumberConvert(messageItemBean
                         .getConversation().getUnreadMsgCount())));
-            else if(null != messageItemBean.getConversation() && (TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(messageItemBean.getEmKey()) ||
-                    TSEMConstants.EMKEY_FRIEND_NOTIFICATION.equals(messageItemBean.getEmKey())) ){
+            else if (null != messageItemBean.getConversation() && (TSEMConstants.EMKEY_GROUP_NOTIFICATION.equals(messageItemBean.getEmKey()) ||
+                    TSEMConstants.EMKEY_FRIEND_NOTIFICATION.equals(messageItemBean.getEmKey()))) {
                 ((BadgeView) holder.getView(R.id.tv_tip)).setBadgeCount(messageItemBean.getUnReadCount());
-            }
-            else {
+            } else {
                 //((BadgeView) holder.getView(R.id.tv_tip)).setBadgeCount(0);
             }
         } catch (Exception e) {
@@ -310,7 +313,7 @@ public class MessageAdapterV2 extends CommonAdapter<MessageItemBeanV2> implement
                     }
 
                     // 小助手不可以被删除
-                    boolean isCantDelete = null != messageItemBean.getConversation()&&messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat && messageItemBean.getUserInfo() != null && mPresenter.checkUserIsImHelper(messageItemBean.getUserInfo()
+                    boolean isCantDelete = null != messageItemBean.getConversation() && messageItemBean.getConversation().getType() == EMConversation.EMConversationType.Chat && messageItemBean.getUserInfo() != null && mPresenter.checkUserIsImHelper(messageItemBean.getUserInfo()
                             .getUser_id());
                     if (mOnConversationItemLongClickListener != null && !isCantDelete) {
                         mOnConversationItemLongClickListener.onConversationItemLongClick(position);

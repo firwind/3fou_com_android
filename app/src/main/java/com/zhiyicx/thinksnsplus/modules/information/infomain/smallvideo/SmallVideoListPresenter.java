@@ -14,6 +14,7 @@ import com.zhiyicx.common.thridmanager.share.ShareContent;
 import com.zhiyicx.common.thridmanager.share.SharePolicy;
 import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.DynamicBeanV2;
@@ -112,7 +113,7 @@ public class SmallVideoListPresenter extends AppBasePresenter<InfoMainContract.S
         shareContent.setImage(ImageUtils.getVideoUrl(dynamicBean.getVideo().getCover_id()));
         shareContent.setVideoUrl(TSShareUtils.convert2ShareUrl(String.format(ApiConfig.APP_PATH_SHARE_DYNAMIC, dynamicBean
                 .getId()
-                == null ? "" : dynamicBean.getId())));
+                == null ? "" : dynamicBean.getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
     }

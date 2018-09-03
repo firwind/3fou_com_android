@@ -60,6 +60,7 @@ import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_DETAILS_FORMAT;
+import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_VIDEO_DETAILS_FORMAT;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_SEND_INFO_LIST_COLLECT;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_SEND_INFO_LIST_DELETE_UPDATE;
 import static com.zhiyicx.thinksnsplus.data.beans.DynamicListAdvert.DEFAULT_ADVERT_FROM_TAG;
@@ -256,7 +257,9 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
         shareContent.setTitle(infoListDataBean.getTitle());
         shareContent.setContent("    ");
         shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
-        shareContent.setVideoUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
+//        shareContent.setVideoUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
+        shareContent.setVideoUrl(TSShareUtils.convert2ShareUrl(String.format(APP_PATH_VIDEO_DETAILS_FORMAT,
+                infoListDataBean.getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
 

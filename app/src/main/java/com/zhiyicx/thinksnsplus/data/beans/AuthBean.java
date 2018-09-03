@@ -58,6 +58,7 @@ public class AuthBean extends CacheBean implements Parcelable, Serializable {
     @SerializedName(value = "ttl", alternate = {"expires_in"})
     private long expires;// 用户 token 的有效期(单位:分钟) 过期时间 ，间隔时间
     private long user_id;
+    private String user_code = "";
     private UserInfoBean user;
     private String token_type;
     private long token_request_time; // 请求 token 的当前时间
@@ -78,7 +79,13 @@ public class AuthBean extends CacheBean implements Parcelable, Serializable {
             return user_id;
         }
     }
-
+    public String getUser_code() {
+        if (user != null) {
+            return user.getUser_code();
+        } else {
+            return user_code;
+        }
+    }
     public void setUser_id(long user_id) {
         this.user_id = user_id;
     }

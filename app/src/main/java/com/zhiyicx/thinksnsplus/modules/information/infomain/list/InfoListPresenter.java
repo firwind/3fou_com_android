@@ -18,12 +18,14 @@ import com.zhiyicx.common.thridmanager.share.ShareContent;
 import com.zhiyicx.common.thridmanager.share.SharePolicy;
 import com.zhiyicx.common.utils.ConvertUtils;
 import com.zhiyicx.thinksnsplus.R;
+import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.AppBasePresenter;
 import com.zhiyicx.thinksnsplus.base.BaseSubscribeForV2;
 import com.zhiyicx.thinksnsplus.data.beans.InfoCommentListBean;
 import com.zhiyicx.thinksnsplus.data.beans.InfoListDataBean;
 import com.zhiyicx.thinksnsplus.data.beans.InfoRecommendBean;
 import com.zhiyicx.thinksnsplus.data.beans.RealAdvertListBean;
+import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
 import com.zhiyicx.thinksnsplus.data.source.local.AllAdvertListBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.local.InfoListDataBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.data.source.repository.BaseInfoRepository;
@@ -45,6 +47,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_INFO_DETAILS_FORMAT;
+import static com.zhiyicx.baseproject.config.ApiConfig.APP_PATH_VIDEO_DETAILS_FORMAT;
 import static com.zhiyicx.thinksnsplus.config.EventBusTagConfig.EVENT_UPDATE_LIST_DELETE;
 
 /**
@@ -114,7 +117,9 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
         shareContent.setTitle(infoListDataBean.getTitle());
         shareContent.setContent("    ");
         shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
-        shareContent.setVideoUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
+//        shareContent.setVideoUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
+        shareContent.setVideoUrl(TSShareUtils.convert2ShareUrl(String.format(APP_PATH_VIDEO_DETAILS_FORMAT,
+                infoListDataBean.getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
     }

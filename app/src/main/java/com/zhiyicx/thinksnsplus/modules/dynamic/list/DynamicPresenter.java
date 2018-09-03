@@ -483,7 +483,7 @@ public class DynamicPresenter extends AppBasePresenter<DynamicContract.View>
             shareContent.setUrl(dynamicBean.getDeleted_at());
         } else {
             shareContent.setUrl(TSShareUtils.convert2ShareUrl(String.format(ApiConfig.APP_PATH_SHARE_DYNAMIC, dynamicBean.getId()
-                    == null ? "" : dynamicBean.getId())));
+                    == null ? "" : dynamicBean.getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
         }
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
@@ -509,7 +509,7 @@ public class DynamicPresenter extends AppBasePresenter<DynamicContract.View>
         }
         shareContent.setUrl(TSShareUtils.convert2ShareUrl(String.format(ApiConfig.APP_PATH_SHARE_DYNAMIC, dynamicBean
                 .getId()
-                == null ? "" : dynamicBean.getId())));
+                == null ? "" : dynamicBean.getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
         mSharePolicy.setShareContent(shareContent);
         switch (type) {
             case QQ:
