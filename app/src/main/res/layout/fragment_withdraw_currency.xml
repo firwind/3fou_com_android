@@ -187,7 +187,7 @@
             android:hint="请输入..."
             android:gravity="bottom"
             android:maxLength="6"
-            android:inputType="number"/>
+            android:inputType="numberPassword"/>
 
     </LinearLayout>
 
