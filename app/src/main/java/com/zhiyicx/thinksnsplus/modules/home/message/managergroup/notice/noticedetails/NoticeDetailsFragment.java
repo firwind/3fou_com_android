@@ -88,6 +88,14 @@ public class NoticeDetailsFragment extends TSFragment<NoticeDetailsContract.Pres
     }
 
     @Override
+    protected void snackViewDismissWhenTimeOut(Prompt prompt) {
+        super.snackViewDismissWhenTimeOut(prompt);
+        if (prompt == Prompt.SUCCESS) {
+            getActivity().finish();
+        }
+    }
+
+    @Override
     protected void setRightClick() {
         super.setRightClick();
         mCheckSurePop = ActionPopupWindow.builder()
@@ -117,7 +125,7 @@ public class NoticeDetailsFragment extends TSFragment<NoticeDetailsContract.Pres
             mNoticeDetailsTitle.setText(TextUtils.isEmpty(mNoticeBean.getTitle()) ? "" : mNoticeBean.getTitle());
             mNoticeDetailsUserName.setText(TextUtils.isEmpty(mNoticeBean.getAuthor()) ? "" : mNoticeBean.getAuthor());
             mNoticeDetailsContent.setText(TextUtils.isEmpty(mNoticeBean.getContent()) ? "" : mNoticeBean.getContent());
-            mNoticeDetailsTime.setText(TimeUtils.getTimeFriendlyNormal(mNoticeBean.getCreated_at()*1000));
+            mNoticeDetailsTime.setText(TimeUtils.getTimeFriendlyNormal(mNoticeBean.getCreated_at() * 1000));
         }
         if (isGroupOwner) {
             mToolbarRight.setText(setRightTitle());
@@ -158,7 +166,7 @@ public class NoticeDetailsFragment extends TSFragment<NoticeDetailsContract.Pres
 
     @OnClick(R.id.et_edit_group_notice)
     public void onClick() {
-        startActivity(ReleaseNoticeActivity.newIntent(getContext(),mNoticeBean.getNotice_id(),mNoticeBean));
+        startActivity(ReleaseNoticeActivity.newIntent(getContext(), mNoticeBean.getNotice_id(), mNoticeBean));
         getActivity().finish();
     }
 }
