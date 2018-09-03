@@ -849,6 +849,14 @@ public class BackgroundTaskHandler {
                                     (mContext, bitmap,
                                             System.currentTimeMillis() + ParamsManager.VideoCover);
 
+                            if(null == photos || photos.isEmpty()){
+                                ImageBean image = new ImageBean();
+                                image.setWidth(bitmap.getWidth());
+                                image.setHeight(bitmap.getHeight());
+                                image.setImgUrl(path);
+                                photos.add(image);
+                            }
+
                             upLoadPics.add(mUpLoadRepository.upLoadSingleFileV2(path,
                                     "",
                                     true, bitmap.getWidth(), bitmap.getHeight(), position));
