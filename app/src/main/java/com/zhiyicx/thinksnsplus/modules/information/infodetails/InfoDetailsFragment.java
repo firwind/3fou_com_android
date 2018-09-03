@@ -31,6 +31,7 @@ import com.zhiyicx.common.BuildConfig;
 import com.zhiyicx.common.utils.DeviceUtils;
 import com.zhiyicx.common.utils.FileUtils;
 import com.zhiyicx.common.utils.RegexUtils;
+import com.zhiyicx.common.utils.log.LogUtils;
 import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.base.BaseWebLoad;
@@ -197,11 +198,11 @@ public class InfoDetailsFragment extends TSListFragment<InfoDetailsConstract.Pre
 
     @Override
     public void showIntegrationPlusAnim() {
-        if(null == mIntegrationPlusAnimation){
+        if (null == mIntegrationPlusAnimation) {
             mIntegrationPlusAnimation = new AnimationSet(true);
             mIntegrationPlusAnimation.setInterpolator(new DecelerateInterpolator());
-            mIntegrationPlusAnimation.addAnimation(new AlphaAnimation(1.0f,0f));
-            mIntegrationPlusAnimation.addAnimation(new TranslateAnimation(0,0,0,-800));
+            mIntegrationPlusAnimation.addAnimation(new AlphaAnimation(1.0f, 0f));
+            mIntegrationPlusAnimation.addAnimation(new TranslateAnimation(0, 0, 0, -800));
             mIntegrationPlusAnimation.setDuration(3000);
             mIntegrationPlusAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -241,6 +242,7 @@ public class InfoDetailsFragment extends TSListFragment<InfoDetailsConstract.Pre
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
+
         mIlvComment.setEtContentHint(getString(R.string.default_input_hint));
         mInfoMation = (InfoListDataBean) getArguments().getSerializable(BUNDLE_INFO);
 

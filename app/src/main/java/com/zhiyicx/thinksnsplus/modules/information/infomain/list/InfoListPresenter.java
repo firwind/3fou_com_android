@@ -142,7 +142,7 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
         shareContent.setImage(ImageUtils.imagePathConvertV2(infoListDataBean.getImage().getId(),0, 0, ImageZipConfig.IMAGE_80_ZIP));
 //        shareContent.setVideoUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
         shareContent.setVideoUrl(TSShareUtils.convert2ShareUrl(String.format(APP_PATH_VIDEO_DETAILS_FORMAT,
-                infoListDataBean.getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
+                infoListDataBean.getId(), AppApplication.getmCurrentLoginAuth().getUser_code())));
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
     }

@@ -278,7 +278,7 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
         shareContent.setImage(ImageUtils.imagePathConvert(infoListDataBean.getImage().getId()));
 //        shareContent.setVideoUrl(ApiConfig.APP_SHARE_VIDEO+infoListDataBean.getId());
         shareContent.setVideoUrl(TSShareUtils.convert2ShareUrl(String.format(APP_PATH_VIDEO_DETAILS_FORMAT,
-                infoListDataBean.getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
+                infoListDataBean.getId(), AppApplication.getmCurrentLoginAuth().getUser_code())));
         mSharePolicy.setShareContent(shareContent);
         mSharePolicy.showShare(((TSFragment) mRootView).getActivity());
 

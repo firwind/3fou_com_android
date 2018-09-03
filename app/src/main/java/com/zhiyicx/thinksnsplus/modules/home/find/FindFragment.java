@@ -165,7 +165,8 @@ public class FindFragment extends TSFragment {
                  */
             case R.id.find_buy:
                 if (TouristConfig.JIPU_SHOP_CAN_LOOK || !mAuthRepository.isTourist()) {
-                    CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_JIPU_SHOP);
+//                    CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_JIPU_SHOP);
+                    ToastUtils.showToast("暂未开放");
                 } else {
                     showLoginPop();
                 }
@@ -173,6 +174,7 @@ public class FindFragment extends TSFragment {
                 /*
                  找人
                  */
+
             case R.id.find_person:
 
                 Intent itFollow = new Intent(getActivity(), FindSomeOneContainerActivity.class);

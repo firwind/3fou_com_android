@@ -17,7 +17,9 @@ import com.zhiyicx.thinksnsplus.service.backgroundtask.BackgroundTaskManager;
 
 import org.simple.eventbus.EventBus;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -83,6 +85,10 @@ public class SendDynamicPresenter extends AppBasePresenter<SendDynamicContract.V
             // 当没有图片的时候，给一个占位数组
             dynamicBean.setImages(new ArrayList<>());
         }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
+        //获取当前时间
+        Date date = new Date(System.currentTimeMillis());
+        dynamicBean.setCreated_at(simpleDateFormat.format(date));
         // 发送动态 V2 所需要的数据
         dynamicBean.setAmount(dynamicBean.getAmount());
         SendDynamicDataBeanV2 sendDynamicDataBeanV2 = SendDynamicDataBeanV2.DynamicDetailBean2SendDynamicDataBeanV2(dynamicBean);

@@ -200,7 +200,7 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
         ShareContent shareContent = new ShareContent();
         shareContent.setTitle(mRootView.getCurrentInfo().getTitle());
         shareContent.setUrl(TSShareUtils.convert2ShareUrl(String.format(APP_PATH_INFO_DETAILS_FORMAT,
-                mRootView.getCurrentInfo().getId(), mUserInfoBeanGreenDao.getUserInfoById(String.valueOf(AppApplication.getMyUserIdWithdefault())).getUser_code())));
+                mRootView.getCurrentInfo().getId(), AppApplication.getmCurrentLoginAuth().getUser_code())));
         shareContent.setContent(mRootView.getCurrentInfo().getContent());
 
         /*if (bitmap == null) {

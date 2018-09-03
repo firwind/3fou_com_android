@@ -32,14 +32,14 @@ public class ApiConfig {
 //    public static final String APP_DOMAIN_TEST = "http://112.74.168.35/";// 在线测试服务器
     public static final String APP_DOMAIN_TEST = "http://test.faceke.ipmw.cn/";// 在线测试服务器
     //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
-//    public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
-    public static final String APP_DOMAIN_FORMAL = "http://www.mybcbnet.com/";// 正式服务器
+    public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
+//    public static final String APP_DOMAIN_FORMAL = "http://www.mybcbnet.com/";// 正式服务器
     //    public static final String APP_DOMAIN_FORMAL = "http://lianquan.faceke.com/";// 服务器
 //    public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://192.168.2.152/";// 乔老师本地服务器
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
 
-    public static String APP_DOMAIN = /*APP_DOMAIN_FORMAL*/APP_DOMAIN_TEST;
+    public static String APP_DOMAIN = APP_DOMAIN_FORMAL/*APP_DOMAIN_TEST*/;
 
     public static final String URL_ABOUT_US = "api/" + API_VERSION_2 + "/aboutus";// 关于我们网站
     public static final String URL_JIPU_SHOP = "http://haoshe.hotime.cn";// 豪舍购物地址

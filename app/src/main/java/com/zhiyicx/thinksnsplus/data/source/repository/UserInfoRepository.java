@@ -263,6 +263,7 @@ public class UserInfoRepository implements IUserInfoRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(userInfoBean -> {
                     mUserInfoBeanGreenDao.insertOrReplace(userInfoBean);
+                    AppApplication.getmCurrentLoginAuth().setUser(userInfoBean);
                     return userInfoBean;
                 });
     }
