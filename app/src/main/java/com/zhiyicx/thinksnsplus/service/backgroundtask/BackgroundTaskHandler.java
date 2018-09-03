@@ -831,51 +831,65 @@ public class BackgroundTaskHandler {
         List<ImageBean> photos = sendDynamicDataBean.getPhotos();
         VideoInfo videoInfo = sendDynamicDataBean.getVideoInfo();
 
+        // 先处理图片上传，图片上传成功后，在进行动态发布
+        List<Observable<BaseJson<Integer>>> upLoadPics = new ArrayList<>();
 
-        // 有图片需要上传时：先处理图片上传任务，成功后，获取任务id，发布动态
-        if (photos != null && !photos.isEmpty()) {
-            // 先处理图片上传，图片上传成功后，在进行动态发布
-            List<Observable<BaseJson<Integer>>> upLoadPics = new ArrayList<>();
+        if (videoInfo != null && videoInfo.needGetCoverFromVideo()) {//视频动态
+            /*ImageBean imageBean = photos.get(0);
+            String filePath = imageBean.getImgUrl();
+            int photoWidth = (int) imageBean.getWidth();
+            int photoHeight = (int) imageBean.getHeight();
+            String photoMimeType = imageBean.getImgMimeType();*/
+            TrimVideoUtil.getVideoOneFrame(mContext, Uri.parse(videoInfo.getPath()))
+                    .map(new Func1<Bitmap, String>() {
+                        @Override
+                        public String call(Bitmap bitmap) {
 
-            if (videoInfo != null && videoInfo.needGetCoverFromVideo()) {
-                ImageBean imageBean = photos.get(0);
+                            String path = com.zhiyicx.common.utils.FileUtils.saveBitmapToFile
+                                    (mContext, bitmap,
+                                            System.currentTimeMillis() + ParamsManager.VideoCover);
+
+                            upLoadPics.add(mUpLoadRepository.upLoadSingleFileV2(path,
+                                    "",
+                                    true, bitmap.getWidth(), bitmap.getHeight(), position));
+
+                            return path;
+                        }
+                    }/*bitmap -> com.zhiyicx.common.utils.FileUtils.saveBitmapToFile
+                            (mContext, bitmap,
+                                    System.currentTimeMillis() + ParamsManager.VideoCover)*/)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<String>() {
+                        @Override
+                        public void call(String s) {
+                            dealFile(backgroundRequestTaskBean, sendDynamicDataBean,
+                                    detailBeanV2, position,
+                                    photos, videoInfo, upLoadPics);
+                        }
+                    }/*s -> {
+                        upLoadPics.add(mUpLoadRepository.upLoadSingleFileV2(s,
+                                "",
+                                true, bitmap, photoHeight, position));
+
+
+                        dealFile(backgroundRequestTaskBean, sendDynamicDataBean,
+                                detailBeanV2, position,
+                                photos, videoInfo, upLoadPics);
+                    }*/);
+        }else if(photos != null && !photos.isEmpty()){ // 有图片需要上传时：先处理图片上传任务，成功后，获取任务id，发布动态
+            for (int i = 0; i < photos.size(); i++) {
+                ImageBean imageBean = photos.get(i);
                 String filePath = imageBean.getImgUrl();
                 int photoWidth = (int) imageBean.getWidth();
                 int photoHeight = (int) imageBean.getHeight();
                 String photoMimeType = imageBean.getImgMimeType();
-                TrimVideoUtil.getVideoOneFrame(mContext, Uri.parse(filePath))
-                        .map(bitmap -> com.zhiyicx.common.utils.FileUtils.saveBitmapToFile
-                                (mContext, bitmap,
-                                        System.currentTimeMillis() + ParamsManager.VideoCover))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(s -> {
-                            upLoadPics.add(mUpLoadRepository.upLoadSingleFileV2(s,
-                                    photoMimeType,
-                                    true, photoWidth, photoHeight, position));
-
-
-                            dealFile(backgroundRequestTaskBean, sendDynamicDataBean,
-                                    detailBeanV2, position,
-                                    photos, videoInfo, upLoadPics);
-                        });
-            } else {
-                for (int i = 0; i < photos.size(); i++) {
-                    ImageBean imageBean = photos.get(i);
-                    String filePath = imageBean.getImgUrl();
-                    int photoWidth = (int) imageBean.getWidth();
-                    int photoHeight = (int) imageBean.getHeight();
-                    String photoMimeType = imageBean.getImgMimeType();
-                    upLoadPics.add(mUpLoadRepository.upLoadSingleFileV2(filePath, photoMimeType,
-                            true, photoWidth, photoHeight, position));
-                }
-
-                dealFile(backgroundRequestTaskBean, sendDynamicDataBean, detailBeanV2, position,
-                        photos, videoInfo, upLoadPics);
+                upLoadPics.add(mUpLoadRepository.upLoadSingleFileV2(filePath, photoMimeType,
+                        true, photoWidth, photoHeight, position));
             }
 
-
-        } else {
-
+            dealFile(backgroundRequestTaskBean, sendDynamicDataBean, detailBeanV2, position,
+                    photos, videoInfo, upLoadPics);
+        }else {//文字动态
             SendDynamicV2(backgroundRequestTaskBean, detailBeanV2, position,
                     mSendDynamicRepository.sendDynamicV2(sendDynamicDataBean)
                             .flatMap(objectBaseJsonV2 -> {
