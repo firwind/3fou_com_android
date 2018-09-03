@@ -830,6 +830,7 @@ public class BackgroundTaskHandler {
         // ....
         List<ImageBean> photos = sendDynamicDataBean.getPhotos();
         VideoInfo videoInfo = sendDynamicDataBean.getVideoInfo();
+        final List<ImageBean> videoPhotos = new ArrayList<>();
 
         // 先处理图片上传，图片上传成功后，在进行动态发布
         List<Observable<BaseJson<Integer>>> upLoadPics = new ArrayList<>();
@@ -850,11 +851,13 @@ public class BackgroundTaskHandler {
                                             System.currentTimeMillis() + ParamsManager.VideoCover);
 
                             if(null == photos || photos.isEmpty()){
+
                                 ImageBean image = new ImageBean();
                                 image.setWidth(bitmap.getWidth());
                                 image.setHeight(bitmap.getHeight());
                                 image.setImgUrl(path);
-                                photos.add(image);
+                                videoPhotos.add(image);
+
                             }
 
                             upLoadPics.add(mUpLoadRepository.upLoadSingleFileV2(path,
@@ -872,7 +875,7 @@ public class BackgroundTaskHandler {
                         public void call(String s) {
                             dealFile(backgroundRequestTaskBean, sendDynamicDataBean,
                                     detailBeanV2, position,
-                                    photos, videoInfo, upLoadPics);
+                                    (null == photos || photos.isEmpty())?videoPhotos:photos, videoInfo, upLoadPics);
                         }
                     }/*s -> {
                         upLoadPics.add(mUpLoadRepository.upLoadSingleFileV2(s,
