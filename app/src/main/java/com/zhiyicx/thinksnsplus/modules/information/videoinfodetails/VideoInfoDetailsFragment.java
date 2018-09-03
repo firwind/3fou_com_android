@@ -220,12 +220,7 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
             });
         }
 
-        /*if(null != mTvIntegrationAnim.getAnimation() &&
-                !mTvIntegrationAnim.getAnimation().hasEnded())
-            return;*/
-
-        mTvIntegrationAnim.setAnimation(mIntegrationPlusAnimation);
-        mIntegrationPlusAnimation.start();
+        mTvIntegrationAnim.startAnimation(mIntegrationPlusAnimation);
 
     }
 

@@ -247,8 +247,8 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
 
 
         //mBaseInfoRepository.handleLike(isLiked, news_id);
-        if(mRootView.getCurrentInfo().isHas_like()){//取消点赞
-            mBaseInfoRepository.handleLike(!mRootView.getCurrentInfo().isHas_like(), String.valueOf(mRootView.getCurrentInfo().getId()) );
+        if(!isLiked){//取消点赞
+            mBaseInfoRepository.handleLike(isLiked, String.valueOf(mRootView.getCurrentInfo().getId()) );
         }else {//点赞
             mBaseInfoRepository.handleLikeV2(String.valueOf(mRootView.getCurrentInfo().getId()) )
                     .subscribe(new BaseSubscribeForV2<BaseJson<Boolean>>() {
@@ -528,10 +528,12 @@ public class InfoDetailsPresenter extends AppBasePresenter<InfoDetailsConstract.
         if(null != mRootView.getCurrentInfo()){
             mBaseInfoRepository.getIntegrationByShare(String.valueOf(mRootView.getCurrentInfo().getId()),
                     String.valueOf(mRootView.getCurrentInfo().getUser_id()) )
-                    .subscribe(new BaseSubscribeForV2<String>() {
+                    .subscribe(new BaseSubscribeForV2<BaseJson<Boolean>>() {
                         @Override
-                        protected void onSuccess(String data) {
-                            mRootView.showIntegrationPlusAnim();
+                        protected void onSuccess(BaseJson<Boolean> data) {
+                            if(null != data && data.getData()){
+                                mRootView.showIntegrationPlusAnim();
+                            }
                         }
                     });
         }

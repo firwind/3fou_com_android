@@ -212,6 +212,7 @@ public class InfoDetailsFragment extends TSListFragment<InfoDetailsConstract.Pre
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     mTvIntegrationAnim.setVisibility(View.INVISIBLE);
+//                    mIntegrationPlusAnimation.reset();
                 }
 
                 @Override
@@ -221,13 +222,7 @@ public class InfoDetailsFragment extends TSListFragment<InfoDetailsConstract.Pre
             });
         }
 
-        /*if(null != mTvIntegrationAnim.getAnimation() &&
-                !mTvIntegrationAnim.getAnimation().hasEnded())
-            return;*/
-
-        mTvIntegrationAnim.setAnimation(mIntegrationPlusAnimation);
-        mIntegrationPlusAnimation.start();
-
+        mTvIntegrationAnim.startAnimation(mIntegrationPlusAnimation);
     }
 
     @Override

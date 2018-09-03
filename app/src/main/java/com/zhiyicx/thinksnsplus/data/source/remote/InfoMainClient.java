@@ -304,7 +304,7 @@ public interface InfoMainClient {
      * @return
      */
     @GET(ApiConfig.APP_PATH_GET_INTEGRATION_BY_SHARE)
-    Observable<String> getIntegrationByShare(@Query("news_id") String newsId,@Query("author_id")String author_id);
+    Observable<BaseJson<Boolean>> getIntegrationByShare(@Query("news_id") String newsId,@Query("author_id")String author_id);
 
     /**
      * 点赞

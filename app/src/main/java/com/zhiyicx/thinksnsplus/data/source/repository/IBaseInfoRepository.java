@@ -72,7 +72,7 @@ public interface IBaseInfoRepository {
     Observable<String> deteleBearNews(String newsId);
 
     //分享获取糖果
-    Observable<String> getIntegrationByShare(String newsId,String authorId);
+    Observable<BaseJson<Boolean>> getIntegrationByShare(String newsId,String authorId);
 
     //点赞
     Observable<BaseJson<Boolean>> handleLikeV2(String news_id);

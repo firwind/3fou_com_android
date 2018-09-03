@@ -281,11 +281,13 @@ public class InfoListPresenter extends AppBasePresenter<InfoMainContract.InfoLis
         mRootView.showSnackSuccessMessage(mContext.getString(R.string.share_sccuess));
         if(null != mCurrentInfoListDataBean){
             mBaseInfoRepository.getIntegrationByShare(String.valueOf(mCurrentInfoListDataBean.getId()),
-                    String.valueOf(mCurrentInfoListDataBean.getUser_id()))
-                    .subscribe(new BaseSubscribeForV2<String>() {
+                    String.valueOf(mCurrentInfoListDataBean.getUser_id()) )
+                    .subscribe(new BaseSubscribeForV2<BaseJson<Boolean>>() {
                         @Override
-                        protected void onSuccess(String data) {
-                            mRootView.showIntegrationPlusAnim();
+                        protected void onSuccess(BaseJson<Boolean> data) {
+                            if(null != data && data.getData()){
+                                mRootView.showIntegrationPlusAnim();
+                            }
                         }
                     });
         }

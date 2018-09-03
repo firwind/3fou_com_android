@@ -414,7 +414,7 @@ public class BaseInfoRepository implements IBaseInfoRepository {
     }
 
     @Override
-    public Observable<String> getIntegrationByShare(String newsId, String authorId) {
+    public Observable<BaseJson<Boolean>> getIntegrationByShare(String newsId, String authorId) {
         return mInfoMainClient.getIntegrationByShare(newsId, authorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

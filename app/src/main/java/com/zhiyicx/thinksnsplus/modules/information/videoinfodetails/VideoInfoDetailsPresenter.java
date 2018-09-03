@@ -329,6 +329,10 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
     @Subscriber(tag = EventBusTagConfig.EVENT_SEND_COMMENT_TO_INFO_LIST)
     public void handleSendComment(InfoCommentListBean infoCommentListBean) {
         LogUtils.d(TAG, "dynamicCommentBean = " + infoCommentListBean.toString());
+
+        if(infoCommentListBean.isCandySuccess())
+            mRootView.showIntegrationPlusAnim();
+
         mInfoCommentListBeanDao.insertOrReplace(infoCommentListBean);
         Subscription subscribe = Observable.just(infoCommentListBean)
                 .subscribeOn(Schedulers.newThread())
@@ -410,6 +414,20 @@ public class VideoInfoDetailsPresenter extends AppBasePresenter<VideoInfoDetails
     @Override
     public void onSuccess(Share share) {
         mRootView.showSnackSuccessMessage(mContext.getString(R.string.share_sccuess));
+
+        if(null != mRootView.getCurrentInfo()){
+            mBaseInfoRepository.getIntegrationByShare(String.valueOf(mRootView.getCurrentInfo().getId()),
+                    String.valueOf(mRootView.getCurrentInfo().getUser_id()) )
+                    .subscribe(new BaseSubscribeForV2<BaseJson<Boolean>>() {
+                        @Override
+                        protected void onSuccess(BaseJson<Boolean> data) {
+                            if(null != data && data.getData()){
+                                mRootView.showIntegrationPlusAnim();
+                            }
+                        }
+                    });
+        }
+
     }
 
     @Override
