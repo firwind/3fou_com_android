@@ -1082,7 +1082,9 @@ public class PersonalCenterFragment extends TSListFragment<PersonalCenterContrac
             videoDetailBeanV2s = new ArrayList<>();
         }
         videoDetailBeanV2s.addAll(dynamicDetailBeanV2s);
-        videoAdapter.notifyDataSetChanged();
+        if (videoAdapter!=null) {
+            videoAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

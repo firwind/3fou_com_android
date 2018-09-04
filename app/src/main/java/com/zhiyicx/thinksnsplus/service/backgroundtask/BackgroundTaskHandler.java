@@ -956,7 +956,6 @@ public class BackgroundTaskHandler {
                                             public void onStartTrim() {
 
                                             }
-
                                             @Override
                                             public void onFinishTrim(String url) {
                                                 upLoadPics.add(mUpLoadRepository
@@ -1041,7 +1040,11 @@ public class BackgroundTaskHandler {
                     if (videoInfo == null) {
                         return position[0] == photos.size();
                     }
-                    return position[0] == photos.size() + 1;
+                    if (photos!=null) {
+                        return position[0] == photos.size() + 1;
+                    }else {
+                        return true;
+                    }
                 })
                 .map(integers -> {
                     if (videoInfo != null) {
