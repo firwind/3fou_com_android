@@ -197,6 +197,12 @@ public class BaseFriendsRepository implements IBaseFriendsRepository {
     }
 
     @Override
+    public Observable<List<Long>> getFriendIdList() {
+        return mClient.getFriendIdList()
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
     public Observable<List<OrganizationBean>> getOrganizationList(int page, String search) {
         return mEasemobClient.getOrganizationList(TSListFragment.DEFAULT_PAGE_DB_SIZE, page, search)
                 .subscribeOn(Schedulers.io());

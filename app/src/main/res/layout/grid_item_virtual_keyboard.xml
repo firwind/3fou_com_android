@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp60">
+
+    <TextView
+        android:id="@+id/btn_keys"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/important_for_content"
+        android:textSize="@dimen/sp24"
+        android:background="@drawable/selector_bg_gray_or_light_gray" />
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:src="@mipmap/keyboard_delete_img"
+        android:background="@drawable/selector_bg_gray_or_light_gray" />
+
+
+</FrameLayout>

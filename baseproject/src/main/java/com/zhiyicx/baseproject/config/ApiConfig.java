@@ -39,7 +39,7 @@ public class ApiConfig {
     public static final String APP_DOMAIN_FOR_TEARCHER_QIAO = "http://faceke.com/";// 乔老师本地服务器
     public static final String APP_DOMAIN_DEV = APP_DOMAIN_FOR_TEARCHER_QIAO;// 模拟在线正式服务器
 
-    public static String APP_DOMAIN = APP_DOMAIN_FORMAL/*APP_DOMAIN_TEST*/;
+    public static String APP_DOMAIN = /*APP_DOMAIN_FORMAL*/APP_DOMAIN_TEST;
 
     public static final String URL_ABOUT_US = "api/" + API_VERSION_2 + "/aboutus";// 关于我们网站
     public static final String URL_JIPU_SHOP = "http://haoshe.hotime.cn";// 豪舍购物地址
@@ -95,6 +95,7 @@ public class ApiConfig {
     public static final String APP_PATH_DELETE_USER_EMAIL = "api/" + API_VERSION_2 + "/user/email";// 解除用户 E-Mail 绑定
     public static final String APP_PATH_DELETE_USER_FRIENDS_LIST = "api/" + API_VERSION_2 + "/user/follow-mutual";// 好友列表
     public static final String APP_PATH_DELETE_USER_FRIENDS_LIST_NEW = "api/" + API_VERSION_2 + "/user/friends";// 好友列表
+    public static final String APP_PATH_GET_FRIEND_LIST_ONLY_IDS = "api/"+API_VERSION_2+"/user/friends/idList";//好友列表（只获取id）
     // 用户标签
     public static final String APP_PATH_GET_USER_TAGS = "api/" + API_VERSION_2 + "/users/{user_id}/tags";// 获取一个用户的标签
     public static final String APP_PATH_GET_CURRENT_USER_TAGS = "api/" + API_VERSION_2 + "/user/tags";// 获取当前认证用户的标签

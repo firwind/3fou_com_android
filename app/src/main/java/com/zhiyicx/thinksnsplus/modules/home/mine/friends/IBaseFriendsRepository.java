@@ -196,4 +196,10 @@ public interface IBaseFriendsRepository {
      */
     Observable<String> clearFriendApplyList();
 
+    /**
+     * 获取好友列表的id
+     * @return
+     */
+    Observable<List<Long>> getFriendIdList();
+
 }

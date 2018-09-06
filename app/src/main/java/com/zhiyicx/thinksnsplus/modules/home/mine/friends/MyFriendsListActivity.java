@@ -23,11 +23,11 @@ public class MyFriendsListActivity extends TSActivity<MyFriendsListPresenter, My
 
     @Override
     protected void componentInject() {
-        DaggerMyFriendsListComponent.builder()
+        /*DaggerMyFriendsListComponent.builder()
                 .appComponent(AppApplication.AppComponentHolder.getAppComponent())
                 .myFriendsListPresenterModule(new MyFriendsListPresenterModule(mContanierFragment))
                 .build()
-                .inject(this);
+                .inject(this);*/
     }
 
     public static void startMyFriendsListActivity(Context context,boolean isShowToolbar){

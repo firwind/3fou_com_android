@@ -175,8 +175,8 @@
             android:textSize="@dimen/sp16"
             android:textColor="@color/black_deep"/>
 
-        <EditText
-            android:id="@+id/et_password"
+        <TextView
+            android:id="@+id/tv_password"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -186,8 +186,7 @@
             android:textColor="@color/black_deep"
             android:hint="请输入..."
             android:gravity="bottom"
-            android:maxLength="6"
-            android:inputType="numberPassword"/>
+            android:maxLength="6"/>
 
     </LinearLayout>
 

@@ -22,11 +22,11 @@ public interface MyFriendsListContract {
 
     interface View extends ITSListView<UserInfoBean, Presenter> {
         void deleteFriendOk(int index,UserInfoBean userInfoBean);
-        boolean isHasParentFragment();
+        boolean isHomePage();
     }
 
     interface Presenter extends ITSListPresenter<UserInfoBean> {
-        List<ChatUserInfoBean> getChatUserList(UserInfoBean userInfoBean);
+//        List<ChatUserInfoBean> getChatUserList(UserInfoBean userInfoBean);
         void deleteFriend(int index,UserInfoBean userInfoBean);
     }
 

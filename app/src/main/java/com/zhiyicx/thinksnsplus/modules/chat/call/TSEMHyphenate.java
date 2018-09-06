@@ -13,11 +13,9 @@ import com.hyphenate.EMError;
 import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMCallStateChangeListener;
-import com.hyphenate.chat.EMChatManager;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMucSharedFile;
 import com.hyphenate.chat.EMOptions;
@@ -40,11 +38,10 @@ import com.zhiyicx.baseproject.em.manager.eventbus.TSEMessageEvent;
 import com.zhiyicx.common.BuildConfig;
 import com.zhiyicx.common.utils.ActivityHandler;
 import com.zhiyicx.common.utils.log.LogUtils;
-import com.zhiyicx.thinksnsplus.R;
 import com.zhiyicx.thinksnsplus.base.AppApplication;
 import com.zhiyicx.thinksnsplus.config.EventBusTagConfig;
-import com.zhiyicx.thinksnsplus.data.beans.MessageItemBeanV2;
 import com.zhiyicx.thinksnsplus.data.beans.UserInfoBean;
+import com.zhiyicx.thinksnsplus.data.beans.event.TSNewFriendsEvent;
 import com.zhiyicx.thinksnsplus.data.source.local.UserInfoBeanGreenDaoImpl;
 import com.zhiyicx.thinksnsplus.modules.chat.ChatActivity;
 import com.zhiyicx.thinksnsplus.modules.chat.call.receiver.TSEMCallReceiver;
@@ -500,6 +497,35 @@ public class TSEMHyphenate {
              */
             @Override
             public void onCmdMessageReceived(List<EMMessage> list) {
+                LogUtils.d("*********消息size:"+list.size()+"*********");
+                //处理新好友消息,好友消息处理后，接着走下边的逻辑--start
+                List<EMMessage> friendMessages = new ArrayList<>();
+                List<Long> userIds = new ArrayList<>();
+                for (EMMessage cmdMessage : list) {
+                    EMCmdMessageBody body = (EMCmdMessageBody) cmdMessage.getBody();
+                    if(body.action().equals(TSEMConstants.TS_ACTION_NEW_FRIEND)){
+                        friendMessages.add(cmdMessage);
+                        try {
+                            long user_id = (long) cmdMessage.ext().get("user_id");
+                            long friend_user_id = (long) cmdMessage.ext().get("friend_user_id");
+                            if(user_id == AppApplication.getMyUserIdWithdefault()){
+                                userIds.add(friend_user_id);
+                            }else if(friend_user_id == AppApplication.getMyUserIdWithdefault()){
+                                userIds.add(user_id);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                if(!friendMessages.isEmpty()){
+                    list.removeAll(friendMessages);
+                    //发送新的好友通知
+                    EventBus.getDefault().post(new TSNewFriendsEvent(userIds),EventBusTagConfig.EVENT_NEW_FRIEND_LIST);
+                }
+                //处理新好友消息,好友消息处理后，接着走下边的逻辑--end
+
+
                 // 判断当前活动界面是不是聊天界面，如果是，全局不处理消息
                 if (TSEMHyphenate.getInstance().getActivityList().size() > 0) {
                     if (ChatActivity.class.getSimpleName().equals(TSEMHyphenate.getInstance().getTopActivity().getClass().getSimpleName())) {

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FAFAFA">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp48"
+            android:gravity="center_vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请输入支付密码"
+                android:textSize="@dimen/sp16"
+                android:layout_gravity="center"
+                android:textColor="@color/black_deep"/>
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:paddingLeft="@dimen/dp10"
+                android:paddingRight="@dimen/dp10"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:src="@mipmap/topbar_close"/>
+
+        </FrameLayout>
+
+        <View
+            style="@style/style_divider_horizontal"/>
+
+
+        <LinearLayout
+            android:id="@+id/ll_input"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp20"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp48"
+            android:background="@drawable/shape_corner_8dp_stroke_1half">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/v1"
+                    android:layout_width="@dimen/dp10"
+                    android:layout_height="@dimen/dp10"
+                    android:background="@drawable/shape_circle_bg_black"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+
+            </FrameLayout>
+
+            <View
+                style="@style/style_divider_veitical"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/v2"
+                    android:layout_width="@dimen/dp10"
+                    android:layout_height="@dimen/dp10"
+                    android:background="@drawable/shape_circle_bg_black"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+
+            </FrameLayout>
+
+            <View
+                style="@style/style_divider_veitical"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/v3"
+                    android:layout_width="@dimen/dp10"
+                    android:layout_height="@dimen/dp10"
+                    android:background="@drawable/shape_circle_bg_black"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+
+            </FrameLayout>
+
+            <View
+                style="@style/style_divider_veitical"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/v4"
+                    android:layout_width="@dimen/dp10"
+                    android:layout_height="@dimen/dp10"
+                    android:background="@drawable/shape_circle_bg_black"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+
+            </FrameLayout>
+
+            <View
+                style="@style/style_divider_veitical"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/v5"
+                    android:layout_width="@dimen/dp10"
+                    android:layout_height="@dimen/dp10"
+                    android:background="@drawable/shape_circle_bg_black"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+
+            </FrameLayout>
+
+            <View
+                style="@style/style_divider_veitical"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/v6"
+                    android:layout_width="@dimen/dp10"
+                    android:layout_height="@dimen/dp10"
+                    android:background="@drawable/shape_circle_bg_black"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_forget_password"
+            android:layout_marginRight="@dimen/dp20"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp50"
+            android:gravity="center"
+            android:text="忘记密码？"
+            android:textColor="@color/themeColor"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+
+
+    <com.zhiyicx.thinksnsplus.widget.keyboard.VirtualKeyboardView
+        android:id="@+id/view_keyboard"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

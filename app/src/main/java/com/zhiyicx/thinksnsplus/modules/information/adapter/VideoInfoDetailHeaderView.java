@@ -90,6 +90,7 @@ public class VideoInfoDetailHeaderView {
     private TextView mTvPlayCount;
     private LinearLayout mLlHeader;
     private ImageView mIvLoading;
+    private LinearLayout mLlInfoCount;
 
     public View getInfoDetailHeader() {
         return mInfoDetailHeader;
@@ -113,6 +114,7 @@ public class VideoInfoDetailHeaderView {
         mTvPlayCount = (TextView) mInfoDetailHeader.findViewById(R.id.tv_play_count);
         mIvLoading = (ImageView) mInfoDetailHeader.findViewById(R.id.iv_loading);
         mLlHeader = (LinearLayout) mInfoDetailHeader.findViewById(R.id.ll_header);
+        mLlInfoCount = (LinearLayout) mInfoDetailHeader.findViewById(R.id.ll_info_count);
     }
 
     public void setDetail(InfoListDataBean infoMain) {
@@ -126,6 +128,20 @@ public class VideoInfoDetailHeaderView {
             updateCommentView(infoMain);
         }
     }
+
+    public void updateDetail(InfoListDataBean infoMain) {
+
+        if (infoMain != null) {
+            mLlInfoCount.setVisibility(VISIBLE);
+            mTitle.setText(infoMain.getTitle());
+            mTvDigCount.setText( String.valueOf(infoMain.getDigg_count()) );
+            mTvDigCount.setSelected(infoMain.getHas_like());
+            mTvPlayCount.setText("播放量"+infoMain.getHits());
+            // 评论信息
+            updateCommentView(infoMain);
+        }
+    }
+
 
 
     /**

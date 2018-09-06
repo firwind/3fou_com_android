@@ -172,6 +172,21 @@ public class UserInfoBeanGreenDaoImpl extends CommonCacheImpl<UserInfoBean> {
     }
 
     /**
+     * 获取用户好友列表
+     * @return
+     */
+    public List<UserInfoBean> getUserFriendsLis(){
+
+        return getRDaoSession().getUserInfoBeanDao()
+                .queryBuilder()
+                .where(UserInfoBeanDao.Properties.Is_my_friend.eq(true))
+                .orderDesc(UserInfoBeanDao.Properties.User_id)
+                .list();
+
+    }
+
+
+    /**
      * 获取本地的互相关注列表
      *
      * @param ids 用户id

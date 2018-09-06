@@ -58,4 +58,11 @@
 
     <color name="red_packet_text_color">#ffebd5</color>
     <color name="home_currency_color">#e6b206</color>
+
+
+    <color name="keyboard_bg">#FFFFFF</color>
+    <color name="keyboard_bg_selected">#E3E7EE</color>
+    <color name="keyboard_bg_pressed">#C9CFD9</color>
+    <color name="keyboard_stroke">#D2D2D2</color>
+
 </resources>

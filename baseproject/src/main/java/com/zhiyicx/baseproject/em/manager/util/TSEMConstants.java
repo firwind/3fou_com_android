@@ -128,6 +128,11 @@ public class TSEMConstants {
      */
     public static final String TS_ATTR_RED_PACKET = "ts_attr_red_packet";
 
+    /**
+     * 新好友动作
+     */
+    public static final String TS_ACTION_NEW_FRIEND = "ts_action_new_friend";
+
     // 状态
     public static final String ML_ATTR_STATUS = "ml_attr_status";
     // 类型

@@ -222,6 +222,12 @@ public class EventBusTagConfig {
      * 群通知和好友通知
      */
     public static final String EVENT_GROUP_AND_FRIEND_NOTIFICATION_LIST = "groupAndFriendNotificationList";
+
+    /**
+     * 新好友
+     */
+    public static final String EVENT_NEW_FRIEND_LIST = "eventNewFriendList";
+
     /**
      * 刷新通知
      */

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.zhiyicx.thinksnsplus.modules.currency.accountbook.AccountBookActivity
 import com.zhiyicx.thinksnsplus.modules.currency.address.CurrencyAddressActivity;
 import com.zhiyicx.thinksnsplus.modules.home.mine.scan.ScanCodeActivity;
 import com.zhiyicx.thinksnsplus.utils.NumberScaleFilter;
+import com.zhiyicx.thinksnsplus.widget.dialog.InputPayPwdDialog;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -61,12 +63,15 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
     TextView mTvTransfer;
     @BindView(R.id.tv_rate)
     TextView mTvRate;
-    @BindView(R.id.et_password)
-    EditText mEtPassword;
+    @BindView(R.id.tv_password)
+    TextView mTvPassword;
 
     private RightTopMenu mRightTopMenu;
     private double mTransferRate = 0;//转账手续费
     private double mAvaliableBalance = 0;//可用余额
+
+    private InputPayPwdDialog mInputPayPwdDialog;
+    private String password = "";
 
     public static WithdrawCurrencyFragment newInstance(String currency){
         WithdrawCurrencyFragment fragment = new WithdrawCurrencyFragment();
@@ -138,7 +143,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         return R.color.themeColor;
     }
 
-    @OnClick({R.id.iv_address,R.id.bt_confirm})
+    @OnClick({R.id.iv_address,R.id.bt_confirm,R.id.tv_password})
     public void onClick(View v){
         switch (v.getId()){
             case R.id.iv_address:
@@ -153,8 +158,13 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
                             mCbSave.isChecked(),
                             mEtNum.getText().toString(),
                             mEtRemark.getText().toString(),
-                            mEtPassword.getText().toString());
+                            password);
                 }
+                break;
+            case R.id.tv_password:
+
+                showInputPayPwdDialog();
+
                 break;
         }
     }
@@ -235,7 +245,7 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
             return false;
         }
 
-        if(TextUtils.isEmpty(mEtPassword.getText().toString())){
+        if(TextUtils.isEmpty(password)){
             showSnackErrorMessage("请输入支付密码！");
             return false;
         }
@@ -289,6 +299,24 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
         }
     }
 
+
+    /**
+     * 输入支付密码弹窗
+     */
+    private void showInputPayPwdDialog(){
+        if(null == mInputPayPwdDialog){
+            mInputPayPwdDialog = new InputPayPwdDialog(mActivity,false);
+            mInputPayPwdDialog.setOnInputOkListener(str -> {
+                password = str;
+                mTvPassword.setText("******");
+            });
+        }
+
+        mInputPayPwdDialog.showDialog();
+    }
+
+
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
@@ -319,7 +347,5 @@ public class WithdrawCurrencyFragment extends TSFragment<WithdrawCurrencyContrac
             // 在重复进行一系列计算时，此舍入模式可以将累加错误减到最小。
 
         }
-
-
     }
 }

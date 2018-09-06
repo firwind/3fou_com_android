@@ -627,7 +627,6 @@ public class ImageUtils {
                 .load(url)
                 .placeholder(R.mipmap.default_image_for_video_vertical)
                 .error(R.mipmap.default_image_for_video_vertical)
-                .dontAnimate()
                 .into(imageView);
 
     }

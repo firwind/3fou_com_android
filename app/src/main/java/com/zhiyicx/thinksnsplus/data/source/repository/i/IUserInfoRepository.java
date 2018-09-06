@@ -112,6 +112,8 @@ public interface IUserInfoRepository {
 
     Observable<List<UserInfoBean>> getUserInfoWithOutLocalByIds(String userIds);
 
+    Observable<List<UserInfoBean>> getUserInfoWithOutLocalByIds(List<Long> userIds);
+
     /**
      * 搜索用户的用户信息
      *

@@ -2,6 +2,7 @@ package com.zhiyicx.thinksnsplus.modules.home.mine.friends;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,6 +21,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.OnClick;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 import static com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListActivity.IS_SHOW_TOOR_BAR;
 
@@ -32,6 +35,7 @@ import static com.zhiyicx.thinksnsplus.modules.home.mine.friends.MyFriendsListAc
 
 public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.Presenter, UserInfoBean>
         implements MyFriendsListContract.View {
+
     private boolean isShowToolBar = false;
 
 
@@ -39,7 +43,7 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
      * 仅用于构造
      */
     @Inject
-    MyFriendsListPresenter mFriendsListPresenter;
+    MyFriendsListPresenter mPresenter;
 
     public static MyFriendsListFragment newInstance(Bundle bundle) {
         MyFriendsListFragment fragment = new MyFriendsListFragment();
@@ -52,6 +56,7 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
         fragment.setArguments(bundle);
         return fragment;
     }
+
     @Override
     protected void initView(View rootView) {
         DaggerMyFriendsListFComponent.builder()
@@ -87,16 +92,24 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
     }
 
     @Override
+    protected void initData() {
+        super.initData();
+        if(null != mPresenter){
+            mPresenter.requestNetData(0L,false);
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        if (mPresenter != null) {
+        /*if (mPresenter != null) {
             if (mListDatas.isEmpty()) {
                 mRefreshlayout.autoRefresh(0);
             } else {
                 mPresenter.requestNetData(DEFAULT_PAGE_MAX_ID, false);
             }
-        }
+        }*/
     }
 
     @Override
@@ -152,8 +165,18 @@ public class MyFriendsListFragment extends TSListFragment<MyFriendsListContract.
     }
 
     @Override
-    public boolean isHasParentFragment() {
+    public boolean isHomePage() {
         return null != getParentFragment();
+    }
+
+    @Override
+    protected boolean isRefreshEnable() {
+        return !isHomePage();
+    }
+
+    @Override
+    protected boolean isLoadingMoreEnable() {
+        return !isHomePage();
     }
 
     /*@Subscriber(tag = EventBusTagConfig.EVENT_GROUP_UPLOAD_SET_STICK)

@@ -183,7 +183,7 @@ public class VideoInfoDetailsFragment extends TSListFragment<VideoInfoDetailsCon
     public void updateInfoHeader(InfoListDataBean infoDetailBean) {
         //closeLoadingView();
         this.mInfoMation = infoDetailBean;
-        mInfoDetailHeader.setDetail(infoDetailBean);
+        mInfoDetailHeader.updateDetail(infoDetailBean);
         mInfoDetailHeader.setRelateInfo(infoDetailBean);
         mIlvComment.setVisibility(View.VISIBLE);
         onNetResponseSuccess(infoDetailBean.getCommentList(), false);

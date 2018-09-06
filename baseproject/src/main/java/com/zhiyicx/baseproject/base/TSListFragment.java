@@ -843,7 +843,8 @@ public abstract class TSListFragment<P extends ITSListPresenter<T>, T extends Ba
         // 刷新
         if (!isLoadMore && (mListDatas.size() == 0)) {
             layzLoadEmptyView();
-            mEmptyView.setErrorType(EmptyView.STATE_NETWORK_ERROR);
+            if(null != mEmptyView)
+                mEmptyView.setErrorType(EmptyView.STATE_NETWORK_ERROR);
             mAdapter.notifyDataSetChanged();
             if (mHeaderAndFooterWrapper.getHeadersCount() <= 0) {
                 setEmptyViewVisiable(true);

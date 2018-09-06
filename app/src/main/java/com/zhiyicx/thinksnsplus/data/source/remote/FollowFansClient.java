@@ -72,4 +72,11 @@ public interface FollowFansClient {
     Observable<List<UserInfoBean>> getUserFriendsListInGroup(@Query("offset") long offset, @Query("limit") Integer limitCount,
                                                       @Query("keyword") String keyword,@Query("im_group_id")String groupId);
 
+    /**
+     * 获取好友的id  list
+     * @return
+     */
+    @GET(ApiConfig.APP_PATH_GET_FRIEND_LIST_ONLY_IDS)
+    Observable<List<Long>> getFriendIdList();
+
 }
