@@ -307,6 +307,7 @@
     <string name="quit_group">退出</string>
     <string name="group_joined">已加入</string>
     <string name="group_mine">我的社区</string>
+    <string name="activity_mine">我的活动</string>
     <string name="my_invite">我的邀请</string>
     <string name="group_count">%d个兴趣小组，等待你的加入！</string>
     <string name="circle">社区</string>

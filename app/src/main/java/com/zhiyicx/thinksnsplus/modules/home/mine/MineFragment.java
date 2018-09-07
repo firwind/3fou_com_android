@@ -110,7 +110,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
 
     private IntegralRedPacketDialog mIntegralRedPacketDialog;
 
-    public static MineFragment  newInstance() {
+    public static MineFragment newInstance() {
         MineFragment fragment = new MineFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -217,7 +217,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
     @OnClick({R.id.rl_userinfo_container, R.id.ll_fans_container, R.id.ll_follow_container, R.id.bt_my_info,
             R.id.bt_personal_page, R.id.bt_collect, R.id.ll_wallet_container/*bt_cash*/, R.id./*bt_mine_integration*/ll_integration_container, R.id.bt_music,
             R.id.bt_draft_box, R.id.bt_setting, R.id.bt_certification, R.id.bt_my_qa, R.id.bt_my_group,
-            R.id.ll_friends_container,R.id.ll_digital_wallet_container/*bt_wallet*/,R.id.bt_team,R.id.bt_my_invite,R.id.bt_download})
+            R.id.ll_friends_container, R.id.ll_digital_wallet_container/*bt_wallet*/, R.id.bt_team, R.id.bt_my_invite, R.id.bt_download, R.id.bt_my_activity})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_userinfo_container:
@@ -338,7 +338,7 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
             case R.id.ll_friends_container:
                 // 我的朋友
 //                startActivity(new Intent(mActivity, MyFriendsListActivity.class));
-                MyFriendsListActivity.startMyFriendsListActivity(getContext(),true);
+                MyFriendsListActivity.startMyFriendsListActivity(getContext(), true);
                 break;
             case R.id./*bt_wallet*/ll_digital_wallet_container:
                 //数字资产
@@ -351,6 +351,9 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
             case R.id.bt_download:
                 //应用推荐
                 CustomWEBActivity.startToWEBActivity(getContext(), ApiConfig.URL_USE_RECOMMEND);
+                break;
+            case R.id.bt_my_activity://我的活动
+
                 break;
             default:
         }
@@ -405,32 +408,32 @@ public class MineFragment extends TSFragment<MineContract.Presenter> implements 
         mTvFriendsCount.setText(friendsCount);
 
         String balance = "0.00";
-        if(null != mUserInfoBean.getBcwallet() && !TextUtils.isEmpty(mUserInfoBean.getBcwallet().getBalance()))
+        if (null != mUserInfoBean.getBcwallet() && !TextUtils.isEmpty(mUserInfoBean.getBcwallet().getBalance()))
             balance = mUserInfoBean.getBcwallet().getBalance();
         mTvDigitalWalletCount.setText("¥ " + balance);
 
-        if(null != this.mUserInfoBean.getCurrency() &&
+        if (null != this.mUserInfoBean.getCurrency() &&
                 !this.mUserInfoBean.getCurrency().isIs_sweet() &&
-                null == mIntegralRedPacketDialog){
+                null == mIntegralRedPacketDialog) {
             mPresenter.requestIntegralRedPacketNum();
         }
     }
 
     @Override
     public void setIntegralNum(String str) {
-        mIntegralRedPacketDialog = new IntegralRedPacketDialog(mActivity,true,str);
+        mIntegralRedPacketDialog = new IntegralRedPacketDialog(mActivity, true, str);
         mIntegralRedPacketDialog.setReceiveIntegralRedPacketListener(() -> mPresenter.requestReceiveIntegralRedPacket());
         mIntegralRedPacketDialog.showDialog();
     }
 
     @Override
     public void receivedRedPacket(boolean isSuccess) {
-        if(mIntegralRedPacketDialog.isShowing())
+        if (mIntegralRedPacketDialog.isShowing())
             mIntegralRedPacketDialog.dismissDialog();
-        if(isSuccess)
-            mActivity.startActivity(new Intent(mActivity,NewMineIntegrationActivity.class));
+        if (isSuccess)
+            mActivity.startActivity(new Intent(mActivity, NewMineIntegrationActivity.class));
         else
-            ToastUtils.showToast(mActivity,"领取失败！");
+            ToastUtils.showToast(mActivity, "领取失败！");
     }
 
 

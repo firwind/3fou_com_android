@@ -116,8 +116,8 @@
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/themeColor"
                             android:textSize="@dimen/size_content_assist"
-                            tools:text="23456"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            tools:text="23456" />
 
                         <com.zhiyicx.baseproject.widget.BadgeView
                             android:id="@+id/bv_fans_new_count"
@@ -160,8 +160,8 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/themeColor"
                             android:textSize="@dimen/size_content_assist"
-                            tools:text="12233"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="12233" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -193,8 +193,8 @@
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/themeColor"
                             android:textSize="@dimen/size_content_assist"
-                            tools:text="23456"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="23456" />
 
                         <com.zhiyicx.baseproject.widget.BadgeView
                             android:id="@+id/bv_friends_new_count"
@@ -242,8 +242,8 @@
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/themeColor"
                             android:textSize="@dimen/size_content_assist"
-                            tools:text="23456"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="23456" />
 
                         <TextView
                             android:id="@+id/tv_integration"
@@ -278,8 +278,8 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/themeColor"
                             android:textSize="@dimen/size_content_assist"
-                            tools:text="12233"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="12233" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -309,11 +309,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:text="0.00"
                             android:textColor="@color/themeColor"
                             android:textSize="@dimen/size_content_assist"
-                            android:gravity="center"
-                            android:textStyle="bold"
-                            android:text="0.00"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -380,6 +380,18 @@
                 app:leftText="@string/group_mine"
                 app:rightImage="@mipmap/ic_arrow_smallgrey"
                 app:showLine="true" />
+            <!--我的活动-->
+            <com.zhiyicx.baseproject.widget.button.CombinationButton
+                android:id="@+id/bt_my_activity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/full_button_height"
+                android:visibility="visible"
+                app:dividerLeftMargin="@dimen/spacing_normal"
+                app:dividerRightMargin="@dimen/spacing_normal"
+                app:leftImage="@mipmap/ico_me_circle"
+                app:leftText="@string/activity_mine"
+                app:rightImage="@mipmap/ic_arrow_smallgrey"
+                app:showLine="true" />
 
             <!--我的好友-->
             <com.zhiyicx.baseproject.widget.button.CombinationButton
@@ -421,8 +433,8 @@
                 android:id="@+id/bt_my_invite"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/full_button_height"
-                android:visibility="visible"
                 android:layout_marginTop="@dimen/spacing_mid"
+                android:visibility="visible"
                 app:dividerLeftMargin="@dimen/spacing_normal"
                 app:dividerRightMargin="@dimen/spacing_normal"
                 app:leftImage="@mipmap/invite_icon"

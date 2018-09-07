@@ -30,7 +30,7 @@ public class ApiConfig {
     //    public static final String APP_DOMAIN_DEV = "https://dev.zhibocloud.cn/";// 模拟在线正式服务器
 //    public static final String APP_DOMAIN_TEST = "http://test-plus.zhibocloud.cn/";// 在线测试服务器
 //    public static final String APP_DOMAIN_TEST = "http://112.74.168.35/";// 在线测试服务器
-    public static final String APP_DOMAIN_TEST = "http://test.faceke.ipmw.cn/";// 在线测试服务器
+    public static final String APP_DOMAIN_TEST = "http://test.faceke.com/";// 在线测试服务器
     //    public static final String APP_DOMAIN_FORMAL = "https://tsplus.zhibocloud.cn/";// 正式服务器
     public static final String APP_DOMAIN_FORMAL = "http://www.faceke.com/";// 正式服务器
 //    public static final String APP_DOMAIN_FORMAL = "http://www.mybcbnet.com/";// 正式服务器
@@ -179,7 +179,7 @@ public class ApiConfig {
     public static final String APP_PATH_SYN_EXIT_GROUP = "api/"+API_VERSION_2+"/easemob/synExitGroup";//退出群聊
     //建群选择组织
     public static final String APP_PATH_SELECT_ORGANIZATION = "api/"+API_VERSION_2+"/easemob/organize";
-   //更换组织
+    //更换组织
     public static final String APP_PATH_CHANGE_ORGANIZATION = "api/"+API_VERSION_2+"/easemob/groupOrganize";//
     public static final String APP_PATH_SET_GROUP_PRIVACY = "api/"+API_VERSION_2+"/easemob/group/setPrivacy";//设置群隐私设置
     public static final String APP_PATH_VERIFY_ENTER_GROUP = "api/"+API_VERSION_2+"/easemob/group/memberVerify";//验证加入群
@@ -1120,7 +1120,7 @@ public class ApiConfig {
     // 凭据回执
     public static final String APP_PAHT_WALLET_RECHARGE_SUCCESS_CALLBACK = "api/" + API_VERSION_2 + "/wallet/charges/{charge}?mode=retrieve";
     public static final String APP_PAHT_WALLET_RECHARGE_SUCCESS_CALLBACK_FORMAT = "api/" + API_VERSION_2 + "/wallet/charges/%s?mode=retrieve";
-    //    钱包余额转糖果
+    // 钱包余额转糖果
     public static final String APP_PAHT_WALLET_BALANCE_TO_INTEGRATION = "api/" + API_VERSION_2 + "/plus-pay/transform";
 
     // 支付宝充值
